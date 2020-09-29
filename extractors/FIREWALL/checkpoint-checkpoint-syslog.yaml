@@ -1,4 +1,5 @@
 schema-version: 1.0
+#extractor-version: 1 #should be added in build
 extractor-id: 188
 source-name: CHECKPOINT
 source-type: FIREWALL
@@ -92,7 +93,6 @@ event-details:
         dst: DstIP  
         proto: Proto  
         s_port: SrcPort  
-        service: DstPort
         host_ip: HostIP
         host_type: HostType
         user: User
@@ -107,7 +107,6 @@ event-details:
         dst: DstIP  
         proto: Proto  
         s_port: SrcPort  
-        service: DstPort
         user: User
     Detect-SmartDefense-None: 
       annotate:
@@ -243,7 +242,6 @@ event-details:
         dst: DstIP  
         proto: Proto  
         s_port: SrcPort  
-        service: DstPort
     Reject-VPN-1 & FireWall-1-None:
       annotate:
         Stream: NETWORK-FIREWALL

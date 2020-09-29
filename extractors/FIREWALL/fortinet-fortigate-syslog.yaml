@@ -1,5 +1,5 @@
-
 schema-version: 1.0
+#extractor-version: 1 #should be added in build
 extractor-id: 127
 source-name: FORTIGATE
 source-type: FIREWALL
