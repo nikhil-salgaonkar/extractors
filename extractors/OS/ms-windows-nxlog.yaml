@@ -1,7 +1,7 @@
 schema-version: 1.0
 #extractor-version: 1 #should be added in build
 extractor-id: 128
-source-name: WINDOWS-NXLOG-AUDIT
+source-name: WINDOWS
 source-type: OS
 source-description: Extractor for Windows Events
 provides-streams:
@@ -18,183 +18,180 @@ event-details:
   event-key-mapping:
     '4720':           
       annotate:
+        Stream: IAM
         Action: USER_ACCOUNT_CREATED
         Status: PASSED    
-        Stream: IAM
       translate: 
         SubjectUserName: AdminUser
         TargetUserName: User
         TargetDomainName: TargetDomain 
     '4625': 
       annotate:
+        Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        Stream: AUTHENTICATION
       translate: 
         TargetUserName: User
         TargetDomainName: TargetDomain
         WorkstationName: SrcHost
         IpAddress: SrcIP
-        IpPort: SrcPort
     '4624':
       annotate:
+        Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED    
-        Stream: AUTHENTICATION
       translate: 
         SubjectUserName: AdminUser
         TargetUserName: User
         TargetDomainName: TargetDomain
         WorkstationName: SrcHost
         IpAddress: SrcIP
-        IpPort: SrcPort  
     '4634':
       annotate:
+        Stream: AUTHENTICATION
         Action: LOGOUT
         Status: PASSED    
-        Stream: AUTHENTICATION
       translate:   
         TargetUserName: User
         TargetDomainName: TargetDomain
     '4647': 
       annotate:
+        Stream: AUTHENTICATION 
         Action: LOGOUT
         Status: PASSED    
-        Stream: AUTHENTICATION 
       translate: 
         TargetUserName: User
         TargetDomainName: TargetDomain
     '4648':          
       annotate:
+        Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED    
-        Stream: AUTHENTICATION
       translate: 
         TargetUserName: User
         TargetDomainName: TargetDomain
         IpAddress: SrcIP
-        IpPort: SrcPort
     '4776':         
       annotate:
+        Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED    
-        Stream: AUTHENTICATION
       translate: 
         Workstation: SrcHost
         TargetUserName: User
     '4778':         
       annotate:
+        Stream: AUTHENTICATION
         Action: LOGIN_SESSION_RECONNECTED
         Status: PASSED    
-        Stream: AUTHENTICATION
       translate:  
         AccountDomain: TargetDomain
         ClientName: SrcHost
         ClientAddress: SrcIP
     '4741':         
       annotate:
+        Stream: IAM
         Action: SYSTEM_USER_ACCOUNT_CREATED
         Status: PASSED    
-        Stream: IAM
       translate: 
         SubjectUserName: AdminUser
         TargetUserName: User
         TargetDomainName: TargetDomain  
     '4722':          
       annotate:
+        Stream: IAM
         Action: ACCOUNT_ENABLED
         Status: PASSED    
-        Stream: IAM
       translate: 
         SubjectUserName: AdminUser
         TargetUserName: User
         TargetDomainName: TargetDomain
     '4723':         
       annotate:
+        Stream: IAM
         Action: ACCOUNT_PASSWORD_CHANGED
         Status: PASSED    
-        Stream: IAM
       translate: 
         SubjectUserName: AdminUser
         TargetUserName: User
         TargetDomainName: TargetDomain
     '4724':         
       annotate:
+        Stream: IAM
         Action: ACCOUNT_PASSWORD_RESET
         Status: PASSED    
-        Stream: IAM
       translate: 
         SubjectUserName: AdminUser
         TargetUserName: User
         TargetDomainName: TargetDomain
     '4725':         
       annotate:
+        Stream: IAM
         Action: USER_ACCOUNT_DISABLED
         Status: PASSED    
-        Stream: IAM
       translate:  
         SubjectUserName: AdminUser
         TargetUserName: User
         TargetDomainName: TargetDomain
     '4726':         
       annotate:
+        Stream: IAM
         Action: USER_ACCOUNT_DELETED
         Status: PASSED    
-        Stream: IAM
       translate:
         SubjectUserName: AdminUser
         TargetUserName: User
         TargetDomainName: TargetDomain 
     '4738':            
       annotate:
+        Stream: IAM
         Action: USER_ACCOUNT_CHANGED
         Status: PASSED    
-        Stream: IAM
       translate: 
         SubjectUserName: AdminUser
         TargetUserName: User
         TargetDomainName: TargetDomain
     '4740':           
       annotate:
+        Stream: IAM
         Action: USER_ACCOUNT_LOCKOUT
         Status: PASSED    
-        Stream: IAM
       translate:  
         SubjectUserName: AdminUser
         TargetUserName: User
         TargetDomainName: TargetDomain 
     '4767':          
       annotate:
+        Stream: IAM
         Action: USER_ACCOUNT_UNLOCKED
         Status: PASSED    
-        Stream: IAM
       translate:  
         SubjectUserName: AdminUser
         TargetUserName: User
         TargetDomainName: TargetDomain
     '4742':            
       annotate:
+        Stream: IAM
         Action: SYSTEM_USER_ACCOUNT_CHANGED
         Status: PASSED    
-        Stream: IAM
       translate: 
         SubjectUserName: AdminUser
         TargetUserName: User
         TargetDomainName: TargetDomain
     '4743':           
       annotate:
+        Stream: IAM
         Action: SYSTEM_USER_ACCOUNT_DELETED
         Status: PASSED    
-        Stream: IAM
       translate:  
         SubjectUserName: AdminUser
         TargetUserName: User
         TargetDomainName: TargetDomain
     '4731':         
       annotate:
+        Stream: IAM
         Action: SECURITY_LGRP_CREATED
         Status: PASSED    
-        Stream: IAM
       translate: 
         SubjectUserName: AdminUser
         TargetUserName: User
@@ -202,9 +199,9 @@ event-details:
         SubjectDomainName: Domain 
     '4732':         
       annotate:
+        Stream: IAM
         Action: SECURITY_LGRP_MEMBER_ADDED
         Status: PASSED    
-        Stream: IAM
       translate: 
         SubjectUserName: AdminUser
         TargetUserName: User
@@ -212,9 +209,9 @@ event-details:
         SubjectDomainName: Domain
     '4733':         
       annotate:
+        Stream: IAM
         Action: SECURITY_LGRP_MEMBER_REMOVED
         Status: PASSED    
-        Stream: IAM
       translate: 
         SubjectUserName: AdminUser
         TargetUserName: User
@@ -222,53 +219,25 @@ event-details:
         SubjectDomainName: Domain
     '4756':         
       annotate:
+        Stream: IAM
         Action: SECURITY_UGRP_MEMBER_ADDED
         Status: PASSED    
-        Stream: IAM
       translate:  
-        SubjectUserName: AdminUser
-        SubjectDomainName: Domain
-    '5140':         
-      annotate:
-        Action: NETWORK_SHARE_ACCESSED
-        Status: PASSED    
-        Stream: IAM
-      translate: 
-        SubjectUserName: AdminUser
-        SubjectDomainName: Domain 
-        IpPort: SrcPort
-        IpAddress: SrcIP
-    '5145':         
-      annotate:
-        Action: NETWORK_SHARE_ACCESS_CHECKED
-        Status: PASSED
-        Stream: IAM
-      translate: 
-        SubjectUserName: AdminUser
-        SubjectDomainName: Domain 
-        IpPort: SrcPort
-        IpAddress: SrcIP
-    '4674':          
-      annotate:
-        Action: PRIVILEGE_OBJECT_ACCESS
-        Status: PASSED
-        Stream: IAM
-      translate:   
         SubjectUserName: AdminUser
         SubjectDomainName: Domain
     '4672':          
       annotate:
+        Stream: IAM
         Action: PRIVILEGE_SET
         Status: PASSED    
-        Stream: IAM
       translate:  
         SubjectUserName: AdminUser
         SubjectDomainName: Domain     
     '4779':          
       annotate:
+        Stream: AUTHENTICATION
         Action: LOGIN_SESSION_DISCONNECT
         Status: PASSED
-        Stream: AUTHENTICATION
       translate:   
         SubjectUserName: AdminUser
         SubjectDomainName: Domain  
@@ -277,13 +246,14 @@ event-details:
       annotate:
         EventName: Generic Windows Event
         Stream: OTHER
+      translate:  
+        EventID: EventID 
+        Channel: EventSource  
 
   globals:
     translate:
       EventTime: SystemTstamp
-      Hostname: SystemName 
-      Severity: LogLevel 
-      EventID: EventID         
+      Hostname: SystemName       
 
 - first-match: \"SourceName\"\:\"Microsoft\-Windows\-Sysmon\"
   decoder: json
@@ -328,11 +298,13 @@ event-details:
       annotate:
         EventName: Generic Windows Events
         Stream: OTHER
+      translate:  
+        EventID: EventID 
+        Channel: EventSource
 
   globals:
     translate:
       EventTime: SystemTstamp
-      Hostname: SystemName 
-      Severity: LogLevel 
-      EventID: EventID  
+      Hostname: SystemName  
+       
       
