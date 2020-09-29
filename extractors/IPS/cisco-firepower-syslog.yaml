@@ -1,0 +1,86 @@
+schema-version: 1.0
+#extractor-version: 1 #should be added in build
+extractor-id: 145
+source-name: CISCO-FIREPOWER
+source-type: IPS
+source-description: extractor for CISCO-FIREPOWER 
+provides-streams:
+- IPS
+master-filters:
+- \w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}.*?\w+\:\s+Protocol\:\s
+event-details:
+- first-match: \w+\s+\d+\s+\d+\:\d+\:\d+\s+\S+.*?AccessControlRuleAction\:\s
+  decoder: custom
+  decoder-regex: \s([^,]+)\:\s([^,]+)
+  event-key-format: '{AccessControlRuleAction}'
+  event-key-mapping:
+    Allow:
+      annotate:
+        Stream: IPS
+        Action: URL_ALLOWED
+        Status: PASSED
+      translate:
+        IngressInterface: IfaceIn
+        EgressInterface: IfaceOut
+        Policy: PolicyName
+        AccessControlRuleAction: Rule
+        SrcIP: SrcIP
+        DstIP: DstIP
+        SrcPort: SrcPort
+        DstPort: DstPort
+        UserName: User
+        InitiatorBytes: TXLen
+        ResponderBytes: RXLen
+        UserAgent: UserAgent
+        HTTPResponse: HTTPRetCode
+        ReferencedHost: Domain
+        URL: URL 
+    Block:
+      annotate:
+        Stream: IPS
+        Action: URL_BLOCKED
+        Status: FAILED
+      translate:
+        IngressInterface: IfaceIn
+        EgressInterface: IfaceOut
+        Policy: PolicyName
+        AccessControlRuleAction: Rule
+        SrcIP: SrcIP
+        DstIP: DstIP
+        SrcPort: SrcPort
+        DstPort: DstPort
+        UserName: User
+        InitiatorBytes: TXLen
+        ResponderBytes: RXLen
+        URL: URL
+        WebApplication: App
+    Block with reset:   
+      annotate:
+        Stream: IPS
+        Action: URL_BLOCKED
+        Status: FAILED
+      translate: 
+        IngressInterface: IfaceIn
+        EgressInterface: IfaceOut
+        Policy: PolicyName
+        AccessControlRuleAction: Rule
+        UserName: User
+        SrcIP: SrcIP
+        DstIP: DstIP
+        SrcPort: SrcPort
+        DstPort: DstPort
+        InitiatorBytes: TXLen
+        ResponderBytes: RXLen
+        URL: URL
+        WebApplication: App
+
+  fallback:
+      annotate:
+        EventName: Generic CISCO-FIREPOWER Event
+        Stream: OTHER
+          
+
+  globals:
+    translate:
+      Protocol: Proto
+       
