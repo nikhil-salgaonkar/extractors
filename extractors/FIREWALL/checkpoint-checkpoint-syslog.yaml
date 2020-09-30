@@ -9,7 +9,7 @@ provides-streams:
 - NETWORK-THREAT
 - AUTHENTICATION
 - DHCP
-- IPS
+- WEBFILTER
 master-filters:
 - \d+\-\d+\-\d+T\d+\:\d+\:\d+.*?CheckPoint\s+\d+\s+\-\s+\[
 event-details:
@@ -24,7 +24,7 @@ event-details:
         Action: PACKET_BLOCKED
         Status: FAILED   
       translate:
-        src: SrcIP  
+        src: SrcIP
         dst: DstIP  
         proto: Proto  
         s_port: SrcPort  
@@ -32,7 +32,7 @@ event-details:
     Prevent-SmartDefense-None:
       annotate:
         Stream: NETWORK-THREAT
-        Action: MALWARE_DETECT
+        Action: THREAT_DETECTED
         Status: PASSED   
       translate:
         src: SrcIP  
@@ -54,19 +54,18 @@ event-details:
         src: SrcIP
     Reject-None-VPN-1:
       annotate:
-        Stream: NETWORK-FIREWALL
-        Action: VPN_DISCONNECT
-        Status: FAILED   
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED 
+        AuthProtocol: VPN  
       translate:
         src: SrcIP  
         dst: DstIP  
-        proto: Proto  
-        s_port: SrcPort  
-        service: DstPort
+        s_port: SrcPort
     Redirect-Anti Malware-None: 
       annotate:
         Stream: NETWORK-THREAT
-        Action: MALWARE_REDIRECT
+        Action: THREAT_REDIRECT
         Status: PASSED   
       translate:
         src: SrcIP  
@@ -88,15 +87,12 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED   
+        AuthProtocol: VPN
       translate:  
         src: SrcIP  
-        dst: DstIP  
-        proto: Proto  
-        s_port: SrcPort  
-        host_ip: HostIP
-        host_type: HostType
+        dst: DstIP 
+        s_port: SrcPort
         user: User
-        user_group: UserGroup 
     Failed Log In-Connectra-None: 
       annotate:
         Stream: AUTHENTICATION
@@ -104,14 +100,13 @@ event-details:
         Status: FAILED   
       translate: 
         src: SrcIP  
-        dst: DstIP  
-        proto: Proto  
+        dst: DstIP   
         s_port: SrcPort  
         user: User
     Detect-SmartDefense-None: 
       annotate:
         Stream: NETWORK-THREAT
-        Action: MALWARE_DETECT
+        Action: THREAT_DETECTED
         Status: PASSED   
       translate:
         src: SrcIP  
@@ -124,15 +119,14 @@ event-details:
         malware_action: AtkDesc
     Decrypt-VPN-1 & FireWall-1-VPN-1: 
       annotate:
-        Stream: NETWORK-FIREWALL
-        Action: VPN_CONNECT 
-        Status: PASSED   
+        Stream: AUTHENTICATION
+        Action: LOGIN 
+        Status: PASSED  
+        AuthProtocol: VPN 
       translate: 
         src: SrcIP  
-        dst: DstIP  
-        proto: Proto  
-        s_port: SrcPort  
-        service: DstPort
+        dst: DstIP 
+        s_port: SrcPort
         user: User
     Allow-VPN-1 & FireWall-1-None:
       annotate:
@@ -148,34 +142,28 @@ event-details:
     Extract-Threat Extraction-None:
       annotate:
         Stream: NETWORK-THREAT
-        Action: MALWARE_DETECT
+        Action: THREAT_DETECTED
         Status: PASSED   
       translate: 
-        src: SrcIP  
-        dst: DstIP  
-        proto: Proto  
-        s_port: SrcPort  
-        service: DstPort    
-    Ask User-Threat Extraction-None: 
-      annotate:
-        Stream: NETWORK-THREAT
-        Action: CLEANUP
-        Status: PASSED   
-      translate: 
-        portal_message: Message
-        src: SrcIP  
-        dst: DstIP 
-    Encrypt-VPN-1 & FireWall-1-VPN-1:
-      annotate:
-        Stream: NETWORK-FIREWALL
-        Action: VPN_CONNECT
-        Status: PASSED   
-      translate:
         src: SrcIP  
         dst: DstIP  
         proto: Proto  
         s_port: SrcPort  
         service: DstPort
+        malware_rule_name: RuleName
+        malware_rule_id: RuleID
+        file_name: FileName
+        file_type: FileType
+    Encrypt-VPN-1 & FireWall-1-VPN-1:
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED  
+        AuthProtocol: VPN 
+      translate:
+        src: SrcIP  
+        dst: DstIP  
+        s_port: SrcPort  
     Allow-MEPP-None: 
       annotate:
         Stream: NETWORK-FIREWALL
@@ -198,16 +186,6 @@ event-details:
         proto: Proto  
         s_port: SrcPort  
         service: DstPort 
-    None-Compliance Blade-None:    
-      annotate:
-        Stream: IPS
-        Action: PACKET_ALLOWED
-        Status: PASSED   
-      translate: 
-        additional_info: Message
-        administrator: AdminUser
-        user_field: User
-        subject: Subject
     Accept-VPN-1 & FireWall-1-None:
       annotate:
         Stream: NETWORK-FIREWALL
@@ -222,7 +200,7 @@ event-details:
     Reject-SmartDefense-None:
       annotate:
         Stream: NETWORK-THREAT
-        Action: MALWARE_BLOCKED
+        Action: THREAT_BLOCKED
         Status: PASSED
       translate:
         src: SrcIP  
@@ -239,8 +217,7 @@ event-details:
         Status: PASSED
       translate:
         src: SrcIP  
-        dst: DstIP  
-        proto: Proto  
+        dst: DstIP
         s_port: SrcPort  
     Reject-VPN-1 & FireWall-1-None:
       annotate:
@@ -266,22 +243,13 @@ event-details:
         service: DstPort 
     Redirect-URL Filtering-None:
       annotate:
-        Stream: NETWORK-FIREWALL
+        Stream: WEBFILTER
         Action: URL_ALLOWED
         Status: PASSED
       translate:
         src: SrcIP  
-        dst: DstIP  
-        proto: Proto  
-        s_port: SrcPort  
-        service: DstPort
-    Deauthorize-ESOD-None:
-      annotate:
-        Stream: NETWORK-FIREWALL
-        Action: VPN_DISCONNECT
-        Status: PASSED
-      translate:
-        reason: Reason
+        dst: DstIP
+        resource: URL
     VPN Routing-VPN-1 & FireWall-1-VPN-1:
       annotate:
         Stream: NETWORK-FIREWALL
@@ -295,15 +263,12 @@ event-details:
         service: DstPort 
     Accept-URL Filtering-None:
       annotate:
-        Stream: NETWORK-FIREWALL
+        Stream: WEBFILTER
         Action: URL_ALLOWED
         Status: PASSED
       translate:
         src: SrcIP  
-        dst: DstIP  
-        proto: Proto  
-        s_port: SrcPort  
-        service: DstPort  
+        dst: DstIP
     Accept-Log Update-None:
       annotate:
         Stream: NETWORK-FIREWALL
@@ -321,12 +286,9 @@ event-details:
         EventName: Generic Checkpoint Firewall Event
         Stream: OTHER
 
-  globals:
-    translate:
-      product: Daemon
-      ifname: Iface 
-      ifdir: Flow 
-      severity: Severity
+  #globals:
+    #translate:
+
   subs:
     Proto:
       '0': HOPOPT
