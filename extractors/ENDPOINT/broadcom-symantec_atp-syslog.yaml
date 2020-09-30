@@ -1,0 +1,156 @@
+schema-version: 1.0
+extractor-id: 94
+source-name: SYMANTEC_ATP
+source-type: ENDPOINT
+source-description: Extractor for Symantec ATP Endpoint
+provides-streams:
+- ENDPOINT-THREAT
+master-filters:
+- CEF\:\d+\|Symantec\|
+event-details:
+- first-match: \"alert\"\:\"[\w\s]+\"
+  decoder: custom
+  decoder-regex: \"(\w+)\":([^\,{}]+)
+  event-key-format: '{alert}'
+  event-key-mapping:
+    Virus found:
+      annotate:
+        Stream: ENDPOINT-THREAT
+        Action: VIRUS_DETECTED
+        Status: PASSED
+      translate:
+        virus_name: AtkMsg
+        user_name: User
+        device_name: SrcHost
+        domain_name: Domain
+        device_ip: SrcIP
+        app_name: FileName
+
+  fallback:
+      annotate:
+        EventName: Generic Symantec ATP Endpoint Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      host_name: HostName
+
+- first-match: \"rule\_name\"\:\"[\w\s]+\"
+  decoder: custom
+  decoder-regex: \"(\w+)\":([^\,{}]+)
+  event-key-format: '{rule_name}'
+  event-key-mapping:
+    Advanced Attack Technique:
+      annotate:
+        Stream: ENDPOINT-THREAT
+        Action: ATTACK_DETECTED
+        Status: PASSED
+      translate:
+        virus_name: AtkMsg
+        user_name: User
+        device_name: SrcHost
+        domain_name: Domain
+        device_ip: SrcIP
+        app_name: FileName
+        technique_name: MitreTechniqueName
+        technique_id: MitreTechniqueID
+
+  fallback:
+      annotate:
+        EventName: Generic Symantec ATP Endpoint Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      message: Message
+
+- first-match: \"signature\_name\"\:\"[\w\s\:]+\"
+  decoder: custom
+  decoder-regex: \"(\w+)\":([^\,{}]+)
+  event-key-format: '{signature_name}'
+  event-key-mapping:
+    "Malicious Site: Malicious Domain Request 21":
+      annotate:
+        Stream: ENDPOINT-THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+      translate:
+        user_name: User
+        device_name: SrcHost
+        domain_name: Domain
+        device_ip: SrcIP
+        app_name: FileName
+        intrusion_url: InfectionURL
+        signature_name: SignName
+    "Attack: SMB Double Pulsar Ping":
+      annotate:
+        Stream: ENDPOINT-THREAT
+        Action: ATTACK_DETECTED
+        Status: PASSED
+      translate:
+        user_name: User
+        data_source_url_domain: Domain
+        source_ip: SrcIP
+        app_name: FileName
+        data_source_url: URL
+        signature_name: SignName
+
+  fallback:
+      annotate:
+        EventName: Generic Symantec ATP Endpoint Event
+        Stream: OTHER
+
+ # globals:
+  #  translate:
+   #   message: Message
+
+- first-match: \"submission\_type\"\:\"BASH\-SONAR\-TEST\-BAD\"
+  decoder: custom
+  decoder-regex: \"(\w+)\":([^\,{}]+)
+  event-key-format: '{submission_type}'
+  event-key-mapping:
+    BASH-SONAR-TEST-BAD:
+      annotate:
+        Stream: ENDPOINT-THREAT
+        Action: VIRUS_DETECTED
+        Status: PASSED
+      translate:
+        user_name: User
+        device_name: SrcHost
+        device_ip: SrcIP
+        app_name: FileName
+        virus_name: AtkMsg
+
+  fallback:
+      annotate:
+        EventName: Generic Symantec ATP Endpoint Event
+        Stream: OTHER
+
+#  globals:
+ #   translate:
+  #    message: Message
+
+- first-match: \"technology\"\:\"AV\s+Engine\"
+  decoder: custom
+  decoder-regex: \"(\w+)\":([^\,{}]+)
+  event-key-format: '{technology}'
+  event-key-mapping:
+    AV Engine:
+      annotate:
+        Stream: ENDPOINT-THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+      translate:
+        user_name: User
+        device_name: SrcHost
+        device_ip: SrcIP
+        app_name: FileName
+
+  fallback:
+      annotate:
+        EventName: Generic Symantec ATP Endpoint Event
+        Stream: OTHER
+
+#  globals:
+ #   translate:
+  #    message: Message
