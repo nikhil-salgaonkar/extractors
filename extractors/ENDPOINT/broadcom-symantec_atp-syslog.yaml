@@ -1,4 +1,5 @@
 schema-version: 1.0
+#extractor-version: 1
 extractor-id: 94
 source-name: SYMANTEC_ATP
 source-type: ENDPOINT
@@ -8,7 +9,7 @@ provides-streams:
 master-filters:
 - CEF\:\d+\|Symantec\|
 event-details:
-- first-match: \"alert\"\:\"[\w\s]+\"
+- first-match: \|lcp\_sep\_alert\_event\|
   decoder: custom
   decoder-regex: \"(\w+)\":([^\,{}]+)
   event-key-format: '{alert}'
@@ -35,54 +36,12 @@ event-details:
     translate:
       host_name: HostName
 
-- first-match: \"rule\_name\"\:\"[\w\s]+\"
+- first-match: \|sep\_proxy\_ips\_event\|
   decoder: custom
   decoder-regex: \"(\w+)\":([^\,{}]+)
-  event-key-format: '{rule_name}'
+  event-key-format: '{technology}'
   event-key-mapping:
-    Advanced Attack Technique:
-      annotate:
-        Stream: ENDPOINT-THREAT
-        Action: ATTACK_DETECTED
-        Status: PASSED
-      translate:
-        virus_name: AtkMsg
-        user_name: User
-        device_name: SrcHost
-        domain_name: Domain
-        device_ip: SrcIP
-        app_name: FileName
-        technique_name: MitreTechniqueName
-        technique_id: MitreTechniqueID
-
-  fallback:
-      annotate:
-        EventName: Generic Symantec ATP Endpoint Event
-        Stream: OTHER
-
-  globals:
-    translate:
-      message: Message
-
-- first-match: \"signature\_name\"\:\"[\w\s\:]+\"
-  decoder: custom
-  decoder-regex: \"(\w+)\":([^\,{}]+)
-  event-key-format: '{signature_name}'
-  event-key-mapping:
-    "Malicious Site: Malicious Domain Request 21":
-      annotate:
-        Stream: ENDPOINT-THREAT
-        Action: THREAT_DETECTED
-        Status: PASSED
-      translate:
-        user_name: User
-        device_name: SrcHost
-        domain_name: Domain
-        device_ip: SrcIP
-        app_name: FileName
-        intrusion_url: InfectionURL
-        signature_name: SignName
-    "Attack: SMB Double Pulsar Ping":
+    ClientIDS Attacks:
       annotate:
         Stream: ENDPOINT-THREAT
         Action: ATTACK_DETECTED
@@ -100,11 +59,66 @@ event-details:
         EventName: Generic Symantec ATP Endpoint Event
         Stream: OTHER
 
+  globals:
+    translate:
+      message: Message
+
+- first-match: \|lcp\_sep\_risk\_event\|
+  decoder: custom
+  decoder-regex: \"(\w+)\":([^\,{}]+)
+  event-key-format: '{event_id}'
+  event-key-mapping:
+    "206":
+      annotate:
+        Stream: ENDPOINT-THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+      translate:
+        user_name: User
+        device_name: SrcHost
+        domain_name: Domain
+        device_ip: SrcIP
+        app_name: FileName
+        intrusion_url: InfectionURL
+        signature_name: SignName
+
+  fallback:
+      annotate:
+        EventName: Generic Symantec ATP Endpoint Event
+        Stream: OTHER
+
  # globals:
   #  translate:
    #   message: Message
 
-- first-match: \"submission\_type\"\:\"BASH\-SONAR\-TEST\-BAD\"
+- first-match: \|atp\_incident\|
+  decoder: custom
+  decoder-regex: \"(\w+)\":([^\,{}]+)
+  event-key-format: '{rule_name}'
+  event-key-mapping:
+    Advanced Attack Technique:
+      annotate:
+        Stream: ENDPOINT-THREAT
+        Action: ATTACK_DETECTED
+        Status: PASSED
+      translate:
+        virus_name: AtkMsg
+        user_name: User
+        device_name: SrcHost
+        domain_name: Domain
+        device_ip: SrcIP
+        app_name: FileName
+
+  fallback:
+      annotate:
+        EventName: Generic Symantec ATP Endpoint Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      message: Message
+
+- first-match: \|sep\_proxy\_sonar\_event\|
   decoder: custom
   decoder-regex: \"(\w+)\":([^\,{}]+)
   event-key-format: '{submission_type}'
@@ -128,9 +142,8 @@ event-details:
 
 #  globals:
  #   translate:
-  #    message: Message
 
-- first-match: \"technology\"\:\"AV\s+Engine\"
+- first-match: \|sep\_proxy\_av\_event\|
   decoder: custom
   decoder-regex: \"(\w+)\":([^\,{}]+)
   event-key-format: '{technology}'
