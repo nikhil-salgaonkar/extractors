@@ -25,24 +25,6 @@ event-details:
         Source computer: SrcHost
         Domain: Domain
         Source IP: SrcIP
-    "Data Execution Protection - Execution of Non-Executable Memory":
-      annotate:
-        Stream: ENDPOINT-THREAT
-        Action: VIRUS_DETECT
-        Status: PASSED
-      translate:
-        Local: DstIP 
-        Local: DstMAC
-        Remote: SrcHost
-        Remote: SrcIP
-        Remote: SrcMAC
-        User: User
-        Domain: Domain
-        Local Port: DstPort
-        Remote Port: SrcPort
-        CIDS Signature ID: EventID
-        CIDS Signature string: AtkMsg
-        Intrusion URL: InfectionURL  
     "Audit: Malicious Domain Request 3":   
       annotate:
         Stream: ENDPOINT-THREAT
@@ -119,21 +101,9 @@ event-details:
 - first-match: Category\s+set\:\s+.*?\,Category\s+type\:\s+
   decoder: custom
   decoder-regex: ([^\:]+)\:\s([^,]*)\,
-  event-key-format: '{Category set}-{Category type}'
+  event-key-format: '{Category set}'
   event-key-mapping:
-    "Malware-Heuristic Virus":
-      annotate:
-        Stream: ENDPOINT-THREAT
-        Action: VIRUS_DETECT
-        Status: PASSED
-      translate: 
-        Risk name: AtkMsg
-        User: User
-        Source computer: SrcHost
-        Source IP: SrcIP
-        Application name: App
-        Domain Name: Domain
-    "Malware-Virus":
+    "Malware":
       annotate:
         Stream: ENDPOINT-THREAT
         Action: VIRUS_DETECT
@@ -167,7 +137,7 @@ event-details:
     "Suspicious Behavior Detection":
       annotate:
         Stream: ENDPOINT-THREAT
-        Action: UVIRUS_DETECT
+        Action: VIRUS_DETECT
         Status: PASSED
       translate: 
         IP Address: DstIP
