@@ -1,0 +1,570 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 58
+source-name: JUNIPER-SRX
+source-type: FIREWALL
+source-description: Extractor for JUNIPER-SRX Firewall
+provides-streams:
+- NETWORK-FIREWALL
+- ADMINISTRATION
+- AUTHENTICATION
+master-filters:
+- '\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+\S+\:\s+\S+\:\s+'
+event-details:
+- first-match: 'RT_FLOW_SESSION_CREATE\:'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+.*?\:\s+(?P<category>\S+)\:\s.*?\s.*?\s(?P<src>[\d\.]+)\/(?P<sport>\d+)\-\>(?P<dst>[\d\.]+)\/(?P<dport>\d+)\s.*?\s.*?\s.*?\s.*?\s(?P<pid>\d+)\s.*?\s.*?\s.*?\s.*?\s(?P<user>.*?)\s'
+  event-key-format: '{category}'
+  event-key-mapping:
+    'RT_FLOW_SESSION_CREATE': 
+      annotate:
+        Stream: ADMINISTRATION
+        Action: LOGIN_SESSION_CONNECTED
+        Status: PASSED   
+      translate:
+        src: SrcIP 
+        sport: SrcPort 
+        dst: DstIP  
+        dport: DstPort
+        user: User
+        pid: PID    
+
+  fallback:
+      annotate:
+        EventName: Generic JUNIPER-SRX Firewall Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: SystemName 
+
+- first-match: '\s+UI_LOGIN_EVENT.*?j\-super\-user.*?client-mode\s+cli'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>\w+)\[(?P<pid>\d+)\]\:\s+(?P<category>\S+)\:\s+.*?\s(?P<user>.*?)\slogin.*?ssh-connection\s+(?P<src>[\d\.]+)\s+(?P<sport>\d+)\s+(?P<dst>[\d\.]+)\s+(?P<dport>\d+)'
+  event-key-format: '{category}'
+  event-key-mapping:
+    'UI_LOGIN_EVENT': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED   
+      translate:
+        src: SrcIP 
+        sport: SrcPort 
+        dst: DstIP  
+        dport: DstPort
+        user: User
+        pid: PID    
+
+  fallback:
+      annotate:
+        EventName: Generic JUNIPER-SRX Firewall Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: SystemName 
+      daemon: Daemon
+
+- first-match: '\s+UI_LOGOUT_EVENT\:'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>.*?)\[(?P<pid>\d+)\]\:\s+(?P<category>\S+)\:\s.*?\s(?P<user>\w+)\s+'
+  event-key-format: '{category}'
+  event-key-mapping:
+    'UI_LOGOUT_EVENT': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED   
+      translate:
+        user: User
+        pid: PID    
+
+  fallback:
+      annotate:
+        EventName: Generic JUNIPER-SRX Firewall Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: SystemName 
+      daemon: Daemon 
+
+- first-match: '\s+SSHD_LOGIN_FAILED\:'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>\w+)\:\s+(?P<category>\S+)\:.*?user\s+(?P<user>.*?)\s+.*?(?P<src>[\d\.]+)'
+  event-key-format: '{category}'
+  event-key-mapping:
+    'SSHD_LOGIN_FAILED': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+        AuthProtocol: SSH
+        LoginSrc: REMOTE   
+      translate:
+        user: User
+        src: SrcIP   
+
+  fallback:
+      annotate:
+        EventName: Generic JUNIPER-SRX Firewall Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: SystemName 
+      daemon: Daemon
+
+- first-match: '\s+UI_DBASE_LOGIN_EVENT\:'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>\w+)\[(?P<pid>\d+)\]\:\s+(?P<category>\S+)\:\s+User\s+(?P<user>.*?)\s+'
+  event-key-format: '{category}'
+  event-key-mapping:
+    'UI_DBASE_LOGIN_EVENT': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED  
+      translate:
+        user: User
+        pid: PID
+
+  fallback:
+      annotate:
+        EventName: Generic JUNIPER-SRX Firewall Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: SystemName 
+      daemon: Daemon
+
+- first-match: '\s+UI_DBASE_LOGOUT_EVENT\:'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>\w+)\[(?P<pid>\d+)\]\:\s+(?P<category>\S+)\:\s+User\s+(?P<user>.*?)\s+'
+  event-key-format: '{category}'
+  event-key-mapping:
+    'UI_DBASE_LOGOUT_EVENT': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED  
+      translate:
+        user: User
+        pid: PID
+
+  fallback:
+      annotate:
+        EventName: Generic JUNIPER-SRX Firewall Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: SystemName 
+      daemon: Daemon
+  
+- first-match: '\s+UI_CFG_AUDIT_OTHER\:' 
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>\w+)\[(?P<pid>\d+)\]\:\s+(?P<category>\S+)\:\s+(?P<msg>User\s+(?P<user>.*?)\s+.*)'
+  event-key-format: '{category}'
+  event-key-mapping:
+    'UI_CFG_AUDIT_OTHER': 
+      annotate:
+        Stream: ADMINISTRATION
+        Action: AUDIT_CONFIGURATION_CHANGED
+        Status: PASSED  
+      translate:
+        user: User
+        pid: PID
+
+  fallback:
+      annotate:
+        EventName: Generic JUNIPER-SRX Firewall Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: SystemName 
+      daemon: Daemon
+  
+- first-match: '\s+UI_CFG_AUDIT_SET\:' 
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>\w+)\[(?P<pid>\d+)\]\:\s+(?P<category>\S+)\:\s+(?P<msg>User\s+(?P<user>.*?)\s+.*)'
+  event-key-format: '{category}'
+  event-key-mapping:
+    'UI_CFG_AUDIT_SET': 
+      annotate:
+        Stream: ADMINISTRATION
+        Action: AUDIT_CONFIGURATION_CHANGED
+        Status: PASSED  
+      translate:
+        user: User
+        pid: PID
+
+  fallback:
+      annotate:
+        EventName: Generic JUNIPER-SRX Firewall Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: SystemName 
+      daemon: Daemon
+
+- first-match: '\sUI_LOGIN_EVENT.*?\sclass.*?\s+super\-user' 
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>\w+)\[(?P<pid>\d+)\]\:\s(?P<category>\S+)\:\sUser\s(?P<user>\S+)\s+'
+  event-key-format: '{category}'
+  event-key-mapping:
+    'UI_LOGIN_EVENT': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED  
+      translate:
+        user: User
+        pid: PID
+
+  fallback:
+      annotate:
+        EventName: Generic JUNIPER-SRX Firewall Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: SystemName 
+      daemon: Daemon   
+
+- first-match: 'UI_JUNOSCRIPT_CMD\:.*?user\=' 
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>\w+)\[(?P<pid>\d+)\]\:\s+(?P<category>\S+)\:\s+.*?user\=(?P<user>.*?)\s+'
+  event-key-format: '{category}'
+  event-key-mapping:
+    'UI_JUNOSCRIPT_CMD': 
+      annotate:
+        Stream: ADMINISTRATION
+        Action: CMD_EXECUTED
+        Status: PASSED  
+      translate:
+        user: User
+        pid: PID
+
+  fallback:
+      annotate:
+        EventName: Generic JUNIPER-SRX Firewall Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: SystemName 
+      daemon: Daemon
+  
+- first-match: 'UI_JUNOSCRIPT_CMD\:.*?(?:command\sget\-\S+\-information|request\-\S+\-logout)\s+' 
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>\w+)\[(?P<pid>\d+)\]\:\s+(?P<category>\S+)\:\sUser\s(?P<user>.*?)\s+'
+  event-key-format: '{category}'
+  event-key-mapping:
+    'UI_JUNOSCRIPT_CMD': 
+      annotate:
+        Stream: ADMINISTRATION
+        Action: CMD_EXECUTED
+        Status: PASSED   
+      translate:
+        user: User
+        pid: PID
+
+  fallback:
+      annotate:
+        EventName: Generic JUNIPER-SRX Firewall Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: SystemName 
+      daemon: Daemon
+
+- first-match: 'RT_FLOW\:\sFLOW_REASSEMBLE_SUCCEED\:' 
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>.*?)\s+.*?(?P<category>\S+)\:\s+Packet merged\ssource\s+(?P<src>.*?)\sdestination\s(?P<dst>.*?)\s+ipid\s(?P<pid>.*?)\s+'
+  event-key-format: '{category}'
+  event-key-mapping:
+    'FLOW_REASSEMBLE_SUCCEED': 
+      annotate:
+        Stream: NETWORK-FIREWALL
+        Action: PACKET_ALLOWED
+        Status: PASSED  
+      translate:
+        src: SrcIP
+        dst: DstIP
+        pid: PID
+
+  fallback:
+      annotate:
+        EventName: Generic JUNIPER-SRX Firewall Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: SystemName 
+
+- first-match: 'RT_IPSEC\:\s+RT_IPSEC_BAD_SPI\:' 
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+.*?\s+(?P<category>\S+)\:\s+.*?bad SPI\.\s+(?P<src>[\d\.]+)\-\>(?P<dst>[\d\.]+)\/'
+  event-key-format: '{category}'
+  event-key-mapping:
+    'RT_IPSEC_BAD_SPI': 
+      annotate:
+        Stream: NETWORK-FIREWALL
+        Action: PACKET_ALLOWED
+        Status: PASSED  
+      translate:
+        src: SrcIP
+        dst: DstIP
+        
+  fallback:
+      annotate:
+        EventName: Generic JUNIPER-SRX Firewall Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: SystemName 
+
+- first-match: '\s+UI_CMDLINE_READ_LINE\:' 
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>.*?)\s(?P<daemon>.*?)\[(?P<pid>\d+)\]\:\s(?P<category>\S+)\:\s.*?\s(?P<user>\w+)\,'
+  event-key-format: '{category}'
+  event-key-mapping:
+    'UI_CMDLINE_READ_LINE': 
+      annotate:
+        Stream: ADMINISTRATION
+        Action: CMD_EXECUTED
+        Status: PASSED   
+      translate:
+        user: User
+        pid: PID
+
+  fallback:
+      annotate:
+        EventName: Generic JUNIPER-SRX Firewall Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: SystemName 
+      daemon: Daemon
+
+- first-match: 'RT_FLOW_SESSION_CLOSE\:'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>.*?)\s.*?\:\s+(?P<category>.*?)\:\s.*?\s.*?\:\s+(?P<src>.*?)\/(?P<sport>.*?)\-\>(?P<dst>.*?)\/(?P<dport>.*?)\s'
+  event-key-format: '{category}'
+  event-key-mapping:
+    'RT_FLOW_SESSION_CLOSE': 
+      annotate:
+        Stream: ADMINISTRATION
+        Action: LOGIN_SESSION_DISCONNECT
+        Status: PASSED   
+      translate:
+        src: SrcIP 
+        sport: SrcPort 
+        dst: DstIP  
+        dport: DstPort
+
+  fallback:
+      annotate:
+        EventName: Generic JUNIPER-SRX Firewall Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: SystemName  
+
+- first-match: 'RT_FLOW_SESSION_DENY\:'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>.*?)\s.*?\:\s+(?P<category>.*?)\:\s+.*?\s.*?\s+(?P<src>[\d \.]+)\/(?P<sport>\d+)\-\>(?P<dst>[\d \.]+)\/(?P<dport>\d+)'
+  event-key-format: '{category}'
+  event-key-mapping:
+    'RT_FLOW_SESSION_DENY': 
+      annotate:
+        Stream: ADMINISTRATION
+        Action: LOGIN_SESSION_DISCONNECT
+        Status: PASSED   
+      translate:
+        src: SrcIP 
+        sport: SrcPort 
+        dst: DstIP  
+        dport: DstPort
+
+  fallback:
+      annotate:
+        EventName: Generic JUNIPER-SRX Firewall Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: SystemName 
+
+- first-match: 'PFE_FW_SYSLOG_IP\:'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<category>\S+)\:\s+FW\:\s+(?P<msg>(?P<iface>\S+)\s+(?P<action>\w+)\s+(?P<protocol>\w+)\s+(?P<src>[\d\.]+)\s+(?P<dst>[\d\.]+)\s+(?P<sport>\d+)\s+(?P<dport>\d+)\s+\((?P<packet>\w+)\s+packets\))'
+  event-key-format: '{category}'
+  event-key-mapping:
+    'PFE_FW_SYSLOG_IP': 
+      annotate:
+        Stream: NETWORK-FIREWALL
+        Action: PACKET_BLOCKED
+        Status: FAILED   
+      translate:
+        iface: Iface
+        msg: Message
+        action: ActionTaken
+        protocol: Proto
+        src: SrcIP 
+        sport: SrcPort 
+        dst: DstIP  
+        dport: DstPort
+        packet: Packet
+
+  fallback:
+      annotate:
+        EventName: Generic JUNIPER-SRX Firewall Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: SystemName  
+
+  subs: &id001
+    ActionTaken: 
+      'A': Accept 
+      'D': Discard
+      'R': Reject 
+      'drop': Drop    
+
+- first-match: 'RT_SCREEN_IP\:'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s\S+\:\s+(?P<category>\S+)\:\s+.*?\s+source\:\s+(?P<src>[\d \.]+)\,\s+destination\:\s+(?P<dst>[\d \.]+)\,\s+protocol\-id\:\s+(?P<protocol>\d+)\,\s+.*?interface\s+name\:\s+(?P<iface>.*?)\,\s+action\:\s+(?P<action>\w+)'
+  event-key-format: '{category}'
+  event-key-mapping:
+    'RT_SCREEN_IP': 
+      annotate:
+        Stream: NETWORK-FIREWALL
+        Action: PACKET_BLOCKED
+        Status: FAILED   
+      translate:
+        iface: Iface
+        msg: Message
+        action: ActionTaken
+        protocol: Proto
+        src: SrcIP 
+        sport: SrcPort 
+        dst: DstIP  
+        dport: DstPort
+
+  fallback:
+      annotate:
+        EventName: Generic JUNIPER-SRX Firewall Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: SystemName         
+
+    subs: *id001
+
+- first-match: 'UI_COMMIT\:'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>\w+)\[(?P<pid>\w+)\]\:\s+(?P<category>\S+)\:\s+(?P<msg>(?:User\s+(?P<user>.*?))?\s+.*)'
+  event-key-format: '{category}'
+  event-key-mapping:
+    'UI_COMMIT': 
+      annotate:
+        Stream: ADMINISTRATION
+        Action: PRIVILEGE_SET
+        Status: PASSED   
+      translate:
+        pid: PID
+        msg: Message
+        user: User
+
+  fallback:
+      annotate:
+        EventName: Generic JUNIPER-SRX Firewall Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: SystemName 
+      daemon: Daemon
+
+- first-match: 'KMD_PM_SA_ESTABLISHED\:'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s(?P<daemon>\w+)\[(?P<pid>\d+)\]\:\s+(?P<category>\S+)\:\sLocal gateway:\s(?P<src>.*?)\,\sRemote gateway\:\s(?P<dst>.*?)\,'
+  event-key-format: '{category}'
+  event-key-mapping:
+    'KMD_PM_SA_ESTABLISHED': 
+      annotate:
+        Stream: NETWORK-FIREWALL
+        Action: VPN_CONNECTED
+        Status: PASSED   
+      translate:
+        pid: PID
+        src: SrcIP
+        dst: DstIP
+
+  fallback:
+      annotate:
+        EventName: Generic JUNIPER-SRX Firewall Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: SystemName 
+      daemon: Daemon
+
+- first-match: 'KMD_VPN_UP_ALARM_USER\:'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s(?P<daemon>.*?)\[(?P<pid>\d+)\]\:\s+(?P<category>\S+)\:\s.*?Local-ip:\s(?P<src>.*?)\,'
+  event-key-format: '{category}'
+  event-key-mapping:
+    'KMD_VPN_UP_ALARM_USER': 
+      annotate:
+        Stream: NETWORK-FIREWALL
+        Action: VPN_UP
+        Status: PASSED   
+      translate:
+        pid: PID
+        src: SrcIP
+
+  fallback:
+      annotate:
+        EventName: Generic JUNIPER-SRX Firewall Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: SystemName 
+      daemon: Daemon    
+               
