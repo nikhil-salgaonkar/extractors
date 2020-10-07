@@ -1,5 +1,5 @@
 schema-version: 1.0
-#extractor-version: 1 #should be added in build
+#extractor-version: 1
 extractor-id: 145
 source-name: CISCO-FIREPOWER
 source-type: IPS
@@ -20,10 +20,6 @@ event-details:
         Action: URL_ALLOWED
         Status: PASSED
       translate:
-        IngressInterface: IfaceIn
-        EgressInterface: IfaceOut
-        Policy: PolicyName
-        AccessControlRuleAction: Rule
         SrcIP: SrcIP
         DstIP: DstIP
         SrcPort: SrcPort
@@ -41,10 +37,6 @@ event-details:
         Action: URL_BLOCKED
         Status: FAILED
       translate:
-        IngressInterface: IfaceIn
-        EgressInterface: IfaceOut
-        Policy: PolicyName
-        AccessControlRuleAction: Rule
         SrcIP: SrcIP
         DstIP: DstIP
         SrcPort: SrcPort
@@ -60,10 +52,6 @@ event-details:
         Action: URL_BLOCKED
         Status: FAILED
       translate: 
-        IngressInterface: IfaceIn
-        EgressInterface: IfaceOut
-        Policy: PolicyName
-        AccessControlRuleAction: Rule
         UserName: User
         SrcIP: SrcIP
         DstIP: DstIP
