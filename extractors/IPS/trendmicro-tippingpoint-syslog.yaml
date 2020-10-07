@@ -3,7 +3,7 @@ schema-version: 1.0
 extractor-id: 187
 source-name: TIPPINGPOINT
 source-type: IPS
-source-description: Extractor for TIPPINGPOINT
+source-description: Extractor for TIPPINGPOINT IPS
 provides-streams:
 - IPS
 master-filters:
@@ -20,20 +20,12 @@ event-details:
         Action: PACKET_ALLOWED
         Status: FAILED   
       translate:
-        policyUUID: PolicyUUID
-        signUUID: SignUUID
-        atkvector: AtkVector
-        atksign: AtkSign
-        sid: SID
         protocol: Proto
         src: SrcIP 
         sport: SrcPort 
         dst: DstIP  
         dport: DstPort
         device: Device
-        atkclass: AtkClass
-        ipsseverity: IPSSeverity
-        ipsprofile: IPSProfile
         action: ActionTaken 
     '7': 
       annotate:
@@ -41,20 +33,12 @@ event-details:
         Action: PACKET_ALLOWED
         Status: PASSED   
       translate:
-        policyUUID: PolicyUUID
-        signUUID: SignUUID
-        atkvector: AtkVector
-        atksign: AtkSign
-        sid: SID
         protocol: Proto
         src: SrcIP 
         sport: SrcPort 
         dst: DstIP  
         dport: DstPort
         device: Device
-        atkclass: AtkClass
-        ipsseverity: IPSSeverity
-        ipsprofile: IPSProfile
         action: ActionTaken      
 
   fallback:
