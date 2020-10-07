@@ -6,7 +6,7 @@ source-type: UIM
 source-description: extractor for Fortiauthenticator
 provides-streams:
 - AUTHENTICATION
-- ADMINISTRATOR
+- ADMINISTRATION
 master-filters:
 - db\[\d+\]\:\s+category\=\"Event\"\s+subcategory\=\"[\w\s]+\"\s+typeid\=\d+\s+
 
@@ -26,7 +26,7 @@ event-details:
         nas: SrcIP
     Edit-:
       annotate:
-        Stream: ADMINISTRATOR
+        Stream: ADMINISTRATION
         Action: CONFIGURATION_CHANGED
         Status: PASSED    
       translate: 
@@ -37,16 +37,7 @@ event-details:
       annotate:
         EventName: Generic Fortiauthenticator Event
         Stream: OTHER
-      translate:
-        level: LogLevel
-        category: Category
-        subcategory: SubCategory
-        typeid: EventID
 
 
-  globals:
-    translate:
-      level: LogLevel
-      category: Category
-      subcategory: SubCategory
-      typeid: EventID
+  #globals:
+    #translate:
