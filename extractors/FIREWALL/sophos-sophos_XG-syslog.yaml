@@ -119,10 +119,5 @@ event-details:
   globals:
     translate:
       device_name: SystemName  
-      log_id: MessageID  
-      log_component: EventType
-      log_subtype: SubCategory
-      status: SubStatus
-      priority: Severity
   
   
