@@ -41,8 +41,3 @@ event-details:
       annotate:
         EventName: Generic PALOALTO Event
         Stream: OTHER
-
-  globals:
-    translate:
-      Type: EventType
-      SessionEndReason: Reason
