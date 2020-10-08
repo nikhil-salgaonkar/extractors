@@ -115,7 +115,7 @@ event-details:
         Status: FAILED
       translate:
         message: Message
-        iface: Iface
+        src_ip: SrcIP
 
   fallback:
       annotate:
