@@ -114,8 +114,8 @@ event-details:
         Action: LOGIN
         Status: FAILED
       translate:
-        message: Message
         src_ip: SrcIP
+        message: Message
 
   fallback:
       annotate:
