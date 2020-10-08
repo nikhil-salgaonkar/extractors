@@ -1,0 +1,130 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 67
+source-name: CISCO
+source-type: OS
+source-description: Extractor for Cisco OS
+provides-streams:
+- CONNECTIVITY
+- AUTHENTICATION
+- ADMINISTRATION
+master-filters:
+- '\%VSHD\-5\-VSHD\_SYSLOG\_CONFIG\_I\:'
+- '\%ETHPORT\-5\-IF_UP\:'
+- '\%ETHPORT\-5\-IF_DOWN_LINK_FAILURE\:'
+- '\%AUTHPRIV\-3\-SYSTEM_MSG\:'
+event-details:
+- first-match: '\%VSHD\-5\-VSHD_SYSLOG_CONFIG_I\:\s+'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<switxh_ip>\S+)\s+.*?\s+\%(?P<facility>\S+)\-(?P<severity>\d+)\-(?P<mnemonic>\S+)\:\s+(?P<message>(?P<action>.*?)\s+from\s+(?P<app>\S+)\s+by\s+(?P<user>.*?)\s+.*)'
+  event-key-format: '{action}'
+  event-key-mapping:
+    Configured:
+      annotate:
+        Stream: ADMINISTRATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        user: User
+        message: Message
+
+  fallback:
+      annotate:
+        EventName: Generic Cisco OS Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      facility: Facility
+      severity: Severity
+      mnemonic: Mnemonic
+
+  subs: &id001
+    Severity:
+      '0': EMERGENCY
+      '1': ALERT
+      '2': CRITICAL
+      '3': ERROR
+      '4': WARNING
+      '5': NOTIFICATION
+      '6': INFORMATIONAL
+      '7': DEBUGGING
+
+- first-match: '\%ETHPORT\-5\-IF_UP\:'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})(?:\.\d+)?\s+.*?\s+\%(?P<facility>.*?)\-(?P<severity>\d+)\-(?P<mnemonic>\S+)\:\s+(?P<message>Interface\s+(?P<iface>.*?)\s+is\s+(?P<action>\w+).*)'
+  event-key-format: '{action}'
+  event-key-mapping:
+    up:
+      annotate:
+        Stream: CONNECTIVITY
+        Action: LINK_UP
+        Status: PASSED
+      translate:
+        message: Message
+        iface: Iface
+
+  fallback:
+      annotate:
+        EventName: Generic Cisco OS Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      facility: Facility
+      severity: Severity
+      mnemonic: Mnemonic
+
+- first-match: '\%ETHPORT\-5\-IF_DOWN_LINK_FAILURE\:'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})(?:\.\d+)?\s+.*?\s+\%(?P<facility>.*?)\-(?P<severity>\d+)\-(?P<mnemonic>\S+)\:\s+(?P<message>Interface\s+(?P<iface>.*?)\s+is\s+(?P<action>\w+).*)'
+  event-key-format: '{action}'
+  event-key-mapping:
+    down:
+      annotate:
+        Stream: CONNECTIVITY
+        Action: LINK_DOWN
+        Status: PASSED
+      translate:
+        message: Message
+        iface: Iface
+
+  fallback:
+      annotate:
+        EventName: Generic Cisco OS Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      facility: Facility
+      severity: Severity
+      mnemonic: Mnemonic
+
+- first-match: '\%AUTHPRIV\-3\-SYSTEM_MSG\:'
+  decoder: regex
+  decoder-regex: '\d{4}\s+(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}).*?\s+\%(?P<facility>.*?)\-(?P<severity>\d+)\-(?P<mnemonic>\S+)\:\s+pam_aaa\:(?P<message>(?P<action>Authentication\s+failed)\s+from\s+(?P<src_ip>[\d\.]+)\s+\-\s+(?P<daemon>.*?)\[(?P<pid>.*?)\])'
+  event-key-format: '{action}'
+  event-key-mapping:
+    Authentication failed:
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate:
+        message: Message
+        iface: Iface
+
+  fallback:
+      annotate:
+        EventName: Generic Cisco OS Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      facility: Facility
+      severity: Severity
+      mnemonic: Mnemonic
