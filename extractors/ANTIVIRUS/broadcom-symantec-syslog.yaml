@@ -1,5 +1,5 @@
 schema-version: 1.0
-#extractor-version: 1 #should be added in build
+#extractor-version: 1 
 extractor-id: 71
 source-name: SYMANTEC-ENDPOINT
 source-type: ANTIVIRUS
@@ -12,9 +12,9 @@ event-details:
 - first-match: \,CIDS\s+Signature\s+ID\:\s+\d+\,CIDS\s+Signature\s+string\:\s+
   decoder: custom
   decoder-regex: ([^\:]+)\:\s([^,]*)\,
-  event-key-format: '{CIDS Signature string}'
+  event-key-format: ''
   event-key-mapping:
-    "Web Attack: JSCoinminer Download 8":
+    "":
       annotate:
         Stream: ENDPOINT-THREAT
         Action: VIRUS_DETECT
@@ -25,12 +25,7 @@ event-details:
         Source computer: SrcHost
         Domain: Domain
         Source IP: SrcIP
-    "Audit: Malicious Domain Request 3":   
-      annotate:
-        Stream: ENDPOINT-THREAT
-        Action: VIRUS_DETECT
-        Status: PASSED
-      translate: 
+        Event Description: AtkDesc
         Local Host IP: DstIP
         Local Host MAC: DstMAC
         Remote Host Name: SrcHost
@@ -43,61 +38,8 @@ event-details:
         Remote Port: SrcPort
         CIDS Signature ID: EventID
         CIDS Signature string: AtkMsg
-        Intrusion URL: InfectionURL  
-    "Web Attack: ZyNOS Information Disclosure":
-      annotate:
-        Stream: ENDPOINT-THREAT
-        Action: VIRUS_DETECT
-        Status: PASSED
-      translate: 
-        Event Description: AtkDesc
-        Local Host IP: SrcIP
-        Local Host MAC: SrcMAC
-        Remote Host Name: DstHost
-        Remote Host IP: DstIP
-        Remote Host MAC: DstMAC
-        Application: App
-        User Name: User
-        Domain Name: Doamin
-        Local Port: DstPort
-        Remote Port: SrcPort
-        CIDS Signature ID: EventID
-        CIDS Signature string: AtkMsg
-        Intrusion URL: InfectionURL  
-    "OS Attack: GNU Bash CVE-2014-6271":
-      annotate:
-        Stream: ENDPOINT-THREAT
-        Action: VIRUS_DETECT
-        Status: PASSED
-      translate:  
-        Event Description: AtkDesc
-        Local Host IP: DstIP
-        Local Host MAC: DstMAC
-        Remote Host Name: SrcHost
-        Remote Host IP: SrcIP
-        Remote Host MAC: SrcMAC
-        Application: App
-        User Name: User
-        Domain Name: Doamin  
-        Local Port: DstPort
-        Remote Port: SrcPort
-        CIDS Signature ID: EventID
-        CIDS Signature string: AtkMsg
         Intrusion URL: InfectionURL 
-
-  fallback:
-      annotate:
-        EventName: Generic SYMANTEC-ENDPOINT Event
-        Stream: OTHER
-
-  globals:
-    translate:
-      Protocol: Proto
-      SrcIP: SrcIP
-      DstIP: DstIP
-      SrcPort: SrcPort
-      DstPort: DstPort 
-
+    
 - first-match: Category\s+set\:\s+.*?\,Category\s+type\:\s+
   decoder: custom
   decoder-regex: ([^\:]+)\:\s([^,]*)\,
@@ -119,15 +61,7 @@ event-details:
   fallback:
       annotate:
         EventName: Generic SYMANTEC-ENDPOINT Event
-        Stream: OTHER
-
-  globals:
-    translate:
-      Protocol: Proto
-      SrcIP: SrcIP
-      DstIP: DstIP
-      SrcPort: SrcPort
-      DstPort: DstPort       
+        Stream: OTHER   
 
 - first-match: Detection\s+type\:\s+
   decoder: custom
@@ -153,11 +87,3 @@ event-details:
       annotate:
         EventName: Generic SYMANTEC-ENDPOINT Event
         Stream: OTHER
-
-  globals:
-    translate:
-      Protocol: Proto
-      SrcIP: SrcIP
-      DstIP: DstIP
-      SrcPort: SrcPort
-      DstPort: DstPort       
