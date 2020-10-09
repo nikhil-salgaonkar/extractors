@@ -1,5 +1,5 @@
 schema-version: 1.0
-#extractor-version: 1 
+#extractor-version: 1 #should be added in build
 extractor-id: 71
 source-name: SYMANTEC-ENDPOINT
 source-type: ANTIVIRUS
@@ -17,7 +17,7 @@ event-details:
     "":
       annotate:
         Stream: ENDPOINT-THREAT
-        Action: VIRUS_DETECT
+        Action: VIRUS_DETECTED
         Status: PASSED
       translate: 
         Risk name: AtkMsg
@@ -48,7 +48,7 @@ event-details:
     "Malware":
       annotate:
         Stream: ENDPOINT-THREAT
-        Action: VIRUS_DETECT
+        Action: VIRUS_DETECTED
         Status: PASSED
       translate: 
         Risk name: AtkMsg
@@ -66,12 +66,12 @@ event-details:
 - first-match: Detection\s+type\:\s+
   decoder: custom
   decoder-regex: ([^\:]+)\:\s([^,]*)\,
-  event-key-format: '{Detection type}'
+  event-key-format: ''
   event-key-mapping:
-    "Suspicious Behavior Detection":
+    "":
       annotate:
         Stream: ENDPOINT-THREAT
-        Action: VIRUS_DETECT
+        Action: VIRUS_DETECTED
         Status: PASSED
       translate: 
         IP Address: DstIP
@@ -82,8 +82,3 @@ event-details:
         Domain: Domain
         User: User
         Source computer: SrcHost
-
-  fallback:
-      annotate:
-        EventName: Generic SYMANTEC-ENDPOINT Event
-        Stream: OTHER
