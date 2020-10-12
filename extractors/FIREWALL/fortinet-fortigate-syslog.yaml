@@ -21,253 +21,196 @@ event-details:
   decoder-regex: ([\w]+)=(\"[^\"]*\"|[^\s]*)
   event-key-format: '{logid}-{action}'
   event-key-mapping:
-    0001000014-deny: 
+    0001000014-deny:
       annotate:
         Stream: NETWORK-FIREWALL
         Action: PACKET_BLOCKED
         Status: FAILED
       translate:
-        srcip: SrcIP 
+        srcip: SrcIP
         srcport: SrcPort
         dstip: DstIP
         dstport: DstPort
-    0000000013-accept: 
+    0000000013-accept:
       annotate:
         Stream: NETWORK-FIREWALL
         Action: PACKET_ALLOWED
         Status: PASSED
-      translate: 
-        srcip: SrcIP 
+      translate:
+        srcip: SrcIP
         srcport: SrcPort
         dstip: DstIP
         dstport: DstPort
-        user: User         
-    0000000013-deny: 
+        user: User
+        sentbyte: TXLen
+        rcvdbyte: RXLen
+    0000000013-deny:
       annotate:
         Stream: NETWORK-FIREWALL
         Action: PACKET_BLOCKED
         Status: FAILED
-      translate: 
-        srcip: SrcIP 
+      translate:
+        srcip: SrcIP
         srcport: SrcPort
         dstip: DstIP
         dstport: DstPort
-        user: User         
-    0001000014-accept: 
+        user: User
+    0001000014-accept:
       annotate:
         Stream: NETWORK-FIREWALL
         Action: PACKET_ALLOWED
         Status: PASSED
-      translate:  
-        srcip: SrcIP 
+      translate:
+        srcip: SrcIP
         srcport: SrcPort
         dstip: DstIP
-        dstport: DstPort      
-    0000000010-accept: 
+        dstport: DstPort
+        sentbyte: TXLen
+        rcvdbyte: RXLen
+    0000000010-accept:
       annotate:
         Stream: NETWORK-FIREWALL
         Action: PACKET_ALLOWED
         Status: PASSED
-      translate:  
-        srcip: SrcIP 
+      translate:
+        srcip: SrcIP
         srcport: SrcPort
         dstip: DstIP
-        dstport: DstPort      
-    0000000009-accept: 
+        dstport: DstPort
+        sentbyte: TXLen
+        rcvdbyte: RXLen
+    0000000009-accept:
       annotate:
         Stream: NETWORK-FIREWALL
         Action: PACKET_ALLOWED
         Status: PASSED
-      translate: 
-        srcip: SrcIP 
+      translate:
+        srcip: SrcIP
         srcport: SrcPort
         dstip: DstIP
-        dstport: DstPort       
-    0000000020-accept: 
+        dstport: DstPort
+        sentbyte: TXLen
+        rcvdbyte: RXLen
+    0000000020-accept:
       annotate:
         Stream: NETWORK-FIREWALL
         Action: PACKET_ALLOWED
         Status: PASSED
-      translate: 
-        srcip: SrcIP 
+      translate:
+        srcip: SrcIP
         srcport: SrcPort
         dstip: DstIP
-        dstport: DstPort       
-    0000000020-deny: 
+        dstport: DstPort
+        sentbyte: TXLen
+        rcvdbyte: RXLen
+    0000000020-deny:
       annotate:
         Stream: NETWORK-FIREWALL
         Action: PACKET_BLOCKED
         Status: FAILED
-      translate:  
-        srcip: SrcIP 
+      translate:
+        srcip: SrcIP
         srcport: SrcPort
         dstip: DstIP
-        dstport: DstPort       
-    0102043014-FSSO-logon: 
+        dstport: DstPort
+    0102043014-FSSO-logon:
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
-      translate:  
+      translate:
         srcip: SrcIP
-        user: User 
-        dstip: DstIP     
-    0102043015-FSSO-logoff:   
+        user: User
+        dstip: DstIP
+    0102043015-FSSO-logoff:
       annotate:
         Stream: AUTHENTICATION
         Action: LOGOUT
         Status: PASSED
-      translate:   
+      translate:
         srcip: SrcIP
         dstip: DstIP
-        user: User    
-    0102043040-auth-logout: 
+        user: User
+    0102043040-auth-logout:
       annotate:
         Stream: AUTHENTICATION
         Action: LOGOUT
         Status: PASSED
-      translate:  
+      translate:
         srcip: SrcIP
         dstip: DstIP
-        user: User     
-    0100032002-login: 
+        user: User
+    0100032002-login:
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-      translate:  
+      translate:
         srcip: SrcIP
-        user: AdminUser      
-    0100032021-None: 
+        user: AdminUser
+    0100032021-None:
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-      translate: 
+      translate:
         srcip: SrcIP
         dstip: DstIP
-        user: User      
-    0102043011-authentication: 
+        user: User
+    0102043011-authentication:
       annotate:
         Stream: AUTHENTICATION
         Action: USER_TIME_OUT
         Status: FAILED
-      translate:     
+      translate:
         srcip: SrcIP
         dstip: DstIP
-        user: User  
-    0101037120-negotiate: 
+        user: User
+    0101037120-negotiate:
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN_NOTIFICATION
         Status: PASSED
         AuthProtocol: VPN
-      translate:   
+      translate:
         srcip: SrcIP
         dstip: DstIP
-        user: User    
-    0102043039-auth-logon: 
+        user: User
+    0102043039-auth-logon:
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
-      translate:  
+      translate:
         srcip: SrcIP
         dstip: DstIP
-        user: User     
-    0102038031-FSSO-polling-logon: 
+        user: User
+    0102038031-FSSO-polling-logon:
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
-      translate: 
+      translate:
         srcip: SrcIP
         dstip: DstIP
-        user: User       
-    0102038032-FSSO-polling-logoff: 
+        user: User
+    0102038032-FSSO-polling-logoff:
       annotate:
         Stream: AUTHENTICATION
         Action: LOGOUT
         Status: PASSED
         LoginSrc: NETWORK
-      translate: 
-        srcip: SrcIP
-        dstip: DstIP
-        user: User      
-    0101037122-negotiate: 
-      annotate:
-        Stream: AUTHENTICATION
-        Action: LOGIN_NOTIFICATION
-        Status: PASSED
-        AuthProtocol: VPN
-      translate:  
-        srcip: SrcIP
-        dstip: DstIP
-        user: User     
-    0101037127-negotiate: 
-      annotate:
-        Stream: AUTHENTICATION
-        Action: LOGIN_NOTIFICATION
-        Status: PASSED
-        AuthProtocol: VPN
-      translate:  
-        srcip: SrcIP
-        dstip: DstIP
-        user: User     
-    0101037128-negotiate: 
-      annotate:
-        Stream: AUTHENTICATION
-        Action: LOGIN_NOTIFICATION
-        Status: PASSED
-        AuthProtocol: VPN
-      translate: 
-        srcip: SrcIP
-        dstip: DstIP
-        user: User      
-    0419016384-detected: 
-      annotate:
-        Stream: NETWORK-THREAT
-        Action: ATTACK_DETECT
-        Status: PASSED
-      translate: 
-        srcip: SrcIP
-        user: User
-    0100032028-None: 
-      annotate:
-        Stream: ADMINISTRATION
-        Action: FILE_DELETED
-        Status: PASSED
-      translate: 
+      translate:
         srcip: SrcIP
         dstip: DstIP
         user: User
-    0101037129-negotiate: 
+    0101037122-negotiate:
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN_NOTIFICATION
         Status: PASSED
         AuthProtocol: VPN
-      translate:  
-        srcip: SrcIP
-        dstip: DstIP
-        user: User 
-    0101037188-negotiate: 
-      annotate:
-        Stream: AUTHENTICATION
-        Action: LOGIN
-        Status: FAILED
-        AuthProtocol: VPN 
-      translate:  
-        srcip: SrcIP
-        dstip: DstIP
-        user: User        
-    0101037192-negotiate:
-      annotate:
-        Stream: AUTHENTICATION
-        Action: LOGIN_NOTIFICATION
-        Status: FAILED
-        AuthProtocol: VPN       
-      translate:  
+      translate:
         srcip: SrcIP
         dstip: DstIP
         user: User
@@ -276,74 +219,141 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN_NOTIFICATION
         Status: PASSED
-        AuthProtocol: VPN       
-      translate: 
+        AuthProtocol: VPN
+      translate:
         srcip: SrcIP
         dstip: DstIP
         user: User
-    0101037121-negotiate: 
+    0101037128-negotiate:
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN_NOTIFICATION
+        Status: PASSED
+        AuthProtocol: VPN
+      translate:
+        srcip: SrcIP
+        dstip: DstIP
+        user: User
+    0419016384-detected:
+      annotate:
+        Stream: NETWORK-THREAT
+        Action: ATTACK_DETECT
+        Status: PASSED
+      translate:
+        srcip: SrcIP
+        user: User
+    0100032028-None:
+      annotate:
+        Stream: ADMINISTRATION
+        Action: FILE_DELETED
+        Status: PASSED
+      translate:
+        srcip: SrcIP
+        dstip: DstIP
+        user: User
+    0101037129-negotiate:
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN_NOTIFICATION
+        Status: PASSED
+        AuthProtocol: VPN
+      translate:
+        srcip: SrcIP
+        dstip: DstIP
+        user: User
+    0101037188-negotiate:
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        AuthProtocol: VPN 
-      translate:   
+        AuthProtocol: VPN
+      translate:
         srcip: SrcIP
         dstip: DstIP
-        user: User  
-    0100032138-reboot: 
+        user: User
+    0101037192-negotiate:
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN_NOTIFICATION
+        Status: FAILED
+        AuthProtocol: VPN
+      translate:
+        srcip: SrcIP
+        dstip: DstIP
+        user: User
+    0101037127-negotiate:
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN_NOTIFICATION
+        Status: PASSED
+        AuthProtocol: VPN
+      translate:
+        srcip: SrcIP
+        dstip: DstIP
+        user: User
+    0101037121-negotiate:
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+        AuthProtocol: VPN
+      translate:
+        srcip: SrcIP
+        dstip: DstIP
+        user: User
+    0100032138-reboot:
       annotate:
         Stream: SYSTEM
         Action: REBOOT
         Status: PASSED
-      translate: 
+      translate:
         user: User
         msg: Message
-    0100022903-connect: 
+    0100022903-connect:
       annotate:
         Stream: SYSTEM
         Action: CONNECTION
         Status: FAILED
-      translate:  
+      translate:
         msg: Message
     0100020118-None:
       annotate:
         Stream: SYSTEM
         Action: SERVICE_START
         Status: PASSED
-      translate: 
-        msg: Message 
+      translate:
+        msg: Message
     0100020119-None:
       annotate:
         Stream: SYSTEM
         Action: SERVICE_STOP
         Status: PASSED
-      translate: 
+      translate:
         msg: Message
     0317013312-passthrough:
       annotate:
         Stream: WEBFILTER
         Action: URL_ALLOWED
         Status: PASSED
-      translate: 
-        srcip: SrcIP 
+      translate:
+        srcip: SrcIP
         srcport: SrcPort
         dstip: DstIP
         dstport: DstPort
-        url: URL 
+        url: URL
         sentbyte: TXLen
-        rcvdbyte: RXLen 
+        rcvdbyte: RXLen
     0316013056-PACKET_BLOCKED:
       annotate:
         Stream: WEBFILTER
         Action: URL_BLOCKED
         Status: FAILED
-      translate: 
-        srcip: SrcIP 
+      translate:
+        srcip: SrcIP
         srcport: SrcPort
         dstip: DstIP
-        dstport: DstPort 
-        url: URL 
+        dstport: DstPort
+        url: URL
         sentbyte: TXLen
         rcvdbyte: RXLen
     0318012800-PACKET_BLOCKED:
@@ -351,12 +361,12 @@ event-details:
         Stream: WEBFILTER
         Action: URL_BLOCKED
         Status: FAILED
-      translate: 
-        srcip: SrcIP 
+      translate:
+        srcip: SrcIP
         srcport: SrcPort
         dstip: DstIP
-        dstport: DstPort 
-        url: URL 
+        dstport: DstPort
+        url: URL
         sentbyte: TXLen
         rcvdbyte: RXLen
     0315012544-PACKET_BLOCKED:
@@ -364,25 +374,25 @@ event-details:
         Stream: WEBFILTER
         Action: URL_BLOCKED
         Status: FAILED
-      translate: 
-        srcip: SrcIP 
+      translate:
+        srcip: SrcIP
         srcport: SrcPort
         dstip: DstIP
         dstport: DstPort
-        url: URL 
+        url: URL
         sentbyte: TXLen
-        rcvdbyte: RXLen 
+        rcvdbyte: RXLen
     0315012546-passthrough:
       annotate:
         Stream: WEBFILTER
         Action: URL_ALLOWED
         Status: PASSED
-      translate: 
-        srcip: SrcIP 
+      translate:
+        srcip: SrcIP
         srcport: SrcPort
         dstip: DstIP
-        dstport: DstPort 
-        url: URL 
+        dstport: DstPort
+        url: URL
         sentbyte: TXLen
         rcvdbyte: RXLen
     0318012801-passthrough:
@@ -390,25 +400,25 @@ event-details:
         Stream: WEBFILTER
         Action: URL_ALLOWED
         Status: PASSED
-      translate: 
-        srcip: SrcIP 
+      translate:
+        srcip: SrcIP
         srcport: SrcPort
         dstip: DstIP
         dstport: DstPort
-        url: URL 
+        url: URL
         sentbyte: TXLen
-        rcvdbyte: RXLen 
+        rcvdbyte: RXLen
     0315012545-passthrough:
       annotate:
         Stream: WEBFILTER
         Action: URL_ALLOWED
         Status: PASSED
-      translate: 
-        srcip: SrcIP 
+      translate:
+        srcip: SrcIP
         srcport: SrcPort
         dstip: DstIP
-        dstport: DstPort 
-        url: URL 
+        dstport: DstPort
+        url: URL
         sentbyte: TXLen
         rcvdbyte: RXLen
     0314012293-passthrough:
@@ -416,124 +426,124 @@ event-details:
         Stream: WEBFILTER
         Action: URL_ALLOWED
         Status: PASSED
-      translate: 
-        srcip: SrcIP 
+      translate:
+        srcip: SrcIP
         srcport: SrcPort
         dstip: DstIP
         dstport: DstPort
-        url: URL 
+        url: URL
         sentbyte: TXLen
-        rcvdbyte: RXLen 
+        rcvdbyte: RXLen
     0314012288-PACKET_BLOCKED:
       annotate:
         Stream: WEBFILTER
         Action: URL_BLOCKED
         Status: FAILED
-      translate: 
-        srcip: SrcIP 
+      translate:
+        srcip: SrcIP
         srcport: SrcPort
         dstip: DstIP
         dstport: DstPort
         sentbyte: TXLen
         rcvdbyte: RXLen
-        url: URL 
-    0000000011-dns:  
+        url: URL
+    0000000011-dns:
       annotate:
         Stream: NETWORK-FIREWALL
         Action: PACKET_ALLOWED
         Status: PASSED
-      translate:  
-        srcip: SrcIP 
+      translate:
+        srcip: SrcIP
         srcport: SrcPort
         dstip: DstIP
         dstport: DstPort
         sentbyte: TXLen
-        rcvdbyte: RXLen 
+        rcvdbyte: RXLen
     0100020027-None:
       annotate:
         Stream: SYSTEM
         Action: EVENT_LOG_CLEARED
         Status: PASSED
-      translate: 
+      translate:
         msg: Message
-    1501054601-block: 
+    1501054601-block:
       annotate:
         Stream: DNS
         Action: BOTNET_BLOCKED
         Status: FAILED
-      translate:  
-        srcip: SrcIP 
+      translate:
+        srcip: SrcIP
         srcport: SrcPort
         dstip: DstIP
         dstport: DstPort
         qname: Domain
         qtype: Lookup
-        msg: Message 
+        msg: Message
     0100032011-roll-log:
       annotate:
         Stream: SYSTEM
         Action: LOG_ROTATED
         Status: PASSED
-      translate: 
+      translate:
         reason: Reason
         msg: Message
-    1501054600-block:    
+    1501054600-block:
       annotate:
         Stream: DNS
         Action: BOTNET_BLOCKED
         Status: FAILED
-      translate:  
-        srcip: SrcIP 
+      translate:
+        srcip: SrcIP
         srcport: SrcPort
         dstip: DstIP
         dstport: DstPort
         qname: Domain
         qtype: Lookup
         msg: Message
-    0100020212-None: 
+    0100020212-None:
       annotate:
         Stream: SYSTEM
         Action: RESOURCE_ALERT
         Status: PASSED
-      translate: 
+      translate:
         msg: Message
-    0100020025-None: 
+    0100020025-None:
       annotate:
         Stream: ADMINISTRATION
         Action: REPORT_CREATED
         Status: PASSED
-      translate: 
+      translate:
         msg: Message
         file: File
-        filesize: FileSize 
-    0100032040-delete:   
+        filesize: FileSize
+    0100032040-delete:
       annotate:
         Stream: ADMINISTRATION
         Action: REPORT_DELETED
         Status: PASSED
-      translate:  
+      translate:
         msg: Message
     0100032029-delete:
       annotate:
         Stream: ADMINISTRATION
         Action: REPORT_DELETED
         Status: PASSED
-      translate:  
+      translate:
         msg: Message
     0100032038-roll-log:
       annotate:
         Stream: SYSTEM
         Action: LOG_ROTATED
         Status: PASSED
-      translate: 
+      translate:
         msg: Message
         reason: Reason
-    0100032003-logout:  
+    0100032003-logout:
       annotate:
         Stream: AUTHENTICATION
         Action: LOGOUT
         Status: PASSED
-      translate:  
+      translate:
         user: AdminUser
         srcip: SrcIP
         dstip: DstIP
@@ -544,7 +554,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
-      translate: 
+      translate:
         user: AdminUser
         srcip: SrcIP
         dstip: DstIP
@@ -552,14 +562,14 @@ event-details:
         msg: Message
         cookies: Cookie
         group: UserGroup
-    0101037134-delete_phase1_sa: 
+    0101037134-delete_phase1_sa:
       annotate:
         Stream: ADMINISTRATION
         Action: CONFIGURATION_ERASED
         Status: PASSED
         AuthProtocol: VPN
-      translate:  
-        srcip: SrcIP 
+      translate:
+        srcip: SrcIP
         srcport: SrcPort
         dstip: DstIP
         dstport: DstPort
@@ -567,14 +577,14 @@ event-details:
         msg: Message
         cookies: Cookie
         group: UserGroup
-    0101037133-install_sa:    
+    0101037133-install_sa:
       annotate:
         Stream: ADMINISTRATION
         Action: CONFIGURATION_DOWNLOAD
         Status: PASSED
         AuthProtocol: VPN
-      translate: 
-        srcip: SrcIP 
+      translate:
+        srcip: SrcIP
         srcport: SrcPort
         dstip: DstIP
         dstport: DstPort
@@ -582,14 +592,14 @@ event-details:
         msg: Message
         cookies: Cookie
         group: UserGroup
-    0101037135-delete_phase1_sa: 
+    0101037135-delete_phase1_sa:
       annotate:
         Stream: ADMINISTRATION
         Action: CONFIGURATION_ERASED
         Status: PASSED
-        AuthProtocol: VPN 
-      translate:   
-        srcip: SrcIP 
+        AuthProtocol: VPN
+      translate:
+        srcip: SrcIP
         srcport: SrcPort
         dstip: DstIP
         dstport: DstPort
@@ -597,75 +607,75 @@ event-details:
         msg: Message
         cookies: Cookie
         group: UserGroup
-    0100032400-None:    
+    0100032400-None:
       annotate:
         Stream: ADMINISTRATION
         Action: CONFIGURATION_CHANGED
         Status: PASSED
-      translate: 
+      translate:
         user: AdminUser
         msg: Message
-    0100044546-Edit:  
+    0100044546-Edit:
       annotate:
         Stream: ADMINISTRATION
         Action: CONFIGURATION_CHANGED
         Status: PASSED
-      translate: 
+      translate:
         user: AdminUser
         msg: Message
-    0107045058-close:  
+    0107045058-close:
       annotate:
         Stream: ADMINISTRATION
         Action: VPN_DISCONNECT
         Status: PASSED
-      translate: 
+      translate:
         user: User
         msg: Message
-    0101039948-tunnel-down:   
+    0101039948-tunnel-down:
       annotate:
         Stream: ADMINISTRATION
         Action: VPN_DOWN
         Status: FAILED
-      translate: 
+      translate:
         remip: SrcIP
         user: User
         reason: Reason
         sentbyte: TXLen
         rcvdbyte: RXLen
-        msg: Message 
+        msg: Message
     0101039425-tunnel-down:
       annotate:
         Stream: ADMINISTRATION
         Action: VPN_DOWN
         Status: FAILED
-      translate: 
+      translate:
         remip: SrcIP
         user: User
         reason: Reason
         sentbyte: TXLen
         rcvdbyte: RXLen
         msg: Message
-    0100022901-connect:   
+    0100022901-connect:
       annotate:
         Stream: SYSTEM
         Action: FORTIANALYZER_CONNECTED
         Status: PASSED
-      translate: 
+      translate:
         msg: Message
-    0100032095-download: 
+    0100032095-download:
       annotate:
         Stream: ADMINISTRATION
         Action: CONFIGURATION_DOWNLOAD
         Status: PASSED
-      translate:  
+      translate:
         user: User
         msg: Message
-    0100044547-Add:   
+    0100044547-Add:
       annotate:
         Stream: ADMINISTRATION
         Action: CONFIGURATION_DOWNLOAD
         Status: PASSED
-      translate: 
+      translate:
         user: AdminUser
         msg: Message
     0100044545-Delete:
@@ -673,85 +683,85 @@ event-details:
         Stream: ADMINISTRATION
         Action: CONFIGURATION_ERASED
         Status: PASSED
-      translate:  
+      translate:
         user: AdminUser
         msg: Message
-    0108037891-None:  
+    0108037891-None:
       annotate:
         Stream: ADMINISTRATION
         Action: CONFIGURATION_CHANGED
         Status: PASSED
-      translate: 
-        msg: Message 
-    0100032301-add-vdom:  
+      translate:
+        msg: Message
+    0100032301-add-vdom:
       annotate:
         Stream: ADMINISTRATION
         Action: CONFIGURATION_CHANGED
         Status: PASSED
-      translate:  
+      translate:
         user: AdminUser
         msg: Message
-    0100032006-vdom-switch: 
+    0100032006-vdom-switch:
       annotate:
         Stream: ADMINISTRATION
         Action: CONFIGURATION_MODE
         Status: PASSED
-      translate:  
+      translate:
         user: AdminUser
         msg: Message
-    0100032007-vdom-switch:   
+    0100032007-vdom-switch:
       annotate:
         Stream: ADMINISTRATION
         Action: CONFIGURATION_MODE
         Status: PASSED
-      translate:  
+      translate:
         user: AdminUser
         msg: Message
-        reason: Reason 
+        reason: Reason
     0100032048-None:
       annotate:
         Stream: ADMINISTRATION
         Action: SCHEDULED_TASK_EXPIRED
         Status: PASSED
-      translate: 
+      translate:
         msg: Message
     0100020118-None:
       annotate:
         Stream: SYSTEM
         Action: SERVICE_START
         Status: PASSED
-      translate: 
+      translate:
         msg: Message
-    0100020002-unknown: 
+    0100020002-unknown:
       annotate:
         Stream: SYSTEM
         Action: RESOURCE_ALERT
         Status: PASSED
-      translate:   
+      translate:
         user: User
         msg: Message
-    0100032021-login:  
+    0100032021-login:
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
-        Status: FAILED  
-      translate: 
+        Status: FAILED
+      translate:
         msg: Message
         reason: Reason
-    0100020003-alert-email:  
+    0100020003-alert-email:
       annotate:
         Stream: SYSTEM
         Action: RESOURCE ALERT
-        Status: FAILED 
-      translate:    
+        Status: FAILED
+      translate:
         user: User
-        msg: Message  
-    0101039947-tunnel-up: 
+        msg: Message
+    0101039947-tunnel-up:
       annotate:
         Stream: ADMINISTRATION
         Action: INTERFACE_UP
-        Status: PASSED 
-      translate:  
+        Status: PASSED
+      translate:
         remip: SrcIP
         msg: Message
         reason: Reason
@@ -759,28 +769,28 @@ event-details:
       annotate:
         Stream: ADMINISTRATION
         Action: VPN_CONNECTED
-        Status: PASSED 
-      translate:  
+        Status: PASSED
+      translate:
         msg: Message
         reason: Reason
         user: User
-    0107045057-add:    
+    0107045057-add:
       annotate:
         Stream: ADMINISTRATION
         Action: VPN_CONNECTED
-        Status: PASSED 
-      translate: 
+        Status: PASSED
+      translate:
         ip: SrcIP
         user: User
         msg: Message
-    0101037124-negotiate:  
+    0101037124-negotiate:
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN_NOTIFICATION
         Status: FAILED
-        AuthProtocol: VPN 
-      translate:  
-        srcip: SrcIP 
+        AuthProtocol: VPN
+      translate:
+        srcip: SrcIP
         srcport: SrcPort
         dstip: DstIP
         dstport: DstPort
@@ -788,28 +798,28 @@ event-details:
         msg: Message
         cookies: Cookie
         group: UserGroup
-    0100022902-disconnect:  
+    0100022902-disconnect:
       annotate:
         Stream: SYSTEM
         Action: FORTIANALYZER_DISCONNECT
-        Status: PASSED  
-      translate: 
+        Status: PASSED
+      translate:
         msg: Message
         reason: Reason
-    0100041001-None:  
+    0100041001-None:
       annotate:
         Stream: ADMINISTRATION
         Action: SCHEDULED_TASK_UPDATED
-        Status: FAILED  
-      translate: 
-        msg: Message  
+        Status: FAILED
+      translate:
+        msg: Message
     0315012556-passthrough:
       annotate:
         Stream: WEBFILTER
         Action: URL_BLOCKED
         Status: FAILED
-      translate: 
-        srcip: SrcIP 
+      translate:
+        srcip: SrcIP
         srcport: SrcPort
         dstip: DstIP
         dstport: DstPort
@@ -820,21 +830,21 @@ event-details:
         Stream: WEBFILTER
         Action: URL_BLOCKED
         Status: FAILED
-      translate: 
-        srcip: SrcIP 
+      translate:
+        srcip: SrcIP
         srcport: SrcPort
         dstip: DstIP
         dstport: DstPort
         sentbyte: TXLen
-        rcvdbyte: RXLen 
-    0101037138-tunnel-down: 
+        rcvdbyte: RXLen
+    0101037138-tunnel-down:
       annotate:
         Stream: ADMINISTRATION
         Action: VPN_DOWN
         Status: PASSED
         AuthProtocol: VPN
-      translate:   
-        srcip: SrcIP 
+      translate:
+        srcip: SrcIP
         srcport: SrcPort
         dstip: DstIP
         dstport: DstPort
@@ -843,550 +853,550 @@ event-details:
         user: User
         group: UserGroup
         cookies: Cookie
-    0101037120-negotiate:   
+    0101037120-negotiate:
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN_NOTIFICATION
         Status: PASSED
-        AuthProtocol: VPN 
-      translate:   
-        srcip: SrcIP 
+        AuthProtocol: VPN
+      translate:
+        srcip: SrcIP
         srcport: SrcPort
         dstip: DstIP
-        dstport: DstPort 
+        dstport: DstPort
         user: User
         group: UserGroup
         cookies: Cookie
         msg: Message
-    0100032111-update: 
+    0100032111-update:
       annotate:
         Stream: ADMINISTRATION
         Action: DATABASE_UPDATED
         Status: PASSED
-        AuthProtocol: VPN 
-      translate:      
+        AuthProtocol: VPN
+      translate:
         user: User
-        msg: Message  
-    0100044548-Execute: 
+        msg: Message
+    0100044548-Execute:
       annotate:
         Stream: ADMINISTRATION
         Action: COMMAND_EXECUTED
         Status: PASSED
-        AuthProtocol: VPN 
-      translate:  
+        AuthProtocol: VPN
+      translate:
         user: User
         msg: Message
-    0101037121-negotiate: 
+    0101037121-negotiate:
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
         LoginSrc: NETWORK
-        AuthProtocol: VPN 
-      translate: 
-        srcip: SrcIP 
+        AuthProtocol: VPN
+      translate:
+        srcip: SrcIP
         srcport: SrcPort
         dstip: DstIP
-        dstport: DstPort 
+        dstport: DstPort
         user: User
         group: UserGroup
         cookies: Cookie
         msg: Message
         reason: Reason
-    0100032141-None: 
+    0100032141-None:
       annotate:
         Stream: ADMINISTRATION
         Action: SYSTEM_TIME_CHANGED
         Status: PASSED
       translate:
         user: User
-        msg: Message 
-    0100032130-None: 
+        msg: Message
+    0100032130-None:
       annotate:
         Stream: ADMINISTRATION
         Action: USER_ACCOUNT_CHANGED
         Status: PASSED
       translate:
         user: User
-        msg: Message 
-    0100032132-None: 
+        msg: Message
+    0100032132-None:
       annotate:
         Stream: ADMINISTRATION
         Action: CONFIGURATION_CHANGED
         Status: PASSED
-      translate: 
+      translate:
         user: AdminUser
-        msg: Message 
-    0100032043-None: 
+        msg: Message
+    0100032043-None:
       annotate:
         Stream: SYSTEM
         Action: RESOURCE_ALERT
         Status: PASSED
-      translate: 
-        msg: Message 
-    0954024576-block: 
+      translate:
+        msg: Message
+    0954024576-block:
       annotate:
         Stream: DLP
         Action: FILE_BLOCKED
         Status: FAILED
-      translate:  
-        srcip: SrcIP 
+      translate:
+        srcip: SrcIP
         srcport: SrcPort
         dstip: DstIP
-        dstport: DstPort 
+        dstport: DstPort
         user: User
         url: URL
         hostname: Domain
-    0100032102-None: 
+    0100032102-None:
       annotate:
         Stream: ADMINISTRATION
         Action: CONFIGURATION_CHANGED
         Status: PASSED
-      translate: 
+      translate:
         user: AdminUser
-        msg: Message 
-    1059028705-block: 
+        msg: Message
+    1059028705-block:
       annotate:
         Stream: NETWORK-THREAT
         Action: PACKET_BLOCKED
         Status: FAILED
-      translate: 
-        srcip: SrcIP 
+      translate:
+        srcip: SrcIP
         srcport: SrcPort
         dstip: DstIP
-        dstport: DstPort  
-        user: User 
+        dstport: DstPort
+        user: User
         hostname: Domain
         url: URL
-    0100040704-perf-stats: 
+    0100040704-perf-stats:
       annotate:
         Stream: SYSTEM
         Action: RESOURCE_ALERT
         Status: PASSED
-      translate: 
+      translate:
         msg: Message
-    0100032001-login: 
+    0100032001-login:
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
-      translate: 
-        srcip: SrcIP   
+      translate:
+        srcip: SrcIP
         user: AdminUser
         reason: Reason
         dstip: DstIP
-    0419016384-detected: 
+    0419016384-detected:
       annotate:
         Stream: NETWORK-THREAT
         Action: DETECT
         Status: PASSED
-      translate: 
-        srcip: SrcIP 
+      translate:
+        srcip: SrcIP
         srcport: SrcPort
         dstip: DstIP
         dstport: DstPort
         ref: URL
-    0100032003-logout: 
+    0100032003-logout:
       annotate:
         Stream: AUTHENTICATION
         Action: LOGOUT
         Status: PASSED
-      translate: 
-        srcip: SrcIP   
+      translate:
+        srcip: SrcIP
         user: AdminUser
         reason: Reason
         dstip: DstIP
         method: LoginSrc
-    0100044547-Edit: 
+    0100044547-Edit:
       annotate:
         Stream: ADMINISTRATION
         Action: CONFIGURATION_CHANGED
         Status: PASSED
-      translate: 
-        srcip: SrcIP   
+      translate:
+        srcip: SrcIP
         dstip: DstIP
         user: AdminUser
-    0100032011-roll-log: 
+    0100032011-roll-log:
       annotate:
         Stream: SYSTEM
         Action: LOG_ROTATED
         Status: PASSED
-      translate: 
+      translate:
         reason: Reason
-    0100032102-None: 
+    0100032102-None:
       annotate:
         Stream: ADMINISTRATION
         Action: CONFIGURATION_CHANGED
         Status: PASSED
-      translate: 
+      translate:
         user: AdminUser
-    0100041000-None: 
+    0100041000-None:
       annotate:
         Stream: ADMINISTRATION
         Action: SCHEDULED_TASK_UPDATED
         Status: PASSED
-      translate: 
+      translate:
         msg: Message
-    0100036882-None: 
+    0100036882-None:
       annotate:
         Stream: SYSTEM
         Action: CONFIGURATION_SAVED
         Status: PASSED
-      translate: 
+      translate:
         user: User
-    0100020210-trim-disk: 
+    0100020210-trim-disk:
       annotate:
         Stream: SYSTEM
         Action: DISK_TRIM
         Status: START
-      translate: 
+      translate:
         msg: Message
-    0100020211-trim-disk: 
+    0100020211-trim-disk:
       annotate:
         Stream: SYSTEM
         Action: DISK_TRIM
         Status: END
-      translate: 
+      translate:
         msg: Message
-    0100020109-None: 
+    0100020109-None:
       annotate:
         Stream: SYSTEM
         Action: LICENSE_EXPIRED
         Status: PASSED
-      translate: 
+      translate:
         msg: Message
-    0000000013-close: 
+    0000000013-close:
       annotate:
         Stream: NETWORK-FIREWALL
         Action: CLOSED
         Status: PASSED
-      translate: 
+      translate:
         user: User
-        srcip: SrcIP 
+        srcip: SrcIP
         srcport: SrcPort
         dstip: DstIP
         dstport: DstPort
-    0000000013-server-rst: 
+    0000000013-server-rst:
       annotate:
         Stream: NETWORK-FIREWALL
         Action: SERVER_RESET
         Status: PASSED
-      translate: 
+      translate:
         user: User
-        srcip: SrcIP 
+        srcip: SrcIP
         srcport: SrcPort
         dstip: DstIP
         dstport: DstPort
-    1059028704-pass: 
+    1059028704-pass:
       annotate:
         Stream: NETWORK-FIREWALL
         Action: APP_ALLOWED
         Status: PASSED
-      translate: 
-        srcip: SrcIP 
+      translate:
+        srcip: SrcIP
         srcport: SrcPort
         dstip: DstIP
         dstport: DstPort
         app: App
-    0419016385-detected: 
+    0419016385-detected:
       annotate:
         Stream: NETWORK-FIREWALL
         Action: ATTACK_DETECTED
         Status: PASSED
-      translate: 
+      translate:
         ref: URL
         srcip: SrcIP
         dstip: DstIP
-    0100032142-backup: 
+    0100032142-backup:
       annotate:
         Stream: SYSTEM
         Action: CONFIGURATION_BACKUP
         Status: PASSED
-      translate: 
+      translate:
         user: AdminUser
         srcip: SrcIP
         dstip: DstIP
-    0108037897-None: 
+    0108037897-None:
       annotate:
         Stream: SYSTEM
         Action: HA_UP
         Status: PASSED
-      translate: 
+      translate:
         msg: Message
-    0108037898-None: 
+    0108037898-None:
       annotate:
         Stream: SYSTEM
         Action: HA_DOWN
         Status: FAILED
-      translate: 
+      translate:
         msg: Message
-    0108035010-None: 
+    0108035010-None:
       annotate:
         Stream: SYSTEM
         Action: HA_SYNC
         Status: FAILED
-      translate: 
+      translate:
         msg: Message
-    0100020010-None: 
+    0100020010-None:
       annotate:
         Stream: SYSTEM
         Action: KERNEL_ERROR
         Status: PASSED
-      translate: 
+      translate:
         msg: Message
-    0100022100-transfer: 
+    0100022100-transfer:
       annotate:
         Stream: SYSTEM
         Action: FILE_DROPPED
         Status: PASSED
-      translate: 
+      translate:
         msg: Message
         reason: Reason
-    1501054200-pass: 
+    1501054200-pass:
       annotate:
         Stream: DNS
         Action: NONE
         Status: NONE
-      translate: 
-        srcip: SrcIP 
+      translate:
+        srcip: SrcIP
         srcport: SrcPort
         dstip: DstIP
         dstport: DstPort
-    0101039938-ssl-web-pass: 
+    0101039938-ssl-web-pass:
       annotate:
         Stream: SYSTEM
         Action: SSL_CONNECT
         Status: PASSED
-      translate: 
-        srcip: SrcIP 
+      translate:
+        srcip: SrcIP
         srcport: SrcPort
         dstip: DstIP
         dstport: DstPort
-    0100022952-login: 
+    0100022952-login:
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-      translate: 
+      translate:
         user: User
-    0101041988-info: 
+    0101041988-info:
       annotate:
         Stream: SYSTEM
         Action: SETTING_CHANGED
         Status: PASSED
-      translate: 
+      translate:
         msg: Message
-    0100032247-None: 
+    0100032247-None:
       annotate:
         Stream: SYSTEM
         Action: SSH_NEGOTIATION
         Status: FAILED
-      translate: 
+      translate:
         msg: Message
-    0102043050-server-connect: 
+    0102043050-server-connect:
       annotate:
         Stream: AUTHENTICATION
         Action: SERVER_CONNECT
         Status: PASSED
-      translate: 
+      translate:
         msg: Message
-    0102043051-server-disconnect: 
+    0102043051-server-disconnect:
       annotate:
         Stream: AUTHENTICATION
         Action: SERVER_DISCONNECT
         Status: PASSED
-      translate: 
+      translate:
         msg: Message
-    0100032119-update: 
+    0100032119-update:
       annotate:
         Stream: SYSTEM
         Action: DATABASE_UPDATED
         Status: PASSED
-      translate: 
+      translate:
         msg: Message
-    0314012288-PACKET_BLOCKED: 
+    0314012288-PACKET_BLOCKED:
       annotate:
         Stream: WEBFILTER
         Action: URL_BLOCKED
         Status: FAILED
-      translate: 
-        srcip: SrcIP 
+      translate:
+        srcip: SrcIP
         srcport: SrcPort
         dstip: DstIP
         dstport: DstPort
-    0100032010-None: 
+    0100032010-None:
       annotate:
         Stream: SYSTEM
         Action: RESOURCE_ALERT
         Status: PASSED
-      translate: 
+      translate:
         msg: Message
-    0100032037-None: 
+    0100032037-None:
       annotate:
         Stream: SYSTEM
         Action: RESOURCE_ALERT
         Status: PASSED
-      translate: 
+      translate:
         msg: Message
-    1059028704-pass: 
+    1059028704-pass:
       annotate:
         Stream: NETWORK-FIREWALL
         Action: PACKET_ALLOWED
         Status: PASSED
-      translate: 
-        srcip: SrcIP 
+      translate:
+        srcip: SrcIP
         srcport: SrcPort
         dstip: DstIP
         dstport: DstPort
-    0314012293-passthrough: 
+    0314012293-passthrough:
       annotate:
         Stream: WEBFILTER
         Action: URL_ALLOWED
         Status: PASSED
-      translate: 
-        srcip: SrcIP 
+      translate:
+        srcip: SrcIP
         srcport: SrcPort
         dstip: DstIP
         dstport: DstPort
-    0101037139-phase2-down: 
+    0101037139-phase2-down:
       annotate:
         Stream: ADMINISTRATION
         Action: VPN_DOWN
         Status: PASSED
-      translate: 
-        srcip: SrcIP 
+      translate:
+        srcip: SrcIP
         srcport: SrcPort
         dstip: DstIP
         dstport: DstPort
-    0315012545-passthrough: 
+    0315012545-passthrough:
       annotate:
         Stream: WEBFILTER
         Action: URL_ALLOWED
         Status: PASSED
-      translate: 
-        srcip: SrcIP 
+      translate:
+        srcip: SrcIP
         srcport: SrcPort
         dstip: DstIP
         dstport: DstPort
-    0419016384-detected: 
+    0419016384-detected:
       annotate:
         Stream: NETWORK-FIREWALL
         Action: ATTACK_DETECT
         Status: PASSED
-      translate: 
-        srcip: SrcIP 
+      translate:
+        srcip: SrcIP
         srcport: SrcPort
         dstip: DstIP
         dstport: DstPort
-    0100032546-crash: 
+    0100032546-crash:
       annotate:
         Stream: SYSTEM
         Action: RESOURCE_ALERT
         Status: PASSED
-      translate: 
-        srcip: SrcIP 
+      translate:
+        srcip: SrcIP
         srcport: SrcPort
         dstip: DstIP
         dstport: DstPort
-    0100022113-None: 
+    0100022113-None:
       annotate:
         Stream: AUTHENTICATION
         Action: ERROR
         Status: FAILED
-      translate: 
-        srcip: SrcIP 
+      translate:
+        srcip: SrcIP
         srcport: SrcPort
         dstip: DstIP
         dstport: DstPort
-    0101039426-ssl-login-fail: 
+    0101039426-ssl-login-fail:
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN_FAIL
         Status: FAILED
-      translate: 
-        srcip: SrcIP 
+      translate:
+        srcip: SrcIP
         user: User
-    0101039944-ssl-new-con: 
+    0101039944-ssl-new-con:
       annotate:
         Stream: SYSTEM
         Action: SSL_CONNECT
         Status: PASSED
-      translate: 
-        remip: SrcIP 
-    0002000012-accept: 
+      translate:
+        remip: SrcIP
+    0002000012-accept:
       annotate:
         Stream: NETWORK-FIREWALL
         Action: PACKET_ALLOWED
         Status: PASSED
-      translate: 
-        srcip: SrcIP 
+      translate:
+        srcip: SrcIP
         srcport: SrcPort
         dstip: DstIP
         dstport: DstPort
-    0101039937-ssl-web-deny: 
+    0101039937-ssl-web-deny:
       annotate:
         Stream: NETWORK-FIREWALL
         Action: VPN_BLOCKED
         Status: FAILED
-      translate: 
-        remip: SrcIP 
+      translate:
+        remip: SrcIP
         user: User
-    0101039940-ssl-web-close: 
+    0101039940-ssl-web-close:
       annotate:
         Stream: NETWORK-FIREWALL
         Action: VPN_CLOSED
         Status: PASSED
-      translate: 
-        remip: SrcIP 
-    0101039944-ssl-alert: 
+      translate:
+        remip: SrcIP
+    0101039944-ssl-alert:
       annotate:
         Stream: NETWORK-FIREWALL
         Action: VPN_ALERT
         Status: PASSED
-      translate: 
-        remip: SrcIP 
-    0954024577-log-only: 
+      translate:
+        remip: SrcIP
+    0954024577-log-only:
       annotate:
         Stream: DLP
         Action: DATA_LEAK_DETECTED
         Status: PASSED
-      translate: 
-        srcip: SrcIP 
+      translate:
+        srcip: SrcIP
         srcport: SrcPort
         dstip: DstIP
         dstport: DstPort
-    0421016399-dropped: 
+    0421016399-dropped:
       annotate:
         Stream: SYSTEM
         Action: ATTACK_DETECTED
         Status: PASSED
-      translate: 
+      translate:
         srcip: SrcIP
         dstip: DstIP
-    0211008192-PACKET_BLOCKED: 
+    0211008192-PACKET_BLOCKED:
       annotate:
         Stream: SYSTEM
         Action: VIRUS_BLOCKED
         Status: PASSED
-      translate: 
+      translate:
         srcip: SrcIP
         dstip: DstIP
         srcport: SrcPort
         dstport: DstPort
-    0720018432-detected: 
+    0720018432-detected:
       annotate:
         Stream: SYSTEM
         Action: ATTACK_DETECTED
         Status: PASSED
-      translate: 
+      translate:
         srcip: SrcIP
         dstip: DstIP
-    0720018433-detected: 
+    0720018433-detected:
       annotate:
         Stream: SYSTEM
         Action: ATTACK_DETECTED
         Status: PASSED
-      translate: 
+      translate:
         srcip: SrcIP
         dstip: DstIP
 
@@ -1396,15 +1406,15 @@ event-details:
         Stream: OTHER
 
   globals:
-    translate: 
+    translate:
       date: SystemTstamp
-      devname: SystemName  
-      logid: EventID  
-      proto: Proto  
+      devname: SystemName
+      logid: EventID
+      proto: Proto
       level: LogLevel
       type: Category
       subtype: SubCategory
-  
+
   subs:
     Proto:
       '0': HOPOPT
@@ -1555,4 +1565,3 @@ event-details:
       'notification': NOTICE
       'notice': NOTICE
       'warning': WARNING
-                                                        
