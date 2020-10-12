@@ -11,6 +11,20 @@ master-filters:
 - 'internal\-sftp\[\d+\]\:\s'
 - 'CRON\[\d+\]\:\s+'
 - 'sftpd\[\d+\]\:'
+- '\S+\:\s+tsm\:'
+- '\s+systemd\-logind\[\d+\]\:\s+'
+- '\s+syslog\:'
+- '\S+\s+sudo\:\s+'
+- 'polkit-agent-helper-\d+\[\d+\]\:\s+'
+- 'login\[\d+\]\:\s+'
+- '\S+\s+su\:\s+'
+- 'systemd-logind\:\s+'
+- '\s+sshd\:\s+'
+- '\s+sapdbctrl\:\s+'
+- '\s+pkexec\:\s+'
+- 'sftp-server\[\d+]\:'
+- 'cron\[\d+\]\:'
+- '\s+saphostexec\[\d+\]\:\s+'
 event-details:
 - first-match: '\S+\[\d+\]\:\s+Accepted\s+password\s+for'
   decoder: regex
@@ -22,8 +36,6 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
-        AuthProtocol: SSH
-        LoginSrc: REMOTE
       translate:
         msg: Message
         src: SrcIP
@@ -50,9 +62,7 @@ event-details:
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
-        Status: FAILED
-        AuthProtocol: SSH
-        LoginSrc: REMOTE
+        Status: FAILED  
       translate:
         msg: Message
         src: SrcIP
@@ -80,8 +90,6 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        AuthProtocol: SSH
-        LoginSrc: REMOTE
         SubStatus: BAD_USER
       translate:
         msg: Message
@@ -108,8 +116,6 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        AuthProtocol: SSH
-        LoginSrc: REMOTE
         SubStatus: BAD_USER
       translate:
         msg: Message
@@ -137,8 +143,6 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGOUT
         Status: PASSED
-        AuthProtocol: SSH
-        LoginSrc: REMOTE
       translate:
         msg: Message
         user: User 
@@ -164,8 +168,6 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGOUT
         Status: PASSED
-        AuthProtocol: SSH
-        LoginSrc: REMOTE
       translate:
         msg: Message
         user: User
@@ -192,8 +194,6 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGOUT
         Status: PASSED
-        AuthProtocol: SSH
-        LoginSrc: REMOTE
       translate:
         msg: Message
         user: User
@@ -207,4 +207,426 @@ event-details:
   globals:
     translate:
       daemon: Daemon
-      pid: PID                                                
+      pid: PID
+
+- first-match: 'password\s+authentication\s+failed'
+  decoder: regex
+  decoder-regex: '(?:(?P<hostname>\S+)\s)?(?P<daemon>\w+)\[(?P<pid>\d+)\]\:.*?\:\s+(?P<msg>.*?\:\spassword\s(?P<action>authentication\sfailed)\sfor\s(?P<user>.*?)\:\s.*)'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'authentication failed': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate:
+        msg: Message
+        user: User
+
+  fallback:
+      annotate:
+        EventName: Generic TIPPINGPOINT IPS Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      hostname: SystemName
+      daemon: Daemon
+      pid: PID   
+
+- first-match: 'password\s+authentication\s+accepted'
+  decoder: regex
+  decoder-regex: '(?:(?P<hostname>\S+)\s)?(?P<daemon>\w+)\[(?P<pid>\d+)\]\:.*?\:\s+(?P<msg>.*?\:\spassword\s(?P<action>authentication\saccepted)\sfor\s(?P<user>.*))'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'authentication accepted': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        msg: Message
+        user: User
+
+  fallback:
+      annotate:
+        EventName: Generic TIPPINGPOINT IPS Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      hostname: SystemName
+      daemon: Daemon
+      pid: PID   
+
+- first-match: '\s+Login\s+successful\s+'
+  decoder: regex
+  decoder-regex: '(?P<hostname>\S+)\:\s+(?P<daemon>\S+)\:\s+(?P<msg>(?P<action>Login\s+successful)\s+for\s+(?P<user>\S+)\s+from(?:\s+(?P<src>[abcdef\d\:\.\-]+))?.*)'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'Login successful': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        msg: Message
+        user: User
+
+  fallback:
+      annotate:
+        EventName: Generic TIPPINGPOINT IPS Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      hostname: SystemName
+      daemon: Daemon
+      pid: PID  
+
+- first-match: 'Accepted\s+publickey\s+for'
+  decoder: regex
+  decoder-regex: '\s+(?P<daemon>\w+)\[(?P<pid>\d+)\]\:.*?(?P<msg>(?P<action>Accepted\s+publickey)\s+for\s+(?P<user>\S+)\s+from\s+(?P<src>[\d\.]+).*?port.*?\s+(?P<sport>\d+)\s+.*)'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'Accepted publickey': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        msg: Message
+        user: User
+        src: SrcIP
+        sport: SrcPort
+
+  fallback:
+      annotate:
+        EventName: Generic TIPPINGPOINT IPS Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      daemon: Daemon
+      pid: PID 
+
+- first-match: '\s+User.*?logged\s+out'
+  decoder: regex
+  decoder-regex: '(?P<daemon>\S+)(?:\[(?P<pid>\d+)\])?\:\s+(?P<msg>.*?User[\:\s]+(?P<user>\S+).*?(?P<action>logged\s+out)\.?)'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'logged out': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+      translate:
+        msg: Message
+        user: User
+
+  fallback:
+      annotate:
+        EventName: Generic TIPPINGPOINT IPS Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      daemon: Daemon
+      pid: PID    
+
+- first-match: '\s+logged\s+in'
+  decoder: regex
+  decoder-regex: '(?P<hostname>\S+)\s+(?P<daemon>\S+)\[(?P<pid>\d+)\]\:\s+(?P<msg>.*?(?P<action>logged\s+in)\.)'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'logged in': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        msg: Message
+        user: User
+
+  fallback:
+      annotate:
+        EventName: Generic TIPPINGPOINT IPS Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      hostname: SystemName
+      daemon: Daemon
+      pid: PID      
+
+- first-match: '\s+(?:Authentication|authentication)\s+(?:failure|failures)\s+for\s+'
+  decoder: regex
+  decoder-regex: '\s+(?P<daemon>\S+)\[(?P<pid>\d+)\]\:\s+(?P<msg>.*?(?P<action>(?:Authentication|authentication)\s+(?:failure|failures))\s+for\s+(?P<user>\S+)(?:\s+from\s+(?P<src>.*))?)'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'Authentication failure': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate:
+        msg: Message
+        user: User
+        src: SrcIP
+    'authentication failures': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate:
+        msg: Message
+        user: User    
+
+  fallback:
+      annotate:
+        EventName: Generic TIPPINGPOINT IPS Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      daemon: Daemon
+      pid: PID                                                                                          
+
+- first-match: '\S+\[\d+\]\:\s+.*?authentication\s+(?:failure|failures)\;\s+logname\=.*?uid\=\d+\s+'
+  decoder: regex
+  decoder-regex: '\s+(?P<hostname>\S+)\s+(?P<daemon>\S+)\[(?P<pid>\d+)\]\:\s+.*?(?P<msg>(?P<action>authentication\s+(?:failure|failures))\;.*?uid\=(?P<uid>\d+).*?ruser\=(?P<ruser>\S+|)\s+rhost\=(?P<rhost>\S+|)(?:\s+user\=(?P<user>.*))?)'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'authentication failure': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate:
+        msg: Message
+        user: User
+        uid: UserID
+        ruser: SrcUser
+        rhost: SrcHost
+    'authentication failures': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate:
+        msg: Message
+        user: User
+        uid: UserID
+        ruser: SrcUser
+        rhost: SrcHost    
+
+  fallback:
+      annotate:
+        EventName: Generic TIPPINGPOINT IPS Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      hostname: SystemName
+      daemon: Daemon
+      pid: PID  
+
+- first-match: '\w+\:\s+.*?authentication\s+failure\;\s+logname\=.*?uid\=\d+\s+'
+  decoder: regex
+  decoder-regex: '\s+(?P<hostname>\S+)\s+(?P<daemon>\w+)\:\s+.*?(?P<msg>(?P<action>authentication\s+failure)\;.*?uid\=(?P<uid>\d+).*?ruser\=(?P<ruser>\S+|)\s+rhost\=(?P<rhost>\S+|)(?:\s+user\=(?P<user>.*))?)'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'authentication failure': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate:
+        msg: Message
+        user: User
+        uid: UserID
+        ruser: SrcUser
+        rhost: SrcHost
+
+  fallback:
+      annotate:
+        EventName: Generic TIPPINGPOINT IPS Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      hostname: SystemName
+      daemon: Daemon  
+
+- first-match: '\S+\[\d+\]\:\s+Accepted\s+keyboard\-interactive(?:\/pam)?\s+'
+  decoder: regex
+  decoder-regex: '\s+(?P<daemon>\S+)\[(?P<pid>\d+)\]\:\s+(?P<msg>(?P<action>Accepted\s+keyboard\-interactive).*?for\s+(?P<user>\S+).*?from\s+(?P<src>[\d\.]+).*?port\s+(?P<sport>\d+).*)'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'Accepted keyboard-interactive': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        msg: Message
+        user: User
+        src: SrcIP
+        sport: SrcPort
+
+  fallback:
+      annotate:
+        EventName: Generic TIPPINGPOINT IPS Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      daemon: Daemon 
+      pid: PID                      
+
+- first-match: '\s+\S+\[\d+\]\:\s+.*?Received\s+disconnect\s+from\s+'
+  decoder: regex
+  decoder-regex: '\s+(?P<daemon>\S+)\[(?P<pid>\d+)\]\:.*?(?P<msg>(?P<action>Received\s+disconnect)\s+from\s+(?P<src>[\d\.]+)\:?(?:\s+port\s+(?P<sport>\d+)\:\d+)?.*)'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'Received disconnect': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN_SESSION_DISCONNECTED
+        Status: PASSED
+      translate:
+        msg: Message
+        src: SrcIP
+        sport: SrcPort
+
+  fallback:
+      annotate:
+        EventName: Generic TIPPINGPOINT IPS Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      daemon: Daemon 
+      pid: PID                                                                                              
+
+- first-match: '\s+\S+\[\d+\]\:\s+.*?session\s+opened\s+for\s+'
+  decoder: regex
+  decoder-regex: '\s+(?P<daemon>\S+)\[(?P<pid>\d+)\]\:.*?(?P<msg>(?P<action>session\s+opened)\s+for.*?user\s+(?P<user>\S+)\s+(?:by\s+\(uid\=(?P<uid>\d+)\))?(?:from\s+\[(?P<src>[\d\.]+)\])?)'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'session opened': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN_SESSION_CONNECTED
+        Status: PASSED
+      translate:
+        msg: Message
+        src: SrcIP
+        uid: UserID
+        user: User
+
+  fallback:
+      annotate:
+        EventName: Generic TIPPINGPOINT IPS Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      daemon: Daemon 
+      pid: PID   
+
+- first-match: '\s+\S+\[\d+\]\:\s+.*?session\s+closed\s+for\s+'
+  decoder: regex
+  decoder-regex: '\s+(?P<daemon>\S+)\[(?P<pid>\d+)\]\:.*?(?P<msg>(?P<action>session\s+closed)\s+for.*?user\s+(?P<user>\S+)(?:\s+by\s+\(uid\=(?P<uid>\d+)\))?(?:\s+from\s+\[(?P<src>[\d\.]+)\])?)'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'session closed': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN_SESSION_DISCONNECTED
+        Status: PASSED
+      translate:
+        msg: Message
+        src: SrcIP
+        uid: UserID
+        user: User
+
+  fallback:
+      annotate:
+        EventName: Generic TIPPINGPOINT IPS Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      daemon: Daemon 
+      pid: PID                                                                                                          
+
+- first-match: '\w+\:\s+.*?session\s+opened\s+for\s+'
+  decoder: regex
+  decoder-regex: '(?P<daemon>\w+)\:\s+.*?(?P<msg>(?P<action>session\s+opened)\s+for.*?user\s+(?P<user>\S+).*)'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'session opened': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN_SESSION_CONNECTED
+        Status: PASSED
+      translate:
+        msg: Message
+        user: User
+
+  fallback:
+      annotate:
+        EventName: Generic TIPPINGPOINT IPS Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      daemon: Daemon    
+
+- first-match: '\w+\:\s+.*?session\s+closed\s+for\s+'
+  decoder: regex
+  decoder-regex: '(?P<daemon>\w+)\:\s+.*?(?P<msg>(?P<action>session\s+closed)\s+for.*?user\s+(?P<user>\S+).*)'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'session closed': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN_SESSION_DISCONNECTED
+        Status: PASSED
+      translate:
+        msg: Message
+        user: User
+
+  fallback:
+      annotate:
+        EventName: Generic TIPPINGPOINT IPS Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      daemon: Daemon         
+
+- first-match: '\S+\:\s+New\s+session\s+\d+\s+of\s+user\s+'
+  decoder: regex
+  decoder-regex: '(?P<daemon>\S+)\:\s+.*?(?P<msg>(?P<action>New\s+session)\s+\d+\s+of\s+user\s+(?P<user>\S+).*)'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'New session': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN_SESSION_CONNECTED
+        Status: PASSED
+      translate:
+        msg: Message
+        user: User
+
+  fallback:
+      annotate:
+        EventName: Generic TIPPINGPOINT IPS Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      daemon: Daemon         
+      
