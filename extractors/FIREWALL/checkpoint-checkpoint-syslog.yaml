@@ -52,16 +52,6 @@ event-details:
         mac_address: MACAddress
         user: User
         src: SrcIP
-    Reject-None-VPN-1:
-      annotate:
-        Stream: AUTHENTICATION
-        Action: LOGIN
-        Status: FAILED 
-        AuthProtocol: VPN  
-      translate:
-        src: SrcIP  
-        dst: DstIP  
-        s_port: SrcPort
     Redirect-Anti Malware-None: 
       annotate:
         Stream: NETWORK-THREAT
@@ -154,16 +144,6 @@ event-details:
         malware_rule_id: RuleID
         file_name: FileName
         file_type: FileType
-    Encrypt-VPN-1 & FireWall-1-VPN-1:
-      annotate:
-        Stream: AUTHENTICATION
-        Action: LOGIN
-        Status: PASSED  
-        AuthProtocol: VPN 
-      translate:
-        src: SrcIP  
-        dst: DstIP  
-        s_port: SrcPort  
     Allow-MEPP-None: 
       annotate:
         Stream: NETWORK-FIREWALL
@@ -218,7 +198,8 @@ event-details:
       translate:
         src: SrcIP  
         dst: DstIP
-        s_port: SrcPort  
+        s_port: SrcPort
+        user: User
     Reject-VPN-1 & FireWall-1-None:
       annotate:
         Stream: NETWORK-FIREWALL
