@@ -88,6 +88,7 @@ event-details:
         AccountDomain: TargetDomain
         ClientName: SrcHost
         ClientAddress: SrcIP
+        AccountName: User
     '4741':         
       annotate:
         Stream: IAM
@@ -240,7 +241,8 @@ event-details:
         Status: PASSED
       translate:   
         SubjectUserName: AdminUser
-        SubjectDomainName: Domain  
+        SubjectDomainName: Domain
+        AccountName: User
 
   fallback:
       annotate:
