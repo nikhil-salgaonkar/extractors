@@ -3,7 +3,7 @@ schema-version: 1.0
 extractor-id: 56
 source-name: NIX
 source-type: OS
-source-description: Extractor for NIX
+source-description: Extractor for NIX OS
 provides-streams:
 - AUTHENTICATION
 master-filters:
@@ -44,7 +44,7 @@ event-details:
 
   fallback:
       annotate:
-        EventName: Generic TIPPINGPOINT IPS Event
+        EventName: Generic NIX Event
         Stream: OTHER
 
   globals:
@@ -52,33 +52,6 @@ event-details:
       hostname: SystemName 
       daemon: Daemon
       pid: PID
-
-- first-match: '\S+\[\d+\]\:.*?Failed\s+password\s+for\s+'
-  decoder: regex
-  decoder-regex: '(?P<hostname>\S+)\s+(?P<daemon>\w+)\[(?P<pid>\d+)\]\:[\s\[\w\:]+(?P<msg>(?P<action>Failed\s+password)\s+for.*?(?P<user>\S+)\s+from\s+(?P<src>[\d\.\-\X]+)\s+port\s+(?P<sport>\d+)\s+.*)'
-  event-key-format: '{action}'
-  event-key-mapping:
-    'Failed password': 
-      annotate:
-        Stream: AUTHENTICATION
-        Action: LOGIN
-        Status: FAILED  
-      translate:
-        msg: Message
-        src: SrcIP
-        sport: SrcPort
-        user: User  
-
-  fallback:
-      annotate:
-        EventName: Generic TIPPINGPOINT IPS Event
-        Stream: OTHER
-
-  globals:
-    translate:
-      hostname: SystemName 
-      daemon: Daemon
-      pid: PID      
 
 - first-match: '\s+\S+\[\d+\]\:\s+input_userauth_request\:\s+invalid\s+user\s+\S+\s+'
   decoder: regex
@@ -90,14 +63,13 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        SubStatus: BAD_USER
       translate:
         msg: Message
         user: User  
 
   fallback:
       annotate:
-        EventName: Generic TIPPINGPOINT IPS Event
+        EventName: Generic NIX Event
         Stream: OTHER
 
   globals:
@@ -116,7 +88,6 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        SubStatus: BAD_USER
       translate:
         msg: Message
         user: User 
@@ -124,7 +95,7 @@ event-details:
 
   fallback:
       annotate:
-        EventName: Generic TIPPINGPOINT IPS Event
+        EventName: Generic NIX Event
         Stream: OTHER
 
   globals:
@@ -149,7 +120,7 @@ event-details:
 
   fallback:
       annotate:
-        EventName: Generic TIPPINGPOINT IPS Event
+        EventName: Generic NIX Event
         Stream: OTHER
 
   globals:
@@ -175,7 +146,7 @@ event-details:
 
   fallback:
       annotate:
-        EventName: Generic TIPPINGPOINT IPS Event
+        EventName: Generic NIX Event
         Stream: OTHER
 
   globals:
@@ -192,8 +163,8 @@ event-details:
     'authentication error': 
       annotate:
         Stream: AUTHENTICATION
-        Action: LOGOUT
-        Status: PASSED
+        Action: LOGIN
+        Status: FAILED
       translate:
         msg: Message
         user: User
@@ -201,7 +172,7 @@ event-details:
 
   fallback:
       annotate:
-        EventName: Generic TIPPINGPOINT IPS Event
+        EventName: Generic NIX Event
         Stream: OTHER
 
   globals:
@@ -225,7 +196,7 @@ event-details:
 
   fallback:
       annotate:
-        EventName: Generic TIPPINGPOINT IPS Event
+        EventName: Generic NIX Event
         Stream: OTHER
 
   globals:
@@ -250,7 +221,7 @@ event-details:
 
   fallback:
       annotate:
-        EventName: Generic TIPPINGPOINT IPS Event
+        EventName: Generic NIX Event
         Stream: OTHER
 
   globals:
@@ -275,7 +246,7 @@ event-details:
 
   fallback:
       annotate:
-        EventName: Generic TIPPINGPOINT IPS Event
+        EventName: Generic NIX Event
         Stream: OTHER
 
   globals:
@@ -302,7 +273,7 @@ event-details:
 
   fallback:
       annotate:
-        EventName: Generic TIPPINGPOINT IPS Event
+        EventName: Generic NIX Event
         Stream: OTHER
 
   globals:
@@ -326,7 +297,7 @@ event-details:
 
   fallback:
       annotate:
-        EventName: Generic TIPPINGPOINT IPS Event
+        EventName: Generic NIX Event
         Stream: OTHER
 
   globals:
@@ -350,7 +321,7 @@ event-details:
 
   fallback:
       annotate:
-        EventName: Generic TIPPINGPOINT IPS Event
+        EventName: Generic NIX Event
         Stream: OTHER
 
   globals:
@@ -384,7 +355,7 @@ event-details:
 
   fallback:
       annotate:
-        EventName: Generic TIPPINGPOINT IPS Event
+        EventName: Generic NIX Event
         Stream: OTHER
 
   globals:
@@ -422,7 +393,7 @@ event-details:
 
   fallback:
       annotate:
-        EventName: Generic TIPPINGPOINT IPS Event
+        EventName: Generic NIX Event
         Stream: OTHER
 
   globals:
@@ -450,7 +421,7 @@ event-details:
 
   fallback:
       annotate:
-        EventName: Generic TIPPINGPOINT IPS Event
+        EventName: Generic NIX Event
         Stream: OTHER
 
   globals:
@@ -476,7 +447,7 @@ event-details:
 
   fallback:
       annotate:
-        EventName: Generic TIPPINGPOINT IPS Event
+        EventName: Generic NIX Event
         Stream: OTHER
 
   globals:
@@ -501,7 +472,7 @@ event-details:
 
   fallback:
       annotate:
-        EventName: Generic TIPPINGPOINT IPS Event
+        EventName: Generic NIX Event
         Stream: OTHER
 
   globals:
@@ -527,7 +498,7 @@ event-details:
 
   fallback:
       annotate:
-        EventName: Generic TIPPINGPOINT IPS Event
+        EventName: Generic NIX Event
         Stream: OTHER
 
   globals:
@@ -553,7 +524,7 @@ event-details:
 
   fallback:
       annotate:
-        EventName: Generic TIPPINGPOINT IPS Event
+        EventName: Generic NIX Event
         Stream: OTHER
 
   globals:
@@ -577,7 +548,7 @@ event-details:
 
   fallback:
       annotate:
-        EventName: Generic TIPPINGPOINT IPS Event
+        EventName: Generic NIX Event
         Stream: OTHER
 
   globals:
@@ -600,7 +571,7 @@ event-details:
 
   fallback:
       annotate:
-        EventName: Generic TIPPINGPOINT IPS Event
+        EventName: Generic NIX Event
         Stream: OTHER
 
   globals:
@@ -623,7 +594,7 @@ event-details:
 
   fallback:
       annotate:
-        EventName: Generic TIPPINGPOINT IPS Event
+        EventName: Generic NIX Event
         Stream: OTHER
 
   globals:
