@@ -12,12 +12,13 @@ provides-streams:
 master-filters:
 - \"SourceName\"\:\"SQL\w+\"
 - \"SourceName\"\:\"MSSQL
-event-details:  
-- first-match: \"SourceName\"\:\"MSSQLSERVER\"
-  decoder: json
-  event-key-format: '{EventID}'         
+event-details:
+- first-match: '\"SourceName\"\:\"MSSQLSERVER\"'
+  decoder: regex
+  decoder-regex: '\{\"EventTime\"\:\"(?P<EventTime>.*?)\"\,\"Hostname\"\:\"(?P<Hostname>.*?)\"\,.*?Severity\"\:\"(?P<Severity>\w+)\"\,\"EventID\"\:(?P<EventID>\d+)\,.*?\"Channel\"\:\"(?P<Channel>.*?)\"\,\"Message\"\:\"(?P<Message>Login\s+succeeded\s+for\s+user\s+(?P<user>\S+)\..*?\[CLIENT\:\s+(?P<src>[\d\.]+)\])\"\,'
+  event-key-format: '{EventID}'
   event-key-mapping:
-    '18454':           
+    '18454': 
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
@@ -25,14 +26,8 @@ event-details:
         LoginSrc: NETWORK
       translate: 
         Domain: Domain 
-    '18265': 
-      annotate:
-        Stream: DATABASE
-        Action: LOG_BACKUP
-        Status: PASSED
-      translate: 
-        AccountName: User
-        Domain: Domain 
+        user: User 
+        src: SrcIP
     '18453':           
       annotate:
         Stream: AUTHENTICATION
@@ -41,6 +36,71 @@ event-details:
         LoginSrc: NETWORK
       translate: 
         Domain: Domain  
+        user: User 
+        src: SrcIP 
+
+  fallback:
+      annotate:
+        EventName: Generic MSSQL_WINEVT DATABASE Event
+        Stream: OTHER
+      translate:  
+        EventID: EventID 
+        Channel: EventSource  
+
+  globals:
+    translate:
+      EventTime: SystemTstamp
+      Hostname: SystemName  
+      Message: Message
+      Severity: LogLevel   
+      Category: Category      
+
+- first-match: '\"SourceName\"\:\"MSSQL.*?\"'
+  decoder: regex
+  decoder-regex: '\{\"EventTime\"\:\"(?P<EventTime>.*?)\"\,\"Hostname\"\:\"(?P<Hostname>.*?)\"\,.*?Severity\"\:\"(?P<Severity>\w+)\"\,\"EventID\"\:(?P<EventID>\d+)\,.*?\"Channel\"\:\"(?P<Channel>.*?)\"\,\"Message\"\:\"(?P<Message>Login\s+failed\s+for\s+user\s+(?P<user>\S+)\..*?\[CLIENT\:\s+(?P<src>.*?)\])\"\,'
+  event-key-format: '{EventID}'
+  event-key-mapping:
+    '18456': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+        LoginSrc: NETWORK
+        SubStatus: ERROR
+      translate: 
+        AccountName: User
+        Domain: Domain  
+        src: SrcIP 
+        user: User          
+
+  fallback:
+      annotate:
+        EventName: Generic MSSQL_WINEVT DATABASE Event
+        Stream: OTHER
+      translate:  
+        EventID: EventID 
+        Channel: EventSource  
+
+  globals:
+    translate:
+      EventTime: SystemTstamp
+      Hostname: SystemName  
+      Message: Message
+      Severity: LogLevel   
+      Category: Category
+
+- first-match: \"SourceName\"\:\"MSSQLSERVER\"
+  decoder: json
+  event-key-format: '{EventID}'         
+  event-key-mapping:
+    '18265': 
+      annotate:
+        Stream: DATABASE
+        Action: LOG_BACKUP
+        Status: PASSED
+      translate: 
+        AccountName: User
+        Domain: Domain 
     '18268': 
       annotate:
         Stream: DATABASE
@@ -126,16 +186,6 @@ event-details:
         Stream: DATABASE
         Action: RESOURCE_ALERT
         Status: FAILED
-      translate: 
-        AccountName: User
-        Domain: Domain 
-    '18456': 
-      annotate:
-        Stream: AUTHENTICATION
-        Action: LOGIN
-        Status: FAILED
-        LoginSrc: NETWORK
-        SubStatus: ERROR
       translate: 
         AccountName: User
         Domain: Domain 
@@ -273,23 +323,6 @@ event-details:
         Status: FAILED
       translate: 
         Domain: Domain   
-    '18210': 
-      annotate:
-        Stream: DATABASE 
-        Action: DB_BACKUP
-        Status: FAILED
-      translate: 
-        Domain: Domain  
-    '18456': 
-      annotate:
-        Stream: AUTHENTICATION
-        Action: LOGIN
-        Status: FAILED
-        LoginSrc: NETWORK
-        SubStatus: ERROR
-      translate: 
-        AccountName: User
-        Domain: Domain
     '3014': 
       annotate:
         Stream: DATABASE
