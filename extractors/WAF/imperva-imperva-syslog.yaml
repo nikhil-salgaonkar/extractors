@@ -1,0 +1,41 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 70
+source-name: IMPERVA
+source-type: WAF
+source-description: extractor for Imperva WAF
+provides-streams:
+- WAF
+master-filters:
+- LEEF\:\d+\.\d+\|Imperva\|SecureSphere\|\d+
+
+event-details:  
+- first-match: Imperva\|SecureSphere
+  decoder: custom
+  decoder-regex: ([\w\s]+)\=\"?([^|]*)\"?\|?
+  event-key-format: '{Immediate Action}'
+  event-key-mapping:
+    block:           
+      annotate:
+        Stream: WAF
+        Action: URL_BLOCKED
+        Status: FAILED
+      translate: 
+        src: SrcIP
+        webMethod: HttpMethod
+        resultCode: HTTPRetCode
+        SrcPort: SrcPort
+        url: URL
+        
+  fallback:
+      annotate:
+        EventName: Generic Imperva Event
+        Stream: OTHER
+
+
+  globals:
+    translate:
+      ruleName: AtkClass
+      Description: Message
+      policyName: PolicyName
+      httpHost: Domain
