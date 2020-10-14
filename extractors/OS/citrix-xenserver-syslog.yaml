@@ -1,0 +1,129 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 254
+source-name: CITRIX-XENSERVER
+source-type: OS
+source-description: Extractor for Citrix-Xenserver OS
+provides-streams:
+- OTHER
+master-filters:
+- '\w+\s+\d+\s+\d+\:\d+\:\d+\s+\S+\s+xapi\:'
+- '\s+xcp\-rrdd'
+- '\w+\s+\d+\s+\d+\:\d+\:\d+\s+\S+\s+xenopsd\-xc\:'
+- '\w+\s+\d+\s+\d+\:\d+\:\d+\s+\S+\s+v6d\:'
+- '\w+\s+\d+\s+\d+\:\d+\:\d+\s+\S+\s+stunnel\:'
+event-details:
+- first-match: '\s+xapi\:\s+'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w+\s+\d+\s+\d+\:\d+\:\d+)\s+(?P<hostname>\S+)\s+(?P<daemon>\w+)\:\s+(?:message\s+repeated\s+2\s+times\:\s+)?\[(?:.*?Z\|)?.*?(?P<log_level>(?:info|debug|audit|error))\|\S+\|(?P<pid>\d+)\s+(?P<message>.*?\|(?:\w+\:)?(?P<action>.+?)\s+D\:.*)'
+  event-key-format: ''
+  event-key-mapping:
+    "":
+      annotate:
+        Stream: OTHER
+      translate:
+        message: Message
+
+  fallback:
+      annotate:
+        EventName: Generic Citrix-Xenserver OS Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      log_level: LogLevel
+      pid: PID
+      hostname: SystemName
+
+- first-match: '\s+xcp\-rrdd'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w+\s+\d+\s+\d+\:\d+\:\d+)\s+(?P<hostname>\S+)\s+(?P<daemon>[\w\-]+)\:\s+\[?.*?\s?(?:(?P<log_level>(?:info|debug|audit|error|warn))\|\S+\|(?P<pid>\d+)\s+)?[\w\|\-\]]+(?P<message>.*)'
+  event-key-format: ''
+  event-key-mapping:
+    "":
+      annotate:
+        Stream: OTHER
+      translate:
+        message: Message
+
+  fallback:
+      annotate:
+        EventName: Generic Citrix-Xenserver OS Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      log_level: LogLevel
+      pid: PID
+      hostname: SystemName
+
+- first-match: '\s+xenopsd\-xc\:'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w+\s+\d+\s+\d+\:\d+\:\d+)\s+(?P<hostname>\S+)\s+(?P<daemon>[\w\-]+)\:\s+\[?.*?\s?(?:(?P<log_level>(?:info|debug|audit|error|warn))\|\S+\|(?P<pid>\d+)\s+)?[\w\|\-\]]+(?P<message>.*)'
+  event-key-format: ''
+  event-key-mapping:
+    "":
+      annotate:
+        Stream: OTHER
+      translate:
+        message: Message
+
+  fallback:
+      annotate:
+        EventName: Generic Citrix-Xenserver OS Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      log_level: LogLevel
+      pid: PID
+      hostname: SystemName
+
+- first-match: '\s+v6d\:'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w+\s+\d+\s+\d+\:\d+\:\d+)\s+(?P<hostname>\S+)\s+(?P<daemon>[\w\-]+)\:\s+\[?.*?\s?(?:(?P<log_level>(?:info|debug|audit|error|warn))\|\S+\|(?P<pid>\d+)\s+)?[\w\|\-\]]+(?P<message>.*)'
+  event-key-format: ''
+  event-key-mapping:
+    "":
+      annotate:
+        Stream: OTHER
+      translate:
+        message: Message
+
+  fallback:
+      annotate:
+        EventName: Generic Citrix-Xenserver OS Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      log_level: LogLevel
+      pid: PID
+      hostname: SystemName
+
+- first-match: '\s+stunnel\:'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w+\s+\d+\s+\d+\:\d+\:\d+)\s+(?P<hostname>\S+)\s+(?P<daemon>[\w\-]+)\:\s+\[?.*?\s?(?:(?P<log_level>(?:info|debug|audit|error|warn))\|\S+\|(?P<pid>\d+)\s+)?[\w\|\-\]]+(?P<message>.*)'
+  event-key-format: ''
+  event-key-mapping:
+    "":
+      annotate:
+        Stream: OTHER
+      translate:
+        message: Message
+
+  fallback:
+      annotate:
+        EventName: Generic Citrix-Xenserver OS Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      log_level: LogLevel
+      pid: PID
+      hostname: SystemName
