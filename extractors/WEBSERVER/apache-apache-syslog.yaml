@@ -1,0 +1,272 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 55
+source-name: APACHE2
+source-type: WEBSERVER
+source-description: Extractor for Apache2 Webserver
+provides-streams:
+- WEBSERVER
+master-filters:
+- \s+Apache\[\d+\]\:\s+.*?\[>\d{1,2}\/\w{3}\/\d{4}\:\d{2}\:\d{2}\:\d{2}\s+\+\d+\]\s+
+- \w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+Apache\:\s+
+- \w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+httpd\:\s+
+- \w+\s+\d+\s+\d+\:\d+\:\d+\s+\S+\s+(?!nginx\-access\:)(?:\S+\s+)?[\d\:\.\w\-]+\s+\S+\s+\S+\s+\[.*?\]\s+\"
+event-details:
+- first-match: '\[\w{3}\s+\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\d{4}\]\s+\[error\]\s+\[client\s+[\w\.]+]\s+File\s+does\s+not\s+exist'
+  decoder: regex
+  decoder-regex: '\[(?P<datetime>\w{3}\s+\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\d{4})\]\s+\[(?P<severity>\w+)\]\s+\[client\s(?P<src>[\w\.]+)\]\s+(?P<msg>.*?\:\s+(?P<filepath>.*?(?P<httpretcode>\d+)\..*))'
+  event-key-format: '{action}'
+  event-key-mapping:
+    '404': 
+      annotate:
+        Stream: WEBSERVER
+       # Type:
+      translate:
+        msg: Message
+        src: SrcIP
+        filepath: FilePath
+        user: User
+        severity: LogLevel  
+
+  fallback:
+      annotate:
+        EventName: Generic Apache2 Webserver Event
+        Stream: WEBSERVER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+
+- first-match: '\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+(?!.*?Apache|.*?httpd\:).*?\[.*?\]\s+\"?.*?\"?\s+\d+'
+  decoder: regex
+  decoder-regex: '\w+\s+\d+\s+\d+\:\d+\:\d+\s+.*?\s+(?:(?P<hostname>\S+)\s+)?(?P<src>[\d\:\.\w]+)\s+\S+\s+\S+\s+\[(?P<datetime>\d+\/\w+\/\d+\:\d+\:\d+\:\d+).*?\"(?:(?P<httpmethod>\w+)\s+(?P<url>.*?)\s+.*?|\-)?\"\s+(?P<httpretcode>\d+|\-)\s+(?P<txlen>\d+|\-)(?:\s+(\"(?P<httpreferer>.*?)\")?(?:\s+\"(?P<useragent>.*?)\"))?'
+  event-key-format: '{httpretcode}'
+  event-key-mapping:
+    '200': 
+      annotate:
+        Stream: WEBSERVER
+      translate:
+        src: SrcIP
+        httpmethod: HTTTPMethod
+        url: URL
+        httpretcode: HTTPRetCode 
+        httpreferer: HTTPReferer
+        useragent: UserAgent
+        txlen: TXLEN
+        app: App 
+
+  fallback:
+      annotate:
+        EventName: Generic Apache2 Webserver Event
+        Stream: WEBSERVER
+
+  globals:
+    translate:
+      datetime: SystemTstamp 
+
+- first-match: '\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+Apache\[\d+\]\:\s+.*?\[\d+\/\w+\/\d+\:\d+\:\d+\:\d+\s+\+\d+\]\s+\"?\w+\s+'
+  decoder: regex
+  decoder-regex: '\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+(?P<hostname>\S+)\s+(?P<daemon>\w+)\[(?P<pid>\d+)\]\:\s+(?P<src>.*?)\s+\S+\s+\S+\s+\[(?P<datetime>\d{1,2}\/\w{3}\/\d{4}\:\d{2}\:\d{2}\:\d{2})\s+.*?\]\s+\"?(?P<httpmethod>\w+)\s+(?P<baseurl>.*?|\-)(?:\s+.*?)?\"?\s+(?P<httpretcode>\d+)\s+(?P<txlen>\d+|\-)\s+(?P<httpreferer>\"?.*?\"?|\-)\s+(?P<useragent>\"?.*\"?|\-)'
+  event-key-format: '{httpretcode}'
+  event-key-mapping:
+    '200': 
+      annotate:
+        Stream: WEBSERVER
+      translate:
+        src: SrcIP
+        httpmethod: HTTTPMethod
+        baseurl: BaseURL
+        httpretcode: HTTPRetCode 
+        httpreferer: HTTPReferer
+        useragent: UserAgent
+        txlen: TXLEN
+
+  fallback:
+      annotate:
+        EventName: Generic Apache2 Webserver Event
+        Stream: WEBSERVER
+
+  globals:
+    translate:
+      daemon: Daemon
+      pid: PID
+      hostname: SystemName
+      datetime: SystemTstamp   
+
+- first-match: '\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+Apache\[\d+\]\:\s+.*?\[\d{1,2}\/\w{3}\/\d{4}\:\d{2}\:\d{2}\:\d{2}\s+\+\d+\]\s+\d+\s+\".*?\"'
+  decoder: regex
+  decoder-regex: '\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+(?P<hostname>\S+)\s+(?P<daemon>\w+)\[(?P<pid>\d+)\]\:\s+(?P<src>[\d\.]+).*?\[(?P<datetime>\d+\/\w+\/\d+\:\d+\:\d+\:\d+)\s+.*?\]\s+(?P<httpretcode>\d+)\s+\"(?P<url>.*?)\"\s+\"(?P<useragent>.*?)\"'
+  event-key-format: '{httpretcode}'
+  event-key-mapping:
+    '200': 
+      annotate:
+        Stream: WEBSERVER
+      translate:
+        httpmethod: HTTTPMethod
+        url: URL
+        httpretcode: HTTPRetCode 
+        useragent: UserAgent
+
+  fallback:
+      annotate:
+        EventName: Generic Apache2 Webserver Event
+        Stream: WEBSERVER
+
+  globals:
+    translate:
+      daemon: Daemon
+      pid: PID
+      hostname: SystemName
+      datetime: SystemTstamp 
+
+- first-match: '\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+Apache\:\s+\d+\.\d+\.\d+\.\d+.*?\[.*?\]\s+.*?\s+\d+'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+.*?\:\s+(?P<src>.*?)\s+.*?\]\s+\"?(?:(?P<httpmethod>\w+)\s+(?P<url>.*?)\s+.*?|\-|\S+)\"?\s+(?P<httpretcode>\d+|\-)?\s+(?P<txlen>\d+|\-)(?:\s+(?P<httpreferer>\".*?\"|\-))?(?:\s+(?P<useragent>\".*?\"|\-))?'
+  event-key-format: '{httpretcode}'
+  event-key-mapping:
+    '200': 
+      annotate:
+        Stream: WEBSERVER
+      translate:
+        src: SrcIP
+        httpmethod: HTTTPMethod
+        url: URL
+        httpretcode: HTTPRetCode 
+        httpreferer: HTTPReferer
+        useragent: UserAgent
+        txlen: TXLEN
+
+  fallback:
+      annotate:
+        EventName: Generic Apache2 Webserver Event
+        Stream: WEBSERVER
+
+  globals:
+    translate:
+      hostname: SystemName
+      datetime: SystemTstamp   
+      daemon: Daemon
+      pid: PID
+
+- first-match: '\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+httpd\:.*?\[.*?\]\s+\".*?\"\s+\d+'
+  decoder: regex
+  decoder-regex: '\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+(?P<hostname>\S+)\s+(?:(?P<daemon>\S+)\:\s+)?(?P<src>[\d \: \. \w \-]+)\s+\S+\s+\S+\s+\[(?P<datetime>\d{1,2}\/\w{3}\/\d{4}\:\d{2}\:\d{2}\:\d{2}).*?\"(?:(?P<httpmethod>\w+)\s+(?P<url>.*?)\s+.*?|\-)?\"\s+(?P<httpretcode>\d+|\-)\s+(?P<txlen>\d+|\-)(?:\s+(?P<httpreferer>\".*?\")?(?:\s+\"(?P<useragent>.*?)\"))?'
+  event-key-format: '{httpretcode}'
+  event-key-mapping:
+    '200': 
+      annotate:
+        Stream: WEBSERVER
+      translate:
+        src: SrcIP
+        httpmethod: HTTTPMethod
+        url: URL
+        httpretcode: HTTPRetCode 
+        httpreferer: HTTPReferer
+        useragent: UserAgent
+        txlen: TXLEN
+
+  fallback:
+      annotate:
+        EventName: Generic Apache2 Webserver Event
+        Stream: WEBSERVER
+
+  globals:
+    translate:
+      hostname: SystemName
+      datetime: SystemTstamp   
+      daemon: Daemon
+
+- first-match: '\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+Apache\[\d+\]\:\s+.*?\[\d{1,2}\/\w{3}\/\d{4}\:\d{2}\:\d{2}\:\d{2}\s+\+\d+\]\s+\-\s+\d+\s+'
+  decoder: regex
+  decoder-regex: '\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+(?P<hostname>\S+)\s+(?P<daemon>\w+)\[(?P<pid>\d+)\]\:\s+(?P<src>.*?)\s+\S+\s+\S+\s+\[(?P<datetime>\d{1,2}\/\w{3}\/\d{4}\:\d{2}\:\d{2}\:\d{2})\s+.*?\]\s+(?P<httpmethod>\-)\s+(?P<httpretcode>\d+)\s+(?P<txlen>\d+|\-)\s+(?P<httpreferer>.*?|\-)\s+(?P<useragent>\-|.*?)'
+  event-key-format: '{httpretcode}'
+  event-key-mapping:
+    '408': 
+      annotate:
+        Stream: WEBSERVER
+      translate:
+        src: SrcIP
+        httpmethod: HTTTPMethod
+        httpretcode: HTTPRetCode 
+        httpreferer: HTTPReferer
+        useragent: UserAgent
+        txlen: TXLEN
+
+  fallback:
+      annotate:
+        EventName: Generic Apache2 Webserver Event
+        Stream: WEBSERVER
+
+  globals:
+    translate:
+      hostname: SystemName
+      datetime: SystemTstamp   
+      daemon: Daemon
+      pid: PID     
+
+- first-match: '\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+Apache\[\d+\]\:\s+.*?\[\d{1,2}\/\w{3}\/\d{4}\:\d{2}\:\d{2}\:\d{2}\s+\+\d+\]\s+\".*?\"\s+\d+\s+'
+  decoder: regex
+  decoder-regex: '\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+(?P<hostname>\S+)\s+(?P<daemon>\w+)\[(?P<pid>\d+)\]\:.*?(?P<src>[\d\.]+)\s+\S+\s+\S+\s+\[(?P<datetime>\d{1,2}\/\w{3}\/\d{4}\:\d{2}\:\d{2}\:\d{2})\s+.*?\]\s+\".*?\"\s+(?P<httpretcode>\d+)\s+(?P<txlen>\d+|\-)\s+\"(?P<httpreferer>.*?|\-)\"\s+\"(?P<useragent>\-|.*?)\"'
+  event-key-format: '{httpretcode}'
+  event-key-mapping:
+    '400': 
+      annotate:
+        Stream: WEBSERVER
+      translate:
+        src: SrcIP
+        httpmethod: HTTTPMethod
+        httpretcode: HTTPRetCode 
+        httpreferer: HTTPReferer
+        useragent: UserAgent
+        txlen: TXLEN
+    '408': 
+      annotate:
+        Stream: WEBSERVER
+      translate:
+        src: SrcIP
+        httpmethod: HTTTPMethod
+        httpretcode: HTTPRetCode 
+        httpreferer: HTTPReferer
+        useragent: UserAgent
+        txlen: TXLEN    
+
+  fallback:
+      annotate:
+        EventName: Generic Apache2 Webserver Event
+        Stream: WEBSERVER
+
+  globals:
+    translate:
+      hostname: SystemName
+      datetime: SystemTstamp   
+      daemon: Daemon
+      pid: PID 
+
+- first-match: '\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+(?!.*?Apache|.*?httpd\:).*?\[.*?\]\s+\"?(?:GET|POST)\s+'
+  decoder: regex
+  decoder-regex: '\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+(\S+)\s+(?:(?P<hostname>\S+)\s+)?(?P<src>[\d\:\.\w]+)\s+\S+\s+\S+\s+\[(?P<datetime>\d{1,2}\/\w{3}\/\d{4}\:\d{2}\:\d{2}\:\d{2}).*?\s+\"?(?:(?P<httpmethod>\w+)\s+(?P<url>.*?)\s+|\-)(?:.*?\")?(?:.*?HTTP\/\d+\.\d+\s+(\d+|\-)\s+(.*?|\-)\s+(.*?|\-)\s+(.*|\-))?'
+  event-key-format: '{httpretcode}'
+  event-key-mapping:
+    '304': 
+      annotate:
+        Stream: WEBSERVER
+      translate:
+        src: SrcIP
+        httpmethod: HTTTPMethod
+        httpretcode: HTTPRetCode 
+        httpreferer: HTTPReferer
+        useragent: UserAgent
+        url: URL
+        txlen: TXLEN
+
+  fallback:
+      annotate:
+        EventName: Generic Apache2 Webserver Event
+        Stream: WEBSERVER
+
+  globals:
+    translate:
+      hostname: SystemName
+      datetime: SystemTstamp   
+             
+
