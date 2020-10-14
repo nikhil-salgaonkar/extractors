@@ -127,34 +127,6 @@ event-details:
 
   subs: *id001    
 
-- first-match: '\%AUTHPRIV\-3\-SYSTEM_MSG\:'
-  decoder: regex
-  decoder-regex: '\d{4}\s+(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}).*?\s+\%(?P<facility>.*?)\-(?P<severity>\d+)\-(?P<mnemonic>\S+)\:\s+pam_aaa\:(?P<message>(?P<action>Authentication\s+failed)\s+from\s+(?P<src_ip>[\d\.]+)\s+\-\s+(?P<daemon>.*?)\[(?P<pid>.*?)\])'
-  event-key-format: '{action}'
-  event-key-mapping:
-    Authentication failed:
-      annotate:
-        Stream: AUTHENTICATION
-        Action: LOGIN
-        Status: FAILED
-      translate:
-        src_ip: SrcIP
-        message: Message
-
-  fallback:
-      annotate:
-        EventName: Generic Cisco OS Event
-        Stream: OTHER
-
-  globals:
-    translate:
-      datetime: SystemTstamp
-      facility: Facility
-      severity: Severity
-      mnemonic: Mnemonic
-
-  subs: *id001
-
 - first-match: '\d\-UPDOWN\:'
   decoder: regex
   decoder-regex: '(?P<datetime>\w+\s+\d+\s+\d+\:\d+\:\d+).*?\s+\%(?P<facility>\S+)\-(?P<severity>\d+)\-(?P<mnemonic>.*?)\:\s+(.*?(?:Interface\s+(\S+)\,)?.*?\s+to\s+(?P<action>\w+))'
@@ -203,35 +175,6 @@ event-details:
         user: User
         message: Message
         command: Cmd
-
-  fallback:
-      annotate:
-        EventName: Generic Cisco OS Event
-        Stream: OTHER
-
-  globals:
-    translate:
-      datetime: SystemTstamp
-      facility: Facility
-      severity: Severity
-      mnemonic: Mnemonic
-
-  subs: *id001
-
-- first-match: '\%SSH\-4\-SSH2_UNEXPECTED_MSG\:'
-  decoder: regex
-  decoder-regex: '(?P<datetime>\w+\s+\d+\s+\d+\:\d+\:\d+).*?\s+\%(?P<facility>\S+)\-(?P<severity>\d+)\-(?P<mnemonic>.*?)\:\s+(?P<message>.*?(?P<action>Terminating\s+the\s+connection)\s+from\s+(?P<src_ip>\d+\.\d+\.\d+\.\d+))'
-  event-key-format: '{action}'
-  event-key-mapping:
-    Terminating the connection:
-      annotate:
-        Stream: AUTHENTICATION
-        Action: LOGIN
-        Status: FAILED
-        AuthProtocol: SSH
-      translate:
-        src_ip: SrcIP
-        message: Message
 
   fallback:
       annotate:
