@@ -147,7 +147,7 @@ event-details:
         Status: FAILED
       translate:
         srcip: SrcIP
-        user: AdminUser
+        user: User
     0100032021-None:
       annotate:
         Stream: AUTHENTICATION
@@ -544,7 +544,7 @@ event-details:
         Action: LOGOUT
         Status: PASSED
       translate:
-        user: AdminUser
+        user: User
         srcip: SrcIP
         dstip: DstIP
         reason: Reason
@@ -555,7 +555,7 @@ event-details:
         Action: LOGIN
         Status: PASSED
       translate:
-        user: AdminUser
+        user: User
         srcip: SrcIP
         dstip: DstIP
         reason: Reason
@@ -740,14 +740,14 @@ event-details:
       translate:
         user: User
         msg: Message
-    0100032021-login:
-      annotate:
-        Stream: AUTHENTICATION
-        Action: LOGIN
-        Status: FAILED
-      translate:
-        msg: Message
-        reason: Reason
+#    0100032021-login:
+#      annotate:
+#        Stream: AUTHENTICATION
+#        Action: LOGIN
+#        Status: FAILED
+#      translate:
+#        msg: Message
+#        reason: Reason
     0100020003-alert-email:
       annotate:
         Stream: SYSTEM
@@ -982,7 +982,7 @@ event-details:
         Status: PASSED
       translate:
         srcip: SrcIP
-        user: AdminUser
+        user: User
         reason: Reason
         dstip: DstIP
     0419016384-detected:
@@ -1003,7 +1003,7 @@ event-details:
         Status: PASSED
       translate:
         srcip: SrcIP
-        user: AdminUser
+        user: User
         reason: Reason
         dstip: DstIP
         method: LoginSrc
@@ -1193,20 +1193,20 @@ event-details:
         Status: FAILED
       translate:
         msg: Message
-    0102043050-server-connect:
-      annotate:
-        Stream: AUTHENTICATION
-        Action: SERVER_CONNECT
-        Status: PASSED
-      translate:
-        msg: Message
-    0102043051-server-disconnect:
-      annotate:
-        Stream: AUTHENTICATION
-        Action: SERVER_DISCONNECT
-        Status: PASSED
-      translate:
-        msg: Message
+#    0102043050-server-connect:
+#      annotate:
+#        Stream: AUTHENTICATION
+#        Action: SERVER_CONNECT
+#        Status: PASSED
+#      translate:
+#        msg: Message
+#    0102043051-server-disconnect:
+#      annotate:
+#        Stream: AUTHENTICATION
+#        Action: SERVER_DISCONNECT
+#        Status: PASSED
+#      translate:
+#        msg: Message
     0100032119-update:
       annotate:
         Stream: SYSTEM
@@ -1298,16 +1298,16 @@ event-details:
         srcport: SrcPort
         dstip: DstIP
         dstport: DstPort
-    0100022113-None:
-      annotate:
-        Stream: AUTHENTICATION
-        Action: ERROR
-        Status: FAILED
-      translate:
-        srcip: SrcIP
-        srcport: SrcPort
-        dstip: DstIP
-        dstport: DstPort
+#    0100022113-None:
+#      annotate:
+#        Stream: AUTHENTICATION
+#        Action: ERROR
+#        Status: FAILED
+#      translate:
+#        srcip: SrcIP
+#        srcport: SrcPort
+#        dstip: DstIP
+#        dstport: DstPort
     0101039426-ssl-login-fail:
       annotate:
         Stream: AUTHENTICATION
