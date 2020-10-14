@@ -1,0 +1,37 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 68
+source-name: IIS
+source-type: WEBSERVER
+source-description: Extractor for IIS Webserver
+provides-streams:
+- WEBSERVER
+master-filters:
+- \"SourceModuleName\"\:\"IISin
+event-details:
+- first-match: \"SourceModuleName\"\:\"IISin
+  decoder: json
+  event-key-format: '{HTTPRetCode}'
+  event-key-mapping:
+    '200':
+      annotate:
+        Stream: WEBSERVER
+      translate:
+        SourceIP: SrcIP
+        HTTPReferer: HTTPReferer
+        HTTPMethod: HTTPMethod
+        HTTPRetCode: HTTPRetCode
+        TXLen: TXLen
+        SystemName: SystemName
+        RXLen: RXLen
+        SourcePort: SrcPort
+
+
+  fallback:
+      annotate:
+        EventName: Generic IIS Webserver Event
+        Stream: WEBSERVER
+
+  globals:
+    translate:
+      EventReceivedTime: SystemTstamp
