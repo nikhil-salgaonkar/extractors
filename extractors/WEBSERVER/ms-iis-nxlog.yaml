@@ -25,6 +25,10 @@ event-details:
         SystemName: SystemName
         RXLen: RXLen
         SourcePort: SrcPort
+        DstPort: DstPort
+        UserName: User
+        UserAgent: UserAgent
+        URIQuery: URIQuery
 
 
   fallback:
