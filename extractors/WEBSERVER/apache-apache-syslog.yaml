@@ -19,8 +19,7 @@ event-details:
   event-key-mapping:
     '404': 
       annotate:
-        Stream: WEBSERVER
-       # Type:
+        Stream: WEBSERVER 
       translate:
         msg: Message
         src: SrcIP
