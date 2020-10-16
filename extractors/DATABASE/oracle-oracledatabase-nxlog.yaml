@@ -1,0 +1,53 @@
+schema-version: 1.0
+#extractor-version: 1 
+extractor-id: 141
+source-name: ORACLE_WINEVT
+source-type: DATABASE
+source-description: Extractor for Oracle Database 
+provides-streams:
+- DATABASE
+master-filters:
+- \"SourceName\"\:\"Oracle\.[\w\-\.]+\"\,
+event-details:
+- first-match: '\"SourceName\"\:\"Oracle\.[\w\-\.]+\"\,'
+  decoder: regex
+  decoder-regex: '\{\"EventTime\"\:\"(?P<EventTime>.*?)\"\,\"Hostname\"\:\"(?P<Hostname>.*?)\"\,.*?Severity\"\:\"(?P<Severity>\w+)\"\,\"EventID\"\:(?P<EventID>\d+)\,.*?\"Channel\"\:\"(?P<Channel>.*?)\"\,\"Message\"\:\"(?P<Message>.*?(?:\:\s+LENGTH.*?\:\s+(?P<LENGTH>\d+)\s+ACTION\s+\:\[\d+\]\s+(?P<ACTION>.*?)\s+DATABASE\s+USER\:\[\d+\]\s+(?P<dbuser>.*?)\s+PRIVILEGE\s+\:\[\d+\]\s+(?P<PRIVILEGE>.*?)\s+CLIENT\s+USER\:\[\d+\]\s+(?P<user>.*?)\s+CLIENT.*?STATUS\:\[\d+\]\s+(?P<resulttype>\d+)\s+DBID\:\[\d+\]\s+(?P<DBID>\d+).*?)?)\"\,'
+  event-key-format: '{EventID}'
+  event-key-mapping:  
+    '34': 
+      annotate:
+        Stream: DATABASE
+        Action: CREATED_DATABASE
+        Status: PASSED
+      translate: 
+        Severity: LogLevel
+        ProcessID: PID 
+        Message: Message     
+        LENGTH: TLen
+        ACTION: SQLQuery
+        dbuser: DBUser
+        PRIVILEGE: Privilege
+        user: User
+        resulttype: ResultType
+        DBID: DBID 
+    '5': 
+      annotate:
+        Stream: DATABASE
+        Action: ALTER_CLUSTER
+        Status: PASSED
+      translate: 
+        Severity: LogLevel
+        ProcessID: PID
+        Message: Message     
+
+  fallback:
+      annotate:
+        EventName: Generic MySQL Database Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      EventTime: SystemTstamp
+      Hostname: SystemName 
+      EventID: EventID 
+      Channel: EventSource  
