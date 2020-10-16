@@ -1,0 +1,57 @@
+schema-version: 1.0
+#extractor-version: 1 
+extractor-id: 244
+source-name: MYSQL_WINEVT
+source-type: DATABASE
+source-description: Extractor for MySQL Database 
+provides-streams:
+- DATABASE
+master-filters:
+- \"SourceName\"\:\"(?:PHP\-\d+\.\d+\.\d+|MySQL)\"\,
+event-details:
+- first-match: '\"SourceName\"\:\"PHP\-\d+\.\d+\.\d+\"\,'
+  decoder: json
+  event-key-format: '{EventID}'         
+  event-key-mapping:
+    '3': 
+      annotate:
+        Stream: DATABASE
+      translate: 
+        Severity: LogLevel
+        ProcessID: PID 
+
+  fallback:
+      annotate:
+        EventName: Generic MySQL Database Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      EventTime: SystemTstamp
+      Hostname: SystemName 
+      EventID: EventID 
+      Channel: EventSource  
+
+- first-match: '\"SourceName\"\:\"MySQL\"\,'
+  decoder: json
+  event-key-format: '{EventID}'         
+  event-key-mapping:
+    '100': 
+      annotate:
+        Stream: DATABASE
+      translate: 
+        Severity: LogLevel
+        ProcessID: PID 
+        Message: Message
+
+  fallback:
+      annotate:
+        EventName: Generic MYySQL Database Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      EventTime: SystemTstamp
+      Hostname: SystemName 
+      EventID: EventID 
+      Channel: EventSource  
