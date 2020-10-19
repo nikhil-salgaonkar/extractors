@@ -1,5 +1,5 @@
 schema-version: 1.0
-#extractor-version: 1 #should be added in build
+#extractor-version: 1 
 extractor-id: 128
 source-name: WINDOWS
 source-type: OS
@@ -243,6 +243,34 @@ event-details:
         SubjectUserName: AdminUser
         SubjectDomainName: Domain
         AccountName: User
+    '4670':          
+      annotate:
+        Stream: IAM
+        Action: PRIVILEGE_CHANGED
+        Status: PASSED    
+      translate:  
+        SubjectUserName: AdminUser
+        SubjectDomainName: Domain 
+    '4674': 
+      annotate:
+        Stream: IAM
+        Action: PRIVILEGE_OBJECT_ACCESS
+        Status: PASSED    
+      translate:  
+        SubjectUserName: AdminUser
+        SubjectDomainName: Domain 
+    '5140'    
+      annotate:
+        Stream: IAM
+        Action: NETWORK_SHARE_ACCESSED
+        Status: PASSED    
+      translate:  
+        IpAddress: SrcIP
+        IpPort: SrcPort
+        SubjectUserName: AdminUser
+        SubjectDomainName: Domain  
+        ShareName: ShareName
+        ShareLocalPath: ShareLocalPath       
 
   fallback:
       annotate:
