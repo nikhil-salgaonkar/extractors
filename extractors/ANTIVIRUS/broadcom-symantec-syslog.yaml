@@ -1,5 +1,5 @@
 schema-version: 1.0
-#extractor-version: 1 #should be added in build
+#extractor-version: 1
 extractor-id: 71
 source-name: SYMANTEC-ENDPOINT
 source-type: ANTIVIRUS
@@ -25,18 +25,16 @@ event-details:
         Source computer: SrcHost
         Domain: Domain
         Source IP: SrcIP
-        Event Description: AtkDesc
         Local Host IP: DstIP
-        Local Host MAC: DstMAC
+   #    Local Host MAC: DstMAC
         Remote Host Name: SrcHost
         Remote Host IP: SrcIP
-        Remote Host MAC: SrcMAC
+    #   Remote Host MAC: SrcMAC
         Application: App
         User Name: User
         Domain Name: Domain
         Local Port: DstPort
         Remote Port: SrcPort
-        CIDS Signature ID: EventID
         CIDS Signature string: AtkMsg
         Intrusion URL: InfectionURL 
     
