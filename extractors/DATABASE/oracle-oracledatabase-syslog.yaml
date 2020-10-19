@@ -111,3 +111,162 @@ event-details:
     translate:
       DATETIME: SystemTstamp
       ACTION: EventID       
+
+- first-match: 'ACTION\:\[\d+\]\s+\"47\"\s+RETURNCODE\:\[\d+\]\s+\"\d+\"'
+  decoder: regex
+  decoder-regex: '(?P<DATETIME>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}).*?USERID\:\[\d+\]\s+\"(?P<USERID>\S+)\".*?USERHOST\:\[\d+\]\s+\"(?P<USERHOST>\S+)\".*?ACTION\:\[\d+\]\s+\"(?P<ACTION>\d+)\".*?RETURNCODE\:\[\d+\]\s+\"(?P<RETURNCODE>\d+)\"(?:.*?OBJ\$NAME\:\[\d+\]\s+\"(?P<OBJECTNAME>.*?)\")?'
+  event-key-format: '{ACTION}-{RETURNCODE}'
+  event-key-mapping:  
+    '47-0': 
+      annotate:
+        Stream: DATABASE
+        Action: QUERY_EXECUTED
+        Status: PASSED
+      translate: 
+        USERID: User  
+        RETURNCODE: ReturnCode
+        USERHOST: SrcHost
+    '47-2004': 
+      annotate:
+        Stream: DATABASE
+        Action: SECURITY_CONFIGURATION
+        Status: PASSED
+      translate: 
+        USERID: User  
+        RETURNCODE: ReturnCode
+        USERHOST: SrcHost
+        OBJECTNAME: ObjectName    
+
+  fallback:
+      annotate:
+        EventName: Generic Oracle Database Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      DATETIME: SystemTstamp
+      ACTION: EventID 
+
+- first-match: 'ACTION\s+\:\[\d+\]\s+(?:select|SELECT|COMMIT|commit|ALTER|alter|CONNECT|connect|BEGIN|begin|CREATE|create).*?DBID\:\[\d+\]'
+  decoder: regex
+  decoder-regex: '(?P<DATETIME>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}).*?ACTION\s+\:\[\d+\]\s+(?P<SQLQUERY>(?:(?P<QUERYTYPE>select|SELECT|COMMIT|commit|ALTER|alter|CONNECT|connect|BEGIN|begin|CREATE|create)).*?)\s+DATABASE\s+USER\:\[\d+\]\s+(?P<DBUSER>.*?)\s+.*?PRIVILEGE\s+\:\[\d+\]\s+(?P<DBACCESS>\S+).*?CLIENT\s+USER\:\[\d+\]\s+(?P<USER>\S+)'
+  event-key-format: ''
+  event-key-mapping:  
+    '': 
+      annotate:
+        Stream: DATABASE
+        Action: QUERY_EXECUTED
+        Status: PASSED
+      translate: 
+        SQLQUERY: SQLQuery
+        DBUSER: DBUser
+        USER: User
+        DBACCESS: DBAccess   
+
+  fallback:
+      annotate:
+        EventName: Generic Oracle Database Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      DATETIME: SystemTstamp 
+
+- first-match: 'ACTION\s+\:\[\d+\]\s+(?:select|SELECT|COMMIT|commit|ALTER|alter|CONNECT|connect|BEGIN|begin|CREATE|create)(?!.*?\s+DATABASE\s+USER\:\[\d+\])'
+  decoder: regex
+  decoder-regex: '(?P<DATETIME>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}).*?ACTION\s+\:\[\d+\]\s+(?P<SQLQUERY>(?:(?P<QUERYTYPE>select|SELECT|COMMIT|commit|ALTER|alter|CONNECT|connect|BEGIN|begin|CREATE|create)).*)'
+  event-key-format: ''
+  event-key-mapping:  
+    '': 
+      annotate:
+        Stream: DATABASE
+        Action: QUERY_EXECUTED
+        Status: PASSED
+      translate: 
+        SQLQUERY: SQLQuery
+        DBUSER: DBUser
+        USER: User
+
+  fallback:
+      annotate:
+        EventName: Generic Oracle Database Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      DATETIME: SystemTstamp 
+
+- first-match: 'ACTION\s+\:\[\d+\]\s+grant\s+dba.*?DBID\:\[\d+\]'
+  decoder: regex
+  decoder-regex: '(?P<DATETIME>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}).*?ACTION\s+\:\[\d+\]\s+(?P<SQLQUERY>.*?)\s+DATABASE\s+USER\:\[\d+\]\s+(?P<DBUSER>.*?)\s+.*?PRIVILEGE\s+\:\[\d+\]\s+(?P<DBACCESS>\S+).*?CLIENT\s+USER\:\[\d+\]\s+(?P<USER>\S+)'
+  event-key-format: ''
+  event-key-mapping:  
+    '': 
+      annotate:
+        Stream: DATABASE
+        Action: QUERY_EXECUTED
+        Status: PASSED
+      translate: 
+        SQLQUERY: SQLQuery
+        DBUSER: DBUser
+        USER: User
+        DBACCESS: DBAccess
+
+  fallback:
+      annotate:
+        EventName: Generic Oracle Database Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      DATETIME: SystemTstamp   
+
+- first-match: 'ACTION\s+\:\[\d+\]\s+.*?DBID\:\[\d+\].*?SESSIONID\:\[\d+\]'
+  decoder: regex
+  decoder-regex: '(?P<DATETIME>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}).*?ACTION\s+\:\[\d+\]\s+(?P<SQLQUERY>.*?)\s+DATABASE\s+USER\:\[\d+\]\s+(?P<DBUSER>.*?)\s+.*?PRIVILEGE\s+\:\[\d+\]\s+(?P<DBACCESS>\S+).*?CLIENT\s+USER\:\[\d+\]\s+(?P<USER>\S+)'
+  event-key-format: ''
+  event-key-mapping:  
+    '': 
+      annotate:
+        Stream: DATABASE
+        Action: QUERY_EXECUTED
+        Status: PASSED
+      translate: 
+        SQLQUERY: SQLQuery
+        DBUSER: DBUser
+        USER: User
+        DBACCESS: DBAccess
+
+  fallback:
+      annotate:
+        EventName: Generic Oracle Database Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      DATETIME: SystemTstamp 
+
+- first-match: 'Message\s+forwarded\s+from\s+.*?\:.*?ACTION\s+\:\[\d+\]\s+.*?\s+DATABASE\s+USER\:\[\d+\]'
+  decoder: regex
+  decoder-regex: '(?P<DATETIME>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}).*?ACTION\s+\:\[\d+\]\s+(?P<SQLQUERY>.*?)\s+DATABASE\s+USER\:\[\d+\]\s+(?P<DBUSER>.*?)\s+.*?PRIVILEGE\s+\:\[\d+\]\s+(?P<DBACCESS>\S+).*?CLIENT\s+USER\:\[\d+\]\s+(?P<USER>\S+)'
+  event-key-format: ''
+  event-key-mapping:  
+    '': 
+      annotate:
+        Stream: DATABASE
+        Action: QUERY_EXECUTED
+        Status: PASSED
+      translate: 
+        SQLQUERY: SQLQuery
+        DBUSER: DBUser
+        USER: User
+        DBACCESS: DBAccess
+
+  fallback:
+      annotate:
+        EventName: Generic Oracle Database Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      DATETIME: SystemTstamp                                       
