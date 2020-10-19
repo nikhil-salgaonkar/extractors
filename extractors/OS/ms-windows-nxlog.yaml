@@ -259,7 +259,7 @@ event-details:
       translate:  
         SubjectUserName: AdminUser
         SubjectDomainName: Domain 
-    '5140'    
+    '5140':    
       annotate:
         Stream: IAM
         Action: NETWORK_SHARE_ACCESSED
