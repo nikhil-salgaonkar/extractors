@@ -1,5 +1,5 @@
 schema-version: 1.0
-#extractor-version: 1 #should be added in build
+#extractor-version: 1
 extractor-id: 127
 source-name: FORTIGATE
 source-type: FIREWALL
@@ -166,16 +166,6 @@ event-details:
         srcip: SrcIP
         dstip: DstIP
         user: User
-    0101037120-negotiate:
-      annotate:
-        Stream: AUTHENTICATION
-        Action: LOGIN_NOTIFICATION
-        Status: PASSED
-        AuthProtocol: VPN
-      translate:
-        srcip: SrcIP
-        dstip: DstIP
-        user: User
     0102043039-auth-logon:
       annotate:
         Stream: AUTHENTICATION
@@ -209,7 +199,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN_NOTIFICATION
         Status: PASSED
-        AuthProtocol: VPN
+        AuthMethod: VPN
       translate:
         srcip: SrcIP
         dstip: DstIP
@@ -219,7 +209,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN_NOTIFICATION
         Status: PASSED
-        AuthProtocol: VPN
+        AuthMethod: VPN
       translate:
         srcip: SrcIP
         dstip: DstIP
@@ -229,7 +219,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN_NOTIFICATION
         Status: PASSED
-        AuthProtocol: VPN
+        AuthMethod: VPN
       translate:
         srcip: SrcIP
         dstip: DstIP
@@ -256,7 +246,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN_NOTIFICATION
         Status: PASSED
-        AuthProtocol: VPN
+        AuthMethod: VPN
       translate:
         srcip: SrcIP
         dstip: DstIP
@@ -266,7 +256,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        AuthProtocol: VPN
+        AuthMethod: VPN
       translate:
         srcip: SrcIP
         dstip: DstIP
@@ -276,7 +266,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN_NOTIFICATION
         Status: FAILED
-        AuthProtocol: VPN
+        AuthMethod: VPN
       translate:
         srcip: SrcIP
         dstip: DstIP
@@ -286,7 +276,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN_NOTIFICATION
         Status: PASSED
-        AuthProtocol: VPN
+        AuthMethod: VPN
       translate:
         srcip: SrcIP
         dstip: DstIP
@@ -296,7 +286,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        AuthProtocol: VPN
+        AuthMethod: VPN
       translate:
         srcip: SrcIP
         dstip: DstIP
@@ -567,7 +557,7 @@ event-details:
         Stream: ADMINISTRATION
         Action: CONFIGURATION_ERASED
         Status: PASSED
-        AuthProtocol: VPN
+        AuthMethod: VPN
       translate:
         srcip: SrcIP
         srcport: SrcPort
@@ -582,7 +572,7 @@ event-details:
         Stream: ADMINISTRATION
         Action: CONFIGURATION_DOWNLOAD
         Status: PASSED
-        AuthProtocol: VPN
+        AuthMethod: VPN
       translate:
         srcip: SrcIP
         srcport: SrcPort
@@ -597,7 +587,7 @@ event-details:
         Stream: ADMINISTRATION
         Action: CONFIGURATION_ERASED
         Status: PASSED
-        AuthProtocol: VPN
+        AuthMethod: VPN
       translate:
         srcip: SrcIP
         srcport: SrcPort
@@ -788,7 +778,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN_NOTIFICATION
         Status: FAILED
-        AuthProtocol: VPN
+        AuthMethod: VPN
       translate:
         srcip: SrcIP
         srcport: SrcPort
@@ -842,7 +832,7 @@ event-details:
         Stream: ADMINISTRATION
         Action: VPN_DOWN
         Status: PASSED
-        AuthProtocol: VPN
+        AuthMethod: VPN
       translate:
         srcip: SrcIP
         srcport: SrcPort
@@ -858,7 +848,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN_NOTIFICATION
         Status: PASSED
-        AuthProtocol: VPN
+        AuthMethod: VPN
       translate:
         srcip: SrcIP
         srcport: SrcPort
@@ -873,7 +863,7 @@ event-details:
         Stream: ADMINISTRATION
         Action: DATABASE_UPDATED
         Status: PASSED
-        AuthProtocol: VPN
+        AuthMethod: VPN
       translate:
         user: User
         msg: Message
@@ -882,7 +872,7 @@ event-details:
         Stream: ADMINISTRATION
         Action: COMMAND_EXECUTED
         Status: PASSED
-        AuthProtocol: VPN
+        AuthMethod: VPN
       translate:
         user: User
         msg: Message
@@ -892,7 +882,7 @@ event-details:
         Action: LOGIN
         Status: FAILED
         LoginSrc: NETWORK
-        AuthProtocol: VPN
+        AuthMethod: VPN
       translate:
         srcip: SrcIP
         srcport: SrcPort
