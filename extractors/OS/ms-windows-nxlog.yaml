@@ -226,6 +226,8 @@ event-details:
       translate:  
         SubjectUserName: AdminUser
         SubjectDomainName: Domain
+        TargetUserName: User
+        TargetDomainName: TargetDomain
     '4672':          
       annotate:
         Stream: IAM
