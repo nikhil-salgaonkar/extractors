@@ -77,7 +77,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED   
-        AuthProtocol: VPN
+        AuthMethod: VPN
       translate:  
         src: SrcIP  
         dst: DstIP 
@@ -112,7 +112,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN 
         Status: PASSED  
-        AuthProtocol: VPN 
+        AuthMethod: VPN 
       translate: 
         src: SrcIP  
         dst: DstIP 
