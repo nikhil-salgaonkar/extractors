@@ -103,7 +103,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        AuthProtocol: SSH
+        AuthMethod: SSH
         LoginSrc: REMOTE   
       translate:
         user: User

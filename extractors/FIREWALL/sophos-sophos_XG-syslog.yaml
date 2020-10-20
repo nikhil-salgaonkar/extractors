@@ -118,6 +118,7 @@ event-details:
 
   globals:
     translate:
-      device_name: SystemName  
+      device_name: SystemName 
+      priority: Severity 
   
   

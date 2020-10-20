@@ -1,5 +1,5 @@
 schema-version: 1.0
-#extractor-version: 1 #should be added in build
+#extractor-version: 1
 extractor-id: 188
 source-name: CHECKPOINT
 source-type: FIREWALL
@@ -267,8 +267,9 @@ event-details:
         EventName: Generic Checkpoint Firewall Event
         Stream: OTHER
 
-  #globals:
-    #translate:
+  globals:
+    translate:
+      severity: Severity
 
   subs:
     Proto:

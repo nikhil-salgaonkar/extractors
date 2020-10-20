@@ -1401,7 +1401,7 @@ event-details:
       devname: SystemName
       logid: EventID
       proto: Proto
-      level: LogLevel
+      level: Severity
       type: Category
       subtype: SubCategory
 
@@ -1546,7 +1546,7 @@ event-details:
       '141': WESP
       '142': ROHC
       '255': RESERVED
-    LogLevel:
+    Severity:
       'alert': ALERT
       'critical': CRITICAL
       'emergency': EMERGENCY
