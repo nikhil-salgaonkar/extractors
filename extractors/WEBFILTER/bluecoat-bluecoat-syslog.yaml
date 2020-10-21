@@ -3,7 +3,7 @@ schema-version: 1.0
 extractor-id: 99
 source-name: BLUECOAT
 source-type: WEBFILTER
-source-description: Extractor for BLUECOAT WEBFILTER
+source-description: Extractor for Bluecoat Proxy
 provides-streams:
 - WEBFILTER
 master-filters:
@@ -36,7 +36,7 @@ event-details:
          
   fallback:
       annotate:
-        EventName: Generic BLUECOAT WEBFILTER Event
+        EventName: Generic Bluecoat Proxy Event
         Stream: OTHER
 
   globals:
@@ -69,7 +69,7 @@ event-details:
 
   fallback:
       annotate:
-        EventName: Generic BLUECOAT WEBFILTER Event
+        EventName: Generic Bluecoat Proxy Event
         Stream: OTHER
 
   globals:
@@ -104,7 +104,7 @@ event-details:
 
   fallback:
       annotate:
-        EventName: Generic BLUECOAT WEBFILTER Event
+        EventName: Generic Bluecoat Proxy Event
         Stream: OTHER
 
   globals:
@@ -140,7 +140,7 @@ event-details:
 
   fallback:
       annotate:
-        EventName: Generic BLUECOAT WEBFILTER Event
+        EventName: Generic Bluecoat Proxy Event
         Stream: OTHER
 
   globals:
@@ -176,7 +176,7 @@ event-details:
 
   fallback:
       annotate:
-        EventName: Generic BLUECOAT WEBFILTER Event
+        EventName: Generic Bluecoat Proxy Event
         Stream: OTHER
 
   globals:
@@ -212,7 +212,7 @@ event-details:
 
   fallback:
       annotate:
-        EventName: Generic BLUECOAT WEBFILTER Event
+        EventName: Generic Bluecoat Proxy Event
         Stream: OTHER
 
   globals:
@@ -242,7 +242,7 @@ event-details:
 
   fallback:
       annotate:
-        EventName: Generic BLUECOAT WEBFILTER Event
+        EventName: Generic Bluecoat Proxy Event
         Stream: OTHER
 
   globals:
@@ -274,7 +274,7 @@ event-details:
 
   fallback:
       annotate:
-        EventName: Generic BLUECOAT WEBFILTER Event
+        EventName: Generic Bluecoat Proxy Event
         Stream: OTHER
 
   globals:
@@ -310,7 +310,7 @@ event-details:
 
   fallback:
       annotate:
-        EventName: Generic BLUECOAT WEBFILTER Event
+        EventName: Generic Bluecoat Proxy Event
         Stream: OTHER
 
   globals:
