@@ -1,0 +1,156 @@
+schema-version: 1.0
+#extractor-version: 1 
+extractor-id: 232
+source-name: CISCO-FMC
+source-type: FIREWALL
+source-description: Extractor for Cisco-FMC Firewall 
+provides-streams:
+- AUTHENTICATION
+- NETWORK-FIREWALL
+- NETWORK-THREAT
+master-filters:
+- FMC(?:\:|\])\s+\S+
+event-details:
+- first-match: '\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\:\s+\w+FMC\:\s+\w+\@.*?\,\s+'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+\S+\:\s+(?P<hostname>\S+)\:\s+(?P<user>.*?)\@(?P<src>.*?)\,\s+(?P<event_name>.*?)\,\s+(?P<evt_desc>(?:(?P<action>(?:Logout|Login)\s+(?:Success|Failed)))?.*)'
+  event-key-format: '{action}'
+  event-key-mapping:  
+    'Login Failed': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate: 
+        msg: Message
+        src: SrcIP    
+        user: User
+        event_name: EventName
+    'Logout Success': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+      translate: 
+        msg: Message
+        src: SrcIP    
+        user: User
+        event_name: EventName
+    'Login Success': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate: 
+        msg: Message
+        src: SrcIP    
+        user: User
+        event_name: EventName        
+
+  fallback:
+      annotate:
+        EventName: Generic Cisco-FMC Firewall Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: SystemName 
+
+- first-match: '\s+FMC\:\s+Protocol\:\s+\w+.*?AccessControlRuleName\:'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+FMC\:\s+.*?Protocol\:\s+(?P<protocol>[\w\-\s]+)\,\s+SrcIP\:\s+(?P<src>[abcdef\d\:\.\-]+)\,.*?DstIP\:\s+(?P<dst>[abcdef\d\:\.\-]+)\,(?:.*?SrcPort\:\s+(?P<sport>\d+)\,)?(?:.*?DstPort\:\s+(?P<dport>\d+)\,)?\s+.*?Policy\:\s+(?P<policy>.*?)\,.*?AccessControlRuleName\:\s+(?P<rulename>.*?)\,(?:.*?AccessControlRuleAction\:\s+(?P<action>.*?)\,)?.*?UserName\:\s+(?P<user>.*?)\,.*?InitiatorBytes\:\s+(?P<initiator_bytes>\d+)\,.*?ResponderBytes\:\s+(?P<responder_bytes>\d+)\,'
+  event-key-format: '{action}'
+  event-key-mapping:  
+    'Allow': 
+      annotate:
+        Stream: NETWORK-FIREWALL
+        Action: PACKET_ALLOWED
+        Status: PASSED
+      translate: 
+        msg: Message
+        src: SrcIP    
+        proto: Proto
+        src: SrcIP
+        sport: SrcPort
+        dst: DstIP
+        dport: DstPort
+        initiator_bytes: TXLen
+        responder_bytes: RXLen
+    'Block with reset':
+      annotate:
+        Stream: NETWORK-FIREWALL
+        Action: PACKET_BLOCKED
+        Status: PASSED
+      translate: 
+        msg: Message
+        src: SrcIP    
+        proto: Proto
+        src: SrcIP
+        sport: SrcPort
+        dst: DstIP
+        dport: DstPort
+        initiator_bytes: TXLen
+        responder_bytes: RXLen  
+    'Block':
+      annotate:
+        Stream: NETWORK-FIREWALL
+        Action: PACKET_BLOCKED
+        Status: PASSED
+      translate: 
+        msg: Message
+        src: SrcIP    
+        protocol: Proto
+        src: SrcIP
+        sport: SrcPort
+        dst: DstIP
+        dport: DstPort
+        initiator_bytes: TXLen
+        responder_bytes: RXLen        
+
+  fallback:
+      annotate:
+        EventName: Generic Cisco-FMC Firewall Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: SystemName       
+
+- first-match: '\sFMC\:.*?\[Impact\:\s+.*?\].*?\[Priority\:\s+\d+\]'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+.*?\[.*?\](?:\s\"(?P<atkmsg>.*?)\")?.*?\[Impact\:\s+(?P<atkvector>.*?)\].*?\[Classification\:\s+(?P<atkclass>.*?)\]\s+\[Priority\:\s(?P<pri>\d+)\]\s+\{(?P<protocol>.*?)\}\s+(?P<src>[\d\.]+)\:(?P<sport>\d+).*?(?P<dst>[\d\.]+)\:(?P<dport>\d+)'
+  event-key-format: ''
+  event-key-mapping:  
+    '': 
+      annotate:
+        Stream: NETWORK-THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+      translate: 
+        atkmsg: AtkMessage
+        atkvector: AtkVector
+        atkclass: AtkClass
+        pri: Severity  
+        protocol: Proto
+        src: SrcIP
+        sport: SrcPort
+        dst: DstIP
+        dport: DstPort     
+
+  fallback:
+      annotate:
+        EventName: Generic Cisco-FMC Firewall Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: SystemName  
+
+  subs:
+    Severity:
+      '1': LOW
+      '2': MEDIUM
+      '3': HIGH               
