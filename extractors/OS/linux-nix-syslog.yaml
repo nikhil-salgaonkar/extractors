@@ -438,30 +438,30 @@ event-details:
       daemon: Daemon 
       pid: PID                      
 
-- first-match: '\s+\S+\[\d+\]\:\s+.*?Received\s+disconnect\s+from\s+'
-  decoder: regex
-  decoder-regex: '\s+(?P<daemon>\S+)\[(?P<pid>\d+)\]\:.*?(?P<msg>(?P<action>Received\s+disconnect)\s+from\s+(?P<src>[\d\.]+)\:?(?:\s+port\s+(?P<sport>\d+)\:\d+)?.*)'
-  event-key-format: '{action}'
-  event-key-mapping:
-    'Received disconnect': 
-      annotate:
-        Stream: AUTHENTICATION
-        Action: LOGIN_SESSION_DISCONNECTED
-        Status: PASSED
-      translate:
-        msg: Message
-        src: SrcIP
-        sport: SrcPort
+#- first-match: '\s+\S+\[\d+\]\:\s+.*?Received\s+disconnect\s+from\s+'
+ # decoder: regex
+  #decoder-regex: '\s+(?P<daemon>\S+)\[(?P<pid>\d+)\]\:.*?(?P<msg>(?P<action>Received\s+disconnect)\s+from\s+(?P<src>[\d\.]+)\:?(?:\s+port\s+(?P<sport>\d+)\:\d+)?.*)'
+  #event-key-format: '{action}'
+  #event-key-mapping:
+   # 'Received disconnect': 
+    #  annotate:
+     #   Stream: AUTHENTICATION
+      #  Action: LOGIN_SESSION_DISCONNECTED
+       # Status: PASSED
+      #translate:
+       # msg: Message
+        #src: SrcIP
+        #sport: SrcPort
 
-  fallback:
-      annotate:
-        EventName: Generic NIX Event
-        Stream: OTHER
+  #fallback:
+   #   annotate:
+    #    EventName: Generic NIX Event
+     #   Stream: OTHER
 
-  globals:
-    translate:
-      daemon: Daemon 
-      pid: PID                                                                                              
+  #globals:
+   # translate:
+    #  daemon: Daemon 
+     # pid: PID #User info not present
 
 - first-match: '\s+\S+\[\d+\]\:\s+.*?session\s+opened\s+for\s+'
   decoder: regex

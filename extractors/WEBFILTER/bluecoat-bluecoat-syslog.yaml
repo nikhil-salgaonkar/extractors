@@ -32,6 +32,7 @@ event-details:
         useragent: UserAgent
         receive_byte: RXLen 
         sent_byte: TXLen
+        siteclass: SiteClass
          
   fallback:
       annotate:
@@ -44,7 +45,7 @@ event-details:
 
 - first-match: '\s+\d+\s+TUNNELED\s+\d+\s+\d+\s+\w+\s+\w+\s+'
   decoder: regex
-  decoder-regex: '\"\[(?P<datetime>\d{1,2}\/\w{3}\/\d{4}\:\d{2}\:\d{2}\:\d{2})\s+\+\d+\]\"\s+\d+\s+(?P<src>[\d\.]+)\s+(?P<status_code>[\w\-]+)\s+(?P<action>[\w\-]+)\s+(?P<receive_byte>[\w\-]+)\s+(?P<sent_byte>[\w\-]+)\s+(?P<httpmethod>[\S\-]+)\s+\S+\s+(?P<dst>\S+)\s+(?P<dport>[\w\-]+)\s+(?P<baseurl>\S+)\s+(?P<url>\S+)\s+(?P<user>\S+)\s+\S+\s+\S+\s+(?P<mimetype>\S+)\s+(?P<httpreferer>\S+)\s+(?P<useragent>(\-)|\"(.*?)\")\s+(?P<filerresult>\S+)\s+(?P<SiteClass>(\-)|\"(.*?)\")'
+  decoder-regex: '\"\[(?P<datetime>\d{1,2}\/\w{3}\/\d{4}\:\d{2}\:\d{2}\:\d{2})\s+\+\d+\]\"\s+\d+\s+(?P<src>[\d\.]+)\s+(?P<status_code>[\w\-]+)\s+(?P<action>[\w\-]+)\s+(?P<receive_byte>[\w\-]+)\s+(?P<sent_byte>[\w\-]+)\s+(?P<httpmethod>[\S\-]+)\s+\S+\s+(?P<dst>\S+)\s+(?P<dport>[\w\-]+)\s+(?P<baseurl>\S+)\s+(?P<url>\S+)\s+(?P<user>\S+)\s+\S+\s+\S+\s+(?P<mimetype>\S+)\s+(?P<httpreferer>\S+)\s+(?P<useragent>(\-)|\"(.*?)\")\s+(?P<filerresult>\S+)\s+(?P<siteclass>(\-)|\"(.*?)\")'
   event-key-format: '{action}-{status_code}'
   event-key-mapping:
     TUNNELED-0: 
@@ -64,6 +65,7 @@ event-details:
         domain: Domain
         useragent: UserAgent
         mimetype: MIMEType
+        siteclass: SiteClass
 
   fallback:
       annotate:
@@ -98,6 +100,7 @@ event-details:
         useragent: UserAgent
         mimetype: MIMEType
         protocol: Proto
+        siteclass: SiteClass
 
   fallback:
       annotate:
@@ -133,6 +136,7 @@ event-details:
         mimetype: MIMEType
         protocol: Proto
         atkthreat: AtkThreat
+        siteclass: SiteClass
 
   fallback:
       annotate:
@@ -168,6 +172,7 @@ event-details:
         useragent: UserAgent
         mimetype: MIMEType
         protocol: Proto
+        siteclass: SiteClass
 
   fallback:
       annotate:
@@ -202,6 +207,7 @@ event-details:
         useragent: UserAgent
         mimetype: MIMEType
         protocol: Proto
+        siteclass: SiteClass
         atkthreat: AtkThreat
 
   fallback:
@@ -264,6 +270,7 @@ event-details:
         domain: Domain
         useragent: UserAgent
         mimetype: MIMEType
+        siteclass: SiteClass
 
   fallback:
       annotate:
@@ -299,6 +306,7 @@ event-details:
         mimetype: MIMEType
         protocol: Proto
         atkthreat: AtkThreat
+        siteclass: SiteClass
 
   fallback:
       annotate:

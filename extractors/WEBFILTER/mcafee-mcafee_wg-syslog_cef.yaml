@@ -1,0 +1,52 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 213
+source-name: MCAFEE-WG-CEF
+source-type: WEBFILTER
+source-description: extractor for McAfee-WebGateway Webfilter
+provides-streams:
+- AUTHENTICATION
+master-filters:
+- CEF\:[\w\.]+\|McAfee\|Web\s+Gateway\|
+- CEF\:[\w\.]+\|McAfee\|WebGateway\|
+
+event-details:
+- first-match: \|McAfee\|
+  decoder: custom
+  decoder-regex: \s([\w\s\-]+)\=(\"[^\"]*\"|[^\s]*)
+  event-key-format: '{Action}'
+  event-key-mapping:
+    USER_LOGIN:
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        User: User
+        Source_ID: SrcIP
+    USER_LOGOUT:
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+      translate:
+        User: User
+        Source_ID: SrcIP
+    USER_LOGIN_FAILED:
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate:
+        User: User
+        Source_ID: SrcIP
+
+  fallback:
+      annotate:
+        EventName: Generic McAfee-WebGateway Event
+        Stream: OTHER
+
+  globals:
+    translate:
+        #Appliance: SystemName
+        User-Agent: UserAgent

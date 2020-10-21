@@ -79,6 +79,7 @@ event-details:
       translate: 
         Workstation: SrcHost
         TargetUserName: User
+        Domain: Domain
     '4778':         
       annotate:
         Stream: AUTHENTICATION
