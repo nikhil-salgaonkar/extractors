@@ -467,3 +467,32 @@ event-details:
       mnemonic: Mnemonic
 
   subs: *id001
+
+- first-match: '\%AUTHPRIV\-3\-SYSTEM\_MSG\:'
+  decoder: regex
+  decoder-regex: '(?P<Pdatetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}).*?\s+\%(?P<facility>\S+)\-(?P<severity>\d+)\-(?P<mnemonic>.*?)\:\s+.*?\:(?P<msg>(?P<action>Authentication\s+failed)\s+from\s+(?P<src>.*?)\s+.*?(?P<daemon>\S+)\[(?P<pid>\d+)\])'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'Authentication failed':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate:
+        message: Message
+        src: SrcIP
+        pid: PID
+
+  fallback:
+      annotate:
+        EventName: Generic Cisco OS Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      facility: Facility
+      severity: Severity
+      mnemonic: Mnemonic
+
+  subs: *id001  
