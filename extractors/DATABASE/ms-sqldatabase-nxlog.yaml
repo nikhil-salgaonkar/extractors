@@ -1,9 +1,9 @@
 schema-version: 1.0
 #extractor-version: 1 
 extractor-id: 106
-source-name: MSSQL_WINEVT
+source-name: MSSQL
 source-type: DATABASE
-source-description: Extractor for MSSQL_WINEVT DATABASE 
+source-description: Extractor for MSSQL DATABASE 
 provides-streams:
 - AUTHENTICATION
 - DATABASE
@@ -41,19 +41,13 @@ event-details:
 
   fallback:
       annotate:
-        EventName: Generic MSSQL_WINEVT DATABASE Event
+        EventName: Generic MSSQL DATABASE Event
         Stream: OTHER
-      translate:  
-        EventID: EventID 
-        Channel: EventSource  
 
   globals:
     translate:
       EventTime: SystemTstamp
-      Hostname: SystemName  
-      Message: Message
-      Severity: LogLevel   
-      Category: Category      
+      Hostname: SystemName        
 
 - first-match: '\"SourceName\"\:\"MSSQL.*?\"'
   decoder: regex
@@ -66,7 +60,6 @@ event-details:
         Action: LOGIN
         Status: FAILED
         LoginSrc: NETWORK
-        SubStatus: ERROR
       translate: 
         AccountName: User
         Domain: Domain  
@@ -75,19 +68,13 @@ event-details:
 
   fallback:
       annotate:
-        EventName: Generic MSSQL_WINEVT DATABASE Event
-        Stream: OTHER
-      translate:  
-        EventID: EventID 
-        Channel: EventSource  
+        EventName: Generic MSSQL DATABASE Event
+        Stream: OTHER 
 
   globals:
     translate:
       EventTime: SystemTstamp
-      Hostname: SystemName  
-      Message: Message
-      Severity: LogLevel   
-      Category: Category
+      Hostname: SystemName
 
 - first-match: \"SourceName\"\:\"MSSQLSERVER\"
   decoder: json
@@ -165,72 +152,13 @@ event-details:
       translate: 
         AccountName: User
         Domain: Domain  
-    '1101': 
-      annotate:
-        Stream: DATABASE
-        Action: RESOURCE_ALERT
-        Status: FAILED
-      translate: 
-        AccountName: User
-        Domain: Domain   
-    '3967': 
-      annotate:
-        Stream: DATABASE
-        Action: RESOURCE_ALERT
-        Status: FAILED
-      translate: 
-        AccountName: User
-        Domain: Domain 
-    '17053': 
-      annotate:
-        Stream: DATABASE
-        Action: RESOURCE_ALERT
-        Status: FAILED
-      translate: 
-        AccountName: User
-        Domain: Domain 
-    '17162': 
-      annotate:
-        Stream: ADMINISTRATION
-        Action: SERVICE_START
-        Status: PASSED
-      translate: 
-        Domain: Domain
-    '3619': 
-      annotate:
-        Stream: DATABASE
-        Action: RESOURCE_ALERT
-        Status: FAILED
-      translate: 
-        Domain: Domain                                              
-    '3620': 
-      annotate:
-        Stream: DATABASE
-        Action: RESOURCE_ALERT
-        Status: FAILED
-      translate: 
-        Domain: Domain
-    '9002': 
-      annotate:
-        Stream: DATABASE
-        Action: RESOURCE_ALERT
-        Status: FAILED
-      translate: 
-        Domain: Domain 
     '17148': 
       annotate:
         Stream: ADMINISTRATION
         Action: SERVICE_STOP
         Status: PASSED
       translate: 
-        Domain: Domain 
-    '3406': 
-      annotate:
-        Stream: DATABASE
-        Action: RESOURCE_ALERT
-        Status: PASSED
-      translate: 
-        Domain: Domain   
+        Domain: Domain  
     '3014': 
       annotate:
         Stream: DATABASE
@@ -238,70 +166,38 @@ event-details:
         Status: PASSED
       translate: 
         Domain: Domain 
+        AccountName: User
     '18270': 
       annotate:
         Stream: DATABASE 
         Action: DB_BACKUP
         Status: PASSED
       translate: 
-        Domain: Domain  
-    '1827': 
-      annotate:
-        Stream: DATABASE 
-        Action: RESOURCE_ALERT
-        Status: FAILED
-      translate: 
         Domain: Domain 
+        AccountName: User 
     '14420': 
       annotate:
         Stream: DATABASE 
         Action: DB_BACKUP
         Status: PASSED
       translate: 
-        Domain: Domain                         
+        Domain: Domain
+        AccountName: User                         
 
   fallback:
       annotate:
-        EventName: Generic MSSQL_WINEVT DATABASE Event
+        EventName: Generic MSSQL DATABASE Event
         Stream: OTHER
-      translate:  
-        EventID: EventID 
-        Channel: EventSource  
 
   globals:
     translate:
       EventTime: SystemTstamp
       Hostname: SystemName  
-      Message: Message
-      Severity: LogLevel   
-      Category: Category  
 
 - first-match: \"SourceName\"\:\"MSSQL\$\w+\"
   decoder: json
   event-key-format: '{EventID}'
   event-key-mapping:
-    '1105': 
-      annotate:
-        Stream: DATABASE 
-        Action: RESOURCE_ALERT
-        Status: FAILED
-      translate: 
-        AccountName: User
-        Domain: Domain 
-    '1827': 
-      annotate:
-        Stream: DATABASE 
-        Action: RESOURCE_ALERT
-        Status: FAILED
-      translate: 
-        Domain: Domain
-    '3198': 
-      annotate:
-        Stream: DATABASE 
-        Action: RESOURCE_ALERT
-        Status: FAILED
-      translate: 
-        Domain: Domain
     '18270': 
       annotate:
         Stream: DATABASE 
@@ -309,27 +205,15 @@ event-details:
         Status: PASSED
       translate: 
         Domain: Domain
-    '17126': 
-      annotate:
-        Stream: DATABASE 
-        Action: RESOURCE_ALERT
-        Status: FAILED
-      translate: 
-        Domain: Domain 
-    '958': 
-      annotate:
-        Stream: DATABASE 
-        Action: RESOURCE_ALERT
-        Status: FAILED
-      translate: 
-        Domain: Domain   
+        AccountName: User
     '3014': 
       annotate:
         Stream: DATABASE
         Action: DB_BACKUP
         Status: PASSED
       translate: 
-        Domain: Domain                               
+        Domain: Domain  
+        AccountName: User                             
     '49930': 
       annotate:
         Stream: DATABASE
@@ -341,19 +225,13 @@ event-details:
 
   fallback:
       annotate:
-        EventName: Generic MSSQL_WINEVT DATABASE Events
+        EventName: Generic MSSQL DATABASE Events
         Stream: OTHER
-      translate:  
-        EventID: EventID 
-        Channel: EventSource
 
   globals:
     translate:
       EventTime: SystemTstamp
       Hostname: SystemName  
-      Message: Message
-      Severity: LogLevel   
-      Category: Category  
 
 - first-match: \"SourceName\"\:\"SQL\w+\"
   decoder: json
@@ -366,41 +244,15 @@ event-details:
         Status: PASSED
       translate: 
         Domain: Domain 
-    '1827': 
-      annotate:
-        Stream: DATABASE 
-        Action: RESOURCE_ALERT
-        Status: FAILED
-      translate: 
-        Domain: Domain 
-    '101': 
-      annotate:
-        Stream: SYSTEM 
-        Action: SERVICE_START
-        Status: PASSED
-      translate: 
-        Domain: Domain 
-    '257': 
-      annotate:
-        Stream: SYSTEM 
-        Action: SERVICE_START
-        Status: PASSED
-      translate: 
-        Domain: Domain             
+        AccountName: User           
     
   fallback:
       annotate:
-        EventName: Generic MSSQL_WINEVT DATABASE Events
+        EventName: Generic MSSQL DATABASE Events
         Stream: OTHER
-      translate:  
-        EventID: EventID 
-        Channel: EventSource
 
   globals:
     translate:
       EventTime: SystemTstamp
       Hostname: SystemName  
-      Message: Message
-      Severity: LogLevel   
-      Category: Category  
       
