@@ -1307,4 +1307,417 @@ event-details:
       datetime: SystemTstamp
       severity: Severity          
 
-  subs: *id001                  
+  subs: *id001 
+
+- first-match: '\%ASA.*?-6\-302020\:\sBuilt\s+outbound\s'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2}).*?\%ASA\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+(?P<message>Built\s+(?P<flow>.*?)\s+(?P<protocol>.*?)\s+).*?faddr\s+(?P<dst>[abcdef\w\d\:\.\-]+)\/(?P<dport>\d+).*?laddr\s+(?P<src>[abcdef\d\w\s\:\.\-]+)\/(?P<sport>\d+)'
+  event-key-format: '{eventid}'
+  event-key-mapping:
+    '302020':
+      annotate:
+        Stream: NETWORK-FIREWALL
+        Action: PACKET_ALLOWED
+        Status: PASSED
+      translate:
+        message: Message
+        protocol: Proto
+        src: SrcIP
+        sport: SrcPort
+        dst: DstIP
+        dport: DstPort
+        flow: Flow
+    
+  fallback:
+      annotate:
+        EventName: Generic Cisco-ASA Firewall Event
+        Stream: OTHER
+
+  globals:  
+    translate:
+      datetime: SystemTstamp
+      severity: Severity          
+
+  subs: *id001 
+
+- first-match: '\%ASA.*?-7\-710002\:'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2}).*?\%ASA\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+(?P<message>(?P<protocol>.*?)\s+.*?)\s+from\s(?P<src>[abcdef\w\d\:\.\-]+)\/(?P<sport>\d+)\s+.*?to.*?(?P<dst>[\d\.]+)\/(?P<dport>\w+)'
+  event-key-format: '{eventid}'
+  event-key-mapping:
+    '710002':
+      annotate:
+        Stream: NETWORK-FIREWALL
+        Action: PACKET_ALLOWED
+        Status: PASSED
+      translate:
+        message: Message
+        protocol: Proto
+        src: SrcIP
+        sport: SrcPort
+        dst: DstIP
+        dport: DstPort
+    
+  fallback:
+      annotate:
+        EventName: Generic Cisco-ASA Firewall Event
+        Stream: OTHER
+
+  globals:  
+    translate:
+      datetime: SystemTstamp
+      severity: Severity          
+
+  subs: *id001   
+
+- first-match: '\%ASA.*?-4\-507003\:'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2}).*?\%ASA\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+(?P<message>(?P<protocol>.*?)\s+.*?)\s+from\s+.*?\:(?P<src>[abcdef\w\d\:\.\-]+)\/(?P<sport>\d+)\s+.*?to.*?\:(?P<dst>[abcdef\w\d\:\.\-]+)\/(?P<dport>\d+)\s+.*?reason\s+\-\s+(?P<reason>.*)'
+  event-key-format: '{eventid}'
+  event-key-mapping:
+    '507003':
+      annotate:
+        Stream: NETWORK-FIREWALL
+        Action: PACKET_BLOCKED
+        Status: FAILED
+      translate:
+        message: Message
+        protocol: Proto
+        src: SrcIP
+        sport: SrcPort
+        dst: DstIP
+        dport: DstPort
+        reason: Reason
+    
+  fallback:
+      annotate:
+        EventName: Generic Cisco-ASA Firewall Event
+        Stream: OTHER
+
+  globals:  
+    translate:
+      datetime: SystemTstamp
+      severity: Severity          
+
+  subs: *id001  
+
+- first-match: '\%ASA.*?-4\-500004\:'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2}).*?\%ASA\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+(?P<message>.*?protocol\=(?P<protocol>\S+))\,.*?from\s(?P<dst>[abcdef\w\d\:\.\-]+)\/(?P<dport>\d+)\s+to\s+(?P<src>[abcdef\w\d\:\.\-]+)\/(?P<sport>\d+)'
+  event-key-format: '{eventid}'
+  event-key-mapping:
+    '500004':
+      annotate:
+        Stream: NETWORK-FIREWALL
+        Action: PACKET_BLOCKED
+        Status: FAILED
+      translate:
+        message: Message
+        protocol: Proto
+        src: SrcIP
+        sport: SrcPort
+        dst: DstIP
+        dport: DstPort
+      
+  fallback:
+      annotate:
+        EventName: Generic Cisco-ASA Firewall Event
+        Stream: OTHER
+
+  globals:  
+    translate:
+      datetime: SystemTstamp
+      severity: Severity          
+
+  subs: *id001 
+
+- first-match: '\%ASA.*?-6\-302021\:'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2}).*?\%ASA\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+(?P<message>.*?\s+(?P<protocol>.*?)\s+connection\s+).*?faddr\s+(?P<dst>[abcdef\d\w\s\:\.\-]+)\/(?P<dport>\d+).*?laddr\s+(?P<src>[abcdef\d\w\s\:\.\-]+)\/(?P<sport>\d+)'
+  event-key-format: '{eventid}'
+  event-key-mapping:
+    '302021':
+      annotate:
+        Stream: NETWORK-FIREWALL
+        Action: PACKET_TEARDOWN
+        Status: PASSED
+      translate:
+        message: Message
+        protocol: Proto
+        src: SrcIP
+        sport: SrcPort
+        dst: DstIP
+        dport: DstPort
+    
+  fallback:
+      annotate:
+        EventName: Generic Cisco-ASA Firewall Event
+        Stream: OTHER
+
+  globals:  
+    translate:
+      datetime: SystemTstamp
+      severity: Severity          
+
+  subs: *id001- first-match: '\%ASA.*?-6\-302013\:.*?Built\s+outbound\s+\w+\s+connection'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2}).*?\%ASA\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+(?P<message>.*?Built\s+(?P<flow>.*?)\s+(?P<protocol>.*?)\s+).*?connection\s+(?P<connection_id>\w+)\s+for\s+.*?\:(?P<dst>[\w\d\:\.\-]+)\/(?P<dport>\d+)\s+\((?P<dsttranip>[\w\d\:\.\-]+)\/(?P<dsttranport>\d+)\).*?to.*?\:(?P<src>[\w\d\:\.\-]+)\/(?P<sport>\d+)\s+\((?P<srctranip>[\w\d\:\.\-]+)\/(?P<srctranport>\d+)\)'
+  event-key-format: '{eventid}'
+  event-key-mapping:
+    '302013':
+      annotate:
+        Stream: NETWORK-FIREWALL
+        Action: PACKET_ALLOWED
+        Status: PASSED
+      translate:
+        message: Message
+        protocol: Proto
+        src: SrcIP
+        sport: SrcPort
+        dst: DstIP
+        dport: DstPort
+        flow: Flow
+    
+  fallback:
+      annotate:
+        EventName: Generic Cisco-ASA Firewall Event
+        Stream: OTHER
+
+  globals:  
+    translate:
+      datetime: SystemTstamp
+      severity: Severity          
+
+  subs: *id001
+
+- first-match: '\%ASA.*?-6\-305012\:'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2}).*?\%ASA\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+(?P<message>Teardown\s.*?\s+(?P<protocol>.*?))\s+translation\s+from.*?\:(?P<src>[abcdef \w\d \:\.\-]+)\/(?P<sport>\d+)\s+to\s+.*?\:(?P<dst>[abcdef \w\d \:\.\-]+)\/(?P<dport>\d+)\s+.*?\s+(?P<duration>[\d\:]+)'
+  event-key-format: '{eventid}'
+  event-key-mapping:
+    '305012':
+      annotate:
+        Stream: NETWORK-FIREWALL
+        Action: PACKET_TEARDOWN
+        Status: PASSED
+      translate:
+        message: Message
+        protocol: Proto
+        src: SrcIP
+        sport: SrcPort
+        dst: DstIP
+        dport: DstPort
+        duration: TXTime
+    
+  fallback:
+      annotate:
+        EventName: Generic Cisco-ASA Firewall Event
+        Stream: OTHER
+
+  globals:  
+    translate:
+      datetime: SystemTstamp
+      severity: Severity          
+
+  subs: *id001       
+
+- first-match: '\%ASA.*?-3\-(?:710003|710005)\:'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2}).*?\%ASA\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+(?P<message>Teardown\s.*?\s+(?P<protocol>.*?))\s+translation\s+from.*?\:(?P<src>[abcdef \w\d \:\.\-]+)\/(?P<sport>\d+)\s+to\s+.*?\:(?P<dst>[abcdef \w\d \:\.\-]+)\/(?P<dport>\d+)\s+.*?\s+(?P<duration>[\d\:]+)'
+  event-key-format: '{eventid}'
+  event-key-mapping:
+    '710003':
+      annotate:
+        Stream: NETWORK-FIREWALL
+        Action: PACKET_BLOCKED
+        Status: FAILED
+      translate:
+        message: Message
+        protocol: Proto
+        src: SrcIP
+        sport: SrcPort
+        dst: DstIP
+        dport: DstPort
+    '710005':
+      annotate:
+        Stream: NETWORK-FIREWALL
+        Action: PACKET_BLOCKED
+        Status: FAILED
+      translate:
+        message: Message
+        protocol: Proto
+        src: SrcIP
+        sport: SrcPort
+        dst: DstIP
+        dport: DstPort   
+
+  fallback:
+      annotate:
+        EventName: Generic Cisco-ASA Firewall Event
+        Stream: OTHER
+
+  globals:  
+    translate:
+      datetime: SystemTstamp
+      severity: Severity          
+
+  subs: *id001
+
+- first-match: '\%ASA.*?-6\-302015\:.*?Built\s+outbound\s+\w+\s+connection'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2}).*?\%ASA\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+(?P<message>Built\s+(?P<flow>.*?)\s+(?P<protocol>.*?))\s+connection\s+(?P<connection_id>\d+)\s+for.*?\:(?P<dst>[abcdef\w\d\:\.\-]+)\/(?P<dport>\d+)\s+\((?P<dsttranip>[abcdef\w\d\:\.\-]+)\/(?P<dsttranport>\d+)\).*?to.*?\:(?P<src>[abcdef\w\d\:\.\-]+)\/(?P<sport>\d+)\s+\((?P<srctranip>[abcdef\w\d\:\.\-]+)\/(?P<srctranport>\d+)\)'
+  event-key-format: '{eventid}'
+  event-key-mapping:
+    '302015':
+      annotate:
+        Stream: NETWORK-FIREWALL
+        Action: PACKET_ALLOWED
+        Status: PASSED
+      translate:
+        message: Message
+        protocol: Proto
+        src: SrcIP
+        sport: SrcPort
+        dst: DstIP
+        dport: DstPort
+        flow: Flow
+    
+  fallback:
+      annotate:
+        EventName: Generic Cisco-ASA Firewall Event
+        Stream: OTHER
+
+  globals:  
+    translate:
+      datetime: SystemTstamp
+      severity: Severity          
+
+  subs: *id001 
+
+- first-match: '\%ASA.*?-6\-302015\:.*?Built\s+inbound\s+\w+\s+connection'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2}).*?\%ASA\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+(?P<message>Built\s+(?P<flow>.*?)\s+(?P<protocol>.*?))\s+connection\s+(?P<connection_id>\d+)\s+for.*?\:(?P<src>[abcdef\w\d\:\.\-]+)\/(?P<sport>\d+)\s+\((?P<srctranip>[abcdef\w\d\:\.\-]+)\/(?P<srctranport>\d+)\).*?to.*?\:(?P<dst>[abcdef\w\d\:\.\-]+)\/(?P<dport>\d+)\s+\((?P<dsttranip>[abcdef\w\d\:\.\-]+)\/(?P<dsttranport>\d+)\)'
+  event-key-format: '{eventid}'
+  event-key-mapping:
+    '302015':
+      annotate:
+        Stream: NETWORK-FIREWALL
+        Action: PACKET_ALLOWED
+        Status: PASSED
+      translate:
+        message: Message
+        protocol: Proto
+        src: SrcIP
+        sport: SrcPort
+        dst: DstIP
+        dport: DstPort
+        flow: Flow
+    
+  fallback:
+      annotate:
+        EventName: Generic Cisco-ASA Firewall Event
+        Stream: OTHER
+
+  globals:  
+    translate:
+      datetime: SystemTstamp
+      severity: Severity          
+
+  subs: *id001             
+
+- first-match: '\%ASA.*?-6\-303002\:'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2}).*?\%ASA\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+(?P<protocol>.*?)\s+.*?\:(?P<src>[abcdef\d\w\:\.\-]+)\/(?P<sport>\d+)\s.*?\:(?P<dst>[abcdef\w\d\:\.\-]+)\/(?P<dport>\d+)\,\s+(?P<message>user\s(?P<user>.*?)\s(?P<action>.*?)file\s(?P<filename>.*))'
+  event-key-format: '{eventid}'
+  event-key-mapping:
+    '303002':
+      annotate:
+        Stream: NETWORK-FIREWALL
+        Action: PACKET_ALLOWED
+        Status: PASSED
+      translate:
+        message: Message
+        protocol: Proto
+        src: SrcIP
+        sport: SrcPort
+        dst: DstIP
+        dport: DstPort
+        user: User
+        filename: FileName
+    
+  fallback:
+      annotate:
+        EventName: Generic Cisco-ASA Firewall Event
+        Stream: OTHER
+
+  globals:  
+    translate:
+      datetime: SystemTstamp
+      severity: Severity          
+
+  subs: *id001 
+
+- first-match: '\%ASA.*?-2\-106017\:'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2}).*?\%ASA\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+(?P<message>.*?)\s+from\s(?P<src>[abcdef\w\d\:\.\-]+)\sto\s+(?P<dst>[abcdef\w\d\:\.\-]+)'
+  event-key-format: '{eventid}'
+  event-key-mapping:
+    '106017':
+      annotate:
+        Stream: NETWORK-FIREWALL
+        Action: ATTACK_DETECTED
+        Status: PASSED
+      translate:
+        message: Message
+        src: SrcIP
+        dst: DstIP
+    
+  fallback:
+      annotate:
+        EventName: Generic Cisco-ASA Firewall Event
+        Stream: OTHER
+
+  globals:  
+    translate:
+      datetime: SystemTstamp
+      severity: Severity          
+
+  subs: *id001       
+
+- first-match: '\%ASA.*?-6\-(?:716001|716002)\:'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2}).*?\%ASA\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+Group\s+\<?(?P<group>.*?)\>?\s+User\s+\<(?P<user>.*?)\>\s+IP\s+\<(?P<src>.*?)\>\s+(?P<message>.*)'
+  event-key-format: '{eventid}'
+  event-key-mapping:
+    '716001':
+      annotate:
+        Stream: NETWORK-FIREWALL
+        Action: VPN_CONNECTED
+        Status: PASSED
+      translate:
+        message: Message
+        src: SrcIP
+        user: User
+        group: PolicyName
+    '716002':
+      annotate:
+        Stream: NETWORK-FIREWALL
+        Action: VPN_DISCONNECTED
+        Status: PASSED
+      translate:
+        message: Message
+        src: SrcIP
+        user: User
+        group: PolicyName    
+    
+  fallback:
+      annotate:
+        EventName: Generic Cisco-ASA Firewall Event
+        Stream: OTHER
+
+  globals:  
+    translate:
+      datetime: SystemTstamp
+      severity: Severity          
+
+  subs: *id001         
