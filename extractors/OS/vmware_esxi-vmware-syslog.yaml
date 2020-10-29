@@ -1,0 +1,156 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 98
+source-name: VMWARE
+source-type: OS
+source-description: Extractor for VMWARE OS
+provides-streams:
+- AUTHENTICATION
+master-filters:
+- '\d{4}\-\d+\-\d+T\d+\:\d+\:\d+[\.\w]+.*?(?:smbiosDump|Hostd|vmkernel|Vpxa|vobd|lwsmd|Rhttpproxy|hostd\-probe|storageRM|cimslp|smartd|heartbeat|sdrsInjector|vmkwarning|vsantraced|vmon|vpxd|vmcad|vmdird|Fdm|localcli|backup\.sh\.\d+|vmauthd|sfcb-vmware_raw|slpd)'
+event-details:
+- first-match: '\s+Hostd\:\s+info\s+hostd.*?logged\s+out'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\d+\-\d+\-\d+T\d+\:\d+\:\d+)\.\w+\s+(?P<hostname>\S+)\s+(?P<daemon>\S+)\:\s+(?P<severity>\w+)\s+(?P<appserverice>\w+).*?(?:user=|User)\s+(?P<user>.*?)\@.*?(?P<action>logged\s+out)\s+'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'logged out':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+      translate:
+        user: User
+        appserverice: AppService
+
+  fallback:
+      annotate:
+        EventName: Generic VMWARE OS Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: SystemName
+      severity: Severity
+
+  subs: &id001
+    Severity:
+      'info': 'INFORMATION'
+      'verbose': 'VERBOSE'
+      'error': 'ERROR'
+      'warning': 'WARNING'
+      'WARNING': 'WARNING'
+
+- first-match: '\s+Hostd\:\s+Accepted\s+password'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\d+\-\d+\-\d+T\d+\:\d+\:\d+)\.\w+\s+(?P<hostname>\S+)\s+(?P<daemon>\S+)\:\s+(?P<message>(?P<action>Accepted\s+password)\s+for\s+user\s+(?P<user>\S+)\s+from\s+(?P<src>[\d\.]+))'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'Accepted password':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        user: User
+        src: SrcIP
+
+  fallback:
+      annotate:
+        EventName: Generic VMWARE OS Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: SystemName
+      severity: Severity
+
+  subs: *id001
+
+- first-match: '\s+Hostd\:.*?logged\s+in\s+'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\d+\-\d+\-\d+T\d+\:\d+\:\d+)\.\w+\s+(?P<hostname>.*?)\s+(?P<daemon>.*?)\:\s(?:\[\w+\s)?(?P<severity>\w+)\s+(?:(\w+)\[)?.*?(?:user\=|User)\s+(?P<user>.*?)\@(?P<src>[\d\.]+)\s+(?P<action>logged\s+in).*'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'logged in':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        user: User
+        src: SrcIP
+
+  fallback:
+      annotate:
+        EventName: Generic VMWARE OS Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: SystemName
+      severity: Severity
+
+  subs: *id001
+
+- first-match: '\s+vobd\:.*?Authentication\s+for\s+user.*?failed'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\d+\-\d+\-\d+T\d+\:\d+\:\d+).*?\s+(?P<hostname>.*?)\s+(?P<daemon>\w+)\:.*?\:(?P<message>.*?user\s+(?P<user>\w+)\@.*)'
+  event-key-format: ''
+  event-key-mapping:
+    '':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate:
+        user: User
+
+  fallback:
+      annotate:
+        EventName: Generic VMWARE OS Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: SystemName
+      severity: Severity
+
+  subs: *id001
+
+- first-match: '\s+vpxd.*?\[\w+\].*?logged\s+(?:in|out)'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\d+\-\d+\-\d+T\d+\:\d+\:\d+)\..*?\s+(?P<hostname>\S+)\s+(?P<daemon>vpxd)\s+\S+\s+\S+\s+\S+\s+.*?\[(?P<severity>info)\]\s+\[.*?\]\s+\[.*?\]\s+\[\d+\]\s+\[(?P<message>User\s+(?P<user>.*?)\@.*?(?P<action>logged\s+(?:in|out)).*)\]'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'logged in':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        user: User
+    'logged out':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+      translate:
+        user: User    
+
+  fallback:
+      annotate:
+        EventName: Generic VMWARE OS Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: SystemName
+      severity: Severity
+
+  subs: *id001      
