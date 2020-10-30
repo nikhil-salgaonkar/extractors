@@ -1,0 +1,51 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 72
+source-name: WINDOWS-AD
+source-type: OS
+source-description: Extractor for Windows-AD OS
+provides-streams:
+- SYSTEM
+master-filters:
+- '\"SourceName\"\:\"(?:Microsoft-Windows-CertificateServicesClient-CertEnroll|ADWS|Microsoft-Windows-DNS-Server-Service|Microsoft-Windows-ActiveDirectory_DomainService|Microsoft\-Windows\-Iphlpsvc|OIMPasswordSync|ADSync|Cisco\s+Systems\,\s+Inc\.\s+ICM)\"\,'
+event-details:
+- first-match: \"SourceModuleType\"\:\"im\_msvistalog\"
+  decoder: json
+  event-key-format: '{EventID}'
+  event-key-mapping:
+    '1004':
+      annotate:
+        Stream: SYSTEM
+        Action: SERVICE_START
+        Status: PASSED
+      translate:
+        Category: Category
+    '2':  
+      annotate:
+        Stream: SYSTEM
+        Action: SERVICE_START
+        Status: PASSED
+      translate:
+        Category: Category
+    '3':  
+      annotate:
+        Stream: SYSTEM
+        Action: SERVICE_STOP
+        Status: PASSED
+      translate:
+        Category: Category    
+
+  fallback:
+      annotate:
+        EventName: Generic Windows-AD Events
+        Stream: OTHER
+      translate:  
+        EventID: EventID 
+        Channel: EventSource
+        Domain: Domain
+        AccountName: User
+
+  globals:
+    translate:
+      EventTime: SystemTstamp
+      Hostname: SystemName 
