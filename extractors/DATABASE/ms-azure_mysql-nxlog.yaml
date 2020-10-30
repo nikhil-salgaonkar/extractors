@@ -1,0 +1,33 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 270
+source-name: AZURE-MYSQL
+source-type: DATABASE
+source-description: Extractor for Azure MySQL Database
+provides-streams:
+- DATABASE
+master-filters:
+- \s+category\:\s+MySqlAuditLogs\,\s+operationName\:\s+LogEvent\,
+event-details:
+- first-match: '\s+MySqlAuditLogs\,\s+operationName\:'
+  decoder: custom
+  decoder-regex: (\w+)\:\s+([^,]+)
+  event-key-format: ''
+  event-key-mapping:
+    '':
+      annotate:
+        Stream: OTHER
+      translate:
+        ip: SrcIP
+        resourceId: ResourceID
+        user: User
+        sql_text: SQLText
+
+  fallback:
+      annotate:
+        EventName: Generic Azure MySQL Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      time: SystemTstamp
