@@ -129,7 +129,7 @@ event-details:
         Action: THREAT_DETECTED
         Status: PASSED
       translate: 
-        atkmsg: AtkMessage
+        atkmsg: AtkMsg
         atkvector: AtkVector
         atkclass: AtkClass
         pri: Severity  

@@ -46,10 +46,10 @@ event-details:
         Stream: WEBSERVER
       translate:
         src: SrcIP
-        httpmethod: HTTTPMethod
+        httpmethod: Method
         url: URL
-        httpretcode: HTTPRetCode 
-        httpreferer: HTTPReferer
+        httpretcode: ReturnCode 
+        httpreferer: Referer
         useragent: UserAgent
         txlen: TXLEN
         app: App 
@@ -73,10 +73,10 @@ event-details:
         Stream: WEBSERVER
       translate:
         src: SrcIP
-        httpmethod: HTTTPMethod
+        httpmethod: Method
         baseurl: BaseURL
-        httpretcode: HTTPRetCode 
-        httpreferer: HTTPReferer
+        httpretcode: ReturnCode 
+        httpreferer: Referer
         useragent: UserAgent
         txlen: TXLEN
 
@@ -101,9 +101,9 @@ event-details:
       annotate:
         Stream: WEBSERVER
       translate:
-        httpmethod: HTTTPMethod
+        httpmethod: Method
         url: URL
-        httpretcode: HTTPRetCode 
+        httpretcode: ReturnCode 
         useragent: UserAgent
 
   fallback:
@@ -128,10 +128,10 @@ event-details:
         Stream: WEBSERVER
       translate:
         src: SrcIP
-        httpmethod: HTTTPMethod
+        httpmethod: Method
         url: URL
-        httpretcode: HTTPRetCode 
-        httpreferer: HTTPReferer
+        httpretcode: ReturnCode 
+        httpreferer: Referer
         useragent: UserAgent
         txlen: TXLEN
 
@@ -157,10 +157,10 @@ event-details:
         Stream: WEBSERVER
       translate:
         src: SrcIP
-        httpmethod: HTTTPMethod
+        httpmethod: Method
         url: URL
-        httpretcode: HTTPRetCode 
-        httpreferer: HTTPReferer
+        httpretcode: ReturnCode 
+        httpreferer: Referer
         useragent: UserAgent
         txlen: TXLEN
 
@@ -185,9 +185,9 @@ event-details:
         Stream: WEBSERVER
       translate:
         src: SrcIP
-        httpmethod: HTTTPMethod
-        httpretcode: HTTPRetCode 
-        httpreferer: HTTPReferer
+        httpmethod: Method
+        httpretcode: ReturnCode 
+        httpreferer: Referer
         useragent: UserAgent
         txlen: TXLEN
 
@@ -213,9 +213,9 @@ event-details:
         Stream: WEBSERVER
       translate:
         src: SrcIP
-        httpmethod: HTTTPMethod
-        httpretcode: HTTPRetCode 
-        httpreferer: HTTPReferer
+        httpmethod: Method
+        httpretcode: ReturnCode 
+        httpreferer: Referer
         useragent: UserAgent
         txlen: TXLEN
     '408': 
@@ -223,9 +223,9 @@ event-details:
         Stream: WEBSERVER
       translate:
         src: SrcIP
-        httpmethod: HTTTPMethod
-        httpretcode: HTTPRetCode 
-        httpreferer: HTTPReferer
+        httpmethod: Method
+        httpretcode: ReturnCode 
+        httpreferer: Referer
         useragent: UserAgent
         txlen: TXLEN    
 
@@ -251,9 +251,9 @@ event-details:
         Stream: WEBSERVER
       translate:
         src: SrcIP
-        httpmethod: HTTTPMethod
-        httpretcode: HTTPRetCode 
-        httpreferer: HTTPReferer
+        httpmethod: Method
+        httpretcode: ReturnCode 
+        httpreferer: Referer
         useragent: UserAgent
         url: URL
         txlen: TXLEN

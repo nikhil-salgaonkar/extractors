@@ -224,14 +224,6 @@ event-details:
         srcip: SrcIP
         dstip: DstIP
         user: User
-    0419016384-detected:
-      annotate:
-        Stream: NETWORK-THREAT
-        Action: ATTACK_DETECT
-        Status: PASSED
-      translate:
-        srcip: SrcIP
-        user: User
     0100032028-None:
       annotate:
         Stream: ADMINISTRATION
@@ -466,7 +458,7 @@ event-details:
         srcport: SrcPort
         dstip: DstIP
         dstport: DstPort
-        qname: Domain
+        qname: Query
         qtype: Lookup
         msg: Message
     0100032011-roll-log:
@@ -487,7 +479,7 @@ event-details:
         srcport: SrcPort
         dstip: DstIP
         dstport: DstPort
-        qname: Domain
+        qname: Query
         qtype: Lookup
         msg: Message
     0100020212-None:
@@ -947,7 +939,7 @@ event-details:
         msg: Message
     1059028705-block:
       annotate:
-        Stream: NETWORK-THREAT
+        Stream: NETWORK-FIREWALL
         Action: PACKET_BLOCKED
         Status: FAILED
       translate:
@@ -978,9 +970,10 @@ event-details:
     0419016384-detected:
       annotate:
         Stream: NETWORK-THREAT
-        Action: DETECT
+        Action: ATTACK_DETECT
         Status: PASSED
       translate:
+        attack: AtkMsg
         srcip: SrcIP
         srcport: SrcPort
         dstip: DstIP
@@ -1152,6 +1145,7 @@ event-details:
         srcport: SrcPort
         dstip: DstIP
         dstport: DstPort
+        qname: Query
     0101039938-ssl-web-pass:
       annotate:
         Stream: SYSTEM
@@ -1262,16 +1256,6 @@ event-details:
       annotate:
         Stream: WEBFILTER
         Action: URL_ALLOWED
-        Status: PASSED
-      translate:
-        srcip: SrcIP
-        srcport: SrcPort
-        dstip: DstIP
-        dstport: DstPort
-    0419016384-detected:
-      annotate:
-        Stream: NETWORK-FIREWALL
-        Action: ATTACK_DETECT
         Status: PASSED
       translate:
         srcip: SrcIP

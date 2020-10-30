@@ -18,9 +18,9 @@ event-details:
         Stream: WEBSERVER
       translate:
         SourceIP: SrcIP
-        HTTPReferer: HTTPReferer
-        HTTPMethod: HTTPMethod
-        HTTPRetCode: HTTPRetCode
+        HTTPReferer: Referer
+        HTTPMethod: Method
+        HTTPRetCode: ReturnCode
         TXLen: TXLen
         SystemName: SystemName
         RXLen: RXLen
