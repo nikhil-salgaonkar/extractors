@@ -299,7 +299,6 @@ event-details:
         Action: PROCESS_ADDED
         Status: PASSED
       translate:
-        Description: EvtDesc
         User: User
         ParentCommandLine: ParentCommandLine
         OriginalFileName: OriginalFileName
@@ -364,7 +363,6 @@ event-details:
       translate: 
         Image: Image
         ImageLoaded: ImageLoaded
-        Description: Description
         Signed: Signed 
         OriginalFileName: OriginalFileName
         ParentUser: ParentUser

@@ -71,7 +71,6 @@ event-details:
         msg: Message
         src: SrcIP    
         proto: Proto
-        src: SrcIP
         sport: SrcPort
         dst: DstIP
         dport: DstPort
@@ -86,7 +85,6 @@ event-details:
         msg: Message
         src: SrcIP    
         proto: Proto
-        src: SrcIP
         sport: SrcPort
         dst: DstIP
         dport: DstPort
@@ -101,7 +99,6 @@ event-details:
         msg: Message
         src: SrcIP    
         protocol: Proto
-        src: SrcIP
         sport: SrcPort
         dst: DstIP
         dport: DstPort

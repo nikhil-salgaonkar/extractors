@@ -20,8 +20,6 @@ event-details:
         Action: PACKET_ALLOWED
         Status: PASSED
       translate:
-        user_name: User
-        user_gp: UserGroup
         src_ip: SrcIP 
         dst_ip: DstIP
         protocol: Proto
@@ -29,15 +27,12 @@ event-details:
         dst_port: DstPort
         sent_bytes: TXLen
         recv_bytes: RXLen
-        message: Message 
     010202601001-Denied: 
       annotate:
         Stream: NETWORK-FIREWALL
         Action: PACKET_BLOCKED
         Status: FAILED
       translate:
-        user_name: User
-        user_gp: UserGroup
         src_ip: SrcIP 
         dst_ip: DstIP
         protocol: Proto
@@ -45,31 +40,25 @@ event-details:
         dst_port: DstPort
         sent_bytes: TXLen
         recv_bytes: RXLen
-        message: Message
     010102600002-Denied: 
       annotate:
         Stream: NETWORK-FIREWALL
         Action: PACKET_BLOCKED
         Status: PASSED
       translate:
-        user_name: User
-        user_gp: UserGroup
         src_ip: SrcIP 
         dst_ip: DstIP
         protocol: Proto
         src_port: SrcPort
         dst_port: DstPort
         sent_bytes: TXLen
-        recv_bytes: RXLen
-        message: Message  
+        recv_bytes: RXLen  
     010301602001-Allowed: 
       annotate:
         Stream: NETWORK-FIREWALL
         Action: PACKET_ALLOWED
         Status: PASSED
       translate:
-        user_name: User
-        user_gp: UserGroup
         src_ip: SrcIP 
         dst_ip: DstIP
         protocol: Proto
@@ -77,15 +66,12 @@ event-details:
         dst_port: DstPort
         sent_bytes: TXLen
         recv_bytes: RXLen
-        message: Message
     010402403001-Denied: 
       annotate:
         Stream: NETWORK-FIREWALL
         Action: ATTACK_DETECTED
         Status: FAILED
       translate:
-        user_name: User
-        user_gp: UserGroup
         src_ip: SrcIP 
         dst_ip: DstIP
         protocol: Proto
@@ -93,23 +79,19 @@ event-details:
         dst_port: DstPort
         sent_bytes: TXLen
         recv_bytes: RXLen
-        message: Message
     018201500005-Allowed: 
       annotate:
         Stream: NETWORK-FIREWALL
         Action: PACKET_ALLOWED
         Status: PASSED
       translate:
-        user_name: User
-        user_gp: UserGroup
         src_ip: SrcIP 
         dst_ip: DstIP
         protocol: Proto
         src_port: SrcPort
         dst_port: DstPort
         sent_bytes: TXLen
-        recv_bytes: RXLen
-        message: Message                     
+        recv_bytes: RXLen                  
     
   fallback:
       annotate:

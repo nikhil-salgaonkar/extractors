@@ -950,7 +950,6 @@ event-details:
         dstport: DstPort
         user: User
         hostname: Domain
-        url: URL
     0100040704-perf-stats:
       annotate:
         Stream: SYSTEM
@@ -971,7 +970,7 @@ event-details:
     0419016384-detected:
       annotate:
         Stream: NETWORK-THREAT
-        Action: ATTACK_DETECT
+        Action: ATTACK_DETECTED
         Status: PASSED
       translate:
         attack: AtkMsg
@@ -979,7 +978,6 @@ event-details:
         srcport: SrcPort
         dstip: DstIP
         dstport: DstPort
-        ref: URL
     0100032003-logout:
       annotate:
         Stream: AUTHENTICATION
@@ -1088,7 +1086,6 @@ event-details:
         Action: ATTACK_DETECTED
         Status: PASSED
       translate:
-        ref: URL
         srcip: SrcIP
         dstip: DstIP
     0100032142-backup:
@@ -1295,28 +1292,6 @@ event-details:
         srcport: SrcPort
         dstip: DstIP
         dstport: DstPort
-    0101039937-ssl-web-deny:
-      annotate:
-        Stream: NETWORK-FIREWALL
-        Action: VPN_BLOCKED
-        Status: FAILED
-      translate:
-        remip: SrcIP
-        user: User
-    0101039940-ssl-web-close:
-      annotate:
-        Stream: NETWORK-FIREWALL
-        Action: VPN_CLOSED
-        Status: PASSED
-      translate:
-        remip: SrcIP
-    0101039944-ssl-alert:
-      annotate:
-        Stream: NETWORK-FIREWALL
-        Action: VPN_ALERT
-        Status: PASSED
-      translate:
-        remip: SrcIP
     0954024577-log-only:
       annotate:
         Stream: DLP
