@@ -22,7 +22,7 @@ event-details:
       translate:
         host_ip: SrcIP
         url: URL
-        method: HTTPMethod
+        method: Method
         txlen: TXLen
         device_ip: Domain
         user: User
@@ -34,7 +34,7 @@ event-details:
       translate:
         host_ip: SrcIP
         url: URL
-        method: HTTPMethod
+        method: Method
         txlen: TXLen
         device_ip: Domain
         user: User

@@ -22,9 +22,9 @@ event-details:
         Status: PASSED
       translate:
         session_duration: SessionDuration
-        httpmethod: HTTPMethod
+        httpmethod: Method
         resultcode: ResultCode
-        status_code: HTTPRetCode
+        status_code: ReturnCode
         tlen: TLen
         src: SrcIP
         url: URL
@@ -35,9 +35,9 @@ event-details:
         Status: PASSED
       translate:
         session_duration: SessionDuration
-        httpmethod: HTTPMethod
+        httpmethod: Method
         resultcode: ResultCode
-        status_code: HTTPRetCode
+        status_code: ReturnCode
         tlen: TLen
         src: SrcIP
         url: URL
@@ -48,9 +48,9 @@ event-details:
         Status: FAILED
       translate:
         session_duration: SessionDuration
-        httpmethod: HTTPMethod
+        httpmethod: Method
         resultcode: ResultCode
-        status_code: HTTPRetCode
+        status_code: ReturnCode
         tlen: TLen
         src: SrcIP
         url: URL    
@@ -61,9 +61,9 @@ event-details:
         Status: FAILED
       translate:
         session_duration: SessionDuration
-        httpmethod: HTTPMethod
+        httpmethod: Method
         resultcode: ResultCode
-        status_code: HTTPRetCode
+        status_code: ReturnCode
         tlen: TLen
         src: SrcIP
         url: URL   
@@ -74,9 +74,9 @@ event-details:
         Status: PASSED
       translate:
         session_duration: SessionDuration
-        httpmethod: HTTPMethod
+        httpmethod: Method
         resultcode: ResultCode
-        status_code: HTTPRetCode
+        status_code: ReturnCode
         tlen: TLen
         src: SrcIP
         url: URL           

@@ -99,8 +99,8 @@ event-details:
         attacker.port: SrcPort 
         decoy.name: DecoyName
         filetheft.useragent: UserAgent
-        recon.method: HTTPMethod
-        recon.status: HTTPRetCode 
+        recon.method: Method
+        recon.status: ReturnCode 
         request: URL
     credtheft:           
       annotate:

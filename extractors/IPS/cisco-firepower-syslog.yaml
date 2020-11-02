@@ -28,7 +28,7 @@ event-details:
         InitiatorBytes: TXLen
         ResponderBytes: RXLen
         UserAgent: UserAgent
-        HTTPResponse: HTTPRetCode
+        HTTPResponse: ReturnCode
         ReferencedHost: Domain
         URL: URL 
     Block:

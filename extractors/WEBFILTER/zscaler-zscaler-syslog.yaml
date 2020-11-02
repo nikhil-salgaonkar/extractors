@@ -27,10 +27,10 @@ event-details:
         category: Category
         src: SrcIP
         dst: DstIP
-        httpmethod: HTTPMethod 
-        httpretcode: HTTPRetCode
+        httpmethod: Method 
+        httpretcode: ReturnCode
         useragent: UserAgent
-        httpreferer: HTTPReferer
+        httpreferer: Referer
     'Blocked-200': 
       annotate:
         Stream: WEBFILTER
@@ -44,10 +44,10 @@ event-details:
         category: Category
         src: SrcIP
         dst: DstIP
-        httpmethod: HTTPMethod 
-        httpretcode: HTTPRetCode
+        httpmethod: Method 
+        httpretcode: ReturnCode
         useragent: UserAgent
-        httpreferer: HTTPReferer     
+        httpreferer: Referer     
 
   fallback:
       annotate:

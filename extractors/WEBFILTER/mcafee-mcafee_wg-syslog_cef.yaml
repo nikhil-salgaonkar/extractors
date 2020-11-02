@@ -11,8 +11,9 @@ master-filters:
 - CEF\:[\w\.]+\|McAfee\|WebGateway\|
 
 event-details:
-- first-match: \|McAfee\|
+- first-match: CEF\:[\w\.]+\|McAfee
   decoder: custom
+  decoder-header: CEF
   decoder-regex: \s([\w\s\-]+)\=(\"[^\"]*\"|[^\s]*)
   event-key-format: '{Action}'
   event-key-mapping:
@@ -50,3 +51,19 @@ event-details:
     translate:
         #Appliance: SystemName
         User-Agent: UserAgent
+        Header-5: EventName
+        Header-6: Severity
+
+  subs:
+    Severity: 
+      '0': 'LOW'
+      '1': 'LOW'
+      '2': 'LOW'
+      '3': 'LOW'
+      '4': 'MEDIUM' 
+      '5': 'MEDIUM' 
+      '6': 'MEDIUM' 
+      '7': 'HIGH' 
+      '8': 'HIGH'
+      '9': 'VERY-HIGH' 
+      '10': 'VERY-HIGH'

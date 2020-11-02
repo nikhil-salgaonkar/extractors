@@ -23,7 +23,7 @@ event-details:
         src_ip: SrcIP
         src_port: SrcPort
         #url: URL
-        method: HTTPMethod
+        method: Method
         txlen: TXLen
         user: User
         file_path: FilePath

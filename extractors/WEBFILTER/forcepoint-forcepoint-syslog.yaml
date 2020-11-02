@@ -24,7 +24,7 @@ event-details:
         src: SrcIP
         dst: DstIP
         request: URL
-        requestMethod: HTTPMethod
+        requestMethod: Method
         out: TXLen
         requestClientApplication: UserAgent
     blocked:
@@ -36,7 +36,7 @@ event-details:
         src: SrcIP
         dst: DstIP
         request: URL
-        requestMethod: HTTPMethod
+        requestMethod: Method
         out: TXLen
         requestClientApplication: UserAgent
 

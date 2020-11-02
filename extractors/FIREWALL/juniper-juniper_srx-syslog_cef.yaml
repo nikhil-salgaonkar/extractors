@@ -27,6 +27,8 @@ event-details:
         dst: DstIP
         proto: Proto
         dpt: DstPort
+        Header-5: EventName
+        Header-6: Severity
     /Authentication/Verify-/Failure:
       annotate:
         Stream: AUTHENTICATION
@@ -38,6 +40,8 @@ event-details:
         dst: DstIP
         proto: Proto
         suser: User
+        Header-5: EventName
+        Header-6: Severity
 
   fallback:
       annotate:

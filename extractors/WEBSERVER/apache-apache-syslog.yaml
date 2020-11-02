@@ -74,7 +74,7 @@ event-details:
       translate:
         src: SrcIP
         httpmethod: Method
-        baseurl: BaseURL
+        baseurl: URL
         httpretcode: ReturnCode 
         httpreferer: Referer
         useragent: UserAgent
