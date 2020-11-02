@@ -26,7 +26,6 @@ event-details:
         dst: DstIP  
         dport: DstPort
         device: Device
-        action: ActionTaken 
     '7': 
       annotate:
         Stream: IPS
@@ -38,8 +37,7 @@ event-details:
         sport: SrcPort 
         dst: DstIP  
         dport: DstPort
-        device: Device
-        action: ActionTaken      
+        device: Device    
 
   fallback:
       annotate:
@@ -60,7 +58,3 @@ event-details:
       '3': MEDIUM
       '4': MAJOR
       '5': CRITICAL
-    ActionTaken: 
-      '7': PERMIT 
-      '8': BLOCK 
-      '9': P2P

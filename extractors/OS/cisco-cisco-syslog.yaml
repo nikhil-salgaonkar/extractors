@@ -478,6 +478,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
+        User: '-'
       translate:
         message: Message
         src: SrcIP

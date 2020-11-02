@@ -66,7 +66,6 @@ event-details:
     translate:
       datetime: SystemTstamp
       hostname: SystemName 
-      daemon: Daemon
 
 - first-match: '\s+UI_LOGOUT_EVENT\:'
   decoder: regex
@@ -90,8 +89,7 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
-      hostname: SystemName 
-      daemon: Daemon 
+      hostname: SystemName
 
 - first-match: '\s+SSHD_LOGIN_FAILED\:'
   decoder: regex
@@ -103,7 +101,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        AuthMethod: SSH
+        AuthProtocol: SSH
         LoginSrc: REMOTE   
       translate:
         user: User
@@ -117,8 +115,7 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
-      hostname: SystemName 
-      daemon: Daemon
+      hostname: SystemName
 
 - first-match: '\s+UI_DBASE_LOGIN_EVENT\:'
   decoder: regex
@@ -142,8 +139,7 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
-      hostname: SystemName 
-      daemon: Daemon
+      hostname: SystemName
 
 - first-match: '\s+UI_DBASE_LOGOUT_EVENT\:'
   decoder: regex
@@ -167,8 +163,7 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
-      hostname: SystemName 
-      daemon: Daemon
+      hostname: SystemName
   
 - first-match: '\s+UI_CFG_AUDIT_OTHER\:' 
   decoder: regex
@@ -192,8 +187,7 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
-      hostname: SystemName 
-      daemon: Daemon
+      hostname: SystemName
   
 - first-match: '\s+UI_CFG_AUDIT_SET\:' 
   decoder: regex
@@ -217,8 +211,7 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
-      hostname: SystemName 
-      daemon: Daemon
+      hostname: SystemName
 
 - first-match: '\sUI_LOGIN_EVENT.*?\sclass.*?\s+super\-user' 
   decoder: regex
@@ -242,8 +235,7 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
-      hostname: SystemName 
-      daemon: Daemon   
+      hostname: SystemName  
 
 - first-match: 'UI_JUNOSCRIPT_CMD\:.*?user\=' 
   decoder: regex
@@ -267,8 +259,7 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
-      hostname: SystemName 
-      daemon: Daemon
+      hostname: SystemName
   
 - first-match: 'UI_JUNOSCRIPT_CMD\:.*?(?:command\sget\-\S+\-information|request\-\S+\-logout)\s+' 
   decoder: regex
@@ -292,8 +283,7 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
-      hostname: SystemName 
-      daemon: Daemon
+      hostname: SystemName
 
 - first-match: 'RT_FLOW\:\sFLOW_REASSEMBLE_SUCCEED\:' 
   decoder: regex
@@ -366,8 +356,7 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
-      hostname: SystemName 
-      daemon: Daemon
+      hostname: SystemName
 
 - first-match: 'RT_FLOW_SESSION_CLOSE\:'
   decoder: regex
@@ -434,7 +423,6 @@ event-details:
       translate:
         iface: Iface
         msg: Message
-        action: ActionTaken
         protocol: Proto
         src: SrcIP 
         sport: SrcPort 
@@ -450,14 +438,7 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
-      hostname: SystemName  
-
-  subs: &id001
-    ActionTaken: 
-      'A': Accept 
-      'D': Discard
-      'R': Reject 
-      'drop': Drop    
+      hostname: SystemName   
 
 - first-match: 'RT_SCREEN_IP\:'
   decoder: regex
@@ -472,7 +453,6 @@ event-details:
       translate:
         iface: Iface
         msg: Message
-        action: ActionTaken
         protocol: Proto
         src: SrcIP 
         sport: SrcPort 
@@ -488,8 +468,6 @@ event-details:
     translate:
       datetime: SystemTstamp
       hostname: SystemName         
-
-    subs: *id001
 
 - first-match: 'UI_COMMIT\:'
   decoder: regex
@@ -514,8 +492,7 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
-      hostname: SystemName 
-      daemon: Daemon
+      hostname: SystemName
 
 - first-match: 'KMD_PM_SA_ESTABLISHED\:'
   decoder: regex
@@ -540,8 +517,7 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
-      hostname: SystemName 
-      daemon: Daemon
+      hostname: SystemName
 
 - first-match: 'KMD_VPN_UP_ALARM_USER\:'
   decoder: regex
@@ -565,6 +541,5 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
-      hostname: SystemName 
-      daemon: Daemon    
+      hostname: SystemName   
                

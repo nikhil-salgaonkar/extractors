@@ -1,7 +1,7 @@
 schema-version: 1.0
 #extractor-version: 1 
 extractor-id: 244
-source-name: MYSQL_WINEVT
+source-name: MYSQL
 source-type: DATABASE
 source-description: Extractor for MySQL Database 
 provides-streams:
@@ -16,9 +16,10 @@ event-details:
     '3': 
       annotate:
         Stream: DATABASE
+        Action: ERROR_EVENT_UNRESOLVED
+        Status: Failed
       translate: 
-        Severity: LogLevel
-        ProcessID: PID 
+        Severity: Severity
 
   fallback:
       annotate:
@@ -39,10 +40,10 @@ event-details:
     '100': 
       annotate:
         Stream: DATABASE
+        Action: TASK_SCHEDULED
+        Status: PASSED
       translate: 
-        Severity: LogLevel
-        ProcessID: PID 
-        Message: Message
+        Severity: Severity
 
   fallback:
       annotate:

@@ -105,11 +105,9 @@ event-details:
         EventName: Generic Mcafee IPS Event
         Stream: OTHER
       translate:
-        result: ActionTaken
         hostname: SystemName
         severity: Severity  
-        datetime: SystemTstamp
-          
+        datetime: SystemTstamp         
 
   globals:
     translate:

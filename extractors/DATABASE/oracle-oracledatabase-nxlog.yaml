@@ -1,7 +1,7 @@
 schema-version: 1.0
 #extractor-version: 1 
 extractor-id: 141
-source-name: ORACLE_WINEVT
+source-name: ORACLE
 source-type: DATABASE
 source-description: Extractor for Oracle Database 
 provides-streams:
@@ -20,9 +20,7 @@ event-details:
         Action: CREATED_DATABASE
         Status: PASSED
       translate: 
-        Severity: LogLevel
-        ProcessID: PID 
-        Message: Message     
+        Severity: Severity  
         LENGTH: TLen
         ACTION: SQLQuery
         dbuser: DBUser
@@ -36,9 +34,10 @@ event-details:
         Action: ALTER_CLUSTER
         Status: PASSED
       translate: 
-        Severity: LogLevel
-        ProcessID: PID
-        Message: Message     
+        Severity: Severity 
+        ACTION: SQLQuery
+        user: User
+        dbuser: DBUser 
 
   fallback:
       annotate:

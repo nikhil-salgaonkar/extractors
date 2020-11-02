@@ -131,7 +131,6 @@ event-details:
       translate: 
         atkmsg: AtkMsg
         atkvector: AtkVector
-        atkclass: AtkClass
         pri: Severity  
         protocol: Proto
         src: SrcIP

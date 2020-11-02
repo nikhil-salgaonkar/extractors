@@ -22,35 +22,30 @@ event-details:
         Status: PASSED
       translate: 
         USERID: User
-        USERHOST: SrcHost    
-        RETURNCODE: ReturnCode
-        MESSAGE: Message
+        USERHOST: SrcHost
         PROTOCOL: Proto
         HOST: SrcIP
         PORT: SrcPort
     '100-1017': 
       annotate:
         Stream: AUTHENTICATION
-        Action: LOGIN_FAIL_BAD_PASSWORD
+        Action: LOGIN
         Status: FAILED
+     #  SubStatus: BAD_USER_PASSWORD
       translate: 
         USERID: User
-        USERHOST: SrcHost    
-        RETURNCODE: ReturnCode
-        MESSAGE: Message
+        USERHOST: SrcHost
         PROTOCOL: Proto
         HOST: SrcIP
         PORT: SrcPort 
     '100-28000': 
       annotate:
         Stream: AUTHENTICATION
-        Action: LOGIN_FAIL_USER_LOCKOUT
+        Action: LOGIN
         Status: FAILED
       translate: 
         USERID: User
-        USERHOST: SrcHost    
-        RETURNCODE: ReturnCode
-        MESSAGE: Message
+        USERHOST: SrcHost
         PROTOCOL: Proto
         HOST: SrcIP
         PORT: SrcPort 
@@ -61,9 +56,7 @@ event-details:
         Status: FAILED
       translate: 
         USERID: User
-        USERHOST: SrcHost    
-        RETURNCODE: ReturnCode
-        MESSAGE: Message
+        USERHOST: SrcHost
         PROTOCOL: Proto
         HOST: SrcIP
         PORT: SrcPort           
@@ -89,9 +82,7 @@ event-details:
         Action: LOGOUT
         Status: PASSED
       translate: 
-        USERID: User  
-        RETURNCODE: ReturnCode
-        MESSAGE: Message
+        USERID: User
     '102-0': 
       annotate:
         Stream: AUTHENTICATION
@@ -99,8 +90,6 @@ event-details:
         Status: PASSED
       translate: 
         USERID: User  
-        RETURNCODE: ReturnCode
-        MESSAGE: Message    
 
   fallback:
       annotate:
@@ -117,23 +106,13 @@ event-details:
   decoder-regex: '(?P<DATETIME>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}).*?USERID\:\[\d+\]\s+\"(?P<USERID>\S+)\".*?USERHOST\:\[\d+\]\s+\"(?P<USERHOST>\S+)\".*?ACTION\:\[\d+\]\s+\"(?P<ACTION>\d+)\".*?RETURNCODE\:\[\d+\]\s+\"(?P<RETURNCODE>\d+)\"(?:.*?OBJ\$NAME\:\[\d+\]\s+\"(?P<OBJECTNAME>.*?)\")?'
   event-key-format: '{ACTION}-{RETURNCODE}'
   event-key-mapping:  
-    '47-0': 
-      annotate:
-        Stream: DATABASE
-        Action: QUERY_EXECUTED
-        Status: PASSED
-      translate: 
-        USERID: User  
-        RETURNCODE: ReturnCode
-        USERHOST: SrcHost
     '47-2004': 
       annotate:
         Stream: DATABASE
         Action: SECURITY_CONFIGURATION
         Status: PASSED
       translate: 
-        USERID: User  
-        RETURNCODE: ReturnCode
+        USERID: User
         USERHOST: SrcHost
         OBJECTNAME: ObjectName    
 
@@ -147,7 +126,7 @@ event-details:
       DATETIME: SystemTstamp
       ACTION: EventID 
 
-- first-match: 'ACTION\s+\:\[\d+\]\s+(?:select|SELECT|COMMIT|commit|ALTER|alter|CONNECT|connect|BEGIN|begin|CREATE|create).*?DBID\:\[\d+\]'
+- first-match: 'ACTION\s+\:\[\d+\]\s+(?:select|commit|alter|connect|begin|create).*?DBID\:\[\d+\]'
   decoder: regex
   decoder-regex: '(?P<DATETIME>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}).*?ACTION\s+\:\[\d+\]\s+(?P<SQLQUERY>(?:(?P<QUERYTYPE>select|SELECT|COMMIT|commit|ALTER|alter|CONNECT|connect|BEGIN|begin|CREATE|create)).*?)\s+DATABASE\s+USER\:\[\d+\]\s+(?P<DBUSER>.*?)\s+.*?PRIVILEGE\s+\:\[\d+\]\s+(?P<DBACCESS>\S+).*?CLIENT\s+USER\:\[\d+\]\s+(?P<USER>\S+)'
   event-key-format: ''
@@ -172,7 +151,7 @@ event-details:
     translate:
       DATETIME: SystemTstamp 
 
-- first-match: 'ACTION\s+\:\[\d+\]\s+(?:select|SELECT|COMMIT|commit|ALTER|alter|CONNECT|connect|BEGIN|begin|CREATE|create)(?!.*?\s+DATABASE\s+USER\:\[\d+\])'
+- first-match: 'ACTION\s+\:\[\d+\]\s+\w+(?!.*?\s+DATABASE\s+USER\:\[\d+\])'
   decoder: regex
   decoder-regex: '(?P<DATETIME>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}).*?ACTION\s+\:\[\d+\]\s+(?P<SQLQUERY>(?:(?P<QUERYTYPE>select|SELECT|COMMIT|commit|ALTER|alter|CONNECT|connect|BEGIN|begin|CREATE|create)).*)'
   event-key-format: ''
