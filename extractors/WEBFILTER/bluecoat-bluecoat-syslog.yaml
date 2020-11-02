@@ -19,12 +19,12 @@ event-details:
     TCP_DENIED-403: 
       annotate:
         Stream: WEBFILTER
-        Action: URL_BLOCKED
+        Action: TCP_DENIED
         Status: FAILED   
       translate:
         src: SrcIP 
         user: User 
-        httpmethod: HTTPMethod
+        httpmethod: Method
         mimetype: MIMEType
         domain: Domain
         dport: DstPort
@@ -51,7 +51,7 @@ event-details:
     TUNNELED-0: 
       annotate:
         Stream: WEBFILTER
-        Action: URL_ALLOWED
+        Action: TUNNELED
         Status: PASSED   
       translate:
         src: SrcIP 
@@ -59,7 +59,7 @@ event-details:
         dport: DstPort
         user: User 
         url: URL
-        httpmethod: HTTPMethod
+        httpmethod: Method
         sent_byte: TXLen
         receive_byte: RXLen  
         domain: Domain
@@ -84,7 +84,7 @@ event-details:
     TCP_TUNNELED-200: 
       annotate:
         Stream: WEBFILTER
-        Action: URL_ALLOWED
+        Action: TCP_TUNNELED
         Status: PASSED   
       translate:
         src: SrcIP 
@@ -93,7 +93,7 @@ event-details:
         sport: SrcPort
         severip: SeverIP
         url: URL
-        httpmethod: HTTPMethod
+        httpmethod: Method
         sent_byte: TXLen
         receive_byte: RXLen  
         domain: Domain
@@ -119,7 +119,7 @@ event-details:
     TCP_ACCELERATED-200: 
       annotate:
         Stream: WEBFILTER
-        Action: URL_ALLOWED
+        Action: TCP_ACCELERATED
         Status: PASSED   
       translate:
         src: SrcIP 
@@ -127,8 +127,8 @@ event-details:
         user: User
         severip: SeverIP
         url: URL
-        application: App
-        httpmethod: HTTPMethod
+    #   application: App
+        httpmethod: Method
         sent_byte: TXLen
         receive_byte: RXLen  
         domain: Domain
@@ -155,7 +155,7 @@ event-details:
     TCP_DENIED-403: 
       annotate:
         Stream: WEBFILTER
-        Action: URL_BLOCKED
+        Action: TCP_DENIED
         Status: FAILED   
       translate:
         src: SrcIP 
@@ -164,8 +164,8 @@ event-details:
         severip: SeverIP
         url: URL
         message: Message
-        application: App
-        httpmethod: HTTPMethod
+    #   application: App
+        httpmethod: Method
         sent_byte: TXLen
         receive_byte: RXLen  
         domain: Domain
@@ -191,7 +191,7 @@ event-details:
     TCP_NC_MISS-403: 
       annotate:
         Stream: WEBFILTER
-        Action: URL_ALLOWED
+        Action: TCP_NC_MISS
         Status: FAILED   
       translate:
         src: SrcIP 
@@ -199,8 +199,8 @@ event-details:
         user: User
         severip: SeverIP
         url: URL
-        application: App
-        httpmethod: HTTPMethod
+    #   application: App
+        httpmethod: Method
         sent_byte: TXLen
         receive_byte: RXLen  
         domain: Domain
@@ -227,13 +227,13 @@ event-details:
     TCP_ERR_MISS-503: 
       annotate:
         Stream: WEBFILTER
-        Action: URL_ALLOWED
+        Action: TCP_ERR_MISS
         Status: FAILED   
       translate:
         src: SrcIP
         receive_byte: RXLen 
         sent_byte: TXLen 
-        httpmethod: HTTPMethod
+        httpmethod: Method
         domain: Domain
         dport: DstPort
         url: URL
@@ -257,14 +257,14 @@ event-details:
     TCP_DENIED-407: 
       annotate:
         Stream: WEBFILTER
-        Action: URL_BLOCKED
+        Action: TCP_DENIED
         Status: FAILED   
       translate:
         src: SrcIP 
         dport: DstPort
         user: User
         url: URL
-        httpmethod: HTTPMethod
+        httpmethod: Method
         sent_byte: TXLen
         receive_byte: RXLen  
         domain: Domain
@@ -289,7 +289,7 @@ event-details:
     TCP_HIT-304: 
       annotate:
         Stream: WEBFILTER
-        Action: URL_ALLOWED
+        Action: TCP_HIT
         Status: PASSED   
       translate:
         src: SrcIP 
@@ -297,8 +297,8 @@ event-details:
         user: User
         severip: SeverIP
         url: URL
-        application: App
-        httpmethod: HTTPMethod
+    #   application: App
+        httpmethod: Method
         sent_byte: TXLen
         receive_byte: RXLen  
         domain: Domain
