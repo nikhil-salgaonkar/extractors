@@ -35,8 +35,23 @@ event-details:
     translate: 
       Event time: SystemTstamp
 
+  subs: &d001    
+    Severity: 
+      '0': 'LOW'
+      '1': 'LOW'
+      '2': 'LOW'
+      '3': 'LOW'
+      '4': 'MEDIUM' 
+      '5': 'MEDIUM' 
+      '6': 'MEDIUM' 
+      '7': 'HIGH' 
+      '8': 'HIGH'
+      '9': 'VERY-HIGH' 
+      '10': 'VERY-HIGH'
+
 - first-match: CEF\:\d+\|Trend\s+Micro\|.*?\|Spyware\s+Detected\|
   decoder: custom
+  decoder-header: CEF
   decoder-regex: ([\w]+)=(\"[^\"]*\"|[^\s]*)
   event-key-format: ''
   event-key-mapping:
@@ -63,10 +78,15 @@ event-details:
   globals:
     translate: 
       rt: SystemTstamp
-      dvchost: SystemName     
+      dvchost: SystemName
+      Header-5: Signature 
+      Header-6: Severity   
+
+  subs: *d001      
 
 - first-match: 'CEF\:\d+\|Trend\s+Micro\|.*?\|AV\:.*?\|'
   decoder: custom
+  decoder-header: CEF
   decoder-regex: ([\w]+)=(\"[^\"]*\"|[^\s]*)
   event-key-format: '{act}'
   event-key-mapping:
@@ -110,10 +130,15 @@ event-details:
   globals:
     translate: 
       rt: SystemTstamp
-      dvchost: SystemName  
+      dvchost: SystemName 
+      Header-5: Signature 
+      Header-6: Severity  
+
+  subs: *d001    
 
 - first-match: 'CEF\:\d+\|Trend\sMicro\|Deep\sDiscovery\sInspector\|'
   decoder: custom
+  decoder-header: CEF
   decoder-regex: ([\w]+)=(\"[^\"]*\"|[^\s]*)
   event-key-format: '{cn3}'
   event-key-mapping:
@@ -145,9 +170,14 @@ event-details:
     translate: 
       dvchost: SystemName
       rt: SystemTstamp
+      Header-5: Signature 
+      Header-6: Severity  
+
+  subs: *d001    
 
 - first-match: 'CEF\:\d+\|Trend\s+Micro\|Control\s+Manager\|'
   decoder: custom
+  decoder-header: CEF
   decoder-regex: ([\w]+)=(\"[^\"]*\"|[^\s]*)
   event-key-format: '{act}'
   event-key-mapping:
@@ -170,4 +200,8 @@ event-details:
   globals:
     translate: 
       dvchost: SystemName
-      rt: SystemTstamp     
+      rt: SystemTstamp 
+      Header-5: Signature 
+      Header-6: Severity     
+
+  subs: *d001     
