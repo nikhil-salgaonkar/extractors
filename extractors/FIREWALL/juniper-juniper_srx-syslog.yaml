@@ -26,8 +26,7 @@ event-details:
         sport: SrcPort 
         dst: DstIP  
         dport: DstPort
-        user: User
-        pid: PID    
+        user: User  
 
   fallback:
       annotate:
@@ -55,7 +54,7 @@ event-details:
         dst: DstIP  
         dport: DstPort
         user: User
-        pid: PID    
+
 
   fallback:
       annotate:
@@ -79,7 +78,7 @@ event-details:
         Status: PASSED   
       translate:
         user: User
-        pid: PID    
+
 
   fallback:
       annotate:
@@ -129,7 +128,7 @@ event-details:
         Status: PASSED  
       translate:
         user: User
-        pid: PID
+
 
   fallback:
       annotate:
@@ -153,7 +152,7 @@ event-details:
         Status: PASSED  
       translate:
         user: User
-        pid: PID
+
 
   fallback:
       annotate:
@@ -177,7 +176,7 @@ event-details:
         Status: PASSED  
       translate:
         user: User
-        pid: PID
+
 
   fallback:
       annotate:
@@ -201,7 +200,7 @@ event-details:
         Status: PASSED  
       translate:
         user: User
-        pid: PID
+
 
   fallback:
       annotate:
@@ -225,7 +224,7 @@ event-details:
         Status: PASSED  
       translate:
         user: User
-        pid: PID
+
 
   fallback:
       annotate:
@@ -249,7 +248,7 @@ event-details:
         Status: PASSED  
       translate:
         user: User
-        pid: PID
+
 
   fallback:
       annotate:
@@ -273,7 +272,7 @@ event-details:
         Status: PASSED   
       translate:
         user: User
-        pid: PID
+
 
   fallback:
       annotate:
@@ -298,7 +297,7 @@ event-details:
       translate:
         src: SrcIP
         dst: DstIP
-        pid: PID
+
 
   fallback:
       annotate:
@@ -346,7 +345,7 @@ event-details:
         Status: PASSED   
       translate:
         user: User
-        pid: PID
+
 
   fallback:
       annotate:
@@ -421,14 +420,11 @@ event-details:
         Action: PACKET_BLOCKED
         Status: FAILED   
       translate:
-        iface: Iface
-        msg: Message
         protocol: Proto
         src: SrcIP 
         sport: SrcPort 
         dst: DstIP  
         dport: DstPort
-        packet: Packet
 
   fallback:
       annotate:
@@ -451,8 +447,6 @@ event-details:
         Action: PACKET_BLOCKED
         Status: FAILED   
       translate:
-        iface: Iface
-        msg: Message
         protocol: Proto
         src: SrcIP 
         sport: SrcPort 
@@ -480,8 +474,6 @@ event-details:
         Action: PRIVILEGE_SET
         Status: PASSED   
       translate:
-        pid: PID
-        msg: Message
         user: User
 
   fallback:
@@ -505,7 +497,7 @@ event-details:
         Action: VPN_CONNECTED
         Status: PASSED   
       translate:
-        pid: PID
+
         src: SrcIP
         dst: DstIP
 
@@ -518,28 +510,3 @@ event-details:
     translate:
       datetime: SystemTstamp
       hostname: SystemName
-
-- first-match: 'KMD_VPN_UP_ALARM_USER\:'
-  decoder: regex
-  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s(?P<daemon>.*?)\[(?P<pid>\d+)\]\:\s+(?P<category>\S+)\:\s.*?Local-ip:\s(?P<src>.*?)\,'
-  event-key-format: '{category}'
-  event-key-mapping:
-    'KMD_VPN_UP_ALARM_USER': 
-      annotate:
-        Stream: NETWORK-FIREWALL
-        Action: VPN_UP
-        Status: PASSED   
-      translate:
-        pid: PID
-        src: SrcIP
-
-  fallback:
-      annotate:
-        EventName: Generic JUNIPER-SRX Firewall Event
-        Stream: OTHER
-
-  globals:
-    translate:
-      datetime: SystemTstamp
-      hostname: SystemName   
-               

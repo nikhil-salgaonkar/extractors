@@ -49,13 +49,9 @@ event-details:
         Action: PORT_BLOCKED
         Status: PASSED
       translate:
-        user: User
         src_port: SrcPort
         src_ip: SrcIP
         dst_ip: DstIP
-        tunnel_ip: TunnelIP
-        tunnel_port: TunnelPort
-        category: Category
 
   fallback:
       annotate:
