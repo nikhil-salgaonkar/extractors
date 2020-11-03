@@ -47,7 +47,6 @@ event-details:
 
   globals:
     translate:
-      
       spt: SrcPort
       dpt: DstPort
       app: AppService

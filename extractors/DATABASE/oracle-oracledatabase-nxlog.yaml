@@ -42,6 +42,8 @@ event-details:
       annotate:
         EventName: Generic MySQL Database Event
         Stream: OTHER
+      translate:
+        EventTime: SystemTstamp
 
   globals:
     translate:

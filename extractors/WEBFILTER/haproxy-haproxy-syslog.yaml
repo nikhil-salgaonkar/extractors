@@ -32,6 +32,8 @@ event-details:
       annotate:
         EventName: Generic HAProxy Event
         Stream: OTHER
+      translate:
+        datetime: SystemTstamp
 
   globals:
     translate:

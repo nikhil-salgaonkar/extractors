@@ -80,6 +80,8 @@ event-details:
       annotate:
         EventName: Generic SafeSquid Proxy Event
         Stream: OTHER
+      translate:
+        datetime: SystemTstamp
 
   globals:
     translate:

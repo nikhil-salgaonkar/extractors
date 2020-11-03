@@ -53,6 +53,8 @@ event-details:
       annotate:
         EventName: Generic Zscaler Proxy Event
         Stream: OTHER
+      translate:
+        datetime: SystemTstamp
           
   globals:
     translate:

@@ -77,6 +77,8 @@ event-details:
       annotate:
         EventName: Generic Mimecast Event
         Stream: OTHER
+      translate:
+        datetime: SystemTstamp
 
   globals:
     translate:

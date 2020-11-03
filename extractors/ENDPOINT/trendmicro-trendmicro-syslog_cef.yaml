@@ -30,6 +30,8 @@ event-details:
       annotate:
         EventName: Generic Trend-Micro Endpoint Event
         Stream: OTHER
+      translate: 
+        rt: SystemTstamp
 
   globals:
     translate: 
@@ -73,6 +75,8 @@ event-details:
       annotate:
         EventName: Generic Trend-Micro Endpoint Event
         Stream: OTHER
+      translate: 
+        rt: SystemTstamp
 
   globals:
     translate: 
@@ -123,6 +127,8 @@ event-details:
       annotate:
         EventName: Generic Trend-Micro Endpoint Event
         Stream: OTHER
+      translate: 
+        rt: SystemTstamp
 
   globals:
     translate: 
@@ -162,6 +168,8 @@ event-details:
       annotate:
         EventName: Generic Trend-Micro Endpoint Event
         Stream: OTHER
+      translate: 
+        rt: SystemTstamp
 
   globals:
     translate: 
@@ -193,6 +201,8 @@ event-details:
       annotate:
         EventName: Generic Trend-Micro Endpoint Event
         Stream: OTHER
+      translate: 
+        rt: SystemTstamp
 
   globals:
     translate: 

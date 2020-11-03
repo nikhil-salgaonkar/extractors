@@ -43,6 +43,8 @@ event-details:
       annotate:
         EventName: Generic MSSQL DATABASE Event
         Stream: OTHER
+      translate:
+        EventTime: SystemTstamp
 
   globals:
     translate:
@@ -70,6 +72,8 @@ event-details:
       annotate:
         EventName: Generic MSSQL DATABASE Event
         Stream: OTHER 
+      translate:
+        EventTime: SystemTstamp
 
   globals:
     translate:
@@ -188,6 +192,8 @@ event-details:
       annotate:
         EventName: Generic MSSQL DATABASE Event
         Stream: OTHER
+      translate:
+        EventTime: SystemTstamp
 
   globals:
     translate:
@@ -227,6 +233,8 @@ event-details:
       annotate:
         EventName: Generic MSSQL DATABASE Events
         Stream: OTHER
+      translate:
+        EventTime: SystemTstamp
 
   globals:
     translate:
@@ -250,6 +258,8 @@ event-details:
       annotate:
         EventName: Generic MSSQL DATABASE Events
         Stream: OTHER
+      translate:
+        EventTime: SystemTstamp
 
   globals:
     translate:

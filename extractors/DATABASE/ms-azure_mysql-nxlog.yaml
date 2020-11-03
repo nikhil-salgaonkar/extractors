@@ -17,16 +17,14 @@ event-details:
     '':
       annotate:
         Stream: OTHER
-      translate:
-        ip: SrcIP
-        resourceId: ResourceID
-        user: User
-        sql_text: SQLText
+      #translate:
 
   fallback:
       annotate:
         EventName: Generic Azure MySQL Event
         Stream: OTHER
+      translate:
+        time: SystemTstamp
 
   globals:
     translate:
