@@ -449,5 +449,5 @@ event-details:
       datetime: SystemTstamp
       facility: Facility
       severity: Severity
-:
+
   subs: *id001  
