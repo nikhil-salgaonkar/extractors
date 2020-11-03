@@ -279,7 +279,7 @@ event-details:
         EventName: Generic Windows Event
         Stream: OTHER
       translate:  
-        Channel: EventSource
+        EventTime: SystemTstamp
 
   globals:
     translate:
@@ -301,6 +301,7 @@ event-details:
         OriginalFileName: OriginalFileName
         ParentImage: ParentImage 
         ParentUser: ParentUser
+        CommandLine: CommandLine
         Description: Description
         Company: Company
         Product: Product
@@ -315,6 +316,7 @@ event-details:
         OriginalFileName: OriginalFileName
         ParentImage: ParentImage 
         ParentUser: ParentUser
+        CommandLine: CommandLine
         Description: Description
         Company: Company
         Product: Product   
@@ -348,7 +350,8 @@ event-details:
         GrantedAccess: GrantedAccess
         OriginalFileName: OriginalFileName
         ParentUser: ParentUser
-        ParentImage: ParentImage 
+        ParentImage: ParentImage
+        CommandLine: CommandLine 
         Description: Description
         Company: Company
         Product: Product
@@ -370,10 +373,10 @@ event-details:
              
   fallback:
       annotate:
-        EventName: Generic Windows Events
+        EventName: Generic Windows Event
         Stream: OTHER
       translate:  
-        Channel: EventSource
+        EventTime: SystemTstamp
 
   globals:
     translate:

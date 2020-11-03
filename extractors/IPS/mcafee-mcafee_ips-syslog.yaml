@@ -105,8 +105,6 @@ event-details:
         EventName: Generic Mcafee NETWORK-THREAT Event
         Stream: OTHER
       translate:
-        hostname: System
-        severity: Severity  
         datetime: SystemTstamp         
 
   globals:

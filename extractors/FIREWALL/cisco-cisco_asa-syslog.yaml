@@ -69,6 +69,8 @@ event-details:
       annotate:
         EventName: Generic Cisco-ASA Firewall Event
         Stream: OTHER
+      translate:
+        datetime: SystemTstamp  
 
   globals:  
     translate:
@@ -844,7 +846,6 @@ event-details:
         Action: SSL_CONNECTED
         Status: PASSED
       translate:
-        message: Message
         dst: DstIP
         dport: DstPort
     
@@ -871,7 +872,6 @@ event-details:
         Action: SSL_SESSION_DISCONNECTED
         Status: PASSED
       translate:
-        message: Message
         dst: DstIP
         dport: DstPort
     '725006'        
@@ -880,7 +880,6 @@ event-details:
         Action: SSL_CONNECTED
         Status: FAILED
       translate:
-        message: Message
         dst: DstIP
         dport: DstPort 
         
@@ -907,7 +906,6 @@ event-details:
         Action: INT_ERR
         Status: FAILED
       translate:
-        message: Message
         protocol: Proto
         src: SrcIP
         sport: SrcPort
@@ -937,7 +935,6 @@ event-details:
         Action: INT_UP
         Status: PASSED
       translate:
-        message: Message
         interface: Iface
     
   fallback:

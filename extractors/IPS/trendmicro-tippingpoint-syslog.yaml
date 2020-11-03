@@ -43,6 +43,8 @@ event-details:
       annotate:
         EventName: Generic TIPPINGPOINT NETWORK-THREAT Event
         Stream: OTHER
+      translate:
+        time: SystemTstamp  
 
   globals:
     translate:

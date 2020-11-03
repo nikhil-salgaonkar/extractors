@@ -32,6 +32,8 @@ event-details:
       annotate:
         EventName: Generic JUNIPER-SRX Firewall Event
         Stream: OTHER
+      translate:
+        datetime: SystemTstamp
 
   globals:
     translate:
@@ -60,6 +62,8 @@ event-details:
       annotate:
         EventName: Generic JUNIPER-SRX Firewall Event
         Stream: OTHER
+      translate:
+        datetime: SystemTstamp
 
   globals:
     translate:
@@ -84,6 +88,8 @@ event-details:
       annotate:
         EventName: Generic JUNIPER-SRX Firewall Event
         Stream: OTHER
+      translate:
+        datetime: SystemTstamp
 
   globals:
     translate:
@@ -110,6 +116,8 @@ event-details:
       annotate:
         EventName: Generic JUNIPER-SRX Firewall Event
         Stream: OTHER
+      translate:
+        datetime: SystemTstamp
 
   globals:
     translate:
@@ -134,6 +142,8 @@ event-details:
       annotate:
         EventName: Generic JUNIPER-SRX Firewall Event
         Stream: OTHER
+      translate:
+        datetime: SystemTstamp
 
   globals:
     translate:
@@ -158,6 +168,8 @@ event-details:
       annotate:
         EventName: Generic JUNIPER-SRX Firewall Event
         Stream: OTHER
+      translate:
+        datetime: SystemTstamp
 
   globals:
     translate:
@@ -182,6 +194,8 @@ event-details:
       annotate:
         EventName: Generic JUNIPER-SRX Firewall Event
         Stream: OTHER
+      translate:
+        datetime: SystemTstamp
 
   globals:
     translate:
@@ -206,6 +220,8 @@ event-details:
       annotate:
         EventName: Generic JUNIPER-SRX Firewall Event
         Stream: OTHER
+      translate:
+        datetime: SystemTstamp
 
   globals:
     translate:
@@ -230,6 +246,8 @@ event-details:
       annotate:
         EventName: Generic JUNIPER-SRX Firewall Event
         Stream: OTHER
+      translate:
+        datetime: SystemTstamp
 
   globals:
     translate:
@@ -254,6 +272,8 @@ event-details:
       annotate:
         EventName: Generic JUNIPER-SRX Firewall Event
         Stream: OTHER
+      translate:
+        datetime: SystemTstamp
 
   globals:
     translate:
@@ -278,6 +298,8 @@ event-details:
       annotate:
         EventName: Generic JUNIPER-SRX Firewall Event
         Stream: OTHER
+      translate:
+        datetime: SystemTstamp
 
   globals:
     translate:
@@ -303,6 +325,8 @@ event-details:
       annotate:
         EventName: Generic JUNIPER-SRX Firewall Event
         Stream: OTHER
+      translate:
+        datetime: SystemTstamp
 
   globals:
     translate:
@@ -327,6 +351,8 @@ event-details:
       annotate:
         EventName: Generic JUNIPER-SRX Firewall Event
         Stream: OTHER
+      translate:
+        datetime: SystemTstamp
 
   globals:
     translate:
@@ -351,6 +377,8 @@ event-details:
       annotate:
         EventName: Generic JUNIPER-SRX Firewall Event
         Stream: OTHER
+      translate:
+        datetime: SystemTstamp
 
   globals:
     translate:
@@ -377,6 +405,8 @@ event-details:
       annotate:
         EventName: Generic JUNIPER-SRX Firewall Event
         Stream: OTHER
+      translate:
+        datetime: SystemTstamp
 
   globals:
     translate:
@@ -403,6 +433,8 @@ event-details:
       annotate:
         EventName: Generic JUNIPER-SRX Firewall Event
         Stream: OTHER
+      translate:
+        datetime: SystemTstamp
 
   globals:
     translate:
@@ -430,6 +462,8 @@ event-details:
       annotate:
         EventName: Generic JUNIPER-SRX Firewall Event
         Stream: OTHER
+      translate:
+        datetime: SystemTstamp
 
   globals:
     translate:
@@ -457,6 +491,8 @@ event-details:
       annotate:
         EventName: Generic JUNIPER-SRX Firewall Event
         Stream: OTHER
+      translate:
+        datetime: SystemTstamp
 
   globals:
     translate:
@@ -480,6 +516,8 @@ event-details:
       annotate:
         EventName: Generic JUNIPER-SRX Firewall Event
         Stream: OTHER
+      translate:
+        datetime: SystemTstamp
 
   globals:
     translate:
@@ -505,6 +543,8 @@ event-details:
       annotate:
         EventName: Generic JUNIPER-SRX Firewall Event
         Stream: OTHER
+      translate:
+        datetime: SystemTstamp
 
   globals:
     translate:
