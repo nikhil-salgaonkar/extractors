@@ -30,7 +30,6 @@ event-details:
         srcport: SrcPort
         dstip: DstIP
         dstport: DstPort
-        subtype: SubCategory
 
     0000000013-accept:
       annotate:
@@ -44,7 +43,6 @@ event-details:
         dstport: DstPort
         sentbyte: TXLen
         rcvdbyte: RXLen
-        subtype: SubCategory
 
     0000000013-deny:
       annotate:
@@ -56,7 +54,6 @@ event-details:
         srcport: SrcPort
         dstip: DstIP
         dstport: DstPort
-        subtype: SubCategory
 
     0001000014-accept:
       annotate:
@@ -70,7 +67,6 @@ event-details:
         dstport: DstPort
         sentbyte: TXLen
         rcvdbyte: RXLen
-        subtype: SubCategory
 
     0000000010-accept:
       annotate:
@@ -84,7 +80,6 @@ event-details:
         dstport: DstPort
         sentbyte: TXLen
         rcvdbyte: RXLen
-        subtype: SubCategory
 
     0000000009-accept:
       annotate:
@@ -98,7 +93,6 @@ event-details:
         dstport: DstPort
         sentbyte: TXLen
         rcvdbyte: RXLen
-        subtype: SubCategory
 
     0000000020-accept:
       annotate:
@@ -112,7 +106,6 @@ event-details:
         dstport: DstPort
         sentbyte: TXLen
         rcvdbyte: RXLen
-        subtype: SubCategory
 
     0000000020-deny:
       annotate:
@@ -124,7 +117,6 @@ event-details:
         srcport: SrcPort
         dstip: DstIP
         dstport: DstPort
-        subtype: SubCategory
 
     0102043014-FSSO-logon:
       annotate:
@@ -228,7 +220,7 @@ event-details:
     0101037122-negotiate:
       annotate:
         Stream: AUTHENTICATION
-        Action: LOGIN_NOTIFICATION
+        Action: LOGIN
         Status: PASSED
         AuthMethod: VPN
       translate:
@@ -240,7 +232,7 @@ event-details:
     0101037127-negotiate:
       annotate:
         Stream: AUTHENTICATION
-        Action: LOGIN_NOTIFICATION
+        Action: LOGIN
         Status: PASSED
         AuthMethod: VPN
       translate:
@@ -252,7 +244,7 @@ event-details:
     0101037128-negotiate:
       annotate:
         Stream: AUTHENTICATION
-        Action: LOGIN_NOTIFICATION
+        Action: LOGIN
         Status: PASSED
         AuthMethod: VPN
       translate:
@@ -264,7 +256,7 @@ event-details:
     0101037129-negotiate:
       annotate:
         Stream: AUTHENTICATION
-        Action: LOGIN_NOTIFICATION
+        Action: LOGIN
         Status: PASSED
         AuthMethod: VPN
       translate:
@@ -288,7 +280,7 @@ event-details:
     0101037192-negotiate:
       annotate:
         Stream: AUTHENTICATION
-        Action: LOGIN_NOTIFICATION
+        Action: LOGIN
         Status: FAILED
         AuthMethod: VPN
       translate:
@@ -300,7 +292,7 @@ event-details:
     0101037127-negotiate:
       annotate:
         Stream: AUTHENTICATION
-        Action: LOGIN_NOTIFICATION
+        Action: LOGIN
         Status: PASSED
         AuthMethod: VPN
       translate:
@@ -458,7 +450,6 @@ event-details:
         dstport: DstPort
         sentbyte: TXLen
         rcvdbyte: RXLen
-        subtype: SubCategory
 
     1501054601-block:
       annotate:
@@ -527,7 +518,7 @@ event-details:
     0101037124-negotiate:
       annotate:
         Stream: AUTHENTICATION
-        Action: LOGIN_NOTIFICATION
+        Action: LOGIN
         Status: FAILED
         AuthMethod: VPN
       translate:
@@ -567,7 +558,7 @@ event-details:
     0101037120-negotiate:
       annotate:
         Stream: AUTHENTICATION
-        Action: LOGIN_NOTIFICATION
+        Action: LOGIN
         Status: PASSED
         AuthMethod: VPN
       translate:
@@ -621,7 +612,6 @@ event-details:
         srcport: SrcPort
         dstip: DstIP
         dstport: DstPort
-        subtype: SubCategory
 
     0100032001-login:
       annotate:
@@ -659,7 +649,6 @@ event-details:
         srcport: SrcPort
         dstip: DstIP
         dstport: DstPort
-        subtype: SubCategory
 
     0000000013-server-rst:
       annotate:
@@ -672,7 +661,6 @@ event-details:
         srcport: SrcPort
         dstip: DstIP
         dstport: DstPort
-        subtype: SubCategory
 
     1059028704-pass:
       annotate:
@@ -684,7 +672,6 @@ event-details:
         srcport: SrcPort
         dstip: DstIP
         dstport: DstPort
-        subtype: SubCategory
 
     0419016385-detected:
       annotate:
@@ -694,7 +681,6 @@ event-details:
       translate:
         srcip: SrcIP
         dstip: DstIP
-        subtype: SubCategory
 
     1501054200-pass:
       annotate:
@@ -738,7 +724,6 @@ event-details:
         srcport: SrcPort
         dstip: DstIP
         dstport: DstPort
-        subtype: SubCategory
 
     0314012293-passthrough:
       annotate:
@@ -776,7 +761,7 @@ event-details:
     0101039426-ssl-login-fail:
       annotate:
         Stream: AUTHENTICATION
-        Action: LOGIN_FAIL
+        Action: LOGIN
         Status: FAILED
       translate:
         srcip: SrcIP
@@ -793,7 +778,6 @@ event-details:
         srcport: SrcPort
         dstip: DstIP
         dstport: DstPort
-        subtype: SubCategory
 
     0954024577-log-only:
       annotate:
