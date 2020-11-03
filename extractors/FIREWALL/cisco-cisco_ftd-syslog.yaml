@@ -78,7 +78,6 @@ event-details:
     translate:
       datetime: SystemTstamp
       hostname: System
-      severity: Severity 
 
   subs: &id001
     Severity:
@@ -119,7 +118,6 @@ event-details:
     translate:
       datetime: SystemTstamp
       hostname: System
-      severity: Severity   
 
   subs: *id001        
 
@@ -164,7 +162,6 @@ event-details:
     translate:
       datetime: SystemTstamp
       hostname: System
-      severity: Severity  
 
   subs: *id001    
 
@@ -195,7 +192,6 @@ event-details:
     translate:
       datetime: SystemTstamp
       hostname: System
-      severity: Severity   
 
   subs: *id001                    
 
@@ -233,7 +229,6 @@ event-details:
     translate:
       datetime: SystemTstamp
       hostname: System
-      severity: Severity 
 
   subs: *id001                       
 
@@ -263,7 +258,6 @@ event-details:
     translate:
       datetime: SystemTstamp
       hostname: System
-      severity: Severity 
 
   subs: *id001    
 
@@ -298,6 +292,5 @@ event-details:
     translate:
       datetime: SystemTstamp
       hostname: System
-      severity: Severity 
 
   subs: *id001

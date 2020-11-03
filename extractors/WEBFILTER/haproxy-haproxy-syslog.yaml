@@ -26,7 +26,6 @@ event-details:
         method: Method
         txlen: TXLen
         user: User
-        file_path: FilePath
 
   fallback:
       annotate:

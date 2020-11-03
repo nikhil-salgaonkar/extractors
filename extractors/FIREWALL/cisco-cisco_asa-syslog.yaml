@@ -551,7 +551,6 @@ event-details:
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity
 
   subs: *id001                           
 
@@ -579,7 +578,6 @@ event-details:
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity
 
   subs: *id001 
 
@@ -611,7 +609,6 @@ event-details:
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity
 
   subs: *id001                             
 
@@ -636,7 +633,6 @@ event-details:
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity
 
   subs: *id001     
 
@@ -662,7 +658,6 @@ event-details:
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity 
 
   subs: *id001    
 
@@ -690,7 +685,6 @@ event-details:
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity 
 
   subs: *id001       
 
@@ -716,7 +710,6 @@ event-details:
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity 
 
   subs: *id001                     
 
@@ -744,7 +737,6 @@ event-details:
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
 
   subs: *id001 
 
@@ -771,7 +763,6 @@ event-details:
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
 
   subs: *id001
 
@@ -803,7 +794,6 @@ event-details:
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
 
   subs: *id001  
 
@@ -831,7 +821,6 @@ event-details:
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
 
   subs: *id001      
 
@@ -857,7 +846,6 @@ event-details:
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
 
   subs: *id001 
 
@@ -891,7 +879,6 @@ event-details:
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
 
   subs: *id001 
 
@@ -920,7 +907,6 @@ event-details:
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
 
   subs: *id001              
 
@@ -945,7 +931,6 @@ event-details:
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
 
   subs: *id001 
 
@@ -977,7 +962,6 @@ event-details:
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
 
   subs: *id001  
 
@@ -1008,7 +992,6 @@ event-details:
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
 
   subs: *id001 
 
@@ -1039,7 +1022,6 @@ event-details:
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
 
   subs: *id001                      
 
@@ -1083,7 +1065,6 @@ event-details:
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
 
   subs: *id001  
 
@@ -1112,7 +1093,6 @@ event-details:
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
 
   subs: *id001 
 
@@ -1143,7 +1123,6 @@ event-details:
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
 
   subs: *id001   
 
@@ -1174,7 +1153,6 @@ event-details:
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
 
   subs: *id001
 
@@ -1204,7 +1182,6 @@ event-details:
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
 
   subs: *id001  
 
@@ -1250,7 +1227,6 @@ event-details:
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
 
   subs: *id001     
 
@@ -1281,7 +1257,6 @@ event-details:
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
 
   subs: *id001 
 
@@ -1312,7 +1287,6 @@ event-details:
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
 
   subs: *id001 
 
@@ -1342,7 +1316,6 @@ event-details:
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
 
   subs: *id001   
 
@@ -1373,7 +1346,6 @@ event-details:
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
 
   subs: *id001  
 
@@ -1403,7 +1375,6 @@ event-details:
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
 
   subs: *id001 
 
@@ -1433,7 +1404,6 @@ event-details:
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
 
   subs: *id001- first-match: '\%ASA.*?-6\-302013\:.*?Built\s+outbound\s+\w+\s+connection'
   decoder: regex
@@ -1462,7 +1432,6 @@ event-details:
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
 
   subs: *id001
 
@@ -1493,7 +1462,6 @@ event-details:
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
 
   subs: *id001       
 
@@ -1535,7 +1503,6 @@ event-details:
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
 
   subs: *id001
 
@@ -1566,7 +1533,6 @@ event-details:
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
 
   subs: *id001 
 
@@ -1597,7 +1563,6 @@ event-details:
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
 
   subs: *id001             
 
@@ -1629,7 +1594,6 @@ event-details:
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
 
   subs: *id001 
 
@@ -1656,7 +1620,6 @@ event-details:
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
 
   subs: *id001       
 
@@ -1694,7 +1657,6 @@ event-details:
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
 
   subs: *id001 
 
@@ -1723,7 +1685,6 @@ event-details:
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
 
   subs: *id001 
 
@@ -1751,7 +1712,6 @@ event-details:
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
 
   subs: *id001        
 
@@ -1777,7 +1737,6 @@ event-details:
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
 
   subs: *id001
 
@@ -1805,7 +1764,6 @@ event-details:
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
 
   subs: *id001
 
@@ -1832,7 +1790,6 @@ event-details:
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
 
   subs: *id001 
 
@@ -1860,7 +1817,6 @@ event-details:
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
 
   subs: *id001 
 
@@ -1888,7 +1844,6 @@ event-details:
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
 
   subs: *id001   
 
@@ -1915,7 +1870,6 @@ event-details:
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
 
   subs: *id001 
 
@@ -1943,7 +1897,6 @@ event-details:
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
 
   subs: *id001                           
 
@@ -1972,7 +1925,6 @@ event-details:
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
 
   subs: *id001                             
 
@@ -2000,7 +1952,6 @@ event-details:
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
 
   subs: *id001   
 
@@ -2028,7 +1979,6 @@ event-details:
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
 
   subs: *id001     
 
@@ -2072,7 +2022,6 @@ event-details:
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
 
   subs: *id001   
 
@@ -2102,7 +2051,6 @@ event-details:
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
 
   subs: *id001
 
@@ -2134,7 +2082,6 @@ event-details:
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
 
   subs: *id001
 
@@ -2160,7 +2107,6 @@ event-details:
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
 
   subs: *id001 
 
@@ -2192,7 +2138,6 @@ event-details:
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
 
   subs: *id001
 
@@ -2222,7 +2167,6 @@ event-details:
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
 
   subs: *id001                 
 
@@ -2253,7 +2197,6 @@ event-details:
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
 
   subs: *id001
 
@@ -2282,7 +2225,6 @@ event-details:
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
 
   subs: *id001    
 
@@ -2308,7 +2250,6 @@ event-details:
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
 
   subs: *id001      
 
@@ -2336,7 +2277,6 @@ event-details:
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
 
   subs: *id001 
 
@@ -2364,7 +2304,6 @@ event-details:
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
 
   subs: *id001  
 
@@ -2395,6 +2334,5 @@ event-details:
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
 
   subs: *id001            

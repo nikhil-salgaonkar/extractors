@@ -268,9 +268,6 @@ event-details:
         EventName: Generic Checkpoint Firewall Event
         Stream: OTHER
 
-#  globals:
-#    translate:
-#      severity: Severity
 
   subs:
     Proto:

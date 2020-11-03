@@ -9,7 +9,6 @@ provides-streams:
 - AUTHENTICATION
 - NETWORK-THREAT
 - WEBFILTER
-- ADMINISTRATION
 - DLP
 - DNS
 master-filters:
@@ -31,6 +30,8 @@ event-details:
         srcport: SrcPort
         dstip: DstIP
         dstport: DstPort
+        subtype: SubCategory
+Sub
     0000000013-accept:
       annotate:
         Stream: NETWORK-FIREWALL
@@ -44,6 +45,8 @@ event-details:
         user: User
         sentbyte: TXLen
         rcvdbyte: RXLen
+        subtype: SubCategory
+
     0000000013-deny:
       annotate:
         Stream: NETWORK-FIREWALL
@@ -55,6 +58,8 @@ event-details:
         dstip: DstIP
         dstport: DstPort
         user: User
+        subtype: SubCategory
+
     0001000014-accept:
       annotate:
         Stream: NETWORK-FIREWALL
@@ -67,6 +72,8 @@ event-details:
         dstport: DstPort
         sentbyte: TXLen
         rcvdbyte: RXLen
+        subtype: SubCategory
+
     0000000010-accept:
       annotate:
         Stream: NETWORK-FIREWALL
@@ -79,6 +86,8 @@ event-details:
         dstport: DstPort
         sentbyte: TXLen
         rcvdbyte: RXLen
+        subtype: SubCategory
+
     0000000009-accept:
       annotate:
         Stream: NETWORK-FIREWALL
@@ -91,6 +100,8 @@ event-details:
         dstport: DstPort
         sentbyte: TXLen
         rcvdbyte: RXLen
+        subtype: SubCategory
+
     0000000020-accept:
       annotate:
         Stream: NETWORK-FIREWALL
@@ -103,6 +114,8 @@ event-details:
         dstport: DstPort
         sentbyte: TXLen
         rcvdbyte: RXLen
+        subtype: SubCategory
+
     0000000020-deny:
       annotate:
         Stream: NETWORK-FIREWALL
@@ -113,6 +126,8 @@ event-details:
         srcport: SrcPort
         dstip: DstIP
         dstport: DstPort
+        subtype: SubCategory
+
     0102043014-FSSO-logon:
       annotate:
         Stream: AUTHENTICATION
@@ -122,6 +137,8 @@ event-details:
         srcip: SrcIP
         user: User
         dstip: DstIP
+        subtype: SubCategory
+
     0102043015-FSSO-logoff:
       annotate:
         Stream: AUTHENTICATION
@@ -131,6 +148,8 @@ event-details:
         srcip: SrcIP
         dstip: DstIP
         user: User
+        subtype: SubCategory
+
     0102043040-auth-logout:
       annotate:
         Stream: AUTHENTICATION
@@ -140,6 +159,8 @@ event-details:
         srcip: SrcIP
         dstip: DstIP
         user: User
+        subtype: SubCategory
+
     0100032002-login:
       annotate:
         Stream: AUTHENTICATION
@@ -148,6 +169,8 @@ event-details:
       translate:
         srcip: SrcIP
         user: User
+        subtype: SubCategory
+
     0100032021-None:
       annotate:
         Stream: AUTHENTICATION
@@ -157,6 +180,8 @@ event-details:
         srcip: SrcIP
         dstip: DstIP
         user: User
+        subtype: SubCategory
+
     0102043011-authentication:
       annotate:
         Stream: AUTHENTICATION
@@ -166,6 +191,8 @@ event-details:
         srcip: SrcIP
         dstip: DstIP
         user: User
+        subtype: SubCategory
+
     0102043039-auth-logon:
       annotate:
         Stream: AUTHENTICATION
@@ -175,6 +202,8 @@ event-details:
         srcip: SrcIP
         dstip: DstIP
         user: User
+        subtype: SubCategory
+
     0102038031-FSSO-polling-logon:
       annotate:
         Stream: AUTHENTICATION
@@ -184,6 +213,8 @@ event-details:
         srcip: SrcIP
         dstip: DstIP
         user: User
+        subtype: SubCategory
+
     0102038032-FSSO-polling-logoff:
       annotate:
         Stream: AUTHENTICATION
@@ -194,6 +225,8 @@ event-details:
         srcip: SrcIP
         dstip: DstIP
         user: User
+        subtype: SubCategory
+
     0101037122-negotiate:
       annotate:
         Stream: AUTHENTICATION
@@ -204,6 +237,8 @@ event-details:
         srcip: SrcIP
         dstip: DstIP
         user: User
+        subtype: SubCategory
+
     0101037127-negotiate:
       annotate:
         Stream: AUTHENTICATION
@@ -214,6 +249,8 @@ event-details:
         srcip: SrcIP
         dstip: DstIP
         user: User
+        subtype: SubCategory
+
     0101037128-negotiate:
       annotate:
         Stream: AUTHENTICATION
@@ -224,15 +261,8 @@ event-details:
         srcip: SrcIP
         dstip: DstIP
         user: User
-    0100032028-None:
-      annotate:
-        Stream: ADMINISTRATION
-        Action: FILE_DELETED
-        Status: PASSED
-      translate:
-        srcip: SrcIP
-        dstip: DstIP
-        user: User
+        subtype: SubCategory
+
     0101037129-negotiate:
       annotate:
         Stream: AUTHENTICATION
@@ -243,6 +273,8 @@ event-details:
         srcip: SrcIP
         dstip: DstIP
         user: User
+        subtype: SubCategory
+
     0101037188-negotiate:
       annotate:
         Stream: AUTHENTICATION
@@ -253,6 +285,8 @@ event-details:
         srcip: SrcIP
         dstip: DstIP
         user: User
+        subtype: SubCategory
+
     0101037192-negotiate:
       annotate:
         Stream: AUTHENTICATION
@@ -263,6 +297,8 @@ event-details:
         srcip: SrcIP
         dstip: DstIP
         user: User
+        subtype: SubCategory
+
     0101037127-negotiate:
       annotate:
         Stream: AUTHENTICATION
@@ -273,6 +309,8 @@ event-details:
         srcip: SrcIP
         dstip: DstIP
         user: User
+        subtype: SubCategory
+
     0101037121-negotiate:
       annotate:
         Stream: AUTHENTICATION
@@ -283,6 +321,8 @@ event-details:
         srcip: SrcIP
         dstip: DstIP
         user: User
+        subtype: SubCategory
+
     0317013312-passthrough:
       annotate:
         Stream: WEBFILTER
@@ -296,6 +336,7 @@ event-details:
         url: URL
         sentbyte: TXLen
         rcvdbyte: RXLen
+
     0316013056-PACKET_BLOCKED:
       annotate:
         Stream: WEBFILTER
@@ -309,6 +350,7 @@ event-details:
         url: URL
         sentbyte: TXLen
         rcvdbyte: RXLen
+
     0318012800-PACKET_BLOCKED:
       annotate:
         Stream: WEBFILTER
@@ -322,6 +364,7 @@ event-details:
         url: URL
         sentbyte: TXLen
         rcvdbyte: RXLen
+
     0315012544-PACKET_BLOCKED:
       annotate:
         Stream: WEBFILTER
@@ -335,6 +378,7 @@ event-details:
         url: URL
         sentbyte: TXLen
         rcvdbyte: RXLen
+
     0315012546-passthrough:
       annotate:
         Stream: WEBFILTER
@@ -348,6 +392,7 @@ event-details:
         url: URL
         sentbyte: TXLen
         rcvdbyte: RXLen
+
     0318012801-passthrough:
       annotate:
         Stream: WEBFILTER
@@ -361,6 +406,7 @@ event-details:
         url: URL
         sentbyte: TXLen
         rcvdbyte: RXLen
+
     0315012545-passthrough:
       annotate:
         Stream: WEBFILTER
@@ -374,6 +420,7 @@ event-details:
         url: URL
         sentbyte: TXLen
         rcvdbyte: RXLen
+
     0314012293-passthrough:
       annotate:
         Stream: WEBFILTER
@@ -387,6 +434,7 @@ event-details:
         url: URL
         sentbyte: TXLen
         rcvdbyte: RXLen
+
     0314012288-PACKET_BLOCKED:
       annotate:
         Stream: WEBFILTER
@@ -412,6 +460,8 @@ event-details:
         dstport: DstPort
         sentbyte: TXLen
         rcvdbyte: RXLen
+        subtype: SubCategory
+
     1501054601-block:
       annotate:
         Stream: DNS
@@ -425,6 +475,8 @@ event-details:
         qname: Query
         qtype: Lookup
         msg: Message
+        subtype: SubCategory
+
     1501054600-block:
       annotate:
         Stream: DNS
@@ -438,29 +490,8 @@ event-details:
         qname: Query
         qtype: Lookup
         msg: Message
-    0100020025-None:
-      annotate:
-        Stream: ADMINISTRATION
-        Action: REPORT_CREATED
-        Status: PASSED
-      translate:
-        msg: Message
-        file: File
-        filesize: FileSize
-    0100032040-delete:
-      annotate:
-        Stream: ADMINISTRATION
-        Action: REPORT_DELETED
-        Status: PASSED
-      translate:
-        msg: Message
-    0100032029-delete:
-      annotate:
-        Stream: ADMINISTRATION
-        Action: REPORT_DELETED
-        Status: PASSED
-      translate:
-        msg: Message
+        subtype: SubCategory
+
     0100032003-logout:
       annotate:
         Stream: AUTHENTICATION
@@ -472,6 +503,8 @@ event-details:
         dstip: DstIP
         reason: Reason
         method: LoginSrc
+        subtype: SubCategory
+
     0100032001-login:
       annotate:
         Stream: AUTHENTICATION
@@ -483,159 +516,8 @@ event-details:
         dstip: DstIP
         reason: Reason
         group: UserGroup
-    0101037134-delete_phase1_sa:
-      annotate:
-        Stream: ADMINISTRATION
-        Action: CONFIGURATION_ERASED
-        Status: PASSED
-        AuthMethod: VPN
-      translate:
-        srcip: SrcIP
-        srcport: SrcPort
-        dstip: DstIP
-        dstport: DstPort
-        user: User
-        msg: Message
-        group: UserGroup
-    0101037133-install_sa:
-      annotate:
-        Stream: ADMINISTRATION
-        Action: CONFIGURATION_DOWNLOAD
-        Status: PASSED
-        AuthMethod: VPN
-      translate:
-        srcip: SrcIP
-        srcport: SrcPort
-        dstip: DstIP
-        dstport: DstPort
-        user: User
-        msg: Message
-        group: UserGroup
-    0101037135-delete_phase1_sa:
-      annotate:
-        Stream: ADMINISTRATION
-        Action: CONFIGURATION_ERASED
-        Status: PASSED
-        AuthMethod: VPN
-      translate:
-        srcip: SrcIP
-        srcport: SrcPort
-        dstip: DstIP
-        dstport: DstPort
-        user: User
-        msg: Message
-        group: UserGroup
-    0100032400-None:
-      annotate:
-        Stream: ADMINISTRATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-      translate:
-        user: AdminUser
-        msg: Message
-    0100044546-Edit:
-      annotate:
-        Stream: ADMINISTRATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-      translate:
-        user: AdminUser
-        msg: Message
-    0107045058-close:
-      annotate:
-        Stream: ADMINISTRATION
-        Action: VPN_DISCONNECT
-        Status: PASSED
-      translate:
-        user: User
-        msg: Message
-    0101039948-tunnel-down:
-      annotate:
-        Stream: ADMINISTRATION
-        Action: VPN_DOWN
-        Status: FAILED
-      translate:
-        remip: SrcIP
-        user: User
-        reason: Reason
-        sentbyte: TXLen
-        rcvdbyte: RXLen
-        msg: Message
-    0101039425-tunnel-down:
-      annotate:
-        Stream: ADMINISTRATION
-        Action: VPN_DOWN
-        Status: FAILED
-      translate:
-        remip: SrcIP
-        user: User
-        reason: Reason
-        sentbyte: TXLen
-        rcvdbyte: RXLen
-        msg: Message
-    0100032095-download:
-      annotate:
-        Stream: ADMINISTRATION
-        Action: CONFIGURATION_DOWNLOAD
-        Status: PASSED
-      translate:
-        user: User
-        msg: Message
-    0100044547-Add:
-      annotate:
-        Stream: ADMINISTRATION
-        Action: CONFIGURATION_DOWNLOAD
-        Status: PASSED
-      translate:
-        user: AdminUser
-        msg: Message
-    0100044545-Delete:
-      annotate:
-        Stream: ADMINISTRATION
-        Action: CONFIGURATION_ERASED
-        Status: PASSED
-      translate:
-        user: AdminUser
-        msg: Message
-    0108037891-None:
-      annotate:
-        Stream: ADMINISTRATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-      translate:
-        msg: Message
-    0100032301-add-vdom:
-      annotate:
-        Stream: ADMINISTRATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-      translate:
-        user: AdminUser
-        msg: Message
-    0100032006-vdom-switch:
-      annotate:
-        Stream: ADMINISTRATION
-        Action: CONFIGURATION_MODE
-        Status: PASSED
-      translate:
-        user: AdminUser
-        msg: Message
-    0100032007-vdom-switch:
-      annotate:
-        Stream: ADMINISTRATION
-        Action: CONFIGURATION_MODE
-        Status: PASSED
-      translate:
-        user: AdminUser
-        msg: Message
-        reason: Reason
-    0100032048-None:
-      annotate:
-        Stream: ADMINISTRATION
-        Action: SCHEDULED_TASK_EXPIRED
-        Status: PASSED
-      translate:
-        msg: Message
+        subtype: SubCategory
+
     0100032021-login:
       annotate:
         Stream: AUTHENTICATION
@@ -644,33 +526,8 @@ event-details:
         User: '-'
       translate:
         reason: Reason
-    0101039947-tunnel-up:
-      annotate:
-        Stream: ADMINISTRATION
-        Action: INTERFACE_UP
-        Status: PASSED
-      translate:
-        remip: SrcIP
-        msg: Message
-        reason: Reason
-    0101039424-tunnel-up:
-      annotate:
-        Stream: ADMINISTRATION
-        Action: VPN_CONNECTED
-        Status: PASSED
-      translate:
-        msg: Message
-        reason: Reason
-        user: User
-    0107045057-add:
-      annotate:
-        Stream: ADMINISTRATION
-        Action: VPN_CONNECTED
-        Status: PASSED
-      translate:
-        ip: SrcIP
-        user: User
-        msg: Message
+        subtype: SubCategory
+
     0101037124-negotiate:
       annotate:
         Stream: AUTHENTICATION
@@ -684,13 +541,8 @@ event-details:
         dstport: DstPort
         user: User
         group: UserGroup
-    0100041001-None:
-      annotate:
-        Stream: ADMINISTRATION
-        Action: SCHEDULED_TASK_UPDATED
-        Status: FAILED
-      translate:
-        msg: Message
+        subtype: SubCategory
+
     0315012556-passthrough:
       annotate:
         Stream: WEBFILTER
@@ -715,21 +567,7 @@ event-details:
         dstport: DstPort
         sentbyte: TXLen
         rcvdbyte: RXLen
-    0101037138-tunnel-down:
-      annotate:
-        Stream: ADMINISTRATION
-        Action: VPN_DOWN
-        Status: PASSED
-        AuthMethod: VPN
-      translate:
-        srcip: SrcIP
-        srcport: SrcPort
-        dstip: DstIP
-        dstport: DstPort
-        sentbyte: TXLen
-        rcvdbyte: RXLen
-        user: User
-        group: UserGroup
+
     0101037120-negotiate:
       annotate:
         Stream: AUTHENTICATION
@@ -743,24 +581,8 @@ event-details:
         dstport: DstPort
         user: User
         group: UserGroup
-    0100032111-update:
-      annotate:
-        Stream: ADMINISTRATION
-        Action: DATABASE_UPDATED
-        Status: PASSED
-        AuthMethod: VPN
-      translate:
-        user: User
-        msg: Message
-    0100044548-Execute:
-      annotate:
-        Stream: ADMINISTRATION
-        Action: COMMAND_EXECUTED
-        Status: PASSED
-        AuthMethod: VPN
-      translate:
-        user: User
-        msg: Message
+        subtype: SubCategory
+
     0101037121-negotiate:
       annotate:
         Stream: AUTHENTICATION
@@ -776,30 +598,8 @@ event-details:
         user: User
         group: UserGroup
         reason: Reason
-    0100032141-None:
-      annotate:
-        Stream: ADMINISTRATION
-        Action: SYSTEM_TIME_CHANGED
-        Status: PASSED
-      translate:
-        user: User
-        msg: Message
-    0100032130-None:
-      annotate:
-        Stream: ADMINISTRATION
-        Action: USER_ACCOUNT_CHANGED
-        Status: PASSED
-      translate:
-        user: User
-        msg: Message
-    0100032132-None:
-      annotate:
-        Stream: ADMINISTRATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-      translate:
-        user: AdminUser
-        msg: Message
+        subtype: SubCategory
+
     0954024576-block:
       annotate:
         Stream: DLP
@@ -813,14 +613,8 @@ event-details:
         user: User
         url: URL
         hostname: Domain
-    0100032102-None:
-      annotate:
-        Stream: ADMINISTRATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-      translate:
-        user: AdminUser
-        msg: Message
+        subtype: SubCategory
+
     1059028705-block:
       annotate:
         Stream: NETWORK-FIREWALL
@@ -833,6 +627,8 @@ event-details:
         dstport: DstPort
         user: User
         hostname: Domain
+        subtype: SubCategory
+
     0100032001-login:
       annotate:
         Stream: AUTHENTICATION
@@ -843,6 +639,8 @@ event-details:
         user: User
         reason: Reason
         dstip: DstIP
+        subtype: SubCategory
+
     0419016384-detected:
       annotate:
         Stream: NETWORK-THREAT
@@ -854,29 +652,8 @@ event-details:
         srcport: SrcPort
         dstip: DstIP
         dstport: DstPort
-    0100044547-Edit:
-      annotate:
-        Stream: ADMINISTRATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-      translate:
-        srcip: SrcIP
-        dstip: DstIP
-        user: AdminUser
-    0100032102-None:
-      annotate:
-        Stream: ADMINISTRATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-      translate:
-        user: AdminUser
-    0100041000-None:
-      annotate:
-        Stream: ADMINISTRATION
-        Action: SCHEDULED_TASK_UPDATED
-        Status: PASSED
-      translate:
-        msg: Message
+        subtype: SubCategory
+
     0000000013-close:
       annotate:
         Stream: NETWORK-FIREWALL
@@ -888,6 +665,8 @@ event-details:
         srcport: SrcPort
         dstip: DstIP
         dstport: DstPort
+        subtype: SubCategory
+
     0000000013-server-rst:
       annotate:
         Stream: NETWORK-FIREWALL
@@ -899,6 +678,8 @@ event-details:
         srcport: SrcPort
         dstip: DstIP
         dstport: DstPort
+        subtype: SubCategory
+
     1059028704-pass:
       annotate:
         Stream: NETWORK-FIREWALL
@@ -910,6 +691,8 @@ event-details:
         dstip: DstIP
         dstport: DstPort
         app: App
+        subtype: SubCategory
+
     0419016385-detected:
       annotate:
         Stream: NETWORK-FIREWALL
@@ -918,6 +701,8 @@ event-details:
       translate:
         srcip: SrcIP
         dstip: DstIP
+        subtype: SubCategory
+
     1501054200-pass:
       annotate:
         Stream: DNS
@@ -929,6 +714,8 @@ event-details:
         dstip: DstIP
         dstport: DstPort
         qname: Query
+        subtype: SubCategory
+
     0100022952-login:
       annotate:
         Stream: AUTHENTICATION
@@ -936,6 +723,8 @@ event-details:
         Status: FAILED
       translate:
         user: User
+        subtype: SubCategory
+
     0314012288-PACKET_BLOCKED:
       annotate:
         Stream: WEBFILTER
@@ -956,6 +745,8 @@ event-details:
         srcport: SrcPort
         dstip: DstIP
         dstport: DstPort
+        subtype: SubCategory
+
     0314012293-passthrough:
       annotate:
         Stream: WEBFILTER
@@ -966,16 +757,7 @@ event-details:
         srcport: SrcPort
         dstip: DstIP
         dstport: DstPort
-    0101037139-phase2-down:
-      annotate:
-        Stream: ADMINISTRATION
-        Action: VPN_DOWN
-        Status: PASSED
-      translate:
-        srcip: SrcIP
-        srcport: SrcPort
-        dstip: DstIP
-        dstport: DstPort
+
     0315012545-passthrough:
       annotate:
         Stream: WEBFILTER
@@ -986,6 +768,7 @@ event-details:
         srcport: SrcPort
         dstip: DstIP
         dstport: DstPort
+
 #    0100022113-None:
 #      annotate:
 #        Stream: AUTHENTICATION
@@ -1005,6 +788,8 @@ event-details:
       translate:
         srcip: SrcIP
         user: User
+        subtype: SubCategory
+
     0002000012-accept:
       annotate:
         Stream: NETWORK-FIREWALL
@@ -1015,6 +800,8 @@ event-details:
         srcport: SrcPort
         dstip: DstIP
         dstport: DstPort
+        subtype: SubCategory
+
     0954024577-log-only:
       annotate:
         Stream: DLP
@@ -1040,7 +827,6 @@ event-details:
       proto: Proto
       level: LogLevel
       type: Category
-      subtype: SubCategory
 
   subs:
     Proto:
