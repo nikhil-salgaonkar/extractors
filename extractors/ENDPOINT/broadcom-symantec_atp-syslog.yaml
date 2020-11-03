@@ -79,7 +79,7 @@ event-details:
         domain_name: Domain
         device_ip: SrcIP
         app_name: FileName
-        intrusion_url: InfectionURL
+        intrusion_url: URL
         signature_name: SignName
 
   fallback:

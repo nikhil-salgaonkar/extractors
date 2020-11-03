@@ -36,7 +36,7 @@ event-details:
         Local Port: DstPort
         Remote Port: SrcPort
         CIDS Signature string: AtkMsg
-        Intrusion URL: InfectionURL 
+        Intrusion URL: URL
     
 - first-match: Category\s+set\:\s+.*?\,Category\s+type\:\s+
   decoder: custom

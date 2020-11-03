@@ -78,7 +78,7 @@ event-details:
 
 - first-match: '\s\d+\s+TCP\_TUNNELED\s+\w+\s+\S+\s+\w+\s+\S+\.\D{2,17}\s+\d+\s+'
   decoder: regex
-  decoder-regex: '(?P<datetime>\d+\-\d+\-\d+\s+\d+\:\d+\:\d+)\s+\d+\s+(?P<src>.*?)\s+(?P<user>.*?)\s+\S+\s+.*?\s+\-\s+\S+\s+(?P<filerresult>.*?)\s+(?P<siteclass>.*?)\s+\-\s+(?P<status_code>.*?)\s+(?P<action>.*?)\s+(?P<httpmethod>.*?)\s+(?P<mimetype>.*?)\s+(?P<protocol>.*?)\s+(?P<domain>\S+[\^\.]+(?P<tld>\S+))\s+(?P<dport>\d+)\s+(?P<baseurl>.*?)\s+(?P<url>.*?)\s+(?P<urlextension>.*?)\s+(?P<useragent>.*?)\s+(?P<severip>[\w\.\:]+)\s+(?P<receive_byte>(?:\d+|\-))\s+(?P<sent_byte>(?:\d+|\-))\s+(?P<atkid>(?:\d+|\-))\s+(?P<application>.*?)\s+(?P<appservice>\w+)\s+(?:\d+|\-|none)\s+.*?\s+'
+  decoder-regex: '(?P<datetime>\d+\-\d+\-\d+\s+\d+\:\d+\:\d+)\s+\d+\s+(?P<src>.*?)\s+(?P<user>.*?)\s+\S+\s+.*?\s+\-\s+\S+\s+(?P<filerresult>.*?)\s+(?P<siteclass>.*?)\s+\-\s+(?P<status_code>.*?)\s+(?P<action>.*?)\s+(?P<httpmethod>.*?)\s+(?P<mimetype>.*?)\s+(?P<protocol>.*?)\s+(?P<domain>\S+[\^\.]+(?P<tld>\S+))\s+(?P<dport>\d+)\s+(?P<baseurl>.*?)\s+(?P<url>.*?)\s+(?P<urlextension>.*?)\s+(?P<useragent>.*?)\s+(?P<serverip>[\w\.\:]+)\s+(?P<receive_byte>(?:\d+|\-))\s+(?P<sent_byte>(?:\d+|\-))\s+(?P<atkid>(?:\d+|\-))\s+(?P<application>.*?)\s+(?P<appservice>\w+)\s+(?:\d+|\-|none)\s+.*?\s+'
   event-key-format: '{action}-{status_code}'
   event-key-mapping:
     TCP_TUNNELED-200: 
@@ -91,7 +91,6 @@ event-details:
         dport: DstPort
         user: User
         sport: SrcPort
-        severip: SeverIP
         url: URL
         httpmethod: Method
         sent_byte: TXLen
@@ -113,7 +112,7 @@ event-details:
 
 - first-match: '\s+\d+\s+TCP\_ACCELERATED\s+'
   decoder: regex
-  decoder-regex: '(?P<datetime>\d+\-\d+\-\d+\s+\d+\:\d+\:\d+)\s+\d+\s+(?P<src>.*?)\s+(?P<user>.*?)\s+\S+\s+.*?\s+\-\s+\S+\s+(?P<filerresult>.*?)\s+(?P<siteclass>.*?)\s+\-\s+(?P<status_code>.*?)\s+(?P<action>.*?)\s+(?P<httpmethod>.*?)\s+(?P<mimetype>.*?)\s+(?P<protocol>.*?)\s+(?P<domain>\S+[\^\.]+(?P<tld>\S+))\s+(?P<dport>\d+)\s+(?P<baseurl>.*?)\s+(?P<url>.*?)\s+(?P<urlextension>.*?)\s+(?P<useragent>.*?)\s+(?P<severip>[\w\.\:]+)\s+(?P<receive_byte>(?:\d+|\-))\s+(?P<sent_byte>(?:\d+|\-))\s+(?P<atkid>(?:\d+|\-))\s+(?P<application>.*?)\s+(?P<appservice>\w+)\s+(?P<atkthreat>(?:\d+|\-))\s+(?P<transcationid>.*?)\s+'
+  decoder-regex: '(?P<datetime>\d+\-\d+\-\d+\s+\d+\:\d+\:\d+)\s+\d+\s+(?P<src>.*?)\s+(?P<user>.*?)\s+\S+\s+.*?\s+\-\s+\S+\s+(?P<filerresult>.*?)\s+(?P<siteclass>.*?)\s+\-\s+(?P<status_code>.*?)\s+(?P<action>.*?)\s+(?P<httpmethod>.*?)\s+(?P<mimetype>.*?)\s+(?P<protocol>.*?)\s+(?P<domain>\S+[\^\.]+(?P<tld>\S+))\s+(?P<dport>\d+)\s+(?P<baseurl>.*?)\s+(?P<url>.*?)\s+(?P<urlextension>.*?)\s+(?P<useragent>.*?)\s+(?P<serverip>[\w\.\:]+)\s+(?P<receive_byte>(?:\d+|\-))\s+(?P<sent_byte>(?:\d+|\-))\s+(?P<atkid>(?:\d+|\-))\s+(?P<application>.*?)\s+(?P<appservice>\w+)\s+(?P<atkthreat>(?:\d+|\-))\s+(?P<transcationid>.*?)\s+'
   event-key-format: '{action}-{status_code}'
   event-key-mapping:
     TCP_ACCELERATED-200: 
@@ -125,7 +124,6 @@ event-details:
         src: SrcIP 
         dport: DstPort
         user: User
-        severip: SeverIP
         url: URL
     #   application: App
         httpmethod: Method
@@ -149,7 +147,7 @@ event-details:
 
 - first-match: '\s+policy_denied\s+DENIED\s+.*?TCP_DENIED\s+'
   decoder: regex
-  decoder-regex: '(?P<datetime>\d+\-\d+\-\d+\s+\d+\:\d+\:\d+)\s+\d+\s+(?P<src>.*?)\s+(?P<user>.*?)\s+\S+\s+.*?\s+\-\s+\S+\s+.*?\s+(?P<message>.*?)\s+(?P<filerresult>.*?)\s+(?P<siteclass>.*?)\s+\-\s+(?P<status_code>.*?)\s+(?P<action>..*?)\s+(?P<httpmethod>.*?)\s+(?P<mimetype>.*?)\s+(?P<protocol>.*?)\s+(?P<domain>\S+[\^\.]+(?P<tld>\S+))\s+(?P<dport>.*?)\s+(?P<baseurl>.*?)\s+(?P<url>.*?)\s+(?P<urlextension>.*?)\s+(?P<useragent>.*?)\s+(?P<severip>[\w\.\:]+)\s+(?P<receive_byte>(?:\d+|\-))\s+(?P<sent_byte>(?:\d+|\-))\s+(?P<atkid>(?:\d+|\-))\s+(?P<application>.*?)\s+\w+\s+\d+'
+  decoder-regex: '(?P<datetime>\d+\-\d+\-\d+\s+\d+\:\d+\:\d+)\s+\d+\s+(?P<src>.*?)\s+(?P<user>.*?)\s+\S+\s+.*?\s+\-\s+\S+\s+.*?\s+(?P<message>.*?)\s+(?P<filerresult>.*?)\s+(?P<siteclass>.*?)\s+\-\s+(?P<status_code>.*?)\s+(?P<action>..*?)\s+(?P<httpmethod>.*?)\s+(?P<mimetype>.*?)\s+(?P<protocol>.*?)\s+(?P<domain>\S+[\^\.]+(?P<tld>\S+))\s+(?P<dport>.*?)\s+(?P<baseurl>.*?)\s+(?P<url>.*?)\s+(?P<urlextension>.*?)\s+(?P<useragent>.*?)\s+(?P<serverip>[\w\.\:]+)\s+(?P<receive_byte>(?:\d+|\-))\s+(?P<sent_byte>(?:\d+|\-))\s+(?P<atkid>(?:\d+|\-))\s+(?P<application>.*?)\s+\w+\s+\d+'
   event-key-format: '{action}-{status_code}'
   event-key-mapping:
     TCP_DENIED-403: 
@@ -161,7 +159,6 @@ event-details:
         src: SrcIP 
         dport: DstPort
         user: User
-        severip: SeverIP
         url: URL
         message: Message
     #   application: App
@@ -185,7 +182,7 @@ event-details:
 
 - first-match: '\s+\d+\s+TCP\_NC\_MISS\s+\w+\s+\S+\s+\w+\s+[\D\.]+\s+\d+'
   decoder: regex
-  decoder-regex: '(?P<datetime>\d+\-\d+\-\d+\s+\d+\:\d+\:\d+)\s+\d+\s+(?P<src>.*?)\s+(?P<user>.*?)\s+\S+\s+.*?\s+\-\s+\S+\s+(?P<filerresult>.*?)\s+(?P<siteclass>.*?)\s+\-\s+(?P<status_code>.*?)\s+(?P<action>.*?)\s+(?P<httpmethod>.*?)\s+(?P<mimetype>.*?)\s+(?P<protocol>.*?)\s+(?P<domain>\S+[\^\.]+(?P<tld>\S+))\s+(?P<dport>\d+)\s+(?P<baseurl>.*?)\s+(?P<url>.*?)\s+(?P<urlextension>.*?)\s+(?P<useragent>.*?)\s+(?P<severip>[\w\.\:]+)\s+(?P<receive_byte>(?:\d+|\-))\s+(?P<sent_byte>(?:\d+|\-))\s+(?P<atkid>(?:\d+|\-))\s+(?P<application>.*?)\s+(?P<appservice>\w+)\s+(?P<atkthreat>(?:\d+|\-))\s+(?P<transcationid>.*?)\s+'
+  decoder-regex: '(?P<datetime>\d+\-\d+\-\d+\s+\d+\:\d+\:\d+)\s+\d+\s+(?P<src>.*?)\s+(?P<user>.*?)\s+\S+\s+.*?\s+\-\s+\S+\s+(?P<filerresult>.*?)\s+(?P<siteclass>.*?)\s+\-\s+(?P<status_code>.*?)\s+(?P<action>.*?)\s+(?P<httpmethod>.*?)\s+(?P<mimetype>.*?)\s+(?P<protocol>.*?)\s+(?P<domain>\S+[\^\.]+(?P<tld>\S+))\s+(?P<dport>\d+)\s+(?P<baseurl>.*?)\s+(?P<url>.*?)\s+(?P<urlextension>.*?)\s+(?P<useragent>.*?)\s+(?P<serverip>[\w\.\:]+)\s+(?P<receive_byte>(?:\d+|\-))\s+(?P<sent_byte>(?:\d+|\-))\s+(?P<atkid>(?:\d+|\-))\s+(?P<application>.*?)\s+(?P<appservice>\w+)\s+(?P<atkthreat>(?:\d+|\-))\s+(?P<transcationid>.*?)\s+'
   event-key-format: '{action}-{status_code}'
   event-key-mapping:
     TCP_NC_MISS-403: 
@@ -197,7 +194,6 @@ event-details:
         src: SrcIP 
         dport: DstPort
         user: User
-        severip: SeverIP
         url: URL
     #   application: App
         httpmethod: Method
@@ -283,7 +279,7 @@ event-details:
 
 - first-match: '\s+\d+\s+TCP\_HIT\s+\w+\s+\S+\s+\w+\s+[\w\.]+\s+\d+'
   decoder: regex
-  decoder-regex: '(?P<datetime>\d+\-\d+\-\d+\s+\d+\:\d+\:\d+)\s+\d+\s+(?P<src>.*?)\s+(?P<user>.*?)\s+\S+\s+.*?\s+\-\s+\S+\s+(?P<filerresult>.*?)\s+(?P<siteclass>.*?)\s+\-\s+(?P<status_code>.*?)\s+(?P<action>.*?)\s+(?P<httpmethod>.*?)\s+(?P<mimetype>.*?)\s+(?P<protocol>.*?)\s+(?P<domain>\S+[\^\.]+(?P<tld>\S+))\s+(?P<dport>\d+)\s+(?P<baseurl>.*?)\s+(?P<url>.*?)\s+(?P<urlextension>.*?)\s+(?P<useragent>.*?)\s+(?P<severip>[\w\.\:]+)\s+(?P<receive_byte>(?:\d+|\-))\s+(?P<sent_byte>(?:\d+|\-))\s+(?P<atkid>(?:\d+|\-))\s+(?P<application>.*?)\s+(?P<appservice>\w+)\s+(?P<atkthreat>(?:\d+|\-))\s+(?P<transcationid>.*?)\s+'
+  decoder-regex: '(?P<datetime>\d+\-\d+\-\d+\s+\d+\:\d+\:\d+)\s+\d+\s+(?P<src>.*?)\s+(?P<user>.*?)\s+\S+\s+.*?\s+\-\s+\S+\s+(?P<filerresult>.*?)\s+(?P<siteclass>.*?)\s+\-\s+(?P<status_code>.*?)\s+(?P<action>.*?)\s+(?P<httpmethod>.*?)\s+(?P<mimetype>.*?)\s+(?P<protocol>.*?)\s+(?P<domain>\S+[\^\.]+(?P<tld>\S+))\s+(?P<dport>\d+)\s+(?P<baseurl>.*?)\s+(?P<url>.*?)\s+(?P<urlextension>.*?)\s+(?P<useragent>.*?)\s+(?P<serverip>[\w\.\:]+)\s+(?P<receive_byte>(?:\d+|\-))\s+(?P<sent_byte>(?:\d+|\-))\s+(?P<atkid>(?:\d+|\-))\s+(?P<application>.*?)\s+(?P<appservice>\w+)\s+(?P<atkthreat>(?:\d+|\-))\s+(?P<transcationid>.*?)\s+'
   event-key-format: '{action}-{status_code}'
   event-key-mapping:
     TCP_HIT-304: 
@@ -295,7 +291,6 @@ event-details:
         src: SrcIP 
         dport: DstPort
         user: User
-        severip: SeverIP
         url: URL
     #   application: App
         httpmethod: Method
