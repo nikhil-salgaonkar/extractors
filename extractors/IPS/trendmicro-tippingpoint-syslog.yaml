@@ -47,7 +47,7 @@ event-details:
   globals:
     translate:
       time: SystemTstamp
-      hostname: SystemName 
+      hostname: System
       severity: Severity
 
   subs: 

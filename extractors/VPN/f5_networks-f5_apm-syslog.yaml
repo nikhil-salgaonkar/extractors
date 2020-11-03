@@ -99,4 +99,4 @@ event-details:
 
   globals:
     translate:
-      hostname: SystemName
+      hostname: System

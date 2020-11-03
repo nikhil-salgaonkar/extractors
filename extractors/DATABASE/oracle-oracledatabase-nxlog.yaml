@@ -47,6 +47,6 @@ event-details:
   globals:
     translate:
       EventTime: SystemTstamp
-      Hostname: SystemName 
+      Hostname: System
       EventID: EventID 
       Channel: EventSource  

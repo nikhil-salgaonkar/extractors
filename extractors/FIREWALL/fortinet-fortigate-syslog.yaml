@@ -1345,7 +1345,7 @@ event-details:
   globals:
     translate:
       date: SystemTstamp
-      devname: SystemName
+      devname: System
       logid: EventID
       proto: Proto
       level: LogLevel

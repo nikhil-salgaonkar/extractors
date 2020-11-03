@@ -22,7 +22,7 @@ event-details:
         HTTPMethod: Method
         HTTPRetCode: ReturnCode
         TXLen: TXLen
-        SystemName: SystemName
+        SystemName: System
         RXLen: RXLen
         SourcePort: SrcPort
         DstPort: DstPort

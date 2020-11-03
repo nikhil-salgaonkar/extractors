@@ -25,7 +25,7 @@ event-details:
         severity: Severity
         risklevel: RiskLevel
         domain: Domain
-        hostname: SystemName
+        hostname: System
         interface: Iface
         src: SrcIP
         sport: SrcPort
@@ -42,7 +42,7 @@ event-details:
         severity: Severity
         risklevel: RiskLevel
         domain: Domain
-        hostname: SystemName
+        hostname: System
         interface: Iface
         src: SrcIP
         sport: SrcPort
@@ -59,7 +59,7 @@ event-details:
         severity: Severity
         risklevel: RiskLevel
         domain: Domain
-        hostname: SystemName
+        hostname: System
         interface: Iface
         src: SrcIP
         sport: SrcPort
@@ -76,7 +76,7 @@ event-details:
         severity: Severity
         risklevel: RiskLevel
         domain: Domain
-        hostname: SystemName
+        hostname: System
         interface: Iface
         src: SrcIP
         sport: SrcPort
@@ -93,7 +93,7 @@ event-details:
         severity: Severity
         risklevel: RiskLevel
         domain: Domain
-        hostname: SystemName
+        hostname: System
         interface: Iface
         src: SrcIP
         sport: SrcPort
@@ -105,7 +105,7 @@ event-details:
         EventName: Generic Mcafee IPS Event
         Stream: OTHER
       translate:
-        hostname: SystemName
+        hostname: System
         severity: Severity  
         datetime: SystemTstamp         
 

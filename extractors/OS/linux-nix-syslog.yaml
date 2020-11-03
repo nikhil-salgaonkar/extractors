@@ -32,7 +32,7 @@ event-details:
 
   globals:
     translate:
-      hostname: SystemName 
+      hostname: System
       daemon: Daemon
       pid: PID
 
@@ -57,7 +57,7 @@ event-details:
 
   globals:
     translate:
-      hostname: SystemName 
+      hostname: System
       daemon: Daemon
       pid: PID   
       
@@ -83,7 +83,7 @@ event-details:
 
   globals:
     translate:
-      hostname: SystemName 
+      hostname: System
       daemon: Daemon
       pid: PID  
 
@@ -108,7 +108,7 @@ event-details:
 
   globals:
     translate:
-      hostname: SystemName 
+      hostname: System
       daemon: Daemon
       pid: PID 
 
@@ -134,7 +134,7 @@ event-details:
 
   globals:
     translate:
-      hostname: SystemName 
+      hostname: System
       daemon: Daemon
       pid: PID   
 
@@ -184,7 +184,7 @@ event-details:
 
   globals:
     translate:
-      hostname: SystemName
+      hostname: System
       daemon: Daemon
       pid: PID   
 
@@ -209,7 +209,7 @@ event-details:
 
   globals:
     translate:
-      hostname: SystemName
+      hostname: System
       daemon: Daemon
       pid: PID   
 
@@ -234,7 +234,7 @@ event-details:
 
   globals:
     translate:
-      hostname: SystemName
+      hostname: System
       daemon: Daemon
       pid: PID  
 
@@ -309,7 +309,7 @@ event-details:
 
   globals:
     translate:
-      hostname: SystemName
+      hostname: System
       daemon: Daemon
       pid: PID      
 
@@ -381,7 +381,7 @@ event-details:
 
   globals:
     translate:
-      hostname: SystemName
+      hostname: System
       daemon: Daemon
       pid: PID  
 
@@ -409,7 +409,7 @@ event-details:
 
   globals:
     translate:
-      hostname: SystemName
+      hostname: System
       daemon: Daemon  
 
 - first-match: '\S+\[\d+\]\:\s+Accepted\s+keyboard\-interactive(?:\/pam)?\s+'

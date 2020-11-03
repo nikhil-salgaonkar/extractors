@@ -287,7 +287,7 @@ event-details:
   globals:
     translate:
       EventTime: SystemTstamp
-      Hostname: SystemName       
+      Hostname: System
 
 - first-match: \"SourceName\"\:\"Microsoft\-Windows\-Sysmon\"
   decoder: json
@@ -382,6 +382,6 @@ event-details:
   globals:
     translate:
       EventTime: SystemTstamp
-      Hostname: SystemName  
+      Hostname: System
        
       

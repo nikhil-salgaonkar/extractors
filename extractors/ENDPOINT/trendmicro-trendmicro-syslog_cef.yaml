@@ -78,7 +78,7 @@ event-details:
   globals:
     translate: 
       rt: SystemTstamp
-      dvchost: SystemName
+      dvchost: System
       Header-5: Signature 
       Header-6: Severity   
 
@@ -130,7 +130,7 @@ event-details:
   globals:
     translate: 
       rt: SystemTstamp
-      dvchost: SystemName 
+      dvchost: System
       Header-5: Signature 
       Header-6: Severity  
 
@@ -168,7 +168,7 @@ event-details:
 
   globals:
     translate: 
-      dvchost: SystemName
+      dvchost: System
       rt: SystemTstamp
       Header-5: Signature 
       Header-6: Severity  
@@ -199,7 +199,7 @@ event-details:
 
   globals:
     translate: 
-      dvchost: SystemName
+      dvchost: System
       rt: SystemTstamp 
       Header-5: Signature 
       Header-6: Severity     

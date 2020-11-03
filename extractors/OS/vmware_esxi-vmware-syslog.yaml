@@ -31,7 +31,7 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
-      hostname: SystemName
+      hostname: System
       severity: Severity
 
   subs: &id001
@@ -64,7 +64,7 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
-      hostname: SystemName
+      hostname: System
       severity: Severity
 
   subs: *id001
@@ -91,7 +91,7 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
-      hostname: SystemName
+      hostname: System
       severity: Severity
 
   subs: *id001
@@ -117,7 +117,7 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
-      hostname: SystemName
+      hostname: System
       severity: Severity
 
   subs: *id001
@@ -150,7 +150,7 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
-      hostname: SystemName
+      hostname: System
       severity: Severity
 
   subs: *id001      

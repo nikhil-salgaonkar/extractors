@@ -55,7 +55,7 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
-      hostname: SystemName 
+      hostname: System
 
 - first-match: '\s+FMC\:\s+Protocol\:\s+\w+.*?AccessControlRuleName\:'
   decoder: regex
@@ -113,7 +113,7 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
-      hostname: SystemName       
+      hostname: System
 
 - first-match: '\sFMC\:.*?\[Impact\:\s+.*?\].*?\[Priority\:\s+\d+\]'
   decoder: regex
@@ -143,7 +143,7 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
-      hostname: SystemName  
+      hostname: System
 
   subs:
     Severity:

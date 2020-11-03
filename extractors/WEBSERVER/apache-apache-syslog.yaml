@@ -89,7 +89,7 @@ event-details:
     translate:
       daemon: Daemon
       pid: PID
-      hostname: SystemName
+      hostname: System
       datetime: SystemTstamp   
 
 - first-match: '\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+Apache\[\d+\]\:\s+.*?\[\d{1,2}\/\w{3}\/\d{4}\:\d{2}\:\d{2}\:\d{2}\s+\+\d+\]\s+\d+\s+\".*?\"'
@@ -115,7 +115,7 @@ event-details:
     translate:
       daemon: Daemon
       pid: PID
-      hostname: SystemName
+      hostname: System
       datetime: SystemTstamp 
 
 - first-match: '\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+Apache\:\s+\d+\.\d+\.\d+\.\d+.*?\[.*?\]\s+.*?\s+\d+'
@@ -142,7 +142,7 @@ event-details:
 
   globals:
     translate:
-      hostname: SystemName
+      hostname: System
       datetime: SystemTstamp   
       daemon: Daemon
       pid: PID
@@ -171,7 +171,7 @@ event-details:
 
   globals:
     translate:
-      hostname: SystemName
+      hostname: System
       datetime: SystemTstamp   
       daemon: Daemon
 
@@ -198,7 +198,7 @@ event-details:
 
   globals:
     translate:
-      hostname: SystemName
+      hostname: System
       datetime: SystemTstamp   
       daemon: Daemon
       pid: PID     
@@ -236,7 +236,7 @@ event-details:
 
   globals:
     translate:
-      hostname: SystemName
+      hostname: System
       datetime: SystemTstamp   
       daemon: Daemon
       pid: PID 
@@ -265,7 +265,7 @@ event-details:
 
   globals:
     translate:
-      hostname: SystemName
+      hostname: System
       datetime: SystemTstamp   
              
 

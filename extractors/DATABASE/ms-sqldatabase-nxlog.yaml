@@ -26,7 +26,7 @@ event-details:
         LoginSrc: NETWORK
       translate: 
         Domain: Domain 
-        user: User 
+        user: User
         src: SrcIP
     '18453':           
       annotate:
@@ -47,7 +47,7 @@ event-details:
   globals:
     translate:
       EventTime: SystemTstamp
-      Hostname: SystemName        
+      Hostname: System
 
 - first-match: '\"SourceName\"\:\"MSSQL.*?\"'
   decoder: regex
@@ -74,7 +74,7 @@ event-details:
   globals:
     translate:
       EventTime: SystemTstamp
-      Hostname: SystemName
+      Hostname: System
 
 - first-match: \"SourceName\"\:\"MSSQLSERVER\"
   decoder: json
@@ -192,7 +192,7 @@ event-details:
   globals:
     translate:
       EventTime: SystemTstamp
-      Hostname: SystemName  
+      Hostname: System
 
 - first-match: \"SourceName\"\:\"MSSQL\$\w+\"
   decoder: json
@@ -231,7 +231,7 @@ event-details:
   globals:
     translate:
       EventTime: SystemTstamp
-      Hostname: SystemName  
+      Hostname: System
 
 - first-match: \"SourceName\"\:\"SQL\w+\"
   decoder: json
@@ -254,5 +254,5 @@ event-details:
   globals:
     translate:
       EventTime: SystemTstamp
-      Hostname: SystemName  
+      Hostname: System
       

@@ -34,7 +34,7 @@ event-details:
       datetime: SystemTstamp
       log_level: LogLevel
       pid: PID
-      hostname: SystemName
+      hostname: System
 
 - first-match: '\s+xcp\-rrdd'
   decoder: regex
@@ -57,7 +57,7 @@ event-details:
       datetime: SystemTstamp
       log_level: LogLevel
       pid: PID
-      hostname: SystemName
+      hostname: System
 
 - first-match: '\s+xenopsd\-xc\:'
   decoder: regex
@@ -80,7 +80,7 @@ event-details:
       datetime: SystemTstamp
       log_level: LogLevel
       pid: PID
-      hostname: SystemName
+      hostname: System
 
 - first-match: '\s+v6d\:'
   decoder: regex
@@ -103,7 +103,7 @@ event-details:
       datetime: SystemTstamp
       log_level: LogLevel
       pid: PID
-      hostname: SystemName
+      hostname: System
 
 - first-match: '\s+stunnel\:'
   decoder: regex
@@ -126,4 +126,4 @@ event-details:
       datetime: SystemTstamp
       log_level: LogLevel
       pid: PID
-      hostname: SystemName
+      hostname: System

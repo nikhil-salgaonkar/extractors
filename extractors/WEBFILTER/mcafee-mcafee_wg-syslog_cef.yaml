@@ -49,7 +49,7 @@ event-details:
 
   globals:
     translate:
-        #Appliance: SystemName
+        #Appliance: System
         User-Agent: UserAgent
         Header-5: EventName
         Header-6: Severity

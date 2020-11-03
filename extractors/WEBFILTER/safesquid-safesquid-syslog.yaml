@@ -89,4 +89,4 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
-      hostname: SystemName
+      hostname: System

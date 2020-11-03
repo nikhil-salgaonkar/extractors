@@ -36,7 +36,7 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
-      hostname: SystemName 
+      hostname: System
 
 - first-match: '\s+UI_LOGIN_EVENT.*?j\-super\-user.*?client-mode\s+cli'
   decoder: regex
@@ -64,7 +64,7 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
-      hostname: SystemName 
+      hostname: System
 
 - first-match: '\s+UI_LOGOUT_EVENT\:'
   decoder: regex
@@ -88,7 +88,7 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
-      hostname: SystemName
+      hostname: System
 
 - first-match: '\s+SSHD_LOGIN_FAILED\:'
   decoder: regex
@@ -114,7 +114,7 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
-      hostname: SystemName
+      hostname: System
 
 - first-match: '\s+UI_DBASE_LOGIN_EVENT\:'
   decoder: regex
@@ -138,7 +138,7 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
-      hostname: SystemName
+      hostname: System
 
 - first-match: '\s+UI_DBASE_LOGOUT_EVENT\:'
   decoder: regex
@@ -162,7 +162,7 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
-      hostname: SystemName
+      hostname: System
   
 - first-match: '\s+UI_CFG_AUDIT_OTHER\:' 
   decoder: regex
@@ -186,7 +186,7 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
-      hostname: SystemName
+      hostname: System
   
 - first-match: '\s+UI_CFG_AUDIT_SET\:' 
   decoder: regex
@@ -210,7 +210,7 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
-      hostname: SystemName
+      hostname: System
 
 - first-match: '\sUI_LOGIN_EVENT.*?\sclass.*?\s+super\-user' 
   decoder: regex
@@ -234,7 +234,7 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
-      hostname: SystemName  
+      hostname: System
 
 - first-match: 'UI_JUNOSCRIPT_CMD\:.*?user\=' 
   decoder: regex
@@ -258,7 +258,7 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
-      hostname: SystemName
+      hostname: System
   
 - first-match: 'UI_JUNOSCRIPT_CMD\:.*?(?:command\sget\-\S+\-information|request\-\S+\-logout)\s+' 
   decoder: regex
@@ -282,7 +282,7 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
-      hostname: SystemName
+      hostname: System
 
 - first-match: 'RT_FLOW\:\sFLOW_REASSEMBLE_SUCCEED\:' 
   decoder: regex
@@ -307,7 +307,7 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
-      hostname: SystemName 
+      hostname: System
 
 - first-match: 'RT_IPSEC\:\s+RT_IPSEC_BAD_SPI\:' 
   decoder: regex
@@ -331,7 +331,7 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
-      hostname: SystemName 
+      hostname: System
 
 - first-match: '\s+UI_CMDLINE_READ_LINE\:' 
   decoder: regex
@@ -355,7 +355,7 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
-      hostname: SystemName
+      hostname: System
 
 - first-match: 'RT_FLOW_SESSION_CLOSE\:'
   decoder: regex
@@ -381,7 +381,7 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
-      hostname: SystemName  
+      hostname: System
 
 - first-match: 'RT_FLOW_SESSION_DENY\:'
   decoder: regex
@@ -407,7 +407,7 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
-      hostname: SystemName 
+      hostname: System
 
 - first-match: 'PFE_FW_SYSLOG_IP\:'
   decoder: regex
@@ -434,7 +434,7 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
-      hostname: SystemName   
+      hostname: System
 
 - first-match: 'RT_SCREEN_IP\:'
   decoder: regex
@@ -461,7 +461,7 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
-      hostname: SystemName         
+      hostname: System
 
 - first-match: 'UI_COMMIT\:'
   decoder: regex
@@ -484,7 +484,7 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
-      hostname: SystemName
+      hostname: System
 
 - first-match: 'KMD_PM_SA_ESTABLISHED\:'
   decoder: regex
@@ -509,4 +509,4 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
-      hostname: SystemName
+      hostname: System
