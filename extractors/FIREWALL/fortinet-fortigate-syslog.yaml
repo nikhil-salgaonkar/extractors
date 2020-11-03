@@ -31,7 +31,7 @@ event-details:
         dstip: DstIP
         dstport: DstPort
         subtype: SubCategory
-Sub
+
     0000000013-accept:
       annotate:
         Stream: NETWORK-FIREWALL
