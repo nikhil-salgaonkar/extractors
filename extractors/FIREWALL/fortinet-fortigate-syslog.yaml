@@ -283,35 +283,6 @@ event-details:
         srcip: SrcIP
         dstip: DstIP
         user: User
-    0100032138-reboot:
-      annotate:
-        Stream: SYSTEM
-        Action: REBOOT
-        Status: PASSED
-      translate:
-        user: User
-        msg: Message
-    0100022903-connect:
-      annotate:
-        Stream: SYSTEM
-        Action: CONNECTION
-        Status: FAILED
-      translate:
-        msg: Message
-    0100020118-None:
-      annotate:
-        Stream: SYSTEM
-        Action: SERVICE_START
-        Status: PASSED
-      translate:
-        msg: Message
-    0100020119-None:
-      annotate:
-        Stream: SYSTEM
-        Action: SERVICE_STOP
-        Status: PASSED
-      translate:
-        msg: Message
     0317013312-passthrough:
       annotate:
         Stream: WEBFILTER
@@ -441,13 +412,6 @@ event-details:
         dstport: DstPort
         sentbyte: TXLen
         rcvdbyte: RXLen
-    0100020027-None:
-      annotate:
-        Stream: SYSTEM
-        Action: EVENT_LOG_CLEARED
-        Status: PASSED
-      translate:
-        msg: Message
     1501054601-block:
       annotate:
         Stream: DNS
@@ -461,14 +425,6 @@ event-details:
         qname: Query
         qtype: Lookup
         msg: Message
-    0100032011-roll-log:
-      annotate:
-        Stream: SYSTEM
-        Action: LOG_ROTATED
-        Status: PASSED
-      translate:
-        reason: Reason
-        msg: Message
     1501054600-block:
       annotate:
         Stream: DNS
@@ -481,13 +437,6 @@ event-details:
         dstport: DstPort
         qname: Query
         qtype: Lookup
-        msg: Message
-    0100020212-None:
-      annotate:
-        Stream: SYSTEM
-        Action: RESOURCE_ALERT
-        Status: PASSED
-      translate:
         msg: Message
     0100020025-None:
       annotate:
@@ -512,14 +461,6 @@ event-details:
         Status: PASSED
       translate:
         msg: Message
-    0100032038-roll-log:
-      annotate:
-        Stream: SYSTEM
-        Action: LOG_ROTATED
-        Status: PASSED
-      translate:
-        msg: Message
-        reason: Reason
     0100032003-logout:
       annotate:
         Stream: AUTHENTICATION
@@ -637,13 +578,6 @@ event-details:
         sentbyte: TXLen
         rcvdbyte: RXLen
         msg: Message
-    0100022901-connect:
-      annotate:
-        Stream: SYSTEM
-        Action: FORTIANALYZER_CONNECTED
-        Status: PASSED
-      translate:
-        msg: Message
     0100032095-download:
       annotate:
         Stream: ADMINISTRATION
@@ -707,21 +641,6 @@ event-details:
         Status: PASSED
       translate:
         msg: Message
-    0100020118-None:
-      annotate:
-        Stream: SYSTEM
-        Action: SERVICE_START
-        Status: PASSED
-      translate:
-        msg: Message
-    0100020002-unknown:
-      annotate:
-        Stream: SYSTEM
-        Action: RESOURCE_ALERT
-        Status: PASSED
-      translate:
-        user: User
-        msg: Message
     0100032021-login:
       annotate:
         Stream: AUTHENTICATION
@@ -731,14 +650,6 @@ event-details:
       translate:
         msg: Message
         reason: Reason
-    0100020003-alert-email:
-      annotate:
-        Stream: SYSTEM
-        Action: RESOURCE ALERT
-        Status: FAILED
-      translate:
-        user: User
-        msg: Message
     0101039947-tunnel-up:
       annotate:
         Stream: ADMINISTRATION
@@ -781,14 +692,6 @@ event-details:
         msg: Message
         cookies: Cookie
         group: UserGroup
-    0100022902-disconnect:
-      annotate:
-        Stream: SYSTEM
-        Action: FORTIANALYZER_DISCONNECT
-        Status: PASSED
-      translate:
-        msg: Message
-        reason: Reason
     0100041001-None:
       annotate:
         Stream: ADMINISTRATION
@@ -910,13 +813,6 @@ event-details:
       translate:
         user: AdminUser
         msg: Message
-    0100032043-None:
-      annotate:
-        Stream: SYSTEM
-        Action: RESOURCE_ALERT
-        Status: PASSED
-      translate:
-        msg: Message
     0954024576-block:
       annotate:
         Stream: DLP
@@ -950,13 +846,6 @@ event-details:
         dstport: DstPort
         user: User
         hostname: Domain
-    0100040704-perf-stats:
-      annotate:
-        Stream: SYSTEM
-        Action: RESOURCE_ALERT
-        Status: PASSED
-      translate:
-        msg: Message
     0100032001-login:
       annotate:
         Stream: AUTHENTICATION
@@ -998,13 +887,6 @@ event-details:
         srcip: SrcIP
         dstip: DstIP
         user: AdminUser
-    0100032011-roll-log:
-      annotate:
-        Stream: SYSTEM
-        Action: LOG_ROTATED
-        Status: PASSED
-      translate:
-        reason: Reason
     0100032102-None:
       annotate:
         Stream: ADMINISTRATION
@@ -1016,34 +898,6 @@ event-details:
       annotate:
         Stream: ADMINISTRATION
         Action: SCHEDULED_TASK_UPDATED
-        Status: PASSED
-      translate:
-        msg: Message
-    0100036882-None:
-      annotate:
-        Stream: SYSTEM
-        Action: CONFIGURATION_SAVED
-        Status: PASSED
-      translate:
-        user: User
-    0100020210-trim-disk:
-      annotate:
-        Stream: SYSTEM
-        Action: DISK_TRIM
-        Status: START
-      translate:
-        msg: Message
-    0100020211-trim-disk:
-      annotate:
-        Stream: SYSTEM
-        Action: DISK_TRIM
-        Status: END
-      translate:
-        msg: Message
-    0100020109-None:
-      annotate:
-        Stream: SYSTEM
-        Action: LICENSE_EXPIRED
         Status: PASSED
       translate:
         msg: Message
@@ -1088,51 +942,6 @@ event-details:
       translate:
         srcip: SrcIP
         dstip: DstIP
-    0100032142-backup:
-      annotate:
-        Stream: SYSTEM
-        Action: CONFIGURATION_BACKUP
-        Status: PASSED
-      translate:
-        user: AdminUser
-        srcip: SrcIP
-        dstip: DstIP
-    0108037897-None:
-      annotate:
-        Stream: SYSTEM
-        Action: HA_UP
-        Status: PASSED
-      translate:
-        msg: Message
-    0108037898-None:
-      annotate:
-        Stream: SYSTEM
-        Action: HA_DOWN
-        Status: FAILED
-      translate:
-        msg: Message
-    0108035010-None:
-      annotate:
-        Stream: SYSTEM
-        Action: HA_SYNC
-        Status: FAILED
-      translate:
-        msg: Message
-    0100020010-None:
-      annotate:
-        Stream: SYSTEM
-        Action: KERNEL_ERROR
-        Status: PASSED
-      translate:
-        msg: Message
-    0100022100-transfer:
-      annotate:
-        Stream: SYSTEM
-        Action: FILE_DROPPED
-        Status: PASSED
-      translate:
-        msg: Message
-        reason: Reason
     1501054200-pass:
       annotate:
         Stream: DNS
@@ -1144,16 +953,6 @@ event-details:
         dstip: DstIP
         dstport: DstPort
         qname: Query
-    0101039938-ssl-web-pass:
-      annotate:
-        Stream: SYSTEM
-        Action: SSL_CONNECT
-        Status: PASSED
-      translate:
-        srcip: SrcIP
-        srcport: SrcPort
-        dstip: DstIP
-        dstport: DstPort
     0100022952-login:
       annotate:
         Stream: AUTHENTICATION
@@ -1161,27 +960,6 @@ event-details:
         Status: FAILED
       translate:
         user: User
-    0101041988-info:
-      annotate:
-        Stream: SYSTEM
-        Action: SETTING_CHANGED
-        Status: PASSED
-      translate:
-        msg: Message
-    0100032247-None:
-      annotate:
-        Stream: SYSTEM
-        Action: SSH_NEGOTIATION
-        Status: FAILED
-      translate:
-        msg: Message
-    0100032119-update:
-      annotate:
-        Stream: SYSTEM
-        Action: DATABASE_UPDATED
-        Status: PASSED
-      translate:
-        msg: Message
     0314012288-PACKET_BLOCKED:
       annotate:
         Stream: WEBFILTER
@@ -1192,20 +970,6 @@ event-details:
         srcport: SrcPort
         dstip: DstIP
         dstport: DstPort
-    0100032010-None:
-      annotate:
-        Stream: SYSTEM
-        Action: RESOURCE_ALERT
-        Status: PASSED
-      translate:
-        msg: Message
-    0100032037-None:
-      annotate:
-        Stream: SYSTEM
-        Action: RESOURCE_ALERT
-        Status: PASSED
-      translate:
-        msg: Message
     1059028704-pass:
       annotate:
         Stream: NETWORK-FIREWALL
@@ -1246,16 +1010,6 @@ event-details:
         srcport: SrcPort
         dstip: DstIP
         dstport: DstPort
-    0100032546-crash:
-      annotate:
-        Stream: SYSTEM
-        Action: RESOURCE_ALERT
-        Status: PASSED
-      translate:
-        srcip: SrcIP
-        srcport: SrcPort
-        dstip: DstIP
-        dstport: DstPort
 #    0100022113-None:
 #      annotate:
 #        Stream: AUTHENTICATION
@@ -1275,13 +1029,6 @@ event-details:
       translate:
         srcip: SrcIP
         user: User
-    0101039944-ssl-new-con:
-      annotate:
-        Stream: SYSTEM
-        Action: SSL_CONNECT
-        Status: PASSED
-      translate:
-        remip: SrcIP
     0002000012-accept:
       annotate:
         Stream: NETWORK-FIREWALL
@@ -1302,40 +1049,6 @@ event-details:
         srcport: SrcPort
         dstip: DstIP
         dstport: DstPort
-    0421016399-dropped:
-      annotate:
-        Stream: SYSTEM
-        Action: ATTACK_DETECTED
-        Status: PASSED
-      translate:
-        srcip: SrcIP
-        dstip: DstIP
-    0211008192-PACKET_BLOCKED:
-      annotate:
-        Stream: SYSTEM
-        Action: VIRUS_BLOCKED
-        Status: PASSED
-      translate:
-        srcip: SrcIP
-        dstip: DstIP
-        srcport: SrcPort
-        dstport: DstPort
-    0720018432-detected:
-      annotate:
-        Stream: SYSTEM
-        Action: ATTACK_DETECTED
-        Status: PASSED
-      translate:
-        srcip: SrcIP
-        dstip: DstIP
-    0720018433-detected:
-      annotate:
-        Stream: SYSTEM
-        Action: ATTACK_DETECTED
-        Status: PASSED
-      translate:
-        srcip: SrcIP
-        dstip: DstIP
 
   fallback:
       annotate:
