@@ -12,7 +12,7 @@ master-filters:
 - \"timestamp_string\".*?\"metadata\"\:\s+
 
 event-details:  
-- first-match: \"type\"\:\s+\"[\w\s]+\"\,
+- first-match: '\"type\"\:\s+\"[\w\s]+\"\,'
   decoder: json
   event-key-format: '{type}'         
   event-key-mapping:
@@ -135,8 +135,8 @@ event-details:
       annotate:
         EventName: Generic Smokescreen Event
         Stream: OTHER
-    translate:
-      timestamp: SystemTstamp
+      translate:
+        timestamp: SystemTstamp
 
   globals:
     translate:
