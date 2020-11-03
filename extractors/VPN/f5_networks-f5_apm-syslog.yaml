@@ -61,7 +61,6 @@ event-details:
         Status: FAILED   
         AuthMethod: VPN
       translate:
-        Object: ObjectName
         Error_Code: ErrorCode
     '01580002:5:-allow':
       annotate:  

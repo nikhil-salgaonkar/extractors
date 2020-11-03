@@ -57,7 +57,6 @@ event-details:
       datetime: SystemTstamp
       facility: Facility
       severity: Severity
-      mnemonic: Mnemonic
 
   subs: &id001
     Severity:
@@ -94,7 +93,6 @@ event-details:
       datetime: SystemTstamp
       facility: Facility
       severity: Severity
-      mnemonic: Mnemonic
 
   subs: *id001    
 
@@ -128,38 +126,9 @@ event-details:
       datetime: SystemTstamp
       facility: Facility
       severity: Severity
-      mnemonic: Mnemonic
 
   subs: *id001
 
-- first-match: '\%PARSER\-5\-CFGLOG\_LOGGEDCMD\:'
-  decoder: regex
-  decoder-regex: '(?P<datetime>\w+\s+\d+\s+\d+\:\d+\:\d+).*?\:\s+\%(?P<facility>\S+)\-(?P<severity>\d+)\-(?P<mnemonic>.*?)\:(?P<message>\s+User\:(?P<user>.*?)\s+(?P<action>logged\s+command)\:(?P<command>.*))'
-  event-key-format: '{action}'
-  event-key-mapping:
-    logged command:
-      annotate:
-        Stream: ADMINISTRATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-      translate:
-        user: User
-        message: Message
-        command: Cmd
-
-  fallback:
-      annotate:
-        EventName: Generic Cisco OS Event
-        Stream: OTHER
-
-  globals:
-    translate:
-      datetime: SystemTstamp
-      facility: Facility
-      severity: Severity
-      mnemonic: Mnemonic
-
-  subs: *id001
 
 - first-match: '\%SEC\-6\-IPACCESSLOGS\:'
   decoder: regex
@@ -336,7 +305,6 @@ event-details:
       datetime: SystemTstamp
       facility: Facility
       severity: Severity
-      mnemonic: Mnemonic
 
   subs: *id001
 
@@ -365,7 +333,6 @@ event-details:
       datetime: SystemTstamp
       facility: Facility
       severity: Severity
-      mnemonic: Mnemonic
 
   subs: *id001
 
@@ -464,6 +431,5 @@ event-details:
       datetime: SystemTstamp
       facility: Facility
       severity: Severity
-      mnemonic: Mnemonic
-
+:
   subs: *id001  

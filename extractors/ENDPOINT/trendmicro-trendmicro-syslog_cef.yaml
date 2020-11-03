@@ -63,7 +63,6 @@ event-details:
       translate:
         dhost: DstHost
         cat: Category
-        VirusName: VirusName 
         filePath: FilePath
         fname: FileName
         dst: DstIP

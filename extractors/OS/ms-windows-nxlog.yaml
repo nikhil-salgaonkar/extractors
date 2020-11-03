@@ -273,8 +273,6 @@ event-details:
         IpPort: SrcPort
         SubjectUserName: AdminUser
         SubjectDomainName: Domain  
-        ShareName: ShareName
-        ShareLocalPath: ShareLocalPath       
 
   fallback:
       annotate:

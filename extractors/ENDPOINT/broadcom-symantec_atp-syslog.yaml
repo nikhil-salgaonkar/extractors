@@ -52,7 +52,6 @@ event-details:
         source_ip: SrcIP
         app_name: FileName
         data_source_url: URL
-        signature_name: SignName
 
   fallback:
       annotate:
@@ -76,7 +75,6 @@ event-details:
         device_ip: SrcIP
         app_name: FileName
         intrusion_url: URL
-        signature_name: SignName
 
   fallback:
       annotate:

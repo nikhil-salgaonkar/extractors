@@ -73,7 +73,6 @@ event-details:
         Status: PASSED
       translate: 
         IP Address: DstIP
-        Detection type: AtkDesc
         Application name: App
         Download site: URL
         Risk name: AtkMsg
