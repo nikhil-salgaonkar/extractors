@@ -471,6 +471,7 @@ event-details:
         srcip: SrcIP
         dstip: DstIP
         reason: Reason
+        method: LoginSrc
     0100032001-login:
       annotate:
         Stream: AUTHENTICATION
@@ -853,16 +854,6 @@ event-details:
         srcport: SrcPort
         dstip: DstIP
         dstport: DstPort
-    0100032003-logout:
-      annotate:
-        Stream: AUTHENTICATION
-        Action: LOGOUT
-        Status: PASSED
-      translate:
-        srcip: SrcIP
-        user: User
-        reason: Reason
-        dstip: DstIP
     0100044547-Edit:
       annotate:
         Stream: ADMINISTRATION
