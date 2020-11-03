@@ -7,7 +7,6 @@ source-description: Extractor for Cisco OS
 provides-streams:
 - CONNECTIVITY
 - AUTHENTICATION
-- ADMINISTRATION
 - ROUTER
 master-filters:
 - '\%VSHD\-5\-VSHD\_SYSLOG\_CONFIG\_I\:'
@@ -34,43 +33,6 @@ master-filters:
 - '\%SYS\-SW\d+\-5\-CONFIG\_I\:'
 - '\%SEC\-6\-IPACCESSLOGDP\:'
 event-details:
-- first-match: 'CONFIG_I\:\s+'
-  decoder: regex
-  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})(?:\.\d+\:?)?.*?\s+\%(?P<facility>\S+)\-(?P<severity>\d+)\-(?P<mnemonic>\S+)\:\s+(?P<message>(?P<action>.*?)\s+from\s+(?P<app>\S+)\s+by\s+(?P<user>.*?)\s+.*)'
-  event-key-format: '{action}'
-  event-key-mapping:
-    Configured:
-      annotate:
-        Stream: ADMINISTRATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-      translate:
-        user: User
-        message: Message
-
-  fallback:
-      annotate:
-        EventName: Generic Cisco OS Event
-        Stream: OTHER
-
-  globals:
-    translate:
-      datetime: SystemTstamp
-      facility: Facility
-      severity: Severity
-      mnemonic: Mnemonic
-
-  subs: &id001
-    Severity:
-      '0': EMERGENCY
-      '1': ALERT
-      '2': CRITICAL
-      '3': ERROR
-      '4': WARNING
-      '5': NOTIFICATION
-      '6': INFORMATIONAL
-      '7': DEBUGGING
-
 - first-match: '\%ETHPORT\-5\-IF_UP\:'
   decoder: regex
   decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})(?:\.\d+)?\s+.*?\s+\%(?P<facility>.*?)\-(?P<severity>\d+)\-(?P<mnemonic>\S+)\:\s+(?P<message>Interface\s+(?P<iface>.*?)\s+is\s+(?P<action>\w+).*)'
@@ -97,7 +59,16 @@ event-details:
       severity: Severity
       mnemonic: Mnemonic
 
-  subs: *id001    
+  subs: &id001
+    Severity:
+      '0': EMERGENCY
+      '1': ALERT
+      '2': CRITICAL
+      '3': ERROR
+      '4': WARNING
+      '5': NOTIFICATION
+      '6': INFORMATIONAL
+      '7': DEBUGGING
 
 - first-match: '\%ETHPORT\-5\-IF_DOWN_LINK_FAILURE\:'
   decoder: regex
