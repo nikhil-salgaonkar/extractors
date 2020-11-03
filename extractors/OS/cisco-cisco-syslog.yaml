@@ -44,13 +44,14 @@ event-details:
         Action: LINK_UP
         Status: PASSED
       translate:
-        message: Message
         iface: Iface
 
   fallback:
       annotate:
         EventName: Generic Cisco OS Event
         Stream: OTHER
+      translate:
+        datetime: SystemTstamp
 
   globals:
     translate:
@@ -80,13 +81,14 @@ event-details:
         Action: LINK_DOWN
         Status: PASSED
       translate:
-        message: Message
         iface: Iface
 
   fallback:
       annotate:
         EventName: Generic Cisco OS Event
         Stream: OTHER
+      translate:
+        datetime: SystemTstamp
 
   globals:
     translate:
@@ -107,19 +109,21 @@ event-details:
         Action: INTERFACE_UP
         Status: PASSED
       translate:
-        message: Message
+        iface: Iface
     down:
       annotate:
         Stream: CONNECTIVITY
         Action: INTERFACE_DOWN
         Status: PASSED
       translate:
-        message: Message
+        iface: Iface
 
   fallback:
       annotate:
         EventName: Generic Cisco OS Event
         Stream: OTHER
+      translate:
+        datetime: SystemTstamp
 
   globals:
     translate:
@@ -158,6 +162,8 @@ event-details:
       annotate:
         EventName: Generic Cisco OS Event
         Stream: OTHER
+      translate:
+        datetime: SystemTstamp
 
   globals:
     translate:
@@ -192,6 +198,8 @@ event-details:
       annotate:
         EventName: Generic Cisco OS Event
         Stream: OTHER
+      translate:
+        datetime: SystemTstamp
 
   globals:
     translate:
@@ -219,6 +227,8 @@ event-details:
       annotate:
         EventName: Generic Cisco OS Event
         Stream: OTHER
+      translate:
+        datetime: SystemTstamp
 
   globals:
     translate:
@@ -259,6 +269,8 @@ event-details:
       annotate:
         EventName: Generic Cisco OS Event
         Stream: OTHER
+      translate:
+        datetime: SystemTstamp
 
   globals:
     translate:
@@ -280,7 +292,6 @@ event-details:
         Action: LOGIN
         Status: PASSED
       translate:
-        message: Message
         src_ip: SrcIP
         src_port: SrcPort
         user: User
@@ -290,7 +301,6 @@ event-details:
         Action: LOGIN
         Status: PASSED
       translate:
-        message: Message
         src_ip: SrcIP
         src_port: SrcPort
         user: User
@@ -299,6 +309,8 @@ event-details:
       annotate:
         EventName: Generic Cisco OS Event
         Stream: OTHER
+      translate:
+        datetime: SystemTstamp
 
   globals:
     translate:
@@ -319,7 +331,6 @@ event-details:
         Action: LOGOUT
         Status: PASSED
       translate:
-        message: Message
         src_ip: SrcIP
         user: User
 
@@ -327,6 +338,8 @@ event-details:
       annotate:
         EventName: Generic Cisco OS Event
         Stream: OTHER
+      translate:
+        datetime: SystemTstamp
 
   globals:
     translate:
@@ -356,6 +369,8 @@ event-details:
       annotate:
         EventName: Generic Cisco OS Event
         Stream: OTHER
+      translate:
+        datetime: SystemTstamp
 
   globals:
     translate:
@@ -396,6 +411,8 @@ event-details:
       annotate:
         EventName: Generic Cisco OS Event
         Stream: OTHER
+      translate:
+        datetime: SystemTstamp
 
   globals:
     translate:
@@ -418,13 +435,14 @@ event-details:
         Status: FAILED
         User: '-'
       translate:
-        message: Message
         src: SrcIP
 
   fallback:
       annotate:
         EventName: Generic Cisco OS Event
         Stream: OTHER
+      translate:
+        datetime: SystemTstamp
 
   globals:
     translate:

@@ -60,6 +60,7 @@ event-details:
         Action: LOGIN
         Status: FAILED   
         AuthMethod: VPN
+        User: '-'
       translate:
         Error_Code: ErrorCode
     '01580002:5:-allow':

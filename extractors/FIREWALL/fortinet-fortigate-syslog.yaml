@@ -471,7 +471,6 @@ event-details:
         srcip: SrcIP
         dstip: DstIP
         reason: Reason
-        msg: Message
     0100032001-login:
       annotate:
         Stream: AUTHENTICATION
@@ -482,7 +481,6 @@ event-details:
         srcip: SrcIP
         dstip: DstIP
         reason: Reason
-        msg: Message
         group: UserGroup
     0101037134-delete_phase1_sa:
       annotate:
@@ -644,7 +642,6 @@ event-details:
         Status: FAILED
         User: '-'
       translate:
-        msg: Message
         reason: Reason
     0101039947-tunnel-up:
       annotate:
@@ -685,7 +682,6 @@ event-details:
         dstip: DstIP
         dstport: DstPort
         user: User
-        msg: Message
         group: UserGroup
     0100041001-None:
       annotate:
@@ -746,7 +742,6 @@ event-details:
         dstport: DstPort
         user: User
         group: UserGroup
-        msg: Message
     0100032111-update:
       annotate:
         Stream: ADMINISTRATION
@@ -779,7 +774,6 @@ event-details:
         dstport: DstPort
         user: User
         group: UserGroup
-        msg: Message
         reason: Reason
     0100032141-None:
       annotate:
@@ -869,7 +863,6 @@ event-details:
         user: User
         reason: Reason
         dstip: DstIP
-        method: LoginSrc
     0100044547-Edit:
       annotate:
         Stream: ADMINISTRATION
@@ -1046,6 +1039,8 @@ event-details:
       annotate:
         EventName: Generic FORTIGATE Event
         Stream: OTHER
+      translate:
+        date: SystemTstamp  
 
   globals:
     translate:

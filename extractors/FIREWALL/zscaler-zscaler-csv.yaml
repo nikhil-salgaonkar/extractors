@@ -30,6 +30,8 @@ event-details:
       annotate:
         EventName: Generic Zscaler Event
         Stream: OTHER
+      translate:
+        datetime: SystemTstamp  
 
   globals:
     translate:
@@ -57,6 +59,8 @@ event-details:
       annotate:
         EventName: Generic Zscaler Event
         Stream: OTHER
+      translate:
+        datetime: SystemTstamp
 
   globals:
     translate:

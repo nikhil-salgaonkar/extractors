@@ -21,12 +21,13 @@ event-details:
         Status: PASSED
       translate:
         user: User
-        appserverice: AppService
 
   fallback:
       annotate:
         EventName: Generic VMWARE OS Event
         Stream: OTHER
+      translate:
+        datetime: SystemTstamp  
 
   globals:
     translate:
@@ -60,6 +61,8 @@ event-details:
       annotate:
         EventName: Generic VMWARE OS Event
         Stream: OTHER
+      translate:
+        datetime: SystemTstamp 
 
   globals:
     translate:
@@ -87,6 +90,8 @@ event-details:
       annotate:
         EventName: Generic VMWARE OS Event
         Stream: OTHER
+      translate:
+        datetime: SystemTstamp 
 
   globals:
     translate:
@@ -113,6 +118,8 @@ event-details:
       annotate:
         EventName: Generic VMWARE OS Event
         Stream: OTHER
+      translate:
+        datetime: SystemTstamp 
 
   globals:
     translate:
@@ -146,6 +153,8 @@ event-details:
       annotate:
         EventName: Generic VMWARE OS Event
         Stream: OTHER
+      translate:
+        datetime: SystemTstamp 
 
   globals:
     translate:

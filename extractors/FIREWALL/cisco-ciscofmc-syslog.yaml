@@ -22,35 +22,31 @@ event-details:
         Action: LOGIN
         Status: FAILED
       translate: 
-        msg: Message
         src: SrcIP    
         user: User
-        event_name: EventName
     'Logout Success': 
       annotate:
         Stream: AUTHENTICATION
         Action: LOGOUT
         Status: PASSED
       translate: 
-        msg: Message
         src: SrcIP    
         user: User
-        event_name: EventName
     'Login Success': 
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
       translate: 
-        msg: Message
         src: SrcIP    
         user: User
-        event_name: EventName        
-
+        
   fallback:
       annotate:
         EventName: Generic Cisco-FMC Firewall Event
         Stream: OTHER
+      translate:
+        datetime: SystemTstamp
 
   globals:
     translate:
@@ -109,6 +105,8 @@ event-details:
       annotate:
         EventName: Generic Cisco-FMC Firewall Event
         Stream: OTHER
+      translate:
+        datetime: SystemTstamp  
 
   globals:
     translate:
@@ -139,6 +137,8 @@ event-details:
       annotate:
         EventName: Generic Cisco-FMC Firewall Event
         Stream: OTHER
+      translate:
+        datetime: SystemTstamp
 
   globals:
     translate:
