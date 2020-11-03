@@ -7,7 +7,6 @@ source-description: Extractor for Cisco-FTD Firewall
 provides-streams:
 - NETWORK-FIREWALL
 - AUTHENTICATION
-- ADMINISTRATION
 master-filters:
 - \s+\%FTD\-\d+\-\d+\:\s+
 event-details:
@@ -231,66 +230,3 @@ event-details:
       hostname: System
 
   subs: *id001                       
-
-- first-match: '\%FTD\-\d+\-111010\:'
-  decoder: regex
-  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>.*?)\s+\:\s+%FTD\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+(?P<msg>User\s+(?P<user>.*?)\,\s+.*?IP\s+(?P<src>.*?)\,\s+.*)'
-  event-key-format: '{eventid}'
-  event-key-mapping:  
-    '111010': 
-      annotate:
-        Stream: ADMINISTRATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-      translate: 
-        msg: Message
-        user: User
-        src: SrcIP      
-    
-  fallback:
-      annotate:
-        EventName: Generic Cisco-FTD Firewall Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp  
-
-  globals:
-    translate:
-      datetime: SystemTstamp
-      hostname: System
-
-  subs: *id001    
-
-- first-match: '\%FTD\-\d+\-113019\:'
-  decoder: regex
-  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>.*?)\s+\:\s+%FTD\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+(?P<msg>.*?Group\s+\=\s+(?P<group>.*?)\,\s+Username\s+\=\s+(?P<user>.*?)\s+IP\s+\=\s+(?P<src>.*?)\,\s+.*?)\.\s+Session\s+Type\:\s+(?P<session_type>.*?)\,\s+.*?\s+Bytes\s+xmt\:\s+(?P<bytes_xmt>.*?)\,\s+Bytes\s+rcv\:\s+(?P<bytes_rcv>.*?)\,\s+Reason\:\s+(?P<reason>.*)'
-  event-key-format: '{eventid}'
-  event-key-mapping:  
-    '113019': 
-      annotate:
-        Stream: ADMINISTRATION
-        Action: LOGIN_SESSION_DISCONNECT
-        Status: PASSED
-      translate: 
-        msg: Message
-        user: User
-        src: SrcIP
-        group: GroupName
-        session_type: SessionType
-        bytes_xmt: TXLen
-        bytes_rcv: RXLen
-        reason: Reason      
-    
-  fallback:
-      annotate:
-        EventName: Generic Cisco-FTD Firewall Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp  
-
-  globals:
-    translate:
-      datetime: SystemTstamp
-      hostname: System
-
-  subs: *id001

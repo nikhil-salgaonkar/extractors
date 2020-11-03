@@ -6,40 +6,10 @@ source-type: FIREWALL
 source-description: Extractor for JUNIPER-SRX Firewall
 provides-streams:
 - NETWORK-FIREWALL
-- ADMINISTRATION
 - AUTHENTICATION
 master-filters:
 - '\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+\S+\:\s+\S+\:\s+'
 event-details:
-- first-match: 'RT_FLOW_SESSION_CREATE\:'
-  decoder: regex
-  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+.*?\:\s+(?P<category>\S+)\:\s.*?\s.*?\s(?P<src>[\d\.]+)\/(?P<sport>\d+)\-\>(?P<dst>[\d\.]+)\/(?P<dport>\d+)\s.*?\s.*?\s.*?\s.*?\s(?P<pid>\d+)\s.*?\s.*?\s.*?\s.*?\s(?P<user>.*?)\s'
-  event-key-format: '{category}'
-  event-key-mapping:
-    'RT_FLOW_SESSION_CREATE': 
-      annotate:
-        Stream: ADMINISTRATION
-        Action: LOGIN_SESSION_CONNECTED
-        Status: PASSED   
-      translate:
-        src: SrcIP 
-        sport: SrcPort 
-        dst: DstIP  
-        dport: DstPort
-        user: User  
-
-  fallback:
-      annotate:
-        EventName: Generic JUNIPER-SRX Firewall Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp
-
-  globals:
-    translate:
-      datetime: SystemTstamp
-      hostname: System
-
 - first-match: '\s+UI_LOGIN_EVENT.*?j\-super\-user.*?client-mode\s+cli'
   decoder: regex
   decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>\w+)\[(?P<pid>\d+)\]\:\s+(?P<category>\S+)\:\s+.*?\s(?P<user>.*?)\slogin.*?ssh-connection\s+(?P<src>[\d\.]+)\s+(?P<sport>\d+)\s+(?P<dst>[\d\.]+)\s+(?P<dport>\d+)'
@@ -56,7 +26,6 @@ event-details:
         dst: DstIP  
         dport: DstPort
         user: User
-
 
   fallback:
       annotate:
@@ -176,59 +145,7 @@ event-details:
       datetime: SystemTstamp
       hostname: System
   
-- first-match: '\s+UI_CFG_AUDIT_OTHER\:' 
-  decoder: regex
-  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>\w+)\[(?P<pid>\d+)\]\:\s+(?P<category>\S+)\:\s+(?P<msg>User\s+(?P<user>.*?)\s+.*)'
-  event-key-format: '{category}'
-  event-key-mapping:
-    'UI_CFG_AUDIT_OTHER': 
-      annotate:
-        Stream: ADMINISTRATION
-        Action: AUDIT_CONFIGURATION_CHANGED
-        Status: PASSED  
-      translate:
-        user: User
-
-
-  fallback:
-      annotate:
-        EventName: Generic JUNIPER-SRX Firewall Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp
-
-  globals:
-    translate:
-      datetime: SystemTstamp
-      hostname: System
-  
-- first-match: '\s+UI_CFG_AUDIT_SET\:' 
-  decoder: regex
-  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>\w+)\[(?P<pid>\d+)\]\:\s+(?P<category>\S+)\:\s+(?P<msg>User\s+(?P<user>.*?)\s+.*)'
-  event-key-format: '{category}'
-  event-key-mapping:
-    'UI_CFG_AUDIT_SET': 
-      annotate:
-        Stream: ADMINISTRATION
-        Action: AUDIT_CONFIGURATION_CHANGED
-        Status: PASSED  
-      translate:
-        user: User
-
-
-  fallback:
-      annotate:
-        EventName: Generic JUNIPER-SRX Firewall Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp
-
-  globals:
-    translate:
-      datetime: SystemTstamp
-      hostname: System
-
-- first-match: '\sUI_LOGIN_EVENT.*?\sclass.*?\s+super\-user' 
+- first-match: '\sUI_LOGIN_EVENT.*?\sclass.*?\s+super\-user'
   decoder: regex
   decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>\w+)\[(?P<pid>\d+)\]\:\s(?P<category>\S+)\:\sUser\s(?P<user>\S+)\s+'
   event-key-format: '{category}'
@@ -241,7 +158,6 @@ event-details:
       translate:
         user: User
 
-
   fallback:
       annotate:
         EventName: Generic JUNIPER-SRX Firewall Event
@@ -254,57 +170,6 @@ event-details:
       datetime: SystemTstamp
       hostname: System
 
-- first-match: 'UI_JUNOSCRIPT_CMD\:.*?user\=' 
-  decoder: regex
-  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>\w+)\[(?P<pid>\d+)\]\:\s+(?P<category>\S+)\:\s+.*?user\=(?P<user>.*?)\s+'
-  event-key-format: '{category}'
-  event-key-mapping:
-    'UI_JUNOSCRIPT_CMD': 
-      annotate:
-        Stream: ADMINISTRATION
-        Action: CMD_EXECUTED
-        Status: PASSED  
-      translate:
-        user: User
-
-
-  fallback:
-      annotate:
-        EventName: Generic JUNIPER-SRX Firewall Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp
-
-  globals:
-    translate:
-      datetime: SystemTstamp
-      hostname: System
-  
-- first-match: 'UI_JUNOSCRIPT_CMD\:.*?(?:command\sget\-\S+\-information|request\-\S+\-logout)\s+' 
-  decoder: regex
-  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>\w+)\[(?P<pid>\d+)\]\:\s+(?P<category>\S+)\:\sUser\s(?P<user>.*?)\s+'
-  event-key-format: '{category}'
-  event-key-mapping:
-    'UI_JUNOSCRIPT_CMD': 
-      annotate:
-        Stream: ADMINISTRATION
-        Action: CMD_EXECUTED
-        Status: PASSED   
-      translate:
-        user: User
-
-
-  fallback:
-      annotate:
-        EventName: Generic JUNIPER-SRX Firewall Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp
-
-  globals:
-    translate:
-      datetime: SystemTstamp
-      hostname: System
 
 - first-match: 'RT_FLOW\:\sFLOW_REASSEMBLE_SUCCEED\:' 
   decoder: regex
@@ -359,87 +224,6 @@ event-details:
       datetime: SystemTstamp
       hostname: System
 
-- first-match: '\s+UI_CMDLINE_READ_LINE\:' 
-  decoder: regex
-  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>.*?)\s(?P<daemon>.*?)\[(?P<pid>\d+)\]\:\s(?P<category>\S+)\:\s.*?\s(?P<user>\w+)\,'
-  event-key-format: '{category}'
-  event-key-mapping:
-    'UI_CMDLINE_READ_LINE': 
-      annotate:
-        Stream: ADMINISTRATION
-        Action: CMD_EXECUTED
-        Status: PASSED   
-      translate:
-        user: User
-
-
-  fallback:
-      annotate:
-        EventName: Generic JUNIPER-SRX Firewall Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp
-
-  globals:
-    translate:
-      datetime: SystemTstamp
-      hostname: System
-
-- first-match: 'RT_FLOW_SESSION_CLOSE\:'
-  decoder: regex
-  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>.*?)\s.*?\:\s+(?P<category>.*?)\:\s.*?\s.*?\:\s+(?P<src>.*?)\/(?P<sport>.*?)\-\>(?P<dst>.*?)\/(?P<dport>.*?)\s'
-  event-key-format: '{category}'
-  event-key-mapping:
-    'RT_FLOW_SESSION_CLOSE': 
-      annotate:
-        Stream: ADMINISTRATION
-        Action: LOGIN_SESSION_DISCONNECT
-        Status: PASSED   
-      translate:
-        src: SrcIP 
-        sport: SrcPort 
-        dst: DstIP  
-        dport: DstPort
-
-  fallback:
-      annotate:
-        EventName: Generic JUNIPER-SRX Firewall Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp
-
-  globals:
-    translate:
-      datetime: SystemTstamp
-      hostname: System
-
-- first-match: 'RT_FLOW_SESSION_DENY\:'
-  decoder: regex
-  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>.*?)\s.*?\:\s+(?P<category>.*?)\:\s+.*?\s.*?\s+(?P<src>[\d \.]+)\/(?P<sport>\d+)\-\>(?P<dst>[\d \.]+)\/(?P<dport>\d+)'
-  event-key-format: '{category}'
-  event-key-mapping:
-    'RT_FLOW_SESSION_DENY': 
-      annotate:
-        Stream: ADMINISTRATION
-        Action: LOGIN_SESSION_DISCONNECT
-        Status: PASSED   
-      translate:
-        src: SrcIP 
-        sport: SrcPort 
-        dst: DstIP  
-        dport: DstPort
-
-  fallback:
-      annotate:
-        EventName: Generic JUNIPER-SRX Firewall Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp
-
-  globals:
-    translate:
-      datetime: SystemTstamp
-      hostname: System
 
 - first-match: 'PFE_FW_SYSLOG_IP\:'
   decoder: regex
@@ -499,30 +283,6 @@ event-details:
       datetime: SystemTstamp
       hostname: System
 
-- first-match: 'UI_COMMIT\:'
-  decoder: regex
-  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>\w+)\[(?P<pid>\w+)\]\:\s+(?P<category>\S+)\:\s+(?P<msg>(?:User\s+(?P<user>.*?))?\s+.*)'
-  event-key-format: '{category}'
-  event-key-mapping:
-    'UI_COMMIT': 
-      annotate:
-        Stream: ADMINISTRATION
-        Action: PRIVILEGE_SET
-        Status: PASSED   
-      translate:
-        user: User
-
-  fallback:
-      annotate:
-        EventName: Generic JUNIPER-SRX Firewall Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp
-
-  globals:
-    translate:
-      datetime: SystemTstamp
-      hostname: System
 
 - first-match: 'KMD_PM_SA_ESTABLISHED\:'
   decoder: regex

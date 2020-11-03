@@ -7,7 +7,6 @@ source-description: Extractor for MSSQL DATABASE
 provides-streams:
 - AUTHENTICATION
 - DATABASE
-- ADMINISTRATION
 - SYSTEM
 master-filters:
 - \"SourceName\"\:\"SQL\w+\"
@@ -139,15 +138,7 @@ event-details:
         Status: PASSED
       translate: 
         AccountName: User
-        Domain: Domain   
-    '15457': 
-      annotate:
-        Stream: ADMINISTRATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-      translate: 
-        AccountName: User
-        Domain: Domain  
+        Domain: Domain
     '19030': 
       annotate:
         Stream: DATABASE
@@ -155,14 +146,7 @@ event-details:
         Status: PASSED
       translate: 
         AccountName: User
-        Domain: Domain  
-    '17148': 
-      annotate:
-        Stream: ADMINISTRATION
-        Action: SERVICE_STOP
-        Status: PASSED
-      translate: 
-        Domain: Domain  
+        Domain: Domain
     '3014': 
       annotate:
         Stream: DATABASE
