@@ -1059,7 +1059,6 @@ event-details:
     translate:
       date: SystemTstamp
       devname: System
-      logid: EventID
       proto: Proto
       level: LogLevel
       type: Category

@@ -48,5 +48,4 @@ event-details:
     translate:
       EventTime: SystemTstamp
       Hostname: System
-      EventID: EventID 
-      Channel: EventSource  
+      Channel: EventSource

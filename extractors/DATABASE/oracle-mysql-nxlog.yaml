@@ -30,8 +30,7 @@ event-details:
     translate:
       EventTime: SystemTstamp
       Hostname: System
-      EventID: EventID 
-      Channel: EventSource  
+      Channel: EventSource
 
 - first-match: '\"SourceName\"\:\"MySQL\"\,'
   decoder: json
@@ -54,5 +53,4 @@ event-details:
     translate:
       EventTime: SystemTstamp
       Hostname: System
-      EventID: EventID 
-      Channel: EventSource  
+      Channel: EventSource

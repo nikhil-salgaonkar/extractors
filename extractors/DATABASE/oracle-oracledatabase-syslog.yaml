@@ -69,7 +69,6 @@ event-details:
   globals:
     translate:
       DATETIME: SystemTstamp
-      ACTION: EventID 
 
 - first-match: 'ACTION\:\[\d+\]\s+\"(?:101|102)\"\s+RETURNCODE\:\[\d+\]\s+\"\d+\"'
   decoder: regex
@@ -99,7 +98,6 @@ event-details:
   globals:
     translate:
       DATETIME: SystemTstamp
-      ACTION: EventID       
 
 - first-match: 'ACTION\:\[\d+\]\s+\"47\"\s+RETURNCODE\:\[\d+\]\s+\"\d+\"'
   decoder: regex
@@ -124,7 +122,6 @@ event-details:
   globals:
     translate:
       DATETIME: SystemTstamp
-      ACTION: EventID 
 
 - first-match: 'ACTION\s+\:\[\d+\]\s+(?:select|commit|alter|connect|begin|create).*?DBID\:\[\d+\]'
   decoder: regex

@@ -281,8 +281,7 @@ event-details:
         EventName: Generic Windows Event
         Stream: OTHER
       translate:  
-        EventID: EventID 
-        Channel: EventSource  
+        Channel: EventSource
 
   globals:
     translate:
@@ -376,7 +375,6 @@ event-details:
         EventName: Generic Windows Events
         Stream: OTHER
       translate:  
-        EventID: EventID 
         Channel: EventSource
 
   globals:
