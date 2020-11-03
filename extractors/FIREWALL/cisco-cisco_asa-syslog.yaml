@@ -1405,7 +1405,9 @@ event-details:
     translate:
       datetime: SystemTstamp
 
-  subs: *id001- first-match: '\%ASA.*?-6\-302013\:.*?Built\s+outbound\s+\w+\s+connection'
+  subs: *id001
+
+- first-match: '\%ASA.*?-6\-302013\:.*?Built\s+outbound\s+\w+\s+connection'
   decoder: regex
   decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2}).*?\%ASA\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+(?P<message>.*?Built\s+(?P<flow>.*?)\s+(?P<protocol>.*?)\s+).*?connection\s+(?P<connection_id>\w+)\s+for\s+.*?\:(?P<dst>[\w\d\:\.\-]+)\/(?P<dport>\d+)\s+\((?P<dsttranip>[\w\d\:\.\-]+)\/(?P<dsttranport>\d+)\).*?to.*?\:(?P<src>[\w\d\:\.\-]+)\/(?P<sport>\d+)\s+\((?P<srctranip>[\w\d\:\.\-]+)\/(?P<srctranport>\d+)\)'
   event-key-format: '{eventid}'
