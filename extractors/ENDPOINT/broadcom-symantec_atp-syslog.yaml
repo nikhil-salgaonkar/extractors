@@ -59,10 +59,6 @@ event-details:
         EventName: Generic Symantec ATP Endpoint Event
         Stream: OTHER
 
-  globals:
-    translate:
-      message: Message
-
 - first-match: \|lcp\_sep\_risk\_event\|
   decoder: custom
   decoder-regex: \"(\w+)\":([^\,{}]+)
@@ -87,9 +83,6 @@ event-details:
         EventName: Generic Symantec ATP Endpoint Event
         Stream: OTHER
 
- # globals:
-  #  translate:
-   #   message: Message
 
 - first-match: \|atp\_incident\|
   decoder: custom
@@ -116,7 +109,6 @@ event-details:
 
   globals:
     translate:
-      message: Message
 
 - first-match: \|sep\_proxy\_sonar\_event\|
   decoder: custom
@@ -163,7 +155,3 @@ event-details:
       annotate:
         EventName: Generic Symantec ATP Endpoint Event
         Stream: OTHER
-
-#  globals:
- #   translate:
-  #    message: Message

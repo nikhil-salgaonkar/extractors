@@ -20,7 +20,6 @@ event-details:
         Action: LOGIN
         Status: PASSED
       translate:
-        msg: Message
         src: SrcIP
         sport: SrcPort
         user: User  
@@ -33,8 +32,6 @@ event-details:
   globals:
     translate:
       hostname: System
-      daemon: Daemon
-      pid: PID
 
 - first-match: '\s+\S+\[\d+\]\:\s+input_userauth_request\:\s+invalid\s+user\s+\S+\s+'
   decoder: regex
@@ -47,8 +44,7 @@ event-details:
         Action: LOGIN
         Status: FAILED
       translate:
-        msg: Message
-        user: User  
+        user: User
 
   fallback:
       annotate:
@@ -58,9 +54,7 @@ event-details:
   globals:
     translate:
       hostname: System
-      daemon: Daemon
-      pid: PID   
-      
+
 - first-match: '\S+\[\d+\]\:\s+Invalid\s+user\s+\S+\s+from\s+\S+'
   decoder: regex
   decoder-regex: '(?:(?P<hostname>\S+)\s+)?(?P<daemon>\w+)\[(?P<pid>\d+)\]\:\s+(?P<msg>(?P<action>Invalid\s+user)\s+(?P<user>\S+)\s+from\s+(?P<src>[abcdef\d\:\.\-]+))'
@@ -72,8 +66,7 @@ event-details:
         Action: LOGIN
         Status: FAILED
       translate:
-        msg: Message
-        user: User 
+        user: User
         src: SrcIP 
 
   fallback:
@@ -84,8 +77,6 @@ event-details:
   globals:
     translate:
       hostname: System
-      daemon: Daemon
-      pid: PID  
 
 - first-match: '\S+\[\d+\]\:\s+.*?session\s+closed\s+for\s+user\s+\S+'
   decoder: regex
@@ -98,8 +89,7 @@ event-details:
         Action: LOGOUT
         Status: PASSED
       translate:
-        msg: Message
-        user: User 
+        user: User
 
   fallback:
       annotate:
@@ -109,8 +99,6 @@ event-details:
   globals:
     translate:
       hostname: System
-      daemon: Daemon
-      pid: PID 
 
 - first-match: '\S+\s+\S+\[\d+\]\:\s+session\s+closed\s+for\s+local\s+user\s+\S+\s+from\s+\['
   decoder: regex
@@ -123,7 +111,6 @@ event-details:
         Action: LOGOUT
         Status: PASSED
       translate:
-        msg: Message
         user: User
         src: SrcIP 
 
@@ -135,8 +122,6 @@ event-details:
   globals:
     translate:
       hostname: System
-      daemon: Daemon
-      pid: PID   
 
 - first-match: 'PAM\:\s+authentication\s+error\s'
   decoder: regex
@@ -149,7 +134,6 @@ event-details:
         Action: LOGIN
         Status: FAILED
       translate:
-        msg: Message
         user: User
         src: SrcIP 
 
@@ -157,11 +141,6 @@ event-details:
       annotate:
         EventName: Generic NIX Event
         Stream: OTHER
-
-  globals:
-    translate:
-      daemon: Daemon
-      pid: PID
 
 - first-match: 'password\s+authentication\s+failed'
   decoder: regex
@@ -174,7 +153,6 @@ event-details:
         Action: LOGIN
         Status: FAILED
       translate:
-        msg: Message
         user: User
 
   fallback:
@@ -185,8 +163,7 @@ event-details:
   globals:
     translate:
       hostname: System
-      daemon: Daemon
-      pid: PID   
+
 
 - first-match: 'password\s+authentication\s+accepted'
   decoder: regex
@@ -199,7 +176,6 @@ event-details:
         Action: LOGIN
         Status: PASSED
       translate:
-        msg: Message
         user: User
 
   fallback:
@@ -210,8 +186,6 @@ event-details:
   globals:
     translate:
       hostname: System
-      daemon: Daemon
-      pid: PID   
 
 - first-match: '\s+Login\s+successful\s+'
   decoder: regex
@@ -224,7 +198,6 @@ event-details:
         Action: LOGIN
         Status: PASSED
       translate:
-        msg: Message
         user: User
 
   fallback:
@@ -235,8 +208,6 @@ event-details:
   globals:
     translate:
       hostname: System
-      daemon: Daemon
-      pid: PID  
 
 - first-match: 'Accepted\s+publickey\s+for'
   decoder: regex
@@ -249,7 +220,6 @@ event-details:
         Action: LOGIN
         Status: PASSED
       translate:
-        msg: Message
         user: User
         src: SrcIP
         sport: SrcPort
@@ -259,10 +229,6 @@ event-details:
         EventName: Generic NIX Event
         Stream: OTHER
 
-  globals:
-    translate:
-      daemon: Daemon
-      pid: PID 
 
 - first-match: '\s+User.*?logged\s+out'
   decoder: regex
@@ -275,7 +241,6 @@ event-details:
         Action: LOGOUT
         Status: PASSED
       translate:
-        msg: Message
         user: User
 
   fallback:
@@ -283,10 +248,6 @@ event-details:
         EventName: Generic NIX Event
         Stream: OTHER
 
-  globals:
-    translate:
-      daemon: Daemon
-      pid: PID    
 
 - first-match: '\s+logged\s+in'
   decoder: regex
@@ -299,7 +260,6 @@ event-details:
         Action: LOGIN
         Status: PASSED
       translate:
-        msg: Message
         user: User
 
   fallback:
@@ -310,8 +270,6 @@ event-details:
   globals:
     translate:
       hostname: System
-      daemon: Daemon
-      pid: PID      
 
 - first-match: '\s+(?:Authentication|authentication)\s+(?:failure|failures)\s+for\s+'
   decoder: regex
@@ -324,7 +282,6 @@ event-details:
         Action: LOGIN
         Status: FAILED
       translate:
-        msg: Message
         user: User
         src: SrcIP
     'authentication failures': 
@@ -333,18 +290,12 @@ event-details:
         Action: LOGIN
         Status: FAILED
       translate:
-        msg: Message
-        user: User    
+        user: User
 
   fallback:
       annotate:
         EventName: Generic NIX Event
         Stream: OTHER
-
-  globals:
-    translate:
-      daemon: Daemon
-      pid: PID                                                                                          
 
 - first-match: '\S+\[\d+\]\:\s+.*?authentication\s+(?:failure|failures)\;\s+logname\=.*?uid\=\d+\s+'
   decoder: regex
@@ -357,7 +308,6 @@ event-details:
         Action: LOGIN
         Status: FAILED
       translate:
-        msg: Message
         user: User
         uid: UserID
         ruser: SrcUser
@@ -368,7 +318,6 @@ event-details:
         Action: LOGIN
         Status: FAILED
       translate:
-        msg: Message
         user: User
         uid: UserID
         ruser: SrcUser
@@ -382,8 +331,6 @@ event-details:
   globals:
     translate:
       hostname: System
-      daemon: Daemon
-      pid: PID  
 
 - first-match: '\w+\:\s+.*?authentication\s+failure\;\s+logname\=.*?uid\=\d+\s+'
   decoder: regex
@@ -396,7 +343,6 @@ event-details:
         Action: LOGIN
         Status: FAILED
       translate:
-        msg: Message
         user: User
         uid: UserID
         ruser: SrcUser
@@ -410,7 +356,7 @@ event-details:
   globals:
     translate:
       hostname: System
-      daemon: Daemon  
+
 
 - first-match: '\S+\[\d+\]\:\s+Accepted\s+keyboard\-interactive(?:\/pam)?\s+'
   decoder: regex
@@ -423,7 +369,6 @@ event-details:
         Action: LOGIN
         Status: PASSED
       translate:
-        msg: Message
         user: User
         src: SrcIP
         sport: SrcPort
@@ -433,10 +378,6 @@ event-details:
         EventName: Generic NIX Event
         Stream: OTHER
 
-  globals:
-    translate:
-      daemon: Daemon 
-      pid: PID                      
 
 #- first-match: '\s+\S+\[\d+\]\:\s+.*?Received\s+disconnect\s+from\s+'
  # decoder: regex
@@ -449,7 +390,6 @@ event-details:
       #  Action: LOGIN_SESSION_DISCONNECTED
        # Status: PASSED
       #translate:
-       # msg: Message
         #src: SrcIP
         #sport: SrcPort
 
@@ -458,10 +398,6 @@ event-details:
     #    EventName: Generic NIX Event
      #   Stream: OTHER
 
-  #globals:
-   # translate:
-    #  daemon: Daemon 
-     # pid: PID #User info not present
 
 - first-match: '\s+\S+\[\d+\]\:\s+.*?session\s+opened\s+for\s+'
   decoder: regex
@@ -474,7 +410,6 @@ event-details:
         Action: LOGIN_SESSION_CONNECTED
         Status: PASSED
       translate:
-        msg: Message
         src: SrcIP
         uid: UserID
         user: User
@@ -483,11 +418,6 @@ event-details:
       annotate:
         EventName: Generic NIX Event
         Stream: OTHER
-
-  globals:
-    translate:
-      daemon: Daemon 
-      pid: PID   
 
 - first-match: '\s+\S+\[\d+\]\:\s+.*?session\s+closed\s+for\s+'
   decoder: regex
@@ -500,7 +430,6 @@ event-details:
         Action: LOGIN_SESSION_DISCONNECTED
         Status: PASSED
       translate:
-        msg: Message
         src: SrcIP
         uid: UserID
         user: User
@@ -510,10 +439,6 @@ event-details:
         EventName: Generic NIX Event
         Stream: OTHER
 
-  globals:
-    translate:
-      daemon: Daemon 
-      pid: PID                                                                                                          
 
 - first-match: '\w+\:\s+.*?session\s+opened\s+for\s+'
   decoder: regex
@@ -526,7 +451,6 @@ event-details:
         Action: LOGIN_SESSION_CONNECTED
         Status: PASSED
       translate:
-        msg: Message
         user: User
 
   fallback:
@@ -534,9 +458,6 @@ event-details:
         EventName: Generic NIX Event
         Stream: OTHER
 
-  globals:
-    translate:
-      daemon: Daemon    
 
 - first-match: '\w+\:\s+.*?session\s+closed\s+for\s+'
   decoder: regex
@@ -549,7 +470,6 @@ event-details:
         Action: LOGIN_SESSION_DISCONNECTED
         Status: PASSED
       translate:
-        msg: Message
         user: User
 
   fallback:
@@ -557,9 +477,6 @@ event-details:
         EventName: Generic NIX Event
         Stream: OTHER
 
-  globals:
-    translate:
-      daemon: Daemon         
 
 - first-match: '\S+\:\s+New\s+session\s+\d+\s+of\s+user\s+'
   decoder: regex
@@ -572,7 +489,6 @@ event-details:
         Action: LOGIN_SESSION_CONNECTED
         Status: PASSED
       translate:
-        msg: Message
         user: User
 
   fallback:
@@ -580,7 +496,4 @@ event-details:
         EventName: Generic NIX Event
         Stream: OTHER
 
-  globals:
-    translate:
-      daemon: Daemon         
       

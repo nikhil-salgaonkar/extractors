@@ -30,7 +30,7 @@ event-details:
         httpmethod: Method 
         httpretcode: ReturnCode
         useragent: UserAgent
-        httpreferer: Referer
+        httpreferer: Referrer
     'Blocked-200': 
       annotate:
         Stream: WEBFILTER
@@ -47,7 +47,7 @@ event-details:
         httpmethod: Method 
         httpretcode: ReturnCode
         useragent: UserAgent
-        httpreferer: Referer     
+        httpreferer: Referrer
 
   fallback:
       annotate:

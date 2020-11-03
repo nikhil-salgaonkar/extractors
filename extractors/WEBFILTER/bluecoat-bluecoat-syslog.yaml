@@ -133,7 +133,6 @@ event-details:
         useragent: UserAgent
         mimetype: MIMEType
         protocol: Proto
-        atkthreat: AtkThreat
         siteclass: SiteClass
 
   fallback:
@@ -160,7 +159,6 @@ event-details:
         dport: DstPort
         user: User
         url: URL
-        message: Message
     #   application: App
         httpmethod: Method
         sent_byte: TXLen
@@ -204,7 +202,6 @@ event-details:
         mimetype: MIMEType
         protocol: Proto
         siteclass: SiteClass
-        atkthreat: AtkThreat
 
   fallback:
       annotate:
@@ -300,7 +297,6 @@ event-details:
         useragent: UserAgent
         mimetype: MIMEType
         protocol: Proto
-        atkthreat: AtkThreat
         siteclass: SiteClass
 
   fallback:

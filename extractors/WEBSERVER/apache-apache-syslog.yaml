@@ -21,11 +21,8 @@ event-details:
       annotate:
         Stream: WEBSERVER 
       translate:
-        msg: Message
         src: SrcIP
-        filepath: FilePath
         user: User
-        severity: LogLevel  
 
   fallback:
       annotate:
@@ -49,9 +46,9 @@ event-details:
         httpmethod: Method
         url: URL
         httpretcode: ReturnCode 
-        httpreferer: Referer
+        httpreferer: Referrer
         useragent: UserAgent
-        txlen: TXLEN
+        txlen: TXLen
         app: App 
 
   fallback:
@@ -76,9 +73,9 @@ event-details:
         httpmethod: Method
         baseurl: URL
         httpretcode: ReturnCode 
-        httpreferer: Referer
+        httpreferer: Referrer
         useragent: UserAgent
-        txlen: TXLEN
+        txlen: TXLen
 
   fallback:
       annotate:
@@ -87,8 +84,6 @@ event-details:
 
   globals:
     translate:
-      daemon: Daemon
-      pid: PID
       hostname: System
       datetime: SystemTstamp   
 
@@ -113,8 +108,6 @@ event-details:
 
   globals:
     translate:
-      daemon: Daemon
-      pid: PID
       hostname: System
       datetime: SystemTstamp 
 
@@ -131,9 +124,9 @@ event-details:
         httpmethod: Method
         url: URL
         httpretcode: ReturnCode 
-        httpreferer: Referer
+        httpreferer: Referrer
         useragent: UserAgent
-        txlen: TXLEN
+        txlen: TXLen
 
   fallback:
       annotate:
@@ -143,9 +136,7 @@ event-details:
   globals:
     translate:
       hostname: System
-      datetime: SystemTstamp   
-      daemon: Daemon
-      pid: PID
+      datetime: SystemTstamp
 
 - first-match: '\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+httpd\:.*?\[.*?\]\s+\".*?\"\s+\d+'
   decoder: regex
@@ -160,9 +151,9 @@ event-details:
         httpmethod: Method
         url: URL
         httpretcode: ReturnCode 
-        httpreferer: Referer
+        httpreferer: Referrer
         useragent: UserAgent
-        txlen: TXLEN
+        txlen: TXLen
 
   fallback:
       annotate:
@@ -187,9 +178,9 @@ event-details:
         src: SrcIP
         httpmethod: Method
         httpretcode: ReturnCode 
-        httpreferer: Referer
+        httpreferer: Referrer
         useragent: UserAgent
-        txlen: TXLEN
+        txlen: TXLen
 
   fallback:
       annotate:
@@ -199,9 +190,7 @@ event-details:
   globals:
     translate:
       hostname: System
-      datetime: SystemTstamp   
-      daemon: Daemon
-      pid: PID     
+      datetime: SystemTstamp
 
 - first-match: '\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+Apache\[\d+\]\:\s+.*?\[\d{1,2}\/\w{3}\/\d{4}\:\d{2}\:\d{2}\:\d{2}\s+\+\d+\]\s+\".*?\"\s+\d+\s+'
   decoder: regex
@@ -215,9 +204,9 @@ event-details:
         src: SrcIP
         httpmethod: Method
         httpretcode: ReturnCode 
-        httpreferer: Referer
+        httpreferer: Referrer
         useragent: UserAgent
-        txlen: TXLEN
+        txlen: TXLen
     '408': 
       annotate:
         Stream: WEBSERVER
@@ -225,9 +214,9 @@ event-details:
         src: SrcIP
         httpmethod: Method
         httpretcode: ReturnCode 
-        httpreferer: Referer
+        httpreferer: Referrer
         useragent: UserAgent
-        txlen: TXLEN    
+        txlen: TXLen
 
   fallback:
       annotate:
@@ -237,9 +226,7 @@ event-details:
   globals:
     translate:
       hostname: System
-      datetime: SystemTstamp   
-      daemon: Daemon
-      pid: PID 
+      datetime: SystemTstamp
 
 - first-match: '\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+(?!.*?Apache|.*?httpd\:).*?\[.*?\]\s+\"?(?:GET|POST)\s+'
   decoder: regex
@@ -253,10 +240,10 @@ event-details:
         src: SrcIP
         httpmethod: Method
         httpretcode: ReturnCode 
-        httpreferer: Referer
+        httpreferer: Referrer
         useragent: UserAgent
         url: URL
-        txlen: TXLEN
+        txlen: TXLen
 
   fallback:
       annotate:

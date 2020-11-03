@@ -453,7 +453,6 @@ event-details:
       translate:
         message: Message
         src: SrcIP
-        pid: PID
 
   fallback:
       annotate:

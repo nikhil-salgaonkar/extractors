@@ -36,6 +36,5 @@ event-details:
   globals:
     translate:
       ruleName: AtkClass
-      Description: Message
       policyName: PolicyName
       httpHost: Domain

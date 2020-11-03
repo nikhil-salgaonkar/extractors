@@ -101,7 +101,6 @@ event-details:
         filePath: FilePath
         dst: DstIP
         fileHash: FileHash
-        msg: Message
         duser: DstUser
         suser: SrcUser
         shost: SrcHost 
@@ -116,7 +115,6 @@ event-details:
         filePath: FilePath
         dst: DstIP
         fileHash: FileHash
-        msg: Message
         cat: Category
         duser: DstUser
         suser: SrcUser

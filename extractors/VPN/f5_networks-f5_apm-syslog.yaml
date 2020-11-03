@@ -20,13 +20,10 @@ event-details:
         Stream: NETWORK-FIREWALL
         Action: VPN_CONNECTED
         Status: PASSED   
-        AuthMethod: VPN
       translate:
         partition_name: RuleName
-        session_id: SessionID
         Name: App
         Packet_L7_Hostname: Hostname
-        Packet_L7_Path: URLPath
         Packet_Protocol: Proto
         Packet_Source_IP: SrcIP
         Packet_Source_Port: SrcPort
@@ -37,55 +34,42 @@ event-details:
         Stream: NETWORK-FIREWALL
         Action: VPN_DISCONNECTED
         Status: FAILED   
-        AuthMethod: VPN
       translate:
         partition_name: RuleName
-        session_id: SessionID
         Name: App
     '01490505:5:-None':
       annotate:  
         Stream: NETWORK-FIREWALL
         Action: VPN_CONNECTED
         Status: PASSED   
-        AuthMethod: VPN
       translate:
         partition_name: RuleName
-        session_id: SessionID
         Name: App
     '01490549:5:-None':
       annotate:  
         Stream: NETWORK-FIREWALL
         Action: VPN_CONNECTED
         Status: PASSED   
-        AuthMethod: VPN
       translate:
         partition_name: RuleName
-        session_id: SessionID   
-        Tunnel_Type: TunnelType
-        Resource: Resource 
+        Resource: Resource
         Client_IP: SrcIP
-        Reconnect: ConnectionStatus
-    '01490106:4:-authentication with': 
+    '01490106:4:-authentication with':
       annotate:  
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED   
         AuthMethod: VPN
       translate:
-        partition_name: RuleName
-        session_id: SessionID   
         Object: ObjectName
-        Error_Message: Message
         Error_Code: ErrorCode
     '01580002:5:-allow':
       annotate:  
         Stream: NETWORK-FIREWALL
         Action: VPN_CONNECTED
         Status: PASSED   
-        AuthMethod: VPN
       translate:
         partition_name: RuleName
-        session_id: SessionID
         Packet_Protocol: Proto
         Packet_Source_IP: SrcIP
         Packet_Source_Port: SrcPort

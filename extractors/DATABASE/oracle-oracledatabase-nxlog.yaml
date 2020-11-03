@@ -21,7 +21,6 @@ event-details:
         Status: PASSED
       translate: 
         Severity: Severity  
-        LENGTH: TLen
         ACTION: SQLQuery
         dbuser: DBUser
         PRIVILEGE: Privilege

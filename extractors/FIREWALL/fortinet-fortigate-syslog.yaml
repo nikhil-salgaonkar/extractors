@@ -483,7 +483,6 @@ event-details:
         dstip: DstIP
         reason: Reason
         msg: Message
-        cookies: Cookie
         group: UserGroup
     0101037134-delete_phase1_sa:
       annotate:
@@ -498,7 +497,6 @@ event-details:
         dstport: DstPort
         user: User
         msg: Message
-        cookies: Cookie
         group: UserGroup
     0101037133-install_sa:
       annotate:
@@ -513,7 +511,6 @@ event-details:
         dstport: DstPort
         user: User
         msg: Message
-        cookies: Cookie
         group: UserGroup
     0101037135-delete_phase1_sa:
       annotate:
@@ -528,7 +525,6 @@ event-details:
         dstport: DstPort
         user: User
         msg: Message
-        cookies: Cookie
         group: UserGroup
     0100032400-None:
       annotate:
@@ -690,7 +686,6 @@ event-details:
         dstport: DstPort
         user: User
         msg: Message
-        cookies: Cookie
         group: UserGroup
     0100041001-None:
       annotate:
@@ -738,7 +733,6 @@ event-details:
         rcvdbyte: RXLen
         user: User
         group: UserGroup
-        cookies: Cookie
     0101037120-negotiate:
       annotate:
         Stream: AUTHENTICATION
@@ -752,7 +746,6 @@ event-details:
         dstport: DstPort
         user: User
         group: UserGroup
-        cookies: Cookie
         msg: Message
     0100032111-update:
       annotate:
@@ -786,7 +779,6 @@ event-details:
         dstport: DstPort
         user: User
         group: UserGroup
-        cookies: Cookie
         msg: Message
         reason: Reason
     0100032141-None:

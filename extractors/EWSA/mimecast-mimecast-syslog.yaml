@@ -85,4 +85,3 @@ event-details:
         AttCnt: AttachmentCount
         AttSize: AttachmentSize
         sha256: HashSHA256
-        MsgSize: TLen
