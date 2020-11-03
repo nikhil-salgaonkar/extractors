@@ -5,7 +5,7 @@ source-name: MCAFEE
 source-type: IPS
 source-description: extractor for Mcafee IPS
 provides-streams:
-- IPS
+- NETWORK-THREAT
 master-filters:
 - \s+SyslogAlertForwarder\:.*?(?:Signature|Statistical\s+Anomaly).*?\(result\s+\=\s+.*?\)
 event-details:
@@ -16,7 +16,7 @@ event-details:
   event-key-mapping:
     'Smart Blocked':
       annotate:
-        Stream: IPS
+        Stream: NETWORK-THREAT
         Action: ATTACK_DETECTED
         Status: PASSED
       translate:
@@ -33,7 +33,7 @@ event-details:
         dst: DstIP 
     'Attack Failed': 
       annotate:
-        Stream: IPS
+        Stream: NETWORK-THREAT
         Action: ATTACK_DETECTED
         Status: FAILED
       translate:
@@ -50,7 +50,7 @@ event-details:
         dst: DstIP 
     'Attack Successful':
       annotate:
-        Stream: IPS
+        Stream: NETWORK-THREAT
         Action: ATTACK_DETECTED
         Status: PASSED
       translate:
@@ -67,7 +67,7 @@ event-details:
         dst: DstIP   
     'Attack Blocked':
       annotate:
-        Stream: IPS
+        Stream: NETWORK-THREAT
         Action: ATTACK_DETECTED
         Status: PASSED
       translate:
@@ -84,7 +84,7 @@ event-details:
         dst: DstIP    
     'Inconclusive': 
       annotate:
-        Stream: IPS
+        Stream: NETWORK-THREAT
         Action: ATTACK_DETECTED
         Status: PASSED
       translate:
@@ -102,7 +102,7 @@ event-details:
 
   fallback:
       annotate:
-        EventName: Generic Mcafee IPS Event
+        EventName: Generic Mcafee NETWORK-THREAT Event
         Stream: OTHER
       translate:
         hostname: System

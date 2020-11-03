@@ -5,7 +5,7 @@ source-name: TIPPINGPOINT
 source-type: IPS
 source-description: Extractor for TIPPINGPOINT IPS
 provides-streams:
-- IPS
+- NETWORK-THREAT
 master-filters:
 - '\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+\d+\s+\d+\s+\S+\s+'
 event-details:
@@ -16,7 +16,7 @@ event-details:
   event-key-mapping:
     '8': 
       annotate:
-        Stream: IPS
+        Stream: NETWORK-THREAT
         Action: PACKET_ALLOWED
         Status: FAILED   
       translate:
@@ -28,7 +28,7 @@ event-details:
         device: Device
     '7': 
       annotate:
-        Stream: IPS
+        Stream: NETWORK-THREAT
         Action: PACKET_ALLOWED
         Status: PASSED   
       translate:
@@ -41,7 +41,7 @@ event-details:
 
   fallback:
       annotate:
-        EventName: Generic TIPPINGPOINT IPS Event
+        EventName: Generic TIPPINGPOINT NETWORK-THREAT Event
         Stream: OTHER
 
   globals:
