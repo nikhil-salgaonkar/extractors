@@ -52,7 +52,7 @@ event-details:
     '100-2391': 
       annotate:
         Stream: AUTHENTICATION
-        Action: LOGIN_SESSIONS_PER_USER
+        Action: LOGIN
         Status: FAILED
       translate: 
         USERID: User

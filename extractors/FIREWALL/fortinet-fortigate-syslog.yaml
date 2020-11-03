@@ -42,7 +42,6 @@ event-details:
         srcport: SrcPort
         dstip: DstIP
         dstport: DstPort
-        user: User
         sentbyte: TXLen
         rcvdbyte: RXLen
         subtype: SubCategory
@@ -57,7 +56,6 @@ event-details:
         srcport: SrcPort
         dstip: DstIP
         dstport: DstPort
-        user: User
         subtype: SubCategory
 
     0001000014-accept:
@@ -474,7 +472,6 @@ event-details:
         dstport: DstPort
         qname: Query
         qtype: Lookup
-        msg: Message
         subtype: SubCategory
 
     1501054600-block:
@@ -489,7 +486,6 @@ event-details:
         dstport: DstPort
         qname: Query
         qtype: Lookup
-        msg: Message
         subtype: SubCategory
 
     0100032003-logout:
@@ -625,8 +621,6 @@ event-details:
         srcport: SrcPort
         dstip: DstIP
         dstport: DstPort
-        user: User
-        hostname: Domain
         subtype: SubCategory
 
     0100032001-login:
@@ -690,7 +684,6 @@ event-details:
         srcport: SrcPort
         dstip: DstIP
         dstport: DstPort
-        app: App
         subtype: SubCategory
 
     0419016385-detected:

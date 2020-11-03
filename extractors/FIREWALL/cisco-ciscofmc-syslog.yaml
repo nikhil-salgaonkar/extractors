@@ -64,8 +64,7 @@ event-details:
         Action: PACKET_ALLOWED
         Status: PASSED
       translate: 
-        msg: Message
-        src: SrcIP    
+        src: SrcIP
         proto: Proto
         sport: SrcPort
         dst: DstIP
@@ -78,8 +77,7 @@ event-details:
         Action: PACKET_BLOCKED
         Status: PASSED
       translate: 
-        msg: Message
-        src: SrcIP    
+        src: SrcIP
         proto: Proto
         sport: SrcPort
         dst: DstIP
@@ -92,8 +90,7 @@ event-details:
         Action: PACKET_BLOCKED
         Status: PASSED
       translate: 
-        msg: Message
-        src: SrcIP    
+        src: SrcIP
         protocol: Proto
         sport: SrcPort
         dst: DstIP

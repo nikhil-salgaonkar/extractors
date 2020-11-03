@@ -21,38 +21,31 @@ event-details:
         Action: VPN_CONNECTED
         Status: PASSED   
       translate:
-        partition_name: RuleName
-        Name: App
-        Packet_L7_Hostname: Hostname
         Packet_Protocol: Proto
         Packet_Source_IP: SrcIP
         Packet_Source_Port: SrcPort
         Packet_Destination_IP: DstIP
         Packet_Destination_Port: DstPort
-    '01490502:5:-None':
-      annotate:  
-        Stream: NETWORK-FIREWALL
-        Action: VPN_DISCONNECTED
-        Status: FAILED   
-      translate:
-        partition_name: RuleName
-        Name: App
-    '01490505:5:-None':
-      annotate:  
-        Stream: NETWORK-FIREWALL
-        Action: VPN_CONNECTED
-        Status: PASSED   
-      translate:
-        partition_name: RuleName
-        Name: App
+#    '01490502:5:-None':
+#      annotate:
+#        Stream: NETWORK-FIREWALL
+#        Action: VPN_DISCONNECTED
+#        Status: FAILED
+#      translate:
+#        Name: App
+#    '01490505:5:-None':
+#      annotate:
+#        Stream: NETWORK-FIREWALL
+#        Action: VPN_CONNECTED
+#        Status: PASSED
+#      translate:
+#        Name: App
     '01490549:5:-None':
       annotate:  
         Stream: NETWORK-FIREWALL
         Action: VPN_CONNECTED
         Status: PASSED   
       translate:
-        partition_name: RuleName
-        Resource: Resource
         Client_IP: SrcIP
     '01490106:4:-authentication with':
       annotate:  
@@ -69,7 +62,6 @@ event-details:
         Action: VPN_CONNECTED
         Status: PASSED   
       translate:
-        partition_name: RuleName
         Packet_Protocol: Proto
         Packet_Source_IP: SrcIP
         Packet_Source_Port: SrcPort
