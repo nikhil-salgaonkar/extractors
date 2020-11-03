@@ -1,0 +1,252 @@
+schema-version: 1.0
+#extractor-version: 1 
+extractor-id: 106
+source-name: MSSQL
+source-type: DATABASE
+source-description: Extractor for MSSQL DATABASE 
+provides-streams:
+- AUTHENTICATION
+- DATABASE
+- SYSTEM
+master-filters:
+- \"SourceName\"\:\"SQL\w+\"
+- \"SourceName\"\:\"MSSQL
+event-details:
+- first-match: '\"SourceName\"\:\"MSSQLSERVER\"'
+  decoder: regex
+  decoder-regex: '\{\"EventTime\"\:\"(?P<EventTime>.*?)\"\,\"Hostname\"\:\"(?P<Hostname>.*?)\"\,.*?Severity\"\:\"(?P<Severity>\w+)\"\,\"EventID\"\:(?P<EventID>\d+)\,.*?\"Channel\"\:\"(?P<Channel>.*?)\"\,\"Message\"\:\"(?P<Message>Login\s+succeeded\s+for\s+user\s+(?P<user>\S+)\..*?\[CLIENT\:\s+(?P<src>[\d\.]+)\])\"\,'
+  event-key-format: '{EventID}'
+  event-key-mapping:
+    '18454': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED    
+        LoginSrc: NETWORK
+      translate: 
+        Domain: Domain 
+        user: User
+        src: SrcIP
+    '18453':           
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED    
+        LoginSrc: NETWORK
+      translate: 
+        Domain: Domain  
+        user: User 
+        src: SrcIP 
+
+  fallback:
+      annotate:
+        EventName: Generic MSSQL DATABASE Event
+        Stream: OTHER
+      translate:
+        EventTime: SystemTstamp
+
+  globals:
+    translate:
+      EventTime: SystemTstamp
+      Hostname: System
+
+- first-match: '\"SourceName\"\:\"MSSQL.*?\"'
+  decoder: regex
+  decoder-regex: '\{\"EventTime\"\:\"(?P<EventTime>.*?)\"\,\"Hostname\"\:\"(?P<Hostname>.*?)\"\,.*?Severity\"\:\"(?P<Severity>\w+)\"\,\"EventID\"\:(?P<EventID>\d+)\,.*?\"Channel\"\:\"(?P<Channel>.*?)\"\,\"Message\"\:\"(?P<Message>Login\s+failed\s+for\s+user\s+(?P<user>\S+)\..*?\[CLIENT\:\s+(?P<src>.*?)\])\"\,'
+  event-key-format: '{EventID}'
+  event-key-mapping:
+    '18456': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+        LoginSrc: NETWORK
+      translate: 
+        AccountName: User
+        Domain: Domain  
+        src: SrcIP 
+        user: User          
+
+  fallback:
+      annotate:
+        EventName: Generic MSSQL DATABASE Event
+        Stream: OTHER 
+      translate:
+        EventTime: SystemTstamp
+
+  globals:
+    translate:
+      EventTime: SystemTstamp
+      Hostname: System
+
+- first-match: \"SourceName\"\:\"MSSQLSERVER\"
+  decoder: json
+  event-key-format: '{EventID}'         
+  event-key-mapping:
+    '18265': 
+      annotate:
+        Stream: DATABASE
+        Action: LOG_BACKUP
+        Status: PASSED
+      translate: 
+        AccountName: User
+        Domain: Domain 
+    '18268': 
+      annotate:
+        Stream: DATABASE
+        Action: LOG_RESTORED
+        Status: PASSED
+      translate: 
+        AccountName: User
+        Domain: Domain
+    '17137': 
+      annotate:
+        Stream: DATABASE
+        Action: DB_START
+        Status: PASSED
+      translate: 
+        AccountName: User
+        Domain: Domain
+    '3421': 
+      annotate:
+        Stream: DATABASE
+        Action: DB_RECOVERED
+        Status: PASSED
+      translate: 
+        AccountName: User
+        Domain: Domain  
+    '3402': 
+      annotate:
+        Stream: DATABASE
+        Action: DB_RECOVERED
+        Status: FAILED
+      translate: 
+        AccountName: User
+        Domain: Domain   
+    '15281': 
+      annotate:
+        Stream: DATABASE
+        Action: SECURITY_CONFIGURATION
+        Status: FAILED
+      translate: 
+        AccountName: User
+        Domain: Domain    
+    '18264': 
+      annotate:
+        Stream: DATABASE
+        Action: DB_BACKUP
+        Status: PASSED
+      translate: 
+        AccountName: User
+        Domain: Domain
+    '19030': 
+      annotate:
+        Stream: DATABASE
+        Action: DB_START
+        Status: PASSED
+      translate: 
+        AccountName: User
+        Domain: Domain
+    '3014': 
+      annotate:
+        Stream: DATABASE
+        Action: DB_BACKUP
+        Status: PASSED
+      translate: 
+        Domain: Domain 
+        AccountName: User
+    '18270': 
+      annotate:
+        Stream: DATABASE 
+        Action: DB_BACKUP
+        Status: PASSED
+      translate: 
+        Domain: Domain 
+        AccountName: User 
+    '14420': 
+      annotate:
+        Stream: DATABASE 
+        Action: DB_BACKUP
+        Status: PASSED
+      translate: 
+        Domain: Domain
+        AccountName: User                         
+
+  fallback:
+      annotate:
+        EventName: Generic MSSQL DATABASE Event
+        Stream: OTHER
+      translate:
+        EventTime: SystemTstamp
+
+  globals:
+    translate:
+      EventTime: SystemTstamp
+      Hostname: System
+
+- first-match: \"SourceName\"\:\"MSSQL\$\w+\"
+  decoder: json
+  event-key-format: '{EventID}'
+  event-key-mapping:
+    '18270': 
+      annotate:
+        Stream: DATABASE 
+        Action: DB_BACKUP
+        Status: PASSED
+      translate: 
+        Domain: Domain
+        AccountName: User
+    '3014': 
+      annotate:
+        Stream: DATABASE
+        Action: DB_BACKUP
+        Status: PASSED
+      translate: 
+        Domain: Domain  
+        AccountName: User                             
+    '49930': 
+      annotate:
+        Stream: DATABASE
+        Action: DB_START
+        Status: PASSED
+      translate: 
+        AccountName: User
+        Domain: Domain
+
+  fallback:
+      annotate:
+        EventName: Generic MSSQL DATABASE Events
+        Stream: OTHER
+      translate:
+        EventTime: SystemTstamp
+
+  globals:
+    translate:
+      EventTime: SystemTstamp
+      Hostname: System
+
+- first-match: \"SourceName\"\:\"SQL\w+\"
+  decoder: json
+  event-key-format: '{EventID}'
+  event-key-mapping:
+    '12288': 
+      annotate:
+        Stream: DATABASE 
+        Action: DB_BACKUP
+        Status: PASSED
+      translate: 
+        Domain: Domain 
+        AccountName: User           
+    
+  fallback:
+      annotate:
+        EventName: Generic MSSQL DATABASE Events
+        Stream: OTHER
+      translate:
+        EventTime: SystemTstamp
+
+  globals:
+    translate:
+      EventTime: SystemTstamp
+      Hostname: System
+      

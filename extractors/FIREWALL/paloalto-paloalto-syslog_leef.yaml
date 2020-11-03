@@ -1,0 +1,43 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 7001
+source-name: PALOALTO
+source-type: FIREWALL
+source-description: Extractor for PALOALTO
+provides-streams:
+- NETWORK-FIREWALL
+master-filters:
+- \|Palo\s+Alto\s+Networks\|
+
+event-details:  
+- first-match: cat\=TRAFFIC
+  decoder: custom
+  decoder-regex: (\w+)\=([^|]*)\|
+  event-key-format: '{cat}-{action}'         
+  event-key-mapping:
+    TRAFFIC-allow:           
+      annotate:
+        Stream: NETWORK-FIREWALL
+        Action: PACKET_ALLOWED
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        dst: DstIP
+        dstPort: DstPort
+        proto: Proto
+    TRAFFIC-deny:           
+      annotate:
+        Stream: NETWORK-FIREWALL
+        Action: PACKET_BLOCKED
+        Status: FAILED
+      translate: 
+        src: SrcIP
+        dst: DstIP
+        dstPort: DstPort
+        proto: Proto
+
+        
+  fallback:
+      annotate:
+        EventName: Generic PALOALTO Event
+        Stream: OTHER

@@ -1,0 +1,52 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 238
+source-name: ARRAY-PROXY
+source-type: WEBFILTER
+source-description: Extractor for Array Proxy
+provides-streams:
+- WEBFILTER
+master-filters:
+- 'AN\_SQUID\_VIP\_HOST\_LOG\s+[\d\.]+\s+\d+\s+[\d\.]+\s+[\w\.\-]+\s+[\d\.]+\s+'
+event-details:
+- first-match: 'AN\_SQUID\_VIP\_HOST\_LOG\s+'
+  decoder: regex
+  decoder-regex: '(?P<time>\d+\s+\w+\s+\d+\s+\d+\:\d+\:\d+)\s+.*?AN_SQUID_VIP_HOST_LOG\s+\S+\s+\S+\s+(?P<server_ip>.*?)\s+(?:(?P<domain>\S+[\^\.]+(?P<tld>\S+))|\-)\s+(?P<host_ip>.*?)\s+(?P<action>.*?)\/(?P<status_code>\d+)\s+(?P<txlen>.*?)\s+(?P<method>.*?)\s+(?P<url>.*?)\s+(?P<user>.*?)\s+'
+  event-key-format: '{action}-{status_code}'
+  event-key-mapping:
+    TCP_MISS-200:
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_ALLOWED
+        Status: PASSED
+      translate:
+        host_ip: SrcIP
+        url: URL
+        method: Method
+        txlen: TXLen
+        device_ip: Domain
+        user: User
+    TCP_MISS-400:
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_BLOCKED
+        Status: FAILED
+      translate:
+        host_ip: SrcIP
+        url: URL
+        method: Method
+        txlen: TXLen
+        device_ip: Domain
+        user: User
+
+  fallback:
+      annotate:
+        EventName: Generic Array Proxy Event
+        Stream: OTHER
+      translate:
+        datetime: SystemTstamp
+
+
+  globals:
+    translate:
+      datetime: SystemTstamp

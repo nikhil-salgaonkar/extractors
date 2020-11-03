@@ -1,0 +1,113 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 173
+source-name: MCAFEE
+source-type: IPS
+source-description: extractor for Mcafee IPS
+provides-streams:
+- NETWORK-THREAT
+master-filters:
+- \s+SyslogAlertForwarder\:.*?(?:Signature|Statistical\s+Anomaly).*?\(result\s+\=\s+.*?\)
+event-details:
+- first-match: '\s+(?:Signature|Statistical\s+Anomaly).*?\(result\s+\=\s+.*?\)'
+  decoder: regex
+  decoder-regex: '\<\d+\>(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+.*?\:\s+\d+\s+(?P<atkclass>.*?)\s+(?P<detecteddatetime>\d{4}\-\d{2}\-\d{2}\s+\d{2}\:\d{2}\:\d{2})\s+IST\s+(?P<atkmsg>.*?)\s+0x\w+\s+(?P<severity>\w+)\s+.*?(?P<risklevel>(?:Low|N\/A|Medium|High))(?P<domain>.*?[\s \w]+)\s+(?P<hostname>.*?)\s+(?P<interface>.*?)\s+(?P<src>[\w\d\/\.]+)\s+(?P<sport>[\w\d\/\.]+)\s+(?:.*?(?P<dst>[\w\d\/\.]+)\s+)?(?:.*?(?P<dport>[\w\d\/\.]+)\s+)\(result\s+\=\s+(?P<result>.*?)\)'
+  event-key-format: '{result}'
+  event-key-mapping:
+    'Smart Blocked':
+      annotate:
+        Stream: NETWORK-THREAT
+        Action: ATTACK_DETECTED
+        Status: PASSED
+      translate:
+        atkclass: AtkClass
+        atkmsg: AtkMsg
+        severity: Severity
+        risklevel: RiskLevel
+        domain: Domain
+        hostname: System
+        interface: Iface
+        src: SrcIP
+        sport: SrcPort
+        dport: DstPort
+        dst: DstIP 
+    'Attack Failed': 
+      annotate:
+        Stream: NETWORK-THREAT
+        Action: ATTACK_DETECTED
+        Status: FAILED
+      translate:
+        atkclass: AtkClass
+        atkmsg: AtkMsg
+        severity: Severity
+        risklevel: RiskLevel
+        domain: Domain
+        hostname: System
+        interface: Iface
+        src: SrcIP
+        sport: SrcPort
+        dport: DstPort
+        dst: DstIP 
+    'Attack Successful':
+      annotate:
+        Stream: NETWORK-THREAT
+        Action: ATTACK_DETECTED
+        Status: PASSED
+      translate:
+        atkclass: AtkClass
+        atkmsg: AtkMsg
+        severity: Severity
+        risklevel: RiskLevel
+        domain: Domain
+        hostname: System
+        interface: Iface
+        src: SrcIP
+        sport: SrcPort
+        dport: DstPort
+        dst: DstIP   
+    'Attack Blocked':
+      annotate:
+        Stream: NETWORK-THREAT
+        Action: ATTACK_DETECTED
+        Status: PASSED
+      translate:
+        atkclass: AtkClass
+        atkmsg: AtkMsg
+        severity: Severity
+        risklevel: RiskLevel
+        domain: Domain
+        hostname: System
+        interface: Iface
+        src: SrcIP
+        sport: SrcPort
+        dport: DstPort
+        dst: DstIP    
+    'Inconclusive': 
+      annotate:
+        Stream: NETWORK-THREAT
+        Action: ATTACK_DETECTED
+        Status: PASSED
+      translate:
+        atkclass: AtkClass
+        atkmsg: AtkMsg
+        severity: Severity
+        risklevel: RiskLevel
+        domain: Domain
+        hostname: System
+        interface: Iface
+        src: SrcIP
+        sport: SrcPort
+        dport: DstPort
+        dst: DstIP         
+
+  fallback:
+      annotate:
+        EventName: Generic Mcafee NETWORK-THREAT Event
+        Stream: OTHER
+      translate:
+        datetime: SystemTstamp         
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      detecteddatetime: DetectedTstamp

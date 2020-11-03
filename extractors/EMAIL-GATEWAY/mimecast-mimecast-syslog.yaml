@@ -1,0 +1,89 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 161
+source-name: MIMECAST
+source-type: EMAIL-GATEWAY
+source-description: extractor for Mimecast
+provides-streams:
+- EMAIL-GATEWAY
+master-filters:
+- datetime\=\d{4}\-\d{2}\-\d{2}T\d{2}\:\d{2}\:\d{2}\+\d+\|aCode\=\S+\|acc\=\w+
+- datetime\=\d{4}\-\d{2}\-\d{2}T\d{2}\:\d{2}\:\d{2}\+\d+\|acc\=\w+
+
+event-details:
+- first-match: datetime\=
+  decoder: custom
+  decoder-regex: (\w+)\=([^|]+)
+  event-key-format: '{Act}'
+  event-key-mapping:
+    'Acc':
+      annotate:
+        Stream: EMAIL-GATEWAY
+        Action: EMAIL_SENT
+        Status: PASSED
+      translate:
+        Sender: Sender
+        Rcpt: Recipient
+        SenderDomain: SenderDomain
+        Subject: Subject
+        AttNames: AttachmentName
+        AttCnt: AttachmentCount
+        AttSize: AttachmentSize
+        sha256: HashSHA256
+    'Rej':
+      annotate:
+        Stream: EMAIL-GATEWAY
+        Action: EMAIL_SENT
+        Status: FAILED
+      translate:
+        Sender: Sender
+        Rcpt: Recipient
+        SenderDomain: SenderDomain
+        Subject: Subject
+        AttNames: AttachmentName
+        AttCnt: AttachmentCount
+        AttSize: AttachmentSize
+        sha256: HashSHA256
+    'Bnc':
+      annotate:
+        Stream: EMAIL-GATEWAY
+        Action: EMAIL_SENT
+        Status: FAILED
+      translate:
+        Sender: Sender
+        Rcpt: Recipient
+        SenderDomain: SenderDomain
+        Subject: Subject
+        AttNames: AttachmentName
+        AttCnt: AttachmentCount
+        AttSize: AttachmentSize
+        sha256: HashSHA256
+    'Hld':
+      annotate:
+        Stream: EMAIL-GATEWAY
+        Action: EMAIL_SENT
+        Status: FAILED
+      translate:
+        Sender: Sender
+        Rcpt: Recipient
+        SenderDomain: SenderDomain
+        Subject: Subject
+        AttNames: AttachmentName
+        AttCnt: AttachmentCount
+        AttSize: AttachmentSize
+        sha256: HashSHA256
+
+  fallback:
+      annotate:
+        EventName: Generic Mimecast Event
+        Stream: OTHER
+      translate:
+        datetime: SystemTstamp
+
+  globals:
+    translate:
+        datetime: SystemTstamp
+        AttNames: AttachmentName
+        AttCnt: AttachmentCount
+        AttSize: AttachmentSize
+        sha256: HashSHA256

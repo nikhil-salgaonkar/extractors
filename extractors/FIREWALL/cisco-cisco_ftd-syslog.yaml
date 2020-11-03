@@ -1,0 +1,232 @@
+schema-version: 1.0
+#extractor-version: 1 
+extractor-id: 230
+source-name: CISCO-FTD
+source-type: FIREWALL
+source-description: Extractor for Cisco-FTD Firewall 
+provides-streams:
+- NETWORK-FIREWALL
+- AUTHENTICATION
+master-filters:
+- \s+\%FTD\-\d+\-\d+\:\s+
+event-details:
+- first-match: '\%FTD\-\d+\-(?:302014|302016|302015|302013)\:'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})(?:\s+.*?)?\s+(?P<hostname>.*?)\s+\:\s+\%FTD\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+(?P<msg>.*?\s+(?:(?P<flow>inbound)\s+)?(?P<proto>\w+)\s+.*?)\s+(?P<connectionid>\d+)\s+for.*?\:(?P<src>[abcdef \w \d \:\.\-]+)\/(?P<sport>\d+).*?to.*?\:(?P<dst>[abcdef \w \d \:\.\-]+)\/(?P<dport>\d+)(?:.*?duration\s+(?P<duration>.*?)\s+.*?bytes\s+(?P<bytes>\d+).*)?'
+  event-key-format: '{eventid}'
+  event-key-mapping:  
+    '302014': 
+      annotate:
+        Stream: NETWORK-FIREWALL
+        Action: PACKET_TEARDOWN
+        Status: PASSED
+      translate: 
+        msg: Message
+        src: SrcIP    
+        sport: SrcPort
+        dst: DstIP
+        proto: Proto
+        dport: DstPort
+        bytes: TXLen 
+    '302016': 
+      annotate:
+        Stream: NETWORK-FIREWALL
+        Action: PACKET_TEARDOWN
+        Status: PASSED
+      translate: 
+        msg: Message
+        src: SrcIP    
+        sport: SrcPort
+        dst: DstIP
+        dport: DstPort
+        proto: Proto
+        bytes: TXLen 
+    '302015':
+      annotate:
+        Stream: NETWORK-FIREWALL
+        Action: PACKET_ALLOWED
+        Status: PASSED
+      translate: 
+        msg: Message
+        src: SrcIP    
+        sport: SrcPort
+        dst: DstIP
+        proto: Proto
+        dport: DstPort
+    '302013':
+      annotate:
+        Stream: NETWORK-FIREWALL
+        Action: PACKET_ALLOWED
+        Status: PASSED
+      translate: 
+        msg: Message
+        src: SrcIP    
+        sport: SrcPort
+        dst: DstIP
+        proto: Proto
+        dport: DstPort   
+                
+  fallback:
+      annotate:
+        EventName: Generic Cisco-FTD Firewall Event
+        Stream: OTHER
+      translate:
+        datetime: SystemTstamp  
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System
+
+  subs: &id001
+    Severity:
+      '1': ALERT
+      '2': CRITICAL
+      '3': ERROR
+      '4': WARNING
+      '5': NOTIFICATION
+      '6': INFORMATIONAL
+      '7': DEBUGGING    
+
+- first-match: '\%FTD\-\d+\-(?:106023)\:'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})(?:\s+.*?)?\s+(?P<hostname>.*?)\s+\:\s+\%FTD\-(?P<severity>\d+)\-(?P<eventid>\d+\d+)\:\s+(?P<msg>Deny\s+(?P<proto>\w+))\s+.*?\:(?P<src>[abcdef\w \d \:\.\-]+)(?:\/(?P<sport>\d+.*?)\s+)?dst\s+.*?\:(?P<dst>[abcdef\w \d \:\.\-]+)(?:\/(?P<dport>\d+.*?))?.*?access-group\s+\"(?P<policyname>.*?)\"'
+  event-key-format: '{eventid}'
+  event-key-mapping:  
+    '106023': 
+      annotate:
+        Stream: NETWORK-FIREWALL
+        Action: PACKET_BLOCKED
+        Status: FAILED
+      translate: 
+        msg: Message
+        src: SrcIP    
+        sport: SrcPort
+        dst: DstIP
+        dport: DstPort
+        proto: Proto
+    
+  fallback:
+      annotate:
+        EventName: Generic Cisco-FTD Firewall Event
+        Stream: OTHER
+      translate:
+        datetime: SystemTstamp  
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System
+
+  subs: *id001        
+
+- first-match: '\%FTD\-\d+\-(?:302021|302020)\:'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})(?:\s+.*?)?\s+(?P<hostname>.*?)\s+\:\s+\%FTD\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+(?P<msg>.*?(?:(?P<flow>inbound))?\s+(?P<proto>\w+)\s+connection).*?faddr\s+(?P<src>.*?)\/(?P<sport>.*?)\s+gaddr\s+(?P<dst>.*?)\/(?P<dport>\d+).*?\s+type\s(?P<type>.*?)\s+code\s(?P<code>\d+)'
+  event-key-format: '{eventid}'
+  event-key-mapping:  
+    '302021': 
+      annotate:
+        Stream: NETWORK-FIREWALL
+        Action: PACKET_TEARDOWN
+        Status: PASSED
+      translate: 
+        msg: Message
+        src: SrcIP    
+        sport: SrcPort
+        dst: DstIP
+        dport: DstPort
+        proto: Proto
+    '302020': 
+      annotate:
+        Stream: NETWORK-FIREWALL
+        Action: PACKET_ALLOWED
+        Status: PASSED
+      translate: 
+        msg: Message
+        src: SrcIP    
+        sport: SrcPort
+        dst: DstIP
+        dport: DstPort
+        proto: Proto
+    
+  fallback:
+      annotate:
+        EventName: Generic Cisco-FTD Firewall Event
+        Stream: OTHER
+      translate:
+        datetime: SystemTstamp  
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System
+
+  subs: *id001    
+
+- first-match: '\%FTD\-\d+\-106021\:'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})(?:\s+.*?)?\s+(?P<hostname>.*?)\s+\:\s+\%FTD\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+(?P<msg>.*?\s+(?P<proto>.*?)\s+.*?)from\s+(?P<src>.*?)\s+to\s+(?P<dst>.*?)\s+.*'
+  event-key-format: '{eventid}'
+  event-key-mapping:  
+    '106021': 
+      annotate:
+        Stream: NETWORK-FIREWALL
+        Action: ATTACK_DETECTED
+        Status: PASSED
+      translate: 
+        msg: Message
+        src: SrcIP    
+        dst: DstIP
+        proto: Proto    
+    
+  fallback:
+      annotate:
+        EventName: Generic Cisco-FTD Firewall Event
+        Stream: OTHER
+      translate:
+        datetime: SystemTstamp  
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System
+
+  subs: *id001                    
+
+- first-match: '\%FTD\-\d+\-(?:113004|113005)\:'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>.*?)\s+\:\s+%FTD\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+(?P<msg>.*?)(?:\s+\:\s+reason\s+\=\s+(?P<reason>.*?))?\s+\:\s+server\s+\=\s+(?P<serverip>.*?)\s+\:\s+user\s+\=\s+(?P<user>\S+)(?:\s+\:\s+user\s+IP\s+\=\s+(?P<src>\S+))?'
+  event-key-format: '{eventid}'
+  event-key-mapping:  
+    '113004': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+        AuthMethod: VPN
+      translate: 
+        user: User
+    '113005': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate: 
+        user: User
+        src: SrcIP 
+        reason: Reason     
+    
+  fallback:
+      annotate:
+        EventName: Generic Cisco-FTD Firewall Event
+        Stream: OTHER
+      translate:
+        datetime: SystemTstamp  
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System
+
+  subs: *id001                       

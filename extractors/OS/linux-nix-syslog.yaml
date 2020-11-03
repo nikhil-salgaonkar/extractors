@@ -1,0 +1,499 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 56
+source-name: NIX
+source-type: OS
+source-description: Extractor for NIX OS
+provides-streams:
+- AUTHENTICATION
+master-filters:
+- '(systemd-logind|sshd|cron|internal-sftp|sftpd|syslog|sudo|su|login|saphostexec|sftp-server|sapdbctrl|pkexec|polkit-agent-helper-\d+)(:|\[\d+\]:)'
+event-details:
+- first-match: '\S+\[\d+\]\:\s+Accepted\s+password\s+for'
+  decoder: regex
+  decoder-regex: '(?P<hostname>\S+)\s+(?P<daemon>\w+)\[(?P<pid>\d+)\]\:\s+(?P<msg>(?P<action>Accepted\s+password)\s+for\s+(?P<user>\S+)\s+from\s+(?P<src>[\d\.]+)\s+.*?port\s+(?P<sport>\d+)\s+.*)'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'Accepted password': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        src: SrcIP
+        sport: SrcPort
+        user: User  
+
+  fallback:
+      annotate:
+        EventName: Generic NIX Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      hostname: System
+
+- first-match: '\s+\S+\[\d+\]\:\s+input_userauth_request\:\s+invalid\s+user\s+\S+\s+'
+  decoder: regex
+  decoder-regex: '(?:(?P<hostname>\S+)\s+)?(?P<daemon>\w+)\[(?P<pid>\d+)\]\:\s+(?P<msg>.*?\s+(?P<action>invalid\s+user)\s+(?P<user>\S+))'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'invalid user': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate:
+        user: User
+
+  fallback:
+      annotate:
+        EventName: Generic NIX Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      hostname: System
+
+- first-match: '\S+\[\d+\]\:\s+Invalid\s+user\s+\S+\s+from\s+\S+'
+  decoder: regex
+  decoder-regex: '(?:(?P<hostname>\S+)\s+)?(?P<daemon>\w+)\[(?P<pid>\d+)\]\:\s+(?P<msg>(?P<action>Invalid\s+user)\s+(?P<user>\S+)\s+from\s+(?P<src>[abcdef\d\:\.\-]+))'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'Invalid user': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate:
+        user: User
+        src: SrcIP 
+
+  fallback:
+      annotate:
+        EventName: Generic NIX Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      hostname: System
+
+- first-match: '\S+\[\d+\]\:\s+.*?session\s+closed\s+for\s+user\s+\S+'
+  decoder: regex
+  decoder-regex: '(?P<hostname>\S+)\s+(?P<daemon>\w+)\[(?P<pid>\d+)\]\:.*?\s+(?P<msg>(?P<action>session\s+closed)\s+for\s+user\s+(?P<user>\S+))'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'session closed': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+      translate:
+        user: User
+
+  fallback:
+      annotate:
+        EventName: Generic NIX Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      hostname: System
+
+- first-match: '\S+\s+\S+\[\d+\]\:\s+session\s+closed\s+for\s+local\s+user\s+\S+\s+from\s+\['
+  decoder: regex
+  decoder-regex: '(?P<hostname>\S+)\s+(?P<daemon>\S+)\[(?P<pid>\d+)\]\:\s+(?P<msg>(?P<action>session\s+closed)\s+for\s+local\s+user\s+(?P<user>\S+)\s+from\s+\[(?P<src>[abcdef\d\:\.\-]+)\])'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'session closed': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+      translate:
+        user: User
+        src: SrcIP 
+
+  fallback:
+      annotate:
+        EventName: Generic NIX Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      hostname: System
+
+- first-match: 'PAM\:\s+authentication\s+error\s'
+  decoder: regex
+  decoder-regex: '(?P<daemon>\w+)\[(?P<pid>\d+)\]\:\s+(?P<msg>.*?(?P<action>authentication\s+error)\s+for\s+(?P<user>.*?)\s+from\s+(?P<src>\d+.\d+.\d+.\d+))'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'authentication error': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate:
+        user: User
+        src: SrcIP 
+
+  fallback:
+      annotate:
+        EventName: Generic NIX Event
+        Stream: OTHER
+
+- first-match: 'password\s+authentication\s+failed'
+  decoder: regex
+  decoder-regex: '(?:(?P<hostname>\S+)\s)?(?P<daemon>\w+)\[(?P<pid>\d+)\]\:.*?\:\s+(?P<msg>.*?\:\spassword\s(?P<action>authentication\sfailed)\sfor\s(?P<user>.*?)\:\s.*)'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'authentication failed': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate:
+        user: User
+
+  fallback:
+      annotate:
+        EventName: Generic NIX Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      hostname: System
+
+
+- first-match: 'password\s+authentication\s+accepted'
+  decoder: regex
+  decoder-regex: '(?:(?P<hostname>\S+)\s)?(?P<daemon>\w+)\[(?P<pid>\d+)\]\:.*?\:\s+(?P<msg>.*?\:\spassword\s(?P<action>authentication\saccepted)\sfor\s(?P<user>.*))'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'authentication accepted': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        user: User
+
+  fallback:
+      annotate:
+        EventName: Generic NIX Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      hostname: System
+
+- first-match: '\s+Login\s+successful\s+'
+  decoder: regex
+  decoder-regex: '(?P<hostname>\S+)\:\s+(?P<daemon>\S+)\:\s+(?P<msg>(?P<action>Login\s+successful)\s+for\s+(?P<user>\S+)\s+from(?:\s+(?P<src>[abcdef\d\:\.\-]+))?.*)'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'Login successful': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        user: User
+
+  fallback:
+      annotate:
+        EventName: Generic NIX Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      hostname: System
+
+- first-match: 'Accepted\s+publickey\s+for'
+  decoder: regex
+  decoder-regex: '\s+(?P<daemon>\w+)\[(?P<pid>\d+)\]\:.*?(?P<msg>(?P<action>Accepted\s+publickey)\s+for\s+(?P<user>\S+)\s+from\s+(?P<src>[\d\.]+).*?port.*?\s+(?P<sport>\d+)\s+.*)'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'Accepted publickey': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        user: User
+        src: SrcIP
+        sport: SrcPort
+
+  fallback:
+      annotate:
+        EventName: Generic NIX Event
+        Stream: OTHER
+
+
+- first-match: '\s+User.*?logged\s+out'
+  decoder: regex
+  decoder-regex: '(?P<daemon>\S+)(?:\[(?P<pid>\d+)\])?\:\s+(?P<msg>.*?User[\:\s]+(?P<user>\S+).*?(?P<action>logged\s+out)\.?)'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'logged out': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+      translate:
+        user: User
+
+  fallback:
+      annotate:
+        EventName: Generic NIX Event
+        Stream: OTHER
+
+
+- first-match: '\s+logged\s+in'
+  decoder: regex
+  decoder-regex: '(?P<hostname>\S+)\s+(?P<daemon>\S+)\[(?P<pid>\d+)\]\:\s+(?P<msg>.*?(?P<action>logged\s+in)\.)'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'logged in': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        user: User
+
+  fallback:
+      annotate:
+        EventName: Generic NIX Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      hostname: System
+
+- first-match: '\s+(?:Authentication|authentication)\s+(?:failure|failures)\s+for\s+'
+  decoder: regex
+  decoder-regex: '\s+(?P<daemon>\S+)\[(?P<pid>\d+)\]\:\s+(?P<msg>.*?(?P<action>(?:Authentication|authentication)\s+(?:failure|failures))\s+for\s+(?P<user>\S+)(?:\s+from\s+(?P<src>.*))?)'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'Authentication failure': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate:
+        user: User
+        src: SrcIP
+    'authentication failures': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate:
+        user: User
+
+  fallback:
+      annotate:
+        EventName: Generic NIX Event
+        Stream: OTHER
+
+- first-match: '\S+\[\d+\]\:\s+.*?authentication\s+(?:failure|failures)\;\s+logname\=.*?uid\=\d+\s+'
+  decoder: regex
+  decoder-regex: '\s+(?P<hostname>\S+)\s+(?P<daemon>\S+)\[(?P<pid>\d+)\]\:\s+.*?(?P<msg>(?P<action>authentication\s+(?:failure|failures))\;.*?uid\=(?P<uid>\d+).*?ruser\=(?P<ruser>\S+|)\s+rhost\=(?P<rhost>\S+|)(?:\s+user\=(?P<user>.*))?)'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'authentication failure': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate:
+        user: User
+        uid: UserID
+        ruser: SrcUser
+        rhost: SrcHost
+    'authentication failures': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate:
+        user: User
+        uid: UserID
+        ruser: SrcUser
+        rhost: SrcHost    
+
+  fallback:
+      annotate:
+        EventName: Generic NIX Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      hostname: System
+
+- first-match: '\w+\:\s+.*?authentication\s+failure\;\s+logname\=.*?uid\=\d+\s+'
+  decoder: regex
+  decoder-regex: '\s+(?P<hostname>\S+)\s+(?P<daemon>\w+)\:\s+.*?(?P<msg>(?P<action>authentication\s+failure)\;.*?uid\=(?P<uid>\d+).*?ruser\=(?P<ruser>\S+|)\s+rhost\=(?P<rhost>\S+|)(?:\s+user\=(?P<user>.*))?)'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'authentication failure': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate:
+        user: User
+        uid: UserID
+        ruser: SrcUser
+        rhost: SrcHost
+
+  fallback:
+      annotate:
+        EventName: Generic NIX Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      hostname: System
+
+
+- first-match: '\S+\[\d+\]\:\s+Accepted\s+keyboard\-interactive(?:\/pam)?\s+'
+  decoder: regex
+  decoder-regex: '\s+(?P<daemon>\S+)\[(?P<pid>\d+)\]\:\s+(?P<msg>(?P<action>Accepted\s+keyboard\-interactive).*?for\s+(?P<user>\S+).*?from\s+(?P<src>[\d\.]+).*?port\s+(?P<sport>\d+).*)'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'Accepted keyboard-interactive': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        user: User
+        src: SrcIP
+        sport: SrcPort
+
+  fallback:
+      annotate:
+        EventName: Generic NIX Event
+        Stream: OTHER
+
+
+#- first-match: '\s+\S+\[\d+\]\:\s+.*?Received\s+disconnect\s+from\s+'
+ # decoder: regex
+  #decoder-regex: '\s+(?P<daemon>\S+)\[(?P<pid>\d+)\]\:.*?(?P<msg>(?P<action>Received\s+disconnect)\s+from\s+(?P<src>[\d\.]+)\:?(?:\s+port\s+(?P<sport>\d+)\:\d+)?.*)'
+  #event-key-format: '{action}'
+  #event-key-mapping:
+   # 'Received disconnect': 
+    #  annotate:
+     #   Stream: AUTHENTICATION
+      #  Action: LOGIN_SESSION_DISCONNECTED
+       # Status: PASSED
+      #translate:
+        #src: SrcIP
+        #sport: SrcPort
+
+  #fallback:
+   #   annotate:
+    #    EventName: Generic NIX Event
+     #   Stream: OTHER
+
+
+- first-match: '\s+\S+\[\d+\]\:\s+.*?session\s+opened\s+for\s+'
+  decoder: regex
+  decoder-regex: '\s+(?P<daemon>\S+)\[(?P<pid>\d+)\]\:.*?(?P<msg>(?P<action>session\s+opened)\s+for.*?user\s+(?P<user>\S+)\s+(?:by\s+\(uid\=(?P<uid>\d+)\))?(?:from\s+\[(?P<src>[\d\.]+)\])?)'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'session opened': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN_SESSION_CONNECTED
+        Status: PASSED
+      translate:
+        src: SrcIP
+        uid: UserID
+        user: User
+
+  fallback:
+      annotate:
+        EventName: Generic NIX Event
+        Stream: OTHER
+
+- first-match: '\s+\S+\[\d+\]\:\s+.*?session\s+closed\s+for\s+'
+  decoder: regex
+  decoder-regex: '\s+(?P<daemon>\S+)\[(?P<pid>\d+)\]\:.*?(?P<msg>(?P<action>session\s+closed)\s+for.*?user\s+(?P<user>\S+)(?:\s+by\s+\(uid\=(?P<uid>\d+)\))?(?:\s+from\s+\[(?P<src>[\d\.]+)\])?)'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'session closed': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN_SESSION_DISCONNECTED
+        Status: PASSED
+      translate:
+        src: SrcIP
+        uid: UserID
+        user: User
+
+  fallback:
+      annotate:
+        EventName: Generic NIX Event
+        Stream: OTHER
+
+
+- first-match: '\w+\:\s+.*?session\s+opened\s+for\s+'
+  decoder: regex
+  decoder-regex: '(?P<daemon>\w+)\:\s+.*?(?P<msg>(?P<action>session\s+opened)\s+for.*?user\s+(?P<user>\S+).*)'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'session opened': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN_SESSION_CONNECTED
+        Status: PASSED
+      translate:
+        user: User
+
+  fallback:
+      annotate:
+        EventName: Generic NIX Event
+        Stream: OTHER
+
+
+- first-match: '\w+\:\s+.*?session\s+closed\s+for\s+'
+  decoder: regex
+  decoder-regex: '(?P<daemon>\w+)\:\s+.*?(?P<msg>(?P<action>session\s+closed)\s+for.*?user\s+(?P<user>\S+).*)'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'session closed': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN_SESSION_DISCONNECTED
+        Status: PASSED
+      translate:
+        user: User
+
+  fallback:
+      annotate:
+        EventName: Generic NIX Event
+        Stream: OTHER
+
+
+- first-match: '\S+\:\s+New\s+session\s+\d+\s+of\s+user\s+'
+  decoder: regex
+  decoder-regex: '(?P<daemon>\S+)\:\s+.*?(?P<msg>(?P<action>New\s+session)\s+\d+\s+of\s+user\s+(?P<user>\S+).*)'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'New session': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN_SESSION_CONNECTED
+        Status: PASSED
+      translate:
+        user: User
+
+  fallback:
+      annotate:
+        EventName: Generic NIX Event
+        Stream: OTHER
+
+      

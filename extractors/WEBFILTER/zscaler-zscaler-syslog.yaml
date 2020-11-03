@@ -1,0 +1,61 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 212
+source-name: ZSCALER
+source-type: WEBFILTER
+source-description: extractor for Zscaler Proxy
+provides-streams:
+- WEBFILTER
+master-filters:
+- '\"\w{3}\s+\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\d{4}\"\,\"\S+\"\,\"\w+\"\,\"\S+\"\,\"(?:Allowed|Blocked)\"\,'
+event-details:
+- first-match: '\"\w{3}\s+\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\d{4}\"\,\".*?\"\,\"\w+\"\,'
+  decoder: regex
+  decoder-regex: '\"(?P<datetime>\w{3}\s+\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\d{4})\"\,\"(?P<user>.*?)\"\,\"(?P<protocol>.*?)\"\,\"(?P<url>.*?)\"\,\"(?P<action>.*?)\"\,\"(?P<app>.*?)\"\,\"(?P<appclass>.*?)\"\,\"\d+\"\,\"\d+\"\,\"\d+\"\,\"\d+\"\,\"(?P<url_class>.*?)\"\,\"(?P<category>.*?)\"\,\".*?\"\,\"(?P<malware_category>.*?)\"\,\"(?P<threatname>.*?)\"\,\"\d+\"\,\".*?\"\,\".*?\"\,\".*?\"\,\".*?\"\,\"(?P<src>.*?)\"\,\"(?P<dst>.*?)\"\,\"(?P<httpmethod>.*?)\"\,\"(?P<httpretcode>.*?)\"\,\"(?P<useragent>.*?)\"\,\"(?P<httpreferer>.*?)\"\,\".*?\"\,\".*?\"'
+  event-key-format: '{action}-{httpretcode}'
+  event-key-mapping:
+    'Allowed-200':
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_ALLOWED
+        Status: PASSED
+      translate:
+        user: User
+        protocol: Proto
+        url: URL
+        app: App
+        category: Category
+        src: SrcIP
+        dst: DstIP
+        httpmethod: Method 
+        httpretcode: ReturnCode
+        useragent: UserAgent
+        httpreferer: Proxy
+    'Blocked-200': 
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_BLOCKED
+        Status: FAILED
+      translate:
+        user: User
+        protocol: Proto
+        url: URL
+        app: App
+        category: Category
+        src: SrcIP
+        dst: DstIP
+        httpmethod: Method 
+        httpretcode: ReturnCode
+        useragent: UserAgent
+        httpreferer: Proxy
+
+  fallback:
+      annotate:
+        EventName: Generic Zscaler Proxy Event
+        Stream: OTHER
+      translate:
+        datetime: SystemTstamp
+          
+  globals:
+    translate:
+      datetime: SystemTstamp

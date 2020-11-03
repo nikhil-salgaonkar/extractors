@@ -1,0 +1,386 @@
+schema-version: 1.0
+#extractor-version: 1 
+extractor-id: 128
+source-name: WINDOWS
+source-type: OS
+source-description: Extractor for Windows Events
+provides-streams:
+- AUTHENTICATION
+- SYSMON-PROCESS
+- SYSMON-NETWORK
+- SYSMON-IMAGE-LOAD
+- IAM
+master-filters:
+- \"SourceName\"\:\"Microsoft\-Windows
+event-details:  
+- first-match: \"SourceName\"\:\"Microsoft-Windows-Security-Auditing\"
+  decoder: json
+  event-key-format: '{EventID}'         
+  event-key-mapping:
+    '4720':           
+      annotate:
+        Stream: IAM
+        Action: USER_ACCOUNT_CREATED
+        Status: PASSED    
+      translate: 
+        SubjectUserName: AdminUser
+        TargetUserName: User
+        TargetDomainName: TargetDomain 
+    '4625': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate: 
+        TargetUserName: User
+        TargetDomainName: TargetDomain
+        WorkstationName: SrcHost
+        IpAddress: SrcIP
+    '4624':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED    
+      translate: 
+        SubjectUserName: AdminUser
+        TargetUserName: User
+        TargetDomainName: TargetDomain
+        WorkstationName: SrcHost
+        IpAddress: SrcIP
+    '4634':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED    
+      translate:   
+        TargetUserName: User
+        TargetDomainName: TargetDomain
+    '4647': 
+      annotate:
+        Stream: AUTHENTICATION 
+        Action: LOGOUT
+        Status: PASSED    
+      translate: 
+        TargetUserName: User
+        TargetDomainName: TargetDomain
+    '4648':          
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED    
+      translate: 
+        TargetUserName: User
+        TargetDomainName: TargetDomain
+        IpAddress: SrcIP
+    '4776':         
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED    
+      translate: 
+        Workstation: SrcHost
+        TargetUserName: User
+        Domain: Domain
+    '4778':         
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN_SESSION_RECONNECTED
+        Status: PASSED    
+      translate:  
+        AccountDomain: TargetDomain
+        ClientName: SrcHost
+        ClientAddress: SrcIP
+        AccountName: User
+    '4741':         
+      annotate:
+        Stream: IAM
+        Action: SYSTEM_USER_ACCOUNT_CREATED
+        Status: PASSED    
+      translate: 
+        SubjectUserName: AdminUser
+        TargetUserName: User
+        TargetDomainName: TargetDomain  
+    '4722':          
+      annotate:
+        Stream: IAM
+        Action: ACCOUNT_ENABLED
+        Status: PASSED    
+      translate: 
+        SubjectUserName: AdminUser
+        TargetUserName: User
+        TargetDomainName: TargetDomain
+    '4723':         
+      annotate:
+        Stream: IAM
+        Action: ACCOUNT_PASSWORD_CHANGED
+        Status: PASSED    
+      translate: 
+        SubjectUserName: AdminUser
+        TargetUserName: User
+        TargetDomainName: TargetDomain
+    '4724':         
+      annotate:
+        Stream: IAM
+        Action: ACCOUNT_PASSWORD_RESET
+        Status: PASSED    
+      translate: 
+        SubjectUserName: AdminUser
+        TargetUserName: User
+        TargetDomainName: TargetDomain
+    '4725':         
+      annotate:
+        Stream: IAM
+        Action: USER_ACCOUNT_DISABLED
+        Status: PASSED    
+      translate:  
+        SubjectUserName: AdminUser
+        TargetUserName: User
+        TargetDomainName: TargetDomain
+    '4726':         
+      annotate:
+        Stream: IAM
+        Action: USER_ACCOUNT_DELETED
+        Status: PASSED    
+      translate:
+        SubjectUserName: AdminUser
+        TargetUserName: User
+        TargetDomainName: TargetDomain 
+    '4738':            
+      annotate:
+        Stream: IAM
+        Action: USER_ACCOUNT_CHANGED
+        Status: PASSED    
+      translate: 
+        SubjectUserName: AdminUser
+        TargetUserName: User
+        TargetDomainName: TargetDomain
+    '4740':           
+      annotate:
+        Stream: IAM
+        Action: USER_ACCOUNT_LOCKOUT
+        Status: PASSED    
+      translate:  
+        SubjectUserName: AdminUser
+        TargetUserName: User
+        TargetDomainName: TargetDomain 
+    '4767':          
+      annotate:
+        Stream: IAM
+        Action: USER_ACCOUNT_UNLOCKED
+        Status: PASSED    
+      translate:  
+        SubjectUserName: AdminUser
+        TargetUserName: User
+        TargetDomainName: TargetDomain
+    '4742':            
+      annotate:
+        Stream: IAM
+        Action: SYSTEM_USER_ACCOUNT_CHANGED
+        Status: PASSED    
+      translate: 
+        SubjectUserName: AdminUser
+        TargetUserName: User
+        TargetDomainName: TargetDomain
+    '4743':           
+      annotate:
+        Stream: IAM
+        Action: SYSTEM_USER_ACCOUNT_DELETED
+        Status: PASSED    
+      translate:  
+        SubjectUserName: AdminUser
+        TargetUserName: User
+        TargetDomainName: TargetDomain
+    '4731':         
+      annotate:
+        Stream: IAM
+        Action: SECURITY_LGRP_CREATED
+        Status: PASSED    
+      translate: 
+        SubjectUserName: AdminUser
+        TargetUserName: User
+        TargetDomainName: TargetDomain
+        SubjectDomainName: Domain 
+    '4732':         
+      annotate:
+        Stream: IAM
+        Action: SECURITY_LGRP_MEMBER_ADDED
+        Status: PASSED    
+      translate: 
+        SubjectUserName: AdminUser
+        TargetUserName: User
+        TargetDomainName: TargetDomain
+        SubjectDomainName: Domain
+    '4733':         
+      annotate:
+        Stream: IAM
+        Action: SECURITY_LGRP_MEMBER_REMOVED
+        Status: PASSED    
+      translate: 
+        SubjectUserName: AdminUser
+        TargetUserName: User
+        TargetDomainName: TargetDomain
+        SubjectDomainName: Domain
+    '4756':         
+      annotate:
+        Stream: IAM
+        Action: SECURITY_UGRP_MEMBER_ADDED
+        Status: PASSED    
+      translate:  
+        SubjectUserName: AdminUser
+        SubjectDomainName: Domain
+        TargetUserName: User
+        TargetDomainName: TargetDomain
+    '4672':          
+      annotate:
+        Stream: IAM
+        Action: PRIVILEGE_SET
+        Status: PASSED    
+      translate:  
+        SubjectUserName: AdminUser
+        SubjectDomainName: Domain     
+    '4779':          
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN_SESSION_DISCONNECT
+        Status: PASSED
+      translate:   
+        SubjectUserName: AdminUser
+        SubjectDomainName: Domain
+        AccountName: User
+    '4670':          
+      annotate:
+        Stream: IAM
+        Action: PRIVILEGE_CHANGED
+        Status: PASSED    
+      translate:  
+        SubjectUserName: AdminUser
+        SubjectDomainName: Domain 
+    '4674': 
+      annotate:
+        Stream: IAM
+        Action: PRIVILEGE_OBJECT_ACCESS
+        Status: PASSED    
+      translate:  
+        SubjectUserName: AdminUser
+        SubjectDomainName: Domain 
+    '5140':    
+      annotate:
+        Stream: IAM
+        Action: NETWORK_SHARE_ACCESSED
+        Status: PASSED    
+      translate:  
+        IpAddress: SrcIP
+        IpPort: SrcPort
+        SubjectUserName: AdminUser
+        SubjectDomainName: Domain  
+
+  fallback:
+      annotate:
+        EventName: Generic Windows Event
+        Stream: OTHER
+      translate:  
+        EventTime: SystemTstamp
+
+  globals:
+    translate:
+      EventTime: SystemTstamp
+      Hostname: System
+
+- first-match: \"SourceName\"\:\"Microsoft\-Windows\-Sysmon\"
+  decoder: json
+  event-key-format: '{EventID}'
+  event-key-mapping:
+    '1': 
+      annotate:
+        Stream: SYSMON-PROCESS 
+        Action: PROCESS_ADDED
+        Status: PASSED
+      translate:
+        User: User
+        ParentCommandLine: ParentCommandLine
+        OriginalFileName: OriginalFileName
+        ParentImage: ParentImage 
+        ParentUser: ParentUser
+        CommandLine: CommandLine
+        Description: Description
+        Company: Company
+        Product: Product
+    '5': 
+      annotate:
+        Stream: SYSMON-PROCESS 
+        Action: PROCESS_REMOVED
+        Status: PASSED
+      translate:
+        Image: Image 
+        ParentCommandLine: ParentCommandLine
+        OriginalFileName: OriginalFileName
+        ParentImage: ParentImage 
+        ParentUser: ParentUser
+        CommandLine: CommandLine
+        Description: Description
+        Company: Company
+        Product: Product   
+    '3': 
+      annotate:
+        Stream: SYSMON-NETWORK 
+        Action: NETWORK_CONNECTION
+        Status: PASSED
+      translate:
+        Image: Image 
+        ParentCommandLine: ParentCommandLine
+        ParentImage: ParentImage
+        ParentUser: ParentUser 
+        SourceIp: SrcIP
+        SourcePort: SrcPort
+        SourceHostname: SrcHost
+        DestinationIp: DstIP
+        DestinationHostname: DstHost
+        OriginalFileName: OriginalFileName
+        DestinationPort: DstPort
+        Description: Description
+        Company: Company
+        Product: Product
+    '10':
+      annotate:
+        Stream: SYSMON-PROCESS 
+        Action: PROCESS_ACCESSED
+        Status: PASSED
+      translate: 
+        TargetImage: TargetImage
+        GrantedAccess: GrantedAccess
+        OriginalFileName: OriginalFileName
+        ParentUser: ParentUser
+        ParentImage: ParentImage
+        CommandLine: CommandLine 
+        Description: Description
+        Company: Company
+        Product: Product
+    '7':
+      annotate:
+        Stream: SYSMON-IMAGE-LOAD 
+        Action: PROCESS_ACCESSED
+        Status: PASSED
+      translate: 
+        Image: Image
+        ImageLoaded: ImageLoaded
+        Signed: Signed 
+        OriginalFileName: OriginalFileName
+        ParentUser: ParentUser
+        ParentImage: ParentImage 
+        Description: Description
+        Company: Company
+        Product: Product   
+             
+  fallback:
+      annotate:
+        EventName: Generic Windows Event
+        Stream: OTHER
+      translate:  
+        EventTime: SystemTstamp
+
+  globals:
+    translate:
+      EventTime: SystemTstamp
+      Hostname: System
+       
+      

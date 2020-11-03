@@ -1,0 +1,214 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 69
+source-name: TREND-MICRO
+source-type: ENDPOINT
+source-description: Extractor for Trend-Micro Endpoint
+provides-streams:
+- ENDPOINT-THREAT
+master-filters:
+- Security\s+product\=\"OfficeScan\"\s+Security\s+product\s+node\s+\=\".*?\"
+- CEF\:\d+\|Trend\s+Micro\|.*?(?:Spyware\s+Detected|Deep\sDiscovery\sInspector|Control\s+Manager|Deep\s+Security\s+Manager|Deep\s+Security\s+Agent|Apex\s+Central)\|
+event-details:
+- first-match: 'Security\s+product\=\"OfficeScan\"\s+.*?Action\s+taken\=\".*?\"\s+'
+  decoder: custom
+  decoder-regex: \s([\w\s]+)=(\"[^\"]*\"|[^\s]*)
+  event-key-format: '{Result}'
+  event-key-mapping:
+    'File renamed': 
+      annotate:
+        Stream: ENDPOINT-THREAT
+        Action: VIRUS-DETECTED
+        Status: PASSED
+      translate:
+        Source IP: SrcIP
+        Destination IP: DstIP
+        Domain: Domain
+        Virus: AtkMsg 
+
+  fallback:
+      annotate:
+        EventName: Generic Trend-Micro Endpoint Event
+        Stream: OTHER
+      translate: 
+        rt: SystemTstamp
+
+  globals:
+    translate: 
+      Event time: SystemTstamp
+
+  subs: &d001    
+    Severity: 
+      '0': 'LOW'
+      '1': 'LOW'
+      '2': 'LOW'
+      '3': 'LOW'
+      '4': 'MEDIUM' 
+      '5': 'MEDIUM' 
+      '6': 'MEDIUM' 
+      '7': 'HIGH' 
+      '8': 'HIGH'
+      '9': 'VERY-HIGH' 
+      '10': 'VERY-HIGH'
+
+- first-match: CEF\:\d+\|Trend\s+Micro\|.*?\|Spyware\s+Detected\|
+  decoder: custom
+  decoder-header: CEF
+  decoder-regex: ([\w]+)=(\"[^\"]*\"|[^\s]*)
+  event-key-format: ''
+  event-key-mapping:
+    '': 
+      annotate:
+        Stream: ENDPOINT-THREAT
+        Action: VIRUS-DETECTED
+        Status: PASSED
+      translate:
+        dhost: DstHost
+        cat: Category
+        filePath: FilePath
+        fname: FileName
+        dst: DstIP
+        fileHash: FileHash
+        duser: DstUser
+
+  fallback:
+      annotate:
+        EventName: Generic Trend-Micro Endpoint Event
+        Stream: OTHER
+      translate: 
+        rt: SystemTstamp
+
+  globals:
+    translate: 
+      rt: SystemTstamp
+      dvchost: System
+      Header-5: Signature 
+      Header-6: Severity   
+
+  subs: *d001      
+
+- first-match: 'CEF\:\d+\|Trend\s+Micro\|.*?\|AV\:.*?\|'
+  decoder: custom
+  decoder-header: CEF
+  decoder-regex: ([\w]+)=(\"[^\"]*\"|[^\s]*)
+  event-key-format: '{act}'
+  event-key-mapping:
+    'File cleaned': 
+      annotate:
+        Stream: ENDPOINT-THREAT
+        Action: VIRUS-DETECTED
+        Status: PASSED
+      translate:
+        dhost: DstHost
+        fname: FileName
+        filePath: FilePath
+        dst: DstIP
+        fileHash: FileHash
+        duser: DstUser
+        suser: SrcUser
+        shost: SrcHost 
+    'File passed':
+      annotate:
+        Stream: ENDPOINT-THREAT
+        Action: VIRUS-DETECTED
+        Status: PASSED
+      translate:  
+        dhost: DstHost
+        fname: FileName
+        filePath: FilePath
+        dst: DstIP
+        fileHash: FileHash
+        cat: Category
+        duser: DstUser
+        suser: SrcUser
+        shost: SrcHost 
+
+  fallback:
+      annotate:
+        EventName: Generic Trend-Micro Endpoint Event
+        Stream: OTHER
+      translate: 
+        rt: SystemTstamp
+
+  globals:
+    translate: 
+      rt: SystemTstamp
+      dvchost: System
+      Header-5: Signature 
+      Header-6: Severity  
+
+  subs: *d001    
+
+- first-match: 'CEF\:\d+\|Trend\sMicro\|Deep\sDiscovery\sInspector\|'
+  decoder: custom
+  decoder-header: CEF
+  decoder-regex: ([\w]+)=(\"[^\"]*\"|[^\s]*)
+  event-key-format: '{cn3}'
+  event-key-mapping:
+    '5': 
+      annotate:
+        Stream: ENDPOINT-THREAT
+        Action: THREAT-DETECTED
+        Status: PASSED
+      translate:
+        cn3: ThreatType  
+        dmac: DstMAC
+        shost: SrcHost
+        src: SrcIP
+        spt: SrcPort
+        smac: SrcMAC
+        request: URL     
+        requestClientApplication: UserAgent 
+        app: App
+        dhost: DstHost
+        dst: DstIP
+        dpt: DstPort
+
+  fallback:
+      annotate:
+        EventName: Generic Trend-Micro Endpoint Event
+        Stream: OTHER
+      translate: 
+        rt: SystemTstamp
+
+  globals:
+    translate: 
+      dvchost: System
+      rt: SystemTstamp
+      Header-5: Signature 
+      Header-6: Severity  
+
+  subs: *d001    
+
+- first-match: 'CEF\:\d+\|Trend\s+Micro\|Control\s+Manager\|'
+  decoder: custom
+  decoder-header: CEF
+  decoder-regex: ([\w]+)=(\"[^\"]*\"|[^\s]*)
+  event-key-format: '{act}'
+  event-key-mapping:
+    'Block': 
+      annotate:
+        Stream: ENDPOINT-THREAT
+        Action: THREAT-DETECTED
+        Status: FAILED
+      translate:
+        src: SrcIP
+        spt: SrcPort
+        dst: DstIP
+        dpt: DstPort
+
+  fallback:
+      annotate:
+        EventName: Generic Trend-Micro Endpoint Event
+        Stream: OTHER
+      translate: 
+        rt: SystemTstamp
+
+  globals:
+    translate: 
+      dvchost: System
+      rt: SystemTstamp 
+      Header-5: Signature 
+      Header-6: Severity     
+
+  subs: *d001     

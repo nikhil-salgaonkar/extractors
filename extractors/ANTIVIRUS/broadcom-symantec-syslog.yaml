@@ -1,0 +1,81 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 71
+source-name: SYMANTEC-ENDPOINT
+source-type: ANTIVIRUS
+source-description: extractor for SYMANTEC-ENDPOINT 
+provides-streams:
+- ENDPOINT-THREAT
+master-filters:
+- \w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+SymantecServer\:\s+
+event-details:
+- first-match: \,CIDS\s+Signature\s+ID\:\s+\d+\,CIDS\s+Signature\s+string\:\s+
+  decoder: custom
+  decoder-regex: ([^\:]+)\:\s([^,]*)\,
+  event-key-format: ''
+  event-key-mapping:
+    "":
+      annotate:
+        Stream: ENDPOINT-THREAT
+        Action: VIRUS_DETECTED
+        Status: PASSED
+      translate: 
+        Risk name: AtkMsg
+        User: User
+        Source computer: SrcHost
+        Domain: Domain
+        Source IP: SrcIP
+        Local Host IP: DstIP
+   #    Local Host MAC: DstMAC
+        Remote Host Name: SrcHost
+        Remote Host IP: SrcIP
+    #   Remote Host MAC: SrcMAC
+        Application: App
+        User Name: User
+        Domain Name: Domain
+        Local Port: DstPort
+        Remote Port: SrcPort
+        CIDS Signature string: AtkMsg
+        Intrusion URL: URL
+    
+- first-match: Category\s+set\:\s+.*?\,Category\s+type\:\s+
+  decoder: custom
+  decoder-regex: ([^\:]+)\:\s([^,]*)\,
+  event-key-format: '{Category set}'
+  event-key-mapping:
+    "Malware":
+      annotate:
+        Stream: ENDPOINT-THREAT
+        Action: VIRUS_DETECTED
+        Status: PASSED
+      translate: 
+        Risk name: AtkMsg
+        User: User
+        Source computer: SrcHost
+        Source IP: SrcIP
+        Application name: App
+        Domain Name: Domain
+
+  fallback:
+      annotate:
+        EventName: Generic SYMANTEC-ENDPOINT Event
+        Stream: OTHER   
+
+- first-match: Detection\s+type\:\s+
+  decoder: custom
+  decoder-regex: ([^\:]+)\:\s([^,]*)\,
+  event-key-format: ''
+  event-key-mapping:
+    "":
+      annotate:
+        Stream: ENDPOINT-THREAT
+        Action: VIRUS_DETECTED
+        Status: PASSED
+      translate: 
+        IP Address: DstIP
+        Application name: App
+        Download site: URL
+        Risk name: AtkMsg
+        Domain: Domain
+        User: User
+        Source computer: SrcHost

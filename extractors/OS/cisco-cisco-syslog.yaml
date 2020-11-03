@@ -1,0 +1,453 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 67
+source-name: CISCO
+source-type: OS
+source-description: Extractor for Cisco OS
+provides-streams:
+- CONNECTIVITY
+- AUTHENTICATION
+- ROUTER
+master-filters:
+- '\%VSHD\-5\-VSHD\_SYSLOG\_CONFIG\_I\:'
+- '\%ETHPORT\-5\-IF_UP\:'
+- '\%ETHPORT\-5\-IF_DOWN_LINK_FAILURE\:'
+- '\%AUTHPRIV\-3\-SYSTEM_MSG\:'
+- '\%SYS\-5\-CONFIG\_I\:'
+- '\%SYS\-SW\d+\-5\-CONFIG\_I\:'
+- '\%LINEPROTO\-5\-UPDOWN\:'
+- '\%LINK\-3\-UPDOWN'
+- '\%PARSER\-5\-CFGLOG\_LOGGEDCMD\:'
+- '\%SSH\-4\-SSH2_UNEXPECTED_MSG\:'
+- '\%SEC\-6\-IPACCESSLOGS\:'
+- '\%FMANFP\-6\-IPACCESSLOGP\:'
+- '\%SSH\-3\-PACK\_SND\_FAIL'
+- '\%FMANFP\-6\-IPACCESSLOGDP\:'
+- '\%SEC\_LOGIN\-5\-LOGIN\_SUCCESS\:'
+- '\%SSH\-3\-PACK\_SND\_FAIL'
+- '\%SYS\-6\-LOGOUT\:'
+- '\%SEC\_LOGIN\-'
+- '\%SEC\-6\-IPACCESSLOGNP'
+- '\%LINK\-SW\d+\-3\-UPDOWN\:'
+- '\%LINEPROTO\-SW\d+\-5\-UPDOWN\:'
+- '\%SYS\-SW\d+\-5\-CONFIG\_I\:'
+- '\%SEC\-6\-IPACCESSLOGDP\:'
+event-details:
+- first-match: '\%ETHPORT\-5\-IF_UP\:'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})(?:\.\d+)?\s+.*?\s+\%(?P<facility>.*?)\-(?P<severity>\d+)\-(?P<mnemonic>\S+)\:\s+(?P<message>Interface\s+(?P<iface>.*?)\s+is\s+(?P<action>\w+).*)'
+  event-key-format: '{action}'
+  event-key-mapping:
+    up:
+      annotate:
+        Stream: CONNECTIVITY
+        Action: LINK_UP
+        Status: PASSED
+      translate:
+        iface: Iface
+
+  fallback:
+      annotate:
+        EventName: Generic Cisco OS Event
+        Stream: OTHER
+      translate:
+        datetime: SystemTstamp
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      facility: Facility
+      severity: Severity
+
+  subs: &id001
+    Severity:
+      '0': EMERGENCY
+      '1': ALERT
+      '2': CRITICAL
+      '3': ERROR
+      '4': WARNING
+      '5': NOTIFICATION
+      '6': INFORMATIONAL
+      '7': DEBUGGING
+
+- first-match: '\%ETHPORT\-5\-IF_DOWN_LINK_FAILURE\:'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})(?:\.\d+)?\s+.*?\s+\%(?P<facility>.*?)\-(?P<severity>\d+)\-(?P<mnemonic>\S+)\:\s+(?P<message>Interface\s+(?P<iface>.*?)\s+is\s+(?P<action>\w+).*)'
+  event-key-format: '{action}'
+  event-key-mapping:
+    down:
+      annotate:
+        Stream: CONNECTIVITY
+        Action: LINK_DOWN
+        Status: PASSED
+      translate:
+        iface: Iface
+
+  fallback:
+      annotate:
+        EventName: Generic Cisco OS Event
+        Stream: OTHER
+      translate:
+        datetime: SystemTstamp
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      facility: Facility
+      severity: Severity
+
+  subs: *id001    
+
+- first-match: '\d\-UPDOWN\:'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w+\s+\d+\s+\d+\:\d+\:\d+).*?\s+\%(?P<facility>\S+)\-(?P<severity>\d+)\-(?P<mnemonic>.*?)\:\s+(.*?(?:Interface\s+(\S+)\,)?.*?\s+to\s+(?P<action>\w+))'
+  event-key-format: '{action}'
+  event-key-mapping:
+    up:
+      annotate:
+        Stream: CONNECTIVITY
+        Action: INTERFACE_UP
+        Status: PASSED
+      translate:
+        iface: Iface
+    down:
+      annotate:
+        Stream: CONNECTIVITY
+        Action: INTERFACE_DOWN
+        Status: PASSED
+      translate:
+        iface: Iface
+
+  fallback:
+      annotate:
+        EventName: Generic Cisco OS Event
+        Stream: OTHER
+      translate:
+        datetime: SystemTstamp
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      facility: Facility
+      severity: Severity
+
+  subs: *id001
+
+
+- first-match: '\%SEC\-6\-IPACCESSLOGS\:'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w+\s+\d+\s+\d+\:\d+\:\d+).*?\s+\%(?P<facility>\S+)\-(?P<severity>\d+)\-(?P<mnemonic>.*?)\:\s+(?P<message>list\s+(.*?)\s+(?P<action>(?:permitted|denied))\s+(?P<src_ip>.*?)\s+(?P<packets>\w+).*)'
+  event-key-format: '{action}'
+  event-key-mapping:
+    permitted:
+      annotate:
+        Stream: ROUTER
+        Action: PACKET_ALLOWED
+        Status: PASSED
+      translate:
+        src_ip: SrcIP
+        message: Message
+        packets: Packets
+    denied:
+      annotate:
+        Stream: ROUTER
+        Action: PACKET_BLOCKED
+        Status: FAILED
+      translate:
+        src_ip: SrcIP
+        message: Message
+        packets: Packets
+
+  fallback:
+      annotate:
+        EventName: Generic Cisco OS Event
+        Stream: OTHER
+      translate:
+        datetime: SystemTstamp
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      facility: Facility
+      severity: Severity
+      mnemonic: Mnemonic
+
+  subs: *id001
+
+- first-match: '\%FMANFP\-6\-IPACCESSLOGP\:'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w+\s+\d+\s+\d+\:\d+\:\d+).*?\s+\%(?P<facility>\S+)\-(?P<severity>\d+)\-(?P<mnemonic>.*?)\:.*?\s+(?P<message>list.*?\s+(?P<action>(?:denied|permitted)).*)'
+  event-key-format: '{action}'
+  event-key-mapping:
+    denied:
+      annotate:
+        Stream: ROUTER
+        Action: PACKET_BLOCKED
+        Status: FAILED
+      translate:
+        message: Message
+    permitted:
+      annotate:
+        Stream: ROUTER
+        Action: PACKET_ALLOWED
+        Status: PASSED
+      translate:
+        message: Message
+
+  fallback:
+      annotate:
+        EventName: Generic Cisco OS Event
+        Stream: OTHER
+      translate:
+        datetime: SystemTstamp
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      facility: Facility
+      severity: Severity
+      mnemonic: Mnemonic
+
+  subs: *id001
+
+- first-match: '\%SSH\-3\-PACK\_SND\_FAIL'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w+\s+\d+\s+\d+\:\d+\:\d+).*?\s+\%(?P<facility>\S+)\-(?P<severity>\d+)\-(?P<mnemonic>.*?)\:\s+(?P<action>.*)'
+  event-key-format: '{mnemonic}'
+  event-key-mapping:
+    PACK_SND_FAIL:
+      annotate:
+        Stream: ROUTER
+        Action: PACKET_SEND
+        Status: FAILED
+      translate:
+        message: Message
+
+  fallback:
+      annotate:
+        EventName: Generic Cisco OS Event
+        Stream: OTHER
+      translate:
+        datetime: SystemTstamp
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      facility: Facility
+      severity: Severity
+      mnemonic: Mnemonic
+
+  subs: *id001
+
+- first-match: '\%FMANFP\-6\-IPACCESSLOGDP\:'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w+\s+\d+\s+\d+\:\d+\:\d+).*?\s+\%(?P<facility>\S+)\-(?P<severity>\d+)\-(?P<mnemonic>.*?)\:\s+(?P<message>.*?list\s+(?P<acl>.*?)\s+(?P<action>\w+)\s+(?P<proto>\w+)\s+(?P<src_ip>.*?)\s+(?P<iface>.*?)\-\>\s+(?P<dst_ip>.*?)\s+.*?\,\s+(?P<packets>\d+)\s+(?:packet|packets))'
+  event-key-format: '{action}'
+  event-key-mapping:
+    denied:
+      annotate:
+        Stream: ROUTER
+        Action: PACKET_BLOCKED
+        Status: FAILED
+      translate:
+        message: Message
+        src_ip: SrcIP
+        dst_ip: DstIP
+        acl: ACL
+    permitted:
+      annotate:
+        Stream: ROUTER
+        Action: PACKET_ALLOWED
+        Status: PASSED
+      translate:
+        message: Message
+        src_ip: SrcIP
+        dst_ip: DstIP
+        acl: ACL
+
+  fallback:
+      annotate:
+        EventName: Generic Cisco OS Event
+        Stream: OTHER
+      translate:
+        datetime: SystemTstamp
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      facility: Facility
+      severity: Severity
+      mnemonic: Mnemonic
+
+  subs: *id001
+
+- first-match: '\%SEC\_LOGIN\-'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w+\s+\d+\s+\d+\:\d+\:\d+).*?\s+\%(?P<facility>\S+)\-(?P<severity>\d+)\-(?P<mnemonic>.*?)\:\s+(?P<action>.*?)\s+\[user\:\s+(?P<user>.*?)\]\s+\[Source\:\s+(?P<src_ip>[\d\.]+)\]\s+\[localport\:\s+(?P<src_port>\d+)\]\s+'
+  event-key-format: '{action}'
+  event-key-mapping:
+    Login Success:
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        src_ip: SrcIP
+        src_port: SrcPort
+        user: User
+    Login failed:
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        src_ip: SrcIP
+        src_port: SrcPort
+        user: User
+
+  fallback:
+      annotate:
+        EventName: Generic Cisco OS Event
+        Stream: OTHER
+      translate:
+        datetime: SystemTstamp
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      facility: Facility
+      severity: Severity
+
+  subs: *id001
+
+- first-match: '\%SYS\-6\-LOGOUT\:'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w+\s+\d+\s+\d+\:\d+\:\d+).*?\s+\%(?P<facility>\w+)\-(?P<severity>\d+)\-(?P<mnemonic>\w+)\:\s+(?P<message>User\s+(?P<user>[\w\.\-]+)\s+.*?\((?P<src_ip>[\d\.]+)\))'
+  event-key-format: '{mnemonic}'
+  event-key-mapping:
+    LOGOUT:
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+      translate:
+        src_ip: SrcIP
+        user: User
+
+  fallback:
+      annotate:
+        EventName: Generic Cisco OS Event
+        Stream: OTHER
+      translate:
+        datetime: SystemTstamp
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      facility: Facility
+      severity: Severity
+
+  subs: *id001
+
+- first-match: '\%SEC\-6\-IPACCESSLOGNP'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w+\s+\d+\s+\d+\:\d+\:\d+).*?\s+\%(?P<facility>\S+)\-(?P<severity>\d+)\-(?P<mnemonic>.*?)\:\s+(?P<message>.*?list\s+(?P<acl>.*?)\s+(?P<action>\w+)\s+(?P<proto>\w+)\s+(?P<src_ip>.*?)\s+(?P<iface>.*?)\-\>\s+(?P<dst_ip>.*?)\,\s+(?P<packets>\d+)\s+(?:packets|packet))'
+  event-key-format: '{action}'
+  event-key-mapping:
+    permitted:
+      annotate:
+        Stream: ROUTER
+        Action: PACKET_ALLOWED
+        Status: PASSED
+      translate:
+        message: Message
+        src_ip: SrcIP
+        dst_ip: DstIP
+        acl: ACL
+
+  fallback:
+      annotate:
+        EventName: Generic Cisco OS Event
+        Stream: OTHER
+      translate:
+        datetime: SystemTstamp
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      facility: Facility
+      severity: Severity
+      mnemonic: Mnemonic
+
+  subs: *id001
+
+- first-match: '\%SEC\-6\-IPACCESSLOGDP\:'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w+\s+\d+\s+\d+\:\d+\:\d+).*?\s+\%(?P<facility>\S+)\-(?P<severity>\d+)\-(?P<mnemonic>.*?)\:\s+(?P<message>.*?list\s+(?P<acl>.*?)\s+(?P<action>\w+)\s+(?P<proto>\w+)\s+(?P<src_ip>.*?)\s+(?P<iface>.*?)\-\>\s+(?P<dst_ip>.*?)\s+.*?\,\s+(?P<packets>\d+)\s+(?:packet|packets))'
+  event-key-format: '{action}'
+  event-key-mapping:
+    denied:
+      annotate:
+        Stream: ROUTER
+        Action: PACKET_BLOCKED
+        Status: FAILED
+      translate:
+        message: Message
+        src_ip: SrcIP
+        dst_ip: DstIP
+        acl: ACL
+    permitted:
+      annotate:
+        Stream: ROUTER
+        Action: PACKET_BLOCKED
+        Status: FAILED
+      translate:
+        message: Message
+        src_ip: SrcIP
+        dst_ip: DstIP
+        acl: ACL
+
+  fallback:
+      annotate:
+        EventName: Generic Cisco OS Event
+        Stream: OTHER
+      translate:
+        datetime: SystemTstamp
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      facility: Facility
+      severity: Severity
+      mnemonic: Mnemonic
+
+  subs: *id001
+
+- first-match: '\%AUTHPRIV\-3\-SYSTEM\_MSG\:'
+  decoder: regex
+  decoder-regex: '(?P<Pdatetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}).*?\s+\%(?P<facility>\S+)\-(?P<severity>\d+)\-(?P<mnemonic>.*?)\:\s+.*?\:(?P<msg>(?P<action>Authentication\s+failed)\s+from\s+(?P<src>.*?)\s+.*?(?P<daemon>\S+)\[(?P<pid>\d+)\])'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'Authentication failed':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+        User: '-'
+      translate:
+        src: SrcIP
+
+  fallback:
+      annotate:
+        EventName: Generic Cisco OS Event
+        Stream: OTHER
+      translate:
+        datetime: SystemTstamp
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      facility: Facility
+      severity: Severity
+
+  subs: *id001  
