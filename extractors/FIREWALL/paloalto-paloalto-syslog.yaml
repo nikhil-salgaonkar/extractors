@@ -107,10 +107,6 @@ event-details:
       translate:
         src: SrcIP
         dst: DstIP
-        suser: SrcUser
-        duser: DstUser
-        iface_in: IfaceIn
-        iface_out: IfaceOut
         sport: SrcPort
         dport: DstPort
         proto: Proto  
@@ -125,10 +121,6 @@ event-details:
       translate:
         src: SrcIP
         dst: DstIP
-        suser: SrcUser
-        duser: DstUser
-        iface_in: IfaceIn
-        iface_out: IfaceOut
         sport: SrcPort
         dport: DstPort
         proto: Proto  
@@ -143,10 +135,6 @@ event-details:
       translate:
         src: SrcIP
         dst: DstIP
-        suser: SrcUser
-        duser: DstUser
-        iface_in: IfaceIn
-        iface_out: IfaceOut
         sport: SrcPort
         dport: DstPort
         proto: Proto  
@@ -161,10 +149,6 @@ event-details:
       translate:
         src: SrcIP
         dst: DstIP
-        suser: SrcUser
-        duser: DstUser
-        iface_in: IfaceIn
-        iface_out: IfaceOut
         sport: SrcPort
         dport: DstPort
         proto: Proto  
@@ -179,10 +163,6 @@ event-details:
       translate:
         src: SrcIP
         dst: DstIP
-        suser: SrcUser
-        duser: DstUser
-        iface_in: IfaceIn
-        iface_out: IfaceOut
         sport: SrcPort
         dport: DstPort
         proto: Proto  
@@ -197,10 +177,6 @@ event-details:
       translate:
         src: SrcIP
         dst: DstIP
-        suser: SrcUser
-        duser: DstUser
-        iface_in: IfaceIn
-        iface_out: IfaceOut
         sport: SrcPort
         dport: DstPort
         proto: Proto  
