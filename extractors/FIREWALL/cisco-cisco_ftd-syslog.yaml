@@ -21,8 +21,7 @@ event-details:
         Action: PACKET_TEARDOWN
         Status: PASSED
       translate: 
-        msg: Message
-        src: SrcIP    
+        src: SrcIP
         sport: SrcPort
         dst: DstIP
         proto: Proto
@@ -34,8 +33,7 @@ event-details:
         Action: PACKET_TEARDOWN
         Status: PASSED
       translate: 
-        msg: Message
-        src: SrcIP    
+        src: SrcIP
         sport: SrcPort
         dst: DstIP
         dport: DstPort
@@ -47,8 +45,7 @@ event-details:
         Action: PACKET_ALLOWED
         Status: PASSED
       translate: 
-        msg: Message
-        src: SrcIP    
+        src: SrcIP
         sport: SrcPort
         dst: DstIP
         proto: Proto
@@ -59,8 +56,7 @@ event-details:
         Action: PACKET_ALLOWED
         Status: PASSED
       translate: 
-        msg: Message
-        src: SrcIP    
+        src: SrcIP
         sport: SrcPort
         dst: DstIP
         proto: Proto
@@ -99,8 +95,7 @@ event-details:
         Action: PACKET_BLOCKED
         Status: FAILED
       translate: 
-        msg: Message
-        src: SrcIP    
+        src: SrcIP
         sport: SrcPort
         dst: DstIP
         dport: DstPort
@@ -131,8 +126,7 @@ event-details:
         Action: PACKET_TEARDOWN
         Status: PASSED
       translate: 
-        msg: Message
-        src: SrcIP    
+        src: SrcIP
         sport: SrcPort
         dst: DstIP
         dport: DstPort
@@ -143,8 +137,7 @@ event-details:
         Action: PACKET_ALLOWED
         Status: PASSED
       translate: 
-        msg: Message
-        src: SrcIP    
+        src: SrcIP
         sport: SrcPort
         dst: DstIP
         dport: DstPort
@@ -175,8 +168,7 @@ event-details:
         Action: ATTACK_DETECTED
         Status: PASSED
       translate: 
-        msg: Message
-        src: SrcIP    
+        src: SrcIP
         dst: DstIP
         proto: Proto    
     
