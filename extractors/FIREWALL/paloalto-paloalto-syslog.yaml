@@ -1,0 +1,351 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 97
+source-name: PALOALTO
+source-type: FIREWALL
+source-description: Extractor for PaloAlto Firewall
+provides-streams:
+- NETWORK-FIREWALL
+- NETWORK-THREAT
+- AUTHENTICATION
+master-filters:
+- '\w+\s+\d+\s+\d+\:\d+\:\d+\s+\S+\s+\d+\,\d+\/\d+\/\d+\s+\d+\:\d+\:\d+\,\d+\,.*?(?:TRAFFIC|THREAT|SYSTEM|CONFIG|USERID\,login|GLOBALPROTECT)\,'
+event-details:
+- first-match: '\,TRAFFIC\,.*?\,\S+\,'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostnmae>\S+)\s+\d+\,\d+\/\d+\/\d+\s+\d+\:\d+\:\d+\,\d+\,(?P<event_type>\w+)\,\w+\,\d+\,[\d\/\:\s]+\,(?P<src>[\d\.]+)\,(?P<dst>[\d\.]+)\,(?P<srctranip>[\d\.]+)\,(?P<dsttranip>[\d\.]+)\,(?P<rule>.*?)\,(?P<suser>.*?)\,(?P<duser>.*?)\,(?P<app>.*?)\,.*?\,(?P<szone>.*?)\,(?P<dzone>.*?)\,(?P<iface_in>.*?)\,(?P<iface_out>.*?)\,.*?\,.*?\,.*?\,.*?\,(?P<sport>\d+)\,(?P<dport>\d+)\,(?P<srctranport>\d+)\,(?P<dsttranport>\d+)\,.*?\,(?P<proto>.*?)\,(?P<action>.*?)\,(?P<length>\d+)\,(?P<sent_bytes>\d+)\,(?P<receive_bytes>\d+)\,.*?\,\d+\/\d+\/\d+\s+\d+\:\d+\:\d+\,.*?\,(?P<siteclass>.*?)\,.*?\,\d+\,.*?\,.*?\,.*?\,\d+\,\d+\,\d+\,(?P<reason>.*?)\,'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'allow':
+      annotate:
+        Stream: NETWORK-FIREWALL
+        Action: PACKET_ALLOWED
+        Status: PASSED
+      translate:
+        src: SrcIP
+        dst: DstIP
+        sport: SrcPort
+        dport: DstPort
+        proto: Proto  
+        sent_bytes: TXLen
+        receive_bytes: RXLen
+    'deny':
+      annotate:
+        Stream: NETWORK-FIREWALL
+        Action: PACKET_BLOCKED
+        Status: FAILED
+      translate:
+        src: SrcIP
+        dst: DstIP
+        sport: SrcPort
+        dport: DstPort
+        proto: Proto  
+        sent_bytes: TXLen
+        receive_bytes: RXLen
+    'drop':
+      annotate:
+        Stream: NETWORK-FIREWALL
+        Action: PACKET_BLOCKED
+        Status: FAILED
+      translate:
+        src: SrcIP
+        dst: DstIP
+        sport: SrcPort
+        dport: DstPort
+        proto: Proto  
+        sent_bytes: TXLen
+        receive_bytes: RXLen 
+    'reset-both':   
+      annotate:
+        Stream: NETWORK-FIREWALL
+        Action: PACKET_ALLOWED
+        Status: PASSED
+      translate:
+        src: SrcIP
+        dst: DstIP
+        sport: SrcPort
+        dport: DstPort
+        proto: Proto  
+        sent_bytes: TXLen
+        receive_bytes: RXLen 
+    'drop-icmp':  
+      annotate:
+        Stream: NETWORK-FIREWALL
+        Action: PACKET_BLOCKED
+        Status: FAILED
+      translate:
+        src: SrcIP
+        dst: DstIP
+        sport: SrcPort
+        dport: DstPort
+        proto: Proto  
+        sent_bytes: TXLen
+        receive_bytes: RXLen                                    
+
+  fallback:
+      annotate:
+        EventName: Generic PaloAlto Firewall Event
+        Stream: OTHER
+      translate:
+        datetime: SystemTstamp  
+
+  globals:
+    translate:
+      hostname: System
+      datetime: SystemTstamp
+
+- first-match: '\,THREAT\,.*?\,'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostnmae>\S+)\s+\d+\,\d+\/\d+\/\d+\s+\d+\:\d+\:\d+\,\d+\,(?P<event_type>\w+)\,.*?\,\d+\,[\d\/\:\s]+\,(?P<src>[\d\.]+)\,(?P<dst>[\d\.]+)\,(?P<srctranip>[\d\.]+)\,(?P<dsttranip>[\d\.]+)\,(?P<rule>.*?)\,(?P<suser>.*?)\,(?P<duser>.*?)\,(?P<app>.*?)\,.*?\,(?P<szone>.*?)\,(?P<dzone>.*?)\,(?P<iface_in>.*?)\,(?P<iface_out>.*?)\,.*?\,.*?\,.*?\,.*?\,(?P<sport>\d+)\,(?P<dport>\d+)\,(?P<srctranport>\d+)\,(?P<dsttranport>\d+)\,.*?\,(?P<proto>.*?)\,(?P<action>.*?)\,\"?(?P<objecttype>.*?)\"?\,((?P<atkmsg>.*?)\((?P<eventid>\d+)\))\,(?P<siteclass>.*?)\,(?P<severity>.*?)\,'
+  event-key-format: '{action}-{eventid}'
+  event-key-mapping:
+    'alert-34556':
+      annotate:
+        Stream: NETWORK-THREAT
+        Action: VULNERABILITY_EXPLOIT_DETECTED
+        Status: PASSED
+      translate:
+        src: SrcIP
+        dst: DstIP
+        sport: SrcPort
+        dport: DstPort
+        proto: Proto  
+        atkmsg: AtkMsg
+        severity: Severity
+        objecttype: Object
+    'alert-10015':
+      annotate:
+        Stream: NETWORK-THREAT
+        Action: MALWARE_CALLBACK
+        Status: PASSED
+      translate:
+        src: SrcIP
+        dst: DstIP
+        sport: SrcPort
+        dport: DstPort
+        proto: Proto  
+        atkmsg: AtkMsg
+        severity: Severity
+        objecttype: Object
+    'alert-52004':
+      annotate:
+        Stream: NETWORK-THREAT
+        Action: FILETYPE_DETECTED
+        Status: PASSED 
+      translate:
+        src: SrcIP
+        dst: DstIP
+        sport: SrcPort
+        dport: DstPort
+        proto: Proto  
+        atkmsg: AtkMsg
+        severity: Severity
+        objecttype: Object
+    'block-url-9999':
+      annotate:
+        Stream: NETWORK-THREAT
+        Action: URL_BLOCKED
+        Status: PASSED
+      translate:
+        src: SrcIP
+        dst: DstIP
+        sport: SrcPort
+        dport: DstPort
+        proto: Proto  
+        atkmsg: AtkMsg
+        severity: Severity
+        objecttype: Object
+    'reset-both-325904520':
+      annotate:
+        Stream: NETWORK-THREAT
+        Action: THREAT-DETECTED                                               
+        Status: PASSED
+      translate:
+        src: SrcIP
+        dst: DstIP
+        sport: SrcPort
+        dport: DstPort
+        proto: Proto  
+        atkmsg: AtkMsg
+        severity: Severity
+        objecttype: Object
+    'alert-197353851':
+      annotate:
+        Stream: NETWORK-THREAT
+        Action: THREAT-DETECTED
+        Status: PASSED
+      translate:
+        src: SrcIP
+        dst: DstIP
+        sport: SrcPort
+        dport: DstPort
+        proto: Proto  
+        atkmsg: AtkMsg
+        severity: Severity
+        objecttype: Object                                               
+
+  fallback:
+      annotate:
+        EventName: Generic PaloAlto Firewall Event
+        Stream: OTHER
+      translate:
+        datetime: SystemTstamp  
+
+  globals:
+    translate:
+      hostname: System
+      datetime: SystemTstamp
+
+- first-match: '\,SYSTEM\,.*?(?:auth\-success|auth-fail)'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+\d+\,.*?\,.*?\,(?P<event_type>\w+)\,.*?\,.*?\,.*?\,.*?\,(?P<action>.*?)\,.*?\,.*?\,.*?\,.*?\,(?P<severity>.*?)\,.*?(?P<message>(?:User|user)\s+(?P<user>.*?)\s+.*?(?:Reason\:\s+(?P<reason>.*?)\s+)?(?:From|from)\:?\s+(?P<src>[\w\.\:]+))\.?\"?\,'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'auth-success':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        src: SrcIP
+        user: User
+    'auth-fail':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate:
+        src: SrcIP
+        user: User                                             
+
+  fallback:
+      annotate:
+        EventName: Generic PaloAlto Firewall Event
+        Stream: OTHER
+      translate:
+        datetime: SystemTstamp  
+
+  globals:
+    translate:
+      hostname: System
+      datetime: SystemTstamp 
+
+- first-match: '\,SYSTEM\,.*?\s+(?:logged\s+out|logged\s+in)'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+\d+\,.*?\,.*?\,(?P<event_type>\w+)\,.*?\,.*?\,.*?\,.*?\,.*?\,.*?\,.*?\,.*?\,.*?\,(?P<severity>.*?)\,.*?(?P<message>(?:User|user)\s+(?P<user>.*?)\s+(?P<action>logged\s+(?:out|in)).*?(?:Reason\:\s+(?P<reason>.*?)\s+)?(?:From|from)\:?\s+(?P<src>[\w\.\:]+))\.?\"?'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'logged out':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+      translate:
+        src: SrcIP
+        user: User
+    'logged in':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        src: SrcIP
+        user: User                                              
+
+  fallback:
+      annotate:
+        EventName: Generic PaloAlto Firewall Event
+        Stream: OTHER
+      translate:
+        datetime: SystemTstamp  
+
+  globals:
+    translate:
+      hostname: System
+      datetime: SystemTstamp  
+
+- first-match: '\,SYSTEM\,.*?\s+user\s+authentication\s+(?:failed|succeeded)'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+\d+\,.*?\,.*?\,(?P<event_type>\w+)\,.*?\,.*?\,.*?\,.*?\,.*?\,.*?\,.*?\,.*?\,.*?\,(?P<severity>.*?)\,\"(?P<message>.*?(?P<action>authentication\s+(?:failed|succeeded)).*?\s+Login\s+from\:\s+(?P<src>\S+)\,.*?User\s+name\:\s+(?P<user>.*?)\,.*?)\"\,'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'authentication failed':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate:
+        src: SrcIP
+        user: User
+    'authentication succeeded':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        src: SrcIP
+        user: User                                                
+
+  fallback:
+      annotate:
+        EventName: Generic PaloAlto Firewall Event
+        Stream: OTHER
+      translate:
+        datetime: SystemTstamp  
+
+  globals:
+    translate:
+      hostname: System
+      datetime: SystemTstamp  
+
+- first-match: '\w{3}\s+\d+\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+\d+\,\d{4}\/\d{1,2}\/\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\,\d+\,\d+\,[\dx]+\,GLOBALPROTECT\,\d+\,\d+\,\d+\/\d+\/\d+\s+\d+\:\d+\:\d+\,\w+\,gateway\-logout\,'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+\d+\,.*?\,.*?\,\w+\,.*?\,(?P<daemon>.*?)\,.*?\,.*?\,.*?\,.*?\,(?P<message>.*?)\,(?P<event_type>.*?)\,.*?\,.*?\,(?P<user>.*?)\,.*?\".*?\".*?\"(?P<EvtDesc>.*?)\"'
+  event-key-format: '{event_type}'
+  event-key-mapping:
+    'logout':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+      translate:
+        user: User                                               
+
+  fallback:
+      annotate:
+        EventName: Generic PaloAlto Firewall Event
+        Stream: OTHER
+      translate:
+        datetime: SystemTstamp  
+
+  globals:
+    translate:
+      hostname: System
+      datetime: SystemTstamp
+
+- first-match: 'SYSTEM\,general\,.*?\,\"\s+Accepted\s+password\s+'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+\d+\,.*?\,.*?\,(?P<event_type>\w+)\,.*?\,.*?\,.*?\,.*?\,.*?\,.*?\,.*?\,.*?\,.*?\,(?P<severity>.*?)\,\"(?P<message>.*?(?P<action>Accepted\s+password)\s+for\s+(?P<user>.*?)\s+from\s+(?P<src>\S+)\s+port\s+(?P<sport>\d+)\s+.*?)\"\,'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'Accepted password':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        user: User 
+        src: SrcIP
+        sport: SrcPort                                             
+
+  fallback:
+      annotate:
+        EventName: Generic PaloAlto Firewall Event
+        Stream: OTHER
+      translate:
+        datetime: SystemTstamp  
+
+  globals:
+    translate:
+      hostname: System
+      datetime: SystemTstamp                             
