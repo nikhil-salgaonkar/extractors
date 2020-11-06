@@ -9,7 +9,6 @@ provides-streams:
 - AUTHENTICATION
 - ADMINISTRATION
 - NETWORK-FIREWALL
-- SYSTEM
 master-filters:
 - '\w{3}\s+\d{2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2}.*?\%ASA.*?\-\d{1}\-\d{6}'
 event-details:
@@ -25,21 +24,20 @@ event-details:
         Status: PASSED
       translate:
         user: User
-        message: Message
         src: SrcIP
         sport: SrcPort
         dst: DstIP
         protocol: Proto
 
   fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
 
   globals:
     translate:
       datetime: SystemTstamp
-      severity: Severity
+    # severity: Severity
 
   subs: &id001
     Severity:
@@ -65,19 +63,17 @@ event-details:
         AuthMethod: AAA
       translate:
         user: User
-        message: Message
         src: SrcIP
-        server: Server
 
   fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
 
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity
+    # severity: Severity
 
   subs: *id001 
 
@@ -93,19 +89,17 @@ event-details:
         Status: PASSED
       translate:
         user: User
-        message: Message
         src: SrcIP
-        group: PolicyName
 
   fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
 
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity
+    # severity: Severity
 
   subs: *id001   
 
@@ -123,17 +117,16 @@ event-details:
         SubStatus: BAD_POL
       translate:
         user: User
-        message: Message
 
   fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
 
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity
+    # severity: Severity
 
   subs: *id001     
 
@@ -151,19 +144,17 @@ event-details:
         SubStatus: PASSWORD_EXPIRED
       translate:
         user: User
-        message: Message
         src: SrcIP
-        reason: Reason
 
   fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
 
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity
+    # severity: Severity
 
   subs: *id001       
 
@@ -181,20 +172,17 @@ event-details:
         SubStatus: BAD_USER_PASS
       translate:
         user: User
-        message: Message
-        server: Server
-        group: PolicyName
         
 
   fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
 
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity
+    # severity: Severity
 
   subs: *id001
 
@@ -211,17 +199,16 @@ event-details:
         SubStatus: BAD_USER_PASS
       translate:
         user: User
-        message: Message
 
   fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
 
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity
+    # severity: Severity
 
   subs: *id001         
 
@@ -239,21 +226,20 @@ event-details:
         AuthMethod: SSH
       translate:
         user: User
-        message: Message
         src: SrcIP
         sport: SrcPort
         dst: DstIP
         protocol: Proto
 
   fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
 
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity
+    # severity: Severity
 
   subs: *id001           
 
@@ -271,20 +257,17 @@ event-details:
         SubStatus: BAD_USER_PASS
       translate:
         user: User
-        message: Message
         src: SrcIP
-        reason: Reason
-        interface: Iface
 
   fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
 
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity
+    # severity: Severity
 
   subs: *id001     
 
@@ -301,19 +284,17 @@ event-details:
         AuthMethod: SSH
       translate:
         user: User
-        message: Message
         src: SrcIP
-        interface: Iface
 
   fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
 
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity
+    # severity: Severity
 
   subs: *id001             
 
@@ -331,23 +312,21 @@ event-details:
         SubStatus: BAD_POL
       translate:
         user: User
-        message: Message
         src: SrcIP
         sport: SrcPort
         dst: DstIP
         dport: DstPort
-        policyname: PolicyName
         protocol: Proto
 
   fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
 
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity
+    # severity: Severity
 
   subs: *id001  
 
@@ -364,17 +343,16 @@ event-details:
         AuthMethod: AAA
       translate:
         user: User
-        message: Message
 
   fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
 
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity
+    # severity: Severity
 
   subs: *id001  
 
@@ -391,18 +369,17 @@ event-details:
         AuthMethod: WEB
       translate:
         user: User
-        message: Message
         src: SrcIP
 
   fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
 
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity
+    # severity: Severity
 
   subs: *id001 
 
@@ -420,18 +397,17 @@ event-details:
         SubStatus: BAD_POL
       translate:
         user: User
-        message: Message
         src: SrcIP
 
   fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
 
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity
+    # severity: Severity
 
   subs: *id001 
 
@@ -449,20 +425,17 @@ event-details:
         SubStatus: BAD_USER
       translate:
         user: User
-        message: Message
         src: SrcIP
-        server: Server
-        reason: Reason
 
   fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
 
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity
+    # severity: Severity
 
   subs: *id001    
 
@@ -480,18 +453,16 @@ event-details:
         SubStatus: BAD_USER
       translate:
         user: User
-        message: Message
-        reason: Reason
 
   fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
 
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity
+    # severity: Severity
 
   subs: *id001 
 
@@ -507,17 +478,16 @@ event-details:
         Status: PASSED
       translate:
         user: User
-        message: Message
        
   fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
 
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity
+    # severity: Severity
 
   subs: *id001  
 
@@ -533,18 +503,16 @@ event-details:
         Status: PASSED
       translate:
         user: User
-        message: Message
-        policyname: PolicyName
        
   fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
 
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity
+    # severity: Severity
 
   subs: *id001                           
 
@@ -560,17 +528,16 @@ event-details:
         Status: PASSED
       translate:
         user: User
-        message: Message
        
   fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
 
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity
+    # severity: Severity
 
   subs: *id001                           
 
@@ -586,78 +553,19 @@ event-details:
         Status: PASSED
       translate:
         user: User
-        message: Message
         src: SrcIP
-        group: PolicyName
        
   fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
 
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity
+    # severity: Severity
 
-  subs: *id001 
-
-- first-match: '\%ASA.*?-5\-(?:505001|505004)\:'
-  decoder: regex
-  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2}).*?\%ASA\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+(?P<message>.*)'
-  event-key-format: '{eventid}'
-  event-key-mapping:
-    '505001':
-      annotate:
-        Stream: ADMINISTRATION
-        Action: CMPNT_SHUTDOWN
-        Status: PASSED
-      translate:
-        message: Message
-    '505004':
-      annotate:
-        Stream: ADMINISTRATION
-        Action: CMPNT_SHUTDOWN
-        Status: PASSED
-      translate:
-        message: Message    
-       
-  fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
-
-  globals:  
-    translate:
-      datetime: SystemTstamp
-      severity: Severity
-
-  subs: *id001                             
-
-- first-match: '\%ASA.*?-5\-111003\:'
-  decoder: regex
-  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2}).*?\%ASA\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+(?P<message>.*)'
-  event-key-format: '{eventid}'
-  event-key-mapping:
-    '111003':
-      annotate:
-        Stream: ADMINISTRATION
-        Action: CONFIGURATION_ERASED
-        Status: PASSED
-      translate:
-        message: Message
-       
-  fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
-
-  globals:  
-    translate:
-      datetime: SystemTstamp
-      severity: Severity
-
-  subs: *id001     
+  subs: *id001                                  
 
 - first-match: '\%ASA.*?-5\-502102\:'
   decoder: regex
@@ -670,18 +578,17 @@ event-details:
         Action: USER_ACCOUNT_DELETED
         Status: PASSED
       translate:
-        message: Message
         user: User
 
   fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
 
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity 
+    # severity: Severity 
 
   subs: *id001    
 
@@ -696,20 +603,19 @@ event-details:
         Action: CMD_EXECUTED
         Status: PASSED
       translate:
-        message: Message
         user: User
         src: SrcIP
         cmd: Cmd
 
   fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
 
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity 
+    # severity: Severity 
 
   subs: *id001       
 
@@ -724,18 +630,17 @@ event-details:
         Action: PRIVILEGE_CHANGED
         Status: PASSED
       translate:
-        message: Message
         user: User
 
   fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
 
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity 
+    # severity: Severity 
 
   subs: *id001                     
 
@@ -750,20 +655,19 @@ event-details:
         Action: CMD_EXECUTED
         Status: PASSED
       translate:
-        message: Message
         user: User
         src: SrcIP
         cmd: Cmd
 
   fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
 
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
+    # severity: Severity          
 
   subs: *id001 
 
@@ -778,53 +682,20 @@ event-details:
         Action: CONFIGURATION_CHANGED
         Status: PASSED
       translate:
-        message: Message
         user: User
         src: SrcIP
         
   fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
 
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
+    # severity: Severity          
 
-  subs: *id001
-
-- first-match: '\%ASA.*?-4\-(?:402131|748001)\:'
-  decoder: regex
-  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2}).*?\%ASA\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+(?P<message>.*)'
-  event-key-format: '{eventid}'
-  event-key-mapping:
-    '402131':
-      annotate:
-        Stream: ADMINISTRATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-      translate:
-        message: Message
-    '748001':
-      annotate:
-        Stream: ADMINISTRATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-      translate:
-        message: Message    
-        
-  fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
-
-  globals:  
-    translate:
-      datetime: SystemTstamp
-      severity: Severity          
-
-  subs: *id001  
+  subs: *id001 
 
 - first-match: '\%ASA.*?-6\-713273\:'
   decoder: regex
@@ -837,20 +708,18 @@ event-details:
         Action: CONFIGURATION_ERASED
         Status: PASSED
       translate:
-        message: Message
         user: User
         src: SrcIP
-        group: PolicyName
         
   fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
 
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
+    # severity: Severity          
 
   subs: *id001      
 
@@ -865,19 +734,18 @@ event-details:
         Action: SSL_CONNECTED
         Status: PASSED
       translate:
-        message: Message
         dst: DstIP
         dport: DstPort
     
   fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
 
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
+    # severity: Severity          
 
   subs: *id001 
 
@@ -892,28 +760,26 @@ event-details:
         Action: SSL_SESSION_DISCONNECTED
         Status: PASSED
       translate:
-        message: Message
         dst: DstIP
         dport: DstPort
-    '725006'        
+    '725006':        
       annotate:
         Stream: CONNECTIVITY
         Action: SSL_CONNECTED
         Status: FAILED
       translate:
-        message: Message
         dst: DstIP
         dport: DstPort 
         
   fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
 
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
+    # severity: Severity          
 
   subs: *id001 
 
@@ -928,7 +794,6 @@ event-details:
         Action: INT_ERR
         Status: FAILED
       translate:
-        message: Message
         protocol: Proto
         src: SrcIP
         sport: SrcPort
@@ -936,40 +801,26 @@ event-details:
         dport: DstPort
     
   fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
 
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
+    # severity: Severity          
 
   subs: *id001              
-
-- first-match: '\%ASA\-4\-411003\:'
-  decoder: regex
-  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2}).*?\%ASA\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+.*?Interface\s+(?P<interface>\S+)\,(?P<message>.*)'
-  event-key-format: '{eventid}'
-  event-key-mapping:
-    '411003':
-      annotate:
-        Stream: CONNECTIVITY
-        Action: INT_UP
-        Status: PASSED
-      translate:
-        message: Message
-        interface: Iface
     
   fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
 
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
+    # severity: Severity          
 
   subs: *id001 
 
@@ -984,24 +835,22 @@ event-details:
         Action: PACKET_BLOCKED
         Status: FAILED
       translate:
-        message: Message
         flow: Flow
         protocol: Proto
         src: SrcIP
         sport: SrcPort
         dst: DstIP
         dport: DstPort
-        flag: Flag
     
   fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
 
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
+    # severity: Severity          
 
   subs: *id001  
 
@@ -1016,7 +865,6 @@ event-details:
         Action: PACKET_BLOCKED
         Status: FAILED
       translate:
-        message: Message
         flow: Flow
         protocol: Proto
         src: SrcIP
@@ -1025,14 +873,14 @@ event-details:
         dport: DstPort
     
   fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
 
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
+    # severity: Severity          
 
   subs: *id001 
 
@@ -1047,23 +895,21 @@ event-details:
         Action: PACKET_BLOCKED
         Status: FAILED
       translate:
-        message: Message
         protocol: Proto
         src: SrcIP
         sport: SrcPort
         dst: DstIP
         dport: DstPort
-        flag: Flag
     
   fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
 
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
+    # severity: Severity          
 
   subs: *id001                      
 
@@ -1078,7 +924,6 @@ event-details:
         Action: PACKET_BLOCKED
         Status: FAILED
       translate:
-        message: Message
         protocol: Proto
         src: SrcIP
         sport: SrcPort
@@ -1091,7 +936,6 @@ event-details:
         Action: PACKET_BLOCKED
         Status: FAILED
       translate:
-        message: Message
         protocol: Proto
         src: SrcIP
         sport: SrcPort
@@ -1100,14 +944,14 @@ event-details:
         flow: Flow    
     
   fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
 
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
+    # severity: Severity          
 
   subs: *id001  
 
@@ -1122,21 +966,20 @@ event-details:
         Action: PACKET_BLOCKED
         Status: FAILED
       translate:
-        message: Message
         protocol: Proto
         src: SrcIP
         dst: DstIP
         flow: Flow
     
   fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
 
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
+    # severity: Severity          
 
   subs: *id001 
 
@@ -1151,7 +994,6 @@ event-details:
         Action: PACKET_ALLOWED
         Status: PASSED
       translate:
-        message: Message
         protocol: Proto
         src: SrcIP
         sport: SrcPort
@@ -1160,14 +1002,14 @@ event-details:
         flow: Flow
     
   fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
 
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
+    # severity: Severity          
 
   subs: *id001   
 
@@ -1182,7 +1024,6 @@ event-details:
         Action: PACKET_ALLOWED
         Status: PASSED
       translate:
-        message: Message
         protocol: Proto
         src: SrcIP
         sport: SrcPort
@@ -1191,14 +1032,14 @@ event-details:
         flow: Flow
     
   fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
 
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
+    # severity: Severity          
 
   subs: *id001
 
@@ -1213,7 +1054,6 @@ event-details:
         Action: PACKET_ALLOWED
         Status: PASSED
       translate:
-        message: Message
         protocol: Proto
         src: SrcIP
         sport: SrcPort
@@ -1221,14 +1061,14 @@ event-details:
         dport: DstPort
     
   fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
 
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
+    # severity: Severity          
 
   subs: *id001  
 
@@ -1243,38 +1083,34 @@ event-details:
         Action: PACKET_TEARDOWN
         Status: PASSED
       translate:
-        message: Message
         protocol: Proto
         src: SrcIP
         sport: SrcPort
         dst: DstIP
         dport: DstPort
         bytes: TXLen
-        duration: TXTime
     '302014':    
       annotate:
         Stream: NETWORK-FIREWALL
         Action: PACKET_TEARDOWN
         Status: PASSED
       translate:
-        message: Message
         protocol: Proto
         src: SrcIP
         sport: SrcPort
         dst: DstIP
         dport: DstPort
-        bytes: TXLen
-        duration: TXTime 
+        bytes: TXLen 
     
   fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
 
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
+    # severity: Severity          
 
   subs: *id001     
 
@@ -1289,7 +1125,6 @@ event-details:
         Action: PACKET_ALLOWED
         Status: PASSED
       translate:
-        message: Message
         protocol: Proto
         src: SrcIP
         sport: SrcPort
@@ -1298,14 +1133,14 @@ event-details:
         flow: Flow
     
   fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
 
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
+    # severity: Severity          
 
   subs: *id001 
 
@@ -1320,7 +1155,6 @@ event-details:
         Action: PACKET_ALLOWED
         Status: PASSED
       translate:
-        message: Message
         protocol: Proto
         src: SrcIP
         sport: SrcPort
@@ -1329,14 +1163,14 @@ event-details:
         flow: Flow
     
   fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
 
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
+    # severity: Severity          
 
   subs: *id001 
 
@@ -1351,7 +1185,6 @@ event-details:
         Action: PACKET_ALLOWED
         Status: PASSED
       translate:
-        message: Message
         protocol: Proto
         src: SrcIP
         sport: SrcPort
@@ -1359,14 +1192,14 @@ event-details:
         dport: DstPort
     
   fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
 
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
+    # severity: Severity          
 
   subs: *id001   
 
@@ -1381,23 +1214,21 @@ event-details:
         Action: PACKET_BLOCKED
         Status: FAILED
       translate:
-        message: Message
         protocol: Proto
         src: SrcIP
         sport: SrcPort
         dst: DstIP
         dport: DstPort
-        reason: Reason
     
   fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
 
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
+    # severity: Severity          
 
   subs: *id001  
 
@@ -1412,7 +1243,6 @@ event-details:
         Action: PACKET_BLOCKED
         Status: FAILED
       translate:
-        message: Message
         protocol: Proto
         src: SrcIP
         sport: SrcPort
@@ -1420,14 +1250,14 @@ event-details:
         dport: DstPort
       
   fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
 
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
+    # severity: Severity          
 
   subs: *id001 
 
@@ -1442,7 +1272,6 @@ event-details:
         Action: PACKET_TEARDOWN
         Status: PASSED
       translate:
-        message: Message
         protocol: Proto
         src: SrcIP
         sport: SrcPort
@@ -1450,16 +1279,18 @@ event-details:
         dport: DstPort
     
   fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
 
   globals:  
-    translate:
+    translate: 
       datetime: SystemTstamp
-      severity: Severity          
+    # severity: Severity          
 
-  subs: *id001- first-match: '\%ASA.*?-6\-302013\:.*?Built\s+outbound\s+\w+\s+connection'
+  subs: *id001
+
+- first-match: '\%ASA.*?-6\-302013\:.*?Built\s+outbound\s+\w+\s+connection'
   decoder: regex
   decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2}).*?\%ASA\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+(?P<message>.*?Built\s+(?P<flow>.*?)\s+(?P<protocol>.*?)\s+).*?connection\s+(?P<connection_id>\w+)\s+for\s+.*?\:(?P<dst>[\w\d\:\.\-]+)\/(?P<dport>\d+)\s+\((?P<dsttranip>[\w\d\:\.\-]+)\/(?P<dsttranport>\d+)\).*?to.*?\:(?P<src>[\w\d\:\.\-]+)\/(?P<sport>\d+)\s+\((?P<srctranip>[\w\d\:\.\-]+)\/(?P<srctranport>\d+)\)'
   event-key-format: '{eventid}'
@@ -1470,7 +1301,6 @@ event-details:
         Action: PACKET_ALLOWED
         Status: PASSED
       translate:
-        message: Message
         protocol: Proto
         src: SrcIP
         sport: SrcPort
@@ -1479,14 +1309,14 @@ event-details:
         flow: Flow
     
   fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
 
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
+    # severity: Severity          
 
   subs: *id001
 
@@ -1501,23 +1331,21 @@ event-details:
         Action: PACKET_TEARDOWN
         Status: PASSED
       translate:
-        message: Message
         protocol: Proto
         src: SrcIP
         sport: SrcPort
         dst: DstIP
         dport: DstPort
-        duration: TXTime
     
   fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
 
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
+    # severity: Severity          
 
   subs: *id001       
 
@@ -1532,7 +1360,6 @@ event-details:
         Action: PACKET_BLOCKED
         Status: FAILED
       translate:
-        message: Message
         protocol: Proto
         src: SrcIP
         sport: SrcPort
@@ -1544,7 +1371,6 @@ event-details:
         Action: PACKET_BLOCKED
         Status: FAILED
       translate:
-        message: Message
         protocol: Proto
         src: SrcIP
         sport: SrcPort
@@ -1552,14 +1378,14 @@ event-details:
         dport: DstPort   
 
   fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
 
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
+    # severity: Severity          
 
   subs: *id001
 
@@ -1574,7 +1400,6 @@ event-details:
         Action: PACKET_ALLOWED
         Status: PASSED
       translate:
-        message: Message
         protocol: Proto
         src: SrcIP
         sport: SrcPort
@@ -1583,14 +1408,14 @@ event-details:
         flow: Flow
     
   fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
 
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
+    # severity: Severity          
 
   subs: *id001 
 
@@ -1605,7 +1430,6 @@ event-details:
         Action: PACKET_ALLOWED
         Status: PASSED
       translate:
-        message: Message
         protocol: Proto
         src: SrcIP
         sport: SrcPort
@@ -1614,14 +1438,14 @@ event-details:
         flow: Flow
     
   fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
 
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
+    # severity: Severity          
 
   subs: *id001             
 
@@ -1636,24 +1460,22 @@ event-details:
         Action: PACKET_ALLOWED
         Status: PASSED
       translate:
-        message: Message
         protocol: Proto
         src: SrcIP
         sport: SrcPort
         dst: DstIP
         dport: DstPort
         user: User
-        filename: FileName
     
   fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
 
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
+    # severity: Severity          
 
   subs: *id001 
 
@@ -1668,19 +1490,18 @@ event-details:
         Action: ATTACK_DETECTED
         Status: PASSED
       translate:
-        message: Message
         src: SrcIP
         dst: DstIP
     
   fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
 
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
+    # severity: Severity          
 
   subs: *id001       
 
@@ -1695,30 +1516,26 @@ event-details:
         Action: VPN_CONNECTED
         Status: PASSED
       translate:
-        message: Message
         src: SrcIP
         user: User
-        group: PolicyName
     '716002':
       annotate:
         Stream: NETWORK-FIREWALL
         Action: VPN_DISCONNECTED
         Status: PASSED
       translate:
-        message: Message
         src: SrcIP
-        user: User
-        group: PolicyName    
+        user: User    
     
   fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
 
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
+    # severity: Severity          
 
   subs: *id001 
 
@@ -1733,21 +1550,18 @@ event-details:
         Action: VPN_CONNECTED
         Status: PASSED
       translate:
-        message: Message
         src: SrcIP
-        tunnel_ip: TunnelIP
         user: User
-        group: PolicyName
     
   fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
 
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
+    # severity: Severity          
 
   subs: *id001 
 
@@ -1762,20 +1576,18 @@ event-details:
         Action: VPN_CONNECTED
         Status: PASSED
       translate:
-        message: Message
         src: SrcIP
         user: User
-        group: PolicyName
     
   fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
 
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
+    # severity: Severity          
 
   subs: *id001        
 
@@ -1790,18 +1602,17 @@ event-details:
         Action: IP_LEASE_RELEASED
         Status: PASSED
       translate:
-        message: Message
         src: SrcIP
     
   fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
 
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
+    # severity: Severity          
 
   subs: *id001
 
@@ -1816,20 +1627,19 @@ event-details:
         Action: VPN_CONNECTED
         Status: PASSED
       translate:
-        message: Message
         src: SrcIP
         dst: DstIP
         flow: Flow
     
   fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
 
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
+    # severity: Severity          
 
   subs: *id001
 
@@ -1844,19 +1654,17 @@ event-details:
         Action: VPN_CONNECTED
         Status: PASSED
       translate:
-        message: Message
         src: SrcIP
-        reason: Reason
     
   fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
 
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
+    # severity: Severity          
 
   subs: *id001 
 
@@ -1871,20 +1679,19 @@ event-details:
         Action: VPN_DISCONNECTED
         Status: PASSED
       translate:
-        message: Message
         src: SrcIP
         dst: DstIP
         flow: Flow
     
   fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
 
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
+    # severity: Severity          
 
   subs: *id001 
 
@@ -1899,20 +1706,19 @@ event-details:
         Action: PACKET_BLOCKED
         Status: FAILED
       translate:
-        message: Message
         src: SrcIP
         dst: DstIP
         protocol: Proto
     
   fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
 
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
+    # severity: Severity          
 
   subs: *id001   
 
@@ -1927,19 +1733,18 @@ event-details:
         Action: PACKET_BLOCKED
         Status: FAILED
       translate:
-        message: Message
         src: SrcIP
         protocol: Proto
     
   fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
 
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
+    # severity: Severity          
 
   subs: *id001 
 
@@ -1954,20 +1759,19 @@ event-details:
         Action: PACKET_BLOCKED
         Status: FAILED
       translate:
-        message: Message
         src: SrcIP
         dst: DstIP
         protocol: Proto
     
   fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
 
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
+    # severity: Severity          
 
   subs: *id001                           
 
@@ -1982,21 +1786,18 @@ event-details:
         Action: VPN_CONNECTED
         Status: PASSED
       translate:
-        message: Message
         src: SrcIP
-        tunnel_ip: TunnelIP
         user: User
-        group: PolicyName
     
   fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
 
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
+    # severity: Severity          
 
   subs: *id001                             
 
@@ -2011,20 +1812,18 @@ event-details:
         Action: VPN_DISCONNECTED
         Status: FAILED
       translate:
-        message: Message
         src: SrcIP
         user: User
-        reason: Reason
     
   fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
 
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
+    # severity: Severity          
 
   subs: *id001   
 
@@ -2039,20 +1838,19 @@ event-details:
         Action: PACKET_BLOCKED
         Status: FAILED
       translate:
-        message: Message
         src: SrcIP
         dst: DstIP
         protocol: Proto
     
   fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
 
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
+    # severity: Severity          
 
   subs: *id001     
 
@@ -2067,12 +1865,10 @@ event-details:
         Action: PACKET_BLOCKED
         Status: FAILED
       translate:
-        message: Message
         src: SrcIP
         sport: SrcPort
         dst: DstIP
         dport: DstPort
-        group: PolicyName
         protocol: Proto
     '106100-permitted':
       annotate:
@@ -2080,23 +1876,21 @@ event-details:
         Action: PACKET_ALLOWED
         Status: FAILED
       translate:
-        message: Message
         src: SrcIP
         sport: SrcPort
         dst: DstIP
         dport: DstPort
-        group: PolicyName
         protocol: Proto    
     
   fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
 
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
+    # severity: Severity          
 
   subs: *id001   
 
@@ -2111,7 +1905,6 @@ event-details:
         Action: PACKET_BLOCKED
         Status: FAILED
       translate:
-        message: Message
         src: SrcIP
         sport: SrcPort
         dst: DstIP
@@ -2119,14 +1912,14 @@ event-details:
         protocol: Proto
     
   fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
 
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
+    # severity: Severity          
 
   subs: *id001
 
@@ -2141,24 +1934,20 @@ event-details:
         Action: VPN_DISCONNECTED
         Status: FAILED
       translate:
-        message: Message
         src: SrcIP
-        duration: SessionDuration
         xmt: TXLen
         rcv: RXLen
-        reason: Reason
-        group: PolicyName
         user: User
     
   fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
 
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
+    # severity: Severity          
 
   subs: *id001
 
@@ -2173,52 +1962,19 @@ event-details:
         Action: PACKET_BLOCKED
         Status: FAILED
       translate:
-        message: Message
         src: SrcIP
     
   fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
 
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
+    # severity: Severity          
 
   subs: *id001 
-
-- first-match: '\%ASA\-4\-106103\:'
-  decoder: regex
-  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2}).*?\%ASA\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+(?P<message>access-list\s(?P<group>.*?)\sdenied\s+(?P<protocol>\S+)\s+.*?user\s+\'(?P<user>\S+)\')\s+.*?\/(?P<src>\S+)\((?P<sport>\S+)\).*?\/(?P<dst>\S+)\((?P<dport>\S+)\)'
-  event-key-format: '{eventid}'
-  event-key-mapping:
-    '106103':
-      annotate:
-        Stream: NETWORK-FIREWALL
-        Action: PACKET_BLOCKED
-        Status: FAILED
-      translate:
-        message: Message
-        src: SrcIP
-        sport: SrcPort
-        dst: DstIP
-        dport: DstPort
-        protocol: Proto
-        user: User
-        group: PolicyName
-    
-  fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
-
-  globals:  
-    translate:
-      datetime: SystemTstamp
-      severity: Severity          
-
-  subs: *id001
 
 - first-match: '\%ASA.*?-4\-410001\:'
   decoder: regex
@@ -2231,7 +1987,6 @@ event-details:
         Action: PACKET_BLOCKED
         Status: FAILED
       translate:
-        message: Message
         src: SrcIP
         sport: SrcPort
         dst: DstIP
@@ -2239,16 +1994,16 @@ event-details:
         protocol: Proto
     
   fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
 
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
+    # severity: Severity          
 
-  subs: *id001                 
+  subs: *id001
 
 - first-match: '\%ASA.*?-5\-305013\:'
   decoder: regex
@@ -2261,23 +2016,21 @@ event-details:
         Action: PACKET_BLOCKED
         Status: FAILED
       translate:
-        message: Message
         src: SrcIP
         sport: SrcPort
         dst: DstIP
         dport: DstPort
         protocol: Proto
-        reason: Reason
     
   fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
 
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
+    # severity: Severity          
 
   subs: *id001
 
@@ -2292,21 +2045,20 @@ event-details:
         Action: PACKET_ALLOWED
         Status: PASSED
       translate:
-        message: Message
         src: SrcIP
         dst: DstIP
         dport: DstPort
         protocol: Proto
 
   fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
 
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
+    # severity: Severity          
 
   subs: *id001    
 
@@ -2321,18 +2073,17 @@ event-details:
         Action: VPN_CONNECTED
         Status: FAILED
       translate:
-        message: Message
         src: SrcIP
 
   fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
 
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
+    # severity: Severity          
 
   subs: *id001      
 
@@ -2347,20 +2098,19 @@ event-details:
         Action: PACKET_BLOCKED
         Status: FAILED
       translate:
-        message: Message
         src: SrcIP
         dst: DstIP
         protocol: Proto
 
   fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
 
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
+    # severity: Severity          
 
   subs: *id001 
 
@@ -2375,20 +2125,19 @@ event-details:
         Action: PACKET_BLOCKED
         Status: FAILED
       translate:
-        message: Message
         src: SrcIP
         dst: DstIP
         protocol: Proto
 
   fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
 
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
+    # severity: Severity          
 
   subs: *id001  
 
@@ -2403,35 +2152,311 @@ event-details:
         Action: VPN_CONNECTED
         Status: PASSED
       translate:
-        message: Message
         src: SrcIP
         sport: SrcPort
         dst: DstIP
         dport: DstPort
-        reason: Reason
         user: User
     '750007':
       annotate:
         Stream: NETWORK-FIREWALL
-        Action: VPN_CONNECTED
+        Action: VPN_DISCONNECTED
         Status: PASSED
       translate:
-        message: Message
         src: SrcIP
         sport: SrcPort
         dst: DstIP
         dport: DstPort
-        reason: Reason
         user: User    
 
   fallback:
-      annotate:
-        EventName: Generic Cisco-ASA Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
 
   globals:  
     translate:
       datetime: SystemTstamp
-      severity: Severity          
+    # severity: Severity          
 
   subs: *id001
+
+- first-match: '\%ASA.*?-7\-715068\:'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2}).*?\%ASA\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+.*?IP\s\=\s(?P<src>[abcdef\d\w\:\.\-]+)\,.*?\s+(?P<message>.*)'
+  event-key-format: '{eventid}'
+  event-key-mapping:
+    '715068':
+      annotate:
+        Stream: NETWORK-FIREWALL
+        Action: VPN_RESET
+        Status: FAILED
+      translate:
+        src: SrcIP
+
+  fallback:
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
+
+  globals:  
+    translate:
+      datetime: SystemTstamp
+    # severity: Severity          
+
+  subs: *id001   
+
+- first-match: '\%ASA.*?-2\-106020\:'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2}).*?\%ASA\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+(?P<message>Deny.*?from\s(?P<src>[\d\.]+)\s+to\s+(?P<dst>[\d\.]+))'
+  event-key-format: '{eventid}'
+  event-key-mapping:
+    '106020':
+      annotate:
+        Stream: NETWORK-FIREWALL
+        Action: PACKET_BLOCKED
+        Status: FAILED
+      translate:
+        src: SrcIP
+        dst: DstIP
+
+  fallback:
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
+
+  globals:  
+    translate:
+      datetime: SystemTstamp
+    # severity: Severity          
+
+  subs: *id001 
+
+- first-match: '\%ASA\-6\-113019\:'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2}).*?\%ASA\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+.*?Group\s+\=\s+(?P<group>\S+)\,\sUsername\s+\=\s+(?P<user>\S+)\,\s+IP\s+\=\s+(?P<src>\S+)\,.*?Duration\:\s+(?P<duration>.*?)\,\s+.*?xmt\:\s+(?P<xmt>\d+).*?rcv\:\s+(?P<rcv>\d+)\,\s+Reason\:(?P<reason>.*)'
+  event-key-format: '{eventid}'
+  event-key-mapping:
+    '113019':
+      annotate:
+        Stream: NETWORK-FIREWALL
+        Action: VPN_DISCON
+        Status: FAILED
+      translate:
+        src: SrcIP
+        user: User
+        xmt: TXLen
+        rcv: RXLen
+
+  fallback:
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
+
+  globals:  
+    translate:
+      datetime: SystemTstamp
+    # severity: Severity          
+
+  subs: *id001  
+
+- first-match: '\%ASA.*?-4\-106023\:'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2}).*?\%ASA\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+(?P<message>Deny\s+.*?)\s+src.*?\:(?P<src>[\d\.]+)\s+dst\s+.*?\:(?P<dst>[abcdef\w\d\:\.\-]+).*?access-group\s+\"(?P<group>.*?)\"'
+  event-key-format: '{eventid}'
+  event-key-mapping:
+    '106023':
+      annotate:
+        Stream: NETWORK-FIREWALL
+        Action: PACKET_BLOCKED
+        Status: FAILED
+      translate:
+        src: SrcIP
+        user: User
+
+  fallback:
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
+
+  globals:  
+    translate:
+      datetime: SystemTstamp
+    # severity: Severity          
+
+  subs: *id001  
+
+- first-match: '\%ASA.*?-\d+\-(?:106102|106100)\:'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2}).*?\%ASA\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+(?P<message>access-list\s(?P<group>.*?)\s+(?P<action>(?:permitted|denied))\s+)(?P<protocol>\w+)\s+.*?\/(?P<src>.*?)\((?P<sport>.*?)\).*?\/(?P<dst>.*?)\((?P<dport>.*?)\)'
+  event-key-format: '{eventid}-{action}'
+  event-key-mapping:
+    '106102-permitted':
+      annotate:
+        Stream: NETWORK-FIREWALL
+        Action: PACKET_ALLOWED
+        Status: PASSED
+      translate:
+        src: SrcIP
+        sport: SrcPort
+        dst: DstIP
+        dport: DstPort
+        protocol: Proto
+    '106102-denied':
+      annotate:
+        Stream: NETWORK-FIREWALL
+        Action: PACKET_BLOCKED
+        Status: FAILED
+      translate:
+        src: SrcIP
+        sport: SrcPort
+        dst: DstIP
+        dport: DstPort
+        protocol: Proto 
+    '106100-permitted':
+      annotate:
+        Stream: NETWORK-FIREWALL
+        Action: PACKET_ALLOWED
+        Status: PASSED
+      translate:
+        src: SrcIP
+        sport: SrcPort
+        dst: DstIP
+        dport: DstPort
+        protocol: Proto       
+
+  fallback:
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
+
+  globals:  
+    translate:
+      datetime: SystemTstamp
+    # severity: Severity          
+
+  subs: *id001   
+
+- first-match: '\%ASA.*?-4\-313009\:'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2}).*?\%ASA\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+(?P<message>.*?)\,.*?\:(?P<src>[abcdef\w\d\:\.\-]+)\/(?P<sport>\w+).*?to\s+.*?\:(?P<dst>[abcdef\w\d\:\.\-]+)\/(?P<dport>\w+)\s+'
+  event-key-format: '{eventid}'
+  event-key-mapping:
+    '313009':
+      annotate:
+        Stream: NETWORK-FIREWALL
+        Action: PACKET_BLOCKED
+        Status: FAILED
+      translate:
+        src: SrcIP
+        sport: SrcPort
+        dst: DstIP
+        dport: DstPort
+
+  fallback:
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
+
+  globals:  
+    translate:
+      datetime: SystemTstamp
+    # severity: Severity          
+
+  subs: *id001
+
+- first-match: '\%ASA.*?-4\-402117\:'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2}).*?\%ASA\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+(?P<message>.*?)\s+from\s+(?P<src>[abcdef\w\d\:\.\-]+)\s+to\s+(?P<dst>[abcdef\w\d\:\.\-]+)'
+  event-key-format: '{eventid}'
+  event-key-mapping:
+    '402117':
+      annotate:
+        Stream: NETWORK-FIREWALL
+        Action: PACKET_ALLOWED
+        Status: PASSED
+      translate:
+        src: SrcIP
+        dst: DstIP
+    
+  fallback:
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
+
+  globals:  
+    translate:
+      datetime: SystemTstamp
+    # severity: Severity          
+
+  subs: *id001 
+
+- first-match: '\%ASA.*?-6\-(?:805001|805002)\:'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2}).*?\%ASA\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+(?P<message>.*?(?P<protocol>\w+)\s+Flow\s+.*?)\s+from.*?\:(?P<src>[abcdef\d\:\.\-]+)\/(?P<sport>\d+)\s+.*?to\s+.*?\:(?P<dst>[abcdef\d\:\.\-]+)\/(?P<dport>\d+)'
+  event-key-format: '{eventid}'
+  event-key-mapping:
+    '805001':
+      annotate:
+        Stream: NETWORK-FIREWALL
+        Action: PACKET_BLOCKED
+        Status: FAILED
+      translate:
+        src: SrcIP
+        sport: SrcPort
+        dst: DstIP
+        dport: DstPort
+        protocol: Proto
+    '805002':
+      annotate:
+        Stream: NETWORK-FIREWALL
+        Action: PACKET_BLOCKED
+        Status: FAILED
+      translate:
+        src: SrcIP
+        sport: SrcPort
+        dst: DstIP
+        dport: DstPort
+        protocol: Proto     
+    
+  fallback:
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
+
+  globals:  
+    translate:
+      datetime: SystemTstamp
+    # severity: Severity          
+
+  subs: *id001  
+
+- first-match: '\%ASA\-4\-106103\:'
+  decoder: regex
+  decoder-regex: (?P<datetime>\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2}).*?\%ASA\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+(?P<message>access-list\s(?P<group>.*?)\sdenied\s+(?P<protocol>\S+)\s+.*?user\s+\'(?P<user>\S+)\')\s+.*?\/(?P<src>\S+)\((?P<sport>\S+)\).*?\/(?P<dst>\S+)\((?P<dport>\S+)\)
+  event-key-format: '{eventid}'
+  event-key-mapping:
+    '106103':
+      annotate:
+        Stream: NETWORK-FIREWALL
+        Action: PACKET_BLOCKED
+        Status: FAILED
+      translate:
+        src: SrcIP
+        sport: SrcPort
+        dst: DstIP
+        dport: DstPort
+        protocol: Proto
+        user: User
+    
+  fallback:
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
+
+  globals:  
+    translate:
+      datetime: SystemTstamp
+    # severity: Severity          
+
+  subs: *id001                  
