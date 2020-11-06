@@ -1,0 +1,165 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 79
+source-name: WIN-DHCP
+source-type: DHCP
+source-description: Extractor for Windows DHCP
+provides-streams:
+- DHCP
+master-filters:
+- '\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+\d+\,\d{2}\/\d{2}\/\d{2}\,\d{2}\:\d{2}\:\d{2}\,.*?\,'
+event-details:
+- first-match: '\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+\d+\,\d{2}\/\d{2}\/\d{2}\,\d{2}\:\d{2}\:\d{2}\,.*?\,'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s(?P<hostname>\S+)\s+(?P<eventid>\d+)\,.*?\,.*?\,(?P<message>.*?)(?:\,(?P<src>[\d\.]+))?\,(?P<shost>.*?)\,(?P<mac_address>.*?)\,(?P<user>.*?)\,.*?\,(?P<resultcode>\d+)\,'
+  event-key-format: '{eventid}'
+  event-key-mapping:
+    '11':
+      annotate:
+        Stream: DHCP
+        Action: IP_LEASE_RENEW
+        Status: PASSED
+      translate:
+        user: User
+        src: SrcIP
+        mac_address: MACAddress
+        resultcode: ResultCode
+    '18':
+      annotate:
+        Stream: DHCP
+        Action: IP_LEASE_EXPIRED
+        Status: PASSED
+      translate:
+        user: User
+        src: SrcIP
+        mac_address: MACAddress
+        resultcode: ResultCode 
+    '30':
+      annotate:
+        Stream: DHCP
+        Action: DNS_UPDATED_REQUEST
+        Status: PASSED
+      translate:
+        user: User
+        src: SrcIP
+        mac_address: MACAddress
+        resultcode: ResultCode
+    '17':
+      annotate:
+        Stream: DHCP
+        Action: IP_LEASE_EXPIRED
+        Status: FAILED
+      translate:
+        user: User
+        src: SrcIP
+        mac_address: MACAddress
+        resultcode: ResultCode
+    '32': 
+      annotate:
+        Stream: DHCP
+        Action: DNS_UPDATED
+        Status: PASSED
+      translate:
+        user: User
+        src: SrcIP
+        mac_address: MACAddress
+        resultcode: ResultCode    
+    '31': 
+      annotate:
+        Stream: DHCP
+        Action: DNS_UPDATED
+        Status: FAILED
+      translate:
+        user: User
+        src: SrcIP
+        mac_address: MACAddress
+        resultcode: ResultCode  
+    '16':         
+      annotate:
+        Stream: DHCP
+        Action: IP_LEASE_DELETED
+        Status: PASSED
+      translate:
+        user: User
+        src: SrcIP
+        mac_address: MACAddress
+        resultcode: ResultCode 
+    '10':         
+      annotate:
+        Stream: DHCP
+        Action: IP_LEASED
+        Status: PASSED
+      translate:
+        user: User
+        src: SrcIP
+        mac_address: MACAddress
+        resultcode: ResultCode  
+    '13':         
+      annotate:
+        Stream: DHCP
+        Action: IP_INUSE
+        Status: FAILED
+      translate:
+        user: User
+        src: SrcIP
+        mac_address: MACAddress
+        resultcode: ResultCode   
+    '15':         
+      annotate:
+        Stream: DHCP
+        Action: IP_LEASE_DENIED
+        Status: PASSED
+      translate:
+        user: User
+        src: SrcIP
+        mac_address: MACAddress
+        resultcode: ResultCode  
+    '12':         
+      annotate:
+        Stream: DHCP
+        Action: IP_LEASE_RELEASED
+        Status: PASSED
+      translate:
+        user: User
+        src: SrcIP
+        mac_address: MACAddress
+        resultcode: ResultCode 
+    '24':         
+      annotate:
+        Stream: DHCP
+        Action: CLEANUP_START
+        Status: PASSED
+      translate:
+        user: User
+        mac_address: MACAddress
+        resultcode: ResultCode
+    '25':         
+      annotate:
+        Stream: DHCP
+        Action: CLEANUP
+        Status: PASSED
+      translate:
+        user: User
+        mac_address: MACAddress
+        resultcode: ResultCode                                  
+
+  fallback:
+      annotate:
+        EventName: Generic Windows DHCP Event
+        Stream: OTHER
+      translate:
+        datetime: SystemTstamp  
+
+  globals:
+    translate:
+      hostname: System
+      datetime: SystemTstamp
+    # message: Message
+
+  subs:
+    ResultCode:
+      '0': "NO-QUARANTINE"
+      '1': "QUARANTINE"
+      '2': "DROP-PACKET" 
+      '3': "PROBATION"
+      '6': "NO-QUARANTINE-INFORMATION"
