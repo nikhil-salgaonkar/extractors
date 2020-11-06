@@ -22,95 +22,65 @@ event-details:
         Action: PACKET_ALLOWED
         Status: PASSED
       translate:
-        user: User
         src: SrcIP
         dst: DstIP
-        suser: SrcUser
-        duser: DstUser
-        iface_in: IfaceIn
-        iface_out: IfaceOut
         sport: SrcPort
         dport: DstPort
         proto: Proto  
         sent_bytes: TXLen
         receive_bytes: RXLen
-        reason: Reason 
     'deny':
       annotate:
         Stream: NETWORK-FIREWALL
         Action: PACKET_BLOCKED
         Status: FAILED
       translate:
-        user: User
         src: SrcIP
         dst: DstIP
-        suser: SrcUser
-        duser: DstUser
-        iface_in: IfaceIn
-        iface_out: IfaceOut
         sport: SrcPort
         dport: DstPort
         proto: Proto  
         sent_bytes: TXLen
         receive_bytes: RXLen
-        reason: Reason
     'drop':
       annotate:
         Stream: NETWORK-FIREWALL
         Action: PACKET_BLOCKED
         Status: FAILED
       translate:
-        user: User
         src: SrcIP
         dst: DstIP
-        suser: SrcUser
-        duser: DstUser
-        iface_in: IfaceIn
-        iface_out: IfaceOut
         sport: SrcPort
         dport: DstPort
         proto: Proto  
         sent_bytes: TXLen
-        receive_bytes: RXLen
-        reason: Reason 
+        receive_bytes: RXLen 
     'reset-both':   
       annotate:
         Stream: NETWORK-FIREWALL
         Action: PACKET_ALLOWED
         Status: PASSED
       translate:
-        user: User
         src: SrcIP
         dst: DstIP
-        suser: SrcUser
-        duser: DstUser
-        iface_in: IfaceIn
-        iface_out: IfaceOut
         sport: SrcPort
         dport: DstPort
         proto: Proto  
         sent_bytes: TXLen
-        receive_bytes: RXLen
-        reason: Reason 
+        receive_bytes: RXLen 
     'drop-icmp':  
       annotate:
         Stream: NETWORK-FIREWALL
         Action: PACKET_BLOCKED
         Status: FAILED
       translate:
-        user: User
         src: SrcIP
         dst: DstIP
-        suser: SrcUser
-        duser: DstUser
-        iface_in: IfaceIn
-        iface_out: IfaceOut
         sport: SrcPort
         dport: DstPort
         proto: Proto  
         sent_bytes: TXLen
-        receive_bytes: RXLen
-        reason: Reason                                    
+        receive_bytes: RXLen                                    
 
   fallback:
       annotate:
@@ -144,7 +114,7 @@ event-details:
         sport: SrcPort
         dport: DstPort
         proto: Proto  
-        atkmsg: atkmsg
+        atkmsg: AtkMsg
         severity: Severity
         objecttype: Object
     'alert-10015':
@@ -162,14 +132,14 @@ event-details:
         sport: SrcPort
         dport: DstPort
         proto: Proto  
-        atkmsg: atkmsg
+        atkmsg: AtkMsg
         severity: Severity
         objecttype: Object
     'alert-52004':
       annotate:
         Stream: NETWORK-THREAT
         Action: FILETYPE_DETECTED
-        Status: PASSED
+        Status: PASSED 
       translate:
         src: SrcIP
         dst: DstIP
@@ -180,7 +150,7 @@ event-details:
         sport: SrcPort
         dport: DstPort
         proto: Proto  
-        atkmsg: atkmsg
+        atkmsg: AtkMsg
         severity: Severity
         objecttype: Object
     'block-url-9999':
@@ -198,13 +168,13 @@ event-details:
         sport: SrcPort
         dport: DstPort
         proto: Proto  
-        atkmsg: atkmsg
+        atkmsg: AtkMsg
         severity: Severity
         objecttype: Object
     'reset-both-325904520':
       annotate:
         Stream: NETWORK-THREAT
-        Action: THREAT-DETECTED
+        Action: THREAT-DETECTED                                               
         Status: PASSED
       translate:
         src: SrcIP
@@ -216,7 +186,7 @@ event-details:
         sport: SrcPort
         dport: DstPort
         proto: Proto  
-        atkmsg: atkmsg
+        atkmsg: AtkMsg
         severity: Severity
         objecttype: Object
     'alert-197353851':
@@ -234,7 +204,7 @@ event-details:
         sport: SrcPort
         dport: DstPort
         proto: Proto  
-        atkmsg: atkmsg
+        atkmsg: AtkMsg
         severity: Severity
         objecttype: Object                                               
 
@@ -263,7 +233,6 @@ event-details:
       translate:
         src: SrcIP
         user: User
-        severity: Severity
     'auth-fail':
       annotate:
         Stream: AUTHENTICATION
@@ -271,9 +240,7 @@ event-details:
         Status: FAILED
       translate:
         src: SrcIP
-        user: User
-        severity: Severity
-        reason: Reason                                               
+        user: User                                             
 
   fallback:
       annotate:
@@ -300,7 +267,6 @@ event-details:
       translate:
         src: SrcIP
         user: User
-        severity: Severity
     'logged in':
       annotate:
         Stream: AUTHENTICATION
@@ -308,8 +274,7 @@ event-details:
         Status: PASSED
       translate:
         src: SrcIP
-        user: User
-        severity: Severity                                              
+        user: User                                              
 
   fallback:
       annotate:
@@ -336,7 +301,6 @@ event-details:
       translate:
         src: SrcIP
         user: User
-        severity: Severity 
     'authentication succeeded':
       annotate:
         Stream: AUTHENTICATION
@@ -344,8 +308,7 @@ event-details:
         Status: PASSED
       translate:
         src: SrcIP
-        user: User
-        severity: Severity                                                
+        user: User                                                
 
   fallback:
       annotate:
@@ -397,8 +360,7 @@ event-details:
       translate:
         user: User 
         src: SrcIP
-        sport: SrcPort 
-        severity: Severity                                             
+        sport: SrcPort                                             
 
   fallback:
       annotate:
