@@ -3,7 +3,7 @@ schema-version: 1.0
 extractor-id: 192
 source-name: MCAFEE
 source-type: ATD
-source-description: Extractor for Mcafee ATD
+source-description: Extractor for McAfee ATD
 provides-streams:
 - AUTHENTICATION
 master-filters:
@@ -87,7 +87,7 @@ event-details:
 
   fallback:
     annotate:
-      EventName: Generic Mcafee ATD Event
+      EventName: Generic McAfee ATD Event
       Stream: OTHER
     translate:
       Timestamp: SystemTstamp
