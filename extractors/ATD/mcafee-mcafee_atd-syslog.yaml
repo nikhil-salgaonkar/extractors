@@ -86,11 +86,11 @@ event-details:
         HTTPAgent: UserAgent                
 
   fallback:
-    annotate:
-      EventName: Generic McAfee ATD Event
-      Stream: OTHER
-    translate:
-      Timestamp: SystemTstamp
+      annotate:
+        EventName: Generic McAfee ATD Event
+        Stream: OTHER
+      translate:
+        Timestamp: SystemTstamp
 
   globals:
     translate:
