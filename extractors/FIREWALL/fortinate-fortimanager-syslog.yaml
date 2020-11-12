@@ -1,0 +1,68 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 242
+source-name: FORTIMANAGER
+source-type: FIREWALL
+source-description: Extractor for FortiManager Firewall
+provides-streams:
+- AUTHENTICATION
+master-filters:
+- 'device_id=FM[\w\-]+\s+log_id\=\d+'
+event-details:
+- first-match: 'log_id\=\"?\d+\"?\s+type\=\"?.*?\"?\s+subtype\='
+  decoder: custom
+  decoder-regex: '([\w]+)\=(\"[^\"]*|[^\s]*)\"?'
+  event-key-format: '{log_id}-{action}'
+  event-key-mapping:
+    '0001010018-None':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        user: User
+        adminprof: AdminUser
+       #msg: Message 
+    '0028037013-fail':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate:
+        user: User
+       #msg: Message  
+    '0001010019-None':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate:
+        user: User
+        adminprof: AdminUser
+       #msg: Message
+
+  fallback:
+      annotate:
+        EventName: Generic FortiManager Firewall Event
+        Stream: OTHER
+      translate:
+        date: SystemTstamp  
+
+  globals:
+    translate:
+      date: SystemTstamp
+      devname: System
+      pri: LogLevel
+      type: Category
+      subtype: SubCategory
+      
+  subs: 
+    LogLevel:
+      'alert': ALERT
+      'critical': CRITICAL
+      'emergency': EMERGENCY
+      'error': ERROR
+      'information': INFORMATION
+      'notification': NOTIFICATION
+      'notice': NOTICE
+      'warning': WARNING
