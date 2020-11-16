@@ -7,6 +7,7 @@ source-description: extractor for NetScaler WAF
 provides-streams:
 - WAF
 - AUTHENTICATION
+- CONNECTIVITY
 master-filters:
 - '\d+\/\d+\/\d+\:\d+\:\d+\:\d+\s+(?:GMT|IST|)\s?[\w-]+\s+\d+\-\w+\-\d+'
 event-details:  
