@@ -1,0 +1,31 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 275
+source-name: AZURE-MSSQL
+source-type: DATABASE
+source-description: Extractor for Azure MSSQL Database
+provides-streams:
+- DATABASE
+master-filters:
+- resourceId\:\s+\S+\,\s+category\:\s+SQLSecurityAuditEvents\,\s+operationName\:\s+AuditEvent\,
+event-details:
+- first-match: '\s+SQLSecurityAuditEvents\,\s+operationName\:'
+  decoder: custom
+  decoder-regex: (\w+)\:\s+([^,]+)
+  event-key-format: ''
+  event-key-mapping:
+    '':
+      annotate:
+        Stream: OTHER
+      #translate:
+
+  fallback:
+      annotate:
+        EventName: Generic Azure MSSQL Event
+        Stream: OTHER
+      translate:
+        time: SystemTstamp
+
+  globals:
+    translate:
+      time: SystemTstamp
