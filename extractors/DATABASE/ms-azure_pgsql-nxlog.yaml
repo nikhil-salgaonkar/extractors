@@ -1,0 +1,31 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 273
+source-name: AZURE-PGSQL
+source-type: DATABASE
+source-description: Extractor for Azure PGSQL Database
+provides-streams:
+- DATABASE
+master-filters:
+- resourceId\:\s+\S+\,\s+category\:\s+PostgreSQLLogs\,\s+operationName\:\s+LogEvent\,
+event-details:
+- first-match: '\s+PostgreSQLLogs\,\s+operationName\:'
+  decoder: custom
+  decoder-regex: (\w+)\:\s+([^,]+)
+  event-key-format: ''
+  event-key-mapping:
+    '':
+      annotate:
+        Stream: OTHER
+      #translate:
+
+  fallback:
+      annotate:
+        EventName: Generic Azure PGSQL Event
+        Stream: OTHER
+      translate:
+        time: SystemTstamp
+
+  globals:
+    translate:
+      time: SystemTstamp
