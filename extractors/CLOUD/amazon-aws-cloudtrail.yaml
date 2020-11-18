@@ -9,11 +9,11 @@ provides-streams:
 master-filters:
 - \"awsRegion\"
 event-details:
-- first-match: \"eventType\":\s*\"AwsApiCall\"
+- first-match: \"type\":\s*\"IAMUser\"
   decoder: json
-  event-key-format: ''
+  event-key-format: 'all'
   event-key-mapping:
-    '':
+    'all':
       annotate:
         Stream: CLOUDTRAIL
       translate:
@@ -23,6 +23,55 @@ event-details:
         eventTime: SystemTstamp
         awsRegion: AwsRegion
         userIdentity.userName: User
+        userIdentity.accessKeyId: AccessKey
+        userIdentity.type: UserGroup
+        sourceIPAddress: SrcIP
+        userAgent: UserAgent
+
+  fallback:
+    annotate:
+      EventName: Generic AWS Events
+      Stream: OTHER
+
+
+- first-match: \"type\":\s*\"AWSService\"
+  decoder: json
+  event-key-format: 'all'
+  event-key-mapping:
+    'all':
+      annotate:
+        Stream: CLOUDTRAIL
+        User: '[AWSService]'
+      translate:
+        eventType: EventType
+        eventSource: EventSource
+        eventName: EventName
+        eventTime: SystemTstamp
+        awsRegion: AwsRegion
+        userIdentity.type: UserGroup
+        sourceIPAddress: SrcIP
+        userAgent: UserAgent
+
+  fallback:
+    annotate:
+      EventName: Generic AWS Events
+      Stream: OTHER
+
+
+- first-match: \"type\":\s*\"Root\"
+  decoder: json
+  event-key-format: 'all'
+  event-key-mapping:
+    'all':
+      annotate:
+        Stream: CLOUDTRAIL
+        User: '[Root]'
+      translate:
+        eventType: EventType
+        eventSource: EventSource
+        eventName: EventName
+        eventTime: SystemTstamp
+        awsRegion: AwsRegion
         userIdentity.accessKeyId: AccessKey
         userIdentity.type: UserGroup
         sourceIPAddress: SrcIP
