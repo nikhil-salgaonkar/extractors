@@ -10,11 +10,11 @@ provides-streams:
 - SYSMON-FILE
 - SYSMON-IMAGE-LOAD
 - SYSMON-REGISTRY
-- SYSMON-WMIEVENT
+- SYSMON-WMI
 master-filters:
-- \"SourceName\"\:\"Microsoft\-Windows
+- \"beat\"\:\"winlogbeat\"
 event-details:
-- first-match: '\"channel\"\:\s*\"Microsoft-Windows-Sysmon/Operational\"'
+- first-match: \"Microsoft-Windows-Sysmon/Operational\"
   decoder: json
   event-key-format: '{winlog[event_id]}'
   event-key-mapping:
@@ -26,9 +26,7 @@ event-details:
       translate:
         winlog[event_data][User]: User
         winlog[event_data][ParentCommandLine]: ParentCommandLine
-#        winlog[event_data][OriginalFileName]: OriginalFileName
         winlog[event_data][ParentImage]: ParentImage
-#        winlog[user][name]: ParentUser
         winlog[event_data][CommandLine]: CommandLine
         winlog[event_data][Description]: Description
         winlog[event_data][Company]: Company
@@ -41,19 +39,13 @@ event-details:
         Status: PASSED
       translate:
         winlog[event_data][Image]: Image
-#        winlog[event_data][ParentCommandLine]: ParentCommandLine
-#        winlog[event_data][ParentImage]: ParentImage
-#        winlog[event_data][ParentUser]: ParentUser
         winlog[event_data][SourceIp]: SrcIP
         winlog[event_data][SourcePort]: SrcPort
         winlog[event_data][SourceHostname]: SrcHost
         winlog[event_data][DestinationIp]: DstIP
         winlog[event_data][DestinationHostname]: DstHost
-#        winlog[event_data][OriginalFileName]: OriginalFileName
         winlog[event_data][DestinationPort]: DstPort
         winlog[event_data][Description]: Description
-#        winlog[event_data][Company]: Company
-#        winlog[event_data][Product]: Product
 
     '5':
       annotate:
@@ -63,14 +55,7 @@ event-details:
       translate:
         winlog[event_data][Image]: Image
         winlog[event_data][User]: User
-#        winlog[event_data][ParentCommandLine]: ParentCommandLine
-#        winlog[event_data][OriginalFileName]: OriginalFileName
-#        winlog[event_data][ParentImage]: ParentImage
-#        winlog[event_data][ParentUser]: ParentUser
-#        winlog[event_data][CommandLine]: CommandLine
         winlog[event_data][Description]: Description
-#        winlog[event_data][Company]: Company
-#        winlog[event_data][Product]: Product
 
     '7':
       annotate:
@@ -79,11 +64,6 @@ event-details:
         Status: PASSED
       translate:
         winlog[event_data][User]: User
-#        winlog[event_data][ParentCommandLine]: ParentCommandLine
-        #winlog[event_data][OriginalFileName]: OriginalFileName
-#        winlog[event_data][ParentImage]: ParentImage
-#        winlog[user][name]: ParentUser
-#        winlog[event_data][CommandLine]: CommandLine
         winlog[event_data][Description]: Description
         winlog[event_data][Company]: Company
         winlog[event_data][Product]: Product
@@ -98,13 +78,7 @@ event-details:
         winlog[event_data][SourceImage]: SourceImage
         winlog[event_data][CallTrace]: CallTrace
         winlog[event_data][GrantedAccess]: GrantedAccess
-#        winlog[event_data][OriginalFileName]: OriginalFileName
-#        winlog[event_data][ParentUser]: ParentUser
-#        winlog[event_data][ParentImage]: ParentImage
-#        winlog[event_data][CommandLine]: CommandLine
         winlog[event_data][Description]: Description
-#        winlog[event_data][Company]: Company
-#        winlog[event_data][Product]: Product
 
     '11':
       annotate:
@@ -115,44 +89,32 @@ event-details:
         winlog[event_data][Image]: Image
         winlog[event_data][TargetFilename]: TargetFilename
         winlog[event_data][CreationUtcTime]: CreationUtcTime
-#        winlog[event_data][OriginalFileName]: OriginalFileName
-#        winlog[event_data][ParentUser]: ParentUser
-#        winlog[event_data][ParentImage]: ParentImage
-#        winlog[event_data][CommandLine]: CommandLine
         winlog[event_data][Description]: Description
 
     '12':
       annotate:
         Stream: SYSMON-REGISTRY
-        Action: OBJECT_CREATED/OBJECT_DELETED
         Status: PASSED
       translate:
+        winlog[event_data][EventType]: Action
         winlog[event_data][Image]: Image
         winlog[event_data][TargetObject]: TargetObject
-#        winlog[event_data][OriginalFileName]: OriginalFileName
-#        winlog[event_data][ParentUser]: ParentUser
-#        winlog[event_data][ParentImage]: ParentImage
-#        winlog[event_data][CommandLine]: CommandLine
         winlog[event_data][Description]: Description
 
     '13':
       annotate:
         Stream: SYSMON-REGISTRY
-        Action: OBJECT_ACCESSED
         Status: PASSED
       translate:
+        winlog[event_data][EventType]: Action
         winlog[event_data][Image]: Image
         winlog[event_data][TargetObject]: TargetObject
         winlog[event_data][Details]: Details
-#        winlog[event_data][OriginalFileName]: OriginalFileName
-#        winlog[event_data][ParentUser]: ParentUser
-#        winlog[event_data][ParentImage]: ParentImage
-#        winlog[event_data][CommandLine]: CommandLine
         winlog[event_data][Description]: Description
 
     '20':
       annotate:
-        Stream: SYSMON-WMIEVENT
+        Stream: SYSMON-WMI
         Action: CONSUMER_ACTIVITY
         Status: DETECTED
       translate:
@@ -160,26 +122,18 @@ event-details:
         winlog[event_data][Name]: Name
         winlog[event_data][Type]: Type
         winlog[event_data][Destination]: Destination
-#        winlog[event_data][OriginalFileName]: OriginalFileName
-#        winlog[event_data][ParentUser]: ParentUser
-#        winlog[event_data][ParentImage]: ParentImage
-#        winlog[event_data][CommandLine]: CommandLine
         winlog[event_data][Description]: Description
 
     '21':
       annotate:
-        Stream: SYSMON-WMIEVENT
-        Action: CONSUMERTOFILTER_ACTIVITY
+        Stream: SYSMON-WMI
+        Action: CONSUMER_TO_FILTER_ACTIVITY
         Status: DETECTED
       translate:
         winlog[event_data][User]: User
         winlog[event_data][Operation]: Operation
         winlog[event_data][Consumer]: Consumer
         winlog[event_data][Filter]: Filter
-#        winlog[event_data][OriginalFileName]: OriginalFileName
-#        winlog[event_data][ParentUser]: ParentUser
-#        winlog[event_data][ParentImage]: ParentImage
-#        winlog[event_data][CommandLine]: CommandLine
         winlog[event_data][Description]: Description
 
     fallback:
@@ -191,3 +145,17 @@ event-details:
       translate:
         winlog[computer_name]: System
         winlog[event_data][UtcTime]: SystemTstamp
+
+  subs:
+    Action:
+      'SetValue': OBJECT_MODIFIED
+      'DeleteValue': OBJECT_MODIFIED
+      'CreateKey': OBJECT_CREATED
+      'DeleteKey': OBJECT_DELETED
+      'PROCESS_ADDED': PROCESS_ADDED
+      'NETWORK_CONNECTION': NETWORK_CONNECTION
+      'PROCESS_REMOVED': PROCESS_REMOVED
+      'PROCESS_ACCESSED': PROCESS_ACCESSED
+      'FILE_CREATED': FILE_CREATED
+      'CONSUMER_ACTIVITY': CONSUMER_ACTIVITY
+      'CONSUMER_TO_FILTER_ACTIVITY': CONSUMER_TO_FILTER_ACTIVITY
