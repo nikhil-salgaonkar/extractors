@@ -1,6 +1,6 @@
 schema-version: 1.0
 #extractor-version: 1
-extractor-id: 128
+extractor-id: 710
 source-name: WINDOWS
 source-type: OS
 source-description: Extractor for Windows Winlogbeat Events
