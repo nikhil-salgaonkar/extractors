@@ -136,15 +136,15 @@ event-details:
         winlog[event_data][Filter]: Filter
         winlog[event_data][Description]: Description
 
-    fallback:
-      annotate:
-        EventName: Generic WinlogBeat Event
-        Stream: OTHER
+  fallback:
+    annotate:
+      EventName: Generic WinlogBeat Event
+      Stream: OTHER
 
-    globals:
-      translate:
-        winlog[computer_name]: System
-        winlog[event_data][UtcTime]: SystemTstamp
+  globals:
+    translate:
+      winlog[computer_name]: System
+      winlog[event_data][UtcTime]: SystemTstamp
 
   subs:
     Action:
