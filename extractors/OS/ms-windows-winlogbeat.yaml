@@ -1,0 +1,161 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 128
+source-name: WINDOWS
+source-type: OS
+source-description: Extractor for Windows Winlogbeat Events
+provides-streams:
+- SYSMON-PROCESS
+- SYSMON-NETWORK
+- SYSMON-FILE
+- SYSMON-IMAGE-LOAD
+- SYSMON-REGISTRY
+- SYSMON-WMI
+master-filters:
+- \"beat\"\:\"winlogbeat\"
+event-details:
+- first-match: \"Microsoft-Windows-Sysmon/Operational\"
+  decoder: json
+  event-key-format: '{winlog[event_id]}'
+  event-key-mapping:
+    '1':
+      annotate:
+        Stream: SYSMON-PROCESS
+        Action: PROCESS_ADDED
+        Status: PASSED
+      translate:
+        winlog[event_data][User]: User
+        winlog[event_data][ParentCommandLine]: ParentCommandLine
+        winlog[event_data][ParentImage]: ParentImage
+        winlog[event_data][CommandLine]: CommandLine
+        winlog[event_data][Description]: Description
+        winlog[event_data][Company]: Company
+        winlog[event_data][Product]: Product
+
+    '3':
+      annotate:
+        Stream: SYSMON-NETWORK
+        Action: NETWORK_CONNECTION
+        Status: PASSED
+      translate:
+        winlog[event_data][Image]: Image
+        winlog[event_data][SourceIp]: SrcIP
+        winlog[event_data][SourcePort]: SrcPort
+        winlog[event_data][SourceHostname]: SrcHost
+        winlog[event_data][DestinationIp]: DstIP
+        winlog[event_data][DestinationHostname]: DstHost
+        winlog[event_data][DestinationPort]: DstPort
+        winlog[event_data][Description]: Description
+
+    '5':
+      annotate:
+        Stream: SYSMON-PROCESS
+        Action: PROCESS_REMOVED
+        Status: PASSED
+      translate:
+        winlog[event_data][Image]: Image
+        winlog[event_data][User]: User
+        winlog[event_data][Description]: Description
+
+    '7':
+      annotate:
+        Stream: SYSMON-IMAGE-LOAD
+        Action: PROCESS_ACCESSED
+        Status: PASSED
+      translate:
+        winlog[event_data][User]: User
+        winlog[event_data][Description]: Description
+        winlog[event_data][Company]: Company
+        winlog[event_data][Product]: Product
+
+    '10':
+      annotate:
+        Stream: SYSMON-PROCESS
+        Action: PROCESS_ACCESSED
+        Status: PASSED
+      translate:
+        winlog[event_data][TargetImage]: TargetImage
+        winlog[event_data][SourceImage]: SourceImage
+        winlog[event_data][CallTrace]: CallTrace
+        winlog[event_data][GrantedAccess]: GrantedAccess
+        winlog[event_data][Description]: Description
+
+    '11':
+      annotate:
+        Stream: SYSMON-FILE
+        Action: FILE_CREATED
+        Status: PASSED
+      translate:
+        winlog[event_data][Image]: Image
+        winlog[event_data][TargetFilename]: TargetFilename
+        winlog[event_data][CreationUtcTime]: CreationUtcTime
+        winlog[event_data][Description]: Description
+
+    '12':
+      annotate:
+        Stream: SYSMON-REGISTRY
+        Status: PASSED
+      translate:
+        winlog[event_data][EventType]: Action
+        winlog[event_data][Image]: Image
+        winlog[event_data][TargetObject]: TargetObject
+        winlog[event_data][Description]: Description
+
+    '13':
+      annotate:
+        Stream: SYSMON-REGISTRY
+        Status: PASSED
+      translate:
+        winlog[event_data][EventType]: Action
+        winlog[event_data][Image]: Image
+        winlog[event_data][TargetObject]: TargetObject
+        winlog[event_data][Details]: Details
+        winlog[event_data][Description]: Description
+
+    '20':
+      annotate:
+        Stream: SYSMON-WMI
+        Action: CONSUMER_ACTIVITY
+        Status: DETECTED
+      translate:
+        winlog[event_data][User]: User
+        winlog[event_data][Name]: Name
+        winlog[event_data][Type]: Type
+        winlog[event_data][Destination]: Destination
+        winlog[event_data][Description]: Description
+
+    '21':
+      annotate:
+        Stream: SYSMON-WMI
+        Action: CONSUMER_TO_FILTER_ACTIVITY
+        Status: DETECTED
+      translate:
+        winlog[event_data][User]: User
+        winlog[event_data][Operation]: Operation
+        winlog[event_data][Consumer]: Consumer
+        winlog[event_data][Filter]: Filter
+        winlog[event_data][Description]: Description
+
+    fallback:
+      annotate:
+        EventName: Generic WinlogBeat Event
+        Stream: OTHER
+
+    globals:
+      translate:
+        winlog[computer_name]: System
+        winlog[event_data][UtcTime]: SystemTstamp
+
+  subs:
+    Action:
+      'SetValue': OBJECT_MODIFIED
+      'DeleteValue': OBJECT_MODIFIED
+      'CreateKey': OBJECT_CREATED
+      'DeleteKey': OBJECT_DELETED
+      'PROCESS_ADDED': PROCESS_ADDED
+      'NETWORK_CONNECTION': NETWORK_CONNECTION
+      'PROCESS_REMOVED': PROCESS_REMOVED
+      'PROCESS_ACCESSED': PROCESS_ACCESSED
+      'FILE_CREATED': FILE_CREATED
+      'CONSUMER_ACTIVITY': CONSUMER_ACTIVITY
+      'CONSUMER_TO_FILTER_ACTIVITY': CONSUMER_TO_FILTER_ACTIVITY
