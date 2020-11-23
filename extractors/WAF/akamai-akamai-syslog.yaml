@@ -1,0 +1,74 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 253
+source-name: AKAMAI-CEF
+source-type: WAF
+source-description: extractor for Akamai WAF
+provides-streams:
+- WAF
+master-filters:
+- 'CEF\:\d+\|Akamai\|akamai_siem\|'
+event-details:  
+- first-match: 'CEF\:\d+\|Akamai\|akamai_siem\|'
+  decoder: custom
+  decoder-regex: '([\w]+)\=([^\s]*)'
+  event-key-format: '{act}-{AkamaiSiemResponseStatus}'
+  decoder-header: CEF
+  event-key-mapping:
+    'alert-200':           
+      annotate:
+        Stream: WAF
+        Action: URL_ALLOWED
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        requestMethod: Method
+        AkamaiSiemResponseStatus: RetCode
+        dpt: DstPort
+        dhost: DstHost
+        request: URL
+        #app: App
+    'deny-403':           
+      annotate:
+        Stream: WAF
+        Action: URL_BLOCKED
+        Status: FAILED
+      translate: 
+        src: SrcIP
+        requestMethod: Method
+        AkamaiSiemResponseStatus: RetCode
+        dpt: DstPort
+        dhost: DstHost
+        request: URL
+        #app: App
+        
+  fallback:
+      annotate:
+        EventName: Generic Akamai WAF Event
+        Stream: OTHER
+      translate:
+        start: SystemTstamp  
+
+  globals:
+    translate:
+      start: SystemTstamp
+      Header-5: EventName
+      Header-6: Severity
+
+  subs:
+    Severity:
+      '0': 'LOW'
+      '1': 'LOW'
+      '2': 'LOW'
+      '3': 'MEDIUM'
+      '4': 'MEDIUM'
+      '5': 'HIGH'
+      '6': 'HIGH'
+      '7': 'HIGH'
+      '8': 'CRITICAL'
+      '9': 'CRITICAL'
+      '10': 'CRITICAL'
+      'LOW': 'LOW'
+      'HIGH': 'HIGH'
+      'MEDIUM': 'MEDIUM'
+      'CRITICAL': 'CRITICAL'
