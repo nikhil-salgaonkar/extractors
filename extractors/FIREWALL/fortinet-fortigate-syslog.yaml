@@ -229,18 +229,6 @@ event-details:
         user: User
         subtype: SubCategory
 
-    0101037127-negotiate:
-      annotate:
-        Stream: AUTHENTICATION
-        Action: LOGIN
-        Status: PASSED
-        AuthMethod: VPN
-      translate:
-        srcip: SrcIP
-        dstip: DstIP
-        user: User
-        subtype: SubCategory
-
     0101037128-negotiate:
       annotate:
         Stream: AUTHENTICATION
@@ -438,6 +426,7 @@ event-details:
         sentbyte: TXLen
         rcvdbyte: RXLen
         url: URL
+
     0000000011-dns:
       annotate:
         Stream: NETWORK-FIREWALL
@@ -490,19 +479,6 @@ event-details:
         dstip: DstIP
         reason: Reason
         method: LoginSrc
-        subtype: SubCategory
-
-    0100032001-login:
-      annotate:
-        Stream: AUTHENTICATION
-        Action: LOGIN
-        Status: PASSED
-      translate:
-        user: User
-        srcip: SrcIP
-        dstip: DstIP
-        reason: Reason
-        group: UserGroup
         subtype: SubCategory
 
     0100032021-login:
@@ -568,23 +544,6 @@ event-details:
         dstport: DstPort
         user: User
         group: UserGroup
-        subtype: SubCategory
-
-    0101037121-negotiate:
-      annotate:
-        Stream: AUTHENTICATION
-        Action: LOGIN
-        Status: FAILED
-        LoginSrc: NETWORK
-        AuthMethod: VPN
-      translate:
-        srcip: SrcIP
-        srcport: SrcPort
-        dstip: DstIP
-        dstport: DstPort
-        user: User
-        group: UserGroup
-        reason: Reason
         subtype: SubCategory
 
     0954024576-block:
@@ -662,17 +621,6 @@ event-details:
         dstip: DstIP
         dstport: DstPort
 
-    1059028704-pass:
-      annotate:
-        Stream: NETWORK-FIREWALL
-        Action: APP_ALLOWED
-        Status: PASSED
-      translate:
-        srcip: SrcIP
-        srcport: SrcPort
-        dstip: DstIP
-        dstport: DstPort
-
     0419016385-detected:
       annotate:
         Stream: NETWORK-FIREWALL
@@ -704,16 +652,6 @@ event-details:
         user: User
         subtype: SubCategory
 
-    0314012288-PACKET_BLOCKED:
-      annotate:
-        Stream: WEBFILTER
-        Action: URL_BLOCKED
-        Status: FAILED
-      translate:
-        srcip: SrcIP
-        srcport: SrcPort
-        dstip: DstIP
-        dstport: DstPort
     1059028704-pass:
       annotate:
         Stream: NETWORK-FIREWALL
@@ -725,39 +663,18 @@ event-details:
         dstip: DstIP
         dstport: DstPort
 
-    0314012293-passthrough:
+    0100022113-None:
       annotate:
-        Stream: WEBFILTER
-        Action: URL_ALLOWED
-        Status: PASSED
+        Stream: AUTHENTICATION
+        Action: ERROR
+        Status: FAILED
+        User: '-'
       translate:
         srcip: SrcIP
         srcport: SrcPort
         dstip: DstIP
         dstport: DstPort
 
-    0315012545-passthrough:
-      annotate:
-        Stream: WEBFILTER
-        Action: URL_ALLOWED
-        Status: PASSED
-      translate:
-        srcip: SrcIP
-        srcport: SrcPort
-        dstip: DstIP
-        dstport: DstPort
-
-#    0100022113-None:
-#      annotate:
-#        Stream: AUTHENTICATION
-#        Action: ERROR
-#        Status: FAILED
-#        User: '-'
-#      translate:
-#        srcip: SrcIP
-#        srcport: SrcPort
-#        dstip: DstIP
-#        dstport: DstPort
     0101039426-ssl-login-fail:
       annotate:
         Stream: AUTHENTICATION
@@ -790,20 +707,45 @@ event-details:
         dstip: DstIP
         dstport: DstPort
 
-  fallback:
+    0000000015-start:
       annotate:
-        EventName: Generic FORTIGATE Event
-        Stream: OTHER
+        Stream: DNS
+        Action: NONE
+        Status: NONE
       translate:
-        date: SystemTstamp  
+        srcip: SrcIP
+        srcport: SrcPort
+        dstip: DstIP
+        dstport: DstPort
+        qname: Query
+        subtype: SubCategory
+
+    0000000013-timeout:
+      annotate:
+        Stream: HONEYPOT
+        Action: NONE
+        Status: NONE
+      translate:
+        srcip: SrcIP
+        srcport: SrcPort
+        dstip: DstIP
+        dstport: DstPort
+        subtype: SubCategory
+        sentbyte: TXLen
+        rcvdbyte: RXLen
+
+  fallback:
+    annotate:
+      EventName: Generic FORTIGATE Event
+      Stream: OTHER
+    translate:
+      date: SystemTstamp
 
   globals:
     translate:
       date: SystemTstamp
       devname: System
       proto: Proto
-      level: LogLevel
-      type: Category
 
   subs:
     Proto:
