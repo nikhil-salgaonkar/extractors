@@ -1,0 +1,38 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 169
+source-name: ZSCALER
+source-type: DNS
+source-description: Extractor for Zscaler DNS
+provides-streams:
+- DNS
+master-filters:
+- \"\w{3}\s+\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\d{4}\"\,\"\S+\-\>[\w\s\-\_\.]+\"\,.*?\"\,\"(?:A|AAAA|NS|SOA|PTR|SRV)\"\,
+event-details:
+- first-match: \"(?:A|AAAA|NS|SOA|PTR|SRV)\"\,
+  decoder: regex
+  decoder-regex: \"\w+\s+(?P<datetime>\w+\s+\d+\s+\d+\:\d+\:\d+\s+\d+)\"\,\".*?\"\,\".*?\"\,\".*?\"\,\"(?P<action>.*?)\"\,\"(?P<rule>.*?)\"\,\"(?P<lookup>.*?)\"\,\"(?P<domain>.*?)\"\,\"(?P<response>.*?)\"\,\"(?P<dst_port>\d+)\"\,\".*?\"\,\"(?P<src_ip>[\d\.]+)\"\,\"(?P<dst_ip>.*?)\"\,\"(?P<siteclass>.*?)\"
+  event-key-format: '{action}'
+  event-key-mapping:
+    'Req(allow),Res(allow)':
+      annotate:
+        Stream: DNS
+        Action: PACKET_ALLOWED
+        Status: PASSED
+      translate:
+        src_ip: SrcIP
+        dst_ip: DstIP
+        domain: Domain
+        dst_port: DstPort
+
+  fallback:
+      annotate:
+        EventName: Generic Zscaler DNS Event
+        Stream: OTHER
+      translate:
+        datetime: SystemTstamp
+
+  globals:
+    translate:
+      system: System
+      datetime: SystemTstamp
