@@ -35,6 +35,7 @@ event-details:
   globals:
     translate:
       system: System
+      datetime: SystemTstamp
 
 - first-match: 'nginx-error\:\s+[\d\/\:\s]+\[\w+\]\s+\S+\:\s+.*?request\:\s+\"'
   decoder: regex
