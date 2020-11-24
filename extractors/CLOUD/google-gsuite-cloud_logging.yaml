@@ -1,0 +1,67 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 720
+source-name: GCP
+source-type: CLOUD
+source-description: Extractor for AWS Events
+provides-streams:
+- GSUITE
+master-filters:
+- \"kind\":\s*\"admin#reports#activity\"
+event-details:
+- first-match: \"kind\":\s*\"admin#reports#activity\"
+  decoder: json
+  event-key-format: '{id[applicationName]}'
+  event-key-mapping:
+    'login':
+      annotate:
+        Stream: GSUITE
+      translate:
+        events[type]: EventType
+        events[name]: EventName
+        actor[email]: User
+        actor[callerType]: UserGroup
+        ipAddress: SrcIP
+        events[0][parameters][2][boolValue]: IsSuspicious
+        events[0][parameters][0][value]: LoginType
+        events[0][parameters]: Parameters
+
+    'chat':
+      annotate:
+        Stream: GSUITE
+      translate:
+        events[type]: EventType
+        events[name]: EventName
+        actor[email]: User
+        actor[callerType]: UserGroup
+        events[0][parameters]: Parameters
+
+    'meet':
+      annotate:
+        Stream: GSUITE
+      translate:
+        events[type]: EventType
+        events[name]: EventName
+        actor[email]: User
+        actor[key]: User
+        actor[callerType]: UserGroup
+        events[0][parameters]: Parameters
+
+    'token':
+      annotate:
+        Stream: GSUITE
+      translate:
+        events[type]: EventType
+        events[name]: EventName
+        actor[email]: User
+        actor[callerType]: UserGroup
+        events[0][parameters]: Parameters
+
+  fallback:
+    annotate:
+      EventName: Generic Gsuite Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      id[time]: SystemTstamp
