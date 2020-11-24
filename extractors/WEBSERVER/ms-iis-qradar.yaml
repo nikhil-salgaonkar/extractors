@@ -38,3 +38,4 @@ event-details:
   globals:
     translate:
       system: System
+      datetime: SystemTstamp
