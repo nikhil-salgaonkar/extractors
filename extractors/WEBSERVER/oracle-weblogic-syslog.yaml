@@ -32,5 +32,6 @@ event-details:
       translate:
         datetime: SystemTstamp
 
-  #globals:
-   # translate:
+  globals:
+    translate:
+      datetime: SystemTstamp
