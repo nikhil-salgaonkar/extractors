@@ -17,6 +17,8 @@ event-details:
     'Req(allow),Res(allow)':
       annotate:
         Stream: DNS
+        Action: PACKET_ALLOWED
+        Status: PASSED
       translate:
         src_ip: SrcIP
         dst_ip: DstIP
