@@ -43,11 +43,11 @@ event-details:
         user: User        
         
   fallback:
-      annotate:
-        EventName: Generic Radware WAF Event
-        Stream: OTHER
-      translate:  
-        datetime: SystemTstamp
+    annotate:
+      EventName: Generic Radware WAF Event
+      Stream: OTHER
+    translate:  
+      datetime: SystemTstamp
 
   globals:
     translate:
@@ -65,17 +65,17 @@ event-details:
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
-        Status: Failed
+        Status: FAILED
         User: '-'
       translate: 
         src: SrcIP   
         
   fallback:
-      annotate:
-        EventName: Generic Radware WAF Event
-        Stream: OTHER
-      translate:  
-        datetime: SystemTstamp
+    annotate:
+      EventName: Generic Radware WAF Event
+      Stream: OTHER
+    translate:  
+      datetime: SystemTstamp
 
   globals:
     translate:
@@ -105,7 +105,7 @@ event-details:
         dip: DstIP
         dport: DstPort  
         dhost: DstHost 
-        useraction: ActionTaken
+        #useraction: ActionTaken
         attackname: AtkName
         threatcategory: ThreatCategory
         user: User
@@ -126,7 +126,7 @@ event-details:
         dip: DstIP
         dport: DstPort  
         dhost: DstHost 
-        useraction: ActionTaken
+        #useraction: ActionTaken
         attackname: AtkName
         threatcategory: ThreatCategory
         user: User
@@ -147,18 +147,18 @@ event-details:
         dip: DstIP
         dport: DstPort  
         dhost: DstHost 
-        useraction: ActionTaken
+        #useraction: ActionTaken
         attackname: AtkName
         threatcategory: ThreatCategory
         user: User
         req: Request     
         
   fallback:
-      annotate:
-        EventName: Generic Radware WAF Event
-        Stream: OTHER
-      translate:  
-        date: SystemTstamp
+    annotate:
+      EventName: Generic Radware WAF Event
+      Stream: OTHER
+    translate:  
+      date: SystemTstamp
 
   globals:
     translate:
@@ -189,11 +189,11 @@ event-details:
         Description: AtkDesc
         
   fallback:
-      annotate:
-        EventName: Generic Radware WAF Event
-        Stream: OTHER
-      translate:  
-        datetime: SystemTstamp
+    annotate:
+      EventName: Generic Radware WAF Event
+      Stream: OTHER
+    translate:  
+      datetime: SystemTstamp
 
   globals:
     translate:
