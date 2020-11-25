@@ -12,60 +12,25 @@ event-details:
 - first-match: '\s+PACKET\s+\S+\s+\w+\s+\w{3}\s+'
   decoder: regex
   decoder-regex: '(?P<datetime>\d+\-\d+\-\d+\s+\d+\:\d+\:\d+|\d{1,2}\/\d{1,2}\/\d{4}\s+\d+\:\d+\:\d+)\s+\w+.*?PACKET\s+\S+\s+(?P<protocol>\S+)\s+\S+\s+(?P<src>[\d\.]+).*?\[\d+(?:\s+\w+)?\s+(?P<flag>\w+)(?:\](?:\s+(?P<lookup>\S+))?(?:\s+.*?\)(?P<domain>\S+)\()?(?:\s+(\(0\)))?)?'
-  event-key-format: '{flag}'
+  event-key-format: ''
   event-key-mapping:
-    'NOERROR':
+    '':
       annotate:
         Stream: DNS
-        Action: PACKET_ALLOWED
-        Status: PASSED
       translate:
         protocol: Proto
         src: SrcIP
-        flag: Flag
         lookup: Lookup
-        domain: Domain
-    'SERVFAIL': 
-      annotate:
-        Stream: DNS
-        Action: PACKET_BLOCKED
-        Status: FAILED
-      translate:
-        protocol: Proto
-        src: SrcIP
-        flag: Flag
-        lookup: Lookup
-        domain: Domain
-    'REFUSED':   
-      annotate:
-        Stream: DNS
-        Action: PACKET_BLOCKED
-        Status: FAILED
-      translate:
-        protocol: Proto
-        src: SrcIP
-        flag: Flag
-        lookup: Lookup
-        domain: Domain
-    'NOERDNS':    
-      annotate:
-        Stream: DNS
-        Action: PACKET_ALLOWED
-        Status: PASSED
-      translate:
-        protocol: Proto
-        src: SrcIP
-        flag: Flag
-        lookup: Lookup
-        domain: Domain                   
+        domain: Domain                  
 
   fallback:
-      annotate:
-        EventName: Generic Windows DNS Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp
+    annotate:
+      EventName: Generic Windows DNS Event
+      Stream: OTHER
+    translate:
+      datetime: SystemTstamp
 
   globals:
     translate:
       datetime: SystemTstamp
+      flag: Action
