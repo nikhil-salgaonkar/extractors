@@ -43,11 +43,11 @@ event-details:
         destinationHosts: DstHost
 
   fallback:
-      annotate:
-        EventName: Generic Forcepoint DLP Event
-        Stream: OTHER
-      translate:
-        timeStamp: SystemTstamp  
+    annotate:
+      EventName: Generic Forcepoint DLP Event
+      Stream: OTHER
+    translate:
+      timeStamp: SystemTstamp  
 
   globals:
     translate:
