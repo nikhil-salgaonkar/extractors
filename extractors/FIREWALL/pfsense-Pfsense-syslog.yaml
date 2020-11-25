@@ -42,11 +42,11 @@ event-details:
         dport: DstPort   
 
   fallback:
-      annotate:
-        EventName: Generic pfSense Firewall Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp  
+    annotate:
+      EventName: Generic pfSense Firewall Event
+      Stream: OTHER
+    translate:
+      datetime: SystemTstamp  
 
   globals:
     translate:
@@ -72,11 +72,11 @@ event-details:
         dport: DstPort
 
   fallback:
-      annotate:
-        EventName: Generic pfSense Firewall Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp  
+    annotate:
+      EventName: Generic pfSense Firewall Event
+      Stream: OTHER
+    translate:
+      datetime: SystemTstamp
 
   globals:
     translate:
