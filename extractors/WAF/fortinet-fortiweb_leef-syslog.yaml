@@ -86,11 +86,11 @@ event-details:
         accountName: User                                
         
   fallback:
-      annotate:
-        EventName: Generic FortiWeb WAF Event
-        Stream: OTHER
-      translate:  
-        devTime: SystemTstamp
+    annotate:
+      EventName: Generic FortiWeb WAF Event
+      Stream: OTHER
+    translate:  
+      devTime: SystemTstamp
 
   globals:
     translate:
