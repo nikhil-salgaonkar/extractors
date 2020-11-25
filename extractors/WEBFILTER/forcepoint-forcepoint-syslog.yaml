@@ -40,9 +40,9 @@ event-details:
         requestClientApplication: UserAgent
 
   fallback:
-      annotate:
-        EventName: Generic Forcepoint Webfilter Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Forcepoint Webfilter Event
+      Stream: OTHER
 
   globals:
     translate:
