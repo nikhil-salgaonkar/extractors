@@ -49,9 +49,9 @@ event-details:
         Header-6: Severity
         
   fallback:
-      annotate:
-        EventName: Generic Fireeye Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Fireeye Event
+      Stream: OTHER
 
   #globals:
     #translate:
@@ -111,11 +111,11 @@ event-details:
         severity: Severity
         
   fallback:
-      annotate:
-        EventName: Generic Fireeye Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp
+    annotate:
+      EventName: Generic Fireeye Event
+      Stream: OTHER
+    translate:
+      datetime: SystemTstamp
 
   #globals:
     #translate:
@@ -140,11 +140,11 @@ event-details:
         severity: Severity
         
   fallback:
-      annotate:
-        EventName: Generic Fireeye Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp
+    annotate:
+      EventName: Generic Fireeye Event
+      Stream: OTHER
+    translate:
+      datetime: SystemTstamp
 
   #globals:
     #translate:
