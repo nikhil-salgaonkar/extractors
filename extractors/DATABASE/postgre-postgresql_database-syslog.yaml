@@ -25,11 +25,11 @@ event-details:
         sql_query: SQLQuery           
 
   fallback:
-      annotate:
-        EventName: Generic PGSQL Database Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp
+    annotate:
+      EventName: Generic PGSQL Database Event
+      Stream: OTHER
+    translate:
+      datetime: SystemTstamp
 
   globals:
     translate:
@@ -52,11 +52,11 @@ event-details:
         returncode: ReturnCode
 
   fallback:
-      annotate:
-        EventName: Generic PGSQL Database Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp
+    annotate:
+      EventName: Generic PGSQL Database Event
+      Stream: OTHER
+    translate:
+      datetime: SystemTstamp
 
   globals:
     translate:
@@ -81,11 +81,11 @@ event-details:
         returncode: ReturnCode  
 
   fallback:
-      annotate:
-        EventName: Generic PGSQL Database Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp
+    annotate:
+      EventName: Generic PGSQL Database Event
+      Stream: OTHER
+    translate:
+      datetime: SystemTstamp
 
   globals:
     translate:
@@ -106,11 +106,11 @@ event-details:
         user: User
 
   fallback:
-      annotate:
-        EventName: Generic PGSQL Database Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp
+    annotate:
+      EventName: Generic PGSQL Database Event
+      Stream: OTHER
+    translate:
+      datetime: SystemTstamp
 
   globals:
     translate:
@@ -131,11 +131,11 @@ event-details:
         user: User
 
   fallback:
-      annotate:
-        EventName: Generic PGSQL Database Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp
+    annotate:
+      EventName: Generic PGSQL Database Event
+      Stream: OTHER
+    translate:
+      datetime: SystemTstamp
 
   globals:
     translate:
@@ -161,11 +161,11 @@ event-details:
        #message: Message 
 
   fallback:
-      annotate:
-        EventName: Generic PGSQL Database Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp
+    annotate:
+      EventName: Generic PGSQL Database Event
+      Stream: OTHER
+    translate:
+      datetime: SystemTstamp
 
   globals:
     translate:
