@@ -35,11 +35,11 @@ event-details:
         txlen: TXLen                                    
         
   fallback:
-      annotate:
-        EventName: Generic Tomcat Webserver Event
-        Stream: OTHER
-      translate:  
-        datetime: SystemTstamp
+    annotate:
+      EventName: Generic Tomcat Webserver Event
+      Stream: OTHER
+    translate:  
+      datetime: SystemTstamp
 
   globals:
     translate:
@@ -63,11 +63,11 @@ event-details:
         useragent: UserAgent                                   
         
   fallback:
-      annotate:
-        EventName: Generic Apache Webserver Event
-        Stream: OTHER
-      translate:  
-        datetime: SystemTstamp
+    annotate:
+      EventName: Generic Apache Webserver Event
+      Stream: OTHER
+    translate:  
+      datetime: SystemTstamp
 
   globals:
     translate:
