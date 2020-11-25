@@ -47,11 +47,11 @@ event-details:
         #reason: Reason                                   
         
   fallback:
-      annotate:
-        EventName: Generic WatchGuard Firewall Event
-        Stream: OTHER
-      translate:  
-        datetime: SystemTstamp
+    annotate:
+      EventName: Generic WatchGuard Firewall Event
+      Stream: OTHER
+    translate:  
+      datetime: SystemTstamp
 
   globals:
     translate:
