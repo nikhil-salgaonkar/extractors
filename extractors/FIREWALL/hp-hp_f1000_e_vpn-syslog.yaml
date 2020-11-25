@@ -29,11 +29,11 @@ event-details:
         #destZoneName: DstZone
 
   fallback:
-      annotate:
-        EventName: Generic HP-F1000-E-VPN Firewall Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp  
+    annotate:
+      EventName: Generic HP-F1000-E-VPN Firewall Event
+      Stream: OTHER
+    translate:
+      datetime: SystemTstamp  
 
   globals:
     translate:
