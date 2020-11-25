@@ -51,20 +51,18 @@ event-details:
         Status: PASSED
       translate:
         iface: Iface
+        severity: Severity
 
   fallback:
-      annotate:
-        EventName: Generic Cisco OS Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
+    translate:
+      datetime: SystemTstamp
 
   globals:
     translate:
       datetime: SystemTstamp
-      facility: Facility
-      severity: Severity
-      mnemonic: Mnemonic
 
   subs: &id001
     Severity:
@@ -89,20 +87,18 @@ event-details:
         Status: PASSED
       translate:
         iface: Iface
+        severity: Severity
 
   fallback:
-      annotate:
-        EventName: Generic Cisco OS Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
+    translate:
+      datetime: SystemTstamp
 
   globals:
     translate:
       datetime: SystemTstamp
-      facility: Facility
-      severity: Severity
-      mnemonic: Mnemonic
 
   subs: *id001    
 
@@ -118,6 +114,7 @@ event-details:
         Status: PASSED
       translate:
         iface: Iface
+        severity: Severity
     down:
       annotate:
         Stream: CONNECTIVITY
@@ -125,20 +122,18 @@ event-details:
         Status: PASSED
       translate:
         iface: Iface
+        severity: Severity
 
   fallback:
-      annotate:
-        EventName: Generic Cisco OS Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
+    translate:
+      datetime: SystemTstamp
 
   globals:
     translate:
       datetime: SystemTstamp
-      facility: Facility
-      severity: Severity
-      mnemonic: Mnemonic
 
   subs: *id001
 
@@ -156,6 +151,7 @@ event-details:
         src: SrcIP
         message: Message
         packets: Packets
+        severity: Severity
     denied:
       annotate:
         Stream: ROUTER
@@ -165,20 +161,18 @@ event-details:
         src: SrcIP
         message: Message
         packets: Packets
+        severity: Severity
 
   fallback:
-      annotate:
-        EventName: Generic Cisco OS Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
+    translate:
+      datetime: SystemTstamp
 
   globals:
     translate:
       datetime: SystemTstamp
-      facility: Facility
-      severity: Severity
-      mnemonic: Mnemonic
 
   subs: *id001
 
@@ -194,6 +188,7 @@ event-details:
         Status: FAILED
       translate:
         message: Message
+        severity: Severity
     permitted:
       annotate:
         Stream: ROUTER
@@ -201,20 +196,18 @@ event-details:
         Status: PASSED
       translate:
         message: Message
+        severity: Severity
 
   fallback:
-      annotate:
-        EventName: Generic Cisco OS Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
+    translate:
+      datetime: SystemTstamp
 
   globals:
     translate:
       datetime: SystemTstamp
-      facility: Facility
-      severity: Severity
-      mnemonic: Mnemonic
 
   subs: *id001
 
@@ -230,20 +223,18 @@ event-details:
         Status: FAILED
       translate:
         message: Message
+        severity: Severity
 
   fallback:
-      annotate:
-        EventName: Generic Cisco OS Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
+    translate:
+      datetime: SystemTstamp
 
   globals:
     translate:
       datetime: SystemTstamp
-      facility: Facility
-      severity: Severity
-      mnemonic: Mnemonic
 
   subs: *id001
 
@@ -262,6 +253,7 @@ event-details:
         src: SrcIP
         dst: DstIP
         acl: ACL
+        severity: Severity
     permitted:
       annotate:
         Stream: ROUTER
@@ -272,20 +264,18 @@ event-details:
         src: SrcIP
         dst: DstIP
         acl: ACL
+        severity: Severity
 
   fallback:
-      annotate:
-        EventName: Generic Cisco OS Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
+    translate:
+      datetime: SystemTstamp
 
   globals:
     translate:
       datetime: SystemTstamp
-      facility: Facility
-      severity: Severity
-      mnemonic: Mnemonic
 
   subs: *id001
 
@@ -314,18 +304,15 @@ event-details:
         user: User
 
   fallback:
-      annotate:
-        EventName: Generic Cisco OS Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
+    translate:
+      datetime: SystemTstamp
 
   globals:
     translate:
       datetime: SystemTstamp
-      facility: Facility
-      severity: Severity
-      mnemonic: Mnemonic
 
   subs: *id001
 
@@ -344,18 +331,15 @@ event-details:
         user: User
 
   fallback:
-      annotate:
-        EventName: Generic Cisco OS Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
+    translate:
+      datetime: SystemTstamp
 
   globals:
     translate:
       datetime: SystemTstamp
-      facility: Facility
-      severity: Severity
-      mnemonic: Mnemonic
 
   subs: *id001
 
@@ -374,20 +358,18 @@ event-details:
         src: SrcIP
         dst: DstIP
         acl: ACL
+        severity: Severity
 
   fallback:
-      annotate:
-        EventName: Generic Cisco OS Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
+    translate:
+      datetime: SystemTstamp
 
   globals:
     translate:
       datetime: SystemTstamp
-      facility: Facility
-      severity: Severity
-      mnemonic: Mnemonic
 
   subs: *id001
 
@@ -406,6 +388,7 @@ event-details:
         src: SrcIP
         dst: DstIP
         acl: ACL
+        severity: Severity
     permitted:
       annotate:
         Stream: ROUTER
@@ -416,20 +399,18 @@ event-details:
         src: SrcIP
         dst: DstIP
         acl: ACL
+        severity: Severity
 
   fallback:
-      annotate:
-        EventName: Generic Cisco OS Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
+    translate:
+      datetime: SystemTstamp
 
   globals:
     translate:
       datetime: SystemTstamp
-      facility: Facility
-      severity: Severity
-      mnemonic: Mnemonic
 
   subs: *id001
 
@@ -448,18 +429,15 @@ event-details:
         src: SrcIP
 
   fallback:
-      annotate:
-        EventName: Generic Cisco OS Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
+    translate:
+      datetime: SystemTstamp
 
   globals:
     translate:
       datetime: SystemTstamp
-      facility: Facility
-      severity: Severity
-      mnemonic: Mnemonic
       
   subs: *id001 
 
@@ -480,20 +458,18 @@ event-details:
         dst: DstIP
         dport: DstPort
         packets: Packets
+        severity: Severity
 
   fallback:
-      annotate:
-        EventName: Generic Cisco OS Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
+    translate:
+      datetime: SystemTstamp
 
   globals:
     translate:
       datetime: SystemTstamp
-      facility: Facility
-      severity: Severity
-      mnemonic: Mnemonic
       
   subs: *id001
 
@@ -510,6 +486,7 @@ event-details:
       translate:
         message: Message
         iface: Iface
+        severity: Severity
     down:
       annotate:
         Stream: CONNECTIVITY
@@ -518,20 +495,18 @@ event-details:
       translate:
         message: Message
         iface: Iface
+        severity: Severity
 
   fallback:
-      annotate:
-        EventName: Generic Cisco OS Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
+    translate:
+      datetime: SystemTstamp
 
   globals:
     translate:
       datetime: SystemTstamp
-      facility: Facility
-      severity: Severity
-      mnemonic: Mnemonic
 
   subs: *id001
 
@@ -548,20 +523,18 @@ event-details:
       translate:
         message: Message
         iface: Iface
+        severity: Severity
 
   fallback:
-      annotate:
-        EventName: Generic Cisco OS Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
+    translate:
+      datetime: SystemTstamp
 
   globals:
     translate:
       datetime: SystemTstamp
-      facility: Facility
-      severity: Severity
-      mnemonic: Mnemonic
       
   subs: *id001
 
@@ -578,20 +551,18 @@ event-details:
       translate:
         message: Message
         iface: Iface
+        severity: Severity
 
   fallback:
-      annotate:
-        EventName: Generic Cisco OS Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
+    translate:
+      datetime: SystemTstamp
 
   globals:
     translate:
       datetime: SystemTstamp
-      facility: Facility
-      severity: Severity
-      mnemonic: Mnemonic
       
   subs: *id001  
 
@@ -612,20 +583,18 @@ event-details:
         dst: DstIP
         dport: DstPort
         packets: Packets
+        severity: Severity
 
   fallback:
-      annotate:
-        EventName: Generic Cisco OS Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
+    translate:
+      datetime: SystemTstamp
 
   globals:
     translate:
       datetime: SystemTstamp
-      facility: Facility
-      severity: Severity
-      mnemonic: Mnemonic
       
   subs: *id001
 
@@ -645,18 +614,15 @@ event-details:
         iface: Iface
 
   fallback:
-      annotate:
-        EventName: Generic Cisco OS Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
+    translate:
+      datetime: SystemTstamp
 
   globals:
     translate:
       datetime: SystemTstamp
-      facility: Facility
-      severity: Severity
-      mnemonic: Mnemonic
       
   subs: *id001 
 
@@ -674,20 +640,18 @@ event-details:
         message: Message
         evtdesc: EvtDesc
         mac_address: MACAddress
+        severity: Severity
 
   fallback:
-      annotate:
-        EventName: Generic Cisco OS Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
+    translate:
+      datetime: SystemTstamp
 
   globals:
     translate:
       datetime: SystemTstamp
       hostname: System
-      facility: Facility
-      severity: Severity
-      mnemonic: Mnemonic
       
   subs: *id001        
