@@ -22,7 +22,9 @@ event-details:
       translate:
         user: User
         adminprof: AdminUser
-       #msg: Message 
+        #type: Category
+        #subtype: SubCategory
+        #msg: Message 
     '0028037013-fail':
       annotate:
         Stream: AUTHENTICATION
@@ -30,7 +32,9 @@ event-details:
         Status: FAILED
       translate:
         user: User
-       #msg: Message  
+        #type: Category
+        #subtype: SubCategory
+        #msg: Message  
     '0001010019-None':
       annotate:
         Stream: AUTHENTICATION
@@ -39,22 +43,22 @@ event-details:
       translate:
         user: User
         adminprof: AdminUser
-       #msg: Message
+        #type: Category
+        #subtype: SubCategory
+        #msg: Message
 
   fallback:
-      annotate:
-        EventName: Generic FortiManager Firewall Event
-        Stream: OTHER
-      translate:
-        date: SystemTstamp  
+    annotate:
+      EventName: Generic FortiManager Firewall Event
+      Stream: OTHER
+    translate:
+      date: SystemTstamp  
 
   globals:
     translate:
       date: SystemTstamp
       devname: System
-      pri: LogLevel
-      type: Category
-      subtype: SubCategory
+      pri: LogLevel    
       
   subs: 
     LogLevel:
