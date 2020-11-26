@@ -27,11 +27,11 @@ event-details:
         user: User 
         
   fallback:
-      annotate:
-        EventName: Generic NetScaler WAF Event
-        Stream: OTHER
-      translate:  
-        datetime: SystemTstamp
+    annotate:
+      EventName: Generic NetScaler WAF Event
+      Stream: OTHER
+    translate:  
+      datetime: SystemTstamp
 
   globals:
     translate:
@@ -64,11 +64,11 @@ event-details:
         user: User     
         
   fallback:
-      annotate:
-        EventName: Generic NetScaler WAF Event
-        Stream: OTHER
-      translate:  
-        datetime: SystemTstamp
+    annotate:
+      EventName: Generic NetScaler WAF Event
+      Stream: OTHER
+    translate:  
+      datetime: SystemTstamp
 
   globals:
     translate:
@@ -101,11 +101,11 @@ event-details:
         domain: Domain    
         
   fallback:
-      annotate:
-        EventName: Generic NetScaler WAF Event
-        Stream: OTHER
-      translate:  
-        datetime: SystemTstamp
+    annotate:
+      EventName: Generic NetScaler WAF Event
+      Stream: OTHER
+    translate:  
+      datetime: SystemTstamp
 
   globals:
     translate:
@@ -137,11 +137,11 @@ event-details:
         domain: Domain    
         
   fallback:
-      annotate:
-        EventName: Generic NetScaler WAF Event
-        Stream: OTHER
-      translate:  
-        datetime: SystemTstamp
+    annotate:
+      EventName: Generic NetScaler WAF Event
+      Stream: OTHER
+    translate:  
+      datetime: SystemTstamp
 
   globals:
     translate:
@@ -175,11 +175,11 @@ event-details:
         dport: DstPort 
         
   fallback:
-      annotate:
-        EventName: Generic NetScaler WAF Event
-        Stream: OTHER
-      translate:  
-        datetime: SystemTstamp
+    annotate:
+      EventName: Generic NetScaler WAF Event
+      Stream: OTHER
+    translate:  
+      datetime: SystemTstamp
 
   globals:
     translate:
@@ -207,11 +207,11 @@ event-details:
         interface: Iface
         
   fallback:
-      annotate:
-        EventName: Generic NetScaler WAF Event
-        Stream: OTHER
-      translate:  
-        datetime: SystemTstamp
+    annotate:
+      EventName: Generic NetScaler WAF Event
+      Stream: OTHER
+    translate:  
+      datetime: SystemTstamp
 
   globals:
     translate:
@@ -245,11 +245,11 @@ event-details:
         dport: DstPort    
         
   fallback:
-      annotate:
-        EventName: Generic NetScaler WAF Event
-        Stream: OTHER
-      translate:  
-        datetime: SystemTstamp
+    annotate:
+      EventName: Generic NetScaler WAF Event
+      Stream: OTHER
+    translate:  
+      datetime: SystemTstamp
 
   globals:
     translate:
@@ -279,11 +279,11 @@ event-details:
         ServerPort: ServerPort 
         
   fallback:
-      annotate:
-        EventName: Generic NetScaler WAF Event
-        Stream: OTHER
-      translate:  
-        datetime: SystemTstamp
+    annotate:
+      EventName: Generic NetScaler WAF Event
+      Stream: OTHER
+    translate:  
+      datetime: SystemTstamp
 
   globals:
     translate:
