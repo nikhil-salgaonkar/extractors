@@ -43,11 +43,11 @@ event-details:
         #app: App
         
   fallback:
-      annotate:
-        EventName: Generic Akamai WAF Event
-        Stream: OTHER
-      translate:
-        start: SystemTstamp  
+    annotate:
+      EventName: Generic Akamai WAF Event
+      Stream: OTHER
+    translate:
+      start: SystemTstamp  
 
   globals:
     translate:
