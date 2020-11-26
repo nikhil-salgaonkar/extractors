@@ -22,8 +22,8 @@ event-details:
       translate: 
         'File Path': FilePath
         'User Name': User
-        'Device Name': Device
-        'Device Id': DeviceID
+        #'Device Name': Device
+        #'Device Id': DeviceID
     'ScriptControl-Blocked':           
       annotate:
         Stream: ENDPOINT-THREAT
@@ -32,8 +32,8 @@ event-details:
       translate: 
         'File Path': FilePath
         'User Name': User
-        'Device Name': Device
-        'Device Id': DeviceID
+        #'Device Name': Device
+        #'Device Id': DeviceID
     'ExploitAttempt-blocked':           
       annotate:
         Stream: ENDPOINT-THREAT
@@ -43,9 +43,9 @@ event-details:
         'IP Address': ScannedIP
         'Process Name': Process
         'User Name': User
-        'Device Name': Device
-        'Device Id': DeviceID  
-        'Violation Type': Rule 
+        #'Device Name': Device
+        #'Device Id': DeviceID  
+        #'Violation Type': Rule 
     'Threat-threat_quarantined': 
       annotate:
         Stream: ENDPOINT-THREAT
@@ -55,9 +55,9 @@ event-details:
         'IP Address': ScannedIP
         'File Name': FileName
         'Path': FilePath
-        'Drive Type': DriveType
-        'Device Name': Device
-        'Device Id': DeviceID 
+        #'Drive Type': DriveType
+        #'Device Name': Device
+        #'Device Id': DeviceID 
         'File Type': FileType 
         'SHA256': HashSHA256
         'MD5': HashMD5
@@ -72,9 +72,9 @@ event-details:
         'IP Address': ScannedIP
         'File Name': FileName
         'Path': FilePath
-        'Drive Type': DriveType
-        'Device Name': Device
-        'Device Id': DeviceID 
+        #'Drive Type': DriveType
+        #'Device Name': Device
+        #'Device Id': DeviceID 
         'File Type': FileType 
         'SHA256': HashSHA256
         'MD5': HashMD5
@@ -89,9 +89,9 @@ event-details:
         'IP Address': ScannedIP
         'File Name': FileName
         'Path': FilePath
-        'Drive Type': DriveType
-        'Device Name': Device
-        'Device Id': DeviceID 
+        #'Drive Type': DriveType
+        #'Device Name': Device
+        #'Device Id': DeviceID 
         'File Type': FileType 
         'SHA256': HashSHA256
         'MD5': HashMD5
@@ -106,9 +106,9 @@ event-details:
         'IP Address': ScannedIP
         'File Name': FileName
         'Path': FilePath
-        'Drive Type': DriveType
-        'Device Name': Device
-        'Device Id': DeviceID 
+        #'Drive Type': DriveType
+        #'Device Name': Device
+        #'Device Id': DeviceID 
         'File Type': FileType 
         'SHA256': HashSHA256
         'MD5': HashMD5
@@ -123,16 +123,16 @@ event-details:
         'IP Address': ScannedIP
         'Process Name': Process
         'User Name': User
-        'Device Name': Device
-        'Device Id': DeviceID  
-        'Violation Type': Rule                                                
+        #'Device Name': Device
+        #'Device Id': DeviceID  
+        #'Violation Type': Rule                                                
         
   fallback:
-      annotate:
-        EventName: Generic Dell-Cylance Endpoint Event
-        Stream: OTHER
-      translate:
-        'Found Date': SystemTstamp  
+    annotate:
+      EventName: Generic Dell-Cylance Endpoint Event
+      Stream: OTHER
+    translate:
+      'Found Date': SystemTstamp  
 
   globals:
     translate:
