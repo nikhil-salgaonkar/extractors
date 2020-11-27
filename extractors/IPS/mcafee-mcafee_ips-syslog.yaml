@@ -101,11 +101,9 @@ event-details:
         dst: DstIP         
 
   fallback:
-      annotate:
-        EventName: Generic Mcafee NETWORK-THREAT Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp         
+    annotate:
+      EventName: Generic Mcafee NETWORK-THREAT Event
+      Stream: OTHER
 
   globals:
     translate:

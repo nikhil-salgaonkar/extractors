@@ -791,11 +791,9 @@ event-details:
         dstport: DstPort
 
   fallback:
-      annotate:
-        EventName: Generic FORTIGATE Event
-        Stream: OTHER
-      translate:
-        date: SystemTstamp  
+    annotate:
+      EventName: Generic FORTIGATE Event
+      Stream: OTHER
 
   globals:
     translate:

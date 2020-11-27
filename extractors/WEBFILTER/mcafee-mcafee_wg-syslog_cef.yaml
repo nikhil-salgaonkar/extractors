@@ -43,9 +43,9 @@ event-details:
         Source_ID: SrcIP
 
   fallback:
-      annotate:
-        EventName: Generic McAfee-WebGateway Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic McAfee-WebGateway Event
+      Stream: OTHER
 
   globals:
     translate:

@@ -264,9 +264,9 @@ event-details:
         service: DstPort   
 
   fallback:
-      annotate:
-        EventName: Generic Checkpoint Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Checkpoint Firewall Event
+      Stream: OTHER
 
 
   subs:

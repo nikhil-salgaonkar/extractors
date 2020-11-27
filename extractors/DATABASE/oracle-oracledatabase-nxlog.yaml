@@ -39,11 +39,9 @@ event-details:
         dbuser: DBUser 
 
   fallback:
-      annotate:
-        EventName: Generic MySQL Database Event
-        Stream: OTHER
-      translate:
-        EventTime: SystemTstamp
+    annotate:
+      EventName: Generic MySQL Database Event
+      Stream: OTHER
 
   globals:
     translate:

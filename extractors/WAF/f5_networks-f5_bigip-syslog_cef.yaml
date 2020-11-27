@@ -44,9 +44,9 @@ event-details:
         Header-6: Severity
         
   fallback:
-      annotate:
-        EventName: Generic F5-BigIP Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic F5-BigIP Event
+      Stream: OTHER
 
   globals:
     translate:

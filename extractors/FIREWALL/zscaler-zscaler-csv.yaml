@@ -25,11 +25,9 @@ event-details:
         dst_ip: DstIP
 
   fallback:
-      annotate:
-        EventName: Generic Zscaler Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp
+    annotate:
+      EventName: Generic Zscaler Event
+      Stream: OTHER
 
   globals:
     translate:
