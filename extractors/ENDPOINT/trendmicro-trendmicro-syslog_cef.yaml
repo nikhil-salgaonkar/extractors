@@ -37,7 +37,7 @@ event-details:
     translate: 
       Event time: SystemTstamp
 
-  subs: &d001    
+  subs: &id001    
     Severity: 
       '0': 'LOW'
       '1': 'LOW'
@@ -85,7 +85,7 @@ event-details:
       Header-5: Signature 
       Header-6: Severity   
 
-  subs: *d001      
+  subs: *id001      
 
 - first-match: 'CEF\:\d+\|Trend\s+Micro\|.*?\|AV\:.*?\|'
   decoder: custom
@@ -137,7 +137,7 @@ event-details:
       Header-5: Signature 
       Header-6: Severity  
 
-  subs: *d001    
+  subs: *id001    
 
 - first-match: 'CEF\:\d+\|Trend\sMicro\|Deep\sDiscovery\sInspector\|'
   decoder: custom
@@ -178,7 +178,7 @@ event-details:
       Header-5: Signature 
       Header-6: Severity  
 
-  subs: *d001    
+  subs: *id001    
 
 - first-match: 'CEF\:\d+\|Trend\s+Micro\|Control\s+Manager\|'
   decoder: custom
@@ -211,4 +211,4 @@ event-details:
       Header-5: Signature 
       Header-6: Severity     
 
-  subs: *d001 
+  subs: *id001 
