@@ -1,0 +1,248 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 54
+source-name: CYBEROAM
+source-type: FIREWALL
+source-description: Extractor for Cyberoam Firewall
+provides-streams:
+- AUTHENTICATION
+- CONNECTIVITY
+- ANTIVIRUS
+- NETWORK-FIREWALL
+master-filters:
+- 'date\=\d+\-\d+\-\d+\s+time\=\d+\:\d+\:\d+\s+timezone\=\"\w+\"\s+device_name\=\"\S+\"\sdevice_id=C\d+\-\w+\s+log_id\=\d+\s+'
+event-details:
+- first-match: log\_id\=\d+\s+log\_type\=\".*?\"
+  decoder: custom
+  decoder-regex: '([\w]+)=(\"[^\"]*\"|[^\s]*)'
+  event-key-format: '{log_id}-{status}'
+  event-key-mapping:
+    '062009617507-Successful':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        user_name: User
+        src_ip: SrcIP
+    '062910617701-Successful':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        user_name: User
+        usergroupname: UserGroup
+        src_ip: SrcIP
+    '062109517507-Failed':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate:
+        user_name: User
+        src_ip: SrcIP 
+    '050901616003-None':
+      annotate:
+        Stream: NETWORK-FIREWALL
+        Action: PACKET_ALLOWED
+        Status: PASSED
+      translate:
+        user_name: User
+        url: URL
+        user_gp: UserGroup
+        src_ip: SrcIP
+        dst_ip: DstIP
+        protocol: Proto
+        src_port: SrcPort
+        dst_port: DstPort
+        sent_bytes: TXLen
+        recv_bytes: RXLen 
+    '062910617703-Successful':
+       annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+      translate:
+        user_name: User
+        src_ip: SrcIP 
+    '062910517702-Failed':
+       annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate:
+        user_name: User
+        src_ip: SrcIP  
+        usergroupname: UserGroup             
+        reason: Reason
+    '010102600002-Deny':
+      annotate:
+        Stream: NETWORK-FIREWALL
+        Action: PACKET_BLOCKED
+        Status: FAILED
+      translate:
+        user_name: User
+        url: URL
+        user_gp: UserGroup
+        src_ip: SrcIP
+        dst_ip: DstIP
+        protocol: Proto
+        src_port: SrcPort
+        dst_port: DstPort
+        sent_bytes: TXLen
+        recv_bytes: RXLen 
+    '050902616002-None':
+      annotate:
+        Stream: NETWORK-FIREWALL
+        Action: PACKET_BLOCKED
+        Status: FAILED
+      translate:
+        user_name: User
+        url: URL
+        user_gp: UserGroup
+        src_ip: SrcIP
+        dst_ip: DstIP
+        protocol: Proto
+        src_port: SrcPort
+        dst_port: DstPort
+        sent_bytes: TXLen
+        recv_bytes: RXLen 
+    '010101600001-Allow':
+      annotate:
+        Stream: NETWORK-FIREWALL
+        Action: PACKET_ALLOWED
+        Status: PASSED
+      translate:
+        user_name: User
+        url: URL
+        user_gp: UserGroup
+        src_ip: SrcIP
+        dst_ip: DstIP
+        protocol: Proto
+        src_port: SrcPort
+        dst_port: DstPort
+        sent_bytes: TXLen
+        recv_bytes: RXLen
+    '030906208001-None':
+      annotate:
+        Stream: ANTIVIRUS
+        Action: VIRUS_DETECTED
+        Status: PASSED
+      translate:
+        user_name: User
+        url: URL
+        domainname: Domsin
+        src_ip: SrcIP
+        dst_ip: DstIP
+        protocol: Proto
+        src_port: SrcPort
+        dst_port: DstPort
+        sent_bytes: TXLen
+        recv_bytes: RXLen        
+    '050901616001-None':
+      annotate:
+        Stream: NETWORK-FIREWALL
+        Action: PACKET_ALLOWED
+        Status: PASSED
+      translate:
+        user_name: User
+        url: URL
+        domainname: Domsin
+        src_ip: SrcIP
+        dst_ip: DstIP
+        protocol: Proto
+        src_port: SrcPort
+        dst_port: DstPort
+        sent_bytes: TXLen
+        recv_bytes: RXLen   
+    '063210617706-Successful':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+      translate:
+        user_name: User
+        src_ip: SrcIP 
+    '063210617704-Successful':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        user_name: User
+        src_ip: SrcIP
+    '062009617501-Successful':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        user_name: User
+        src_ip: SrcIP
+    '062009517504-Successful':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+      translate:
+        user_name: User
+        src_ip: SrcIP 
+    '063511617813-None':
+      annotate:
+        Stream: CONNECTIVITY
+        Action: INTERFACE_DOWN
+        Status: PASSED
+      translate:
+        interface: Iface
+    '010301602001-Allow':
+      annotate:
+        Stream: NETWORK-FIREWALL
+        Action: PACKET_ALLOWED
+        Status: PASSED
+      translate:
+        user_name: User
+        url: URL
+        user_gp: UserGroup
+        src_ip: SrcIP
+        dst_ip: DstIP
+        protocol: Proto
+        src_port: SrcPort
+        dst_port: DstPort
+        sent_bytes: TXLen
+        recv_bytes: RXLen 
+    '064011617819-Successful':
+      annotate:
+        Stream: ANTIVIRUS
+        Action: SIGNATURE_UPDATED
+        Status: PASSED
+      translate:
+        message: Message
+    '064011517922-Failed':
+      annotate:
+        Stream: ANTIVIRUS
+        Action: SIGNATURE_UPDATED
+        Status: FAILED
+      translate:
+        suser_name: User
+        src_ip: SrcIP
+    '063911517921-Failed':
+      annotate:
+        Stream: IPS
+        Action: SIGNATURE_UPDATED
+        Status: FAILED
+      translate:
+        message: Message                                                                  
+
+  fallback:
+    annotate:
+      EventName: Generic Cyberoam Firewall Event
+      Stream: OTHER
+    translate:
+      date: SystemTstamp
+
+  globals:
+    translate:
+      date: SystemTstamp
+      priority: LogLevel
+      device_name: System
