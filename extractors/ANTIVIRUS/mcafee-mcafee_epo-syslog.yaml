@@ -239,7 +239,7 @@ event-details:
     translate:
       ReceivedUTC: SystemTstamp
 
-  subs: &d001
+  subs: &id001
     Severity:
       '1': ALERT
       '2': CRITICAL
@@ -295,4 +295,4 @@ event-details:
     translate:
       StartTime: SystemTstamp        
 
-  subs: *d001
+  subs: *id001
