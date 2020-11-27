@@ -40,7 +40,7 @@ event-details:
     translate:
       sev: Severity
 
-  subs: &d001    
+  subs: &id001    
     Severity: 
       '0': 'LOW'
       '1': 'LOW'
@@ -85,4 +85,4 @@ event-details:
     translate: 
       sev: Severity
 
-  subs: *d001       
+  subs: *id001       
