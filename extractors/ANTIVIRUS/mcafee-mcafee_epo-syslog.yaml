@@ -232,8 +232,6 @@ event-details:
     annotate:
       EventName: Generic McAfee Antivirus Event
       Stream: OTHER
-    translate:
-      ReceivedUTC: SystemTstamp
 
   globals:
     translate:
@@ -288,8 +286,6 @@ event-details:
     annotate:
       EventName: Generic McAfee Antivirus Event
       Stream: OTHER
-    translate:
-      StartTime: SystemTstamp
 
   globals:
     translate:
