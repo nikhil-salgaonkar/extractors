@@ -17,20 +17,18 @@ event-details:
     'Req(allow),Res(allow)':
       annotate:
         Stream: DNS
-        Action: PACKET_ALLOWED
-        Status: PASSED
       translate:
+        response: Action
         src_ip: SrcIP
         dst_ip: DstIP
         domain: Domain
         dst_port: DstPort
+        lookup: Lookup
 
   fallback:
-      annotate:
-        EventName: Generic Zscaler DNS Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp
+    annotate:
+      EventName: Generic Zscaler DNS Event
+      Stream: OTHER
 
   globals:
     translate:
