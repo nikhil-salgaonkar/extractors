@@ -159,3 +159,83 @@ event-details:
       'FILE_CREATED': FILE_CREATED
       'CONSUMER_ACTIVITY': CONSUMER_ACTIVITY
       'CONSUMER_TO_FILTER_ACTIVITY': CONSUMER_TO_FILTER_ACTIVITY
+
+- first-match: \"Microsoft-Windows-Eventlog\"
+  decoder: json
+  event-key-format: '{winlog[event_id]}'
+  event-key-mapping:
+    '1102':
+      annotate:
+        Stream: WINDOWS-SECURITY
+        Action: AUDIT_LOG_CLEARED
+        Status: PASSED
+      translate:
+        winlog[user_data][SubjectUserName]: User
+        winlog[user_data][SubjectLogonId]: SubjectLogonId    
+
+  fallback:
+    annotate:
+      EventName: Generic WinlogBeat Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      winlog[computer_name]: System
+      '@timestamp': SystemTstamp
+
+- first-match: \"Microsoft-Windows-Security-Auditing\"
+  decoder: json
+  event-key-format: '{winlog[event_id]}'
+  event-key-mapping:
+    '4662':
+      annotate:
+        Stream: WINDOWS-SECURITY
+        Action: AUDIT_LOG_CLEARED
+        Status: PASSED
+      translate:
+        winlog[event_data][SubjectUserName]: User
+        winlog[event_data][SubjectLogonId]: SubjectLogonId  
+    '5136':
+      annotate:
+        Stream: WINDOWS-SECURITY
+        Action: OBJECT_MODIFIED
+        Status: PASSED
+      translate:
+        winlog[event_data][SubjectUserName]: User
+        winlog[event_data][SubjectLogonId]: SubjectLogonId  
+    '4732':
+      annotate:
+        Stream: WINDOWS-SECURITY
+        Action: SECURITY_ENABLED
+        Status: PASSED
+      translate:
+        winlog[event_data][TargetUserName]: TargetUser
+        winlog[event_data][SubjectUserName]: User 
+        winlog[event_data][SubjectDomainName]: Domain
+        winlog[event_data][TargetDomainName]: TargetDomain
+        winlog[event_data][SubjectLogonId]: SubjectLogonId 
+    '4742':
+      annotate:
+        Stream: WINDOWS-SECURITY
+        Action: COMPUTER_ACCOUNT_CHANGED
+        Status: PASSED
+      translate:
+        winlog[event_data][TargetUserName]: TargetUser
+        winlog[event_data][SubjectUserName]: User 
+        winlog[event_data][SubjectDomainName]: Domain
+        winlog[event_data][TargetDomainName]: TargetDomain
+        winlog[event_data][SubjectLogonId]: SubjectLogonId  
+        winlog[event_data][ProfilePath]: ProfilePath  
+        winlog[event_data][AccountExpires]: AccountExpires  
+        winlog[event_data][LogonHours]: LogonHours     
+
+
+  fallback:
+    annotate:
+      EventName: Generic WinlogBeat Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      winlog[computer_name]: System
+      '@timestamp': SystemTstamp            
