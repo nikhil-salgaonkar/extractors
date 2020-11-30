@@ -38,6 +38,6 @@ event-details:
 
         
   fallback:
-      annotate:
-        EventName: Generic PALOALTO Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic PALOALTO Event
+      Stream: OTHER

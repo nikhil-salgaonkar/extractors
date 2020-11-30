@@ -28,9 +28,9 @@ event-details:
         app_name: FileName
 
   fallback:
-      annotate:
-        EventName: Generic Symantec ATP Endpoint Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Symantec ATP Endpoint Event
+      Stream: OTHER
 
   globals:
     translate:
@@ -54,9 +54,9 @@ event-details:
         data_source_url: URL
 
   fallback:
-      annotate:
-        EventName: Generic Symantec ATP Endpoint Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Symantec ATP Endpoint Event
+      Stream: OTHER
 
 - first-match: \|lcp\_sep\_risk\_event\|
   decoder: custom
@@ -77,9 +77,9 @@ event-details:
         intrusion_url: URL
 
   fallback:
-      annotate:
-        EventName: Generic Symantec ATP Endpoint Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Symantec ATP Endpoint Event
+      Stream: OTHER
 
 
 - first-match: \|atp\_incident\|
@@ -101,9 +101,9 @@ event-details:
         app_name: FileName
 
   fallback:
-      annotate:
-        EventName: Generic Symantec ATP Endpoint Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Symantec ATP Endpoint Event
+      Stream: OTHER
 
 
 - first-match: \|sep\_proxy\_sonar\_event\|
@@ -124,9 +124,9 @@ event-details:
         virus_name: AtkMsg
 
   fallback:
-      annotate:
-        EventName: Generic Symantec ATP Endpoint Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Symantec ATP Endpoint Event
+      Stream: OTHER
 
 #  globals:
  #   translate:
@@ -148,6 +148,6 @@ event-details:
         app_name: FileName
 
   fallback:
-      annotate:
-        EventName: Generic Symantec ATP Endpoint Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Symantec ATP Endpoint Event
+      Stream: OTHER

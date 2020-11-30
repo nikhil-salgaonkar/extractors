@@ -27,11 +27,9 @@ event-details:
         Virus: AtkMsg 
 
   fallback:
-      annotate:
-        EventName: Generic Trend-Micro Endpoint Event
-        Stream: OTHER
-      translate: 
-        rt: SystemTstamp
+    annotate:
+      EventName: Generic Trend-Micro Endpoint Event
+      Stream: OTHER
 
   globals:
     translate: 
@@ -72,11 +70,9 @@ event-details:
         duser: DstUser
 
   fallback:
-      annotate:
-        EventName: Generic Trend-Micro Endpoint Event
-        Stream: OTHER
-      translate: 
-        rt: SystemTstamp
+    annotate:
+      EventName: Generic Trend-Micro Endpoint Event
+      Stream: OTHER
 
   globals:
     translate: 
@@ -124,11 +120,9 @@ event-details:
         shost: SrcHost 
 
   fallback:
-      annotate:
-        EventName: Generic Trend-Micro Endpoint Event
-        Stream: OTHER
-      translate: 
-        rt: SystemTstamp
+    annotate:
+      EventName: Generic Trend-Micro Endpoint Event
+      Stream: OTHER
 
   globals:
     translate: 
@@ -165,11 +159,9 @@ event-details:
         dpt: DstPort
 
   fallback:
-      annotate:
-        EventName: Generic Trend-Micro Endpoint Event
-        Stream: OTHER
-      translate: 
-        rt: SystemTstamp
+    annotate:
+      EventName: Generic Trend-Micro Endpoint Event
+      Stream: OTHER
 
   globals:
     translate: 
@@ -198,11 +190,9 @@ event-details:
         dpt: DstPort
 
   fallback:
-      annotate:
-        EventName: Generic Trend-Micro Endpoint Event
-        Stream: OTHER
-      translate: 
-        rt: SystemTstamp
+    annotate:
+      EventName: Generic Trend-Micro Endpoint Event
+      Stream: OTHER
 
   globals:
     translate: 

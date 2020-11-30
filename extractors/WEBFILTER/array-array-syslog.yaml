@@ -40,12 +40,9 @@ event-details:
         user: User
 
   fallback:
-      annotate:
-        EventName: Generic Array Proxy Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp
-
+    annotate:
+      EventName: Generic Array Proxy Event
+      Stream: OTHER
 
   globals:
     translate:

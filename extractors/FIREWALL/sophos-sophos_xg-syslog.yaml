@@ -94,9 +94,9 @@ event-details:
         recv_bytes: RXLen                  
     
   fallback:
-      annotate:
-        EventName: Generic SOPHOS-XG Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic SOPHOS-XG Firewall Event
+      Stream: OTHER
 
   globals:
     translate:

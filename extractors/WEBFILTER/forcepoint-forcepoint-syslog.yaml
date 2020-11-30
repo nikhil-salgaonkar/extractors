@@ -41,9 +41,9 @@ event-details:
         requestClientApplication: UserAgent
 
   fallback:
-      annotate:
-        EventName: Generic Forcepoint Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Forcepoint Event
+      Stream: OTHER
 
   globals:
     translate:

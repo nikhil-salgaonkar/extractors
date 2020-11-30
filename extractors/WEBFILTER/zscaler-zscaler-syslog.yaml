@@ -50,11 +50,9 @@ event-details:
         httpreferer: Proxy
 
   fallback:
-      annotate:
-        EventName: Generic Zscaler Proxy Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp
+    annotate:
+      EventName: Generic Zscaler Proxy Event
+      Stream: OTHER
           
   globals:
     translate:

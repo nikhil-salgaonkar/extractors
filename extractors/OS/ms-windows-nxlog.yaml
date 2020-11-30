@@ -276,8 +276,6 @@ event-details:
     annotate:
       EventName: Generic Windows Event
       Stream: OTHER
-    translate:
-      EventTime: SystemTstamp
 
   globals:
     translate:
@@ -354,8 +352,6 @@ event-details:
     annotate:
       EventName: Generic Windows Event
       Stream: OTHER
-    translate:
-      EventTime: SystemTstamp
 
   globals:
     translate:
