@@ -55,9 +55,7 @@ event-details:
   fallback:
     annotate:
       EventName: Generic Brocade Switch Event
-      Stream: OTHER
-    translate:
-      datetime: SystemTstamp  
+      Stream: OTHER  
 
   globals:
     translate:
@@ -85,9 +83,7 @@ event-details:
   fallback:
     annotate:
       EventName: Generic Brocade Switch Event
-      Stream: OTHER
-    translate:
-      datetime: SystemTstamp  
+      Stream: OTHER  
 
   globals:
     translate:
@@ -130,9 +126,7 @@ event-details:
   fallback:
     annotate:
       EventName: Generic Brocade Switch Event
-      Stream: OTHER
-    translate:
-      datetime: SystemTstamp  
+      Stream: OTHER  
 
   globals:
     translate:
@@ -178,9 +172,7 @@ event-details:
   fallback:
     annotate:
       EventName: Generic Brocade Switch Event
-      Stream: OTHER
-    translate:
-      datetime: SystemTstamp 
+      Stream: OTHER 
 
   globals:
     translate:
@@ -212,9 +204,7 @@ event-details:
   fallback:
     annotate:
       EventName: Generic Brocade Switch Event
-      Stream: OTHER
-    translate:
-      datetime: SystemTstamp  
+      Stream: OTHER  
 
   globals:
     translate:
