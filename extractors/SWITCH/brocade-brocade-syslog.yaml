@@ -1,0 +1,222 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 102
+source-name: BROCADE
+source-type: SWITCH
+source-description: extractor for Brocade Switch
+provides-streams:
+- AUTHENTICATION
+- SWITCH
+master-filters:
+- 'raslogd\:\s+\[.*?\[msgid@\d+\s+value\=\"(?:SEC|NSM|L2SS|SNMP|DCM)\-\d+\"\]'
+- '\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+(?:Security|System)\:\s+'
+event-details:  
+- first-match: '\[msgid@\d+\s+value\=\"SEC\-(?:3020|3021|3022)\"\]'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w+\s+\d+\s+\d+\:\d+\:\d+)\s+(?P<hostname>\S+)\s(?P<daemon>\S+)\:.*?msgid@\d+\s+value\=\"(?P<msgid>.*?)\".*?\[severity@\d+\s+value\=\"(?P<severity>\w+)\"(?:.*?user@\d+\s+value\=\"(?P<user>.*?)\".*?ip@\d+\s+value\=\"(?P<src>\d+\.\d+\.\d+\.\d+)\".*?application@\d+\svalue\=\"(?P<app>.*?)\")?.*?\w+Event\:\s+(?P<Event>\w+)\,\s+Status\:\s+(?P<Status>\w+)\,\s+Info:\s(?P<message>.*)\.'
+  event-key-format: '{msgid}'
+  event-key-mapping:
+    'SEC-3020':           
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate: 
+        user: User
+        src: SrcIP
+        #app: APP
+        #severity: Severity
+        #message: Message
+        #Event: EventName
+    'SEC-3022':           
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+      translate: 
+        user: User
+        src: SrcIP
+        #app: APP
+        #severity: Severity
+        #message: Message
+        #Event: EventName
+    'SEC-3021':           
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate: 
+        user: User
+        src: SrcIP
+        #app: APP
+        #severity: Severity
+        #message: Message
+        #Event: EventName
+  fallback:
+    annotate:
+      EventName: Generic Brocade Switch Event
+      Stream: OTHER
+    translate:
+      datetime: SystemTstamp  
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System
+
+- first-match: '\[msgid@\d+\s+value\=\"SEC\-3039\"\]'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w+\s+\d+\s+\d+\:\d+\:\d+)\s+(?P<hostname>\S+)\s(?P<daemon>\S+)\:.*?msgid@\d+\s+value\=\"(?P<msgid>.*?)\".*?\]\[severity@\d+\s+value\=\"(?P<severity>\w+)\".*?Info\:\s(?P<message>.*?address\s+(?P<src>[\d\.]+).*?using\s+(?P<protocol>\S+)\s+port\s+(?P<sport>\d+))'
+  event-key-format: '{msgid}'
+  event-key-mapping:
+    'SEC-3039':           
+      annotate:
+        Stream: SWITCH
+        Action: PORT_BLOCKED
+        Status: FAILED
+      translate: 
+        src: SrcIP
+        protocol: Proto
+        sport: SrcPort
+        severity: Severity
+        #message: Message
+        #Event: EventName
+    
+  fallback:
+    annotate:
+      EventName: Generic Brocade Switch Event
+      Stream: OTHER
+    translate:
+      datetime: SystemTstamp  
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System 
+
+- first-match: '\[msgid@\d+\s+value\=\"NSM\-(?:1001|1002|1003)\"\]'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w+\s+\d+\s+\d+\:\d+\:\d+)\s+(?P<hostname>\S+)\s(?P<daemon>\S+)\:.*?msgid@\d+\s+value\=\"(?P<msgid>.*?)\".*?\[severity@\d+\s+value\=\"(?P<severity>\w+)\"\].*?BOM\s(?P<message>.*?Interface\s+(?P<interface>.*?)\sis\s.*)\.'
+  event-key-format: '{msgid}'
+  event-key-mapping:
+    'NSM-1001':           
+      annotate:
+        Stream: SWITCH
+        Action: INTERFACE_UP
+        Status: PASSED
+      translate: 
+        interface: Iface
+        severity: Severity
+        #message: Message
+    'NSM-1003':           
+      annotate:
+        Stream: SWITCH
+        Action: INTERFACE_DOWN
+        Status: PASSED
+      translate: 
+        interface: Iface
+        severity: Severity
+        #message: Message 
+    'NSM-1002':           
+      annotate:
+        Stream: SWITCH
+        Action: INTERFACE_DOWN
+        Status: PASSED
+      translate: 
+        interface: Iface
+        severity: Severity
+        #message: Message       
+    
+  fallback:
+    annotate:
+      EventName: Generic Brocade Switch Event
+      Stream: OTHER
+    translate:
+      datetime: SystemTstamp  
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System      
+
+- first-match: 'Security\:\s+SSH\s+(?:logout|login|terminated)'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w+\s+\d+\s+\d+\:\d+\:\d+)\s+(?P<hostname>\S+)\s(?P<daemon>\S+)\:(?P<message>\s+SSH\s+(?P<action>.*?)\s+by\s+(?P<user>.*?)\s+from\s+src\s+IP\s+(?P<src>[\w\.]+)\s+.*?src\s+MAC\s+(?P<macaddress>.*?)\s+.*)'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'logout':           
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        user: User
+        macaddress: MACAddress
+        #message: Message
+    'login':           
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        user: User
+        macaddress: MACAddress
+        #message: Message 
+    'terminated':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN_SESSION_DISCONNECTED
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        user: User
+        macaddress: MACAddress
+        #message: Message       
+    
+  fallback:
+    annotate:
+      EventName: Generic Brocade Switch Event
+      Stream: OTHER
+    translate:
+      datetime: SystemTstamp 
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System       
+
+- first-match: 'System\:\s+Interface.*?state\s+(?:up|down)'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w+\s+\d+\s+\d+\:\d+\:\d+)\s+(?P<hostname>\S+)\s(?P<daemon>\S+)\:(?P<message>\s+Interface\s+(?P<interface>.*?)\,\s+state\s+(?P<devstate>\S+))'
+  event-key-format: '{devstate}'
+  event-key-mapping:
+    'up':           
+      annotate:
+        Stream: SWITCH
+        Action: INTERFACE_UP
+        Status: PASSED
+      translate: 
+        interface: Iface
+        #message: Message
+    'down':           
+      annotate:
+        Stream: SWITCH
+        Action: INTERFACE_DOWN
+        Status: PASSED
+      translate: 
+        interface: Iface
+        #message: Message   
+    
+  fallback:
+    annotate:
+      EventName: Generic Brocade Switch Event
+      Stream: OTHER
+    translate:
+      datetime: SystemTstamp  
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System                         
