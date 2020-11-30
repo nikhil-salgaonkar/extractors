@@ -30,8 +30,6 @@ event-details:
     annotate:
       EventName: Generic Dell EMC Connectrix Event
       Stream: OTHER
-    translate:
-      datetime: SystemTstamp  
 
   globals:
     translate:
@@ -57,9 +55,7 @@ event-details:
   fallback:
     annotate:
       EventName: Generic Dell EMC Connectrix Event
-      Stream: OTHER
-    translate:
-      datetime: SystemTstamp  
+      Stream: OTHER 
 
   globals:
     translate:
@@ -86,8 +82,6 @@ event-details:
     annotate:
       EventName: Generic Dell EMC Connectrix Event
       Stream: OTHER
-    translate:
-      datetime: SystemTstamp  
 
   globals:
     translate:
