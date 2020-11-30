@@ -36,7 +36,7 @@ event-details:
         
   fallback:
     annotate:
-      EventName: Generic Tomcat Webserver Event
+      EventName: Generic Apache Webserver Event
       Stream: OTHER
 
   globals:
