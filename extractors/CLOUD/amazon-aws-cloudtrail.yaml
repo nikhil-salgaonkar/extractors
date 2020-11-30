@@ -24,7 +24,7 @@ event-details:
         eventTime: SystemTstamp
         awsRegion: AwsRegion
         userIdentity[type]: UserGroup
-        sourceIPAddress: SrcIP
+#        sourceIPAddress: SrcIP
         userAgent: UserAgent
 
     'IAMUser':

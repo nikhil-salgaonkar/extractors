@@ -32,11 +32,9 @@ event-details:
 
 
   fallback:
-      annotate:
-        EventName: Generic IIS Webserver Event
-        Stream: OTHER
-      translate:
-        EventReceivedTime: SystemTstamp  
+    annotate:
+      EventName: Generic IIS Webserver Event
+      Stream: OTHER
 
   globals:
     translate:

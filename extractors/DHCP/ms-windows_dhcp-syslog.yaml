@@ -144,11 +144,9 @@ event-details:
         resultcode: ResultCode                                  
 
   fallback:
-      annotate:
-        EventName: Generic Windows DHCP Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp  
+    annotate:
+      EventName: Generic Windows DHCP Event
+      Stream: OTHER
 
   globals:
     translate:

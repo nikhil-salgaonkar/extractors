@@ -47,11 +47,9 @@ event-details:
         iface: Iface
 
   fallback:
-      annotate:
-        EventName: Generic Cisco OS Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp
+    annotate:
+      EventName: Generic Cisco OS Event
+      Stream: OTHER
 
   globals:
     translate:

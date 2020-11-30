@@ -741,8 +741,6 @@ event-details:
     annotate:
       EventName: Generic FORTIGATE Event
       Stream: OTHER
-    translate:
-      date: SystemTstamp
 
   globals:
     translate:

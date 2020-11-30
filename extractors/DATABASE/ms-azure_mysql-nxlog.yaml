@@ -20,11 +20,9 @@ event-details:
       #translate:
 
   fallback:
-      annotate:
-        EventName: Generic Azure MySQL Event
-        Stream: OTHER
-      translate:
-        time: SystemTstamp
+    annotate:
+      EventName: Generic Azure MySQL Event
+      Stream: OTHER
 
   globals:
     translate:

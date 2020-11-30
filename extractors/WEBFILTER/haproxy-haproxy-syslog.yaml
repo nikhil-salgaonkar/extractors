@@ -28,11 +28,9 @@ event-details:
         user: User
 
   fallback:
-      annotate:
-        EventName: Generic HAProxy Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp
+    annotate:
+      EventName: Generic HAProxy Event
+      Stream: OTHER
 
   globals:
     translate:

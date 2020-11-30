@@ -132,11 +132,9 @@ event-details:
         file.name: FileName
         
   fallback:
-      annotate:
-        EventName: Generic Smokescreen Event
-        Stream: OTHER
-      translate:
-        timestamp: SystemTstamp
+    annotate:
+      EventName: Generic Smokescreen Event
+      Stream: OTHER
 
   globals:
     translate:

@@ -35,11 +35,9 @@ event-details:
         siteclass: SiteClass
          
   fallback:
-      annotate:
-        EventName: Generic Bluecoat Proxy Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp
+    annotate:
+      EventName: Generic Bluecoat Proxy Event
+      Stream: OTHER
 
   globals:
     translate:
@@ -70,11 +68,9 @@ event-details:
         siteclass: SiteClass
 
   fallback:
-      annotate:
-        EventName: Generic Bluecoat Proxy Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp
+    annotate:
+      EventName: Generic Bluecoat Proxy Event
+      Stream: OTHER
 
   globals:
     translate:
@@ -106,11 +102,9 @@ event-details:
         siteclass: SiteClass
 
   fallback:
-      annotate:
-        EventName: Generic Bluecoat Proxy Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp
+    annotate:
+      EventName: Generic Bluecoat Proxy Event
+      Stream: OTHER
 
   globals:
     translate:
@@ -142,11 +136,9 @@ event-details:
         siteclass: SiteClass
 
   fallback:
-      annotate:
-        EventName: Generic Bluecoat Proxy Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp
+    annotate:
+      EventName: Generic Bluecoat Proxy Event
+      Stream: OTHER
 
   globals:
     translate:
@@ -178,11 +170,9 @@ event-details:
         siteclass: SiteClass
 
   fallback:
-      annotate:
-        EventName: Generic Bluecoat Proxy Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp
+    annotate:
+      EventName: Generic Bluecoat Proxy Event
+      Stream: OTHER
 
   globals:
     translate:
@@ -214,11 +204,9 @@ event-details:
         siteclass: SiteClass
 
   fallback:
-      annotate:
-        EventName: Generic Bluecoat Proxy Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp
+    annotate:
+      EventName: Generic Bluecoat Proxy Event
+      Stream: OTHER
 
   globals:
     translate:
@@ -246,11 +234,9 @@ event-details:
         mimetype: MIMEType
 
   fallback:
-      annotate:
-        EventName: Generic Bluecoat Proxy Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp
+    annotate:
+      EventName: Generic Bluecoat Proxy Event
+      Stream: OTHER
 
   globals:
     translate:
@@ -280,11 +266,9 @@ event-details:
         siteclass: SiteClass
 
   fallback:
-      annotate:
-        EventName: Generic Bluecoat Proxy Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp
+    annotate:
+      EventName: Generic Bluecoat Proxy Event
+      Stream: OTHER
 
   globals:
     translate:
@@ -316,11 +300,9 @@ event-details:
         siteclass: SiteClass
 
   fallback:
-      annotate:
-        EventName: Generic Bluecoat Proxy Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp
+    annotate:
+      EventName: Generic Bluecoat Proxy Event
+      Stream: OTHER
 
   globals:
     translate:

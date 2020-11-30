@@ -40,11 +40,9 @@ event-details:
         device: Device    
 
   fallback:
-      annotate:
-        EventName: Generic TIPPINGPOINT NETWORK-THREAT Event
-        Stream: OTHER
-      translate:
-        time: SystemTstamp  
+    annotate:
+      EventName: Generic TIPPINGPOINT NETWORK-THREAT Event
+      Stream: OTHER
 
   globals:
     translate:

@@ -77,11 +77,9 @@ event-details:
         url: URL           
 
   fallback:
-      annotate:
-        EventName: Generic SafeSquid Proxy Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp
+    annotate:
+      EventName: Generic SafeSquid Proxy Event
+      Stream: OTHER
 
   globals:
     translate:

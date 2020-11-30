@@ -25,9 +25,9 @@ event-details:
         user: User  
 
   fallback:
-      annotate:
-        EventName: Generic NIX Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic NIX Event
+      Stream: OTHER
 
   globals:
     translate:
@@ -47,9 +47,9 @@ event-details:
         user: User
 
   fallback:
-      annotate:
-        EventName: Generic NIX Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic NIX Event
+      Stream: OTHER
 
   globals:
     translate:
@@ -70,9 +70,9 @@ event-details:
         src: SrcIP 
 
   fallback:
-      annotate:
-        EventName: Generic NIX Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic NIX Event
+      Stream: OTHER
 
   globals:
     translate:
@@ -92,9 +92,9 @@ event-details:
         user: User
 
   fallback:
-      annotate:
-        EventName: Generic NIX Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic NIX Event
+      Stream: OTHER
 
   globals:
     translate:
@@ -115,9 +115,9 @@ event-details:
         src: SrcIP 
 
   fallback:
-      annotate:
-        EventName: Generic NIX Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic NIX Event
+      Stream: OTHER
 
   globals:
     translate:
@@ -138,9 +138,9 @@ event-details:
         src: SrcIP 
 
   fallback:
-      annotate:
-        EventName: Generic NIX Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic NIX Event
+      Stream: OTHER
 
 - first-match: 'password\s+authentication\s+failed'
   decoder: regex
@@ -156,9 +156,9 @@ event-details:
         user: User
 
   fallback:
-      annotate:
-        EventName: Generic NIX Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic NIX Event
+      Stream: OTHER
 
   globals:
     translate:
@@ -179,9 +179,9 @@ event-details:
         user: User
 
   fallback:
-      annotate:
-        EventName: Generic NIX Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic NIX Event
+      Stream: OTHER
 
   globals:
     translate:
@@ -201,9 +201,9 @@ event-details:
         user: User
 
   fallback:
-      annotate:
-        EventName: Generic NIX Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic NIX Event
+      Stream: OTHER
 
   globals:
     translate:
@@ -225,9 +225,9 @@ event-details:
         sport: SrcPort
 
   fallback:
-      annotate:
-        EventName: Generic NIX Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic NIX Event
+      Stream: OTHER
 
 
 - first-match: '\s+User.*?logged\s+out'
@@ -244,9 +244,9 @@ event-details:
         user: User
 
   fallback:
-      annotate:
-        EventName: Generic NIX Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic NIX Event
+      Stream: OTHER
 
 
 - first-match: '\s+logged\s+in'
@@ -263,9 +263,9 @@ event-details:
         user: User
 
   fallback:
-      annotate:
-        EventName: Generic NIX Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic NIX Event
+      Stream: OTHER
 
   globals:
     translate:
@@ -293,9 +293,9 @@ event-details:
         user: User
 
   fallback:
-      annotate:
-        EventName: Generic NIX Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic NIX Event
+      Stream: OTHER
 
 - first-match: '\S+\[\d+\]\:\s+.*?authentication\s+(?:failure|failures)\;\s+logname\=.*?uid\=\d+\s+'
   decoder: regex
@@ -324,9 +324,9 @@ event-details:
         rhost: SrcHost    
 
   fallback:
-      annotate:
-        EventName: Generic NIX Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic NIX Event
+      Stream: OTHER
 
   globals:
     translate:
@@ -349,9 +349,9 @@ event-details:
         rhost: SrcHost
 
   fallback:
-      annotate:
-        EventName: Generic NIX Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic NIX Event
+      Stream: OTHER
 
   globals:
     translate:
@@ -374,9 +374,9 @@ event-details:
         sport: SrcPort
 
   fallback:
-      annotate:
-        EventName: Generic NIX Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic NIX Event
+      Stream: OTHER
 
 
 #- first-match: '\s+\S+\[\d+\]\:\s+.*?Received\s+disconnect\s+from\s+'
@@ -393,10 +393,10 @@ event-details:
         #src: SrcIP
         #sport: SrcPort
 
-  #fallback:
-   #   annotate:
-    #    EventName: Generic NIX Event
-     #   Stream: OTHER
+#  fallback:
+#    annotate:
+#      EventName: Generic NIX Event
+#      Stream: OTHER
 
 
 - first-match: '\s+\S+\[\d+\]\:\s+.*?session\s+opened\s+for\s+'
@@ -415,9 +415,9 @@ event-details:
         user: User
 
   fallback:
-      annotate:
-        EventName: Generic NIX Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic NIX Event
+      Stream: OTHER
 
 - first-match: '\s+\S+\[\d+\]\:\s+.*?session\s+closed\s+for\s+'
   decoder: regex
@@ -435,9 +435,9 @@ event-details:
         user: User
 
   fallback:
-      annotate:
-        EventName: Generic NIX Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic NIX Event
+      Stream: OTHER
 
 
 - first-match: '\w+\:\s+.*?session\s+opened\s+for\s+'
@@ -454,9 +454,9 @@ event-details:
         user: User
 
   fallback:
-      annotate:
-        EventName: Generic NIX Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic NIX Event
+      Stream: OTHER
 
 
 - first-match: '\w+\:\s+.*?session\s+closed\s+for\s+'
@@ -473,9 +473,9 @@ event-details:
         user: User
 
   fallback:
-      annotate:
-        EventName: Generic NIX Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic NIX Event
+      Stream: OTHER
 
 
 - first-match: '\S+\:\s+New\s+session\s+\d+\s+of\s+user\s+'
@@ -492,8 +492,8 @@ event-details:
         user: User
 
   fallback:
-      annotate:
-        EventName: Generic NIX Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic NIX Event
+      Stream: OTHER
 
       
