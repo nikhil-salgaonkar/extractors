@@ -238,8 +238,6 @@ event-details:
     annotate:
       EventName: Generic Cyberoam Firewall Event
       Stream: OTHER
-    translate:
-      date: SystemTstamp
 
   globals:
     translate:
