@@ -46,13 +46,10 @@ event-details:
     annotate:
       EventName: Generic Radware WAF Event
       Stream: OTHER
-    translate:  
-      datetime: SystemTstamp
 
   globals:
     translate:
       datetime: SystemTstamp
-      loglevel: LogLevel
       hostname: System
      #message: Message
 
@@ -74,13 +71,10 @@ event-details:
     annotate:
       EventName: Generic Radware WAF Event
       Stream: OTHER
-    translate:  
-      datetime: SystemTstamp
 
   globals:
     translate:
       datetime: SystemTstamp
-      loglevel: LogLevel
       hostname: System
      #message: Message     
 
@@ -157,8 +151,6 @@ event-details:
     annotate:
       EventName: Generic Radware WAF Event
       Stream: OTHER
-    translate:  
-      date: SystemTstamp
 
   globals:
     translate:
@@ -185,19 +177,16 @@ event-details:
         Host: SrcHost
         Attackname: AtkName
         Threatcategory: ThreatCategory
-        WebUser: Use
+        WebUser: User
         Description: AtkDesc
         
   fallback:
     annotate:
       EventName: Generic Radware WAF Event
       Stream: OTHER
-    translate:  
-      datetime: SystemTstamp
 
   globals:
     translate:
       datetime: SystemTstamp
       Priority: Severity
-      loglevel: LogLevel
-      hostname: System      
+      hostname: System
