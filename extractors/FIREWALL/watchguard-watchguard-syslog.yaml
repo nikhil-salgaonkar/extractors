@@ -50,8 +50,6 @@ event-details:
     annotate:
       EventName: Generic WatchGuard Firewall Event
       Stream: OTHER
-    translate:  
-      datetime: SystemTstamp
 
   globals:
     translate:
