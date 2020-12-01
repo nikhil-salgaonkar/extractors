@@ -11,9 +11,9 @@ provides-streams:
 - SYSMON-IMAGE-LOAD
 - IAM
 master-filters:
-- \"SourceName\"\:\"Microsoft\-Windows
+- \"SourceName\"\:\s*\"Microsoft\-Windows
 event-details:  
-- first-match: \"SourceName\"\:\"Microsoft-Windows-Security-Auditing\"
+- first-match: \"SourceName\"\:\s*\"Microsoft-Windows-Security-Auditing\"
   decoder: json
   event-key-format: '{EventID}'         
   event-key-mapping:
@@ -23,8 +23,8 @@ event-details:
         Action: USER_ACCOUNT_CREATED
         Status: PASSED    
       translate: 
-        SubjectUserName: AdminUser
-        TargetUserName: User
+        SubjectUserName: User
+        TargetUserName: TargetUser
         TargetDomainName: TargetDomain 
     '4625': 
       annotate:
@@ -42,7 +42,6 @@ event-details:
         Action: LOGIN
         Status: PASSED    
       translate: 
-        SubjectUserName: AdminUser
         TargetUserName: User
         TargetDomainName: TargetDomain
         WorkstationName: SrcHost
@@ -97,8 +96,8 @@ event-details:
         Action: SYSTEM_USER_ACCOUNT_CREATED
         Status: PASSED    
       translate: 
-        SubjectUserName: AdminUser
-        TargetUserName: User
+        SubjectUserName: User
+        TargetUserName: TargetUser
         TargetDomainName: TargetDomain  
     '4722':          
       annotate:
@@ -106,8 +105,8 @@ event-details:
         Action: ACCOUNT_ENABLED
         Status: PASSED    
       translate: 
-        SubjectUserName: AdminUser
-        TargetUserName: User
+        SubjectUserName: User
+        TargetUserName: TargetUser
         TargetDomainName: TargetDomain
     '4723':         
       annotate:
@@ -115,8 +114,8 @@ event-details:
         Action: ACCOUNT_PASSWORD_CHANGED
         Status: PASSED    
       translate: 
-        SubjectUserName: AdminUser
-        TargetUserName: User
+        SubjectUserName: User
+        TargetUserName: TargetUser
         TargetDomainName: TargetDomain
     '4724':         
       annotate:
@@ -124,8 +123,8 @@ event-details:
         Action: ACCOUNT_PASSWORD_RESET
         Status: PASSED    
       translate: 
-        SubjectUserName: AdminUser
-        TargetUserName: User
+        SubjectUserName: User
+        TargetUserName: TargetUser
         TargetDomainName: TargetDomain
     '4725':         
       annotate:
@@ -133,8 +132,8 @@ event-details:
         Action: USER_ACCOUNT_DISABLED
         Status: PASSED    
       translate:  
-        SubjectUserName: AdminUser
-        TargetUserName: User
+        SubjectUserName: User
+        TargetUserName: TargetUser
         TargetDomainName: TargetDomain
     '4726':         
       annotate:
@@ -142,8 +141,8 @@ event-details:
         Action: USER_ACCOUNT_DELETED
         Status: PASSED    
       translate:
-        SubjectUserName: AdminUser
-        TargetUserName: User
+        SubjectUserName: User
+        TargetUserName: TargetUser
         TargetDomainName: TargetDomain 
     '4738':            
       annotate:
@@ -151,8 +150,8 @@ event-details:
         Action: USER_ACCOUNT_CHANGED
         Status: PASSED    
       translate: 
-        SubjectUserName: AdminUser
-        TargetUserName: User
+        SubjectUserName: User
+        TargetUserName: TargetUser
         TargetDomainName: TargetDomain
     '4740':           
       annotate:
@@ -160,8 +159,8 @@ event-details:
         Action: USER_ACCOUNT_LOCKOUT
         Status: PASSED    
       translate:  
-        SubjectUserName: AdminUser
-        TargetUserName: User
+        SubjectUserName: User
+        TargetUserName: TargetUser
         TargetDomainName: TargetDomain 
     '4767':          
       annotate:
@@ -169,8 +168,8 @@ event-details:
         Action: USER_ACCOUNT_UNLOCKED
         Status: PASSED    
       translate:  
-        SubjectUserName: AdminUser
-        TargetUserName: User
+        SubjectUserName: User
+        TargetUserName: TargetUser
         TargetDomainName: TargetDomain
     '4742':            
       annotate:
@@ -178,8 +177,8 @@ event-details:
         Action: SYSTEM_USER_ACCOUNT_CHANGED
         Status: PASSED    
       translate: 
-        SubjectUserName: AdminUser
-        TargetUserName: User
+        SubjectUserName: User
+        TargetUserName: TargetUser
         TargetDomainName: TargetDomain
     '4743':           
       annotate:
@@ -187,8 +186,8 @@ event-details:
         Action: SYSTEM_USER_ACCOUNT_DELETED
         Status: PASSED    
       translate:  
-        SubjectUserName: AdminUser
-        TargetUserName: User
+        SubjectUserName: User
+        TargetUserName: TargetUser
         TargetDomainName: TargetDomain
     '4731':         
       annotate:
@@ -196,8 +195,8 @@ event-details:
         Action: SECURITY_LGRP_CREATED
         Status: PASSED    
       translate: 
-        SubjectUserName: AdminUser
-        TargetUserName: User
+        SubjectUserName: User
+        TargetUserName: TargetUser
         TargetDomainName: TargetDomain
         SubjectDomainName: Domain 
     '4732':         
@@ -206,8 +205,8 @@ event-details:
         Action: SECURITY_LGRP_MEMBER_ADDED
         Status: PASSED    
       translate: 
-        SubjectUserName: AdminUser
-        TargetUserName: User
+        SubjectUserName: User
+        TargetUserName: TargetUser
         TargetDomainName: TargetDomain
         SubjectDomainName: Domain
     '4733':         
@@ -216,8 +215,8 @@ event-details:
         Action: SECURITY_LGRP_MEMBER_REMOVED
         Status: PASSED    
       translate: 
-        SubjectUserName: AdminUser
-        TargetUserName: User
+        SubjectUserName: User
+        TargetUserName: TargetUser
         TargetDomainName: TargetDomain
         SubjectDomainName: Domain
     '4756':         
@@ -226,9 +225,9 @@ event-details:
         Action: SECURITY_UGRP_MEMBER_ADDED
         Status: PASSED    
       translate:  
-        SubjectUserName: AdminUser
+        SubjectUserName: User
         SubjectDomainName: Domain
-        TargetUserName: User
+        TargetUserName: TargetUser
         TargetDomainName: TargetDomain
     '4672':          
       annotate:
@@ -236,7 +235,7 @@ event-details:
         Action: PRIVILEGE_SET
         Status: PASSED    
       translate:  
-        SubjectUserName: AdminUser
+        SubjectUserName: User
         SubjectDomainName: Domain     
     '4779':          
       annotate:
@@ -244,7 +243,6 @@ event-details:
         Action: LOGIN_SESSION_DISCONNECT
         Status: PASSED
       translate:   
-        SubjectUserName: AdminUser
         SubjectDomainName: Domain
         AccountName: User
     '4670':          
@@ -253,7 +251,7 @@ event-details:
         Action: PRIVILEGE_CHANGED
         Status: PASSED    
       translate:  
-        SubjectUserName: AdminUser
+        SubjectUserName: User
         SubjectDomainName: Domain 
     '4674': 
       annotate:
@@ -261,7 +259,7 @@ event-details:
         Action: PRIVILEGE_OBJECT_ACCESS
         Status: PASSED    
       translate:  
-        SubjectUserName: AdminUser
+        SubjectUserName: User
         SubjectDomainName: Domain 
     '5140':    
       annotate:
@@ -271,22 +269,20 @@ event-details:
       translate:  
         IpAddress: SrcIP
         IpPort: SrcPort
-        SubjectUserName: AdminUser
+        SubjectUserName: User
         SubjectDomainName: Domain  
 
   fallback:
-      annotate:
-        EventName: Generic Windows Event
-        Stream: OTHER
-      translate:  
-        EventTime: SystemTstamp
+    annotate:
+      EventName: Generic Windows Event
+      Stream: OTHER
 
   globals:
     translate:
       EventTime: SystemTstamp
       Hostname: System
 
-- first-match: \"SourceName\"\:\"Microsoft\-Windows\-Sysmon\"
+- first-match: \"SourceName\"\:\s*\"Microsoft\-Windows\-Sysmon\"
   decoder: json
   event-key-format: '{EventID}'
   event-key-mapping:
@@ -300,7 +296,6 @@ event-details:
         ParentCommandLine: ParentCommandLine
         OriginalFileName: OriginalFileName
         ParentImage: ParentImage 
-        ParentUser: ParentUser
         CommandLine: CommandLine
         Description: Description
         Company: Company
@@ -311,76 +306,54 @@ event-details:
         Action: PROCESS_REMOVED
         Status: PASSED
       translate:
-        Image: Image 
-        ParentCommandLine: ParentCommandLine
-        OriginalFileName: OriginalFileName
-        ParentImage: ParentImage 
-        ParentUser: ParentUser
-        CommandLine: CommandLine
+        Image: Image
+        User: User
         Description: Description
-        Company: Company
-        Product: Product   
+
     '3': 
       annotate:
         Stream: SYSMON-NETWORK 
         Action: NETWORK_CONNECTION
         Status: PASSED
       translate:
-        Image: Image 
-        ParentCommandLine: ParentCommandLine
-        ParentImage: ParentImage
-        ParentUser: ParentUser 
+        Image: Image
         SourceIp: SrcIP
         SourcePort: SrcPort
         SourceHostname: SrcHost
         DestinationIp: DstIP
         DestinationHostname: DstHost
-        OriginalFileName: OriginalFileName
         DestinationPort: DstPort
         Description: Description
-        Company: Company
-        Product: Product
+
     '10':
       annotate:
         Stream: SYSMON-PROCESS 
         Action: PROCESS_ACCESSED
         Status: PASSED
-      translate: 
+      translate:
+        SourceImage: SourceImage
         TargetImage: TargetImage
         GrantedAccess: GrantedAccess
-        OriginalFileName: OriginalFileName
-        ParentUser: ParentUser
-        ParentImage: ParentImage
-        CommandLine: CommandLine 
+        CallTrace: CallTrace
         Description: Description
-        Company: Company
-        Product: Product
+
     '7':
       annotate:
         Stream: SYSMON-IMAGE-LOAD 
         Action: PROCESS_ACCESSED
         Status: PASSED
-      translate: 
-        Image: Image
-        ImageLoaded: ImageLoaded
-        Signed: Signed 
-        OriginalFileName: OriginalFileName
-        ParentUser: ParentUser
-        ParentImage: ParentImage 
+      translate:
+        User: User
         Description: Description
         Company: Company
         Product: Product   
              
   fallback:
-      annotate:
-        EventName: Generic Windows Event
-        Stream: OTHER
-      translate:  
-        EventTime: SystemTstamp
+    annotate:
+      EventName: Generic Windows Event
+      Stream: OTHER
 
   globals:
     translate:
       EventTime: SystemTstamp
       Hostname: System
-       
-      

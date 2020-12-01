@@ -1,22 +1,21 @@
 schema-version: 1.0
 #extractor-version: 1
-extractor-id: 150
-source-name: F5BIGIP-CEF
+extractor-id: 253
+source-name: AKAMAI-CEF
 source-type: WAF
-source-description: extractor for F5-BigIP WAF
+source-description: extractor for Akamai WAF
 provides-streams:
 - WAF
 master-filters:
-- CEF\:\d+\|F5\|ASM\|
-
+- 'CEF\:\d+\|Akamai\|akamai_siem\|'
 event-details:  
-- first-match: CEF\:\d+\|F5\|ASM\|
+- first-match: 'CEF\:\d+\|Akamai\|akamai_siem\|'
   decoder: custom
-  decoder-regex: ([\w]+)\=([^\s]*)
-  event-key-format: '{act}'
+  decoder-regex: '([\w]+)\=([^\s]*)'
+  event-key-format: '{act}-{AkamaiSiemResponseStatus}'
   decoder-header: CEF
   event-key-mapping:
-    passed:           
+    'alert-200':           
       annotate:
         Stream: WAF
         Action: URL_ALLOWED
@@ -24,12 +23,12 @@ event-details:
       translate: 
         src: SrcIP
         requestMethod: Method
-        cn1: ReturnCode
-        spt: SrcPort
-        url: URL
-        Header-5: EventName
-        Header-6: Severity
-    blocked:           
+        AkamaiSiemResponseStatus: RetCode
+        dpt: DstPort
+        dhost: DstHost
+        request: URL
+        #app: App
+    'deny-403':           
       annotate:
         Stream: WAF
         Action: URL_BLOCKED
@@ -37,20 +36,22 @@ event-details:
       translate: 
         src: SrcIP
         requestMethod: Method
-        cn1: ReturnCode
-        spt: SrcPort
-        url: URL
-        Header-5: EventName
-        Header-6: Severity
+        AkamaiSiemResponseStatus: RetCode
+        dpt: DstPort
+        dhost: DstHost
+        request: URL
+        #app: App
         
   fallback:
     annotate:
-      EventName: Generic F5-BigIP Event
+      EventName: Generic Akamai WAF Event
       Stream: OTHER
 
   globals:
     translate:
-      dvchost: System
+      start: SystemTstamp
+      Header-5: EventName
+      Header-6: Severity
 
   subs:
     Severity:

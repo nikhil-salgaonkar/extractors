@@ -25,11 +25,9 @@ event-details:
         user: User
 
   fallback:
-      annotate:
-        EventName: Generic Apache2 Webserver Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp  
+    annotate:
+      EventName: Generic Apache2 Webserver Event
+      Stream: OTHER
 
   globals:
     translate:
@@ -54,11 +52,9 @@ event-details:
         app: App 
 
   fallback:
-      annotate:
-        EventName: Generic Apache2 Webserver Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp 
+    annotate:
+      EventName: Generic Apache2 Webserver Event
+      Stream: OTHER
 
   globals:
     translate:
@@ -82,11 +78,9 @@ event-details:
         txlen: TXLen
 
   fallback:
-      annotate:
-        EventName: Generic Apache2 Webserver Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp 
+    annotate:
+      EventName: Generic Apache2 Webserver Event
+      Stream: OTHER
 
   globals:
     translate:
@@ -108,11 +102,9 @@ event-details:
         useragent: UserAgent
 
   fallback:
-      annotate:
-        EventName: Generic Apache2 Webserver Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp 
+    annotate:
+      EventName: Generic Apache2 Webserver Event
+      Stream: OTHER
 
   globals:
     translate:
@@ -137,11 +129,9 @@ event-details:
         txlen: TXLen
 
   fallback:
-      annotate:
-        EventName: Generic Apache2 Webserver Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp 
+    annotate:
+      EventName: Generic Apache2 Webserver Event
+      Stream: OTHER
 
   globals:
     translate:
@@ -166,11 +156,9 @@ event-details:
         txlen: TXLen
 
   fallback:
-      annotate:
-        EventName: Generic Apache2 Webserver Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp 
+    annotate:
+      EventName: Generic Apache2 Webserver Event
+      Stream: OTHER
 
   globals:
     translate:
@@ -195,11 +183,9 @@ event-details:
         txlen: TXLen
 
   fallback:
-      annotate:
-        EventName: Generic Apache2 Webserver Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp 
+    annotate:
+      EventName: Generic Apache2 Webserver Event
+      Stream: OTHER
 
   globals:
     translate:
@@ -233,11 +219,9 @@ event-details:
         txlen: TXLen
 
   fallback:
-      annotate:
-        EventName: Generic Apache2 Webserver Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp 
+    annotate:
+      EventName: Generic Apache2 Webserver Event
+      Stream: OTHER
 
   globals:
     translate:
@@ -262,11 +246,9 @@ event-details:
         txlen: TXLen
 
   fallback:
-      annotate:
-        EventName: Generic Apache2 Webserver Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp 
+    annotate:
+      EventName: Generic Apache2 Webserver Event
+      Stream: OTHER
 
   globals:
     translate:

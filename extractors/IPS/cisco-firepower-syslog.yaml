@@ -63,9 +63,9 @@ event-details:
         WebApplication: App
 
   fallback:
-      annotate:
-        EventName: Generic CISCO-FIREPOWER Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic CISCO-FIREPOWER Event
+      Stream: OTHER
           
 
   globals:

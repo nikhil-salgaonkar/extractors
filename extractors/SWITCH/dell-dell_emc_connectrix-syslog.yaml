@@ -1,0 +1,116 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 249
+source-name: DELL-EMC-CONNECTRIX
+source-type: SWITCH
+source-description: extractor for Dell EMC Connectrix
+provides-streams:
+- AUTHENTICATION
+master-filters:
+- '\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+(?:raslogd|Kittyhawk_safe|Neo_CEM)\:?(?:\[\d+\]\:)?(?:\s+AUDIT\,)?'
+event-details:  
+- first-match: 'raslogd\:\s+AUDIT\,.*?\[SEC\-3020\]\,'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>\w+)\:.*?\[(?P<msgid>SEC-3020)\]\,\s+(?P<severity>\w+)\,.*?Event\:\s+(?P<Event>\w+)\,\s+Status\:\s+(?P<Status>\w+)\,\s+Info\:\s+(?P<message>.*?)\,\s+IP\s+Addr\:\s+(?P<src>\S+)\.'
+  event-key-format: '{msgid}'
+  event-key-mapping:
+    'SEC-3020':           
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+        User: '-'
+      translate: 
+        src: SrcIP
+        #severity: Severity
+        #message: Message
+        #Event: EventName
+        
+  fallback:
+    annotate:
+      EventName: Generic Dell EMC Connectrix Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System
+
+- first-match: 'raslogd\:\s+AUDIT\,.*?\[SEC\-3022\]\,'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>.\w+)\:.*?\[(?P<msgid>SEC-3022)\]\,\s+(?P<severity>\w+)\,.*?Event\:\s+(?P<Event>\w+)\,\s+Status\:\s+(?P<Status>\w+)\,\s+Info\:\s+(?P<message>.*?\s+user\s+\[(?P<user>\S+)\]\.)'
+  event-key-format: '{msgid}'
+  event-key-mapping:
+    'SEC-3022':           
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+      translate: 
+        user: User
+        #severity: Severity
+        #message: Message
+        #Event: EventName
+        
+  fallback:
+    annotate:
+      EventName: Generic Dell EMC Connectrix Event
+      Stream: OTHER 
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System   
+
+- first-match: 'raslogd\:\s+.*?\[SEC\-1203\]\,'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>\w+)\:.*?\[(?P<msgid>SEC-1203)\]\,.*?\s+(?P<severity>INFO)\,.*?Login\s+information\:\s+(?P<message>.*?IP\s+Addr\:\s+(?P<src>\S+))'
+  event-key-format: '{msgid}'
+  event-key-mapping:
+    'SEC-1203':           
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+        User: '-'
+      translate: 
+        src: SrcIP
+        #severity: Severity
+        #message: Message
+        
+  fallback:
+    annotate:
+      EventName: Generic Dell EMC Connectrix Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System         
+
+- first-match: 'raslogd\:\s+AUDIT\,.*?\[SNMP\-3020\]\,'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>\w+)\:.*?\[(?P<msgid>SNMP-3020)\]\,\s+(?P<severity>\w+)\,.*?Event\:\s+(?P<Event>\w+)\,.*?Info\:\s+(?P<message>.*?IP\:\s+(?P<src>.*?))\,'
+  event-key-format: '{msgid}'
+  event-key-mapping:
+    'SNMP-3020':           
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+        User: '-'
+      translate: 
+        src: SrcIP
+        #Event: EventName
+        #severity: Severity
+        #message: Message
+        
+  fallback:
+    annotate:
+      EventName: Generic Dell EMC Connectrix Event
+      Stream: OTHER 
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System               

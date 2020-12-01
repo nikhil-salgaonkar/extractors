@@ -62,11 +62,9 @@ event-details:
         PORT: SrcPort           
 
   fallback:
-      annotate:
-        EventName: Generic Oracle Database Event
-        Stream: OTHER
-      translate:
-        DATETIME: SystemTstamp
+    annotate:
+      EventName: Generic Oracle Database Event
+      Stream: OTHER
 
   globals:
     translate:
@@ -93,11 +91,9 @@ event-details:
         USERID: User  
 
   fallback:
-      annotate:
-        EventName: Generic Oracle Database Event
-        Stream: OTHER
-      translate:
-        DATETIME: SystemTstamp
+    annotate:
+      EventName: Generic Oracle Database Event
+      Stream: OTHER
 
   globals:
     translate:
@@ -119,11 +115,9 @@ event-details:
         OBJECTNAME: ObjectName    
 
   fallback:
-      annotate:
-        EventName: Generic Oracle Database Event
-        Stream: OTHER
-      translate:
-        DATETIME: SystemTstamp
+    annotate:
+      EventName: Generic Oracle Database Event
+      Stream: OTHER
 
   globals:
     translate:
@@ -146,11 +140,9 @@ event-details:
         DBACCESS: DBAccess   
 
   fallback:
-      annotate:
-        EventName: Generic Oracle Database Event
-        Stream: OTHER
-      translate:
-        DATETIME: SystemTstamp
+    annotate:
+      EventName: Generic Oracle Database Event
+      Stream: OTHER
 
   globals:
     translate:
@@ -172,11 +164,9 @@ event-details:
         USER: User
 
   fallback:
-      annotate:
-        EventName: Generic Oracle Database Event
-        Stream: OTHER
-      translate:
-        DATETIME: SystemTstamp
+    annotate:
+      EventName: Generic Oracle Database Event
+      Stream: OTHER
 
   globals:
     translate:
@@ -199,11 +189,9 @@ event-details:
         DBACCESS: DBAccess
 
   fallback:
-      annotate:
-        EventName: Generic Oracle Database Event
-        Stream: OTHER
-      translate:
-        DATETIME: SystemTstamp
+    annotate:
+      EventName: Generic Oracle Database Event
+      Stream: OTHER
 
   globals:
     translate:
@@ -226,11 +214,9 @@ event-details:
         DBACCESS: DBAccess
 
   fallback:
-      annotate:
-        EventName: Generic Oracle Database Event
-        Stream: OTHER
-      translate:
-        DATETIME: SystemTstamp
+    annotate:
+      EventName: Generic Oracle Database Event
+      Stream: OTHER
 
   globals:
     translate:
@@ -253,11 +239,9 @@ event-details:
         DBACCESS: DBAccess
 
   fallback:
-      annotate:
-        EventName: Generic Oracle Database Event
-        Stream: OTHER
-      translate:
-        DATETIME: SystemTstamp
+    annotate:
+      EventName: Generic Oracle Database Event
+      Stream: OTHER
 
   globals:
     translate:
