@@ -46,8 +46,6 @@ event-details:
     annotate:
       EventName: Generic Akamai WAF Event
       Stream: OTHER
-    translate:
-      start: SystemTstamp  
 
   globals:
     translate:
