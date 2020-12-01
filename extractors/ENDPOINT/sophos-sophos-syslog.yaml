@@ -8,13 +8,11 @@ provides-streams:
 - ENDPOINT-THREAT
 master-filters:
 - \"rt\"\:\s+\".*?\"\,.*?\"type\"\:\s+\"Event\:\:Endpoint\:\:.*?\"\,
-
 event-details:
 - first-match: \"Event\:\:Endpoint\:\:.*?\"\,
   decoder: custom
   decoder-regex: \"([\w]+)\"\:\s+\"([^\,]+)\"
   event-key-format: '{type}'
-  #decoder-header: CEF
   event-key-mapping:
     "Event::Endpoint::CoreClean":
       annotate:
