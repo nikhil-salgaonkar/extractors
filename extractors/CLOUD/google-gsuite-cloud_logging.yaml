@@ -11,51 +11,98 @@ master-filters:
 event-details:
 - first-match: \"kind\":\s*\"admin#reports#activity\"
   decoder: json
-  event-key-format: '{id[applicationName]}'
+  event-key-format: '{events[name]}'
   event-key-mapping:
-    'login':
+    'login_challenge':
       annotate:
         Stream: GSUITE
       translate:
         events[type]: EventType
         events[name]: EventName
         actor[email]: User
-        actor[callerType]: UserGroup
         ipAddress: SrcIP
-        events[0][parameters][2][boolValue]: IsSuspicious
         events[0][parameters][0][value]: LoginType
-        events[0][parameters]: Parameters
+        events[0][parameters][1][multiValue]: LoginChallengeMethod
+        events[0][parameters][2][value]: LoginChallengeStatus
 
-    'chat':
+    'login_failure':
       annotate:
         Stream: GSUITE
       translate:
         events[type]: EventType
         events[name]: EventName
         actor[email]: User
-        actor[callerType]: UserGroup
-        events[0][parameters]: Parameters
+        ipAddress: SrcIP
+        events[0][parameters][0][value]: LoginType
+        events[0][parameters][1][multiValue]: LoginChallengeMethod
 
-    'meet':
+    'login_success':
       annotate:
         Stream: GSUITE
       translate:
         events[type]: EventType
         events[name]: EventName
         actor[email]: User
+        ipAddress: SrcIP
+        events[0][parameters][0][value]: LoginType
+        events[0][parameters][1][multiValue]: LoginChallengeMethod
+        events[0][parameters][2][boolValue]: IsSuspicious
+
+    'login_verification':
+      annotate:
+        Stream: GSUITE
+      translate:
+        events[type]: EventType
+        events[name]: EventName
+        actor[email]: User
+        ipAddress: SrcIP
+        events[0][parameters][0][value]: LoginType
+        events[0][parameters][1][multiValue]: LoginChallengeMethod
+        events[0][parameters][2][value]: LoginChallengeStatus
+        events[0][parameters][3][boolValue]: IsSecondFactor
+
+    'suspicious_login':
+      annotate:
+        Stream: GSUITE
+      translate:
+        events[type]: EventType
+        events[name]: EventName
         actor[key]: User
         actor[callerType]: UserGroup
-        events[0][parameters]: Parameters
+        ipAddress: SrcIP
+        events[0][parameters][0][value]: AffectedEmailAddress
 
-    'token':
+    'logout':
       annotate:
         Stream: GSUITE
       translate:
         events[type]: EventType
         events[name]: EventName
         actor[email]: User
+        ipAddress: SrcIP
+        events[0][parameters][0][value]: LoginType
+
+    'authorize':
+      annotate:
+        Stream: GSUITE
+      translate:
+        events[name]: EventName
+        actor[email]: User
         actor[callerType]: UserGroup
-        events[0][parameters]: Parameters
+        events[0][parameters][1][value]: App
+        events[0][parameters][2][value]: Client
+        events[0][parameters][4][multiValue]: Scope
+
+    'revoke':
+      annotate:
+        Stream: GSUITE
+      translate:
+        events[name]: EventName
+        actor[email]: User
+        actor[callerType]: UserGroup
+        events[0][parameters][1][value]: App
+        events[0][parameters][2][value]: Client
+        events[0][parameters][4][multiValue]: Scope
 
   fallback:
     annotate:
