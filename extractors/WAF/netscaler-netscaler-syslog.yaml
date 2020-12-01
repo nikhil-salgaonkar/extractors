@@ -30,8 +30,6 @@ event-details:
     annotate:
       EventName: Generic NetScaler WAF Event
       Stream: OTHER
-    translate:  
-      datetime: SystemTstamp
 
   globals:
     translate:
@@ -67,8 +65,6 @@ event-details:
     annotate:
       EventName: Generic NetScaler WAF Event
       Stream: OTHER
-    translate:  
-      datetime: SystemTstamp
 
   globals:
     translate:
@@ -104,8 +100,6 @@ event-details:
     annotate:
       EventName: Generic NetScaler WAF Event
       Stream: OTHER
-    translate:  
-      datetime: SystemTstamp
 
   globals:
     translate:
@@ -140,8 +134,6 @@ event-details:
     annotate:
       EventName: Generic NetScaler WAF Event
       Stream: OTHER
-    translate:  
-      datetime: SystemTstamp
 
   globals:
     translate:
@@ -178,8 +170,6 @@ event-details:
     annotate:
       EventName: Generic NetScaler WAF Event
       Stream: OTHER
-    translate:  
-      datetime: SystemTstamp
 
   globals:
     translate:
@@ -210,8 +200,6 @@ event-details:
     annotate:
       EventName: Generic NetScaler WAF Event
       Stream: OTHER
-    translate:  
-      datetime: SystemTstamp
 
   globals:
     translate:
@@ -248,8 +236,6 @@ event-details:
     annotate:
       EventName: Generic NetScaler WAF Event
       Stream: OTHER
-    translate:  
-      datetime: SystemTstamp
 
   globals:
     translate:
@@ -282,8 +268,6 @@ event-details:
     annotate:
       EventName: Generic NetScaler WAF Event
       Stream: OTHER
-    translate:  
-      datetime: SystemTstamp
 
   globals:
     translate:
