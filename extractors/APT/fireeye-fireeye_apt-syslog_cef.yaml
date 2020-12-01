@@ -9,7 +9,6 @@ provides-streams:
 master-filters:
 - CEF\:0\|FireEye\|
 - CEF\:0\|fireeye\|
-
 event-details:
 - first-match: act\=(?:blocked|notified)
   decoder: custom
@@ -57,7 +56,6 @@ event-details:
     #translate:
       #dvchost: DstHost
   subs: &id001
-
     Severity:
       '0': 'LOW'
       '1': 'LOW'
@@ -114,8 +112,6 @@ event-details:
     annotate:
       EventName: Generic Fireeye Event
       Stream: OTHER
-    translate:
-      datetime: SystemTstamp
 
   #globals:
     #translate:
@@ -143,8 +139,6 @@ event-details:
     annotate:
       EventName: Generic Fireeye Event
       Stream: OTHER
-    translate:
-      datetime: SystemTstamp
 
   #globals:
     #translate:
