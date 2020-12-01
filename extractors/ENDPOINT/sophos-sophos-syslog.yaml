@@ -1,0 +1,94 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 204
+source-name: SOPHOS
+source-type: ENDPOINT
+source-description: Extractor for Sophos Endpoint
+provides-streams:
+- ENDPOINT-THREAT
+master-filters:
+- \"rt\"\:\s+\".*?\"\,.*?\"type\"\:\s+\"Event\:\:Endpoint\:\:.*?\"\,
+event-details:
+- first-match: \"Event\:\:Endpoint\:\:.*?\"\,
+  decoder: custom
+  decoder-regex: \"([\w]+)\"\:\s+\"([^\,]+)\"
+  event-key-format: '{type}'
+  event-key-mapping:
+    "Event::Endpoint::CoreClean":
+      annotate:
+        Stream: ENDPOINT-THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+      translate:
+        threat: AtkMsg
+        ip: SrcIP
+        suser: User
+        dhost: DstHost
+        severity: Severity
+    "Event::Endpoint::WebControlViolation":
+      annotate:
+        Stream: ENDPOINT-THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+      translate:
+        threat: AtkMsg
+        ip: SrcIP
+        suser: User
+        dhost: DstHost
+        severity: Severity
+    "Event::Endpoint::CorePuaDetection":
+      annotate:
+        Stream: ENDPOINT-THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+      translate:
+        threat: AtkMsg
+        ip: SrcIP
+        suser: User
+        dhost: DstHost
+        severity: Severity
+    "Event::Endpoint::Threat::HIPSDetected":
+      annotate:
+        Stream: ENDPOINT-THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+      translate:
+        threat: AtkMsg
+        ip: SrcIP
+        suser: User
+        dhost: DstHost
+        severity: Severity
+    "Event::Endpoint::NonCompliant":
+      annotate:
+        Stream: ENDPOINT-THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+      translate:
+        threat: AtkMsg
+        ip: SrcIP
+        suser: User
+        dhost: DstHost
+        severity: Severity
+    "Event::Endpoint::WebFilteringBlocked":
+      annotate:
+        Stream: ENDPOINT-THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+      translate:
+        threat: AtkMsg
+        ip: SrcIP
+        suser: User
+        dhost: DstHost
+        severity: Severity
+        
+  fallback:
+    annotate:
+      EventName: Generic Sophos Event
+      Stream: OTHER
+    translate:
+      rt: SystemTstamp
+
+  globals:
+    translate:
+      rt: SystemTstamp
+      
