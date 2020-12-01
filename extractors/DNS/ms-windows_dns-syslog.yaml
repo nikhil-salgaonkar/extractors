@@ -27,8 +27,6 @@ event-details:
     annotate:
       EventName: Generic Windows DNS Event
       Stream: OTHER
-    translate:
-      datetime: SystemTstamp
 
   globals:
     translate:
