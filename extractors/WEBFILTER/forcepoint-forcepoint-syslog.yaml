@@ -11,6 +11,7 @@ master-filters:
 event-details:
 - first-match: CEF\:\d+\|Forcepoint\|Security\|.*?act\=\w+
   decoder: custom
+  decoder-header: CEF
   decoder-regex: (\w+)\=([^\s]+\s\([^\)]+\)|[^\s]+)
   event-key-format: '{act}'
   event-key-mapping:
@@ -49,3 +50,19 @@ event-details:
       spt: SrcPort
       dpt: DstPort
       app: AppService
+      Header-5: EventName 
+      Header-6: Severity
+
+  subs:   
+    Severity: 
+      '0': 'LOW'
+      '1': 'LOW'
+      '2': 'LOW'
+      '3': 'LOW'
+      '4': 'MEDIUM' 
+      '5': 'MEDIUM' 
+      '6': 'MEDIUM' 
+      '7': 'HIGH' 
+      '8': 'HIGH'
+      '9': 'VERY-HIGH' 
+      '10': 'VERY-HIGH'
