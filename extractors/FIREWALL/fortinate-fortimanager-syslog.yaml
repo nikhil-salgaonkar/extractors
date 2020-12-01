@@ -51,22 +51,8 @@ event-details:
     annotate:
       EventName: Generic FortiManager Firewall Event
       Stream: OTHER
-    translate:
-      date: SystemTstamp  
 
   globals:
     translate:
       date: SystemTstamp
       devname: System
-      pri: LogLevel    
-      
-  subs: 
-    LogLevel:
-      'alert': ALERT
-      'critical': CRITICAL
-      'emergency': EMERGENCY
-      'error': ERROR
-      'information': INFORMATION
-      'notification': NOTIFICATION
-      'notice': NOTICE
-      'warning': WARNING
