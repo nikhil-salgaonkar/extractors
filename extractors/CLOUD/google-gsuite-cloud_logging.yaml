@@ -11,7 +11,7 @@ master-filters:
 event-details:
 - first-match: \"kind\":\s*\"admin#reports#activity\"
   decoder: json
-  event-key-format: '{events[name]}'
+  event-key-format: '{events[0][name]}'
   event-key-mapping:
     'login_challenge':
       annotate:
