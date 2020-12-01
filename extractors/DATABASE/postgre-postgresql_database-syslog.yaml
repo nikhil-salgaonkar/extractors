@@ -28,8 +28,6 @@ event-details:
     annotate:
       EventName: Generic PGSQL Database Event
       Stream: OTHER
-    translate:
-      datetime: SystemTstamp
 
   globals:
     translate:
@@ -48,15 +46,13 @@ event-details:
         Status: PASSED
       translate: 
         user: User 
-        database: DB
-        returncode: ReturnCode
+#        database: DB
+#        returncode: ReturnCode
 
   fallback:
     annotate:
       EventName: Generic PGSQL Database Event
       Stream: OTHER
-    translate:
-      datetime: SystemTstamp
 
   globals:
     translate:
@@ -77,15 +73,13 @@ event-details:
         user: User 
         host: SrcIP
         port: SrcPort
-        database: DB  
-        returncode: ReturnCode  
+#        database: DB
+#        returncode: ReturnCode
 
   fallback:
     annotate:
       EventName: Generic PGSQL Database Event
       Stream: OTHER
-    translate:
-      datetime: SystemTstamp
 
   globals:
     translate:
@@ -109,8 +103,6 @@ event-details:
     annotate:
       EventName: Generic PGSQL Database Event
       Stream: OTHER
-    translate:
-      datetime: SystemTstamp
 
   globals:
     translate:
@@ -134,8 +126,6 @@ event-details:
     annotate:
       EventName: Generic PGSQL Database Event
       Stream: OTHER
-    translate:
-      datetime: SystemTstamp
 
   globals:
     translate:
@@ -157,15 +147,13 @@ event-details:
         database: DB
         src: SrcIP
         sport: SrcPort
-        returncode: ReturnCode
+#        returncode: ReturnCode
        #message: Message 
 
   fallback:
     annotate:
       EventName: Generic PGSQL Database Event
       Stream: OTHER
-    translate:
-      datetime: SystemTstamp
 
   globals:
     translate:
