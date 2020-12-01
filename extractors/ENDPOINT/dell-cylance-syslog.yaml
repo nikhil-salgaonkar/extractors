@@ -1,0 +1,137 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 191
+source-name: DELL-CYLANCE
+source-type: ENDPOINT
+source-description: extractor for Dell-Cylance Endpoint
+provides-streams:
+- ENDPOINT-THREAT
+master-filters:
+- '\d+\-\d+\-\d+\T\d+\:\d+\:\d+.*?CylancePROTECT\s+'
+event-details:
+- first-match: 'Event\s+Type\:\s+.*?\,\s+Event\s+Name\:\s+\S+\,'
+  decoder: custom
+  decoder-regex: '\s+([\w\s]+)\:\s+([^\,]+)\,'
+  event-key-format: '{Event Type}-{Event Name}'
+  event-key-mapping:
+    'ScriptControl-Alert':           
+      annotate:
+        Stream: ENDPOINT-THREAT
+        Action: SCRIPT_ALLOWED
+        Status: PASSED
+      translate: 
+        'File Path': FilePath
+        'User Name': User
+        #'Device Name': Device
+        #'Device Id': DeviceID
+    'ScriptControl-Blocked':           
+      annotate:
+        Stream: ENDPOINT-THREAT
+        Action: SCRIPT_BLOCKED
+        Status: PASSED
+      translate: 
+        'File Path': FilePath
+        'User Name': User
+        #'Device Name': Device
+        #'Device Id': DeviceID
+    'ExploitAttempt-blocked':           
+      annotate:
+        Stream: ENDPOINT-THREAT
+        Action: THREAT_BLOCKED
+        Status: FAILED
+      translate: 
+        'IP Address': ScannedIP
+        'Process Name': Process
+        'User Name': User
+        #'Device Name': Device
+        #'Device Id': DeviceID  
+        #'Violation Type': Rule 
+    'Threat-threat_quarantined': 
+      annotate:
+        Stream: ENDPOINT-THREAT
+        Action: THREAT_QUARANTINED
+        Status: PASSED
+      translate: 
+        'IP Address': ScannedIP
+        'File Name': FileName
+        'Path': FilePath
+        #'Drive Type': DriveType
+        #'Device Name': Device
+        #'Device Id': DeviceID 
+        'File Type': FileType 
+        'SHA256': HashSHA256
+        'MD5': HashMD5
+        'Threat Classification': ThreatCategory
+        'Is Malware': MalwareStatus
+    'Threat-threat_found': 
+      annotate:
+        Stream: ENDPOINT-THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+      translate: 
+        'IP Address': ScannedIP
+        'File Name': FileName
+        'Path': FilePath
+        #'Drive Type': DriveType
+        #'Device Name': Device
+        #'Device Id': DeviceID 
+        'File Type': FileType 
+        'SHA256': HashSHA256
+        'MD5': HashMD5
+        'Threat Classification': ThreatCategory
+        'Is Malware': MalwareStatus
+    'Threat-threat_changed': 
+      annotate:
+        Stream: ENDPOINT-THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+      translate: 
+        'IP Address': ScannedIP
+        'File Name': FileName
+        'Path': FilePath
+        #'Drive Type': DriveType
+        #'Device Name': Device
+        #'Device Id': DeviceID 
+        'File Type': FileType 
+        'SHA256': HashSHA256
+        'MD5': HashMD5
+        'Threat Classification': ThreatCategory
+        'Is Malware': MalwareStatus 
+    'Threat-threat_cleared': 
+      annotate:
+        Stream: ENDPOINT-THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+      translate: 
+        'IP Address': ScannedIP
+        'File Name': FileName
+        'Path': FilePath
+        #'Drive Type': DriveType
+        #'Device Name': Device
+        #'Device Id': DeviceID 
+        'File Type': FileType 
+        'SHA256': HashSHA256
+        'MD5': HashMD5
+        'Threat Classification': ThreatCategory
+        'Is Malware': MalwareStatus   
+    'ExploitAttempt-terminated':           
+      annotate:
+        Stream: ENDPOINT-THREAT
+        Action: THREAT_BLOCKED
+        Status: FAILED
+      translate: 
+        'IP Address': ScannedIP
+        'Process Name': Process
+        'User Name': User
+        #'Device Name': Device
+        #'Device Id': DeviceID  
+        #'Violation Type': Rule                                                
+        
+  fallback:
+    annotate:
+      EventName: Generic Dell-Cylance Endpoint Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      'Found Date': SystemTstamp
