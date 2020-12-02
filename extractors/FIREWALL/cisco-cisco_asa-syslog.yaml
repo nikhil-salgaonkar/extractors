@@ -1948,35 +1948,6 @@ event-details:
 
   subs: *id001 
 
-- first-match: '\%ASA.*?-7\-710006\:'
-  decoder: regex
-  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2}).*?\%ASA\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+(?P<message>(?P<protocol>.*?)\s+.*?)\s+from\s(?P<src>[abcdef\w\d\:\.\-]+)\s.*?to.*?\:(?P<dst>[abcdef\w\d\:\.\-]+)'
-  event-key-format: '{eventid}'
-  event-key-mapping:
-    '710006':
-      annotate:
-        Stream: NETWORK-FIREWALL
-        Action: PACKET_BLOCKED
-        Status: FAILED
-      translate:
-        src: SrcIP
-        dst: DstIP
-        protocol: Proto
-
-  fallback:
-    annotate:
-      EventName: Generic Cisco-ASA Firewall Event
-      Stream: OTHER
-    translate:
-      datetime: SystemTstamp
-
-  globals:  
-    translate:
-      datetime: SystemTstamp
-    # severity: Severity          
-
-  subs: *id001  
-
 - first-match: '\%ASA.*?-5\-(?:750006|750007)\:'
   decoder: regex
   decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2}).*?\%ASA\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+.*?\:(?P<dst>[abcdef\w\d\:\.\-]+)\:(?P<dport>\d+).*?\:(?P<src>[abcdef\w\d\:\.\-]+)\:(?P<sport>\d+)\sUsername\:\s+(?P<user>[abcdef\w\d\s\:\.\-]+)\s+(?P<message>.*?\s+.*?)\.\s+Reason\:\s(?P<reason>.*)'
