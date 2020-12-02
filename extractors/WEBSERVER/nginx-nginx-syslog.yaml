@@ -29,8 +29,6 @@ event-details:
       annotate:
         EventName: Generic NGINX Event
         Stream: OTHER
-      translate:
-        datetime: SystemTstamp
 
   globals:
     translate:
@@ -56,8 +54,6 @@ event-details:
       annotate:
         EventName: Generic NGINX Event
         Stream: OTHER
-      translate:
-        datetime: SystemTstamp
 
   globals:
     translate:
