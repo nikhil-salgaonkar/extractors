@@ -59,7 +59,7 @@ event-details:
         sent_bytes: TXLen
         recv_bytes: RXLen 
     '062910617703-Successful':
-       annotate:
+      annotate:
         Stream: AUTHENTICATION
         Action: LOGOUT
         Status: PASSED
@@ -67,7 +67,7 @@ event-details:
         user_name: User
         src_ip: SrcIP 
     '062910517702-Failed':
-       annotate:
+      annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
