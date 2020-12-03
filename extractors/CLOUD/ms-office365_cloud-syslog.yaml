@@ -1,0 +1,162 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 231
+source-name: MS-O365
+source-type: CLOUD
+source-description: Extractor for Microsoft Office 365
+provides-streams:
+- CLOUD
+master-filters:
+- \{?\'CreationTime\'\:\s+\'\d{4}\-\d{1,2}\-\d{2}T\d{2}\:\d{2}\:\d{2}\'.*?OrganizationId\'\:\s+\'\S+\'\,.*?\'UserType\'\:\s+\d+\,\s+
+event-details:
+- first-match: \s+\'UserType\'\:\s+\d+\,\s+
+  decoder: custom
+  decoder-regex: \'([\w]+)\'\:\s+\'?([^\,]*|[^\']*|[^\}]*)\,?
+  event-key-format: '{UserType}'
+  event-key-mapping:
+    '4':
+      annotate:
+        Stream: CLOUD
+      translate:
+        Operation: EventName
+        RecordType: EventType
+        UserType: UserType
+        Severity: Severity
+        UserID: UserID
+        From: Sender
+        To: Recipient
+        Subject: Subject
+        Workload: App
+        FileSize: FileSize
+        ClientIP: SrcIP
+    '0':
+      annotate:
+        Stream: CLOUD
+      translate:
+        Operation: EventName
+        RecordType: EventType
+        UserType: UserType
+        Severity: Severity
+        UserID: UserID
+        From: Sender
+        To: Recipient
+        Subject: Subject
+        Workload: App
+        FileSize: FileSize
+        ClientIP: SrcIP
+        FileName: FileName  
+    '2':
+      annotate:
+        Stream: CLOUD
+      translate:
+        Operation: EventName
+        RecordType: EventType
+        UserType: UserType
+        Severity: Severity
+        UserID: UserID
+        From: Sender
+        To: Recipient
+        Subject: Subject
+        Workload: App
+        InstanceUrl: URL
+        EntityName: EntityName
+        UserAgent: UserAgent
+        ServiceName: ServiceName
+        LogonType: LogonType
+        OrganizationName: CompanyName
+        MemberUpn: User
+        ClientIP: SrcIP
+    '3':
+      annotate:
+        Stream: CLOUD
+      translate:
+        Operation: EventName
+        RecordType: EventType
+        UserType: UserType
+        Severity: Severity
+        UserID: UserID
+        Workload: App
+        ClientIP: SrcIP
+        OrganizationName: CompanyName
+        FileName: FileName
+    '5':
+      annotate:
+        Stream: CLOUD
+      translate:
+        Operation: EventName
+        RecordType: EventType
+        UserType: UserType
+        Severity: Severity
+        UserID: UserID
+        Workload: App
+        ClientIP: SrcIP
+        DataType: DataType              
+    
+  fallback:
+    annotate:
+      EventName: Generic Microsoft Office 365 Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      CreationTime: SystemTstamp
+
+  subs:
+    EventType: 
+      '1': EXCHANGE-ADMIN-AUDIT-LOG 
+      '2': EXCHANGE-MAILBOX-AUDIT-LOG 
+      '3': OPERATION-WAS-PERFORMED-ON-MULTIPLE-ITEMS 
+      '4': SITE-ADMIN-OPERATION  
+      '6': FOLDER-RELATED-OPERATION 
+      '8': OPERATION-PERFORMED-IN-AZURE-ACTIVE-DIRECTORY 
+      '9': ORGID-LOGON-EVENTS 
+      '10': SECURITY-CMDLET-EVENTS 
+      '11': INDICATED-DLP 
+      '12': SWAP-EVENTS 
+      '13': DLP-EVENTS-IN-EXCHANGE 
+      '14': SHARING-EVENTS 
+      '15': SECURE-TOKEN-SERVICE  
+      '18': SECURITY-&-COMPLIANCE-CENTER-EVENTS   
+      '20': POWER-BI-EVENTS 
+      '21': DYNAMICS-365-EVENTS 
+      '22': YAMMER-EVENTS 
+      '23': SKYPE-FOR-BUSINESS-EVENTS 
+      '24': EDISCOVERY-EVENTS 
+      '25': MICROSOFT-TEAMS-EVENTS 
+      '26': MICROSOFT-TEAMS-EVENTS 
+      '27': MICROSOFT-TEAMS-EVENTS 
+      '28': PHISHING-AND-MALWARE-EVENTS  
+      '30': MICROSOFT-FLOW-EVENTS 
+      '31': ADVANCED-EDISCOVERY-EVENTS 
+      '32': MICROSOFT-STREAM-EVENTS 
+      '35': MICROSOFT-PROJECT-EVENTS 
+      '36': SHAREPOINT-LIST-EVENTS  
+      '38': RETENTION-POLICIES-AND-RETENTION-LABELS 
+      '40': SECURITY-AND-COMPILANCE-ALERT-SIGNALS 
+      '41': SAFE-LINKS-TIME-OF-BLOCK 
+      '44': WORKPLACE-ANALYTICS-EVENTS 
+      '45': POWERAPPS-APP-EVENTS  
+      '47': PHISHING-AND-MALWARE-EVENTS-FROM-OFFICE-365 
+      '52': DATA-INSIGHTS-REST-API   
+      '54': SHAREPOINT-LIST-EVENTS 
+      '55': SHAREPOINT-CONTENT-TYPE-EVENTS 
+    UserType:
+      '0': REGULAR-USER
+      '2': ADMINISTRATOR-IN-0365 
+      '3': DATACENTER-SYSTEM 
+      '4': SYSTEM-ACCOUNT
+      '5': APPLICATION
+      '6': SERVICE-PRINCIPAL 
+      '7': CUSTOM-POLICY
+      '8': SYSTEM-POLICY
+    AzureADEventType:
+      '0': ACCOUNT-LOGIN-EVENT 
+      '1': AZURE-APPLICATION-SECURITY-EVENT  
+    LogonType:
+      '0': MAILBOX-OWNER
+      '1': ADMINISTRATOR 
+      '2': DELEGATE
+      '3': TRANSPORT-SERVICE-MICROSOFT-DATACENTER
+      '4': SERVICE-ACCOUNT-MICROSOFT-DATACENTER 
+      '6': DELEGATE-ADMINISTRATOR 
+             
