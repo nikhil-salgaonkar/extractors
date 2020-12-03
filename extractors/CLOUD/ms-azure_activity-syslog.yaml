@@ -1,0 +1,169 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 172
+source-name: AZURE-ACTIVITY
+source-type: CLOUD
+source-description: Extractor for Azure Activity
+provides-streams:
+- CLOUD
+master-filters:
+- time\:\s+\d{4}\-\d{2}\-\d{2}T\d{1,2}\:\d{1,2}\:\d{1,2}.*?(?:resourceId|tenantId).*?category\:\s+(?:AuditEvent|Delete|Action|Write|SignInLogs|AuditLogs|OperationLogs|Administrative|ResourceHealth|recommendationsdation|Recommendation|ServiceHealth|DeviceComplianceOrg|RequestResponse|Errors)
+- \{time\:\s+\d{4}\-\d{2}\-\d{2}T\d{1,2}\:\d{1,2}\:\d{1,2}\.\w+\,\s+resourceId\:\s+\S+\,\s+dimensions\:\s+\{
+- \s+resourceId\:\s+\S+\,\s+time\:\s+\d{4}\-\d{2}\-\d{2}T\d{2}\:\d{2}\:\d{2}\.\d+Z\,\s+metricName\:\s+  
+event-details:
+- first-match: \s+category\:\s+\S+\,
+  decoder: custom
+  decoder-regex: ([\w]+)\:\s+([^\,]*|[^\}]+)\,?
+  event-key-format: '{category}-{resultType}'
+  event-key-mapping:
+    'Action-Start':
+      annotate:
+        Stream: CLOUD
+      translate:
+        ResourceID: ResourceID
+        operationName: OperationName
+        category: Category
+        resultType: resultType
+        action: ActionTaken
+        callerIpAddress: SrcIP
+        role: Role
+        groups: UserGroup
+        level: LogLevel
+        requestbody: Request
+    'Action-Succeeded':
+      annotate:
+        Stream: CLOUD
+      translate:
+        ResourceID: ResourceID
+        operationName: OperationName
+        category: Category
+        resultType: resultType
+        level: LogLevel
+        eventCategory: EventType
+        eventName: EventName
+    'AuditLogs-None':
+      annotate:
+        Stream: CLOUD
+      translate:
+        ResourceID: ResourceID
+        operationName: OperationName
+        category: Category
+        result: SubStatus
+        category: SubCategory
+        level: LogLevel
+        resultReason: Reason
+        type: TargetType
+        userPrincipalName: TargetUser
+    'SignInLogs-0':
+      annotate:
+        Stream: CLOUD
+      translate:
+        ResourceID: ResourceID
+        operationName: OperationName
+        category: Category
+        level: LogLevel
+        callerIpAddress: SrcIP
+        UserName: User
+        Protocol: Proto
+        userPrincipalName: TargetUser  
+    'AuditEvent-Success':
+      annotate:
+        Stream: CLOUD
+      translate:
+        ResourceID: ResourceID
+        operationName: OperationName
+        category: Category
+        callerIpAddress: SrcIP 
+    'OperationLogs-Success':
+      annotate:
+        Stream: CLOUD
+      translate:
+        ResourceID: ResourceID
+        operationName: OperationName
+        category: Category
+        callerIpAddress: SrcIP  
+        #Query: QueryString
+        #Description: Message 
+    'Action-Updated':
+      annotate:
+        Stream: CLOUD
+      translate:
+        ResourceID: ResourceID
+        operationName: OperationName
+        category: Category
+        resultType: resultType
+        level: LogLevel
+        eventCategory: EventType
+        details: EventName 
+        type: TargetType 
+    'Administrative-Failure':
+      annotate:
+        Stream: CLOUD
+      translate:
+        ResourceID: ResourceID
+        operationName: OperationName
+        category: Category
+        resultType: resultType
+        level: LogLevel
+        eventCategory: EventType
+        details: EventName
+        role: Role
+        action: ActionTaken
+        name: User
+        groups: UserGroup 
+        #message: Message
+    'Administrative-Start':
+      annotate:
+        Stream: CLOUD
+      translate:
+        ResourceID: ResourceID
+        operationName: OperationName
+        category: Category
+        resultType: resultType
+        level: LogLevel
+        eventCategory: EventType
+        details: EventName
+        role: Role
+        action: ActionTaken
+        name: User
+        groups: UserGroup 
+        requestbody: Request
+        #message: Message
+    'ResourceHealth-Updated':
+      annotate:
+        Stream: CLOUD
+      translate:
+        ResourceID: ResourceID
+        operationName: OperationName
+        category: Category
+        resultType: resultType
+        level: LogLevel
+        eventCategory: EventType
+        details: EventName
+        type: TargetType 
+    'Write-Accept':
+      annotate:
+        Stream: CLOUD
+      translate:
+        ResourceID: ResourceID
+        operationName: OperationName
+        category: Category
+        resultType: resultType
+        level: LogLevel
+        eventCategory: EventType
+        details: EventName
+        callerIpAddress: SrcIP
+        role: Role
+        action: ActionTaken
+        name: User
+        groups: UserGroup 
+        responseBody: Response                             
+    
+  fallback:
+    annotate:
+      EventName: Generic Azure Activity Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      time: SystemTstamp
