@@ -20,7 +20,6 @@ event-details:
         Action: PACKET_BLOCKED
         Status: FAILED
       translate:
-        flow: Flow
         interface: Iface
         protocol: Proto
         src: SrcIP
@@ -33,7 +32,6 @@ event-details:
         Action: PACKET_ALLOWED
         Status: PASSED
       translate:
-        flow: Flow
         interface: Iface
         protocol: Proto
         src: SrcIP
@@ -61,7 +59,6 @@ event-details:
         Action: PACKET_BLOCKED
         Status: FAILED
       translate:
-        flow: Flow
         interface: Iface
         protocol: Proto
         src: SrcIP
