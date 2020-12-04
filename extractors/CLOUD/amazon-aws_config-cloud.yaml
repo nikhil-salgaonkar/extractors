@@ -1,0 +1,55 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 226
+source-name: AWS-CONFIG
+source-type: CLOUD
+source-description: Extractor for AWS Events
+provides-streams:
+- CLOUD
+master-filters:
+- \"relationships\"\:\s+\[.*?\]\,\s+.*?\"resourceType\"\:\s+\".*?\"\,  
+event-details:
+- first-match: \"resourceType\"\:\s+\"\S+\"\,.*?awsRegion\"\:\s+\".*?\"\,
+  decoder: custom
+  decoder-regex: \"([\w]+)\"\:\s+\"?([^\"]*|[^\,])
+  event-key-format: '{resourceType}'
+  event-key-mapping:
+    'AWS::CloudWatch::Alarm':
+      annotate:
+        Stream: CLOUD
+      translate:
+        configurationStateMd5Hash: HashMD5
+        resourceType: ResourceType
+        awsRegion: Region
+        resourceName: ResourceName
+        resourceId: ResourceID
+        awsAccountId: AccountId 
+    'AWS::EC2::NetworkInterface':
+      annotate:
+        Stream: CLOUD
+      translate:
+        configurationStateMd5Hash: HashMD5
+        resourceType: ResourceType
+        awsRegion: Region
+        resourceId: ResourceID
+        awsAccountId: AccountId  
+    'AWS::CloudWatch::Alarm':
+      annotate:
+        Stream: CLOUD
+      translate:
+        configurationStateMd5Hash: HashMD5
+        resourceType: ResourceType
+        awsRegion: Region
+        ARN: AWSARN
+        resourceName: ResourceName
+        resourceId: ResourceID
+        awsAccountId: AccountId                                   
+    
+  fallback:
+    annotate:
+      EventName: Generic AWS Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      configurationItemCaptureTime: SystemTstamp
