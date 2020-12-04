@@ -3,7 +3,7 @@ schema-version: 1.0
 extractor-id: 231
 source-name: MS-O365
 source-type: CLOUD
-source-description: Extractor for Microsoft Office 365
+source-description: Extractor for Microsoft Office 365 Events
 provides-streams:
 - CLOUD
 master-filters:
@@ -11,7 +11,7 @@ master-filters:
 event-details:
 - first-match: \s+\'UserType\'\:\s+\d+\,\s+
   decoder: custom
-  decoder-regex: \'([\w]+)\'\:\s+\'?([^\,]*|[^\']*|[^\}]*)\,?
+  decoder-regex: \'([\w]+)\'\:\s+\'?([^\'\,]*|[^\}]*)\,?
   event-key-format: '{UserType}'
   event-key-mapping:
     '4':
@@ -22,7 +22,7 @@ event-details:
         RecordType: EventType
         UserType: UserType
         Severity: Severity
-        UserID: UserID
+        UserId: UserID
         From: Sender
         To: Recipient
         Subject: Subject
@@ -37,7 +37,7 @@ event-details:
         RecordType: EventType
         UserType: UserType
         Severity: Severity
-        UserID: UserID
+        UserId: UserID
         From: Sender
         To: Recipient
         Subject: Subject
@@ -53,7 +53,7 @@ event-details:
         RecordType: EventType
         UserType: UserType
         Severity: Severity
-        UserID: UserID
+        UserId: UserID
         From: Sender
         To: Recipient
         Subject: Subject
@@ -74,7 +74,7 @@ event-details:
         RecordType: EventType
         UserType: UserType
         Severity: Severity
-        UserID: UserID
+        UserId: UserID
         Workload: App
         ClientIP: SrcIP
         OrganizationName: CompanyName
@@ -87,7 +87,7 @@ event-details:
         RecordType: EventType
         UserType: UserType
         Severity: Severity
-        UserID: UserID
+        UserId: UserID
         Workload: App
         ClientIP: SrcIP
         DataType: DataType              
@@ -159,4 +159,3 @@ event-details:
       '3': TRANSPORT-SERVICE-MICROSOFT-DATACENTER
       '4': SERVICE-ACCOUNT-MICROSOFT-DATACENTER 
       '6': DELEGATE-ADMINISTRATOR 
-             
