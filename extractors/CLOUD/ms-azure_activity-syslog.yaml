@@ -3,7 +3,7 @@ schema-version: 1.0
 extractor-id: 172
 source-name: AZURE-ACTIVITY
 source-type: CLOUD
-source-description: Extractor for Azure Activity
+source-description: Extractor for Azure Activity Events
 provides-streams:
 - CLOUD
 master-filters:
@@ -14,13 +14,13 @@ event-details:
 - first-match: \s+category\:\s+\S+\,
   decoder: custom
   decoder-regex: ([\w]+)\:\s+([^\,]*|[^\}]+)\,?
-  event-key-format: '{category}-{resultType}'
+  event-key-format: '{category}'
   event-key-mapping:
-    'Action-Start':
+    'Action':
       annotate:
         Stream: CLOUD
       translate:
-        ResourceID: ResourceID
+        resourceId: ResourceID
         operationName: OperationName
         category: Category
         resultType: resultType
@@ -30,22 +30,14 @@ event-details:
         groups: UserGroup
         level: LogLevel
         requestbody: Request
-    'Action-Succeeded':
-      annotate:
-        Stream: CLOUD
-      translate:
-        ResourceID: ResourceID
-        operationName: OperationName
-        category: Category
-        resultType: resultType
-        level: LogLevel
         eventCategory: EventType
         eventName: EventName
-    'AuditLogs-None':
+        type: TargetType 
+    'AuditLogs':
       annotate:
         Stream: CLOUD
       translate:
-        ResourceID: ResourceID
+        resourceId: ResourceID
         operationName: OperationName
         category: Category
         result: SubStatus
@@ -54,11 +46,11 @@ event-details:
         resultReason: Reason
         type: TargetType
         userPrincipalName: TargetUser
-    'SignInLogs-0':
+    'SignInLogs':
       annotate:
         Stream: CLOUD
       translate:
-        ResourceID: ResourceID
+        resourceId: ResourceID
         operationName: OperationName
         category: Category
         level: LogLevel
@@ -66,41 +58,29 @@ event-details:
         UserName: User
         Protocol: Proto
         userPrincipalName: TargetUser  
-    'AuditEvent-Success':
+    'AuditEvent':
       annotate:
         Stream: CLOUD
       translate:
-        ResourceID: ResourceID
+        resourceId: ResourceID
         operationName: OperationName
         category: Category
         callerIpAddress: SrcIP 
-    'OperationLogs-Success':
+    'OperationLogs':
       annotate:
         Stream: CLOUD
       translate:
-        ResourceID: ResourceID
+        resourceId: ResourceID
         operationName: OperationName
         category: Category
         callerIpAddress: SrcIP  
         #Query: QueryString
         #Description: Message 
-    'Action-Updated':
+    'Administrative':
       annotate:
         Stream: CLOUD
       translate:
-        ResourceID: ResourceID
-        operationName: OperationName
-        category: Category
-        resultType: resultType
-        level: LogLevel
-        eventCategory: EventType
-        details: EventName 
-        type: TargetType 
-    'Administrative-Failure':
-      annotate:
-        Stream: CLOUD
-      translate:
-        ResourceID: ResourceID
+        resourceId: ResourceID
         operationName: OperationName
         category: Category
         resultType: resultType
@@ -110,30 +90,14 @@ event-details:
         role: Role
         action: ActionTaken
         name: User
-        groups: UserGroup 
+        groups: UserGroup
+        requestbody: Request 
         #message: Message
-    'Administrative-Start':
+    'ResourceHealth':
       annotate:
         Stream: CLOUD
       translate:
-        ResourceID: ResourceID
-        operationName: OperationName
-        category: Category
-        resultType: resultType
-        level: LogLevel
-        eventCategory: EventType
-        details: EventName
-        role: Role
-        action: ActionTaken
-        name: User
-        groups: UserGroup 
-        requestbody: Request
-        #message: Message
-    'ResourceHealth-Updated':
-      annotate:
-        Stream: CLOUD
-      translate:
-        ResourceID: ResourceID
+        resourceId: ResourceID
         operationName: OperationName
         category: Category
         resultType: resultType
@@ -141,11 +105,11 @@ event-details:
         eventCategory: EventType
         details: EventName
         type: TargetType 
-    'Write-Accept':
+    'Write':
       annotate:
         Stream: CLOUD
       translate:
-        ResourceID: ResourceID
+        resourceId: ResourceID
         operationName: OperationName
         category: Category
         resultType: resultType
@@ -157,7 +121,55 @@ event-details:
         action: ActionTaken
         name: User
         groups: UserGroup 
-        responseBody: Response                             
+        responseBody: Response
+    'Recommendation':
+      annotate:
+        Stream: CLOUD
+      translate:
+        resourceId: ResourceID
+        operationName: OperationName
+        category: Category
+        resultType: resultType
+        level: LogLevel
+        eventCategory: EventType
+        eventName: EventName 
+    'ServiceHealth':
+      annotate:
+        Stream: CLOUD
+      translate:
+        resourceId: ResourceID
+        operationName: OperationName
+        category: Category
+        resultType: resultType
+        level: LogLevel
+        eventCategory: EventType
+        eventName: EventName
+    'DeviceComplianceOrg':
+      annotate:
+        Stream: CLOUD
+      translate:
+        resourceId: ResourceID
+        operationName: OperationName
+        category: Category
+        resultType: resultType
+        level: LogLevel
+        UserName: User 
+        UserId: UserID 
+    'Delete':
+      annotate:
+        Stream: CLOUD
+      translate:
+        resourceId: ResourceID
+        operationName: OperationName
+        category: Category
+        resultType: resultType
+        level: LogLevel
+        callerIpAddress: SrcIP
+        role: Role
+        action: ActionTaken
+        name: User
+        groups: UserGroup 
+        responseBody: Response                                         
     
   fallback:
     annotate:
