@@ -1,0 +1,56 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 47
+source-name: NAMED
+source-type: DNS
+source-description: Extractor for Named DNS Events
+provides-streams:
+- DNS
+master-filters:
+- '\s+named\[\d+\]\:\s+'
+event-details:
+- first-match: '\s+named\[\d+\]\:\s+(?:client|received\s+packet)\s+'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s(?P<hostname>\S+)\s+(?P<daemon>named)\[(?P<pid>\d+)\]\:.*?\s+(?P<src>[\d\.]+)\#\d+(?:\s+\((?P<domain>.*?)\))?(?:.*?\(?(?P<action>(?:NOTAUTH|BADKEY|NOERROR))\)?)?'
+  event-key-format: ''
+  event-key-mapping:
+    '':
+      annotate:
+        Stream: DNS
+      translate:
+        src: SrcIP
+        domain: Domain 
+        action: Action                 
+
+  fallback:
+    annotate:
+      EventName: Generic Named DNS Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System
+
+- first-match: \s+named\[\d+\]\:.*?(?:resolving|transfer\s+of|validating|checkhints)\:?\s+
+  decoder: regex
+  decoder-regex: (?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s(?P<hostname>\S+)\s+(?P<daemon>named)\[(?P<pid>\d+)\]\:\s+(?:(?P<action>SERVFAIL|REFUSED|FORMERR))?.*?(?:resolving|transfer\s+of|validating|checkhints)\:?\s+\'{0,1}(?P<domain>.*?)(?:\'{0,1}\s+.*?)?\:?\s+(?:.*?(?P<src>[\d\.]+)#)?
+  event-key-format: ''
+  event-key-mapping:
+    '':
+      annotate:
+        Stream: DNS
+      translate:
+        src: SrcIP
+        domain: Domain
+        action: Action                  
+
+  fallback:
+    annotate:
+      EventName: Generic Named DNS Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System      
