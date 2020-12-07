@@ -18,7 +18,7 @@ event-details:
     '200':           
       annotate:
         Stream: WEBSERVER
-        action: URL_ALLOWED
+        Action: URL_ALLOWED
         Status: PASSED
       translate: 
         url: URL
@@ -27,7 +27,7 @@ event-details:
     '404':           
       annotate:
         Stream: WEBSERVER
-        action: URL_BLOCKED
+        Action: URL_BLOCKED
         Status: FAILED
       translate: 
         url: URL
@@ -51,7 +51,7 @@ event-details:
     '200':           
       annotate:
         Stream: WEBSERVER
-        action: URL_ALLOWED
+        Action: URL_ALLOWED
         Status: PASSED
       translate: 
         url: URL
