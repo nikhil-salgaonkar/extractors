@@ -1,0 +1,166 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 139
+source-name: NNT
+source-type: FIM
+source-description: Extractor for NNT Events
+provides-streams:
+- FIM
+master-filters:
+- 'ipaddr\:\/\/[\w\.]+.*?\s+ChangeTracker\s+\-\s+\-'
+event-details:
+- first-match: '\(filelength\)'
+  decoder: regex
+  decoder-regex: 'ipaddr\:\/\/(?P<dev_srcip>\S+)\s+\<\d+\>\d+\s+(?P<datetime>\d{4}\-\d{2}\-\d{2}T\d+\:\d+\:\d+)\S+\s+(?P<hostname>\S+)\s+.*?file\s+(?P<filepath>.*?)\s+by\s+(?P<user>\S+)\s+.*?\[(?P<pid>\d+)\s+\((?P<process>\S+)\)\]\s+\((?P<function>\S+)\)\.(?:.*?\d+changed\s+to\s+(?P<filesize>\d+))?(?:.*?to\s+(?P<filemodifytime>\d{4}\-\d{2}\-\d{2}T\d+\:\d+\:\d+))?(?:.*?to\s+(?P<filehash>\w+))?'
+  event-key-format: '{function}'
+  event-key-mapping:
+    'filelength':
+      annotate:
+        Stream: FIM
+      translate:
+        filepath: FilePath
+        user: User
+        process: Process
+        function: Function
+        filesize: FileSize
+    'filehashsha1':
+      annotate:
+        Stream: FIM
+      translate:
+        filepath: FilePath
+        user: User
+        process: Process
+        function: Function
+        filehash: FileHash 
+    'filewrite,filehashsha1':
+      annotate:
+        Stream: FIM
+      translate:
+        filepath: FilePath
+        user: User
+        process: Process
+        function: Function
+        filehash: FileHash  
+        filemodifytime: FileModifyTime                          
+
+  fallback:
+    annotate:
+      EventName: Generic NNT Events
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System
+
+- first-match: '\(filehashsha1\)'
+  decoder: regex
+  decoder-regex: 'ipaddr\:\/\/(?P<dev_srcip>\S+)\s+\<\d+\>\d+\s+(?P<datetime>\d{4}\-\d{2}\-\d{2}T\d+\:\d+\:\d+)\S+\s+(?P<hostname>\S+)\s+.*?filecontent\s+(?P<filepath>\S+)\s+\((?P<function>\S+)\)\..*?Change\s+details\s+\-\s+(?P<message>.*?)$'
+  event-key-format: '{function}'
+  event-key-mapping:
+    'contents':
+      annotate:
+        Stream: FIM
+      translate:
+        filepath: FilePath
+        function: Function
+        #message: Message                
+
+  fallback:
+    annotate:
+      EventName: Generic NNT Events
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System
+
+- first-match: '\s+\-\s+Deleted\s+filecontent'
+  decoder: regex
+  decoder-regex: 'ipaddr\:\/\/(?P<dev_srcip>\S+)\s+\<\d+\>\d+\s+(?P<datetime>\d{4}\-\d{2}\-\d{2}T\d+\:\d+\:\d+)\S+\s+(?P<hostname>\S+)\s+.*?(?P<action>Deleted)\s+filecontent\s+(?P<filepath>\S+)\.\sChange\s+details\s\-\s?'
+  event-key-format: '{function}-{action}'
+  event-key-mapping:
+    'None-Deleted':
+      annotate:
+        Stream: FIM
+      translate:
+        filepath: FilePath
+      
+  fallback:
+    annotate:
+      EventName: Generic NNT Events
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System
+
+- first-match: '\s+\-\s+Deleted\s+file\s+'
+  decoder: regex
+  decoder-regex: 'ipaddr\:\/\/(?P<dev_srcip>\S+)\s+\<\d+\>\d+\s+(?P<datetime>\d{4}\-\d{2}\-\d{2}T\d+\:\d+\:\d+)\S+\s+(?P<hostname>\S+)\s+.*?(?P<action>Deleted)\s+file\s+(?P<filepath>.*?)\s+by\s+(?:(?P<user>.*?)\s+\[(?P<pid>\d+)\s+\((?P<process>\S+)\)\]\s+)?.*?Change\s+details\s+\-\s+(?P<message>.*)'
+  event-key-format: '{function}-{action}'
+  event-key-mapping:
+    'None-Deleted':
+      annotate:
+        Stream: FIM
+      translate:
+        filepath: FilePath
+        user: User
+        process: Process
+        #message: Message
+      
+  fallback:
+    annotate:
+      EventName: Generic NNT Events
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System
+
+- first-match: '\s+\-\s+New\s+filecontent\s+'
+  decoder: regex
+  decoder-regex: 'ipaddr\:\/\/(?P<dev_srcip>\S+)\s+\<\d+\>\d+\s+(?P<datetime>\d{4}\-\d{2}\-\d{2}T\d+\:\d+\:\d+)\S+\s+(?P<hostname>\S+)\s+.*?(?P<action>New)\s+filecontent\s+(?P<filepath>\S+)\..*?Change\s+details\s+\-\s?'
+  event-key-format: '{function}-{action}'
+  event-key-mapping:
+    'None-New':
+      annotate:
+        Stream: FIM
+      translate:
+        filepath: FilePath
+      
+  fallback:
+    annotate:
+      EventName: Generic NNT Events
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System                   
+
+- first-match: 'Change\s+to\s+installedsoftware'
+  decoder: regex
+  decoder-regex: 'ipaddr\:\/\/(?P<dev_srcip>\S+)\s+\<\d+\>\d+\s+(?P<datetime>\d{4}\-\d{2}\-\d{2}T\d+\:\d+\:\d+)\S+\s+(?P<hostname>\S+)\s+.*?installedsoftware\s+(?P<app>.*?)\s+\((?P<function>\S+)\)\..*?Change\s+details\s+\-\s+(?P<message>.*)'
+  event-key-format: '{function}-{action}'
+  event-key-mapping:
+    'installdate-None':
+      annotate:
+        Stream: FIM
+      translate:
+        app: App
+        function: Function
+        #message: Message
+      
+  fallback:
+    annotate:
+      EventName: Generic NNT Events
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System                         
