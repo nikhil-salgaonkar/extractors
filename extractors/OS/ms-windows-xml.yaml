@@ -1,0 +1,42 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 712
+source-name: WINDOWS
+source-type: OS
+source-description: Extractor for Windows XML Events
+provides-streams:
+- SYSMON-PROCESS
+- SYSMON-NETWORK
+- SYSMON-FILE
+- SYSMON-IMAGE-LOAD
+- SYSMON-REGISTRY
+- SYSMON-WMI
+master-filters:
+- <Event\sxmlns=
+event-details:
+- first-match: Microsoft-Windows-Sysmon/Operational
+  decoder: regex
+  decoder-regex: <Event\s+xmlns=[^>]+><System><Provider\sName=[^>]+><EventID>(?P<EventID>[^<]+).*<Computer>(?P<Computer>[^<]+)</Computer><Security\sUserID=[^>]+></System><EventData><Data\sName=[^<]+</Data><Data\sName='UtcTime'>(?P<UtcTime>[^<]+)</Data><Data\sName=[^<]+</Data><Data\sName=[^<]+</Data><Data\sName=[^<]+</Data><Data\sName='SourceImage'>(?P<SourceImage>[^<]+)</Data><Data\sName=[^<]+</Data><Data\sName=[^<]+</Data><Data\sName='TargetImage'>(?P<TargetImage>[^<]+)</Data><Data\sName='GrantedAccess'>(?P<GrantedAccess>[^<]+)</Data><Data\sName='CallTrace'>(?P<CallTrace>[^<]+)</Data></EventData></Event>
+  event-key-format: '{EventID}'
+  event-key-mapping:
+    '10':
+      annotate:
+        Stream: SYSMON-PROCESS
+        Action: PROCESS_ADDED
+        Status: PASSED
+      translate:
+        SourceImage: SourceImage
+        TargetImage: TargetImage
+        GrantedAccess: GrantedAccess
+        CallTrace: CallTrace
+
+
+  fallback:
+    annotate:
+      EventName: Generic Windows XML Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      UtcTime: SystemTstamp
+      Computer: System
