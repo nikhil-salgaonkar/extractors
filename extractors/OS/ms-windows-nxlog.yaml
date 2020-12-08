@@ -337,6 +337,19 @@ event-details:
         CallTrace: CallTrace
         Description: Description
 
+    '8':
+      annotate:
+        Stream: SYSMON-PROCESS
+        Action: CREATE_REMOTE_THREAD
+        Status: PASSED
+      translate:
+        SourceImage: SourceImage
+        TargetImage: TargetImage
+        Description: Description
+        StartAddress: StartAddress
+        StartModule: StartModule
+        StartFunction: StartFunction
+
     '7':
       annotate:
         Stream: SYSMON-IMAGE-LOAD 

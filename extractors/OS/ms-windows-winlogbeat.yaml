@@ -68,6 +68,19 @@ event-details:
         winlog[event_data][Company]: Company
         winlog[event_data][Product]: Product
 
+    '8':
+      annotate:
+        Stream: SYSMON-PROCESS
+        Action: CREATE_REMOTE_THREAD
+        Status: PASSED
+      translate:
+        winlog[event_data][SourceImage]: SourceImage
+        winlog[event_data][TargetImage]: TargetImage
+        winlog[event_data][Description]: Description
+        winlog[event_data][StartAddress]: StartAddress
+        winlog[event_data][StartModule]: StartModule
+        winlog[event_data][StartFunction]: StartFunction
+
     '10':
       annotate:
         Stream: SYSMON-PROCESS
