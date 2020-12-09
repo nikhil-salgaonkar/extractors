@@ -1,0 +1,155 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 165
+source-name: DELL-SWITCH
+source-type: SWITCH
+source-description: Extractor for Dell Switch Events
+provides-streams:
+- CONNECTIVITY
+- AUTHENTICATION
+master-filters:
+- (?:\%S6010|\%STKUNIT2|\%STKUNIT1|\%STKUNIT0|DHCP_CLI\[\d+\]|TRAPMGR\[\d+\]|SNMP\:\s+Auth\.\s+failure\,\s+intruder\s+IP\:|STP\:\s+VLAN)
+event-details:
+- first-match: 'IFMGR\-\d\-OSTATE_\w+\:'
+  decoder: regex
+  decoder-regex: (?P<datetime>\w+\s+\d+\s+\d+\:\d+\:\d+)(?:\:\s+|\s+)(?P<system_name>.*?)(?:\:\s+|\s+).*?\s+\%(?P<facility>\w+)\-(?P<loglevel>\d+)\-(?P<action>\w+)\:\s+(?P<message>.*?(?:up|down)\:\s+(?P<iface>.*))
+  event-key-format: '{action}'
+  event-key-mapping:
+    'OSTATE_UP':
+      annotate:
+        Stream: CONNECTIVITY
+        Action: INT_UP
+        Status: PASSED
+      translate:
+        iface: Iface
+        loglevel: LogLevel
+    'OSTATE_DN':
+      annotate:
+        Stream: CONNECTIVITY
+        Action: INT_DOWN
+        Status: PASSED
+      translate:
+        iface: Iface
+        loglevel: LogLevel
+
+  fallback:
+    annotate:
+      EventName: Generic Dell Switch Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      system_name: System
+
+  subs: &id001
+    
+    LogLevel:
+      '0': 'EMERGENCY'
+      '1': 'ALERT'
+      '2': 'CRITICAL'
+      '3': 'ERROR'
+      '4': 'WARNING'
+      '5': 'NOTICE'
+      '6': 'INFORMATIONAL'
+      '7': 'DEBUG'
+
+
+- first-match: 'SEC\-\d\-(?:LOGIN|LOGOUT)'
+  decoder: regex
+  decoder-regex: (?P<datetime>\w+\s+\d+\s+\d+\:\d+\:\d+)(?:\:\s+|\s+)(?P<system_name>\S+)(?:\:\s+|\s+).*?\s+\%(?P<facility>\w+)\-(?P<loglevel>\d+)\-(?P<action>.*?)\:\s+(?P<message>.*?\s+(?:user\s+(?P<user>\S+)\s+)?on.*?\(\s+(?P<src_ip>\d+\.\d+\.\d+\.\d+)\s+\))
+  event-key-format: '{action}'
+  event-key-mapping:
+    'LOGIN_FAILURE':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+        LoginSrc: REMOTE
+      translate:
+        user: User
+        src_ip: SrcIP
+    'LOGOUT':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+      translate:
+        user: User
+        src_ip: SrcIP
+    'LOGIN_SUCCESS':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        user: User
+        src_ip: SrcIP
+
+  fallback:
+    annotate:
+      EventName: Generic Dell Switch Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      system_name: System
+
+  subs: *id001
+
+- first-match: '(?:CHMGR\-\d\-\S+|NTP\-\d\-\S+|DHCP\_CLI\[\d+\]|TRAPMGR\[\d+\]|LACP\-\d\-\S+|SNMP|STP|SNMP\-\d\-\S+|SYS\-\d\-\S+|SSH\-\d\-\S+)\:'
+  decoder: regex
+  decoder-regex: (?P<datetime>\w+\s+\d+\s+\d+\:\d+\:\d+)(?:\:\s+|\s+)(?P<system_name>\S+)(?:\:\s+|\s+).*?\:\s+(?P<message>.*)
+  event-key-format: ''
+  event-key-mapping:
+    '':
+      annotate:
+        Stream: OTHER
+      translate:
+        system_name: System
+
+  fallback:
+    annotate:
+      EventName: Generic Dell Switch Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+
+  subs: *id001
+
+- first-match: 'SEC\-\d\-AUTHENTICATION'
+  decoder: regex
+  decoder-regex: (?P<datetime>\w+\s+\d+\s+\d+\:\d+\:\d+)(?:\:\s+|\s+)(?P<system_name>\S+)(?:\:\s+|\s+).*?\s+\%(?P<facility>\w+)\-(?P<loglevel>\d+)\-(?P<action>.*?)\:\s+(?P<message>.*?\s+\(\s?(?P<src_ip>\d+\.\d+\.\d+\.\d+)\s?\).*?user\s+(?:(?P<user>\S+))?)
+  event-key-format: '{action}'
+  event-key-mapping:
+    'AUTHENTICATION_ENABLE_SUCCESS':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        user: User
+        src_ip: SrcIP
+    'AUTHENTICATION_FAILURE':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate:
+        user: User
+        src_ip: SrcIP
+
+  fallback:
+    annotate:
+      EventName: Generic Dell Switch Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      system_name: System
+
+  subs: *id001
