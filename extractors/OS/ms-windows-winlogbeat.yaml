@@ -11,6 +11,10 @@ provides-streams:
 - SYSMON-IMAGE-LOAD
 - SYSMON-REGISTRY
 - SYSMON-WMI
+- SYSMON-PIPE
+- SYSMON-SERVICE
+- SYSMON-DNS
+- IAM
 master-filters:
 - \"beat\"\:\"winlogbeat\"
 event-details:
@@ -32,6 +36,17 @@ event-details:
         winlog[event_data][Company]: Company
         winlog[event_data][Product]: Product
 
+    '2':
+      annotate:
+        Stream: SYSMON-PROCESS
+        Action: PROCESS_FILE_TIME_CHANGED
+        Status: PASSED
+      translate:
+        winlog[event_data][Image]: Image
+        winlog[event_data][TargetFilename]: TargetFilename
+        winlog[event_data][CreationUtcTime]: CreationUtcTime
+        winlog[event_data][PreviousCreationUtcTime]: PreviousCreationUtcTime  
+
     '3':
       annotate:
         Stream: SYSMON-NETWORK
@@ -47,15 +62,35 @@ event-details:
         winlog[event_data][DestinationPort]: DstPort
         winlog[event_data][Description]: Description
 
+    '4':
+      annotate:
+        Stream: SYSMON-SERVICE
+        Action: SERVICE_STARTED
+        Status: PASSED
+      translate:
+        winlog[event_data][SchemaVersion]: SchemaVersion
+        winlog[event_data][State]: State 
+
     '5':
       annotate:
         Stream: SYSMON-PROCESS
         Action: PROCESS_REMOVED
         Status: PASSED
       translate:
+        winlog[event_data][ImageLoaded]: ImageLoaded
+        winlog[event_data][Hashes]: Hashes
+        winlog[event_data][Signature]: Signature
+        winlog[event_data][SignatureStatus]: SignatureStatus
+
+    '6':
+      annotate:
+        Stream: SYSMON-DRIVER-LOAD
+        Action: DRIVER_LOADED
+        Status: PASSED
+      translate:
         winlog[event_data][Image]: Image
         winlog[event_data][User]: User
-        winlog[event_data][Description]: Description
+        winlog[event_data][Description]: Description    
 
     '7':
       annotate:
@@ -125,6 +160,49 @@ event-details:
         winlog[event_data][Details]: Details
         winlog[event_data][Description]: Description
 
+    '15':
+      annotate:
+        Stream: SYSMON-FILE
+        Action: FILE_CREATED_STREAM_HASH
+        Status: PASSED
+      translate:
+        winlog[event_data][Image]: Image
+        winlog[event_data][TargetFilename]: TargetFilename
+        winlog[event_data][CreationUtcTime]: CreationUtcTime
+        winlog[event_data][Hash]: Hash
+
+    '17':
+      annotate:
+        Stream: SYSMON-PIPE
+        Action: PIPE_CREATED
+        Status: PASSED
+      translate:
+        winlog[event_data][EventType]: Action
+        winlog[event_data][PipeName]: PipeName
+        winlog[event_data][Image]: Image 
+
+    '18':
+      annotate:
+        Stream: SYSMON-PIPE
+        Action: PIPE_CONNECTED
+        Status: PASSED
+      translate:
+        winlog[event_data][PipeName]: PipeName
+        winlog[event_data][Image]: Image 
+
+    '19':
+      annotate:
+        Stream: SYSMON-WMI
+        Action: FILTER_ACTIVITY
+        Status: DETECTED
+      translate:
+        winlog[event_data][EventNamespace]: EventNamespace
+        winlog[event_data][EventType]: Action
+        winlog[event_data][Query]: Query
+        winlog[event_data][Name]: Name
+        winlog[event_data][Operation]: Operation
+        winlog[event_data][User]: User
+
     '20':
       annotate:
         Stream: SYSMON-WMI
@@ -148,6 +226,28 @@ event-details:
         winlog[event_data][Consumer]: Consumer
         winlog[event_data][Filter]: Filter
         winlog[event_data][Description]: Description
+
+    '22':
+      annotate:
+        Stream: SYSMON-DNS
+        Action: DNS_QUERY
+        Status: PASSED
+      translate:
+        winlog[event_data][QueryName]: QueryName
+        winlog[event_data][QueryStatus]: QueryStatus
+        winlog[event_data][QueryResults]: QueryResults
+        winlog[event_data][Image]: Image
+
+    '23':
+      annotate:
+        Stream: SYSMON-FILE
+        Action: FILE_DELETED
+        Status: DETECTED
+      translate:
+        winlog[event_data][Image]: Image
+        winlog[event_data][TargetFilename]: TargetFilename
+        winlog[event_data][User]: User
+        winlog[event_data][Hashes]: Hashes       
 
   fallback:
     annotate:
@@ -202,7 +302,7 @@ event-details:
   event-key-mapping:
     '4662':
       annotate:
-        Stream: WINDOWS-SECURITY
+        Stream: IAM
         Action: AUDIT_LOG_CLEARED
         Status: PASSED
       translate:
@@ -210,7 +310,7 @@ event-details:
         winlog[event_data][SubjectLogonId]: SubjectLogonId  
     '5136':
       annotate:
-        Stream: WINDOWS-SECURITY
+        Stream: IAM
         Action: OBJECT_MODIFIED
         Status: PASSED
       translate:
@@ -218,8 +318,8 @@ event-details:
         winlog[event_data][SubjectLogonId]: SubjectLogonId  
     '4732':
       annotate:
-        Stream: WINDOWS-SECURITY
-        Action: SECURITY_ENABLED
+        Stream: IAM
+        Action: SECURITY_LGRP_MEMBER_ADDED
         Status: PASSED
       translate:
         winlog[event_data][TargetUserName]: TargetUser
@@ -229,8 +329,8 @@ event-details:
         winlog[event_data][SubjectLogonId]: SubjectLogonId 
     '4742':
       annotate:
-        Stream: WINDOWS-SECURITY
-        Action: COMPUTER_ACCOUNT_CHANGED
+        Stream: IAM
+        Action: SYSTEM_USER_ACCOUNT_CHANGED
         Status: PASSED
       translate:
         winlog[event_data][TargetUserName]: TargetUser
@@ -241,7 +341,6 @@ event-details:
         winlog[event_data][ProfilePath]: ProfilePath  
         winlog[event_data][AccountExpires]: AccountExpires  
         winlog[event_data][LogonHours]: LogonHours     
-
 
   fallback:
     annotate:
