@@ -11,7 +11,7 @@ provides-streams:
 - SYSMON-IMAGE-LOAD
 - SYSMON-REGISTRY
 - SYSMON-WMI
-- SYSMON-QUERY
+- SYSMON-DNS
 - SYSMON-DRIVER-LOAD
 - SYSMON-CONFIG
 - SYSMON-SERVICE
@@ -292,7 +292,7 @@ event-details:
   event-key-mapping:
     '22':
       annotate:
-        Stream: SYSMON-QUERY
+        Stream: SYSMON-DNS
         Action: DNS_QUERY
         Status: PASSED
       translate:
