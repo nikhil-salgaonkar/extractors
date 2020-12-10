@@ -20,7 +20,7 @@ master-filters:
 event-details:
 - first-match: <EventID>1</EventID>
   decoder: regex
-  decoder-regex: <Event\s+xmlns=[^>]+><System><Provider\sName=[^>]+><EventID>(?P<EventID>[^<]+).*<Computer>(?P<Computer>[^<]+)</Computer><Security\sUserID=[^>]+></System><EventData><Data\sName=[^<]+</Data><Data\sName='UtcTime'>(?P<UtcTime>[^<]+)</Data><Data\sName=[^<]+</Data><Data\sName=[^<]+</Data><Data\sName='Image'>(?P<Image>[^<]+)</Data><Data\sName=[^<]+</Data><Data\sName='Description'>(?P<Description>[^<]+)</Data><Data\sName='Product'(?P<Product>[^<]+)</Data><Data\sName='Company'(?P<Company>[^<]+)</Data><Data\sName='OriginalFileName'(?P<OriginalFileName>[^<]+)</Data><Data\sName='CommandLine'(?P<CommandLine>[^<]+)</Data><Data\sName=[^<]+</Data><Data\sName='User'(?P<User>[^<]+)</Data><Data\sName=[^<]+</Data><Data\sName=[^<]+</Data><Data\sName=[^<]+</Data><Data\sName=[^<]+</Data><Data\sName=[^<]+</Data><Data\sName=[^<]+</Data><Data\sName=[^<]+</Data><Data\sName='ParentImage'(?P<ParentImage>[^<]+)</Data><Data\sName='ParentCommandLine'(?P<ParentCommandLine>[^<]+)</Data>
+  decoder-regex: <Event\s+xmlns=[^>]+><System><Provider\sName=[^>]+><EventID>(?P<EventID>[^<]+).*<Computer>(?P<Computer>[^<]+)</Computer><Security\sUserID=[^>]+></System><EventData><Data\sName=[^<]+</Data><Data\sName='UtcTime'>(?P<UtcTime>[^<]+)</Data><Data\sName=[^<]+</Data><Data\sName=[^<]+</Data><Data\sName='Image'>(?P<Image>[^<]+)</Data><Data\sName=[^<]+</Data><Data\sName='Description'>(?P<Description>[^<]+)</Data><Data\sName='Product'>(?P<Product>[^<]+)</Data><Data\sName='Company'>(?P<Company>[^<]+)</Data><Data\sName='OriginalFileName'>(?P<OriginalFileName>[^<]+)</Data><Data\sName='CommandLine'>(?P<CommandLine>[^<]+)</Data><Data\sName=[^<]+</Data><Data\sName='User'>(?P<User>[^<]+)</Data><Data\sName=[^<]+</Data><Data\sName=[^<]+</Data><Data\sName=[^<]+</Data><Data\sName=[^<]+</Data><Data\sName=[^<]+</Data><Data\sName=[^<]+</Data><Data\sName=[^<]+</Data><Data\sName='ParentImage'>(?P<ParentImage>[^<]+)</Data><Data\sName='ParentCommandLine'>(?P<ParentCommandLine>[^<]+)</Data>
   event-key-format: '{EventID}'
   event-key-mapping:
     '1':
@@ -50,7 +50,7 @@ event-details:
 
 - first-match: <EventID>3</EventID>
   decoder: regex
-  decoder-regex: <Event\s+xmlns=[^>]+><System><Provider\sName=[^>]+><EventID>(?P<EventID>[^<]+).*<Computer>(?P<Computer>[^<]+)</Computer><Security\sUserID=[^>]+></System><EventData><Data\sName=[^<]+</Data><Data\sName='UtcTime'>(?P<UtcTime>[^<]+)</Data><Data\sName=[^<]+</Data><Data\sName=[^<]+</Data><Data\sName='Image'>(?P<Image>[^<]+)</Data><Data\sName='User'(?P<User>[^<]+)</Data><Data\s+Name='Protocol'>(?P<Protocol>[^<]+)</Data><Data\sName=[^<]+</Data><Data\sName=[^<]+</Data><Data\sName='SourceIp'(?P<SourceIp>[^<]+)</Data><Data\sName='SourceHostname'(?P<SourceHostname>[^<]+)</Data><Data\sName='SourcePort'(?P<SourcePort>[^<]+)</Data><Data\sName=[^<]+</Data><Data\sName=[^<]+</Data><Data\sName='DestinationIp'(?P<DestinationIp>[^<]+)</Data><Data\sName='DestinationHostname'(?P<DestinationHostname>[^<]+)</Data><Data\sName='DestinationPort'>(?P<DestinationPort>[^<]+)</Data><Data\sName=[^<]+</Data>
+  decoder-regex: <Event\s+xmlns=[^>]+><System><Provider\sName=[^>]+><EventID>(?P<EventID>[^<]+).*<Computer>(?P<Computer>[^<]+)</Computer><Security\sUserID=[^>]+></System><EventData><Data\sName=[^<]+</Data><Data\sName='UtcTime'>(?P<UtcTime>[^<]+)</Data><Data\sName=[^<]+</Data><Data\sName=[^<]+</Data><Data\sName='Image'>(?P<Image>[^<]+)</Data><Data\sName='User'>(?P<User>[^<]+)</Data><Data\s+Name='Protocol'>(?P<Protocol>[^<]+)</Data><Data\sName=[^<]+</Data><Data\sName=[^<]+</Data><Data\sName='SourceIp'>(?P<SourceIp>[^<]+)</Data><Data\sName='SourceHostname'>(?P<SourceHostname>[^<]+)</Data><Data\sName='SourcePort'>(?P<SourcePort>[^<]+)</Data><Data\sName=[^<]+</Data><Data\sName=[^<]+</Data><Data\sName='DestinationIp'>(?P<DestinationIp>[^<]+)</Data><Data\sName='DestinationHostname'>(?P<DestinationHostname>[^<]+)</Data><Data\sName='DestinationPort'>(?P<DestinationPort>[^<]+)</Data><Data\sName=[^<]+</Data>
   event-key-format: '{EventID}'
   event-key-mapping:
     '3':
@@ -205,7 +205,7 @@ event-details:
 
 - first-match: <EventID>12</EventID>
   decoder: regex
-  decoder-regex: \<Event\s+xmlns\=[^>]+\>\<System\>\<Provider\sName\=[^>]+\>\<EventID\>(?P<EventID>[^<]+).*?<Computer>(?P<Computer>[^<]+)</Computer>.*?<Data Name='EventType'>(?P<EventType>[^<]+)</Data><Data Name='UtcTime'>(?P<UtcTime>[^<]+).*?Image'>(?P<Image>[^<]+)</Data><Data Name='TargetObject'>(?P<TargetObject>[^<]+)</Data></EventData></Event>
+  decoder-regex: <Event\s+xmlns=[^>]+><System><Provider\sName=[^>]+><EventID>(?P<EventID>[^<]+).*<Computer>(?P<Computer>[^<]+)</Computer><Security\sUserID=[^>]+></System><EventData><Data\sName=[^<]+</Data><Data\sName='EventType'>(?P<EventType>[^<]+)</Data><Data\sName='UtcTime'>(?P<UtcTime>[^<]+)</Data><Data\sName=[^<]+</Data><Data\sName=[^<]+</Data><Data\sName='Image'>(?P<Image>[^<]+)</Data><Data\sName='TargetObject'>(?P<TargetObject>[^<]+)</Data></EventData></Event>
   event-key-format: '{EventID}'
   event-key-mapping:
     '12':
@@ -233,7 +233,7 @@ event-details:
 
 - first-match: <EventID>13</EventID>
   decoder: regex
-  decoder-regex: \<Event\s+xmlns\=[^>]+\>\<System\>\<Provider\sName\=[^>]+\>\<EventID\>(?P<EventID>[^<]+).*?<Computer>(?P<Computer>[^<]+)</Computer>.*?<Data Name='EventType'>(?P<EventType>[^<]+)</Data><Data Name='UtcTime'>(?P<UtcTime>[^<]+).*?Image'>(?P<Image>[^<]+)</Data><Data Name='TargetObject'>(?P<TargetObject>[^<]+)</Data><Data Name='Details'>(?P<Details>[^<]+)</Data></EventData></Event>
+  decoder-regex: <Event\s+xmlns=[^>]+><System><Provider\sName=[^>]+><EventID>(?P<EventID>[^<]+).*<Computer>(?P<Computer>[^<]+)</Computer><Security\sUserID=[^>]+></System><EventData><Data\sName=[^<]+</Data><Data\sName='EventType'>(?P<EventType>[^<]+)</Data><Data\sName='UtcTime'>(?P<UtcTime>[^<]+)</Data><Data\sName=[^<]+</Data><Data\sName=[^<]+</Data><Data\sName='Image'>(?P<Image>[^<]+)</Data><Data\sName='TargetObject'>(?P<TargetObject>[^<]+)</Data><Data\sName='Details'>(?P<Details>[^<]+)</Data></EventData></Event>
   event-key-format: '{EventID}'
   event-key-mapping:
     '13':
@@ -263,7 +263,7 @@ event-details:
 
 - first-match: <EventID>16</EventID>
   decoder: regex
-  decoder-regex: \<Event\s+xmlns\=[^>]+\>\<System\>\<Provider\sName\=[^>]+\>\<EventID\>(?P<EventID>[^<]+).*?<Computer>(?P<Computer>[^<]+)</Computer>.*?'UtcTime'>(?P<UtcTime>[^<]+)</Data><Data Name='Configuration'>(?P<Configuration>[^<]+)</Data><Data
+  decoder-regex: <Event\s+xmlns=[^>]+><System><Provider\sName=[^>]+><EventID>(?P<EventID>[^<]+).*<Computer>(?P<Computer>[^<]+)</Computer><Security\sUserID=[^>]+></System><EventData><Data\sName='UtcTime'>(?P<UtcTime>[^<]+)</Data><Data\sName='Configuration'>(?P<Configuration>[^<]+)</Data><Data\sName='ConfigurationFileHash'>(?P<ConfigurationFileHash>[^<]+)</Data></EventData></Event>
   event-key-format: '{EventID}'
   event-key-mapping:
     '16':
@@ -273,6 +273,7 @@ event-details:
         Status: PASSED
       translate:
         Configuration: Configuration
+        ConfigurationFileHash: ConfigurationFileHash
 
   fallback:
     annotate:
@@ -286,7 +287,7 @@ event-details:
 
 - first-match: <EventID>22</EventID>
   decoder: regex
-  decoder-regex: \<Event\s+xmlns\=[^>]+\>\<System\>\<Provider\sName\=[^>]+\>\<EventID\>(?P<EventID>[^<]+).*?<Computer>(?P<Computer>[^<]+)</Computer>.*?'UtcTime'>(?P<UtcTime>[^<]+).*?'QueryName'>(?P<QueryName>[^<]+)</Data><Data\s+Name='QueryStatus'>(?P<QueryStatus>[^<]+)</Data><Data\s+Name='QueryResults'>(?P<QueryResults>[^<]+)</Data><Data\s+Name='Image'>(?P<Image>[^<]+)</Data></EventData></Event>
+  decoder-regex: <Event\s+xmlns=[^>]+><System><Provider\sName=[^>]+><EventID>(?P<EventID>[^<]+).*<Computer>(?P<Computer>[^<]+)</Computer><Security\sUserID=[^>]+></System><EventData><Data\sName=[^<]+</Data><Data\sName='UtcTime'>(?P<UtcTime>[^<]+)</Data><Data\sName=[^<]+</Data><Data\sName=[^<]+</Data><Data\sName='QueryName'>(?P<QueryName>[^<]+)</Data><Data\s+Name='QueryStatus'>(?P<QueryStatus>[^<]+)</Data><Data\s+Name='QueryResults'>(?P<QueryResults>[^<]+)</Data><Data\s+Name='Image'>(?P<Image>[^<]+)</Data></EventData></Event>
   event-key-format: '{EventID}'
   event-key-mapping:
     '22':
