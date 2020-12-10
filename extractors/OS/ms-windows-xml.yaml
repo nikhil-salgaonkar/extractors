@@ -1,0 +1,312 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 712
+source-name: WINDOWS
+source-type: OS
+source-description: Extractor for Windows XML Events
+provides-streams:
+- SYSMON-PROCESS
+- SYSMON-NETWORK
+- SYSMON-FILE
+- SYSMON-IMAGE-LOAD
+- SYSMON-REGISTRY
+- SYSMON-WMI
+- SYSMON-QUERY
+- SYSMON-DRIVER-LOAD
+- SYSMON-CONFIG
+- SYSMON-SERVICE
+master-filters:
+- <Provider Name='Microsoft-Windows-Sysmon'
+event-details:
+- first-match: <EventID>1</EventID>
+  decoder: regex
+  decoder-regex: <Event\s+xmlns=[^>]+><System><Provider\sName=[^>]+><EventID>(?P<EventID>[^<]+).*<Computer>(?P<Computer>[^<]+)</Computer><Security\sUserID=[^>]+></System><EventData><Data\sName=[^<]+</Data><Data\sName='UtcTime'>(?P<UtcTime>[^<]+)</Data><Data\sName=[^<]+</Data><Data\sName=[^<]+</Data><Data\sName='Image'>(?P<Image>[^<]+)</Data><Data\sName=[^<]+</Data><Data\sName='Description'>(?P<Description>[^<]+)</Data><Data\sName='Product'>(?P<Product>[^<]+)</Data><Data\sName='Company'>(?P<Company>[^<]+)</Data><Data\sName='OriginalFileName'>(?P<OriginalFileName>[^<]+)</Data><Data\sName='CommandLine'>(?P<CommandLine>[^<]+)</Data><Data\sName=[^<]+</Data><Data\sName='User'>(?P<User>[^<]+)</Data><Data\sName=[^<]+</Data><Data\sName=[^<]+</Data><Data\sName=[^<]+</Data><Data\sName=[^<]+</Data><Data\sName=[^<]+</Data><Data\sName=[^<]+</Data><Data\sName=[^<]+</Data><Data\sName='ParentImage'>(?P<ParentImage>[^<]+)</Data><Data\sName='ParentCommandLine'>(?P<ParentCommandLine>[^<]+)</Data>
+  event-key-format: '{EventID}'
+  event-key-mapping:
+    '1':
+      annotate:
+        Stream: SYSMON-PROCESS
+        Action: PROCESS_CREATED
+        Status: PASSED
+      translate:
+        User: User
+        ParentCommandLine: ParentCommandLine
+        OriginalFileName: OriginalFileName
+        ParentImage: ParentImage
+        CommandLine: CommandLine
+        Description: Description
+        Company: Company
+        Product: Product
+
+  fallback:
+    annotate:
+      EventName: Generic Windows XML Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      UtcTime: SystemTstamp
+      Computer: System
+
+- first-match: <EventID>3</EventID>
+  decoder: regex
+  decoder-regex: <Event\s+xmlns=[^>]+><System><Provider\sName=[^>]+><EventID>(?P<EventID>[^<]+).*<Computer>(?P<Computer>[^<]+)</Computer><Security\sUserID=[^>]+></System><EventData><Data\sName=[^<]+</Data><Data\sName='UtcTime'>(?P<UtcTime>[^<]+)</Data><Data\sName=[^<]+</Data><Data\sName=[^<]+</Data><Data\sName='Image'>(?P<Image>[^<]+)</Data><Data\sName='User'>(?P<User>[^<]+)</Data><Data\s+Name='Protocol'>(?P<Protocol>[^<]+)</Data><Data\sName=[^<]+</Data><Data\sName=[^<]+</Data><Data\sName='SourceIp'>(?P<SourceIp>[^<]+)</Data><Data\sName='SourceHostname'>(?P<SourceHostname>[^<]+)</Data><Data\sName='SourcePort'>(?P<SourcePort>[^<]+)</Data><Data\sName=[^<]+</Data><Data\sName=[^<]+</Data><Data\sName='DestinationIp'>(?P<DestinationIp>[^<]+)</Data><Data\sName='DestinationHostname'>(?P<DestinationHostname>[^<]+)</Data><Data\sName='DestinationPort'>(?P<DestinationPort>[^<]+)</Data><Data\sName=[^<]+</Data>
+  event-key-format: '{EventID}'
+  event-key-mapping:
+    '3':
+      annotate:
+        Stream: SYSMON-NETWORK
+        Action: NETWORK_CONNECTION
+        Status: PASSED
+      translate:
+        Image: Image
+        User: User
+        Protocol: Protocol
+        SourceIp: SrcIP
+        SourcePort: SrcPort
+        SourceHostname: SrcHost
+        DestinationIp: DstIP
+        DestinationHostname: DstHost
+        DestinationPort: DstPort
+
+  fallback:
+    annotate:
+      EventName: Generic Windows XML Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      UtcTime: SystemTstamp
+      Computer: System
+
+- first-match: <EventID>4</EventID>
+  decoder: regex
+  decoder-regex: <Event\s+xmlns=[^>]+><System><Provider\sName=[^>]+><EventID>(?P<EventID>[^<]+).*<Computer>(?P<Computer>[^<]+)</Computer><Security\sUserID=[^>]+></System><EventData><Data\sName='UtcTime'>(?P<UtcTime>[^<]+)</Data><Data\sName='State'>(?P<State>[^<]+)</Data><Data\sName='Version'>(?P<Version>[^<]+)</Data><Data\sName=[^<]+</Data>
+  event-key-format: '{EventID}'
+  event-key-mapping:
+    '4':
+      annotate:
+        Stream: SYSMON-SERVICE
+        Action: SERVICE_STARTED
+        Status: PASSED
+      translate:
+        State: State
+        SchemaVersion: SchemaVersion
+
+  fallback:
+    annotate:
+      EventName: Generic Windows XML Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      UtcTime: SystemTstamp
+      Computer: System
+
+- first-match: <EventID>5</EventID>
+  decoder: regex
+  decoder-regex: <Event\s+xmlns=[^>]+><System><Provider\sName=[^>]+><EventID>(?P<EventID>[^<]+).*<Computer>(?P<Computer>[^<]+)</Computer><Security\sUserID=[^>]+></System><EventData><Data\sName=[^<]+</Data><Data\sName='UtcTime'>(?P<UtcTime>[^<]+)</Data><Data\sName=[^<]+</Data><Data\sName=[^<]+</Data><Data\sName='Image'>(?P<Image>[^<]+)</Data>
+  event-key-format: '{EventID}'
+  event-key-mapping:
+    '5':
+      annotate:
+        Stream: SYSMON-PROCESS
+        Action: PROCESS_REMOVED
+        Status: PASSED
+      translate:
+        Image: Image
+
+  fallback:
+    annotate:
+      EventName: Generic Windows XML Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      UtcTime: SystemTstamp
+      Computer: System
+
+- first-match: <EventID>6</EventID>
+  decoder: regex
+  decoder-regex: <Event\s+xmlns=[^>]+><System><Provider\sName=[^>]+><EventID>(?P<EventID>[^<]+).*<Computer>(?P<Computer>[^<]+)</Computer><Security\sUserID=[^>]+></System><EventData><Data\sName=[^<]+</Data><Data\sName='UtcTime'>(?P<UtcTime>[^<]+)</Data><Data\sName='ImageLoaded'>(?P<ImageLoaded>[^<]+)</Data><Data\sName=[^<]+</Data><Data\sName='Signed'>(?P<Signed>[^<]+)</Data><Data\sName='Signature'>(?P<Signature>[^<]+)</Data><Data\sName='SignatureStatus'>(?P<SignatureStatus>[^<]+)</Data>
+  event-key-format: '{EventID}'
+  event-key-mapping:
+    '6':
+      annotate:
+        Stream: SYSMON-DRIVER-LOAD
+        Action: DRIVER_LOADED
+        Status: PASSED
+      translate:
+        ImageLoaded: ImageLoaded
+        Signed: Signed
+        Signature: Signature
+        SignatureStatus: SignatureStatus
+
+  fallback:
+    annotate:
+      EventName: Generic Windows XML Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      UtcTime: SystemTstamp
+      Computer: System
+
+- first-match: <EventID>10</EventID>
+  decoder: regex
+  decoder-regex: <Event\s+xmlns=[^>]+><System><Provider\sName=[^>]+><EventID>(?P<EventID>[^<]+).*<Computer>(?P<Computer>[^<]+)</Computer><Security\sUserID=[^>]+></System><EventData><Data\sName=[^<]+</Data><Data\sName='UtcTime'>(?P<UtcTime>[^<]+)</Data><Data\sName=[^<]+</Data><Data\sName=[^<]+</Data><Data\sName=[^<]+</Data><Data\sName='SourceImage'>(?P<SourceImage>[^<]+)</Data><Data\sName=[^<]+</Data><Data\sName=[^<]+</Data><Data\sName='TargetImage'>(?P<TargetImage>[^<]+)</Data><Data\sName='GrantedAccess'>(?P<GrantedAccess>[^<]+)</Data><Data\sName='CallTrace'>(?P<CallTrace>[^<]+)</Data></EventData></Event>
+  event-key-format: '{EventID}'
+  event-key-mapping:
+    '10':
+      annotate:
+        Stream: SYSMON-PROCESS
+        Action: PROCESS_ACCESSED
+        Status: PASSED
+      translate:
+        SourceImage: SourceImage
+        TargetImage: TargetImage
+        GrantedAccess: GrantedAccess
+        CallTrace: CallTrace
+
+  fallback:
+    annotate:
+      EventName: Generic Windows XML Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      UtcTime: SystemTstamp
+      Computer: System
+
+- first-match: <EventID>11</EventID>
+  decoder: regex
+  decoder-regex: <Event\s+xmlns=[^>]+><System><Provider\sName=[^>]+><EventID>(?P<EventID>[^<]+).*<Computer>(?P<Computer>[^<]+)</Computer><Security\sUserID=[^>]+></System><EventData><Data\sName=[^<]+</Data><Data\sName='UtcTime'>(?P<UtcTime>[^<]+)</Data><Data\sName=[^<]+</Data><Data\sName=[^<]+</Data><Data\sName='Image'>(?P<Image>[^<]+)</Data><Data\sName=[^<]+</Data><Data\sName='CreationUtcTime'(?P<CreationUtcTime>[^<]+)</Data>
+  event-key-format: '{EventID}'
+  event-key-mapping:
+    '11':
+      annotate:
+        Stream: SYSMON-FILE
+        Action: FILE_CREATED
+        Status: PASSED
+      translate:
+        Image: Image
+        TargetFilename: TargetFilename
+        CreationUtcTime: CreationUtcTime   
+
+  fallback:
+    annotate:
+      EventName: Generic Windows XML Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      UtcTime: SystemTstamp
+      Computer: System
+
+- first-match: <EventID>12</EventID>
+  decoder: regex
+  decoder-regex: <Event\s+xmlns=[^>]+><System><Provider\sName=[^>]+><EventID>(?P<EventID>[^<]+).*<Computer>(?P<Computer>[^<]+)</Computer><Security\sUserID=[^>]+></System><EventData><Data\sName=[^<]+</Data><Data\sName='EventType'>(?P<EventType>[^<]+)</Data><Data\sName='UtcTime'>(?P<UtcTime>[^<]+)</Data><Data\sName=[^<]+</Data><Data\sName=[^<]+</Data><Data\sName='Image'>(?P<Image>[^<]+)</Data><Data\sName='TargetObject'>(?P<TargetObject>[^<]+)</Data></EventData></Event>
+  event-key-format: '{EventID}'
+  event-key-mapping:
+    '12':
+      annotate:
+        Stream: SYSMON-REGISTRY
+        Status: PASSED
+      translate:
+        EventType: Action
+        Image: Image
+        TargetObject: TargetObject
+
+  fallback:
+    annotate:
+      EventName: Generic Windows XML Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      UtcTime: SystemTstamp
+      Computer: System
+  subs:
+    Action:
+      'CreateKey': OBJECT_CREATED
+      'DeleteKey': OBJECT_DELETED
+
+- first-match: <EventID>13</EventID>
+  decoder: regex
+  decoder-regex: <Event\s+xmlns=[^>]+><System><Provider\sName=[^>]+><EventID>(?P<EventID>[^<]+).*<Computer>(?P<Computer>[^<]+)</Computer><Security\sUserID=[^>]+></System><EventData><Data\sName=[^<]+</Data><Data\sName='EventType'>(?P<EventType>[^<]+)</Data><Data\sName='UtcTime'>(?P<UtcTime>[^<]+)</Data><Data\sName=[^<]+</Data><Data\sName=[^<]+</Data><Data\sName='Image'>(?P<Image>[^<]+)</Data><Data\sName='TargetObject'>(?P<TargetObject>[^<]+)</Data><Data\sName='Details'>(?P<Details>[^<]+)</Data></EventData></Event>
+  event-key-format: '{EventID}'
+  event-key-mapping:
+    '13':
+      annotate:
+        Stream: SYSMON-REGISTRY
+        Status: PASSED
+      translate:
+        EventType: Action
+        Image: Image
+        TargetObject: TargetObject
+        Details: Details
+        Description: Description
+
+  fallback:
+    annotate:
+      EventName: Generic Windows XML Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      UtcTime: SystemTstamp
+      Computer: System
+  subs:
+    Action:
+      'SetValue': OBJECT_MODIFIED
+      'DeleteValue': OBJECT_MODIFIED
+
+- first-match: <EventID>16</EventID>
+  decoder: regex
+  decoder-regex: <Event\s+xmlns=[^>]+><System><Provider\sName=[^>]+><EventID>(?P<EventID>[^<]+).*<Computer>(?P<Computer>[^<]+)</Computer><Security\sUserID=[^>]+></System><EventData><Data\sName='UtcTime'>(?P<UtcTime>[^<]+)</Data><Data\sName='Configuration'>(?P<Configuration>[^<]+)</Data><Data\sName='ConfigurationFileHash'>(?P<ConfigurationFileHash>[^<]+)</Data></EventData></Event>
+  event-key-format: '{EventID}'
+  event-key-mapping:
+    '16':
+      annotate:
+        Stream: SYSMON-CONFIG
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        Configuration: Configuration
+        ConfigurationFileHash: ConfigurationFileHash
+
+  fallback:
+    annotate:
+      EventName: Generic Windows XML Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      UtcTime: SystemTstamp
+      Computer: System
+
+- first-match: <EventID>22</EventID>
+  decoder: regex
+  decoder-regex: <Event\s+xmlns=[^>]+><System><Provider\sName=[^>]+><EventID>(?P<EventID>[^<]+).*<Computer>(?P<Computer>[^<]+)</Computer><Security\sUserID=[^>]+></System><EventData><Data\sName=[^<]+</Data><Data\sName='UtcTime'>(?P<UtcTime>[^<]+)</Data><Data\sName=[^<]+</Data><Data\sName=[^<]+</Data><Data\sName='QueryName'>(?P<QueryName>[^<]+)</Data><Data\s+Name='QueryStatus'>(?P<QueryStatus>[^<]+)</Data><Data\s+Name='QueryResults'>(?P<QueryResults>[^<]+)</Data><Data\s+Name='Image'>(?P<Image>[^<]+)</Data></EventData></Event>
+  event-key-format: '{EventID}'
+  event-key-mapping:
+    '22':
+      annotate:
+        Stream: SYSMON-QUERY
+        Action: DNS_QUERY
+        Status: PASSED
+      translate:
+        Image: Image
+        QueryName: QueryName
+        QueryStatus: QueryStatus
+        QueryResults: QueryResults   
+
+  fallback:
+    annotate:
+      EventName: Generic Windows XML Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      UtcTime: SystemTstamp
+      Computer: System
