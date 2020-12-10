@@ -13,8 +13,8 @@ provides-streams:
 - SYSMON-WMI
 - SYSMON-QUERY
 - SYSMON-DRIVER-LOAD
-- SYSMON-CONFIG-STATE
-- SYSMON-SERVICE-STATE
+- SYSMON-CONFIG
+- SYSMON-SERVICE
 master-filters:
 - <Provider Name='Microsoft-Windows-Sysmon'
 event-details:
@@ -50,7 +50,7 @@ event-details:
 
 - first-match: <EventID>3</EventID>
   decoder: regex
-  decoder-regex: \<Event\s+xmlns\=[^>]+\>\<System\>\<Provider\sName\=[^>]+\>\<EventID\>(?P<EventID>[^<]+).*?<Computer>(?P<Computer>[^<]+)</Computer>.*?'UtcTime'>(?P<UtcTime>[^<]+).*?Image'>(?P<Image>[^<]+)</Data><Data\s+Name='User'>(?P<User>[^<]+)</Data><Data\s+Name='Protocol'>(?P<Protocol>[^<]+).*?SourceIp'>(?P<SourceIp>[^<]+)</Data><Data\s+Name='SourceHostname'>(?P<SourceHostname>[^<]+)</Data><Data\s+Name='SourcePort'>(?P<SourcePort>[^<]+).*?</Data><Data\s+Name='DestinationIp'>(?P<DestinationIp>[^<]+)</Data><Data\s+Name='DestinationHostname'>(?P<DestinationHostname>[^<]+)</Data><Data\s+Name='DestinationPort'>(?P<DestinationPort>[^<]+).*?</Data></EventData></Event>
+  decoder-regex: <Event\s+xmlns=[^>]+><System><Provider\sName=[^>]+><EventID>(?P<EventID>[^<]+).*<Computer>(?P<Computer>[^<]+)</Computer><Security\sUserID=[^>]+></System><EventData><Data\sName=[^<]+</Data><Data\sName='UtcTime'>(?P<UtcTime>[^<]+)</Data><Data\sName=[^<]+</Data><Data\sName=[^<]+</Data><Data\sName='Image'>(?P<Image>[^<]+)</Data><Data\sName='User'(?P<User>[^<]+)</Data><Data\s+Name='Protocol'>(?P<Protocol>[^<]+)</Data><Data\sName=[^<]+</Data><Data\sName=[^<]+</Data><Data\sName='SourceIp'(?P<SourceIp>[^<]+)</Data><Data\sName='SourceHostname'(?P<SourceHostname>[^<]+)</Data><Data\sName='SourcePort'(?P<SourcePort>[^<]+)</Data><Data\sName=[^<]+</Data><Data\sName=[^<]+</Data><Data\sName='DestinationIp'(?P<DestinationIp>[^<]+)</Data><Data\sName='DestinationHostname'(?P<DestinationHostname>[^<]+)</Data><Data\sName='DestinationPort'>(?P<DestinationPort>[^<]+)</Data><Data\sName=[^<]+</Data>
   event-key-format: '{EventID}'
   event-key-mapping:
     '3':
@@ -81,12 +81,12 @@ event-details:
 
 - first-match: <EventID>4</EventID>
   decoder: regex
-  decoder-regex: \<Event\s+xmlns\=[^>]+\>\<System\>\<Provider\sName\=[^>]+\>\<EventID\>(?P<EventID>[^<]+).*?<Computer>(?P<Computer>[^<]+)</Computer>.*?'UtcTime'>(?P<UtcTime>[^<]+)</Data><Data Name='State'>(?P<State>[^<]+).*?/Data><Data Name='SchemaVersion'>(?P<SchemaVersion>[^<]+)</Data></EventData></Event>
+  decoder-regex: <Event\s+xmlns=[^>]+><System><Provider\sName=[^>]+><EventID>(?P<EventID>[^<]+).*<Computer>(?P<Computer>[^<]+)</Computer><Security\sUserID=[^>]+></System><EventData><Data\sName='UtcTime'>(?P<UtcTime>[^<]+)</Data><Data\sName='State'>(?P<State>[^<]+)</Data><Data\sName='Version'>(?P<Version>[^<]+)</Data><Data\sName=[^<]+</Data>
   event-key-format: '{EventID}'
   event-key-mapping:
     '4':
       annotate:
-        Stream: SYSMON-SERVICE-STATE
+        Stream: SYSMON-SERVICE
         Action: SERVICE_STARTED
         Status: PASSED
       translate:
@@ -105,7 +105,7 @@ event-details:
 
 - first-match: <EventID>5</EventID>
   decoder: regex
-  decoder-regex: \<Event\s+xmlns\=[^>]+\>\<System\>\<Provider\sName\=[^>]+\>\<EventID\>(?P<EventID>[^<]+).*?<Computer>(?P<Computer>[^<]+)</Computer>.*?'UtcTime'>(?P<UtcTime>[^<]+).*?Image'>(?P<Image>[^<]+)
+  decoder-regex: <Event\s+xmlns=[^>]+><System><Provider\sName=[^>]+><EventID>(?P<EventID>[^<]+).*<Computer>(?P<Computer>[^<]+)</Computer><Security\sUserID=[^>]+></System><EventData><Data\sName=[^<]+</Data><Data\sName='UtcTime'>(?P<UtcTime>[^<]+)</Data><Data\sName=[^<]+</Data><Data\sName=[^<]+</Data><Data\sName='Image'>(?P<Image>[^<]+)</Data>
   event-key-format: '{EventID}'
   event-key-mapping:
     '5':
@@ -128,7 +128,7 @@ event-details:
 
 - first-match: <EventID>6</EventID>
   decoder: regex
-  decoder-regex: \<Event\s+xmlns\=[^>]+\>\<System\>\<Provider\sName\=[^>]+\>\<EventID\>(?P<EventID>[^<]+).*?<Computer>(?P<Computer>[^<]+)</Computer>.*?'UtcTime'>(?P<UtcTime>[^<]+).*?ImageLoaded'>(?P<ImageLoaded>[^<]+)</Data><Data Name='Hashes'>(?P<Hashes>[^<]+)</Data><Data Name='Signed'>(?P<Signed>[^<]+)</Data><Data Name='Signature'>(?P<Signature>[^<]+)</Data><Data Name='SignatureStatus'>(?P<SignatureStatus>[^<]+)</Data></EventData></Event>
+  decoder-regex: <Event\s+xmlns=[^>]+><System><Provider\sName=[^>]+><EventID>(?P<EventID>[^<]+).*<Computer>(?P<Computer>[^<]+)</Computer><Security\sUserID=[^>]+></System><EventData><Data\sName=[^<]+</Data><Data\sName='UtcTime'>(?P<UtcTime>[^<]+)</Data><Data\sName='ImageLoaded'>(?P<ImageLoaded>[^<]+)</Data><Data\sName=[^<]+</Data><Data\sName='Signed'>(?P<Signed>[^<]+)</Data><Data\sName='Signature'>(?P<Signature>[^<]+)</Data><Data\sName='SignatureStatus'>(?P<SignatureStatus>[^<]+)</Data>
   event-key-format: '{EventID}'
   event-key-mapping:
     '6':
@@ -180,7 +180,7 @@ event-details:
 
 - first-match: <EventID>11</EventID>
   decoder: regex
-  decoder-regex: \<Event\s+xmlns\=[^>]+\>\<System\>\<Provider\sName\=[^>]+\>\<EventID\>(?P<EventID>[^<]+).*?<Computer>(?P<Computer>[^<]+)</Computer>.*?'UtcTime'>(?P<UtcTime>[^<]+).*?Image'>(?P<Image>[^<]+).*?</Data><Data\s+Name='TargetFilename'>(?P<TargetFilename>[^<]+)</Data><Data\s+Name='CreationUtcTime'>(?P<CreationUtcTime>[^<]+)</Data></EventData></Event>
+  decoder-regex: <Event\s+xmlns=[^>]+><System><Provider\sName=[^>]+><EventID>(?P<EventID>[^<]+).*<Computer>(?P<Computer>[^<]+)</Computer><Security\sUserID=[^>]+></System><EventData><Data\sName=[^<]+</Data><Data\sName='UtcTime'>(?P<UtcTime>[^<]+)</Data><Data\sName=[^<]+</Data><Data\sName=[^<]+</Data><Data\sName='Image'>(?P<Image>[^<]+)</Data><Data\sName=[^<]+</Data><Data\sName='CreationUtcTime'(?P<CreationUtcTime>[^<]+)</Data>
   event-key-format: '{EventID}'
   event-key-mapping:
     '11':
@@ -268,7 +268,7 @@ event-details:
   event-key-mapping:
     '16':
       annotate:
-        Stream: SYSMON-CONFIG-STATE
+        Stream: SYSMON-CONFIG
         Action: CONFIGURATION_CHANGED
         Status: PASSED
       translate:
