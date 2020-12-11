@@ -1,0 +1,52 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 184
+source-name: HP-SWITCH
+source-type: SWITCH
+source-description: Extractor for HP Switch Events
+provides-streams:
+- CONNECTIVITY
+
+master-filters:
+- '\d+\-\d+\-\d+T\d+\:\d+\:\d+\s+.*?\s+.*?10\w+\/\d+\/.*?\(.*?\:'
+- '\w+\s+\d+\s+\d+\:\d+\:\d+\s+\S+\s+\d+\s+(?:auth|mgr|SNTP|snmp|system|tftp|ssh)\:'
+- '\w+\s+\d+\s+\d+\:\d+\:\d+\s+\d+\s+.*?\s+.*?10\w+\/\d+\/.*?\:'
+
+event-details:
+- first-match: '\%\%10IFNET\/\d\/(?:LINK|PHY|INTERFACE)(?:\_|\s)UPDOWN'
+  decoder: regex
+  decoder-regex: '(?:(?P<datetime>\d+\-\d+\-\d+T\d+\:\d+\:\d+)|(?P<date_time>\w+\s+\d+\s+\d+\:\d+\:\d+\s+\d+))\s+(?P<systemname>.*?)\s+\%\%10(?P<facility>\w+)\/\d+\/(?P<action>\w+).*?\:\s+(?P<message>(?P<iface>.*?)\s+.*?\s+(?P<devstate>\w+)\.)'
+  event-key-format: '{devstate}'
+  event-key-mapping:
+    'UP':
+      annotate:
+        Stream: CONNECTIVITY
+        Action: LINK_UP
+        Status: PASSED
+      translate:
+        iface: Iface
+    'DOWN':
+      annotate:
+        Stream: CONNECTIVITY
+        Action: LINK_DOWN
+        Status: PASSED
+      translate:
+        iface: Iface
+    'down':
+      annotate:
+        Stream: CONNECTIVITY
+        Action: LINK_DOWN
+        Status: PASSED
+      translate:
+        iface: Iface
+
+  fallback:
+    annotate:
+      EventName: Generic HP Switch Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      date_time: SystemTstamp
+      systemname: System
