@@ -3,7 +3,7 @@ schema-version: 1.0
 extractor-id: 127
 source-name: FORTIGATE
 source-type: FIREWALL
-source-description: Extractor for Forigate Firewall
+source-description: Extractor for Fortigate Firewall
 provides-streams:
 - NETWORK-FIREWALL
 - AUTHENTICATION
