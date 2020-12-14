@@ -279,7 +279,7 @@ event-details:
   event-key-mapping:
     '1102':
       annotate:
-        Stream: WINDOWS-SECURITY
+        Stream: IAM
         Action: AUDIT_LOG_CLEARED
         Status: PASSED
       translate:
