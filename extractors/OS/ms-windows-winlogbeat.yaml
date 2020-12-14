@@ -15,6 +15,7 @@ provides-streams:
 - SYSMON-SERVICE
 - SYSMON-DNS
 - IAM
+- AUTHENTICATION
 master-filters:
 - \"beat\"\:\"winlogbeat\"
 event-details:
@@ -350,4 +351,35 @@ event-details:
   globals:
     translate:
       winlog[computer_name]: System
-      '@timestamp': SystemTstamp            
+      '@timestamp': SystemTstamp
+      
+- first-match: \"MSSQLSERVER\"
+  decoder: json
+  event-key-format: '{winlog[event_id]}'
+  event-key-mapping:
+    '18456':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate:
+        winlog[host][name]: User
+        #winlog[event_data][SubjectLogonId]: SubjectLogonId
+    '18454':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        winlog[host][name]: User
+        #winlog[event_data][SubjectLogonId]: SubjectLogonId
+
+  fallback:
+    annotate:
+      EventName: Generic WinlogBeat Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      winlog[computer_name]: System
+      '@timestamp': SystemTstamp
