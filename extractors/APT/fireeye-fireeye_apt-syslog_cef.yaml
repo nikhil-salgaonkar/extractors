@@ -7,8 +7,7 @@ source-description: Extractor for Fireeye APT
 provides-streams:
 - APT
 master-filters:
-- CEF\:0\|FireEye\|
-- CEF\:0\|fireeye\|
+- CEF\:0\|(FireEye|fireeye)\|
 event-details:
 - first-match: act\=(?:blocked|notified)
   decoder: custom
