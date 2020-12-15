@@ -172,6 +172,15 @@ event-details:
         winlog[event_data][CreationUtcTime]: CreationUtcTime
         winlog[event_data][Hash]: Hash
 
+    '16':
+      annotate:
+        Stream: SYSMON-CONFIG
+        Action: STATE-CHANGED
+        Status: PASSED
+      translate:
+        winlog[event_data][Configuration]: Configuration
+        winlog[event_data][ConfigurationFileHash]: ConfigurationFileHash
+
     '17':
       annotate:
         Stream: SYSMON-PIPE
@@ -450,7 +459,61 @@ event-details:
         winlog[event_data][bytesTransferred]: bytesTransferred  
         winlog[event_data][bytesTransferredFromPeer]: bytesTransferredFromPeer
         winlog[event_data][bytesTotal]: bytesTotal
-        winlog[event_data][name]: name                                  
+        winlog[event_data][name]: name
+    '4611':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        winlog[event_data][SubjectUserName]: User 
+        winlog[event_data][SubjectDomainName]: Domain
+        winlog[event_data][SubjectLogonId]: SubjectLogonId
+    '4624':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        winlog[event_data][TargetUserName]: TargetUser
+        winlog[event_data][SubjectUserName]: User 
+        winlog[event_data][SubjectDomainName]: Domain
+        winlog[event_data][TargetDomainName]: TargetDomain
+        winlog[event_data][SubjectLogonId]: SubjectLogonId
+        winlog[event_data][IpAddress]: SrcIP
+    '4625':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate:
+        winlog[event_data][TargetUserName]: TargetUser
+        winlog[event_data][SubjectUserName]: User 
+        winlog[event_data][SubjectDomainName]: Domain
+        winlog[event_data][TargetDomainName]: TargetDomain
+        winlog[event_data][SubjectLogonId]: SubjectLogonId
+        winlog[event_data][IpAddress]: SrcIP
+    '4634':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+      translate:
+        winlog[event_data][TargetUserName]: TargetUser
+        winlog[event_data][TargetDomainName]: TargetDomain
+        winlog[event_data][TargetLogonId]: TargetLogonId
+    '4648':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        winlog[event_data][TargetUserName]: TargetUser
+        winlog[event_data][SubjectUserName]: User 
+        winlog[event_data][SubjectDomainName]: Domain
+        winlog[event_data][TargetDomainName]: TargetDomain
+        winlog[event_data][SubjectLogonId]: SubjectLogonId
+        winlog[event_data][IpAddress]: SrcIP                              
 
   fallback:
     annotate:
