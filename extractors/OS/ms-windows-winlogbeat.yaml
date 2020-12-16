@@ -16,6 +16,7 @@ provides-streams:
 - SYSMON-DNS
 - IAM
 - AUTHENTICATION
+- NETWORK-FIREWALL
 master-filters:
 - \"beat\"\:\"winlogbeat\"
 event-details:
