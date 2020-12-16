@@ -513,7 +513,63 @@ event-details:
         winlog[event_data][SubjectDomainName]: Domain
         winlog[event_data][TargetDomainName]: TargetDomain
         winlog[event_data][SubjectLogonId]: SubjectLogonId
-        winlog[event_data][IpAddress]: SrcIP                              
+        winlog[event_data][IpAddress]: SrcIP
+    '5156':
+      annotate:
+        Stream: NETWORK-FIREWALL
+        Action: PACKET_ALLOWED
+        Status: PASSED
+      translate:
+        winlog[event_data][Protocol]: Proto
+        winlog[event_data][SourceAddress]: SrcIP 
+        winlog[event_data][SourcePort]: SrcPort
+        winlog[event_data][DestAddress]: DstIP
+        winlog[event_data][DestPort]: DstPort
+        winlog[event_data][Application]: App
+    '5158':
+      annotate:
+        Stream: NETWORK-FIREWALL
+        Action: PORT_ALLOWED
+        Status: PASSED
+      translate:
+        winlog[event_data][Protocol]: Proto
+        winlog[event_data][SourceAddress]: SrcIP 
+        winlog[event_data][SourcePort]: SrcPort
+        winlog[event_data][Application]: App  
+    '4663':
+      annotate:
+        Stream: IAM
+        Action: OBJECT_ACCESSED
+        Status: PASSED
+      translate:
+        winlog[event_data][ObjectServer]: ObjectServer 
+        winlog[event_data][AccessMask]: AccessMask
+        winlog[event_data][SubjectUserName]: User 
+        winlog[event_data][SubjectDomainName]: Domain  
+        winlog[event_data][ObjectName]: ObjectName  
+        winlog[event_data][SubjectLogonId]: SubjectLogonId 
+        winlog[event_data][ObjectType]: ObjectType  
+        winlog[event_data][AccessList]: AccessList 
+    '4672':          
+      annotate:
+        Stream: IAM
+        Action: PRIVILEGE_SET
+        Status: PASSED    
+      translate:  
+        winlog[event_data][SubjectUserName]: User 
+        winlog[event_data][SubjectDomainName]: Domain    
+        winlog[event_data][SubjectLogonId]: SubjectLogonId
+    '4720':           
+      annotate:
+        Stream: IAM
+        Action: USER_ACCOUNT_CREATED
+        Status: PASSED    
+      translate: 
+        Swinlog[event_data][SubjectUserName]: User 
+        winlog[event_data][SubjectDomainName]: Domain    
+        winlog[event_data][SubjectLogonId]: SubjectLogonId  
+        winlog[event_data][TargetUserName]: TargetUser
+        winlog[event_data][TargetDomainName]: TargetDomain                                             
 
   fallback:
     annotate:
