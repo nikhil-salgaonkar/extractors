@@ -7,11 +7,10 @@ source-description: Extractor for Microsoft Office 365 Events
 provides-streams:
 - CLOUD
 master-filters:
-- \{?\'CreationTime\'\:\s+\'\d{4}\-\d{1,2}\-\d{2}T\d{2}\:\d{2}\:\d{2}\'.*?OrganizationId\'\:\s+\'\S+\'\,.*?\'UserType\'\:\s+\d+\,\s+
+- \{\"CreationTime\"\:\"\d{4}\-\d{1,2}\-\d{2}T\d{2}\:\d{2}\:\d{2}\".*?OrganizationId\"\:\"\S+\"\,.*?\"UserType\"\:\d+\,
 event-details:
-- first-match: \s+\'UserType\'\:\s+\d+\,\s+
-  decoder: custom
-  decoder-regex: \'([\w]+)\'\:\s+\'?([^\'\,]*|[^\}]*)\,?
+- first-match: \"UserType\"\:\d+\,
+  decoder: json
   event-key-format: '{UserType}'
   event-key-mapping:
     '4':
@@ -159,3 +158,4 @@ event-details:
       '3': TRANSPORT-SERVICE-MICROSOFT-DATACENTER
       '4': SERVICE-ACCOUNT-MICROSOFT-DATACENTER 
       '6': DELEGATE-ADMINISTRATOR 
+             
