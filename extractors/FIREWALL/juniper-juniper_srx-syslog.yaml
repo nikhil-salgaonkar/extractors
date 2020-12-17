@@ -28,11 +28,9 @@ event-details:
         user: User
 
   fallback:
-      annotate:
-        EventName: Generic JUNIPER-SRX Firewall Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp
+    annotate:
+      EventName: Generic JUNIPER-SRX Firewall Event
+      Stream: OTHER
 
   globals:
     translate:
@@ -54,11 +52,9 @@ event-details:
 
 
   fallback:
-      annotate:
-        EventName: Generic JUNIPER-SRX Firewall Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp
+    annotate:
+      EventName: Generic JUNIPER-SRX Firewall Event
+      Stream: OTHER
 
   globals:
     translate:
@@ -82,11 +78,9 @@ event-details:
         src: SrcIP   
 
   fallback:
-      annotate:
-        EventName: Generic JUNIPER-SRX Firewall Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp
+    annotate:
+      EventName: Generic JUNIPER-SRX Firewall Event
+      Stream: OTHER
 
   globals:
     translate:
@@ -108,11 +102,9 @@ event-details:
 
 
   fallback:
-      annotate:
-        EventName: Generic JUNIPER-SRX Firewall Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp
+    annotate:
+      EventName: Generic JUNIPER-SRX Firewall Event
+      Stream: OTHER
 
   globals:
     translate:
@@ -134,11 +126,9 @@ event-details:
 
 
   fallback:
-      annotate:
-        EventName: Generic JUNIPER-SRX Firewall Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp
+    annotate:
+      EventName: Generic JUNIPER-SRX Firewall Event
+      Stream: OTHER
 
   globals:
     translate:
@@ -159,11 +149,9 @@ event-details:
         user: User
 
   fallback:
-      annotate:
-        EventName: Generic JUNIPER-SRX Firewall Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp
+    annotate:
+      EventName: Generic JUNIPER-SRX Firewall Event
+      Stream: OTHER
 
   globals:
     translate:
@@ -187,11 +175,9 @@ event-details:
 
 
   fallback:
-      annotate:
-        EventName: Generic JUNIPER-SRX Firewall Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp
+    annotate:
+      EventName: Generic JUNIPER-SRX Firewall Event
+      Stream: OTHER
 
   globals:
     translate:
@@ -213,11 +199,9 @@ event-details:
         dst: DstIP
         
   fallback:
-      annotate:
-        EventName: Generic JUNIPER-SRX Firewall Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp
+    annotate:
+      EventName: Generic JUNIPER-SRX Firewall Event
+      Stream: OTHER
 
   globals:
     translate:
@@ -243,11 +227,9 @@ event-details:
         dport: DstPort
 
   fallback:
-      annotate:
-        EventName: Generic JUNIPER-SRX Firewall Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp
+    annotate:
+      EventName: Generic JUNIPER-SRX Firewall Event
+      Stream: OTHER
 
   globals:
     translate:
@@ -272,11 +254,9 @@ event-details:
         dport: DstPort
 
   fallback:
-      annotate:
-        EventName: Generic JUNIPER-SRX Firewall Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp
+    annotate:
+      EventName: Generic JUNIPER-SRX Firewall Event
+      Stream: OTHER
 
   globals:
     translate:
@@ -300,11 +280,9 @@ event-details:
         dst: DstIP
 
   fallback:
-      annotate:
-        EventName: Generic JUNIPER-SRX Firewall Event
-        Stream: OTHER
-      translate:
-        datetime: SystemTstamp
+    annotate:
+      EventName: Generic JUNIPER-SRX Firewall Event
+      Stream: OTHER
 
   globals:
     translate:

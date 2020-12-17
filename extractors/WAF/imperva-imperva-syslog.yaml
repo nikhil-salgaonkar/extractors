@@ -32,7 +32,6 @@ event-details:
         EventName: Generic Imperva Event
         Stream: OTHER
 
-
   globals:
     translate:
       ruleName: AtkClass

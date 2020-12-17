@@ -57,9 +57,9 @@ event-details:
         Domain Name: Domain
 
   fallback:
-      annotate:
-        EventName: Generic SYMANTEC-ENDPOINT Event
-        Stream: OTHER   
+    annotate:
+      EventName: Generic SYMANTEC-ENDPOINT Event
+      Stream: OTHER
 
 - first-match: Detection\s+type\:\s+
   decoder: custom

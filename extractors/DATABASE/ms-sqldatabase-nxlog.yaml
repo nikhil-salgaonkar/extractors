@@ -39,11 +39,9 @@ event-details:
         src: SrcIP 
 
   fallback:
-      annotate:
-        EventName: Generic MSSQL DATABASE Event
-        Stream: OTHER
-      translate:
-        EventTime: SystemTstamp
+    annotate:
+      EventName: Generic MSSQL DATABASE Event
+      Stream: OTHER
 
   globals:
     translate:
@@ -68,11 +66,9 @@ event-details:
         user: User          
 
   fallback:
-      annotate:
-        EventName: Generic MSSQL DATABASE Event
-        Stream: OTHER 
-      translate:
-        EventTime: SystemTstamp
+    annotate:
+      EventName: Generic MSSQL DATABASE Event
+      Stream: OTHER
 
   globals:
     translate:
@@ -173,11 +169,9 @@ event-details:
         AccountName: User                         
 
   fallback:
-      annotate:
-        EventName: Generic MSSQL DATABASE Event
-        Stream: OTHER
-      translate:
-        EventTime: SystemTstamp
+    annotate:
+      EventName: Generic MSSQL DATABASE Event
+      Stream: OTHER
 
   globals:
     translate:
@@ -214,11 +208,9 @@ event-details:
         Domain: Domain
 
   fallback:
-      annotate:
-        EventName: Generic MSSQL DATABASE Events
-        Stream: OTHER
-      translate:
-        EventTime: SystemTstamp
+    annotate:
+      EventName: Generic MSSQL DATABASE Events
+      Stream: OTHER
 
   globals:
     translate:
@@ -239,11 +231,9 @@ event-details:
         AccountName: User           
     
   fallback:
-      annotate:
-        EventName: Generic MSSQL DATABASE Events
-        Stream: OTHER
-      translate:
-        EventTime: SystemTstamp
+    annotate:
+      EventName: Generic MSSQL DATABASE Events
+      Stream: OTHER
 
   globals:
     translate:

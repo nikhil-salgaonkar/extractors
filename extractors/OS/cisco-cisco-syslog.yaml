@@ -193,6 +193,7 @@ event-details:
       EventName: Generic Cisco OS Event
       Stream: OTHER
 
+
   globals:
     translate:
       datetime: SystemTstamp
@@ -291,7 +292,7 @@ event-details:
     annotate:
       EventName: Generic Cisco OS Event
       Stream: OTHER
-
+      
   globals:
     translate:
       datetime: SystemTstamp

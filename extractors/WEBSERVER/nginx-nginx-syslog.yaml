@@ -1,0 +1,61 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 190
+source-name: NGINX
+source-type: WEBSERVER
+source-description: extractor for NGINX Webserver
+provides-streams:
+- WEBSERVER
+master-filters:
+- \w+\s+\d+\s+\d+\:\d+\:\d+\s+\S+\s+nginx
+
+event-details:  
+- first-match: 'nginx\-access\:'
+  decoder: regex
+  decoder-regex: \w+\s+\d+\s+\d+\:\d+\:\d+\s+(?P<system>.*?)\s+(?:(?P<app>\S+)\:\s+)?(?P<src_ip>[\d\:\.\w]+)\s+\S+\s+\S+\s+\[(?P<datetime>\d+\/\w+\/\d+\:\d+\:\d+\:\d+).*?\"((?P<method>\w+)\s+(?P<url>.*?)(?:\s+.*?)?|\-)\"\s+(?P<status_code>\d+|\-)\s+(?P<txlen>\d+|\-)\s+(?:\"(?P<referer>.*?)\")?(?:\s+\"(?P<user_agent>.*?)\")?
+  event-key-format: '{status_code}'
+  #decoder-header: CEF
+  event-key-mapping:
+    '200':           
+      annotate:
+        Stream: WEBSERVER
+      translate: 
+        src_ip: SrcIP
+        method: Method
+        status_code: ReturnCode
+        txlen: TXLen
+        
+  fallback:
+      annotate:
+        EventName: Generic NGINX Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      system: System
+      datetime: SystemTstamp
+
+- first-match: 'nginx-error\:\s+[\d\/\:\s]+\[\w+\]\s+\S+\:\s+.*?request\:\s+\"'
+  decoder: regex
+  decoder-regex: (?P<datetime>\w+\s+\d+\s+\d+\:\d+\:\d+)\s+(?P<system>.*?)\s+(?P<app>.*?)\:.*?\[(?P<log_level>\w+)\].*?client\:\s+(?P<src_ip>.*?)\,\s+server\:\s+(?P<dst_ip>.*?)\,\s+request\:\s+\"(?P<url>(?P<method>\w+).*?)\"\,(?:\s+upstream\:\s+\"(?P<upstream>.*?)\"\,)?\s+host\:\s+\"(?P<domain>.*?)\"(?:\,\s+referrer\:\s+\"(?P<referrer>.*?)\")?
+  event-key-format: ''
+  #decoder-header: CEF
+  event-key-mapping:
+    '':           
+      annotate:
+        Stream: WEBSERVER
+      translate: 
+        domain: Domain
+        method: Method
+        referrer: Referrer
+        url: URL
+        
+  fallback:
+      annotate:
+        EventName: Generic NGINX Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      system: System
+      datetime: SystemTstamp

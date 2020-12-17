@@ -1,0 +1,36 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 84
+source-name: TOMCAT
+source-type: WEBSERVER
+source-description: extractor for Tomcat Webserver
+provides-streams:
+- WEBSERVER
+master-filters:
+- 'Tomcat\s+logs\s+forwarded.*?\[\d+\/\w+\/\d+\:\d+\:\d+\:\d+.*?\]'
+event-details:  
+- first-match: 'Tomcat\s+logs\s+forwarded.*?\s+\[\d+\/\w{3}\/\d{4}\:\d+\:\d+\:\d+\s+.*?\d+\]'
+  decoder: regex
+  decoder-regex: '(?P<src>[\d\.]+)\s+\-\s+(?:(?P<user>.*?|\-))?\s+\[(?P<datetime>\d+\/\w{3}\/\d{4}\:\d+\:\d+\:\d+)\s+.*?\]\s+\"?(?P<httpmethod>\w+)\s+(?P<url>.*?)\s+.*?\"?\s+(?P<eventid>\d+)\s+(?P<txlen>\d+)'
+  event-key-format: '{eventid}'
+  event-key-mapping:
+    '200':           
+      annotate:
+        Stream: WEBSERVER
+        Action: URL_ALLOWED
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        user: User
+        url: URL
+        httpmethod: Method
+        txlen: TXLen                                
+        
+  fallback:
+    annotate:
+      EventName: Generic Tomcat Webserver Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp

@@ -1,0 +1,294 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 77
+source-name: MCAFEE-EPO
+source-type: ANTIVIRUS
+source-description: Extractor for McAfee Antivirus
+provides-streams:
+- ANTIVIRUS
+- AUTHENTICATION
+master-filters:
+- \'?AnalyzerName\'?\:\s+\'?(?:VirusScan\s+Enterprise|McAfee\s+Endpoint\s+Security|Data\s+Loss\s+Prevention|McAfee\s+System\s+Prep\s+Tool|Endpoint\s+Security\s+Platform|McAfee\s+Host\s+Intrusion\s+Prevention|Solidifier|VirusScan\s+Enterprise\s+for\s+Linux)\'?\,?
+- \{DBLogForwarderError\:\s+OperationalError\(\(.*?severity\s+\d+
+- \'AutoId\'\:\s+\d+\,\s+\'UserId\'\:\s+\d+\,\s+\'UserName\'\:\s+\'.*?\'\,\s+\'Priority\'\:\s+\d+\,\s+\'CmdName\'\:\s+\'.*?\'\,
+event-details:
+- first-match: \'?ThreatEventID\'?\:\s+\d+\,
+  decoder: custom
+  decoder-regex: \'?([\w]+)\'?\:\s+\'?([^\,\']+)
+  event-key-format: '{ThreatEventID}'
+  event-key-mapping:
+    '1024':
+      annotate:
+        Stream: ANTIVIRUS
+        Action: VIRUS_DETECTED
+        Status: PASSED
+      translate:
+        TargetFileName: FileName
+        TargetIPV4: DstIP
+        TargetUserName: User
+        SourceIPV4: SrcIP
+        ThreatSeverity: Severity
+        DetectedUTC: DetectedTstamp
+        ThreatCategory: Category
+        TargetHostName: TargetHost
+    '34865':
+      annotate:
+        Stream: ANTIVIRUS
+        Action: VIRUS_BLOCKED
+        Status: PASSED
+      translate:
+        TargetFileName: FileName
+        TargetIPV4: DstIP
+        TargetUserName: User
+        SourceIPV4: SrcIP
+        ThreatSeverity: Severity
+        DetectedUTC: DetectedTstamp
+        ThreatCategory: Category
+        TargetHostName: TargetHost   
+    '1102':  
+      annotate:
+        Stream: ANTIVIRUS
+        Action: VIRUS_QUARANTINE
+        Status: PASSED
+      translate:
+        TargetFileName: FileName
+        TargetIPV4: DstIP
+        TargetUserName: User
+        SourceIPV4: SrcIP
+        ThreatSeverity: Severity
+        DetectedUTC: DetectedTstamp
+        ThreatCategory: Category
+        TargetHostName: TargetHost
+    '1034':  
+      annotate:
+        Stream: ANTIVIRUS
+        Action: SCAN_COMPLETED
+        Status: PASSED
+      translate:
+        TargetFileName: FileName
+        TargetIPV4: DstIP
+        TargetUserName: User
+        SourceIPV4: SrcIP
+        ThreatSeverity: Severity
+        DetectedUTC: DetectedTstamp
+        ThreatCategory: Category
+        TargetHostName: TargetHost    
+    '1035':  
+      annotate:
+        Stream: ANTIVIRUS
+        Action: SCAN_CANCELLED
+        Status: FAILED
+      translate:
+        TargetFileName: FileName
+        TargetIPV4: DstIP
+        TargetUserName: User
+        SourceIPV4: SrcIP
+        ThreatSeverity: Severity
+        DetectedUTC: DetectedTstamp
+        ThreatCategory: Category
+        TargetHostName: TargetHost 
+    '1051':  
+      annotate:
+        Stream: ANTIVIRUS
+        Action: SCAN_FAILED
+        Status: FAILED
+      translate:
+        TargetFileName: FileName
+        TargetIPV4: DstIP
+        TargetUserName: User
+        SourceIPV4: SrcIP
+        ThreatSeverity: Severity
+        DetectedUTC: DetectedTstamp
+        ThreatCategory: Category
+        TargetHostName: TargetHost 
+    '1087':  
+      annotate:
+        Stream: ANTIVIRUS
+        Action: SCAN_STARTED
+        Status: PASSED
+      translate:
+        TargetFileName: FileName
+        TargetIPV4: DstIP
+        TargetUserName: User
+        SourceIPV4: SrcIP
+        ThreatSeverity: Severity
+        DetectedUTC: DetectedTstamp
+        ThreatCategory: Category
+        TargetHostName: TargetHost 
+    '1088':  
+      annotate:
+        Stream: ANTIVIRUS
+        Action: SCAN_STOPPED
+        Status: PASSED
+      translate:
+        TargetFileName: FileName
+        TargetIPV4: DstIP
+        TargetUserName: User
+        SourceIPV4: SrcIP
+        ThreatSeverity: Severity
+        DetectedUTC: DetectedTstamp
+        ThreatCategory: Category
+        TargetHostName: TargetHost 
+    '1064':  
+      annotate:
+        Stream: ANTIVIRUS
+        Action: APP_STARTED
+        Status: PASSED
+      translate:
+        TargetFileName: FileName
+        TargetIPV4: DstIP
+        TargetUserName: User
+        SourceIPV4: SrcIP
+        ThreatSeverity: Severity
+        DetectedUTC: DetectedTstamp
+        ThreatCategory: Category
+        TargetHostName: TargetHost
+    '1067':  
+      annotate:
+        Stream: ANTIVIRUS
+        Action: APP_STARTED
+        Status: FAILED
+      translate:
+        TargetFileName: FileName
+        TargetIPV4: DstIP
+        TargetUserName: User
+        SourceIPV4: SrcIP
+        ThreatSeverity: Severity
+        DetectedUTC: DetectedTstamp
+        ThreatCategory: Category
+        TargetHostName: TargetHost
+    '1065':  
+      annotate:
+        Stream: ANTIVIRUS
+        Action: APP_STOPPED
+        Status: PASSED
+      translate:
+        TargetFileName: FileName
+        TargetIPV4: DstIP
+        TargetUserName: User
+        SourceIPV4: SrcIP
+        ThreatSeverity: Severity
+        DetectedUTC: DetectedTstamp
+        ThreatCategory: Category
+        TargetHostName: TargetHost
+    '1319':  
+      annotate:
+        Stream: ANTIVIRUS
+        Action: EMAIL_DELETED
+        Status: PASSED
+      translate:
+        TargetFileName: FileName
+        TargetIPV4: DstIP
+        TargetUserName: User
+        SourceIPV4: SrcIP
+        ThreatSeverity: Severity
+        DetectedUTC: DetectedTstamp
+        ThreatCategory: Category
+        TargetHostName: TargetHost   
+    '1094':  
+      annotate:
+        Stream: ANTIVIRUS
+        Action: PACKET_BLOCKED
+        Status: FAILED
+      translate:
+        TargetFileName: FileName
+        TargetIPV4: DstIP
+        TargetUserName: User
+        SourceIPV4: SrcIP
+        ThreatSeverity: Severity
+        DetectedUTC: DetectedTstamp
+        ThreatCategory: Category
+        TargetHostName: TargetHost
+    '19115':  
+      annotate:
+        Stream: ANTIVIRUS
+        Action: DEVICE_CONNECTED
+        Status: PASSED
+      translate:
+        TargetFileName: FileName
+        TargetIPV4: DstIP
+        TargetUserName: User
+        SourceIPV4: SrcIP
+        ThreatSeverity: Severity
+        DetectedUTC: DetectedTstamp
+        ThreatCategory: Category
+        TargetHostName: TargetHost   
+    '18055':  
+      annotate:
+        Stream: ANTIVIRUS
+        Action: ATTACK_DETECTED
+        Status: PASSED
+      translate:
+        TargetFileName: FileName
+        TargetIPV4: DstIP
+        TargetUserName: User
+        SourceIPV4: SrcIP
+        ThreatSeverity: Severity
+        DetectedUTC: DetectedTstamp
+        ThreatCategory: Category
+        TargetHostName: TargetHost      
+
+  fallback:
+    annotate:
+      EventName: Generic McAfee Antivirus Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      ReceivedUTC: SystemTstamp
+
+  subs: &id001
+    Severity:
+      '1': ALERT
+      '2': CRITICAL
+      '3': ERROR
+      '4': WARNING
+      '5': NOTICE
+      '6': INFORMATION    
+
+- first-match: \'AutoId\'\:\s+\d+\,\s+\'UserId\'\:\s+\d+\,\s+\'UserName\'\:\s+\'.*?\'\,\s+\'Priority\'\:\s+\d+\,\s+\'CmdName\'\:\s+
+  decoder: custom
+  decoder-regex: \'?([\w]+)\'?\:\s+\'?([^\,\']+)
+  event-key-format: '{CmdName}-{Success}'
+  event-key-mapping:
+    'Logon Attempt-True':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        UserName: User
+        RemoteAddress: DstIP                                                
+        LocalAddress: SrcIP
+        Priority: Severity         
+    'User Log Off-True':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+      translate:
+        UserName: User
+        RemoteAddress: DstIP                                                
+        LocalAddress: SrcIP
+        Priority: Severity  
+    'Logon Attempt-False':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate:
+        UserName: User
+        RemoteAddress: DstIP                                                
+        LocalAddress: SrcIP
+        Priority: Severity 
+
+  fallback:
+    annotate:
+      EventName: Generic McAfee Antivirus Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      StartTime: SystemTstamp        
+
+  subs: *id001

@@ -1,0 +1,39 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 179
+source-name: IIS-QR
+source-type: WEBSERVER
+source-description: extractor for IIS Webserver
+provides-streams:
+- WEBSERVER
+master-filters:
+- \w+\s+\d+\s+\d+\:\d+\:\d+\s+.*?date\=\d+\-\d+\-\d+\s+time\=\d+\:\d+\:\d+\s+.*?cs\-method\=.*?\s+cs\-uri\-stem\=.*?\s+
+
+event-details:  
+- first-match: cs\-method\=.*?\s+cs\-uri\-stem\=.*?\s+
+  decoder: regex
+  decoder-regex: (?P<datetime>\w+\s+\d+\s+\d+\:\d+\:\d+)\s+(?P<system>.*?)\s+.*?cs-method\=(?P<method>.*?)\s+cs\-uri\-stem\=(?P<url>.*?)\s+cs\-uri\-query\=(?P<query_string>.*?)\s+cs\-username\=(?P<user>.*?)\s+c\-ip\=(?P<src_ip>.*?)\s+sc\-status\=(?P<status_code>.*?)\s+sc\-substatus\=(.*?)\s+.*?sc\-bytes\=(?P<rxlen>.*?)\s+cs\-bytes\=(?P<txlen>.*?)\s+
+  event-key-format: '{status_code}'
+  #decoder-header: CEF
+  event-key-mapping:
+    '200':           
+      annotate:
+        Stream: WEBSERVER
+      translate: 
+        src_ip: SrcIP
+        method: Method
+        status_code: ReturnCode
+        txlen: TXLen
+        url: URL
+        user: User
+        rxlen: RXLen
+        
+  fallback:
+      annotate:
+        EventName: Generic IIS Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      system: System
+      datetime: SystemTstamp

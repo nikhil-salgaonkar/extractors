@@ -1,0 +1,114 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 720
+source-name: GCP
+source-type: CLOUD
+source-description: Extractor for AWS Events
+provides-streams:
+- GSUITE
+master-filters:
+- \"kind\":\s*\"admin#reports#activity\"
+event-details:
+- first-match: \"kind\":\s*\"admin#reports#activity\"
+  decoder: json
+  event-key-format: '{events[0][name]}'
+  event-key-mapping:
+    'login_challenge':
+      annotate:
+        Stream: GSUITE
+      translate:
+        events[0][type]: EventType
+        events[0][name]: EventName
+        actor[email]: User
+        ipAddress: SrcIP
+        events[0][parameters][0][value]: LoginType
+        events[0][parameters][1][multiValue]: LoginChallengeMethod
+        events[0][parameters][2][value]: LoginChallengeStatus
+
+    'login_failure':
+      annotate:
+        Stream: GSUITE
+      translate:
+        events[0][type]: EventType
+        events[0][name]: EventName
+        actor[email]: User
+        ipAddress: SrcIP
+        events[0][parameters][0][value]: LoginType
+        events[0][parameters][1][multiValue]: LoginChallengeMethod
+
+    'login_success':
+      annotate:
+        Stream: GSUITE
+      translate:
+        events[0][type]: EventType
+        events[0][name]: EventName
+        actor[email]: User
+        ipAddress: SrcIP
+        events[0][parameters][0][value]: LoginType
+        events[0][parameters][1][multiValue]: LoginChallengeMethod
+        events[0][parameters][2][boolValue]: IsSuspicious
+
+    'login_verification':
+      annotate:
+        Stream: GSUITE
+      translate:
+        events[0][type]: EventType
+        events[0][name]: EventName
+        actor[email]: User
+        ipAddress: SrcIP
+        events[0][parameters][0][value]: LoginType
+        events[0][parameters][1][multiValue]: LoginChallengeMethod
+        events[0][parameters][2][value]: LoginChallengeStatus
+        events[0][parameters][3][boolValue]: IsSecondFactor
+
+    'suspicious_login':
+      annotate:
+        Stream: GSUITE
+      translate:
+        events[0][type]: EventType
+        events[0][name]: EventName
+        actor[key]: User
+        actor[callerType]: UserGroup
+        ipAddress: SrcIP
+        events[0][parameters][0][value]: AffectedEmailAddress
+
+    'logout':
+      annotate:
+        Stream: GSUITE
+      translate:
+        events[0][type]: EventType
+        events[0][name]: EventName
+        actor[email]: User
+        ipAddress: SrcIP
+        events[0][parameters][0][value]: LoginType
+
+    'authorize':
+      annotate:
+        Stream: GSUITE
+      translate:
+        events[0][name]: EventName
+        actor[email]: User
+        actor[callerType]: UserGroup
+        events[0][parameters][1][value]: App
+        events[0][parameters][2][value]: Client
+        events[0][parameters][4][multiValue]: Scope
+
+    'revoke':
+      annotate:
+        Stream: GSUITE
+      translate:
+        events[0][name]: EventName
+        actor[email]: User
+        actor[callerType]: UserGroup
+        events[0][parameters][1][value]: App
+        events[0][parameters][2][value]: Client
+        events[0][parameters][4][multiValue]: Scope
+
+  fallback:
+    annotate:
+      EventName: Generic Gsuite Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      id[time]: SystemTstamp

@@ -45,8 +45,6 @@ event-details:
       annotate:
         EventName: Generic Cisco-FMC Firewall Event
         Stream: OTHER
-      translate:
-        datetime: SystemTstamp
 
   globals:
     translate:
@@ -102,8 +100,6 @@ event-details:
       annotate:
         EventName: Generic Cisco-FMC Firewall Event
         Stream: OTHER
-      translate:
-        datetime: SystemTstamp  
 
   globals:
     translate:
@@ -134,8 +130,6 @@ event-details:
       annotate:
         EventName: Generic Cisco-FMC Firewall Event
         Stream: OTHER
-      translate:
-        datetime: SystemTstamp
 
   globals:
     translate:

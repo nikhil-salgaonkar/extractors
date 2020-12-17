@@ -18,7 +18,7 @@ event-details:
     'File renamed': 
       annotate:
         Stream: ENDPOINT-THREAT
-        Action: VIRUS-DETECTED
+        Action: VIRUS_DETECTED
         Status: PASSED
       translate:
         Source IP: SrcIP
@@ -27,29 +27,13 @@ event-details:
         Virus: AtkMsg 
 
   fallback:
-      annotate:
-        EventName: Generic Trend-Micro Endpoint Event
-        Stream: OTHER
-      translate: 
-        rt: SystemTstamp
+    annotate:
+      EventName: Generic Trend-Micro Endpoint Event
+      Stream: OTHER
 
   globals:
     translate: 
       Event time: SystemTstamp
-
-  subs: &d001    
-    Severity: 
-      '0': 'LOW'
-      '1': 'LOW'
-      '2': 'LOW'
-      '3': 'LOW'
-      '4': 'MEDIUM' 
-      '5': 'MEDIUM' 
-      '6': 'MEDIUM' 
-      '7': 'HIGH' 
-      '8': 'HIGH'
-      '9': 'VERY-HIGH' 
-      '10': 'VERY-HIGH'
 
 - first-match: CEF\:\d+\|Trend\s+Micro\|.*?\|Spyware\s+Detected\|
   decoder: custom
@@ -60,7 +44,7 @@ event-details:
     '': 
       annotate:
         Stream: ENDPOINT-THREAT
-        Action: VIRUS-DETECTED
+        Action: VIRUS_DETECTED
         Status: PASSED
       translate:
         dhost: DstHost
@@ -72,11 +56,9 @@ event-details:
         duser: DstUser
 
   fallback:
-      annotate:
-        EventName: Generic Trend-Micro Endpoint Event
-        Stream: OTHER
-      translate: 
-        rt: SystemTstamp
+    annotate:
+      EventName: Generic Trend-Micro Endpoint Event
+      Stream: OTHER
 
   globals:
     translate: 
@@ -85,7 +67,19 @@ event-details:
       Header-5: Signature 
       Header-6: Severity   
 
-  subs: *d001      
+  subs: &id001
+    Severity:
+      '0': 'LOW'
+      '1': 'LOW'
+      '2': 'LOW'
+      '3': 'LOW'
+      '4': 'MEDIUM'
+      '5': 'MEDIUM'
+      '6': 'MEDIUM'
+      '7': 'HIGH'
+      '8': 'HIGH'
+      '9': 'VERY-HIGH'
+      '10': 'VERY-HIGH'
 
 - first-match: 'CEF\:\d+\|Trend\s+Micro\|.*?\|AV\:.*?\|'
   decoder: custom
@@ -96,7 +90,7 @@ event-details:
     'File cleaned': 
       annotate:
         Stream: ENDPOINT-THREAT
-        Action: VIRUS-DETECTED
+        Action: VIRUS_DETECTED
         Status: PASSED
       translate:
         dhost: DstHost
@@ -110,7 +104,7 @@ event-details:
     'File passed':
       annotate:
         Stream: ENDPOINT-THREAT
-        Action: VIRUS-DETECTED
+        Action: VIRUS_DETECTED
         Status: PASSED
       translate:  
         dhost: DstHost
@@ -124,11 +118,9 @@ event-details:
         shost: SrcHost 
 
   fallback:
-      annotate:
-        EventName: Generic Trend-Micro Endpoint Event
-        Stream: OTHER
-      translate: 
-        rt: SystemTstamp
+    annotate:
+      EventName: Generic Trend-Micro Endpoint Event
+      Stream: OTHER
 
   globals:
     translate: 
@@ -137,7 +129,7 @@ event-details:
       Header-5: Signature 
       Header-6: Severity  
 
-  subs: *d001    
+  subs: *id001    
 
 - first-match: 'CEF\:\d+\|Trend\sMicro\|Deep\sDiscovery\sInspector\|'
   decoder: custom
@@ -148,7 +140,7 @@ event-details:
     '5': 
       annotate:
         Stream: ENDPOINT-THREAT
-        Action: THREAT-DETECTED
+        Action: THREAT_DETECTED
         Status: PASSED
       translate:
         cn3: ThreatType  
@@ -165,11 +157,9 @@ event-details:
         dpt: DstPort
 
   fallback:
-      annotate:
-        EventName: Generic Trend-Micro Endpoint Event
-        Stream: OTHER
-      translate: 
-        rt: SystemTstamp
+    annotate:
+      EventName: Generic Trend-Micro Endpoint Event
+      Stream: OTHER
 
   globals:
     translate: 
@@ -178,7 +168,7 @@ event-details:
       Header-5: Signature 
       Header-6: Severity  
 
-  subs: *d001    
+  subs: *id001    
 
 - first-match: 'CEF\:\d+\|Trend\s+Micro\|Control\s+Manager\|'
   decoder: custom
@@ -189,7 +179,7 @@ event-details:
     'Block': 
       annotate:
         Stream: ENDPOINT-THREAT
-        Action: THREAT-DETECTED
+        Action: THREAT_DETECTED
         Status: FAILED
       translate:
         src: SrcIP
@@ -198,11 +188,9 @@ event-details:
         dpt: DstPort
 
   fallback:
-      annotate:
-        EventName: Generic Trend-Micro Endpoint Event
-        Stream: OTHER
-      translate: 
-        rt: SystemTstamp
+    annotate:
+      EventName: Generic Trend-Micro Endpoint Event
+      Stream: OTHER
 
   globals:
     translate: 
@@ -211,4 +199,4 @@ event-details:
       Header-5: Signature 
       Header-6: Severity     
 
-  subs: *d001     
+  subs: *id001 
