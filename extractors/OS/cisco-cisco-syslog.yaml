@@ -3,7 +3,7 @@ schema-version: 1.0
 extractor-id: 67
 source-name: CISCO
 source-type: OS
-source-description: Extractor for Cisco OS
+source-description: Extractor for Cisco OS Events
 provides-streams:
 - CONNECTIVITY
 - AUTHENTICATION
@@ -28,7 +28,7 @@ event-details:
 
   fallback:
     annotate:
-      EventName: Generic Cisco-ASA Firewall Event
+      EventName: Generic Cisco OS Event
       Stream: OTHER
 
   globals:
@@ -62,7 +62,7 @@ event-details:
 
   fallback:
     annotate:
-      EventName: Generic Cisco-ASA Firewall Event
+      EventName: Generic Cisco OS Event
       Stream: OTHER
 
   globals:
@@ -95,7 +95,7 @@ event-details:
 
   fallback:
     annotate:
-      EventName: Generic Cisco-ASA Firewall Event
+      EventName: Generic Cisco OS Event
       Stream: OTHER
 
   globals:
@@ -132,7 +132,7 @@ event-details:
 
   fallback:
     annotate:
-      EventName: Generic Cisco-ASA Firewall Event
+      EventName: Generic Cisco OS Event
       Stream: OTHER
 
   globals:
@@ -165,7 +165,7 @@ event-details:
 
   fallback:
     annotate:
-      EventName: Generic Cisco-ASA Firewall Event
+      EventName: Generic Cisco OS Event
       Stream: OTHER
 
   globals:
@@ -190,7 +190,7 @@ event-details:
 
   fallback:
     annotate:
-      EventName: Generic Cisco-ASA Firewall Event
+      EventName: Generic Cisco OS Event
       Stream: OTHER
 
   globals:
@@ -229,7 +229,7 @@ event-details:
 
   fallback:
     annotate:
-      EventName: Generic Cisco-ASA Firewall Event
+      EventName: Generic Cisco OS Event
       Stream: OTHER
 
   globals:
@@ -264,7 +264,7 @@ event-details:
 
   fallback:
     annotate:
-      EventName: Generic Cisco-ASA Firewall Event
+      EventName: Generic Cisco OS Event
       Stream: OTHER
 
   globals:
@@ -289,7 +289,7 @@ event-details:
 
   fallback:
     annotate:
-      EventName: Generic Cisco-ASA Firewall Event
+      EventName: Generic Cisco OS Event
       Stream: OTHER
 
   globals:
@@ -317,7 +317,7 @@ event-details:
 
   fallback:
     annotate:
-      EventName: Generic Cisco-ASA Firewall Event
+      EventName: Generic Cisco OS Event
       Stream: OTHER
 
   globals:
@@ -356,7 +356,7 @@ event-details:
 
   fallback:
     annotate:
-      EventName: Generic Cisco-ASA Firewall Event
+      EventName: Generic Cisco OS Event
       Stream: OTHER
 
   globals:
@@ -381,7 +381,7 @@ event-details:
 
   fallback:
     annotate:
-      EventName: Generic Cisco-ASA Firewall Event
+      EventName: Generic Cisco OS Event
       Stream: OTHER
 
   globals:
@@ -411,7 +411,7 @@ event-details:
 
   fallback:
     annotate:
-      EventName: Generic Cisco-ASA Firewall Event
+      EventName: Generic Cisco OS Event
       Stream: OTHER
 
   globals:
@@ -446,7 +446,7 @@ event-details:
 
   fallback:
     annotate:
-      EventName: Generic Cisco-ASA Firewall Event
+      EventName: Generic Cisco OS Event
       Stream: OTHER
 
   globals:
@@ -472,7 +472,7 @@ event-details:
 
   fallback:
     annotate:
-      EventName: Generic Cisco-ASA Firewall Event
+      EventName: Generic Cisco OS Event
       Stream: OTHER
 
   globals:
@@ -498,7 +498,7 @@ event-details:
 
   fallback:
     annotate:
-      EventName: Generic Cisco-ASA Firewall Event
+      EventName: Generic Cisco OS Event
       Stream: OTHER
 
   globals:
@@ -528,7 +528,7 @@ event-details:
 
   fallback:
     annotate:
-      EventName: Generic Cisco-ASA Firewall Event
+      EventName: Generic Cisco OS Event
       Stream: OTHER
 
   globals:
@@ -554,7 +554,7 @@ event-details:
 
   fallback:
     annotate:
-      EventName: Generic Cisco-ASA Firewall Event
+      EventName: Generic Cisco OS Event
       Stream: OTHER
 
   globals:
@@ -581,7 +581,7 @@ event-details:
 
   fallback:
     annotate:
-      EventName: Generic Cisco-ASA Firewall Event
+      EventName: Generic Cisco OS Event
       Stream: OTHER
 
   globals:
