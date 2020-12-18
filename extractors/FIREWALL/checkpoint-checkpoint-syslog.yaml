@@ -273,7 +273,7 @@ event-details:
     Proto:
       '0': HOPOPT
       '1': ICMP
-      '2': IGMP'
+      '2': IGMP
       '3': GGP
       '4': IP-IN-IP
       '5': ST
