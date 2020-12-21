@@ -27,6 +27,7 @@ event-details:
         winlog[event_data][User]: User
         winlog[event_data][ParentCommandLine]: ParentCommandLine
         winlog[event_data][ParentImage]: ParentImage
+        winlog[event_data][Image]: Image
         winlog[event_data][CommandLine]: CommandLine
         winlog[event_data][Description]: Description
         winlog[event_data][Company]: Company

@@ -33,6 +33,7 @@ event-details:
         ParentCommandLine: ParentCommandLine
         OriginalFileName: OriginalFileName
         ParentImage: ParentImage
+        Image: Image
         CommandLine: CommandLine
         Description: Description
         Company: Company
