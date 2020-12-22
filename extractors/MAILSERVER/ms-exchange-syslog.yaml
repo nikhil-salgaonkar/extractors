@@ -5,7 +5,7 @@ source-name: MS-EXCHANGE
 source-type: MAILSERVER
 source-description: Extractor for Microsoft Exchange Events
 provides-streams:
-- FIM
+- MAILSERVER
 master-filters:
 - '\w{3}\s+\d{1,2}\s+\d{1,2}\:\d{1,2}\:\d{1,2}\s+\S+\s+\d+\-\d+\-\d+T\d+\:\d+\:\d+.*?\,(?:AGENT|DNS|MAILBOXRULE|DSN|MEETINGMESSAGEPROCESSOR|ORAR|PICKUP|POISONMESSAGE|PUBLICFOLDER|REDUNDANCY|ROUTING|SAFETYNET|SMTP|STOREDRIVER|Transport|MAPI|MapiDelivery|MapiSubmission)\,'
 event-details:
