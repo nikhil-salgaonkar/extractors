@@ -1,0 +1,110 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 154
+source-name: RADWARE
+source-type: DDOS
+source-description: Extractor for Radware DDoS Events
+provides-streams:
+- AUTHENTICATION
+master-filters:
+- 'DefensePro\:\s+\d+\-\d+\-\d+\s+\d+\:\d+\:\d+\s+\S+'
+event-details:
+- first-match: 'logged\s+in'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\d+\-\d+\-\d+\s+\d+\:\d+\:\d+)\s+(?P<loglevel>\S+)\s(?:User|user|USER)\s+(?P<user>\S+)\s+(?P<action>logged\s+in)\s+via\s+(?P<authmethod>\S+)\s+\(IP\:\s+(?P<src>\S+)\)'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'logged in':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        user: User
+        authmethod: AuthMethod
+        src: SrcIP
+        #loglevel: LogLevel
+
+  fallback:
+    annotate:
+      EventName: Generic Radware DDoS Events
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+
+- first-match: 'Login\s+failed\s+for'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\d+\-\d+\-\d+\s+\d+\:\d+\:\d+)\s+(?P<loglevel>\S+).*?\s+(?P<action>Login\s+failed)\s+for\s+(?:User|user|USER)\s+(?P<user>\S+)\s+via\s+(?P<authmethod>\S+).*?\(IP\:\s+(?P<src>\S+)\)'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'Login failed':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate:
+        user: User
+        authmethod: AuthMethod
+        src: SrcIP
+        #loglevel: LogLevel
+
+  fallback:
+    annotate:
+      EventName: Generic Radware DDoS Events
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+
+- first-match: 'Access\s+attempted.*?unauthorized'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\d+\-\d+\-\d+\s+\d+\:\d+\:\d+)\s+(?P<loglevel>\S+)\sAccess\sattempted.*?(?:user|User|USER)\:\s+\"(?P<user>.*?)\".*?IP\:.*?\"(?P<src>.*?)\"'
+  event-key-format: ''
+  event-key-mapping:
+    '':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate:
+        user: User
+        src: SrcIP
+        #loglevel: LogLevel
+
+  fallback:
+    annotate:
+      EventName: Generic Radware DDoS Events
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp 
+
+- first-match: 'Login\s+(?:failed|locked)\s+user\s+\S+'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\d+\-\d+\-\d+\s+\d+\:\d+\:\d+)\s+(?P<loglevel>\S+)\s+(?P<action>Login\s+failed)\s+(?:User|user|USER)\s+(?P<user>\S+).*?(?:.*?via\s+(?P<authmethod>\S+))?.*?\(IP\:\s+(?P<src>\S+)\)'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'Login failed':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate:
+        user: User
+        src: SrcIP
+        authmethod: AuthMethod
+        #loglevel: LogLevel
+
+  fallback:
+    annotate:
+      EventName: Generic Radware DDoS Events
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp            
+      
