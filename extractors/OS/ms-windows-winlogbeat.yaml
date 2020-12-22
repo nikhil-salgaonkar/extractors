@@ -11,6 +11,12 @@ provides-streams:
 - SYSMON-IMAGE-LOAD
 - SYSMON-REGISTRY
 - SYSMON-WMI
+- SYSMON-PIPE
+- SYSMON-SERVICE
+- SYSMON-DNS
+- IAM
+- AUTHENTICATION
+- NETWORK-FIREWALL
 master-filters:
 - \"beat\"\:\"winlogbeat\"
 event-details:
@@ -33,6 +39,17 @@ event-details:
         winlog[event_data][Company]: Company
         winlog[event_data][Product]: Product
 
+    '2':
+      annotate:
+        Stream: SYSMON-PROCESS
+        Action: PROCESS_FILE_TIME_CHANGED
+        Status: PASSED
+      translate:
+        winlog[event_data][Image]: Image
+        winlog[event_data][TargetFilename]: TargetFilename
+        winlog[event_data][CreationUtcTime]: CreationUtcTime
+        winlog[event_data][PreviousCreationUtcTime]: PreviousCreationUtcTime  
+
     '3':
       annotate:
         Stream: SYSMON-NETWORK
@@ -48,15 +65,35 @@ event-details:
         winlog[event_data][DestinationPort]: DstPort
         winlog[event_data][Description]: Description
 
+    '4':
+      annotate:
+        Stream: SYSMON-SERVICE
+        Action: SERVICE_STARTED
+        Status: PASSED
+      translate:
+        winlog[event_data][SchemaVersion]: SchemaVersion
+        winlog[event_data][State]: State 
+
     '5':
       annotate:
         Stream: SYSMON-PROCESS
         Action: PROCESS_REMOVED
         Status: PASSED
       translate:
+        winlog[event_data][ImageLoaded]: ImageLoaded
+        winlog[event_data][Hashes]: Hashes
+        winlog[event_data][Signature]: Signature
+        winlog[event_data][SignatureStatus]: SignatureStatus
+
+    '6':
+      annotate:
+        Stream: SYSMON-DRIVER-LOAD
+        Action: DRIVER_LOADED
+        Status: PASSED
+      translate:
         winlog[event_data][Image]: Image
         winlog[event_data][User]: User
-        winlog[event_data][Description]: Description
+        winlog[event_data][Description]: Description    
 
     '7':
       annotate:
@@ -126,6 +163,58 @@ event-details:
         winlog[event_data][Details]: Details
         winlog[event_data][Description]: Description
 
+    '15':
+      annotate:
+        Stream: SYSMON-FILE
+        Action: FILE_CREATED_STREAM_HASH
+        Status: PASSED
+      translate:
+        winlog[event_data][Image]: Image
+        winlog[event_data][TargetFilename]: TargetFilename
+        winlog[event_data][CreationUtcTime]: CreationUtcTime
+        winlog[event_data][Hash]: Hash
+
+    '16':
+      annotate:
+        Stream: SYSMON-CONFIG
+        Action: STATE-CHANGED
+        Status: PASSED
+      translate:
+        winlog[event_data][Configuration]: Configuration
+        winlog[event_data][ConfigurationFileHash]: ConfigurationFileHash
+
+    '17':
+      annotate:
+        Stream: SYSMON-PIPE
+        Action: PIPE_CREATED
+        Status: PASSED
+      translate:
+        winlog[event_data][EventType]: Action
+        winlog[event_data][PipeName]: PipeName
+        winlog[event_data][Image]: Image 
+
+    '18':
+      annotate:
+        Stream: SYSMON-PIPE
+        Action: PIPE_CONNECTED
+        Status: PASSED
+      translate:
+        winlog[event_data][PipeName]: PipeName
+        winlog[event_data][Image]: Image 
+
+    '19':
+      annotate:
+        Stream: SYSMON-WMI
+        Action: FILTER_ACTIVITY
+        Status: DETECTED
+      translate:
+        winlog[event_data][EventNamespace]: EventNamespace
+        winlog[event_data][EventType]: Action
+        winlog[event_data][Query]: Query
+        winlog[event_data][Name]: Name
+        winlog[event_data][Operation]: Operation
+        winlog[event_data][User]: User
+
     '20':
       annotate:
         Stream: SYSMON-WMI
@@ -149,6 +238,28 @@ event-details:
         winlog[event_data][Consumer]: Consumer
         winlog[event_data][Filter]: Filter
         winlog[event_data][Description]: Description
+
+    '22':
+      annotate:
+        Stream: SYSMON-DNS
+        Action: DNS_QUERY
+        Status: PASSED
+      translate:
+        winlog[event_data][QueryName]: QueryName
+        winlog[event_data][QueryStatus]: QueryStatus
+        winlog[event_data][QueryResults]: QueryResults
+        winlog[event_data][Image]: Image
+
+    '23':
+      annotate:
+        Stream: SYSMON-FILE
+        Action: FILE_DELETED
+        Status: DETECTED
+      translate:
+        winlog[event_data][Image]: Image
+        winlog[event_data][TargetFilename]: TargetFilename
+        winlog[event_data][User]: User
+        winlog[event_data][Hashes]: Hashes       
 
   fallback:
     annotate:
@@ -180,7 +291,7 @@ event-details:
   event-key-mapping:
     '1102':
       annotate:
-        Stream: WINDOWS-SECURITY
+        Stream: IAM
         Action: AUDIT_LOG_CLEARED
         Status: PASSED
       translate:
@@ -203,7 +314,7 @@ event-details:
   event-key-mapping:
     '4662':
       annotate:
-        Stream: WINDOWS-SECURITY
+        Stream: IAM
         Action: AUDIT_LOG_CLEARED
         Status: PASSED
       translate:
@@ -211,7 +322,7 @@ event-details:
         winlog[event_data][SubjectLogonId]: SubjectLogonId  
     '5136':
       annotate:
-        Stream: WINDOWS-SECURITY
+        Stream: IAM
         Action: OBJECT_MODIFIED
         Status: PASSED
       translate:
@@ -219,8 +330,8 @@ event-details:
         winlog[event_data][SubjectLogonId]: SubjectLogonId  
     '4732':
       annotate:
-        Stream: WINDOWS-SECURITY
-        Action: SECURITY_ENABLED
+        Stream: IAM
+        Action: SECURITY_LGRP_MEMBER_ADDED
         Status: PASSED
       translate:
         winlog[event_data][TargetUserName]: TargetUser
@@ -230,8 +341,8 @@ event-details:
         winlog[event_data][SubjectLogonId]: SubjectLogonId 
     '4742':
       annotate:
-        Stream: WINDOWS-SECURITY
-        Action: COMPUTER_ACCOUNT_CHANGED
+        Stream: IAM
+        Action: SYSTEM_USER_ACCOUNT_CHANGED
         Status: PASSED
       translate:
         winlog[event_data][TargetUserName]: TargetUser
@@ -241,8 +352,226 @@ event-details:
         winlog[event_data][SubjectLogonId]: SubjectLogonId  
         winlog[event_data][ProfilePath]: ProfilePath  
         winlog[event_data][AccountExpires]: AccountExpires  
-        winlog[event_data][LogonHours]: LogonHours     
-
+        winlog[event_data][LogonHours]: LogonHours 
+    '5145':
+      annotate:
+        Stream: IAM
+        Action: NET_SHR_ACCESS_CHK
+        Status: PASSED
+      translate:
+        winlog[event_data][AccessList]: AccessList
+        winlog[event_data][SubjectUserName]: User 
+        winlog[event_data][SubjectDomainName]: Domain
+        winlog[event_data][ObjectType]: ObjectType
+        winlog[event_data][SubjectLogonId]: SubjectLogonId  
+        winlog[event_data][ShareName]: ShareName  
+        winlog[event_data][AccessReason]: AccessReason  
+        winlog[event_data][AccessMask]: AccessMask
+        winlog[event_data][IpAddress]: SrcIP  
+        winlog[event_data][RelativeTargetName]: RelativeTargetName
+        winlog[event_data][IpPort]: SrcPort  
+    '4724':
+      annotate:
+        Stream: IAM
+        Action: ACCOUNT_PASSWORD_RESET
+        Status: PASSED
+      translate:
+        winlog[event_data][TargetUserName]: TargetUser
+        winlog[event_data][SubjectUserName]: User 
+        winlog[event_data][SubjectDomainName]: Domain 
+        winlog[event_data][SubjectLogonId]: SubjectLogonId   
+        winlog[event_data][TargetDomainName]: TargetDomain
+    '4738':
+      annotate:
+        Stream: IAM
+        Action: USER_ACCOUNT_CHANGED
+        Status: PASSED
+      translate:
+        winlog[event_data][TargetUserName]: TargetUser
+        winlog[event_data][SubjectUserName]: User 
+        winlog[event_data][SubjectDomainName]: Domain  
+        winlog[event_data][TargetDomainName]: TargetDomain 
+    '4768':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: KRBTGT_REQ_ISSUED
+        Status: PASSED
+      translate:
+        winlog[event_data][IpAddress]: SrcIP  
+        winlog[event_data][IpPort]: SrcPort 
+        winlog[event_data][TargetUserName]: TargetUser
+        winlog[event_data][TargetDomainName]: TargetDomain
+        winlog[event_data][ServiceName]: ServiceName
+        winlog[event_data][TicketEncryptionType]: TicketEncryptionType
+        winlog[event_data][PreAuthType]: PreAuthType
+        winlog[event_data][TicketOptions]: TicketOptions
+    '4771':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: KRB_PREAUTH_ERR
+        Status: FAILED
+      translate:
+        winlog[event_data][IpAddress]: SrcIP  
+        winlog[event_data][IpPort]: SrcPort 
+        winlog[event_data][TargetUserName]: TargetUser
+        winlog[event_data][ServiceName]: ServiceName
+        winlog[event_data][PreAuthType]: PreAuthType
+        winlog[event_data][TicketOptions]: TicketOptions
+    '4776':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+      translate:
+        winlog[event_data][PackageName]: PackageName  
+        winlog[event_data][TargetUserName]: TargetUser    
+    '5140':
+      annotate:
+        Stream: IAM
+        Action: OBJECT_ACCESSED
+        Status: PASSED
+      translate:
+        winlog[event_data][IpAddress]: SrcIP  
+        winlog[event_data][IpPort]: SrcPort 
+        winlog[event_data][AccessMask]: AccessMask
+        winlog[event_data][SubjectUserName]: User 
+        winlog[event_data][SubjectDomainName]: Domain  
+        winlog[event_data][ShareName]: ShareName  
+        winlog[event_data][SubjectLogonId]: SubjectLogonId 
+        winlog[event_data][ObjectType]: ObjectType  
+        winlog[event_data][AccessList]: AccessList   
+    '5142':
+      annotate:
+        Stream: IAM
+        Action: OBJECT_ADDED
+        Status: PASSED
+      translate:
+        winlog[event_data][SubjectUserName]: User 
+        winlog[event_data][SubjectDomainName]: Domain  
+        winlog[event_data][ShareName]: ShareName  
+        winlog[event_data][SubjectLogonId]: SubjectLogonId
+        winlog[event_data][ShareLocalPath]: ShareLocalPath 
+    '59':
+      annotate:
+        Stream: IAM
+        Action: OBJECT_COMPLETED
+        Status: PASSED
+      translate:
+        winlog[event_data][url]: url 
+        winlog[event_data][fileLength]: fileLength  
+        winlog[event_data][bytesTransferred]: bytesTransferred  
+        winlog[event_data][bytesTransferredFromPeer]: bytesTransferredFromPeer
+        winlog[event_data][bytesTotal]: bytesTotal
+        winlog[event_data][name]: name
+    '4611':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        winlog[event_data][SubjectUserName]: User 
+        winlog[event_data][SubjectDomainName]: Domain
+        winlog[event_data][SubjectLogonId]: SubjectLogonId
+    '4624':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        winlog[event_data][TargetUserName]: TargetUser
+        winlog[event_data][SubjectUserName]: User 
+        winlog[event_data][SubjectDomainName]: Domain
+        winlog[event_data][TargetDomainName]: TargetDomain
+        winlog[event_data][SubjectLogonId]: SubjectLogonId
+        winlog[event_data][IpAddress]: SrcIP
+    '4625':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate:
+        winlog[event_data][TargetUserName]: TargetUser
+        winlog[event_data][SubjectUserName]: User 
+        winlog[event_data][SubjectDomainName]: Domain
+        winlog[event_data][TargetDomainName]: TargetDomain
+        winlog[event_data][SubjectLogonId]: SubjectLogonId
+        winlog[event_data][IpAddress]: SrcIP
+    '4634':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+      translate:
+        winlog[event_data][TargetUserName]: TargetUser
+        winlog[event_data][TargetDomainName]: TargetDomain
+        winlog[event_data][TargetLogonId]: TargetLogonId
+    '4648':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        winlog[event_data][TargetUserName]: TargetUser
+        winlog[event_data][SubjectUserName]: User 
+        winlog[event_data][SubjectDomainName]: Domain
+        winlog[event_data][TargetDomainName]: TargetDomain
+        winlog[event_data][SubjectLogonId]: SubjectLogonId
+        winlog[event_data][IpAddress]: SrcIP
+    '5156':
+      annotate:
+        Stream: NETWORK-FIREWALL
+        Action: PACKET_ALLOWED
+        Status: PASSED
+      translate:
+        winlog[event_data][Protocol]: Proto
+        winlog[event_data][SourceAddress]: SrcIP 
+        winlog[event_data][SourcePort]: SrcPort
+        winlog[event_data][DestAddress]: DstIP
+        winlog[event_data][DestPort]: DstPort
+        winlog[event_data][Application]: App
+    '5158':
+      annotate:
+        Stream: NETWORK-FIREWALL
+        Action: PORT_ALLOWED
+        Status: PASSED
+      translate:
+        winlog[event_data][Protocol]: Proto
+        winlog[event_data][SourceAddress]: SrcIP 
+        winlog[event_data][SourcePort]: SrcPort
+        winlog[event_data][Application]: App  
+    '4663':
+      annotate:
+        Stream: IAM
+        Action: OBJECT_ACCESSED
+        Status: PASSED
+      translate:
+        winlog[event_data][ObjectServer]: ObjectServer 
+        winlog[event_data][AccessMask]: AccessMask
+        winlog[event_data][SubjectUserName]: User 
+        winlog[event_data][SubjectDomainName]: Domain  
+        winlog[event_data][ObjectName]: ObjectName  
+        winlog[event_data][SubjectLogonId]: SubjectLogonId 
+        winlog[event_data][ObjectType]: ObjectType  
+        winlog[event_data][AccessList]: AccessList 
+    '4672':          
+      annotate:
+        Stream: IAM
+        Action: PRIVILEGE_SET
+        Status: PASSED    
+      translate:  
+        winlog[event_data][SubjectUserName]: User 
+        winlog[event_data][SubjectDomainName]: Domain    
+        winlog[event_data][SubjectLogonId]: SubjectLogonId
+    '4720':           
+      annotate:
+        Stream: IAM
+        Action: USER_ACCOUNT_CREATED
+        Status: PASSED    
+      translate: 
+        Swinlog[event_data][SubjectUserName]: User 
+        winlog[event_data][SubjectDomainName]: Domain    
+        winlog[event_data][SubjectLogonId]: SubjectLogonId  
+        winlog[event_data][TargetUserName]: TargetUser
+        winlog[event_data][TargetDomainName]: TargetDomain                                             
 
   fallback:
     annotate:
@@ -253,3 +582,32 @@ event-details:
     translate:
       winlog[computer_name]: System
       '@timestamp': SystemTstamp            
+      
+- first-match: \"MSSQLSERVER\"
+  decoder: json
+  event-key-format: '{winlog[event_id]}'
+  event-key-mapping:
+    '18456':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate:
+        winlog[host][name]: User
+    '18454':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        winlog[host][name]: User
+
+  fallback:
+    annotate:
+      EventName: Generic WinlogBeat Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      winlog[computer_name]: System
+      '@timestamp': SystemTstamp
