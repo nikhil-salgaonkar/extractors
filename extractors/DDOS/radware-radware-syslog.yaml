@@ -34,9 +34,9 @@ event-details:
     translate:
       datetime: SystemTstamp
 
-- first-match: 'Login\s+failed\s+for'
+- first-match: 'Login\s+(?:failed|locked)'
   decoder: regex
-  decoder-regex: '(?P<datetime>\d+\-\d+\-\d+\s+\d+\:\d+\:\d+)\s+(?P<loglevel>\S+).*?\s+(?P<action>Login\s+failed)\s+for\s+(?:User|user|USER)\s+(?P<user>\S+)\s+via\s+(?P<authmethod>\S+).*?\(IP\:\s+(?P<src>\S+)\)'
+  decoder-regex: '(?P<datetime>\d+\-\d+\-\d+\s+\d+\:\d+\:\d+)\s+(?P<loglevel>\S+)\s+.*?(?P<action>Login\s+failed).*?(?:User|user|USER)\s+(?P<user>\S+)\s+via\s+(?P<authmethod>\w+)\s+\(IP\:\s+(?P<src>\S+)\)'
   event-key-format: '{action}'
   event-key-mapping:
     'Login failed':
@@ -81,30 +81,4 @@ event-details:
 
   globals:
     translate:
-      datetime: SystemTstamp 
-
-- first-match: 'Login\s+(?:failed|locked)\s+user\s+\S+'
-  decoder: regex
-  decoder-regex: '(?P<datetime>\d+\-\d+\-\d+\s+\d+\:\d+\:\d+)\s+(?P<loglevel>\S+)\s+(?P<action>Login\s+failed)\s+(?:User|user|USER)\s+(?P<user>\S+).*?(?:.*?via\s+(?P<authmethod>\S+))?.*?\(IP\:\s+(?P<src>\S+)\)'
-  event-key-format: '{action}'
-  event-key-mapping:
-    'Login failed':
-      annotate:
-        Stream: AUTHENTICATION
-        Action: LOGIN
-        Status: FAILED
-      translate:
-        user: User
-        src: SrcIP
-        authmethod: AuthMethod
-        #loglevel: LogLevel
-
-  fallback:
-    annotate:
-      EventName: Generic Radware DDoS Events
-      Stream: OTHER
-
-  globals:
-    translate:
-      datetime: SystemTstamp            
-      
+      datetime: SystemTstamp          
