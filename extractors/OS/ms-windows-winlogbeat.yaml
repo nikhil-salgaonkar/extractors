@@ -456,12 +456,12 @@ event-details:
         Action: OBJECT_COMPLETED
         Status: PASSED
       translate:
-        winlog[event_data][url]: url 
-        winlog[event_data][fileLength]: fileLength  
-        winlog[event_data][bytesTransferred]: bytesTransferred  
-        winlog[event_data][bytesTransferredFromPeer]: bytesTransferredFromPeer
-        winlog[event_data][bytesTotal]: bytesTotal
-        winlog[event_data][name]: name
+        winlog[event_data][url]: URL 
+        winlog[event_data][fileLength]: FileLength  
+        winlog[event_data][bytesTransferred]: BytesTransferred  
+        winlog[event_data][bytesTransferredFromPeer]: BytesTransferredFromPeer
+        winlog[event_data][bytesTotal]: BytesTotal
+        winlog[event_data][name]: Name
     '4611':
       annotate:
         Stream: AUTHENTICATION
