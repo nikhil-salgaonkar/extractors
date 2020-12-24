@@ -132,7 +132,7 @@ event-details:
       translate:
         user_name: User
         url: URL
-        domainname: Domsin
+        domainname: Domain
         src_ip: SrcIP
         dst_ip: DstIP
         protocol: Proto
@@ -148,7 +148,7 @@ event-details:
       translate:
         user_name: User
         url: URL
-        domainname: Domsin
+        domainname: Domain
         src_ip: SrcIP
         dst_ip: DstIP
         protocol: Proto
