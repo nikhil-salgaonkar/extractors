@@ -31,6 +31,9 @@ event-details:
         srcport: SrcPort
         dstip: DstIP
         dstport: DstPort
+        sentbyte: TXLen
+        rcvdbyte: RXLen
+        proto: Proto
 
     0000000013-accept:
       annotate:
@@ -44,6 +47,7 @@ event-details:
         dstport: DstPort
         sentbyte: TXLen
         rcvdbyte: RXLen
+        proto: Proto
 
     0000000013-deny:
       annotate:
@@ -55,6 +59,9 @@ event-details:
         srcport: SrcPort
         dstip: DstIP
         dstport: DstPort
+        sentbyte: TXLen
+        rcvdbyte: RXLen
+        proto: Proto
 
     0001000014-accept:
       annotate:
@@ -68,6 +75,7 @@ event-details:
         dstport: DstPort
         sentbyte: TXLen
         rcvdbyte: RXLen
+        proto: Proto
 
     0000000010-accept:
       annotate:
@@ -81,6 +89,7 @@ event-details:
         dstport: DstPort
         sentbyte: TXLen
         rcvdbyte: RXLen
+        proto: Proto
 
     0000000009-accept:
       annotate:
@@ -94,6 +103,7 @@ event-details:
         dstport: DstPort
         sentbyte: TXLen
         rcvdbyte: RXLen
+        proto: Proto
 
     0000000020-accept:
       annotate:
@@ -107,6 +117,7 @@ event-details:
         dstport: DstPort
         sentbyte: TXLen
         rcvdbyte: RXLen
+        proto: Proto
 
     0000000020-deny:
       annotate:
@@ -118,39 +129,43 @@ event-details:
         srcport: SrcPort
         dstip: DstIP
         dstport: DstPort
+        sentbyte: TXLen
+        rcvdbyte: RXLen
+        proto: Proto
 
     0102043014-FSSO-logon:
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
+        AuthMethod: NTLM
+        Reason: '-'
       translate:
         srcip: SrcIP
         user: User
         dstip: DstIP
-        subtype: SubCategory
 
     0102043015-FSSO-logoff:
       annotate:
         Stream: AUTHENTICATION
         Action: LOGOUT
         Status: PASSED
+        AuthMethod: NTLM
+        Reason: '-'
       translate:
         srcip: SrcIP
-        dstip: DstIP
         user: User
-        subtype: SubCategory
 
     0102043040-auth-logout:
       annotate:
         Stream: AUTHENTICATION
         Action: LOGOUT
         Status: PASSED
+        AuthMethod: NTLM
+        Reason: '-'
       translate:
         srcip: SrcIP
-        dstip: DstIP
         user: User
-        subtype: SubCategory
 
     0100032002-login:
       annotate:
@@ -160,7 +175,6 @@ event-details:
       translate:
         srcip: SrcIP
         user: User
-        subtype: SubCategory
 
     0100032021-None:
       annotate:

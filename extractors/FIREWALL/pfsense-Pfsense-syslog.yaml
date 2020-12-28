@@ -14,30 +14,28 @@ event-details:
   decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+filterlog\:\s+.*?\,.*?\,.*?\,.*?\,(?P<interface>.*?)\,(?P<reason>.*?)\,(?P<action>.*?)\,(?P<flow>.*?)\,.*?\,.*?\,.*?\,.*?\,.*?\,.*?\,.*?\,.*?\,(?P<protocol>.*?)\,.*?\,(?P<src>.*?)\,(?P<dst>.*?)\,(?:(?P<sport>\d+)\,(?P<dport>\d+)\,)?'
   event-key-format: '{action}'
   event-key-mapping:
-    'block':
-      annotate:
-        Stream: NETWORK-FIREWALL
-        Action: PACKET_BLOCKED
-        Status: FAILED
-      translate:
-        interface: Iface
-        protocol: Proto
-        src: SrcIP
-        dst: DstIP
-        sport: SrcPort
-        dport: DstPort
-    'pass': 
-      annotate:
-        Stream: NETWORK-FIREWALL
-        Action: PACKET_ALLOWED
-        Status: PASSED
-      translate:
-        interface: Iface
-        protocol: Proto
-        src: SrcIP
-        dst: DstIP
-        sport: SrcPort
-        dport: DstPort   
+    #'block':
+    #  annotate:
+    #    Stream: NETWORK-FIREWALL
+    #    Action: PACKET_BLOCKED
+    #    Status: FAILED
+    #  translate:
+    #    protocol: Proto
+    #    src: SrcIP
+    #    dst: DstIP
+    #    sport: SrcPort
+    #    dport: DstPort
+    #'pass': 
+    #  annotate:
+    #    Stream: NETWORK-FIREWALL
+    #    Action: PACKET_ALLOWED
+    #    Status: PASSED
+    #  translate:
+    #    protocol: Proto
+    #    src: SrcIP
+    #    dst: DstIP
+    #    sport: SrcPort
+    #    dport: DstPort   
 
   fallback:
     annotate:
@@ -53,18 +51,17 @@ event-details:
   decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+filterlog\:\s+.*?\,.*?\,.*?\,.*?\,(?P<interface>.*?)\,(?P<reason>.*?)\,(?P<action>.*?)\,(?P<flow>.*?)\,.*?\,.*?\,.*?\,.*?\,(?P<protocol>.*?)\,.*?\,.*?\,(?P<src>.*?)\,(?P<dst>.*?)\,(?:(?P<sport>\d+)\,(?P<dport>\d+)\,)?'
   event-key-format: '{action}'
   event-key-mapping:
-    'block':
-      annotate:
-        Stream: NETWORK-FIREWALL
-        Action: PACKET_BLOCKED
-        Status: FAILED
-      translate:
-        interface: Iface
-        protocol: Proto
-        src: SrcIP
-        dst: DstIP
-        sport: SrcPort
-        dport: DstPort
+    #'block':
+    #  annotate:
+    #    Stream: NETWORK-FIREWALL
+    #    Action: PACKET_BLOCKED
+    #    Status: FAILED
+    #  translate:
+    #    protocol: Proto
+    #    src: SrcIP
+    #    dst: DstIP
+    #    sport: SrcPort
+    #    dport: DstPort
 
   fallback:
     annotate:
@@ -74,4 +71,3 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp  
-     #reason: Reason     

@@ -26,9 +26,9 @@ event-details:
         txlen: TXLen
         
   fallback:
-      annotate:
-        EventName: Generic NGINX Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic NGINX Event
+      Stream: OTHER
 
   globals:
     translate:
@@ -51,9 +51,9 @@ event-details:
         url: URL
         
   fallback:
-      annotate:
-        EventName: Generic NGINX Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic NGINX Event
+      Stream: OTHER
 
   globals:
     translate:

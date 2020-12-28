@@ -21,6 +21,8 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
+        AuthMethod: DIRECT
+        Reason: INVALID_USER
       translate: 
         src: SrcIP    
         user: User
@@ -29,6 +31,8 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGOUT
         Status: PASSED
+        AuthMethod: DIRECT
+        Reason: '-'
       translate: 
         src: SrcIP    
         user: User
@@ -37,14 +41,16 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
+        AuthMethod: DIRECT
+        Reason: '-'
       translate: 
         src: SrcIP    
         user: User
         
   fallback:
-      annotate:
-        EventName: Generic Cisco-FMC Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Cisco-FMC Firewall Event
+      Stream: OTHER
 
   globals:
     translate:
@@ -97,9 +103,9 @@ event-details:
         responder_bytes: RXLen        
 
   fallback:
-      annotate:
-        EventName: Generic Cisco-FMC Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Cisco-FMC Firewall Event
+      Stream: OTHER
 
   globals:
     translate:
@@ -127,9 +133,9 @@ event-details:
         dport: DstPort     
 
   fallback:
-      annotate:
-        EventName: Generic Cisco-FMC Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Cisco-FMC Firewall Event
+      Stream: OTHER
 
   globals:
     translate:

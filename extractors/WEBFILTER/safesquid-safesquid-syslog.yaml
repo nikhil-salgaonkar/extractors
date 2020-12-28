@@ -21,10 +21,6 @@ event-details:
         Action: URL_ALLOWED
         Status: PASSED
       translate:
-        session_duration: SessionDuration
-        httpmethod: Method
-        resultcode: ResultCode
-        status_code: ReturnCode
         src: SrcIP
         url: URL
     TCP_TUNNEL-200:
@@ -33,10 +29,6 @@ event-details:
         Action: URL_ALLOWED
         Status: PASSED
       translate:
-        session_duration: SessionDuration
-        httpmethod: Method
-        resultcode: ResultCode
-        status_code: ReturnCode
         src: SrcIP
         url: URL
     TCP_DENIED-403:
@@ -45,10 +37,6 @@ event-details:
         Action: URL_BLOCKED
         Status: FAILED
       translate:
-        session_duration: SessionDuration
-        httpmethod: Method
-        resultcode: ResultCode
-        status_code: ReturnCode
         src: SrcIP
         url: URL    
     TCP_DENIED-407:
@@ -57,10 +45,6 @@ event-details:
         Action: URL_BLOCKED
         Status: FAILED
       translate:
-        session_duration: SessionDuration
-        httpmethod: Method
-        resultcode: ResultCode
-        status_code: ReturnCode
         src: SrcIP
         url: URL   
     TCP_CLIENT_REFRESH_MISS-200:
@@ -69,10 +53,6 @@ event-details:
         Action: URL_ALLOWED
         Status: PASSED
       translate:
-        session_duration: SessionDuration
-        httpmethod: Method
-        resultcode: ResultCode
-        status_code: ReturnCode
         src: SrcIP
         url: URL           
 

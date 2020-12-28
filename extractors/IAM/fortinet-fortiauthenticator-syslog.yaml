@@ -19,15 +19,17 @@ event-details:
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
-        Status: PASSED    
+        Status: PASSED   
+        AuthMethod: DIRECT
+        Reason: '-'
       translate: 
         user: User
         nas: SrcIP
 
   fallback:
-      annotate:
-        EventName: Generic Fortiauthenticator Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Fortiauthenticator Event
+      Stream: OTHER
 
 
   #globals:

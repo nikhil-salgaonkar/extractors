@@ -47,15 +47,15 @@ event-details:
         Status: PASSED   
       translate:
         Client_IP: SrcIP
-    '01490106:4:-authentication with':
-      annotate:  
-        Stream: AUTHENTICATION
-        Action: LOGIN
-        Status: FAILED   
-        AuthMethod: VPN
-        User: '-'
-      translate:
-        Error_Code: ErrorCode
+#    '01490106:4:-authentication with':
+#      annotate:  
+#        Stream: AUTHENTICATION
+#        Action: LOGIN
+#        Status: FAILED   
+#        AuthMethod: VPN
+#        User: '-'
+#      translate:
+#        Error_Code: ErrorCode
     '01580002:5:-allow':
       annotate:  
         Stream: NETWORK-FIREWALL
