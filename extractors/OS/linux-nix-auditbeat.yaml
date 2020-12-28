@@ -1,0 +1,143 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 715
+source-name: NIX
+source-type: OS
+source-description: Extractor for NIX Auditbeat Events
+provides-streams:
+- AUTHENTICATION
+- AUDITD
+master-filters:
+- \"type\"\:\"auditbeat\"
+event-details:
+- first-match: '\"action\"\:'
+  decoder: json
+  event-key-format: '{event[action]-event[outcome]}'
+  event-key-mapping:
+    error-failure:
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+        AuthMethod: CLI
+      translate:
+        user[name]: User
+        source[ip]: SrcIP
+
+    logged-in-success:
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+        AuthMethod: CLI
+      translate:
+        user[name]: User
+        source[ip]: SrcIP
+
+    logged-in-failure:
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+        AuthMethod: CLI
+      translate:
+        user[name]: User
+        source[ip]: SrcIP
+
+    started-session-success:
+      annotate:
+        Stream: AUDITD
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        user[name]: User
+
+    was-authorized-success:
+      annotate:
+        Stream: AUDITD
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        user[name]: User
+
+    authenticated-failure:
+      annotate:
+        Stream: AUDITD
+        Action: LOGIN
+        Status: FAILED
+      translate:
+        user[name]: User
+
+    authenticated-success:
+      annotate:
+        Stream: AUDITD
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        user[name]: User
+
+    ended-session-success:
+      annotate:
+        Stream: AUDITD
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        user[name]: User
+
+    acquired-credentials-success:
+      annotate:
+        Stream: AUDITD
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        user[name]: User
+
+    disposed-credentials-success:
+      annotate:
+        Stream: AUDITD
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        user[name]: User
+
+    refreshed-credentials-success:
+      annotate:
+        Stream: AUDITD
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        user[name]: User
+
+    ran-command-success:
+      annotate:
+        Stream: AUDITD
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        user[name]: User
+
+    started-service-success:
+      annotate:
+        Stream: AUDITD
+        Action: PROCESS_ADDED
+        Status: STARTED
+      translate:
+        user[name]: User
+
+    stopped-service-success:
+      annotate:
+        Stream: AUDITD
+        Action: PROCESS_REMOVED
+        Status: STOPPED
+      translate:
+        user[name]: User
+
+  fallback:
+    annotate:
+      EventName: Generic Auditbeat Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      host[hostname]: System
+      '@timestamp': SystemTstamp
