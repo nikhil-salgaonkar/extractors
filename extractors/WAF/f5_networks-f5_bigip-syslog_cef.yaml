@@ -3,7 +3,7 @@ schema-version: 1.0
 extractor-id: 150
 source-name: F5BIGIP-CEF
 source-type: WAF
-source-description: extractor for F5-BigIP WAF
+source-description: extractor for F5-BigIP WAF Events
 provides-streams:
 - WAF
 master-filters:

@@ -3,7 +3,7 @@ schema-version: 1.0
 extractor-id: 213
 source-name: MCAFEE-WG-CEF
 source-type: WEBFILTER
-source-description: extractor for McAfee-WebGateway Webfilter
+source-description: extractor for McAfee-WebGateway Webfilter Events
 provides-streams:
 - AUTHENTICATION
 master-filters:
@@ -22,6 +22,8 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
+        AuthMethod: DIRECT
+        Reason: '-'
       translate:
         User: User
         Source_ID: SrcIP
@@ -30,6 +32,8 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGOUT
         Status: PASSED
+        AuthMethod: DIRECT
+        Reason: '-'
       translate:
         User: User
         Source_ID: SrcIP
@@ -38,6 +42,8 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
+        AuthMethod: DIRECT
+        Reason: INVALID_PASSWORD
       translate:
         User: User
         Source_ID: SrcIP
@@ -47,11 +53,12 @@ event-details:
       EventName: Generic McAfee-WebGateway Event
       Stream: OTHER
 
-  globals:
-    translate:
+#  globals:
+#    translate:
         #Appliance: System
-        User-Agent: UserAgent
-        Header-5: EventName
+        #Header-6: Severity
+        #User-Agent: UserAgent
+        #Header-5: EventName
 
   subs:
     Severity: 

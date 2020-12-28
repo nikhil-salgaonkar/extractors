@@ -3,7 +3,7 @@ schema-version: 1.0
 extractor-id: 169
 source-name: ZSCALER
 source-type: DNS
-source-description: Extractor for Zscaler DNS
+source-description: Extractor for Zscaler DNS Events
 provides-streams:
 - DNS
 master-filters:

@@ -3,7 +3,7 @@ schema-version: 1.0
 extractor-id: 202
 source-name: HP-F1000-E-VPN
 source-type: FIREWALL
-source-description: Extractor for HP-F1000-E-VPN Firewall
+source-description: Extractor for HP-F1000-E-VPN Firewall Events
 provides-streams:
 - NETWORK-FIREWALL
 master-filters:

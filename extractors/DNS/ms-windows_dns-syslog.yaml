@@ -3,7 +3,7 @@ schema-version: 1.0
 extractor-id: 110
 source-name: WIN-DNS
 source-type: DNS
-source-description: Extractor for Windows DNS
+source-description: Extractor for Windows DNS Events
 provides-streams:
 - DNS
 master-filters:
@@ -21,7 +21,8 @@ event-details:
         protocol: Proto
         src: SrcIP
         lookup: Lookup
-        domain: Domain                  
+        domain: Domain 
+        flag: Action                 
 
   fallback:
     annotate:
@@ -31,4 +32,3 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
-      flag: Action
