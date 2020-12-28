@@ -3,7 +3,7 @@ schema-version: 1.0
 extractor-id: 88
 source-name: NETSCALER-WAF
 source-type: WAF
-source-description: extractor for NetScaler WAF
+source-description: extractor for NetScaler WAF Events
 provides-streams:
 - WAF
 - AUTHENTICATION
@@ -22,6 +22,7 @@ event-details:
         Action: LOGIN
         Status: FAILED
         AuthMethod: CLI
+        Reason: INVALID_USER
       translate: 
         src: SrcIP
         user: User 
@@ -48,6 +49,7 @@ event-details:
         Action: LOGIN
         Status: PASSED
         AuthMethod: CLI
+        Reason: '-'
       translate: 
         src: SrcIP
         user: User
@@ -57,6 +59,7 @@ event-details:
         Action: LOGOUT
         Status: PASSED
         AuthMethod: CLI
+        Reason: '-'
       translate: 
         src: SrcIP
         user: User     
@@ -216,21 +219,21 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
+        AuthMethod: DIRECT
+        Reason: '-'
       translate: 
         user: User
         src: SrcIP
-        dst: DstIP
-        dport: DstPort
     'LOGOUT':           
       annotate:
         Stream: AUTHENTICATION
         Action: LOGOUT
         Status: PASSED
+        AuthMethod: DIRECT
+        Reason: '-'
       translate: 
         user: User
-        src: SrcIP
-        dst: DstIP
-        dport: DstPort    
+        src: SrcIP 
         
   fallback:
     annotate:
