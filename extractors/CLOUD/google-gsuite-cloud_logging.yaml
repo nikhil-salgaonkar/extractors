@@ -3,7 +3,7 @@ schema-version: 1.0
 extractor-id: 720
 source-name: GCP
 source-type: CLOUD
-source-description: Extractor for AWS Events
+source-description: Extractor for GSUITE Events
 provides-streams:
 - GSUITE
 master-filters:
