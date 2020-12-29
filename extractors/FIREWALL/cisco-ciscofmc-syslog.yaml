@@ -22,7 +22,7 @@ event-details:
         Action: LOGIN
         Status: FAILED
         AuthMethod: DIRECT
-        Reason: INVALID_USER
+        Reason: INVALID_PASSWORD
       translate: 
         src: SrcIP    
         user: User

@@ -212,7 +212,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        Reason: INVALID_USER
+        Reason: INVALID_PASSWORD
         AuthMethod: DIRECT
       translate:
         src: SrcIP
@@ -278,7 +278,7 @@ event-details:
       translate:
         src: SrcIP
         user: User
-        Reason: reason
+        reason: Reason
     'authentication succeeded':
       annotate:
         Stream: AUTHENTICATION

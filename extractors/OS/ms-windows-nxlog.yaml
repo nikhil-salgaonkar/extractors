@@ -31,26 +31,32 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
+        AuthMethod: DIRECT
+        Reason: INVALID_PASSWORD
       translate: 
         TargetUserName: User
-        TargetDomainName: TargetDomain
-        WorkstationName: SrcHost
+        #TargetDomainName: TargetDomain
+        #WorkstationName: SrcHost
         IpAddress: SrcIP
     '4624':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
-        Status: PASSED    
+        Status: PASSED  
+        AuthMethod: DIRECT
+        Reason: '-'  
       translate: 
         TargetUserName: User
-        TargetDomainName: TargetDomain
-        WorkstationName: SrcHost
+        #TargetDomainName: TargetDomain
+        #WorkstationName: SrcHost
         IpAddress: SrcIP
     '4634':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGOUT
-        Status: PASSED    
+        Status: PASSED   
+        AuthMethod: DIRECT
+        Reason: '-' 
       translate:   
         TargetUserName: User
         TargetDomainName: TargetDomain
@@ -58,36 +64,46 @@ event-details:
       annotate:
         Stream: AUTHENTICATION 
         Action: LOGOUT
-        Status: PASSED    
+        Status: PASSED   
+        AuthMethod: DIRECT
+        Reason: '-' 
       translate: 
         TargetUserName: User
-        TargetDomainName: TargetDomain
+        IpAddress: SrcIP
+        #TargetDomainName: TargetDomain
     '4648':          
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
-        Status: PASSED    
+        Status: PASSED
+        AuthMethod: DIRECT
+        Reason: '-'    
       translate: 
         TargetUserName: User
-        TargetDomainName: TargetDomain
+        #TargetDomainName: TargetDomain
         IpAddress: SrcIP
     '4776':         
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
-        Status: PASSED    
+        Status: PASSED 
+        AuthMethod: DIRECT
+        Reason: '-'   
       translate: 
-        Workstation: SrcHost
+        #Workstation: SrcHost
         TargetUserName: User
-        Domain: Domain
+        IpAddress: SrcIP
+        #Domain: Domain
     '4778':         
       annotate:
         Stream: AUTHENTICATION
-        Action: LOGIN_SESSION_RECONNECTED
-        Status: PASSED    
+        Action: LOGIN
+        Status: PASSED   
+        AuthMethod: DIRECT
+        Reason: '-'
       translate:  
-        AccountDomain: TargetDomain
-        ClientName: SrcHost
+        #AccountDomain: TargetDomain
+        #ClientName: SrcHost
         ClientAddress: SrcIP
         AccountName: User
     '4741':         
@@ -240,10 +256,13 @@ event-details:
     '4779':          
       annotate:
         Stream: AUTHENTICATION
-        Action: LOGIN_SESSION_DISCONNECT
+        Action: LOGOUT
         Status: PASSED
+        AuthMethod: DIRECT
+        Reason: '-'
       translate:   
-        SubjectDomainName: Domain
+        #SubjectDomainName: Domain
+        IpAddress: SrcIP
         AccountName: User
     '4670':          
       annotate:

@@ -69,7 +69,7 @@ event-details:
         Status: FAILED
         User: '-'
         AuthMethod: WBM
-        Reason: INVALID_USER
+        Reason: INVALID_PASSWORD
       translate: 
         src: SrcIP   
         

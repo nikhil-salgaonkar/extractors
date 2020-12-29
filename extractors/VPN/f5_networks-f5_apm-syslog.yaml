@@ -15,17 +15,17 @@ event-details:
   decoder-regex: ([\w]+)\=\"([^\"]+)\"
   event-key-format: '{errdefs_msgno}-{Action}'
   event-key-mapping:
-    '01580005:5:-allow':
-      annotate:  
-        Stream: NETWORK-FIREWALL
-        Action: VPN_CONNECTED
-        Status: PASSED   
-      translate:
-        Packet_Protocol: Proto
-        Packet_Source_IP: SrcIP
-        Packet_Source_Port: SrcPort
-        Packet_Destination_IP: DstIP
-        Packet_Destination_Port: DstPort
+#    '01580005:5:-allow':
+#      annotate:  
+#        Stream: NETWORK-FIREWALL
+#        Action: VPN_CONNECTED
+#        Status: PASSED   
+#      translate:
+#        Packet_Protocol: Proto
+#        Packet_Source_IP: SrcIP
+#        Packet_Source_Port: SrcPort
+#        Packet_Destination_IP: DstIP
+#        Packet_Destination_Port: DstPort
 #    '01490502:5:-None':
 #      annotate:
 #        Stream: NETWORK-FIREWALL
@@ -40,33 +40,34 @@ event-details:
 #        Status: PASSED
 #      translate:
 #        Name: App
-    '01490549:5:-None':
-      annotate:  
-        Stream: NETWORK-FIREWALL
-        Action: VPN_CONNECTED
-        Status: PASSED   
-      translate:
-        Client_IP: SrcIP
-#    '01490106:4:-authentication with':
+#    '01490549:5:-None':
 #      annotate:  
-#        Stream: AUTHENTICATION
-#        Action: LOGIN
-#        Status: FAILED   
-#        AuthMethod: VPN
-#        User: '-'
+#        Stream: NETWORK-FIREWALL
+#        Action: VPN_CONNECTED
+#        Status: PASSED   
 #      translate:
-#        Error_Code: ErrorCode
-    '01580002:5:-allow':
+#        Client_IP: SrcIP
+    '01490106:4:-authentication with':
       annotate:  
-        Stream: NETWORK-FIREWALL
-        Action: VPN_CONNECTED
-        Status: PASSED   
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED   
+        AuthMethod: VPN
+        User: '-'
+        Reason: INVALID_USER
       translate:
-        Packet_Protocol: Proto
-        Packet_Source_IP: SrcIP
-        Packet_Source_Port: SrcPort
-        Packet_Destination_IP: DstIP
-        Packet_Destination_Port: DstPort    
+        Error_Code: ErrorCode
+#    '01580002:5:-allow':
+#      annotate:  
+#        Stream: NETWORK-FIREWALL
+#        Action: VPN_CONNECTED
+#        Status: PASSED   
+#      translate:
+#        Packet_Protocol: Proto
+#        Packet_Source_IP: SrcIP
+#        Packet_Source_Port: SrcPort
+#        Packet_Destination_IP: DstIP
+#        Packet_Destination_Port: DstPort    
 
   fallback:
     annotate:

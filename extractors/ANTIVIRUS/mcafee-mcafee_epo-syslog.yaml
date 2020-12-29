@@ -31,6 +31,7 @@ event-details:
         DetectedUTC: DetectedTstamp
         ThreatCategory: Category
         TargetHostName: TargetHost
+        ThreatName: AtkMsg
     '34865':
       annotate:
         Stream: ENDPOINT-THREAT
@@ -44,7 +45,8 @@ event-details:
         ThreatSeverity: Severity
         DetectedUTC: DetectedTstamp
         ThreatCategory: Category
-        TargetHostName: TargetHost   
+        TargetHostName: TargetHost  
+        ThreatName: AtkMsg 
     '1102':  
       annotate:
         Stream: ENDPOINT-THREAT
@@ -59,9 +61,10 @@ event-details:
         DetectedUTC: DetectedTstamp
         ThreatCategory: Category
         TargetHostName: TargetHost
+        ThreatName: AtkMsg 
     #'1034':  
     #  annotate:
-    #    Stream: ENDPOINT-THREAT
+    #    Stream: ANTIVIRUS
     #    Action: SCAN_COMPLETED
     #    Status: PASSED
     #  translate:
@@ -75,7 +78,7 @@ event-details:
     #    TargetHostName: TargetHost    
     #'1035':  
     #  annotate:
-    #    Stream: ENDPOINT-THREAT
+    #    Stream: ANTIVIRUS
     #    Action: SCAN_CANCELLED
     #    Status: FAILED
     #  translate:
@@ -89,7 +92,7 @@ event-details:
     #    TargetHostName: TargetHost 
     #'1051':  
     #  annotate:
-    #    Stream: ENDPOINT-THREAT
+    #    Stream: ANTIVIRUS
     #    Action: SCAN_FAILED
     #    Status: FAILED
     #  translate:
@@ -103,7 +106,7 @@ event-details:
     #    TargetHostName: TargetHost 
     #'1087':  
     #  annotate:
-    #    Stream: ENDPOINT-THREAT
+    #    Stream: ANTIVIRUS
     #    Action: SCAN_STARTED
     #    Status: PASSED
     #  translate:
@@ -117,7 +120,7 @@ event-details:
     #    TargetHostName: TargetHost 
     #'1088':  
     #  annotate:
-    #    Stream: ENDPOINT-THREAT
+    #    Stream: ANTIVIRUS
     #    Action: SCAN_STOPPED
     #    Status: PASSED
     # translate:
@@ -131,7 +134,7 @@ event-details:
     #    TargetHostName: TargetHost 
     #'1064':  
     #  annotate:
-    #    Stream: ENDPOINT-THREAT
+    #    Stream: ANTIVIRUS
     #    Action: APP_STARTED
     #    Status: PASSED
     #  translate:
@@ -145,7 +148,7 @@ event-details:
     #    TargetHostName: TargetHost
     #'1067':  
     #  annotate:
-    #    Stream: ENDPOINT-THREAT
+    #    Stream: ANTIVIRUS
     #    Action: APP_STARTED
     #    Status: FAILED
     #  translate:
@@ -159,7 +162,7 @@ event-details:
     #    TargetHostName: TargetHost
     #'1065':  
     #  annotate:
-    #    Stream: ENDPOINT-THREAT
+    #    Stream: ANTIVIRUS
     #    Action: APP_STOPPED
     #    Status: PASSED
     #  translate:
@@ -173,7 +176,7 @@ event-details:
       #  TargetHostName: TargetHost
     #'1319':  
      # annotate:
-      #  Stream: ENDPOINT-THREAT
+      #  Stream: ANTIVIRUS
        # Action: EMAIL_DELETED
         #Status: PASSED
     #  translate:
@@ -185,23 +188,23 @@ event-details:
      #   DetectedUTC: DetectedTstamp
       #  ThreatCategory: Category
        # TargetHostName: TargetHost   
-    '1094':  
-      annotate:
-        Stream: ENDPOINT-THREAT
-        Action: PACKET_BLOCKED
-        Status: FAILED
-      translate:
-        TargetFileName: FileName
-        TargetIPV4: DstIP
-        TargetUserName: User
-        SourceIPV4: SrcIP
-        ThreatSeverity: Severity
-        DetectedUTC: DetectedTstamp
-        ThreatCategory: Category
-        TargetHostName: TargetHost
+#    '1094':  
+ #     annotate:
+  #      Stream: ANTIVIRUS
+   #     Action: PACKET_BLOCKED
+    #    Status: FAILED
+     # translate:
+      #  TargetFileName: FileName
+       # TargetIPV4: DstIP
+        #TargetUserName: User
+#        SourceIPV4: SrcIP
+#        ThreatSeverity: Severity
+ #       DetectedUTC: DetectedTstamp
+  #      ThreatCategory: Category
+   #     TargetHostName: TargetHost
     #'19115':  
     #  annotate:
-    #    Stream: ENDPOINT-THREAT
+    #    Stream: ANTIVIRUS
      #   Action: DEVICE_CONNECTED
       #  Status: PASSED
       #translate:
@@ -226,7 +229,9 @@ event-details:
         ThreatSeverity: Severity
         DetectedUTC: DetectedTstamp
         ThreatCategory: Category
-        TargetHostName: TargetHost      
+        TargetHostName: TargetHost
+        ThreatName: AtkMsg   
+
 
   fallback:
     annotate:
@@ -256,6 +261,8 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
+        AuthMethod: DIRECT
+        Reason: '-'
       translate:
         UserName: User                                               
         LocalAddress: SrcIP        
@@ -264,6 +271,8 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGOUT
         Status: PASSED
+        AuthMethod: DIRECT
+        Reason: '-'
       translate:
         UserName: User                                              
         LocalAddress: SrcIP
@@ -272,6 +281,8 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
+        AuthMethod: DIRECT
+        Reason: INVALID_PASSWORD
       translate:
         UserName: User                                               
         LocalAddress: SrcIP
