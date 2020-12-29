@@ -12,125 +12,56 @@ master-filters:
 event-details:
 - first-match: '\"action\"\:'
   decoder: json
-  event-key-format: '{event[action]-event[outcome]}'
+  event-key-format: '{event[action]}-{event[outcome]}'
   event-key-mapping:
-    error-failure:
-      annotate:
-        Stream: AUTHENTICATION
-        Action: LOGIN
-        Status: FAILED
-        AuthMethod: CLI
-      translate:
-        user[name]: User
-        source[ip]: SrcIP
-
-    logged-in-success:
+    'logged-in-success':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
-        AuthMethod: CLI
+        AuthMethod: '-'
       translate:
         user[name]: User
         source[ip]: SrcIP
 
-    logged-in-failure:
+    'logged-in-failure':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        AuthMethod: CLI
+        AuthMethod: '-'
       translate:
         user[name]: User
         source[ip]: SrcIP
 
-    started-session-success:
-      annotate:
-        Stream: AUDITD
-        Action: LOGIN
-        Status: PASSED
-      translate:
-        user[name]: User
-
-    was-authorized-success:
-      annotate:
-        Stream: AUDITD
-        Action: LOGIN
-        Status: PASSED
-      translate:
-        user[name]: User
-
-    authenticated-failure:
-      annotate:
-        Stream: AUDITD
-        Action: LOGIN
-        Status: FAILED
-      translate:
-        user[name]: User
-
-    authenticated-success:
-      annotate:
-        Stream: AUDITD
-        Action: LOGIN
-        Status: PASSED
-      translate:
-        user[name]: User
-
-    ended-session-success:
-      annotate:
-        Stream: AUDITD
-        Action: LOGIN
-        Status: PASSED
-      translate:
-        user[name]: User
-
-    acquired-credentials-success:
-      annotate:
-        Stream: AUDITD
-        Action: LOGIN
-        Status: PASSED
-      translate:
-        user[name]: User
-
-    disposed-credentials-success:
-      annotate:
-        Stream: AUDITD
-        Action: LOGIN
-        Status: PASSED
-      translate:
-        user[name]: User
-
-    refreshed-credentials-success:
-      annotate:
-        Stream: AUDITD
-        Action: LOGIN
-        Status: PASSED
-      translate:
-        user[name]: User
-
-    ran-command-success:
-      annotate:
-        Stream: AUDITD
-        Action: LOGIN
-        Status: PASSED
-      translate:
-        user[name]: User
-
-    started-service-success:
+    'ran-command-success':
       annotate:
         Stream: AUDITD
         Action: PROCESS_ADDED
-        Status: STARTED
+        Status: PASSED
       translate:
         user[name]: User
+        audit[data][cmd]: CommandLine
 
-    stopped-service-success:
+    'started-service-success':
       annotate:
         Stream: AUDITD
-        Action: PROCESS_REMOVED
-        Status: STOPPED
+        Action: SERVICE_START
+        Status: PASSED
       translate:
         user[name]: User
+        process[name]: Process
+        process[args]: ProcessArgs
+
+    'stopped-service-success':
+      annotate:
+        Stream: AUDITD
+        Action: SERVICE_STOP
+        Status: PASSED
+      translate:
+        user[name]: User
+        process[name]: Process
+        process[args]: ProcessArgs
 
   fallback:
     annotate:
