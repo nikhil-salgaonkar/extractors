@@ -31,7 +31,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        AuthMethod: DIRECT
+        AuthMethod: '-'
         Reason: INVALID_PASSWORD
       translate: 
         TargetUserName: User
@@ -43,7 +43,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED  
-        AuthMethod: DIRECT
+        AuthMethod: '-'
         Reason: '-'  
       translate: 
         TargetUserName: User
@@ -55,9 +55,8 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGOUT
         Status: PASSED   
-        AuthMethod: DIRECT
-        Reason: '-' 
-      translate:   
+        AuthMethod: '-'
+      translate:
         TargetUserName: User
         TargetDomainName: TargetDomain
     '4647': 
@@ -65,9 +64,8 @@ event-details:
         Stream: AUTHENTICATION 
         Action: LOGOUT
         Status: PASSED   
-        AuthMethod: DIRECT
-        Reason: '-' 
-      translate: 
+        AuthMethod: '-'
+      translate:
         TargetUserName: User
         IpAddress: SrcIP
         #TargetDomainName: TargetDomain
@@ -76,7 +74,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
-        AuthMethod: DIRECT
+        AuthMethod: '-'
         Reason: '-'    
       translate: 
         TargetUserName: User
@@ -87,7 +85,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED 
-        AuthMethod: DIRECT
+        AuthMethod: '-'
         Reason: '-'   
       translate: 
         #Workstation: SrcHost
@@ -99,7 +97,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED   
-        AuthMethod: DIRECT
+        AuthMethod: '-'
         Reason: '-'
       translate:  
         #AccountDomain: TargetDomain
@@ -258,9 +256,8 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGOUT
         Status: PASSED
-        AuthMethod: DIRECT
-        Reason: '-'
-      translate:   
+        AuthMethod: '-'
+      translate:
         #SubjectDomainName: Domain
         IpAddress: SrcIP
         AccountName: User

@@ -172,7 +172,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        AuthMethod: DIRECT
+        AuthMethod: '-'
         Reason: INVALID_PASSWORD
       translate:
         srcip: SrcIP
@@ -183,7 +183,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        AuthMethod: DIRECT
+        AuthMethod: '-'
         Reason: INVALID_PASSWORD
       translate:
         srcip: SrcIP
@@ -205,7 +205,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
-        AuthMethod: DIRECT
+        AuthMethod: '-'
         Reason: '-'
       translate:
         srcip: SrcIP
@@ -216,7 +216,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
-        AuthMethod: DIRECT
+        AuthMethod: '-'
         Reason: '-'
       translate:
         srcip: SrcIP
@@ -227,9 +227,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGOUT
         Status: PASSED
-        #LoginSrc: NETWORK
-        AuthMethod: DIRECT
-        Reason: '-'
+        AuthMethod: '-'
       translate:
         srcip: SrcIP
         user: User
@@ -484,7 +482,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGOUT
         Status: PASSED
-        AuthMethod: DIRECT
+        AuthMethod: '-'
       translate:
         user: User
         srcip: SrcIP
@@ -496,7 +494,8 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        AuthMethod: DIRECT
+        AuthMethod: '-'
+        Reason: '-'
         User: '-'
       translate:
         reason: Reason
@@ -589,7 +588,8 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
-        AuthMethod: DIRECT
+        AuthMethod: '-'
+        Reason: '-'
       translate:
         srcip: SrcIP
         user: User
@@ -660,7 +660,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        AuthMethod: DIRECT
+        AuthMethod: '-'
         Reason: INVALID_PASSWORD
       translate:
         user: User
@@ -684,7 +684,7 @@ event-details:
         Action: LOGIN
         Status: FAILED
         User: '-'
-        AuthMethod: DIRECT
+        AuthMethod: '-'
         Reason: INVALID_PASSWORD
       translate:
         srcip: SrcIP
