@@ -3,7 +3,7 @@ schema-version: 1.0
 extractor-id: 54
 source-name: CYBEROAM
 source-type: FIREWALL
-source-description: Extractor for Cyberoam Firewall
+source-description: Extractor for Cyberoam Firewall Events
 provides-streams:
 - AUTHENTICATION
 #- ANTIVIRUS
@@ -80,10 +80,10 @@ event-details:
         Action: LOGIN
         Status: FAILED
         AuthMethod: DIRECT
+        Reason: INVALID_PASSWORD
       translate:
         user_name: User
         src_ip: SrcIP            
-        reason: Reason
     '010102600002-Deny':
       annotate:
         Stream: NETWORK-FIREWALL

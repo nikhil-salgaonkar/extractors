@@ -3,7 +3,7 @@ schema-version: 1.0
 extractor-id: 96
 source-name: FIREEYE
 source-type: APT
-source-description: Extractor for Fireeye APT
+source-description: Extractor for Fireeye APT Events
 provides-streams:
 - APT
 master-filters:
@@ -51,9 +51,6 @@ event-details:
       EventName: Generic Fireeye Event
       Stream: OTHER
 
-  #globals:
-    #translate:
-      #dvchost: DstHost
   subs: &id001
     Severity:
       '0': 'LOW'
@@ -112,9 +109,6 @@ event-details:
       EventName: Generic Fireeye Event
       Stream: OTHER
 
-  #globals:
-    #translate:
-      #dvchost: DstHost
   subs: *id001
 
 - first-match: act\=Security\s+Content\s+Status
@@ -139,7 +133,4 @@ event-details:
       EventName: Generic Fireeye Event
       Stream: OTHER
 
-  #globals:
-    #translate:
-      #dvchost: DstHost
   subs: *id001

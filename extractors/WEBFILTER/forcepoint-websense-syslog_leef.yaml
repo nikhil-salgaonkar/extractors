@@ -3,7 +3,7 @@ schema-version: 1.0
 extractor-id: 76
 source-name: WEBSENSE
 source-type: WEBFILTER
-source-description: Extractor for Websense Webfilter
+source-description: Extractor for Websense Webfilter Events
 provides-streams:
 - WEBFILTER
 master-filters:
@@ -20,26 +20,21 @@ event-details:
         Action: URL_ALLOWED
         Status: PASSED
       translate:
-        usrName: User
         src: SrcIP
         srcPort: SrcPort
         srcBytes: TXLen
         dstBytes: RXLen
         dst: DstIP
+        sev: Severity
         dstPort: DstPort
-        method: Method
-        userAgent: UserAgent
+        sev: Severity
         url: URL 
 
   fallback:
     annotate:
       EventName: Generic Websense Webfilter Event
       Stream: OTHER 
-
-  globals:
-    translate:
-      sev: Severity
-
+      
   subs: &id001    
     Severity: 
       '0': 'LOW'
@@ -65,24 +60,18 @@ event-details:
         Action: URL_BLOCKED
         Status: FAILED
       translate:
-        usrName: User
         src: SrcIP
         srcPort: SrcPort
         srcBytes: TXLen
         dstBytes: RXLen
         dst: DstIP
         dstPort: DstPort
-        method: Method
-        userAgent: UserAgent
+        sev: Severity
         url: URL
 
   fallback:
     annotate:
       EventName: Generic Websense Webfilter Event
       Stream: OTHER 
-        
-  globals:
-    translate: 
-      sev: Severity
 
   subs: *id001       

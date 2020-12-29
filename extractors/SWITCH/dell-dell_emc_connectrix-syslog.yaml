@@ -24,9 +24,6 @@ event-details:
         Reason: '-'
       translate: 
         src: SrcIP
-        #severity: Severity
-        #message: Message
-        #Event: EventName
         
   fallback:
     annotate:
@@ -38,31 +35,31 @@ event-details:
       datetime: SystemTstamp
       hostname: System
 
-#- first-match: 'raslogd\:\s+AUDIT\,.*?\[SEC\-3022\]\,'
-#  decoder: regex
-#  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>.\w+)\:.*?\[(?P<msgid>SEC-3022)\]\,\s+(?P<severity>\w+)\,.*?Event\:\s+(?P<Event>\w+)\,\s+Status\:\s+(?P<Status>\w+)\,\s+Info\:\s+(?P<message>.*?\s+user\s+\[(?P<user>\S+)\]\.)'
-#  event-key-format: '{msgid}'
-#  event-key-mapping:
-#    'SEC-3022':           
-#      annotate:
-#        Stream: AUTHENTICATION
-#        Action: LOGOUT
-#        Status: PASSED
-#      translate: 
-#        user: User
-        #severity: Severity
-        #message: Message
-        #Event: EventName
+- first-match: 'raslogd\:\s+AUDIT\,.*?\[SEC\-3022\]\,'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>.\w+)\:.*?\[(?P<msgid>SEC-3022)\]\,\s+(?P<severity>\w+)\,.*?Event\:\s+(?P<Event>\w+)\,\s+Status\:\s+(?P<Status>\w+)\,\s+Info\:\s+(?P<message>.*?\s+user\s+\[(?P<user>\S+)\]\.)'
+  event-key-format: '{msgid}'
+  event-key-mapping:
+    'SEC-3022':           
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+        AuthMethod: DIRECT
+        Reason: '-'
+      translate: 
+        user: User
+        src: SrcIP
         
-#  fallback:
-#    annotate:
-#      EventName: Generic Dell EMC Connectrix Event
-#      Stream: OTHER 
+  fallback:
+    annotate:
+      EventName: Generic Dell EMC Connectrix Event
+      Stream: OTHER 
 
-#  globals:
-#    translate:
-#      datetime: SystemTstamp
-#      hostname: System   
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System   
 
 - first-match: 'raslogd\:\s+.*?\[SEC\-1203\]\,'
   decoder: regex
@@ -79,8 +76,6 @@ event-details:
         Reason: '-'
       translate: 
         src: SrcIP
-        #severity: Severity
-        #message: Message
         
   fallback:
     annotate:
@@ -107,9 +102,6 @@ event-details:
         Reason: '-'
       translate: 
         src: SrcIP
-        #Event: EventName
-        #severity: Severity
-        #message: Message
         
   fallback:
     annotate:

@@ -8,7 +8,6 @@ provides-streams:
 - WAF
 master-filters:
 - CEF\:\d+\|F5\|ASM\|
-
 event-details:  
 - first-match: CEF\:\d+\|F5\|ASM\|
   decoder: custom

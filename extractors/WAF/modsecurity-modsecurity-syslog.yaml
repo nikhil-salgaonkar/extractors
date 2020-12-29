@@ -3,7 +3,7 @@ schema-version: 1.0
 extractor-id: 241
 source-name: MODSECURITY
 source-type: WAF
-source-description: Extractor for ModSecurity WAF
+source-description: Extractor for ModSecurity WAF Events
 provides-streams:
 - WAF
 master-filters:

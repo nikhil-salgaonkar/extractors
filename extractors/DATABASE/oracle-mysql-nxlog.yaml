@@ -3,7 +3,7 @@ schema-version: 1.0
 extractor-id: 244
 source-name: MYSQL
 source-type: DATABASE
-source-description: Extractor for MySQL Database 
+source-description: Extractor for MySQL Database Events
 provides-streams:
 - DATABASE
 master-filters:
@@ -20,6 +20,7 @@ event-details:
         Status: Failed
       translate: 
         Severity: Severity
+        Channel: EventSource
 
   fallback:
       annotate:
@@ -30,7 +31,6 @@ event-details:
     translate:
       EventTime: SystemTstamp
       Hostname: System
-      Channel: EventSource
 
 - first-match: '\"SourceName\"\:\"MySQL\"\,'
   decoder: json
@@ -43,6 +43,7 @@ event-details:
         Status: PASSED
       translate: 
         Severity: Severity
+        Channel: EventSource
 
   fallback:
       annotate:
@@ -53,4 +54,3 @@ event-details:
     translate:
       EventTime: SystemTstamp
       Hostname: System
-      Channel: EventSource

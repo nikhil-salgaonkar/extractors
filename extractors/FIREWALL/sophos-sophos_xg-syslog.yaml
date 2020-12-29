@@ -3,7 +3,7 @@ schema-version: 1.0
 extractor-id: 234
 source-name: SOPHOS-XG
 source-type: FIREWALL
-source-description: Extractor for SOPHOS-XG Firewall
+source-description: Extractor for SOPHOS-XG Firewall Events
 provides-streams:
 - NETWORK-FIREWALL
 master-filters:
@@ -68,8 +68,8 @@ event-details:
         recv_bytes: RXLen
     010402403001-Denied: 
       annotate:
-        Stream: NETWORK-FIREWALL
-        Action: ATTACK_DETECTED
+        Stream: NETWORK-THREAT
+        Action: THREAT_DETECTED
         Status: FAILED
       translate:
         src_ip: SrcIP 

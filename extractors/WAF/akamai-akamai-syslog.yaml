@@ -3,7 +3,7 @@ schema-version: 1.0
 extractor-id: 253
 source-name: AKAMAI-CEF
 source-type: WAF
-source-description: extractor for Akamai WAF
+source-description: extractor for Akamai WAF Events
 provides-streams:
 - WAF
 master-filters:
@@ -27,6 +27,8 @@ event-details:
         dpt: DstPort
         dhost: DstHost
         request: URL
+        Header-5: EventName
+        Header-6: Severity
         #app: App
     'deny-403':           
       annotate:
@@ -40,6 +42,8 @@ event-details:
         dpt: DstPort
         dhost: DstHost
         request: URL
+        Header-5: EventName
+        Header-6: Severity
         #app: App
         
   fallback:
@@ -50,8 +54,6 @@ event-details:
   globals:
     translate:
       start: SystemTstamp
-      Header-5: EventName
-      Header-6: Severity
 
   subs:
     Severity:

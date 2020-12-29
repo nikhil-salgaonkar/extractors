@@ -3,7 +3,7 @@ schema-version: 1.0
 extractor-id: 182
 source-name: APACHE2-QR
 source-type: WEBSERVER
-source-description: extractor for Apache Webserver
+source-description: extractor for Apache Webserver Events
 provides-streams:
 - WEBSERVER
 master-filters:
