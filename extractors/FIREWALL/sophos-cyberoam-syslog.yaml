@@ -53,9 +53,6 @@ event-details:
         Action: PACKET_ALLOWED
         Status: PASSED
       translate:
-        user_name: User
-        url: URL
-        user_gp: UserGroup
         src_ip: SrcIP
         dst_ip: DstIP
         protocol: Proto
@@ -63,7 +60,6 @@ event-details:
         dst_port: DstPort
         sent_bytes: TXLen
         recv_bytes: RXLen 
-        priority: LogLevel
     '062910617703-Successful':
       annotate:
         Stream: AUTHENTICATION
@@ -90,9 +86,6 @@ event-details:
         Action: PACKET_BLOCKED
         Status: FAILED
       translate:
-        user_name: User
-        url: URL
-        user_gp: UserGroup
         src_ip: SrcIP
         dst_ip: DstIP
         protocol: Proto
@@ -100,16 +93,12 @@ event-details:
         dst_port: DstPort
         sent_bytes: TXLen
         recv_bytes: RXLen 
-        priority: LogLevel
     '050902616002-None':
       annotate:
         Stream: NETWORK-FIREWALL
         Action: PACKET_BLOCKED
         Status: FAILED
       translate:
-        user_name: User
-        url: URL
-        user_gp: UserGroup
         src_ip: SrcIP
         dst_ip: DstIP
         protocol: Proto
@@ -117,16 +106,12 @@ event-details:
         dst_port: DstPort
         sent_bytes: TXLen
         recv_bytes: RXLen 
-        priority: LogLevel
     '010101600001-Allow':
       annotate:
         Stream: NETWORK-FIREWALL
         Action: PACKET_ALLOWED
         Status: PASSED
       translate:
-        user_name: User
-        url: URL
-        user_gp: UserGroup
         src_ip: SrcIP
         dst_ip: DstIP
         protocol: Proto
@@ -134,7 +119,6 @@ event-details:
         dst_port: DstPort
         sent_bytes: TXLen
         recv_bytes: RXLen
-        priority: LogLevel
     '030906208001-None':
       annotate:
         Stream: ENDPOINT-THREAT
@@ -158,9 +142,6 @@ event-details:
         Action: PACKET_ALLOWED
         Status: PASSED
       translate:
-        user_name: User
-        url: URL
-        domainname: Domain
         src_ip: SrcIP
         dst_ip: DstIP
         protocol: Proto
@@ -215,9 +196,6 @@ event-details:
         Action: PACKET_ALLOWED
         Status: PASSED
       translate:
-        user_name: User
-        url: URL
-        user_gp: UserGroup
         src_ip: SrcIP
         dst_ip: DstIP
         protocol: Proto
@@ -225,7 +203,6 @@ event-details:
         dst_port: DstPort
         sent_bytes: TXLen
         recv_bytes: RXLen 
-        priority: LogLevel
 #    '064011617819-Successful':
 #      annotate:
 #        Stream: ANTIVIRUS
