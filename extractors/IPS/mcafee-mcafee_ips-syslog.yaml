@@ -17,16 +17,10 @@ event-details:
     'Smart Blocked':
       annotate:
         Stream: NETWORK-THREAT
-        Action: ATTACK_DETECTED
+        Action: ATTACK_BLOCKED
         Status: PASSED
       translate:
-        atkclass: AtkClass
         atkmsg: AtkMsg
-        severity: Severity
-        risklevel: RiskLevel
-        domain: Domain
-        hostname: System
-        interface: Iface
         src: SrcIP
         sport: SrcPort
         dport: DstPort
@@ -34,16 +28,10 @@ event-details:
     'Attack Failed': 
       annotate:
         Stream: NETWORK-THREAT
-        Action: ATTACK_DETECTED
+        Action: ATTACK_BLOCKED
         Status: FAILED
       translate:
-        atkclass: AtkClass
         atkmsg: AtkMsg
-        severity: Severity
-        risklevel: RiskLevel
-        domain: Domain
-        hostname: System
-        interface: Iface
         src: SrcIP
         sport: SrcPort
         dport: DstPort
@@ -54,13 +42,7 @@ event-details:
         Action: ATTACK_DETECTED
         Status: PASSED
       translate:
-        atkclass: AtkClass
         atkmsg: AtkMsg
-        severity: Severity
-        risklevel: RiskLevel
-        domain: Domain
-        hostname: System
-        interface: Iface
         src: SrcIP
         sport: SrcPort
         dport: DstPort
@@ -68,16 +50,10 @@ event-details:
     'Attack Blocked':
       annotate:
         Stream: NETWORK-THREAT
-        Action: ATTACK_DETECTED
+        Action: ATTACK_BLOCKED
         Status: PASSED
       translate:
-        atkclass: AtkClass
         atkmsg: AtkMsg
-        severity: Severity
-        risklevel: RiskLevel
-        domain: Domain
-        hostname: System
-        interface: Iface
         src: SrcIP
         sport: SrcPort
         dport: DstPort
@@ -88,13 +64,7 @@ event-details:
         Action: ATTACK_DETECTED
         Status: PASSED
       translate:
-        atkclass: AtkClass
         atkmsg: AtkMsg
-        severity: Severity
-        risklevel: RiskLevel
-        domain: Domain
-        hostname: System
-        interface: Iface
         src: SrcIP
         sport: SrcPort
         dport: DstPort
@@ -108,4 +78,5 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
-      detecteddatetime: DetectedTstamp
+      #detecteddatetime: DetectedTstamp
+      hostname: System

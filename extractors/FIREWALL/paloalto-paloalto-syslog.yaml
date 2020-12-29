@@ -83,9 +83,9 @@ event-details:
         receive_bytes: RXLen                                    
 
   fallback:
-      annotate:
-        EventName: Generic PaloAlto Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic PaloAlto Firewall Event
+      Stream: OTHER
 
   globals:
     translate:
@@ -100,7 +100,7 @@ event-details:
     'alert-34556':
       annotate:
         Stream: NETWORK-THREAT
-        Action: VULNERABILITY_EXPLOIT_DETECTED
+        Action: THREAT_DETECTED
         Status: PASSED
       translate:
         src: SrcIP
@@ -114,7 +114,7 @@ event-details:
     'alert-10015':
       annotate:
         Stream: NETWORK-THREAT
-        Action: MALWARE_CALLBACK
+        Action: THREAT_DETECTED
         Status: PASSED
       translate:
         src: SrcIP
@@ -128,7 +128,7 @@ event-details:
     'alert-52004':
       annotate:
         Stream: NETWORK-THREAT
-        Action: FILETYPE_DETECTED
+        Action: THREAT_DETECTED
         Status: PASSED 
       translate:
         src: SrcIP
@@ -142,7 +142,7 @@ event-details:
     'block-url-9999':
       annotate:
         Stream: NETWORK-THREAT
-        Action: URL_BLOCKED
+        Action: THREAT_DETECTED
         Status: PASSED
       translate:
         src: SrcIP
@@ -156,7 +156,7 @@ event-details:
     'reset-both-325904520':
       annotate:
         Stream: NETWORK-THREAT
-        Action: THREAT-DETECTED                                               
+        Action: THREAT_DETECTED                                               
         Status: PASSED
       translate:
         src: SrcIP
@@ -170,7 +170,7 @@ event-details:
     'alert-197353851':
       annotate:
         Stream: NETWORK-THREAT
-        Action: THREAT-DETECTED
+        Action: THREAT_DETECTED
         Status: PASSED
       translate:
         src: SrcIP
@@ -183,9 +183,9 @@ event-details:
         objecttype: Object                                               
 
   fallback:
-      annotate:
-        EventName: Generic PaloAlto Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic PaloAlto Firewall Event
+      Stream: OTHER
 
   globals:
     translate:
@@ -202,6 +202,8 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
+        Reason: '-'
+        AuthMethod: '-'
       translate:
         src: SrcIP
         user: User
@@ -210,14 +212,16 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
+        Reason: INVALID_PASSWORD
+        AuthMethod: '-'
       translate:
         src: SrcIP
-        user: User                                             
+        user: User                                        
 
   fallback:
-      annotate:
-        EventName: Generic PaloAlto Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic PaloAlto Firewall Event
+      Stream: OTHER
 
   globals:
     translate:
@@ -234,6 +238,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGOUT
         Status: PASSED
+        AuthMethod: '-'
       translate:
         src: SrcIP
         user: User
@@ -242,14 +247,16 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
+        Reason: '-'
+        AuthMethod: '-'
       translate:
         src: SrcIP
         user: User                                              
 
   fallback:
-      annotate:
-        EventName: Generic PaloAlto Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic PaloAlto Firewall Event
+      Stream: OTHER
 
   globals:
     translate:
@@ -258,7 +265,7 @@ event-details:
 
 - first-match: '\,SYSTEM\,.*?\s+user\s+authentication\s+(?:failed|succeeded)'
   decoder: regex
-  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+\d+\,.*?\,.*?\,(?P<event_type>\w+)\,.*?\,.*?\,.*?\,.*?\,.*?\,.*?\,.*?\,.*?\,.*?\,(?P<severity>.*?)\,\"(?P<message>.*?(?P<action>authentication\s+(?:failed|succeeded)).*?\s+Login\s+from\:\s+(?P<src>\S+)\,.*?User\s+name\:\s+(?P<user>.*?)\,.*?)\"\,'
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+\d+\,.*?\,.*?\,(?P<event_type>\w+)\,.*?\,.*?\,.*?\,.*?\,.*?\,.*?\,.*?\,.*?\,.*?\,(?P<severity>.*?)\,\"(?P<message>.*?(?P<action>authentication\s+(?:failed|succeeded)).*?\s+Login\s+from\:\s+(?P<src>\S+)\,.*?User\s+name\:\s+(?P<user>.*?)\,.*?(?:.*?Reason\:\s+(.*?)\,)?.*?)\"\,'
   event-key-format: '{action}'
   event-key-mapping:
     'authentication failed':
@@ -266,22 +273,27 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
+        AuthMethod: '-'
+        Reason: '-'
       translate:
         src: SrcIP
         user: User
+        reason: Reason
     'authentication succeeded':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
+        Reason: '-'
+        AuthMethod: '-'
       translate:
         src: SrcIP
-        user: User                                                
+        user: User                                             
 
   fallback:
-      annotate:
-        EventName: Generic PaloAlto Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic PaloAlto Firewall Event
+      Stream: OTHER
 
   globals:
     translate:
@@ -298,13 +310,14 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGOUT
         Status: PASSED
+        AuthMethod: '-'
       translate:
         user: User                                               
 
   fallback:
-      annotate:
-        EventName: Generic PaloAlto Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic PaloAlto Firewall Event
+      Stream: OTHER
 
   globals:
     translate:
@@ -313,23 +326,25 @@ event-details:
 
 - first-match: 'SYSTEM\,general\,.*?\,\"\s+Accepted\s+password\s+'
   decoder: regex
-  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+\d+\,.*?\,.*?\,(?P<event_type>\w+)\,.*?\,.*?\,.*?\,.*?\,.*?\,.*?\,.*?\,.*?\,.*?\,(?P<severity>.*?)\,\"(?P<message>.*?(?P<action>Accepted\s+password)\s+for\s+(?P<user>.*?)\s+from\s+(?P<src>\S+)\s+port\s+(?P<sport>\d+)\s+.*?)\"\,'
-  event-key-format: '{action}'
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+\d+\,.*?\,.*?\,(?P<event_type>\w+)\,.*?\,.*?\,.*?\,.*?\,.*?\,.*?\,.*?\,.*?\,.*?\,(?P<severity>.*?)\,\"(?P<message>.*?(?P<reason>Accepted\s+password)\s+for\s+(?P<user>.*?)\s+from\s+(?P<src>\S+)\s+port\s+(?P<sport>\d+)\s+.*?)\"\,'
+  event-key-format: '{reason}'
   event-key-mapping:
     'Accepted password':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
+        AuthMethod: '-'
+        Reason: '-'
       translate:
         user: User 
         src: SrcIP
-        sport: SrcPort                                             
+        reason: Reason
 
   fallback:
-      annotate:
-        EventName: Generic PaloAlto Firewall Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic PaloAlto Firewall Event
+      Stream: OTHER
 
   globals:
     translate:

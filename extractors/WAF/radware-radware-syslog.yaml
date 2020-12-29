@@ -17,19 +17,21 @@ event-details:
   decoder-regex: '(?P<datetime>\d{4}\-\d{1,2}\-\d{2}T\d{2}\:\d{2}\:\d{2})\+.*?\s+(?P<hostname>\S+)\s+(?P<loglevel>\S+)\s+.*?\:(?P<message>\s+(?P<user>\S+).*?(?P<action>\w+)\s+from(?:\s+host)?\s+(?P<src>[\w\.\:]+)\s+.*)'
   event-key-format: '{action}'
   event-key-mapping:
-    'timeout':           
-      annotate:
-        Stream: AUTHENTICATION
-        Action: LOGIN_SESSION_DISCONNECTED
-        Status: PASSED
-      translate: 
-        src: SrcIP
-        user: User
+    #'timeout':           
+    #  annotate:
+    #    Stream: AUTHENTICATION
+    #    Action: LOGIN_SESSION_DISCONNECTED
+    #    Status: PASSED
+    #  translate: 
+    #    src: SrcIP
+    #    user: User
     'login':           
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
+        AuthMethod: WBM
+        Reason: '-'
       translate: 
         src: SrcIP
         user: User
@@ -38,7 +40,8 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGOUT
         Status: PASSED
-      translate: 
+        AuthMethod: WBM
+      translate:
         src: SrcIP
         user: User        
         
@@ -64,6 +67,8 @@ event-details:
         Action: LOGIN
         Status: FAILED
         User: '-'
+        AuthMethod: WBM
+        Reason: INVALID_PASSWORD
       translate: 
         src: SrcIP   
         
@@ -104,6 +109,7 @@ event-details:
         threatcategory: ThreatCategory
         user: User
         req: Request
+        sev: Severity
     'Empty response page returned to the web user':      
       annotate:
         Stream: WAF
@@ -125,6 +131,7 @@ event-details:
         threatcategory: ThreatCategory
         user: User
         req: Request
+        sev: Severity
     'HTTP request not RFC-compliant':      
       annotate:
         Stream: WAF
@@ -145,7 +152,8 @@ event-details:
         attackname: AtkName
         threatcategory: ThreatCategory
         user: User
-        req: Request     
+        req: Request   
+        sev: Severity  
         
   fallback:
     annotate:
@@ -155,7 +163,6 @@ event-details:
   globals:
     translate:
       date: SystemTstamp
-      sev: Severity
       hostname: System
      #msg: Message          
 
@@ -179,6 +186,7 @@ event-details:
         Threatcategory: ThreatCategory
         WebUser: User
         Description: AtkDesc
+        Priority: Severity
         
   fallback:
     annotate:
@@ -188,5 +196,4 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
-      Priority: Severity
       hostname: System

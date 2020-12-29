@@ -61,22 +61,30 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
+        AuthMethod: '-'
+        Reason: '-'
       translate: 
         accountName: User
+        src: SrcIP
     'event-login-failure':           
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
+        AuthMethod: '-'
+        Reason: INVALID_PASSWORD
       translate: 
-        accountName: User   
+        accountName: User  
+        src: SrcIP 
     'event-logout-success':           
       annotate:
         Stream: AUTHENTICATION
         Action: LOGOUT
         Status: PASSED
-      translate: 
+        AuthMethod: '-'
+      translate:
         accountName: User 
+        src: SrcIP
     'event-browse-success':           
       annotate:
         Stream: WAF
@@ -93,5 +101,5 @@ event-details:
   globals:
     translate:
       devTime: SystemTstamp
-      logLevel: LogLevel
+      #logLevel: LogLevel
      #message: Message

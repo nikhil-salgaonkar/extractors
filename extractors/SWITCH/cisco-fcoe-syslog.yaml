@@ -10,41 +10,41 @@ provides-streams:
 master-filters:
 - '\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\d{4}\s+\S+\s+.*?10\w+\/\d+\/.*?\(\w+\)\:'
 event-details:  
-- first-match: 'IFNET\/\d+\/LINK\_UPDOWN\(\w+\)\:\s+.*?\s+link\s+status\s+is\s+(?:UP|DOWN)'
-  decoder: regex
-  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+\d+\s+(?P<hostname>\S+)\s+.*?10(?P<facility>\w+)\/(?P<severity>\d+)\/(?P<action>\w+)\(.*?\:\s+(?P<message>(?P<interface>.*?)\s+.*?\s+(?P<devstate>\w+)\.)'
-  event-key-format: '{devstate}'
-  event-key-mapping:
-    'DOWN':           
-      annotate:
-        Stream: CONNECTIVITY
-        Action: LINK_DOWN
-        Status: PASSED
-      translate: 
-        interface: Iface
-        severity: Severity
-        facility: Facility
+#- first-match: 'IFNET\/\d+\/LINK\_UPDOWN\(\w+\)\:\s+.*?\s+link\s+status\s+is\s+(?:UP|DOWN)'
+#  decoder: regex
+#  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+\d+\s+(?P<hostname>\S+)\s+.*?10(?P<facility>\w+)\/(?P<severity>\d+)\/(?P<action>\w+)\(.*?\:\s+(?P<message>(?P<interface>.*?)\s+.*?\s+(?P<devstate>\w+)\.)'
+#  event-key-format: '{devstate}'
+#  event-key-mapping:
+#    'DOWN':           
+#      annotate:
+#        Stream: CONNECTIVITY
+#        Action: LINK_DOWN
+#        Status: PASSED
+#      translate: 
+#        interface: Iface
+#        severity: Severity
+#        facility: Facility
         #message: Message
-    'UP':           
-      annotate:
-        Stream: CONNECTIVITY
-        Action: LINK_UP
-        Status: PASSED
-      translate: 
-        interface: Iface
-        severity: Severity
-        facility: Facility
+#    'UP':           
+#      annotate:
+#        Stream: CONNECTIVITY
+#        Action: LINK_UP
+#        Status: PASSED
+#      translate: 
+#        interface: Iface
+#        severity: Severity
+#        facility: Facility
         #message: Message    
   
-  fallback:
-    annotate:
-      EventName: Generic FCoE Switch Event
-      Stream: OTHER  
+#  fallback:
+#    annotate:
+#      EventName: Generic FCoE Switch Event
+#      Stream: OTHER  
 
-  globals:
-    translate:
-      datetime: SystemTstamp
-      hostname: System
+#  globals:
+#    translate:
+#      datetime: SystemTstamp
+#      hostname: System
 
 - first-match: 'SSH\/\d+\/(?:SSH\_AUTH\_TIMEOUT|SSH_LOGIN|SSH_CONNECTION_CLOSE)\(\w+\)\:\s+'
   decoder: regex
@@ -56,31 +56,33 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
+        AuthMethod: SSH
+        Reason: '-'
       translate: 
         user: User
         src: SrcIP
         #facility: Facility
         #severity: Severity
         #message: Message
-    'SSH_CONNECTION_CLOSE':           
-      annotate:
-        Stream: AUTHENTICATION
-        Action: LOGIN_SESSION_DISCONNECTED
-        Status: PASSED
-      translate: 
-        user: User
-        src: SrcIP
+    #'SSH_CONNECTION_CLOSE':           
+    #  annotate:
+    #    Stream: AUTHENTICATION
+    #    Action: LOGIN_SESSION_DISCONNECTED
+    #    Status: PASSED
+    #  translate: 
+    #    user: User
+    #    src: SrcIP
         #facility: Facility
         #severity: Severity
         #message: Message
-    'SSH_AUTH_TIMEOUT':           
-      annotate:
-        Stream: AUTHENTICATION
-        Action: AUTHENTICATION_TIMEOUT
-        Status: PASSED
-      translate: 
-        user: User
-        src: SrcIP
+    #'SSH_AUTH_TIMEOUT':           
+     # annotate:
+      #  Stream: AUTHENTICATION
+      # Action: AUTHENTICATION_TIMEOUT
+      #  Status: PASSED
+      #translate: 
+       # user: User
+       # src: SrcIP
         #facility: Facility
         #severity: Severity
         #message: Message        
@@ -105,11 +107,11 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGOUT
         Status: PASSED
-      translate: 
+        AuthMethod: '-'
+      translate:
         user: User
-        #facility: Facility
-        #severity: Severity
-        #message: Message        
+        src: SrcIP
+
     
   fallback:
     annotate:
@@ -131,6 +133,8 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
+        AuthMethod: SSH
+        Reason: 'INVALID_PASSWORD'
       translate: 
         user: User
         src: SrcIP
@@ -158,6 +162,8 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
+        AuthMethod: SSH
+        Reason: '-'
       translate: 
         user: User
         src: SrcIP

@@ -34,30 +34,30 @@ event-details:
       hostname: System
       datetime: SystemTstamp
 
-- first-match: 'LOG\:.*?connection\s+authorized'
-  decoder: regex
-  decoder-regex: '(?:(?P<hostname>[\w()-]+)\s+(?P<daemon>\w+)\[(?P<pid>\d+)\]\:\s+\[\d+\-\d+\]\s+\<\s+)?(?P<datetime>\d{4}\-\d{2}\-\d{2}\s+\d{2}\:\d{2}\:\d{2}).*?(?:(?P<returncode>\d+)LOG)?\:\s+(?P<action>connection\s+authorized)\:\s+user\=(?P<user>\w+)\s+database\=(?P<database>\w+)'
-  event-key-format: '{action}'
-  event-key-mapping:  
-    'connection authorized': 
-      annotate:
-        Stream: AUTHENTICATION
-        Action: LOGIN
-        Status: PASSED
-      translate: 
-        user: User 
+#- first-match: 'LOG\:.*?connection\s+authorized'
+#  decoder: regex
+#  decoder-regex: '(?:(?P<hostname>[\w()-]+)\s+(?P<daemon>\w+)\[(?P<pid>\d+)\]\:\s+\[\d+\-\d+\]\s+\<\s+)?(?P<datetime>\d{4}\-\d{2}\-\d{2}\s+\d{2}\:\d{2}\:\d{2}).*?(?:(?P<returncode>\d+)LOG)?\:\s+(?P<action>connection\s+authorized)\:\s+user\=(?P<user>\w+)\s+database\=(?P<database>\w+)'
+#  event-key-format: '{action}'
+#  event-key-mapping:  
+#    'connection authorized': 
+#      annotate:
+#        Stream: AUTHENTICATION
+#        Action: LOGIN
+#        Status: PASSED
+#      translate: 
+#        user: User 
 #        database: DB
 #        returncode: ReturnCode
-
-  fallback:
-    annotate:
-      EventName: Generic PGSQL Database Event
-      Stream: OTHER
-
-  globals:
-    translate:
-      hostname: System
-      datetime: SystemTstamp
+#
+#  fallback:
+#    annotate:
+#      EventName: Generic PGSQL Database Event
+#      Stream: OTHER
+#
+#  globals:
+#    translate:
+#      hostname: System
+#      datetime: SystemTstamp
 
 - first-match: 'LOG\:\s+disconnection'
   decoder: regex
@@ -69,12 +69,10 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGOUT
         Status: PASSED
-      translate: 
+        AuthMethod: '-'
+      translate:
         user: User 
         host: SrcIP
-        port: SrcPort
-#        database: DB
-#        returncode: ReturnCode
 
   fallback:
     annotate:
@@ -86,28 +84,28 @@ event-details:
       hostname: System
       datetime: SystemTstamp
 
-- first-match: '\<[\w\-\:\s]+\>.*?password\s+authentication\s+failed'
-  decoder: regex
-  decoder-regex: '\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+(?P<hostname>[\w()-]+)\s+(?P<daemon>\w+)\[(?P<pid>\d+)\]\:\s+\[\d+\-\d+\]\s+.*?(?P<datetime>\d{4}\-\d{2}\-\d{2}\s+\d{2}\:\d{2}\:\d{2})\s+.*?password\s+(?P<action>authentication\s+failed)\s+for\s+user\s\"(?P<user>.*?)\"'
-  event-key-format: '{action}'
-  event-key-mapping:  
-    'authentication failed': 
-      annotate:
-        Stream: AUTHENTICATION
-        Action: LOGIN
-        Status: FAILED
-      translate: 
-        user: User
-
-  fallback:
-    annotate:
-      EventName: Generic PGSQL Database Event
-      Stream: OTHER
-
-  globals:
-    translate:
-      hostname: System
-      datetime: SystemTstamp 
+#- first-match: '\<[\w\-\:\s]+\>.*?password\s+authentication\s+failed'
+#  decoder: regex
+#  decoder-regex: '\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+(?P<hostname>[\w()-]+)\s+(?P<daemon>\w+)\[(?P<pid>\d+)\]\:\s+\[\d+\-\d+\]\s+.*?(?P<datetime>\d{4}\-\d{2}\-\d{2}\s+\d{2}\:\d{2}\:\d{2})\s+.*?password\s+(?P<action>authentication\s+failed)\s+for\s+user\s\"(?P<user>.*?)\"'
+#  event-key-format: '{action}'
+#  event-key-mapping:  
+#    'authentication failed': 
+#      annotate:
+#        Stream: AUTHENTICATION
+#        Action: LOGIN
+#        Status: FAILED
+#      translate: 
+#        user: User
+#
+#  fallback:
+#    annotate:
+#      EventName: Generic PGSQL Database Event
+#      Stream: OTHER
+#
+#  globals:
+#    translate:
+#      hostname: System
+#      datetime: SystemTstamp 
 
 - first-match: '\<[\w\-\:\s]+\>.*?drop\s+user'
   decoder: regex
@@ -134,7 +132,7 @@ event-details:
 
 - first-match: 'FATAL\:.*?password\s+authentication\s+failed'
   decoder: regex
-  decoder-regex: '(?P<datetime>\d{4}\-\d{2}\-\d{2}\s+\d{2}\:\d{2}\:\d{2})\.\d+\s+\w+\s+(?P<user>\S+)?\@(?P<database>\S+)?\s+(?P<daemon>[\w\s\-]+)?\[\w+\]\[(?P<pid>\S+)\]\s+(?:(?P<src>[\w\:\.]+)\((?P<sport>\d+)\))?\s?(?P<returncode>\w+)(?:FATAL)\:\s+(?P<message>password\s+(?P<action>authentication\s+failed).*)'
+  decoder-regex: '(?P<datetime>\d{4}\-\d{2}\-\d{2}\s+\d{2}\:\d{2}\:\d{2})\.\d+\s+\w+\s+(?P<user>\S+)?\@(?P<database>\S+)?\s+(?P<daemon>[\w\s\-]+)?\[\w+\]\[(?P<pid>\S+)\]\s+(?:(?P<src>[\w\:\.]+)\((?P<sport>\d+)\))?\s?(?P<returncode>\w+)(?:FATAL)\:\s+(?P<reason>password\s+(?P<action>authentication\s+failed)).*'
   event-key-format: '{action}'
   event-key-mapping:  
     'authentication failed': 
@@ -142,13 +140,12 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
+        AuthMethod: '-'
+        Reason: '-'
       translate: 
         user: User
-        database: DB
         src: SrcIP
-        sport: SrcPort
-#        returncode: ReturnCode
-       #message: Message 
+        reason: Reason
 
   fallback:
     annotate:

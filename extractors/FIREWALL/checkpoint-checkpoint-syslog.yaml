@@ -18,17 +18,17 @@ event-details:
   decoder-regex: \[?([^\s]+)\:\"([^\"]*)\"
   event-key-format: '{action}-{product}-{fw_subproduct}'
   event-key-mapping:
-    Drop-VPN-1 & FireWall-1-None: 
-      annotate:
-        Stream: NETWORK-FIREWALL
-        Action: PACKET_BLOCKED
-        Status: FAILED   
-      translate:
-        src: SrcIP
-        dst: DstIP  
-        proto: Proto  
-        s_port: SrcPort  
-        service: DstPort
+#    Drop-VPN-1 & FireWall-1-None: 
+#      annotate:
+#        Stream: NETWORK-FIREWALL
+#        Action: PACKET_BLOCKED
+#        Status: FAILED   
+#      translate:
+#        src: SrcIP
+#        dst: DstIP  
+#        proto: Proto  
+#        s_port: SrcPort  
+#        service: DstPort
     Prevent-SmartDefense-None:
       annotate:
         Stream: NETWORK-THREAT
@@ -69,29 +69,33 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGOUT
         Status: PASSED   
+        AuthMethod: '-'
       translate:
         src: SrcIP
         user: User
-    Log In-Connectra-None: 
+    Log In-Connectra-None:
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED   
         AuthMethod: VPN
+        Reason: '-'
       translate:  
         src: SrcIP  
-        dst: DstIP 
-        s_port: SrcPort
+        #dst: DstIP 
+        #s_port: SrcPort
         user: User
     Failed Log In-Connectra-None: 
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
-        Status: FAILED   
+        Status: FAILED 
+        AuthMethod: '-'
+        Reason: '-'  
       translate: 
         src: SrcIP  
-        dst: DstIP   
-        s_port: SrcPort  
+        #dst: DstIP   
+        #s_port: SrcPort  
         user: User
     Detect-SmartDefense-None: 
       annotate:
@@ -107,28 +111,28 @@ event-details:
         attack: AtkMsg
         attack_info: AtkDesc
         malware_action: AtkDesc
-    Decrypt-VPN-1 & FireWall-1-VPN-1: 
-      annotate:
-        Stream: AUTHENTICATION
-        Action: LOGIN 
-        Status: PASSED  
-        AuthMethod: VPN 
-      translate: 
-        src: SrcIP  
-        dst: DstIP 
-        s_port: SrcPort
-        user: User
-    Allow-VPN-1 & FireWall-1-None:
-      annotate:
-        Stream: NETWORK-FIREWALL
-        Action: PACKET_ALLOWED
-        Status: PASSED   
-      translate:  
-        src: SrcIP  
-        dst: DstIP  
-        proto: Proto  
-        s_port: SrcPort  
-        service: DstPort 
+#    Decrypt-VPN-1 & FireWall-1-VPN-1: 
+#      annotate:
+#        Stream: AUTHENTICATION
+#        Action: LOGIN 
+#        Status: PASSED  
+#        AuthMethod: VPN 
+#      translate: 
+#        src: SrcIP  
+#        dst: DstIP 
+#        s_port: SrcPort
+#        user: User
+#    Allow-VPN-1 & FireWall-1-None:
+#      annotate:
+#        Stream: NETWORK-FIREWALL
+#        Action: PACKET_ALLOWED
+#        Status: PASSED   
+#      translate:  
+#        src: SrcIP  
+#        dst: DstIP  
+#        proto: Proto  
+#        s_port: SrcPort  
+#        service: DstPort 
     Extract-Threat Extraction-None:
       annotate:
         Stream: NETWORK-THREAT
@@ -145,39 +149,39 @@ event-details:
         file_name: FileName
         file_type: FileType
         malware_action: AtkDesc
-    Allow-MEPP-None: 
-      annotate:
-        Stream: NETWORK-FIREWALL
-        Action: PACKET_ALLOWED
-        Status: PASSED  
-      translate:
-        src: SrcIP  
-        dst: DstIP  
-        proto: Proto  
-        s_port: SrcPort  
-        service: DstPort
-    Block-MEPP-None:
-      annotate:
-        Stream: NETWORK-FIREWALL
-        Action: PACKET_BLOCKED
-        Status: FAILED   
-      translate:   
-        src: SrcIP  
-        dst: DstIP  
-        proto: Proto  
-        s_port: SrcPort  
-        service: DstPort 
-    Accept-VPN-1 & FireWall-1-None:
-      annotate:
-        Stream: NETWORK-FIREWALL
-        Action: PACKET_ALLOWED
-        Status: PASSED
-      translate:
-        src: SrcIP  
-        dst: DstIP  
-        proto: Proto  
-        s_port: SrcPort  
-        service: DstPort
+#    Allow-MEPP-None: 
+#      annotate:
+#        Stream: NETWORK-FIREWALL
+#        Action: PACKET_ALLOWED
+#        Status: PASSED  
+#      translate:
+#        src: SrcIP  
+#        dst: DstIP  
+#        proto: Proto  
+#        s_port: SrcPort  
+#        service: DstPort
+#    Block-MEPP-None:
+#      annotate:
+#        Stream: NETWORK-FIREWALL
+#        Action: PACKET_BLOCKED
+#        Status: FAILED   
+#      translate:   
+#        src: SrcIP  
+#        dst: DstIP  
+#        proto: Proto  
+#        s_port: SrcPort  
+#        service: DstPort 
+#    Accept-VPN-1 & FireWall-1-None:
+#      annotate:
+#        Stream: NETWORK-FIREWALL
+#        Action: PACKET_ALLOWED
+#        Status: PASSED
+#      translate:
+#        src: SrcIP  
+#        dst: DstIP  
+#        proto: Proto  
+#        s_port: SrcPort  
+#        service: DstPort
     Reject-SmartDefense-None:
       annotate:
         Stream: NETWORK-THREAT
@@ -196,72 +200,74 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
+        Reason: '-'
+        AuthMethod: '-'
       translate:
         src: SrcIP  
-        dst: DstIP
-        s_port: SrcPort
+        #dst: DstIP
+        #s_port: SrcPort
         user: User
-    Reject-VPN-1 & FireWall-1-None:
-      annotate:
-        Stream: NETWORK-FIREWALL
-        Action: PACKET_BLOCKED
-        Status: FAILED
-      translate:
-        src: SrcIP  
-        dst: DstIP  
-        proto: Proto  
-        s_port: SrcPort  
-        service: DstPort 
-    Redirect-VPN-1 & FireWall-1-None:
-      annotate:
-        Stream: NETWORK-FIREWALL
-        Action: PACKET_REDIRECT
-        Status: PASSED
-      translate:
-        src: SrcIP  
-        dst: DstIP  
-        proto: Proto  
-        s_port: SrcPort  
-        service: DstPort 
-    Redirect-URL Filtering-None:
-      annotate:
-        Stream: WEBFILTER
-        Action: URL_ALLOWED
-        Status: PASSED
-      translate:
-        src: SrcIP  
-        dst: DstIP
-        resource: URL
-    VPN Routing-VPN-1 & FireWall-1-VPN-1:
-      annotate:
-        Stream: NETWORK-FIREWALL
-        Action: VPN_ROUTING
-        Status: PASSED
-      translate:
-        src: SrcIP  
-        dst: DstIP  
-        proto: Proto  
-        s_port: SrcPort  
-        service: DstPort 
-    Accept-URL Filtering-None:
-      annotate:
-        Stream: WEBFILTER
-        Action: URL_ALLOWED
-        Status: PASSED
-      translate:
-        src: SrcIP  
-        dst: DstIP
-    Accept-Log Update-None:
-      annotate:
-        Stream: NETWORK-FIREWALL
-        Action: PACKET_ALLOWED
-        Status: PASSED
-      translate:   
-        src: SrcIP  
-        dst: DstIP  
-        proto: Proto  
-        s_port: SrcPort  
-        service: DstPort   
+#    Reject-VPN-1 & FireWall-1-None:
+#      annotate:
+#        Stream: NETWORK-FIREWALL
+#        Action: PACKET_BLOCKED
+#        Status: FAILED
+#      translate:
+#        src: SrcIP  
+#        dst: DstIP  
+#        proto: Proto  
+#        s_port: SrcPort  
+#        service: DstPort 
+#    Redirect-VPN-1 & FireWall-1-None:
+#      annotate:
+#        Stream: NETWORK-FIREWALL
+#        Action: PACKET_REDIRECT
+#        Status: PASSED
+#      translate:
+#        src: SrcIP  
+#        dst: DstIP  
+#        proto: Proto  
+#        s_port: SrcPort  
+#        service: DstPort 
+#    Redirect-URL Filtering-None:
+#      annotate:
+#        Stream: WEBFILTER
+#        Action: URL_ALLOWED
+#        Status: PASSED
+#      translate:
+#        src: SrcIP  
+#        dst: DstIP
+#        resource: URL
+#    VPN Routing-VPN-1 & FireWall-1-VPN-1:
+#      annotate:
+#        Stream: NETWORK-FIREWALL
+#        Action: VPN_ROUTING
+#        Status: PASSED
+#      translate:
+#        src: SrcIP  
+#        dst: DstIP  
+#        proto: Proto  
+#        s_port: SrcPort  
+#        service: DstPort 
+#    Accept-URL Filtering-None:
+#      annotate:
+#        Stream: WEBFILTER
+#        Action: URL_ALLOWED
+#        Status: PASSED
+#      translate:
+#        src: SrcIP  
+#        dst: DstIP
+#    Accept-Log Update-None:
+#      annotate:
+#        Stream: NETWORK-FIREWALL
+#        Action: PACKET_ALLOWED
+#        Status: PASSED
+#      translate:   
+#        src: SrcIP  
+#        dst: DstIP  
+#        proto: Proto  
+#        s_port: SrcPort  
+#        service: DstPort   
 
   fallback:
     annotate:

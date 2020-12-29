@@ -43,7 +43,8 @@ event-details:
         Reason: '-'
       translate:
         User: User
-        Client: SrcIP  
+        Client: SrcIP
+
     'Success-Session Logout':
       annotate:
         Stream: AUTHENTICATION
@@ -53,7 +54,7 @@ event-details:
         Reason: '-'
       translate:
         User: User
-        Client: SrcIP 
+        Client: SrcIP
     'None-Invalid user entered':
       annotate:
         Stream: AUTHENTICATION

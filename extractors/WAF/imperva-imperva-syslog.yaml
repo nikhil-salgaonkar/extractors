@@ -26,14 +26,15 @@ event-details:
         resultCode: ReturnCode
         SrcPort: SrcPort
         url: URL
+        ruleName: AtkClass
+        policyName: PolicyName
+        httpHost: Domain
         
   fallback:
-      annotate:
-        EventName: Generic Imperva Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Imperva Event
+      Stream: OTHER
 
   globals:
     translate:
-      ruleName: AtkClass
-      policyName: PolicyName
-      httpHost: Domain
+      devTime: SystemTstamp

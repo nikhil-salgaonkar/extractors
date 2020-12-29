@@ -23,6 +23,7 @@ event-details:
         AccountName: User
         Domain: Domain
         File: FileName
+        Severity: Severity
         #Endpoint: ScannedHost
         #VirusName: VirusName
     '600':
@@ -34,6 +35,7 @@ event-details:
         AccountName: User
         Domain: Domain
         File: FileName
+        Severity: Severity
         #Endpoint: ScannedHost
         #VirusName: VirusName
 
@@ -46,5 +48,4 @@ event-details:
     translate:
       EventTime: SystemTstamp
       Hostname: System
-      Severity: Severity
      #Message: Message
