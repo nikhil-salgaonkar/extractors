@@ -3,7 +3,7 @@ schema-version: 1.0
 extractor-id: 86
 source-name: ORACLE
 source-type: DATABASE
-source-description: Extractor for Oracle Database 
+source-description: Extractor for Oracle Database Events
 provides-streams:
 - DATABASE
 - AUTHENTICATION
@@ -20,47 +20,42 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
+        AuthMethod: DIRECT
+        Reason: '-'
       translate: 
         USERID: User
-        USERHOST: SrcHost
-        PROTOCOL: Proto
         HOST: SrcIP
-        PORT: SrcPort
     '100-1017': 
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-     #  SubStatus: BAD_USER_PASSWORD
+        AuthMethod: DIRECT
+        Reason: INVALID_PASSWORD
       translate: 
         USERID: User
-        USERHOST: SrcHost
-        PROTOCOL: Proto
         HOST: SrcIP
-        PORT: SrcPort 
     '100-28000': 
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
+        AuthMethod: DIRECT
+        Reason: INVALID_PASSWORD
       translate: 
         USERID: User
-        USERHOST: SrcHost
-        PROTOCOL: Proto
         HOST: SrcIP
-        PORT: SrcPort 
     '100-2391': 
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
+        AuthMethod: DIRECT
+        Reason: INVALID_PASSWORD
       translate: 
         USERID: User
-        USERHOST: SrcHost
-        PROTOCOL: Proto
         HOST: SrcIP
-        PORT: SrcPort           
-
+       
   fallback:
     annotate:
       EventName: Generic Oracle Database Event
@@ -70,34 +65,38 @@ event-details:
     translate:
       DATETIME: SystemTstamp
 
-- first-match: 'ACTION\:\[\d+\]\s+\"(?:101|102)\"\s+RETURNCODE\:\[\d+\]\s+\"\d+\"'
-  decoder: regex
-  decoder-regex: '(?P<DATETIME>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}).*?USERID\:\[\d+\]\s+\"(?P<USERID>\S+)\".*?ACTION\:\[\d+\]\s+\"(?P<ACTION>\d+)\".*?RETURNCODE\:\[\d+\]\s+\"(?P<RETURNCODE>\d+)\"(?:.*?COMMENT\$TEXT\:\[\d+\]\s+\"(?P<MESSAGE>.*?)\")?'
-  event-key-format: '{ACTION}-{RETURNCODE}'
-  event-key-mapping:  
-    '101-0': 
-      annotate:
-        Stream: AUTHENTICATION
-        Action: LOGOUT
-        Status: PASSED
-      translate: 
-        USERID: User
-    '102-0': 
-      annotate:
-        Stream: AUTHENTICATION
-        Action: LOGOUT
-        Status: PASSED
-      translate: 
-        USERID: User  
+#- first-match: 'ACTION\:\[\d+\]\s+\"(?:101|102)\"\s+RETURNCODE\:\[\d+\]\s+\"\d+\"'
+#  decoder: regex
+#  decoder-regex: '(?P<DATETIME>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}).*?USERID\:\[\d+\]\s+\"(?P<USERID>\S+)\".*?ACTION\:\[\d+\]\s+\"(?P<ACTION>\d+)\".*?RETURNCODE\:\[\d+\]\s+\"(?P<RETURNCODE>\d+)\"(?:.*?COMMENT\$TEXT\:\[\d+\]\s+\"(?P<MESSAGE>.*?)\")?'
+#  event-key-format: '{ACTION}-{RETURNCODE}'
+#  event-key-mapping:  
+#    '101-0': 
+#      annotate:
+#        Stream: AUTHENTICATION
+#        Action: LOGOUT
+#        Status: PASSED
+#        AuthMethod: DIRECT
+#        Reason: '-'
+#      translate: 
+#        USERID: User
+#    '102-0': 
+#      annotate:
+#        Stream: AUTHENTICATION
+#        Action: LOGOUT
+#        Status: PASSED
+#        AuthMethod: DIRECT
+#        Reason: '-'
+#      translate: 
+#        USERID: User  
 
-  fallback:
-    annotate:
-      EventName: Generic Oracle Database Event
-      Stream: OTHER
+#  fallback:
+#    annotate:
+#      EventName: Generic Oracle Database Event
+#      Stream: OTHER
 
-  globals:
-    translate:
-      DATETIME: SystemTstamp
+#  globals:
+#    translate:
+#      DATETIME: SystemTstamp
 
 - first-match: 'ACTION\:\[\d+\]\s+\"47\"\s+RETURNCODE\:\[\d+\]\s+\"\d+\"'
   decoder: regex
