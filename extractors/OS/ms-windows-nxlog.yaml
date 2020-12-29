@@ -58,7 +58,7 @@ event-details:
         AuthMethod: '-'
       translate:
         TargetUserName: User
-        TargetDomainName: TargetDomain
+        #TargetDomainName: TargetDomain
     '4647': 
       annotate:
         Stream: AUTHENTICATION 

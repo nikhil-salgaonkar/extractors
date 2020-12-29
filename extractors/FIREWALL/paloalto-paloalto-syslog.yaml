@@ -339,8 +339,7 @@ event-details:
       translate:
         user: User 
         src: SrcIP
-        sport: SrcPort    
-        reason: Reason                                         
+        reason: Reason
 
   fallback:
     annotate:

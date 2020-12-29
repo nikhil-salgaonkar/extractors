@@ -22,6 +22,7 @@ event-details:
         Action: LOGIN
         Status: FAILED
         AuthMethod: CLI
+        Reason: INVALID_USER
       translate: 
         src: SrcIP
         user: User 
@@ -48,6 +49,7 @@ event-details:
         Action: LOGIN
         Status: PASSED
         AuthMethod: CLI
+        Reason: '-'
       translate: 
         src: SrcIP
         user: User
@@ -140,71 +142,71 @@ event-details:
       datetime: SystemTstamp
       hostname: System 
 
-- first-match: '\s+SSLLOG\s+SSL_HANDSHAKE_(?:SUCCESS|FAILURE)\s+.*?ClientIP.*?VserverServiceIP\s+'
-  decoder: regex
-  decoder-regex: '(?P<datetime>\d+\/\d+\/\d+\:\d+\:\d+\:\d+)\s+(?:GMT|IST|)\s?(?P<hostname>[\w-]+).*?SSLLOG\s+SSL_HANDSHAKE_(?P<action>(?:SUCCESS|FAILURE)).*?ClientIP\s+(?P<src>[\d\.]+)\s+\-\s+ClientPort\s+(?P<sport>\d+)\s+\-\s+VserverServiceIP\s+(?P<dst>[\d\.]+)\s+\-\s+VserverServicePort\s+(?P<dport>\d+)'
-  event-key-format: '{action}'
-  event-key-mapping:
-    'SUCCESS':           
-      annotate:
-        Stream: CONNECTIVITY
-        Action: SSL_CONNECTED
-        Status: PASSED
-      translate: 
-        src: SrcIP
-        sport: SrcPort
-        dst: DstIP
-        dport: DstPort
-    'FAILURE':           
-      annotate:
-        Stream: CONNECTIVITY
-        Action: SSL_CONNECTED
-        Status: FAILED
-      translate: 
-        src: SrcIP
-        sport: SrcPort
-        dst: DstIP
-        dport: DstPort 
-        
-  fallback:
-    annotate:
-      EventName: Generic NetScaler WAF Event
-      Stream: OTHER
+#- first-match: '\s+SSLLOG\s+SSL_HANDSHAKE_(?:SUCCESS|FAILURE)\s+.*?ClientIP.*?VserverServiceIP\s+'
+#  decoder: regex
+#  decoder-regex: '(?P<datetime>\d+\/\d+\/\d+\:\d+\:\d+\:\d+)\s+(?:GMT|IST|)\s?(?P<hostname>[\w-]+).*?SSLLOG\s+SSL_HANDSHAKE_(?P<action>(?:SUCCESS|FAILURE)).*?ClientIP\s+(?P<src>[\d\.]+)\s+\-\s+ClientPort\s+(?P<sport>\d+)\s+\-\s+VserverServiceIP\s+(?P<dst>[\d\.]+)\s+\-\s+VserverServicePort\s+(?P<dport>\d+)'
+#  event-key-format: '{action}'
+#  event-key-mapping:
+#    'SUCCESS':
+#      annotate:
+#        Stream: CONNECTIVITY
+#        Action: SSL_CONNECTED
+#        Status: PASSED
+#      translate:
+#        src: SrcIP
+#        sport: SrcPort
+#        dst: DstIP
+#        dport: DstPort
+#    'FAILURE':
+#      annotate:
+#        Stream: CONNECTIVITY
+#        Action: SSL_CONNECTED
+#        Status: FAILED
+#      translate:
+#        src: SrcIP
+#        sport: SrcPort
+#        dst: DstIP
+#        dport: DstPort
+#
+#  fallback:
+#    annotate:
+#      EventName: Generic NetScaler WAF Event
+#      Stream: OTHER
+#
+#  globals:
+#    translate:
+#      datetime: SystemTstamp
+#      hostname: System
 
-  globals:
-    translate:
-      datetime: SystemTstamp
-      hostname: System   
-
-- first-match: '\sEVENT\s+(?:DEVICEUP|DEVICEDOWN).*?Device\s+\"'
-  decoder: regex
-  decoder-regex: '(?P<datetime>\d+\/\d+\/\d+\:\d+\:\d+\:\d+)\s+(?:GMT|IST|)\s?(?P<hostname>[\w-]+)\s+\d+\-\w{3}\-\d+\s+\:\s+(?:[\w\d_-]+|)+\s?EVENT\s+DEVICE(?P<action>(?:UP|DOWN)).*?Device\s+\"(?P<interface>.*?)\"'
-  event-key-format: '{action}'
-  event-key-mapping:
-    'UP':           
-      annotate:
-        Stream: CONNECTIVITY
-        Action: INIT_UP
-        Status: PASSED
-      translate: 
-        interface: Iface
-    'DOWN':           
-      annotate:
-        Stream: CONNECTIVITY
-        Action: INIT_DOWN
-        Status: FAILED
-      translate: 
-        interface: Iface
-        
-  fallback:
-    annotate:
-      EventName: Generic NetScaler WAF Event
-      Stream: OTHER
-
-  globals:
-    translate:
-      datetime: SystemTstamp
-      hostname: System 
+#- first-match: '\sEVENT\s+(?:DEVICEUP|DEVICEDOWN).*?Device\s+\"'
+#  decoder: regex
+#  decoder-regex: '(?P<datetime>\d+\/\d+\/\d+\:\d+\:\d+\:\d+)\s+(?:GMT|IST|)\s?(?P<hostname>[\w-]+)\s+\d+\-\w{3}\-\d+\s+\:\s+(?:[\w\d_-]+|)+\s?EVENT\s+DEVICE(?P<action>(?:UP|DOWN)).*?Device\s+\"(?P<interface>.*?)\"'
+#  event-key-format: '{action}'
+#  event-key-mapping:
+#    'UP':
+#      annotate:
+#        Stream: CONNECTIVITY
+#        Action: INIT_UP
+#        Status: PASSED
+#      translate:
+#        interface: Iface
+#    'DOWN':
+#      annotate:
+#        Stream: CONNECTIVITY
+#        Action: INIT_DOWN
+#        Status: FAILED
+#      translate:
+#        interface: Iface
+#
+#  fallback:
+#    annotate:
+#      EventName: Generic NetScaler WAF Event
+#      Stream: OTHER
+#
+#  globals:
+#    translate:
+#      datetime: SystemTstamp
+#      hostname: System
 
 - first-match: '\:\s+default\s+SSLVPN\s+(?:LOGIN|LOGOUT).*?User.*?Client_ip.*?Vserver'
   decoder: regex
@@ -216,16 +218,18 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
+        AuthMethod: '-'
+        Reason: '-'
       translate: 
         user: User
         src: SrcIP
-        dst: DstIP
-        dport: DstPort
+
     'LOGOUT':           
       annotate:
         Stream: AUTHENTICATION
         Action: LOGOUT
         Status: PASSED
+        AuthMethod: '-'
       translate: 
         user: User
         src: SrcIP
@@ -241,34 +245,34 @@ event-details:
       datetime: SystemTstamp
       hostname: System   
 
-- first-match: 'SSLLOG\s+SSL_HANDSHAKE_(?:SUCCESS|FAILURE).*?ServerIP.*?ServerPort'
-  decoder: regex
-  decoder-regex: '(?P<datetime>\d+\/\d+\/\d+\:\d+\:\d+\:\d+)\s+(?:GMT|IST|)\s?(?P<hostname>[\w-]+).*?SSLLOG\s+SSL_HANDSHAKE_(?P<action>(?:SUCCESS|FAILURE)).*?ServerIP\s+(?P<ServerIP>.*?)\s+.*?ServerPort\s+(?P<ServerPort>\d+)\s+'
-  event-key-format: '{action}'
-  event-key-mapping:
-    'SUCCESS':           
-      annotate:
-        Stream: CONNECTIVITY
-        Action: SSL_CONNECTED
-        Status: PASSED
-      translate: 
-        ServerIP: ServerIP
-        ServerPort: ServerPort
-    'FAILURE':           
-      annotate:
-        Stream: CONNECTIVITY
-        Action: SSL_CONNECTED
-        Status: FAILED
-      translate: 
-        ServerIP: ServerIP
-        ServerPort: ServerPort 
-        
-  fallback:
-    annotate:
-      EventName: Generic NetScaler WAF Event
-      Stream: OTHER
-
-  globals:
-    translate:
-      datetime: SystemTstamp
-      hostname: System                               
+#- first-match: 'SSLLOG\s+SSL_HANDSHAKE_(?:SUCCESS|FAILURE).*?ServerIP.*?ServerPort'
+#  decoder: regex
+#  decoder-regex: '(?P<datetime>\d+\/\d+\/\d+\:\d+\:\d+\:\d+)\s+(?:GMT|IST|)\s?(?P<hostname>[\w-]+).*?SSLLOG\s+SSL_HANDSHAKE_(?P<action>(?:SUCCESS|FAILURE)).*?ServerIP\s+(?P<ServerIP>.*?)\s+.*?ServerPort\s+(?P<ServerPort>\d+)\s+'
+#  event-key-format: '{action}'
+#  event-key-mapping:
+#    'SUCCESS':
+#      annotate:
+#        Stream: CONNECTIVITY
+#        Action: SSL_CONNECTED
+#        Status: PASSED
+#      translate:
+#        ServerIP: ServerIP
+#        ServerPort: ServerPort
+#    'FAILURE':
+#      annotate:
+#        Stream: CONNECTIVITY
+#        Action: SSL_CONNECTED
+#        Status: FAILED
+#      translate:
+#        ServerIP: ServerIP
+#        ServerPort: ServerPort
+#
+#  fallback:
+#    annotate:
+#      EventName: Generic NetScaler WAF Event
+#      Stream: OTHER
+#
+#  globals:
+#    translate:
+#      datetime: SystemTstamp
+#      hostname: System
