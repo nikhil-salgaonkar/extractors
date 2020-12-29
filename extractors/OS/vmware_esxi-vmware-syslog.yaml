@@ -3,7 +3,7 @@ schema-version: 1.0
 extractor-id: 98
 source-name: VMWARE
 source-type: OS
-source-description: Extractor for VMWARE OS
+source-description: Extractor for VMWARE OS Events
 provides-streams:
 - AUTHENTICATION
 master-filters:
@@ -19,38 +19,8 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGOUT
         Status: PASSED
-      translate:
-        user: User
-
-  fallback:
-      annotate:
-        EventName: Generic VMWARE OS Event
-        Stream: OTHER
-
-  globals:
-    translate:
-      datetime: SystemTstamp
-      hostname: System
-      severity: Severity
-
-  subs: &id001
-    Severity:
-      'info': 'INFORMATION'
-      'verbose': 'VERBOSE'
-      'error': 'ERROR'
-      'warning': 'WARNING'
-      'WARNING': 'WARNING'
-
-- first-match: '\s+Hostd\:\s+Accepted\s+password'
-  decoder: regex
-  decoder-regex: '(?P<datetime>\d+\-\d+\-\d+T\d+\:\d+\:\d+)\.\w+\s+(?P<hostname>\S+)\s+(?P<daemon>\S+)\:\s+(?P<message>(?P<action>Accepted\s+password)\s+for\s+user\s+(?P<user>\S+)\s+from\s+(?P<src>[\d\.]+))'
-  event-key-format: '{action}'
-  event-key-mapping:
-    'Accepted password':
-      annotate:
-        Stream: AUTHENTICATION
-        Action: LOGIN
-        Status: PASSED
+        AuthMethod: '-'
+        Reason: '-'
       translate:
         user: User
         src: SrcIP
@@ -59,16 +29,51 @@ event-details:
       annotate:
         EventName: Generic VMWARE OS Event
         Stream: OTHER
-      translate:
-        datetime: SystemTstamp 
 
   globals:
     translate:
       datetime: SystemTstamp
       hostname: System
-      severity: Severity
+#      severity: Severity
 
-  subs: *id001
+#  subs: &id001
+#    Severity:
+#      'info': 'INFORMATION'
+#      'verbose': 'VERBOSE'
+#      'error': 'ERROR'
+#      'warning': 'WARNING'
+#      'WARNING': 'WARNING'
+
+#- first-match: '\s+Hostd\:\s+Accepted\s+password'
+#  decoder: regex
+#  decoder-regex: '(?P<datetime>\d+\-\d+\-\d+T\d+\:\d+\:\d+)\.\w+\s+(?P<hostname>\S+)\s+(?P<daemon>\S+)\:\s+(?P<message>(?P<action>Accepted\s+password)\s+for\s+user\s+(?P<user>\S+)\s+from\s+(?P<src>[\d\.]+))'
+#  event-key-format: '{action}'
+#  event-key-mapping:
+#    'Accepted password':
+#      annotate:
+#        Stream: AUTHENTICATION
+#        Action: LOGIN
+#        Status: PASSED
+#        AuthMethod: '-'
+#        Reason: '-'
+#      translate:
+#        user: User
+#        src: SrcIP
+
+#  fallback:
+#      annotate:
+#        EventName: Generic VMWARE OS Event
+#        Stream: OTHER
+#      translate:
+#        datetime: SystemTstamp 
+
+#  globals:
+#    translate:
+#      datetime: SystemTstamp
+#      hostname: System
+#      severity: Severity
+
+#  subs: *id001
 
 - first-match: '\s+Hostd\:.*?logged\s+in\s+'
   decoder: regex
@@ -80,6 +85,8 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
+        AuthMethod: '-'
+        Reason: '-'
       translate:
         user: User
         src: SrcIP
@@ -93,9 +100,9 @@ event-details:
     translate:
       datetime: SystemTstamp
       hostname: System
-      severity: Severity
+#      severity: Severity
 
-  subs: *id001
+#  subs: *id001
 
 - first-match: '\s+vobd\:.*?Authentication\s+for\s+user.*?failed'
   decoder: regex
@@ -107,6 +114,8 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
+        AuthMethod: '-'
+        Reason: INVALID_PASSWORD
       translate:
         user: User
 
@@ -119,9 +128,9 @@ event-details:
     translate:
       datetime: SystemTstamp
       hostname: System
-      severity: Severity
+#      severity: Severity
 
-  subs: *id001
+#  subs: *id001
 
 - first-match: '\s+vpxd.*?\[\w+\].*?logged\s+(?:in|out)'
   decoder: regex
@@ -133,6 +142,8 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
+        AuthMethod: '-'
+        Reason: '-'
       translate:
         user: User
     'logged out':
@@ -140,6 +151,8 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGOUT
         Status: PASSED
+        AuthMethod: '-'
+        Reason: '-'
       translate:
         user: User    
 
@@ -152,6 +165,6 @@ event-details:
     translate:
       datetime: SystemTstamp
       hostname: System
-      severity: Severity
+#      severity: Severity
 
-  subs: *id001      
+#  subs: *id001      

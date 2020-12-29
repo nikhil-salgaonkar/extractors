@@ -3,7 +3,7 @@ schema-version: 1.0
 extractor-id: 69
 source-name: TREND-MICRO
 source-type: ENDPOINT
-source-description: Extractor for Trend-Micro Endpoint
+source-description: Extractor for Trend-Micro Endpoint Events
 provides-streams:
 - ENDPOINT-THREAT
 master-filters:
@@ -54,6 +54,8 @@ event-details:
         dst: DstIP
         fileHash: FileHash
         duser: DstUser
+        Header-5: Signature 
+        Header-6: Severity
 
   fallback:
     annotate:
@@ -63,9 +65,7 @@ event-details:
   globals:
     translate: 
       rt: SystemTstamp
-      dvchost: System
-      Header-5: Signature 
-      Header-6: Severity   
+      dvchost: System   
 
   subs: &id001
     Severity:
@@ -116,6 +116,8 @@ event-details:
         duser: DstUser
         suser: SrcUser
         shost: SrcHost 
+        Header-5: Signature 
+        Header-6: Severity
 
   fallback:
     annotate:
@@ -125,9 +127,7 @@ event-details:
   globals:
     translate: 
       rt: SystemTstamp
-      dvchost: System
-      Header-5: Signature 
-      Header-6: Severity  
+      dvchost: System  
 
   subs: *id001    
 
@@ -155,6 +155,8 @@ event-details:
         dhost: DstHost
         dst: DstIP
         dpt: DstPort
+        Header-5: Signature 
+        Header-6: Severity
 
   fallback:
     annotate:
@@ -164,9 +166,7 @@ event-details:
   globals:
     translate: 
       dvchost: System
-      rt: SystemTstamp
-      Header-5: Signature 
-      Header-6: Severity  
+      rt: SystemTstamp  
 
   subs: *id001    
 
@@ -186,7 +186,9 @@ event-details:
         spt: SrcPort
         dst: DstIP
         dpt: DstPort
-
+        Header-5: Signature 
+        Header-6: Severity 
+ 
   fallback:
     annotate:
       EventName: Generic Trend-Micro Endpoint Event
@@ -195,8 +197,6 @@ event-details:
   globals:
     translate: 
       dvchost: System
-      rt: SystemTstamp 
-      Header-5: Signature 
-      Header-6: Severity     
+      rt: SystemTstamp     
 
   subs: *id001 

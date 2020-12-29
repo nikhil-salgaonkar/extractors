@@ -3,7 +3,7 @@ schema-version: 1.0
 extractor-id: 58
 source-name: JUNIPER-SRX
 source-type: FIREWALL
-source-description: Extractor for JUNIPER-SRX Firewall
+source-description: Extractor for Juniper-SRX Firewall Events
 provides-streams:
 - NETWORK-FIREWALL
 - AUTHENTICATION
@@ -20,16 +20,15 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED   
+        AuthMethod: SSH
+        Reason: '-'
       translate:
         src: SrcIP 
-        sport: SrcPort 
-        dst: DstIP  
-        dport: DstPort
         user: User
 
   fallback:
     annotate:
-      EventName: Generic JUNIPER-SRX Firewall Event
+      EventName: Generic Juniper-SRX Firewall Event
       Stream: OTHER
 
   globals:
@@ -46,14 +45,16 @@ event-details:
       annotate:
         Stream: AUTHENTICATION
         Action: LOGOUT
-        Status: PASSED   
+        Status: PASSED
+        AuthMethod: '-'
+        Reason: '-'   
       translate:
         user: User
-
+        src: SrcIP
 
   fallback:
     annotate:
-      EventName: Generic JUNIPER-SRX Firewall Event
+      EventName: Generic Juniper-SRX Firewall Event
       Stream: OTHER
 
   globals:
@@ -71,15 +72,15 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        AuthProtocol: SSH
-        LoginSrc: REMOTE   
+        AuthMethod: SSH
+        Reason: INVALID_PASSWORD   
       translate:
         user: User
         src: SrcIP   
 
   fallback:
     annotate:
-      EventName: Generic JUNIPER-SRX Firewall Event
+      EventName: Generic Juniper-SRX Firewall Event
       Stream: OTHER
 
   globals:
@@ -97,13 +98,15 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED  
+        AuthMethod: '-'
+        Reason: '-'
       translate:
         user: User
-
+        src: SrcIP
 
   fallback:
     annotate:
-      EventName: Generic JUNIPER-SRX Firewall Event
+      EventName: Generic Juniper-SRX Firewall Event
       Stream: OTHER
 
   globals:
@@ -120,14 +123,16 @@ event-details:
       annotate:
         Stream: AUTHENTICATION
         Action: LOGOUT
-        Status: PASSED  
+        Status: PASSED
+        AuthMethod: '-'
+        Reason: '-'  
       translate:
         user: User
 
 
   fallback:
     annotate:
-      EventName: Generic JUNIPER-SRX Firewall Event
+      EventName: Generic Juniper-SRX Firewall Event
       Stream: OTHER
 
   globals:
@@ -145,12 +150,14 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED  
+        AuthMethod: SSH
+        Reason: '-'
       translate:
         user: User
 
   fallback:
     annotate:
-      EventName: Generic JUNIPER-SRX Firewall Event
+      EventName: Generic Juniper-SRX Firewall Event
       Stream: OTHER
 
   globals:
@@ -159,132 +166,129 @@ event-details:
       hostname: System
 
 
-- first-match: 'RT_FLOW\:\sFLOW_REASSEMBLE_SUCCEED\:' 
-  decoder: regex
-  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>.*?)\s+.*?(?P<category>\S+)\:\s+Packet merged\ssource\s+(?P<src>.*?)\sdestination\s(?P<dst>.*?)\s+ipid\s(?P<pid>.*?)\s+'
-  event-key-format: '{category}'
-  event-key-mapping:
-    'FLOW_REASSEMBLE_SUCCEED': 
-      annotate:
-        Stream: NETWORK-FIREWALL
-        Action: PACKET_ALLOWED
-        Status: PASSED  
-      translate:
-        src: SrcIP
-        dst: DstIP
+#- first-match: 'RT_FLOW\:\sFLOW_REASSEMBLE_SUCCEED\:' 
+#  decoder: regex
+#  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>.*?)\s+.*?(?P<category>\S+)\:\s+Packet merged\ssource\s+(?P<src>.*?)\sdestination\s(?P<dst>.*?)\s+ipid\s(?P<pid>.*?)\s+'
+#  event-key-format: '{category}'
+#  event-key-mapping:
+#    'FLOW_REASSEMBLE_SUCCEED': 
+#      annotate:
+#        Stream: NETWORK-FIREWALL
+#        Action: PACKET_ALLOWED
+#        Status: PASSED  
+#      translate:
+#        src: SrcIP
+#        dst: DstIP
 
+#  fallback:
+#    annotate:
+#      EventName: Generic Juniper-SRX Firewall Event
+#      Stream: OTHER
 
-  fallback:
-    annotate:
-      EventName: Generic JUNIPER-SRX Firewall Event
-      Stream: OTHER
+#  globals:
+#    translate:
+#      datetime: SystemTstamp
+#      hostname: System
 
-  globals:
-    translate:
-      datetime: SystemTstamp
-      hostname: System
-
-- first-match: 'RT_IPSEC\:\s+RT_IPSEC_BAD_SPI\:' 
-  decoder: regex
-  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+.*?\s+(?P<category>\S+)\:\s+.*?bad SPI\.\s+(?P<src>[\d\.]+)\-\>(?P<dst>[\d\.]+)\/'
-  event-key-format: '{category}'
-  event-key-mapping:
-    'RT_IPSEC_BAD_SPI': 
-      annotate:
-        Stream: NETWORK-FIREWALL
-        Action: PACKET_ALLOWED
-        Status: PASSED  
-      translate:
-        src: SrcIP
-        dst: DstIP
+#- first-match: 'RT_IPSEC\:\s+RT_IPSEC_BAD_SPI\:' 
+#  decoder: regex
+#  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+.*?\s+(?P<category>\S+)\:\s+.*?bad SPI\.\s+(?P<src>[\d\.]+)\-\>(?P<dst>[\d\.]+)\/'
+#  event-key-format: '{category}'
+#  event-key-mapping:
+#    'RT_IPSEC_BAD_SPI': 
+#      annotate:
+#        Stream: NETWORK-FIREWALL
+#        Action: PACKET_ALLOWED
+#        Status: PASSED  
+#      translate:
+#        src: SrcIP
+#        dst: DstIP
         
-  fallback:
-    annotate:
-      EventName: Generic JUNIPER-SRX Firewall Event
-      Stream: OTHER
+#  fallback:
+#    annotate:
+#      EventName: Generic Juniper-SRX Firewall Event
+#      Stream: OTHER
 
-  globals:
-    translate:
-      datetime: SystemTstamp
-      hostname: System
+#  globals:
+#    translate:
+#      datetime: SystemTstamp
+#      hostname: System
+
+#- first-match: 'PFE_FW_SYSLOG_IP\:'
+#  decoder: regex
+#  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<category>\S+)\:\s+FW\:\s+(?P<msg>(?P<iface>\S+)\s+(?P<action>\w+)\s+(?P<protocol>\w+)\s+(?P<src>[\d\.]+)\s+(?P<dst>[\d\.]+)\s+(?P<sport>\d+)\s+(?P<dport>\d+)\s+\((?P<packet>\w+)\s+packets\))'
+#  event-key-format: '{category}'
+#  event-key-mapping:
+#    'PFE_FW_SYSLOG_IP': 
+#      annotate:
+#        Stream: NETWORK-FIREWALL
+#        Action: PACKET_BLOCKED
+#        Status: FAILED   
+#      translate:
+#        protocol: Proto
+#        src: SrcIP 
+#        sport: SrcPort 
+#        dst: DstIP  
+#        dport: DstPort
+
+#  fallback:
+#    annotate:
+#      EventName: Generic Juniper-SRX Firewall Event
+#      Stream: OTHER
+
+#  globals:
+#    translate:
+#      datetime: SystemTstamp
+#      hostname: System
+
+#- first-match: 'RT_SCREEN_IP\:'
+#  decoder: regex
+#  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s\S+\:\s+(?P<category>\S+)\:\s+.*?\s+source\:\s+(?P<src>[\d \.]+)\,\s+destination\:\s+(?P<dst>[\d \.]+)\,\s+protocol\-id\:\s+(?P<protocol>\d+)\,\s+.*?interface\s+name\:\s+(?P<iface>.*?)\,\s+action\:\s+(?P<action>\w+)'
+#  event-key-format: '{category}'
+#  event-key-mapping:
+#    'RT_SCREEN_IP': 
+#      annotate:
+#        Stream: NETWORK-FIREWALL
+#        Action: PACKET_BLOCKED
+#        Status: FAILED   
+#      translate:
+#        protocol: Proto
+#        src: SrcIP 
+#        sport: SrcPort 
+#        dst: DstIP  
+#        dport: DstPort
+
+#  fallback:
+#    annotate:
+#      EventName: Generic Juniper-SRX Firewall Event
+#      Stream: OTHER
+
+#  globals:
+#    translate:
+#      datetime: SystemTstamp
+#      hostname: System
 
 
-- first-match: 'PFE_FW_SYSLOG_IP\:'
-  decoder: regex
-  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<category>\S+)\:\s+FW\:\s+(?P<msg>(?P<iface>\S+)\s+(?P<action>\w+)\s+(?P<protocol>\w+)\s+(?P<src>[\d\.]+)\s+(?P<dst>[\d\.]+)\s+(?P<sport>\d+)\s+(?P<dport>\d+)\s+\((?P<packet>\w+)\s+packets\))'
-  event-key-format: '{category}'
-  event-key-mapping:
-    'PFE_FW_SYSLOG_IP': 
-      annotate:
-        Stream: NETWORK-FIREWALL
-        Action: PACKET_BLOCKED
-        Status: FAILED   
-      translate:
-        protocol: Proto
-        src: SrcIP 
-        sport: SrcPort 
-        dst: DstIP  
-        dport: DstPort
+#- first-match: 'KMD_PM_SA_ESTABLISHED\:'
+#  decoder: regex
+#  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s(?P<daemon>\w+)\[(?P<pid>\d+)\]\:\s+(?P<category>\S+)\:\sLocal gateway:\s(?P<src>.*?)\,\sRemote gateway\:\s(?P<dst>.*?)\,'
+#  event-key-format: '{category}'
+#  event-key-mapping:
+#    'KMD_PM_SA_ESTABLISHED': 
+#      annotate:
+#        Stream: NETWORK-FIREWALL
+#        Action: VPN_CONNECTED
+#        Status: PASSED   
+#      translate:
+#        src: SrcIP
+#        dst: DstIP
 
-  fallback:
-    annotate:
-      EventName: Generic JUNIPER-SRX Firewall Event
-      Stream: OTHER
+#  fallback:
+#    annotate:
+#      EventName: Generic Juniper-SRX Firewall Event
+#      Stream: OTHER
 
-  globals:
-    translate:
-      datetime: SystemTstamp
-      hostname: System
-
-- first-match: 'RT_SCREEN_IP\:'
-  decoder: regex
-  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s\S+\:\s+(?P<category>\S+)\:\s+.*?\s+source\:\s+(?P<src>[\d \.]+)\,\s+destination\:\s+(?P<dst>[\d \.]+)\,\s+protocol\-id\:\s+(?P<protocol>\d+)\,\s+.*?interface\s+name\:\s+(?P<iface>.*?)\,\s+action\:\s+(?P<action>\w+)'
-  event-key-format: '{category}'
-  event-key-mapping:
-    'RT_SCREEN_IP': 
-      annotate:
-        Stream: NETWORK-FIREWALL
-        Action: PACKET_BLOCKED
-        Status: FAILED   
-      translate:
-        protocol: Proto
-        src: SrcIP 
-        sport: SrcPort 
-        dst: DstIP  
-        dport: DstPort
-
-  fallback:
-    annotate:
-      EventName: Generic JUNIPER-SRX Firewall Event
-      Stream: OTHER
-
-  globals:
-    translate:
-      datetime: SystemTstamp
-      hostname: System
-
-
-- first-match: 'KMD_PM_SA_ESTABLISHED\:'
-  decoder: regex
-  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s(?P<daemon>\w+)\[(?P<pid>\d+)\]\:\s+(?P<category>\S+)\:\sLocal gateway:\s(?P<src>.*?)\,\sRemote gateway\:\s(?P<dst>.*?)\,'
-  event-key-format: '{category}'
-  event-key-mapping:
-    'KMD_PM_SA_ESTABLISHED': 
-      annotate:
-        Stream: NETWORK-FIREWALL
-        Action: VPN_CONNECTED
-        Status: PASSED   
-      translate:
-
-        src: SrcIP
-        dst: DstIP
-
-  fallback:
-    annotate:
-      EventName: Generic JUNIPER-SRX Firewall Event
-      Stream: OTHER
-
-  globals:
-    translate:
-      datetime: SystemTstamp
-      hostname: System
+#  globals:
+#    translate:
+#      datetime: SystemTstamp
+#      hostname: System

@@ -3,7 +3,7 @@ schema-version: 1.0
 extractor-id: 249
 source-name: DELL-EMC-CONNECTRIX
 source-type: SWITCH
-source-description: extractor for Dell EMC Connectrix
+source-description: extractor for Dell EMC Connectrix Events
 provides-streams:
 - AUTHENTICATION
 master-filters:
@@ -20,11 +20,10 @@ event-details:
         Action: LOGIN
         Status: PASSED
         User: '-'
+        AuthMethod: '-'
+        Reason: '-'
       translate: 
         src: SrcIP
-        #severity: Severity
-        #message: Message
-        #Event: EventName
         
   fallback:
     annotate:
@@ -46,8 +45,11 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGOUT
         Status: PASSED
+        AuthMethod: '-'
+        Reason: '-'
       translate: 
         user: User
+        src: SrcIP
         
   fallback:
     annotate:
@@ -70,10 +72,10 @@ event-details:
         Action: LOGIN
         Status: PASSED
         User: '-'
+        AuthMethod: SSH
+        Reason: '-'
       translate: 
         src: SrcIP
-        #severity: Severity
-        #message: Message
         
   fallback:
     annotate:
@@ -96,11 +98,10 @@ event-details:
         Action: LOGIN
         Status: PASSED
         User: '-'
+        AuthMethod: '-'
+        Reason: '-'
       translate: 
         src: SrcIP
-        #Event: EventName
-        #severity: Severity
-        #message: Message
         
   fallback:
     annotate:

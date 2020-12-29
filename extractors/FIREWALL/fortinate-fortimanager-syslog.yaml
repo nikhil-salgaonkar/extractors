@@ -3,7 +3,7 @@ schema-version: 1.0
 extractor-id: 242
 source-name: FORTIMANAGER
 source-type: FIREWALL
-source-description: Extractor for FortiManager Firewall
+source-description: Extractor for FortiManager Firewall Events
 provides-streams:
 - AUTHENTICATION
 master-filters:
@@ -19,33 +19,31 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
+        AuthMethod: '-'
+        Reason: '-'
       translate:
         user: User
-        adminprof: AdminUser
-        #type: Category
-        #subtype: SubCategory
-        #msg: Message 
+        src: SrcIP 
     '0028037013-fail':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
+        AuthMethod: '-'
+        Reason: INVALID_USER
       translate:
         user: User
-        #type: Category
-        #subtype: SubCategory
-        #msg: Message  
+        src: SrcIP 
     '0001010019-None':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
+        AuthMethod: '-'
+        Reason: INVALID_PASSWORD
       translate:
         user: User
-        adminprof: AdminUser
-        #type: Category
-        #subtype: SubCategory
-        #msg: Message
+        src: SrcIP
 
   fallback:
     annotate:

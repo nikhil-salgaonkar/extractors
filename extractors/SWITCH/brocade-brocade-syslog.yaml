@@ -3,7 +3,7 @@ schema-version: 1.0
 extractor-id: 102
 source-name: BROCADE
 source-type: SWITCH
-source-description: extractor for Brocade Switch
+source-description: extractor for Brocade Switch Events
 provides-streams:
 - AUTHENTICATION
 - SWITCH
@@ -21,6 +21,8 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
+        AuthMethod: SSH
+        Reason: '-'
       translate: 
         user: User
         src: SrcIP
@@ -33,6 +35,8 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGOUT
         Status: PASSED
+        AuthMethod: SSH
+        Reason: '-'
       translate: 
         user: User
         src: SrcIP
@@ -42,6 +46,8 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
+        AuthMethod: SSH
+        Reason: INVALID_PASSWORD
       translate: 
         user: User
         src: SrcIP
@@ -140,6 +146,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGOUT
         Status: PASSED
+        AuthMethod: SSH
       translate: 
         src: SrcIP
         user: User
@@ -149,20 +156,24 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
+        AuthMethod: SSH
+        Reason: '-'
       translate: 
         src: SrcIP
         user: User
-        macaddress: MACAddress
+        #macaddress: MACAddress
         #message: Message 
     'terminated':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN_SESSION_DISCONNECTED
         Status: PASSED
+        AuthMethod: SSH
+        Reason: '-'
       translate: 
         src: SrcIP
         user: User
-        macaddress: MACAddress
+        #macaddress: MACAddress
         #message: Message       
     
   fallback:

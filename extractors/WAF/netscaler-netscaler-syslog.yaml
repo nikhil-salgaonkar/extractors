@@ -3,11 +3,10 @@ schema-version: 1.0
 extractor-id: 88
 source-name: NETSCALER-WAF
 source-type: WAF
-source-description: extractor for NetScaler WAF
+source-description: extractor for NetScaler WAF Events
 provides-streams:
 - WAF
 - AUTHENTICATION
-- CONNECTIVITY
 master-filters:
 - '\d+\/\d+\/\d+\:\d+\:\d+\:\d+\s+(?:GMT|IST|)\s?[\w-]+\s+\d+\-\w+\-\d+'
 event-details:  
@@ -59,6 +58,7 @@ event-details:
         Action: LOGOUT
         Status: PASSED
         AuthMethod: CLI
+        Reason: '-'
       translate: 
         src: SrcIP
         user: User     
@@ -208,6 +208,7 @@ event-details:
 #      datetime: SystemTstamp
 #      hostname: System
 
+
 - first-match: '\:\s+default\s+SSLVPN\s+(?:LOGIN|LOGOUT).*?User.*?Client_ip.*?Vserver'
   decoder: regex
   decoder-regex: '(?P<datetime>\d+\/\d+\/\d+\:\d+\:\d+\:\d+)\s+(?:GMT|IST|)\s?(?P<hostname>[\w-]+)\s+\d+\-\w{3}\-\d+\s+\:.*?(?P<action>(?:LOGIN|LOGOUT))\s+.*?\:\s+.*?User\s+(?P<user>.*?)\s+.*?Client_ip\s+(?P<src>.*?)\s+.*?Vserver\s+(?P<dst>.*?)\:(?P<dport>\d+)'
@@ -233,7 +234,6 @@ event-details:
       translate: 
         user: User
         src: SrcIP
-
         
   fallback:
     annotate:

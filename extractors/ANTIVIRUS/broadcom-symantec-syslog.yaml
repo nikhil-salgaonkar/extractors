@@ -3,7 +3,7 @@ schema-version: 1.0
 extractor-id: 71
 source-name: SYMANTEC-ENDPOINT
 source-type: ANTIVIRUS
-source-description: extractor for SYMANTEC-ENDPOINT 
+source-description: extractor for Symantec Endpoint Events
 provides-streams:
 - ENDPOINT-THREAT
 master-filters:
@@ -58,7 +58,7 @@ event-details:
 
   fallback:
     annotate:
-      EventName: Generic SYMANTEC-ENDPOINT Event
+      EventName: Generic Symantec Endpoint Event
       Stream: OTHER
 
 - first-match: Detection\s+type\:\s+
@@ -79,3 +79,8 @@ event-details:
         Domain: Domain
         User: User
         Source computer: SrcHost
+
+  fallback:
+    annotate:
+      EventName: Generic Symantec Endpoint Event
+      Stream: OTHER      

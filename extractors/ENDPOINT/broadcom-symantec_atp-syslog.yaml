@@ -3,7 +3,7 @@ schema-version: 1.0
 extractor-id: 94
 source-name: SYMANTEC_ATP
 source-type: ENDPOINT
-source-description: Extractor for Symantec ATP Endpoint
+source-description: Extractor for Symantec ATP Endpoint Events
 provides-streams:
 - ENDPOINT-THREAT
 master-filters:
@@ -34,7 +34,7 @@ event-details:
 
   globals:
     translate:
-      host_name: HostName
+      host_name: System
 
 - first-match: \|sep\_proxy\_ips\_event\|
   decoder: custom

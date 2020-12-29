@@ -3,7 +3,7 @@ schema-version: 1.0
 extractor-id: 99
 source-name: BLUECOAT
 source-type: WEBFILTER
-source-description: Extractor for Bluecoat Proxy
+source-description: Extractor for Bluecoat Proxy Events
 provides-streams:
 - WEBFILTER
 master-filters:
@@ -19,7 +19,7 @@ event-details:
     TCP_DENIED-403: 
       annotate:
         Stream: WEBFILTER
-        Action: TCP_DENIED
+        Action: URL_BLOCKED
         Status: FAILED   
       translate:
         src: SrcIP 
@@ -51,7 +51,7 @@ event-details:
     TUNNELED-0: 
       annotate:
         Stream: WEBFILTER
-        Action: TUNNELED
+        Action: URL_ALLOWED
         Status: PASSED   
       translate:
         src: SrcIP 
@@ -84,7 +84,7 @@ event-details:
     TCP_TUNNELED-200: 
       annotate:
         Stream: WEBFILTER
-        Action: TCP_TUNNELED
+        Action: URL_ALLOWED
         Status: PASSED   
       translate:
         src: SrcIP 
@@ -118,7 +118,7 @@ event-details:
     TCP_ACCELERATED-200: 
       annotate:
         Stream: WEBFILTER
-        Action: TCP_ACCELERATED
+        Action: URL_ALLOWED
         Status: PASSED   
       translate:
         src: SrcIP 
@@ -152,7 +152,7 @@ event-details:
     TCP_DENIED-403: 
       annotate:
         Stream: WEBFILTER
-        Action: TCP_DENIED
+        Action: URL_BLOCKED
         Status: FAILED   
       translate:
         src: SrcIP 
@@ -186,7 +186,7 @@ event-details:
     TCP_NC_MISS-403: 
       annotate:
         Stream: WEBFILTER
-        Action: TCP_NC_MISS
+        Action: URL_BLOCKED
         Status: FAILED   
       translate:
         src: SrcIP 
@@ -220,7 +220,7 @@ event-details:
     TCP_ERR_MISS-503: 
       annotate:
         Stream: WEBFILTER
-        Action: TCP_ERR_MISS
+        Action: URL_BLOCKED
         Status: FAILED   
       translate:
         src: SrcIP
@@ -250,7 +250,7 @@ event-details:
     TCP_DENIED-407: 
       annotate:
         Stream: WEBFILTER
-        Action: TCP_DENIED
+        Action: URL_BLOCKED
         Status: FAILED   
       translate:
         src: SrcIP 
@@ -282,7 +282,7 @@ event-details:
     TCP_HIT-304: 
       annotate:
         Stream: WEBFILTER
-        Action: TCP_HIT
+        Action: URL_ALLOWED
         Status: PASSED   
       translate:
         src: SrcIP 
