@@ -3,7 +3,7 @@ schema-version: 1.0
 extractor-id: 192
 source-name: MCAFEE
 source-type: ATD
-source-description: Extractor for McAfee ATD
+source-description: Extractor for McAfee ATD Events
 provides-streams:
 - AUTHENTICATION
 master-filters:
@@ -19,71 +19,71 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
+        AuthMethod: '-'
+        Reason: '-'
       translate:
         User: User
-        Category: Category
         Client: SrcIP
-      # MsgId: MessageID
     'None-Successful user login':  
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
+        AuthMethod: '-'
+        Reason: '-'
       translate:
         User: User
-      # UserID: UserID
         Client: SrcIP
-        HTTPAgent: UserAgent 
     'None-Successful user logout': 
       annotate:
         Stream: AUTHENTICATION
         Action: LOGOUT
         Status: PASSED
+        AuthMethod: '-'
+        Reason: '-'
       translate:
         User: User
-      # UserID: UserID
-        Client: SrcIP 
-        HTTPAgent: UserAgent 
+        Client: SrcIP  
     'Success-Session Logout':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGOUT
         Status: PASSED
+        AuthMethod: '-'
+        Reason: '-'
       translate:
         User: User
-        Category: Category
         Client: SrcIP 
-      # MsgId: MessageID  
     'None-Invalid user entered':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
+        AuthMethod: '-'
+        Reason: INVALID_USER
       translate:
         User: User
-      # UserID: UserID
-        Client: SrcIP 
-        HTTPAgent: UserAgent
+        Client: SrcIP
     'None-Invalid User':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
+        AuthMethod: '-'
+        Reason: INVALID_USER
       translate:
         User: User
-      # UserID: UserID
         Client: SrcIP 
-        HTTPAgent: UserAgent
     'None-Invalid user name':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
+        AuthMethod: '-'
+        Reason: INVALID_USER
       translate:
         User: User
-      # UserID: UserID
-        Client: SrcIP 
-        HTTPAgent: UserAgent                
+        Client: SrcIP                
 
   fallback:
     annotate:
@@ -93,4 +93,3 @@ event-details:
   globals:
     translate:
       Timestamp: SystemTstamp
-    # Description: Message

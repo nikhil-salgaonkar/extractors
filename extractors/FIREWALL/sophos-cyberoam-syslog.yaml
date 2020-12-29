@@ -3,11 +3,11 @@ schema-version: 1.0
 extractor-id: 54
 source-name: CYBEROAM
 source-type: FIREWALL
-source-description: Extractor for Cyberoam Firewall
+source-description: Extractor for Cyberoam Firewall Events
 provides-streams:
 - AUTHENTICATION
-- CONNECTIVITY
-- ANTIVIRUS
+#- ANTIVIRUS
+- ENDPOINT-THREAT
 - NETWORK-FIREWALL
 master-filters:
 - 'date\=\d+\-\d+\-\d+\s+time\=\d+\:\d+\:\d+\s+timezone\=\"\w+\"\s+device_name\=\"\S+\"\sdevice_id=C\d+\-\w+\s+log_id\=\d+\s+'
@@ -22,6 +22,8 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
+        AuthMethod: '-'
+        Reason: '-'
       translate:
         user_name: User
         src_ip: SrcIP
@@ -30,15 +32,18 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
+        AuthMethod: '-'
+        Reason: '-'
       translate:
         user_name: User
-        usergroupname: UserGroup
         src_ip: SrcIP
     '062109517507-Failed':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
+        AuthMethod: SSH
+        Reason: INVALID_PASSWORD
       translate:
         user_name: User
         src_ip: SrcIP 
@@ -48,9 +53,6 @@ event-details:
         Action: PACKET_ALLOWED
         Status: PASSED
       translate:
-        user_name: User
-        url: URL
-        user_gp: UserGroup
         src_ip: SrcIP
         dst_ip: DstIP
         protocol: Proto
@@ -63,6 +65,8 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGOUT
         Status: PASSED
+        AuthMethod: '-'
+        Reason: '-'
       translate:
         user_name: User
         src_ip: SrcIP 
@@ -71,20 +75,17 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
+        AuthMethod: '-'
+        Reason: INVALID_PASSWORD
       translate:
         user_name: User
-        src_ip: SrcIP  
-        usergroupname: UserGroup             
-        reason: Reason
+        src_ip: SrcIP            
     '010102600002-Deny':
       annotate:
         Stream: NETWORK-FIREWALL
         Action: PACKET_BLOCKED
         Status: FAILED
       translate:
-        user_name: User
-        url: URL
-        user_gp: UserGroup
         src_ip: SrcIP
         dst_ip: DstIP
         protocol: Proto
@@ -98,9 +99,6 @@ event-details:
         Action: PACKET_BLOCKED
         Status: FAILED
       translate:
-        user_name: User
-        url: URL
-        user_gp: UserGroup
         src_ip: SrcIP
         dst_ip: DstIP
         protocol: Proto
@@ -114,9 +112,6 @@ event-details:
         Action: PACKET_ALLOWED
         Status: PASSED
       translate:
-        user_name: User
-        url: URL
-        user_gp: UserGroup
         src_ip: SrcIP
         dst_ip: DstIP
         protocol: Proto
@@ -126,8 +121,8 @@ event-details:
         recv_bytes: RXLen
     '030906208001-None':
       annotate:
-        Stream: ANTIVIRUS
-        Action: VIRUS_DETECTED
+        Stream: ENDPOINT-THREAT
+        Action: THREAT_DETECTED
         Status: PASSED
       translate:
         user_name: User
@@ -139,28 +134,29 @@ event-details:
         src_port: SrcPort
         dst_port: DstPort
         sent_bytes: TXLen
-        recv_bytes: RXLen        
+        recv_bytes: RXLen 
+        priority: LogLevel       
     '050901616001-None':
       annotate:
         Stream: NETWORK-FIREWALL
         Action: PACKET_ALLOWED
         Status: PASSED
       translate:
-        user_name: User
-        url: URL
-        domainname: Domain
         src_ip: SrcIP
         dst_ip: DstIP
         protocol: Proto
         src_port: SrcPort
         dst_port: DstPort
         sent_bytes: TXLen
-        recv_bytes: RXLen   
+        recv_bytes: RXLen
+        priority: LogLevel   
     '063210617706-Successful':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGOUT
         Status: PASSED
+        AuthMethod: '-'
+        Reason: '-'
       translate:
         user_name: User
         src_ip: SrcIP 
@@ -169,6 +165,8 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
+        AuthMethod: '-'
+        Reason: '-'
       translate:
         user_name: User
         src_ip: SrcIP
@@ -177,6 +175,8 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
+        AuthMethod: '-'
+        Reason: '-'
       translate:
         user_name: User
         src_ip: SrcIP
@@ -185,25 +185,17 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGOUT
         Status: PASSED
+        AuthMethod: '-'
+        Reason: '-'
       translate:
         user_name: User
         src_ip: SrcIP 
-    '063511617813-None':
-      annotate:
-        Stream: CONNECTIVITY
-        Action: INTERFACE_DOWN
-        Status: PASSED
-      translate:
-        interface: Iface
     '010301602001-Allow':
       annotate:
         Stream: NETWORK-FIREWALL
         Action: PACKET_ALLOWED
         Status: PASSED
       translate:
-        user_name: User
-        url: URL
-        user_gp: UserGroup
         src_ip: SrcIP
         dst_ip: DstIP
         protocol: Proto
@@ -211,28 +203,31 @@ event-details:
         dst_port: DstPort
         sent_bytes: TXLen
         recv_bytes: RXLen 
-    '064011617819-Successful':
-      annotate:
-        Stream: ANTIVIRUS
-        Action: SIGNATURE_UPDATED
-        Status: PASSED
-      translate:
-        message: Message
-    '064011517922-Failed':
-      annotate:
-        Stream: ANTIVIRUS
-        Action: SIGNATURE_UPDATED
-        Status: FAILED
-      translate:
-        suser_name: User
-        src_ip: SrcIP
-    '063911517921-Failed':
-      annotate:
-        Stream: IPS
-        Action: SIGNATURE_UPDATED
-        Status: FAILED
-      translate:
-        message: Message                                                                  
+#    '064011617819-Successful':
+#      annotate:
+#        Stream: ANTIVIRUS
+#        Action: SIGNATURE_UPDATED
+#        Status: PASSED
+#      translate:
+#        message: Message
+#        priority: LogLevel
+#    '064011517922-Failed':
+#      annotate:
+#        Stream: ANTIVIRUS
+#        Action: SIGNATURE_UPDATED
+#        Status: FAILED
+#      translate:
+#        suser_name: User
+#        src_ip: SrcIP
+#        priority: LogLevel
+#    '063911517921-Failed':
+#      annotate:
+#        Stream: IPS
+#        Action: SIGNATURE_UPDATED
+#        Status: FAILED
+#      translate:
+#        message: Message 
+#        priority: LogLevel                                                                 
 
   fallback:
     annotate:
@@ -242,5 +237,4 @@ event-details:
   globals:
     translate:
       date: SystemTstamp
-      priority: LogLevel
       device_name: System

@@ -3,7 +3,7 @@ schema-version: 1.0
 extractor-id: 207
 source-name: FORCEPOINT
 source-type: WEBFILTER
-source-description: extractor for Forcepoint Webfilter
+source-description: extractor for Forcepoint Webfilter Events
 provides-streams:
 - WEBFILTER
 master-filters:
@@ -23,10 +23,15 @@ event-details:
       translate:
         src: SrcIP
         dst: DstIP
+        dpt: DstPort
+        spt: SrcPort
         request: URL
         requestMethod: Method
         out: TXLen
-        requestClientApplication: UserAgent
+        in: RXLen
+        app: AppService
+        Header-5: EventName 
+        Header-6: Severity
     blocked:
       annotate:
         Stream: WEBFILTER
@@ -35,23 +40,20 @@ event-details:
       translate:
         src: SrcIP
         dst: DstIP
+        dpt: DstPort
+        spt: SrcPort
         request: URL
         requestMethod: Method
         out: TXLen
-        requestClientApplication: UserAgent
+        in: RXLen
+        app: AppService
+        Header-5: EventName 
+        Header-6: Severity
 
   fallback:
     annotate:
       EventName: Generic Forcepoint Webfilter Event
       Stream: OTHER
-
-  globals:
-    translate:
-      spt: SrcPort
-      dpt: DstPort
-      app: AppService
-      Header-5: EventName 
-      Header-6: Severity
 
   subs:   
     Severity: 

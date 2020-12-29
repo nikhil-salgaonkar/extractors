@@ -3,7 +3,7 @@ schema-version: 1.0
 extractor-id: 191
 source-name: DELL-CYLANCE
 source-type: ENDPOINT
-source-description: extractor for Dell-Cylance Endpoint
+source-description: extractor for Dell-Cylance Endpoint Events
 provides-streams:
 - ENDPOINT-THREAT
 master-filters:

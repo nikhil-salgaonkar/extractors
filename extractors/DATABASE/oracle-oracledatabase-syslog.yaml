@@ -3,7 +3,7 @@ schema-version: 1.0
 extractor-id: 86
 source-name: ORACLE
 source-type: DATABASE
-source-description: Extractor for Oracle Database 
+source-description: Extractor for Oracle Database Events
 provides-streams:
 - DATABASE
 - AUTHENTICATION
@@ -20,47 +20,42 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
+        AuthMethod: '-'
+        Reason: '-'
       translate: 
         USERID: User
-        USERHOST: SrcHost
-        PROTOCOL: Proto
         HOST: SrcIP
-        PORT: SrcPort
     '100-1017': 
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-     #  SubStatus: BAD_USER_PASSWORD
+        AuthMethod: '-'
+        Reason: INVALID_PASSWORD
       translate: 
         USERID: User
-        USERHOST: SrcHost
-        PROTOCOL: Proto
         HOST: SrcIP
-        PORT: SrcPort 
     '100-28000': 
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
+        AuthMethod: '-'
+        Reason: INVALID_PASSWORD
       translate: 
         USERID: User
-        USERHOST: SrcHost
-        PROTOCOL: Proto
         HOST: SrcIP
-        PORT: SrcPort 
     '100-2391': 
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
+        AuthMethod: '-'
+        Reason: INVALID_PASSWORD
       translate: 
         USERID: User
-        USERHOST: SrcHost
-        PROTOCOL: Proto
         HOST: SrcIP
-        PORT: SrcPort           
-
+       
   fallback:
     annotate:
       EventName: Generic Oracle Database Event
@@ -80,15 +75,21 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGOUT
         Status: PASSED
+        AuthMethod: '-'
+        Reason: '-'
       translate: 
         USERID: User
+        HOST: SrcIP
     '102-0': 
       annotate:
         Stream: AUTHENTICATION
         Action: LOGOUT
         Status: PASSED
+        AuthMethod: '-'
+        Reason: '-'
       translate: 
-        USERID: User  
+        USERID: User
+        HOST: SrcIP  
 
   fallback:
     annotate:

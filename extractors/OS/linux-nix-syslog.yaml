@@ -1,9 +1,9 @@
 schema-version: 1.0
-#extractor-version: 1
+extractor-version: 1
 extractor-id: 56
 source-name: NIX
 source-type: OS
-source-description: Extractor for NIX OS
+source-description: Extractor for NIX OS Events
 provides-streams:
 - AUTHENTICATION
 master-filters:
@@ -19,11 +19,12 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
+        AuthMethod: SSH
+        Reason: '-'
       translate:
         src: SrcIP
-        sport: SrcPort
-        user: User  
-
+        user: User 
+         
   fallback:
     annotate:
       EventName: Generic NIX Event
@@ -43,9 +44,12 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
+        AuthMethod: SSH
+        Reason: INVALID_USER 
       translate:
         user: User
-
+        src: SrcIP
+        
   fallback:
     annotate:
       EventName: Generic NIX Event
@@ -65,9 +69,11 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
+        AuthMethod: SSH
+        Reason: INVALID_USER
       translate:
         user: User
-        src: SrcIP 
+        src: SrcIP       
 
   fallback:
     annotate:
@@ -88,8 +94,11 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGOUT
         Status: PASSED
+        AuthMethod: SSH
+        Reason: '-'
       translate:
         user: User
+        src: SrcIP 
 
   fallback:
     annotate:
@@ -97,7 +106,7 @@ event-details:
       Stream: OTHER
 
   globals:
-    translate:
+   translate:
       hostname: System
 
 - first-match: '\S+\s+\S+\[\d+\]\:\s+session\s+closed\s+for\s+local\s+user\s+\S+\s+from\s+\['
@@ -110,9 +119,11 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGOUT
         Status: PASSED
+        AuthMethod: SFTP
+        Reason: '-'
       translate:
         user: User
-        src: SrcIP 
+        src: SrcIP        
 
   fallback:
     annotate:
@@ -133,10 +144,12 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
+        AuthMethod: SSH
+        Reason: '-'
       translate:
         user: User
         src: SrcIP 
-
+        
   fallback:
     annotate:
       EventName: Generic NIX Event
@@ -152,8 +165,11 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
+        AuthMethod: SSH
+        Reason: INVALID_PASSWORD 
       translate:
         user: User
+        src: SrcIP
 
   fallback:
     annotate:
@@ -175,8 +191,11 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
-      translate:
+        AuthMethod: SSH
+        Reason: '-'
+      translate:  
         user: User
+        src: SrcIP
 
   fallback:
     annotate:
@@ -197,9 +216,12 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
+        AuthMethod: CLI
+        Reason: '-'
       translate:
         user: User
-
+        src: SrcIP
+        
   fallback:
     annotate:
       EventName: Generic NIX Event
@@ -209,26 +231,26 @@ event-details:
     translate:
       hostname: System
 
-- first-match: 'Accepted\s+publickey\s+for'
-  decoder: regex
-  decoder-regex: '\s+(?P<daemon>\w+)\[(?P<pid>\d+)\]\:.*?(?P<msg>(?P<action>Accepted\s+publickey)\s+for\s+(?P<user>\S+)\s+from\s+(?P<src>[\d\.]+).*?port.*?\s+(?P<sport>\d+)\s+.*)'
-  event-key-format: '{action}'
-  event-key-mapping:
-    'Accepted publickey': 
-      annotate:
-        Stream: AUTHENTICATION
-        Action: LOGIN
-        Status: PASSED
-      translate:
-        user: User
-        src: SrcIP
-        sport: SrcPort
+#- first-match: 'Accepted\s+publickey\s+for'
+#  decoder: regex
+#  decoder-regex: '\s+(?P<daemon>\w+)\[(?P<pid>\d+)\]\:.*?(?P<msg>(?P<action>Accepted\s+publickey)\s+for\s+(?P<user>\S+)\s+from\s+(?P<src>[\d\.]+).*?port.*?\s+(?P<sport>\d+)\s+.*)'
+#  event-key-format: '{action}'
+#  event-key-mapping:
+#    'Accepted publickey': 
+#      annotate:
+#        Stream: AUTHENTICATION
+#        Action: LOGIN
+#        Status: PASSED
+#        AuthMethod: SSH
+#        Reason: '-'
+#      translate:
+#        user: User
+#        src: SrcIP      
 
-  fallback:
-    annotate:
-      EventName: Generic NIX Event
-      Stream: OTHER
-
+#  fallback:
+#    annotate:
+#      EventName: Generic NIX Event
+#      Stream: OTHER
 
 - first-match: '\s+User.*?logged\s+out'
   decoder: regex
@@ -240,14 +262,16 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGOUT
         Status: PASSED
+        AuthMethod: '-'
+        Reason: '-'
       translate:
         user: User
+        src: SrcIP       
 
   fallback:
-    annotate:
+   annotate:
       EventName: Generic NIX Event
       Stream: OTHER
-
 
 - first-match: '\s+logged\s+in'
   decoder: regex
@@ -259,8 +283,11 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
+        AuthMethod: '-'
+        Reason: '-'
       translate:
         user: User
+        src: SrcIP
 
   fallback:
     annotate:
@@ -281,17 +308,22 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
+        AuthMethod: SSH
+        Reason: INVALID_PASSWORD
       translate:
         user: User
-        src: SrcIP
+        src: SrcIP 
     'authentication failures': 
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
+        AuthMethod: SSH
+        Reason: INVALID_PASSWORD
       translate:
         user: User
-
+        src: SrcIP
+        
   fallback:
     annotate:
       EventName: Generic NIX Event
@@ -307,21 +339,21 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
+        AuthMethod: SSH
+        Reason: INVALID_PASSWORD
       translate:
         user: User
-        uid: UserID
-        ruser: SrcUser
-        rhost: SrcHost
+        src: SrcIP  
     'authentication failures': 
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
+        AuthMethod: SSH
+        Reason: INVALID_PASSWORD
       translate:
-        user: User
-        uid: UserID
-        ruser: SrcUser
-        rhost: SrcHost    
+        user: User 
+        src: SrcIP
 
   fallback:
     annotate:
@@ -342,11 +374,11 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
+        AuthMethod: SSH
+        Reason: INVALID_PASSWORD
       translate:
         user: User
-        uid: UserID
-        ruser: SrcUser
-        rhost: SrcHost
+        src: SrcIP
 
   fallback:
     annotate:
@@ -357,47 +389,48 @@ event-details:
     translate:
       hostname: System
 
-
-- first-match: '\S+\[\d+\]\:\s+Accepted\s+keyboard\-interactive(?:\/pam)?\s+'
-  decoder: regex
-  decoder-regex: '\s+(?P<daemon>\S+)\[(?P<pid>\d+)\]\:\s+(?P<msg>(?P<action>Accepted\s+keyboard\-interactive).*?for\s+(?P<user>\S+).*?from\s+(?P<src>[\d\.]+).*?port\s+(?P<sport>\d+).*)'
-  event-key-format: '{action}'
-  event-key-mapping:
-    'Accepted keyboard-interactive': 
-      annotate:
-        Stream: AUTHENTICATION
-        Action: LOGIN
-        Status: PASSED
-      translate:
-        user: User
-        src: SrcIP
-        sport: SrcPort
-
-  fallback:
-    annotate:
-      EventName: Generic NIX Event
-      Stream: OTHER
-
-
-#- first-match: '\s+\S+\[\d+\]\:\s+.*?Received\s+disconnect\s+from\s+'
- # decoder: regex
-  #decoder-regex: '\s+(?P<daemon>\S+)\[(?P<pid>\d+)\]\:.*?(?P<msg>(?P<action>Received\s+disconnect)\s+from\s+(?P<src>[\d\.]+)\:?(?:\s+port\s+(?P<sport>\d+)\:\d+)?.*)'
-  #event-key-format: '{action}'
-  #event-key-mapping:
-   # 'Received disconnect': 
-    #  annotate:
-     #   Stream: AUTHENTICATION
-      #  Action: LOGIN_SESSION_DISCONNECTED
-       # Status: PASSED
-      #translate:
-        #src: SrcIP
-        #sport: SrcPort
-
+#- first-match: '\S+\[\d+\]\:\s+Accepted\s+keyboard\-interactive(?:\/pam)?\s+'
+#  decoder: regex
+#  decoder-regex: '\s+(?P<daemon>\S+)\[(?P<pid>\d+)\]\:\s+(?P<msg>(?P<action>Accepted\s+keyboard\-interactive).*?for\s+(?P<user>\S+).*?from\s+(?P<src>[\d\.]+).*?port\s+(?P<sport>\d+).*)'
+#  event-key-format: '{action}'
+#  event-key-mapping:
+#    'Accepted keyboard-interactive': 
+#      annotate:
+#        Stream: AUTHENTICATION
+#        Action: LOGIN
+#        Status: PASSED
+#        AuthMethod: SSH
+#        Reason: '-'
+#      translate:
+#        user: User
+#        src: SrcIP
+        
 #  fallback:
 #    annotate:
 #      EventName: Generic NIX Event
 #      Stream: OTHER
 
+
+- first-match: '\s+\S+\[\d+\]\:\s+.*?Received\s+disconnect\s+from\s+'
+  decoder: regex
+  decoder-regex: '\s+(?P<daemon>\S+)\[(?P<pid>\d+)\]\:.*?(?P<msg>(?P<action>Received\s+disconnect)\s+from\s+(?P<src>[\d\.]+)\:?(?:\s+port\s+(?P<sport>\d+)\:\d+)?.*)'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'Received disconnect': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+        AuthMethod: SSH
+        Reason: '-'
+        User: '-'
+      translate:
+        src: SrcIP
+
+  fallback:
+    annotate:
+      EventName: Generic NIX Event
+      Stream: OTHER
 
 - first-match: '\s+\S+\[\d+\]\:\s+.*?session\s+opened\s+for\s+'
   decoder: regex
@@ -407,11 +440,12 @@ event-details:
     'session opened': 
       annotate:
         Stream: AUTHENTICATION
-        Action: LOGIN_SESSION_CONNECTED
+        Action: LOGIN
         Status: PASSED
+        AuthMethod: SFTP
+        Reason: '-'
       translate:
         src: SrcIP
-        uid: UserID
         user: User
 
   fallback:
@@ -420,25 +454,25 @@ event-details:
       Stream: OTHER
 
 - first-match: '\s+\S+\[\d+\]\:\s+.*?session\s+closed\s+for\s+'
-  decoder: regex
+ decoder: regex
   decoder-regex: '\s+(?P<daemon>\S+)\[(?P<pid>\d+)\]\:.*?(?P<msg>(?P<action>session\s+closed)\s+for.*?user\s+(?P<user>\S+)(?:\s+by\s+\(uid\=(?P<uid>\d+)\))?(?:\s+from\s+\[(?P<src>[\d\.]+)\])?)'
   event-key-format: '{action}'
   event-key-mapping:
     'session closed': 
       annotate:
         Stream: AUTHENTICATION
-        Action: LOGIN_SESSION_DISCONNECTED
+        Action: LOGOUT
         Status: PASSED
+        AuthMethod: SFTP
+        Reason: '-'
       translate:
         src: SrcIP
-        uid: UserID
         user: User
 
   fallback:
     annotate:
       EventName: Generic NIX Event
       Stream: OTHER
-
 
 - first-match: '\w+\:\s+.*?session\s+opened\s+for\s+'
   decoder: regex
@@ -448,35 +482,39 @@ event-details:
     'session opened': 
       annotate:
         Stream: AUTHENTICATION
-        Action: LOGIN_SESSION_CONNECTED
+        Action: LOGIN
         Status: PASSED
+        AuthMethod: '-'
+        Reason: '-'
       translate:
         user: User
+        src: SrcIP        
 
   fallback:
-    annotate:
+   annotate:
       EventName: Generic NIX Event
       Stream: OTHER
-
 
 - first-match: '\w+\:\s+.*?session\s+closed\s+for\s+'
   decoder: regex
   decoder-regex: '(?P<daemon>\w+)\:\s+.*?(?P<msg>(?P<action>session\s+closed)\s+for.*?user\s+(?P<user>\S+).*)'
   event-key-format: '{action}'
   event-key-mapping:
-    'session closed': 
+   'session closed': 
       annotate:
         Stream: AUTHENTICATION
-        Action: LOGIN_SESSION_DISCONNECTED
+        Action: LOGOUT
         Status: PASSED
+        AuthMethod: '-'
+        Reason: '-'
       translate:
         user: User
+        src: SrcIP
 
   fallback:
     annotate:
       EventName: Generic NIX Event
       Stream: OTHER
-
 
 - first-match: '\S+\:\s+New\s+session\s+\d+\s+of\s+user\s+'
   decoder: regex
@@ -486,14 +524,15 @@ event-details:
     'New session': 
       annotate:
         Stream: AUTHENTICATION
-        Action: LOGIN_SESSION_CONNECTED
+        Action: LOGIN
         Status: PASSED
+        AuthMethod: '-'
+        Reason: '-'
       translate:
         user: User
+        src: SrcIP
 
   fallback:
     annotate:
       EventName: Generic NIX Event
       Stream: OTHER
-
-      

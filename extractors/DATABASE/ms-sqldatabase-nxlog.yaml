@@ -3,11 +3,10 @@ schema-version: 1.0
 extractor-id: 106
 source-name: MSSQL
 source-type: DATABASE
-source-description: Extractor for MSSQL DATABASE 
+source-description: Extractor for MSSQL Database Events
 provides-streams:
 - AUTHENTICATION
 - DATABASE
-- SYSTEM
 master-filters:
 - \"SourceName\"\:\"SQL\w+\"
 - \"SourceName\"\:\"MSSQL
@@ -21,26 +20,26 @@ event-details:
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
-        Status: PASSED    
-        LoginSrc: NETWORK
+        Status: PASSED 
+        AuthMethod: '-'
+        Reason: '-'  
       translate: 
-        Domain: Domain 
         user: User
         src: SrcIP
     '18453':           
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
-        Status: PASSED    
-        LoginSrc: NETWORK
+        Status: PASSED 
+        AuthMethod: '-'
+        Reason: '-'  
       translate: 
-        Domain: Domain  
         user: User 
         src: SrcIP 
 
   fallback:
     annotate:
-      EventName: Generic MSSQL DATABASE Event
+      EventName: Generic MSSQL Database Event
       Stream: OTHER
 
   globals:
@@ -50,7 +49,7 @@ event-details:
 
 - first-match: '\"SourceName\"\:\"MSSQL.*?\"'
   decoder: regex
-  decoder-regex: '\{\"EventTime\"\:\"(?P<EventTime>.*?)\"\,\"Hostname\"\:\"(?P<Hostname>.*?)\"\,.*?Severity\"\:\"(?P<Severity>\w+)\"\,\"EventID\"\:(?P<EventID>\d+)\,.*?\"Channel\"\:\"(?P<Channel>.*?)\"\,\"Message\"\:\"(?P<Message>Login\s+failed\s+for\s+user\s+(?P<user>\S+)\..*?\[CLIENT\:\s+(?P<src>.*?)\])\"\,'
+  decoder-regex: '\{\"EventTime\"\:\"(?P<EventTime>.*?)\"\,\"Hostname\"\:\"(?P<Hostname>.*?)\"\,.*?Severity\"\:\"(?P<Severity>\w+)\"\,\"EventID\"\:(?P<EventID>\d+)\,.*?\"Channel\"\:\"(?P<Channel>.*?)\"\,\"Message\"\:\"(?P<Message>Login\s+failed\s+for\s+user\s+(?P<user>\S+)\.\s+Reason\:\s+(?P<Reason>.*?)\..*?\[CLIENT\:\s+(?P<src>.*?)\])\"\,'
   event-key-format: '{EventID}'
   event-key-mapping:
     '18456': 
@@ -58,16 +57,16 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        LoginSrc: NETWORK
+        AuthMethod: '-'
       translate: 
+        Reason: Reason
         AccountName: User
-        Domain: Domain  
         src: SrcIP 
         user: User          
 
   fallback:
     annotate:
-      EventName: Generic MSSQL DATABASE Event
+      EventName: Generic MSSQL Database Event
       Stream: OTHER
 
   globals:
@@ -170,7 +169,7 @@ event-details:
 
   fallback:
     annotate:
-      EventName: Generic MSSQL DATABASE Event
+      EventName: Generic MSSQL Database Event
       Stream: OTHER
 
   globals:
@@ -209,7 +208,7 @@ event-details:
 
   fallback:
     annotate:
-      EventName: Generic MSSQL DATABASE Events
+      EventName: Generic MSSQL Database Events
       Stream: OTHER
 
   globals:
@@ -232,7 +231,7 @@ event-details:
     
   fallback:
     annotate:
-      EventName: Generic MSSQL DATABASE Events
+      EventName: Generic MSSQL Database Events
       Stream: OTHER
 
   globals:
