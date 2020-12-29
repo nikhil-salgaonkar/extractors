@@ -19,7 +19,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
-        AuthMethod: DIRECT
+        AuthMethod: '-'
         Reason: '-'
       translate:
         User: User
@@ -29,7 +29,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
-        AuthMethod: DIRECT
+        AuthMethod: '-'
         Reason: '-'
       translate:
         User: User
@@ -39,7 +39,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGOUT
         Status: PASSED
-        AuthMethod: DIRECT
+        AuthMethod: '-'
         Reason: '-'
       translate:
         User: User
@@ -49,18 +49,17 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGOUT
         Status: PASSED
-        AuthMethod: DIRECT
+        AuthMethod: '-'
         Reason: '-'
       translate:
         User: User
         Client: SrcIP 
-      # MsgId: MessageID  
     'None-Invalid user entered':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        AuthMethod: DIRECT
+        AuthMethod: '-'
         Reason: INVALID_USER
       translate:
         User: User
@@ -70,7 +69,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        AuthMethod: DIRECT
+        AuthMethod: '-'
         Reason: INVALID_USER
       translate:
         User: User
@@ -80,7 +79,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        AuthMethod: DIRECT
+        AuthMethod: '-'
         Reason: INVALID_USER
       translate:
         User: User

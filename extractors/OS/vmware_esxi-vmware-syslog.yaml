@@ -19,7 +19,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGOUT
         Status: PASSED
-        AuthMethod: DIRECT
+        AuthMethod: '-'
         Reason: '-'
       translate:
         user: User
@@ -54,7 +54,7 @@ event-details:
 #        Stream: AUTHENTICATION
 #        Action: LOGIN
 #        Status: PASSED
-#        AuthMethod: DIRECT
+#        AuthMethod: '-'
 #        Reason: '-'
 #      translate:
 #        user: User
@@ -85,7 +85,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
-        AuthMethod: DIRECT
+        AuthMethod: '-'
         Reason: '-'
       translate:
         user: User
@@ -114,7 +114,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        AuthMethod: DIRECT
+        AuthMethod: '-'
         Reason: INVALID_PASSWORD
       translate:
         user: User
@@ -142,7 +142,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
-        AuthMethod: DIRECT
+        AuthMethod: '-'
         Reason: '-'
       translate:
         user: User
@@ -151,7 +151,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGOUT
         Status: PASSED
-        AuthMethod: DIRECT
+        AuthMethod: '-'
         Reason: '-'
       translate:
         user: User    

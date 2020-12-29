@@ -32,7 +32,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        AuthMethod: DIRECT
+        AuthMethod: '-'
         Reason: INVALID_PASSWORD
       translate:
         spt: SrcPort
