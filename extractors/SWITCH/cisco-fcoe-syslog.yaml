@@ -111,9 +111,7 @@ event-details:
       translate:
         user: User
         src: SrcIP
-        #facility: Facility
-        #severity: Severity
-        #message: Message        
+
     
   fallback:
     annotate:

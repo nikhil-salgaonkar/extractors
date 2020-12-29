@@ -73,8 +73,7 @@ event-details:
       translate:
         src: SrcIP
         user: User
-        reason: Reason
-    Log In-Connectra-None: 
+    Log In-Connectra-None:
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN

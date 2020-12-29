@@ -41,8 +41,7 @@ event-details:
         Action: LOGOUT
         Status: PASSED
         AuthMethod: WBM
-        Reason: '-'
-      translate: 
+      translate:
         src: SrcIP
         user: User        
         

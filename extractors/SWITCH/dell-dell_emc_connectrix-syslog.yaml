@@ -48,9 +48,6 @@ event-details:
         Status: PASSED
       translate: 
         user: User
-        #severity: Severity
-        #message: Message
-        #Event: EventName
         
   fallback:
     annotate:

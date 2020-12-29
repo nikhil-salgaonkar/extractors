@@ -36,10 +36,7 @@ event-details:
       translate: 
         user: User
         src: SrcIP
-        #app: APP
-        #severity: Severity
-        #message: Message
-        #Event: EventName
+
     'SEC-3021':           
       annotate:
         Stream: AUTHENTICATION
@@ -146,8 +143,7 @@ event-details:
       translate: 
         src: SrcIP
         user: User
-        macaddress: MACAddress
-        #message: Message
+
     'login':           
       annotate:
         Stream: AUTHENTICATION

@@ -68,8 +68,7 @@ event-details:
       translate:
         TargetUserName: User
         IpAddress: SrcIP
-        #TargetDomainName: TargetDomain
-    '4648':          
+    '4648':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
@@ -258,8 +257,7 @@ event-details:
         Status: PASSED
         AuthMethod: '-'
       translate:
-        #SubjectDomainName: Domain
-        IpAddress: SrcIP
+\        IpAddress: SrcIP
         AccountName: User
     '4670':          
       annotate:

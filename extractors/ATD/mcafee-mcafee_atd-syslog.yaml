@@ -41,9 +41,7 @@ event-details:
         Status: PASSED
       translate:
         User: User
-      # UserID: UserID
-        Client: SrcIP 
-        HTTPAgent: UserAgent 
+        Client: SrcIP
     'Success-Session Logout':
       annotate:
         Stream: AUTHENTICATION
@@ -51,9 +49,7 @@ event-details:
         Status: PASSED
       translate:
         User: User
-        Category: Category
-        Client: SrcIP 
-      # MsgId: MessageID  
+        Client: SrcIP
     'None-Invalid user entered':
       annotate:
         Stream: AUTHENTICATION

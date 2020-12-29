@@ -229,8 +229,7 @@ event-details:
       translate: 
         user: User
         src: SrcIP
-        dst: DstIP
-        dport: DstPort    
+
         
   fallback:
     annotate:
