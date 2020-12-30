@@ -491,7 +491,6 @@ event-details:
         Action: LOGIN
         Status: FAILED
         AuthMethod: '-'
-        Reason: '-'
         User: '-'
       translate:
         reason: Reason
