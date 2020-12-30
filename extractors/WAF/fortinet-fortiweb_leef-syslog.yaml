@@ -6,6 +6,7 @@ source-type: WAF
 source-description: extractor for FortiWeb WAF Events
 provides-streams:
 - WAF
+- NETWORK-THREAT
 - AUTHENTICATION
 master-filters:
 - 'LEEF\:.*?\|Fortinet\|FortiWeb\|'
@@ -37,8 +38,8 @@ event-details:
        #reason: Reason
     'attack-Alert-None':           
       annotate:
-        Stream: WAF
-        Action: ATTACK_DETECTED
+        Stream: NETWORK-THREAT
+        Action: THREAT_DETECTED
         Status: PASSED
       translate: 
         proto: Proto

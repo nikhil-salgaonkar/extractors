@@ -18,6 +18,8 @@ event-details:
     '200':           
       annotate:
         Stream: WEBSERVER
+        Action: URL_ALLOWED
+        Status: PASSED
       translate: 
         src_ip: SrcIP
         method: Method

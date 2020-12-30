@@ -83,6 +83,7 @@ event-details:
         Stream: WAF
         Action: URL_BLOCKED
         Status: FAILED
+        Blocked: 'YES'
       translate: 
         src: SrcIP
         url: URL
@@ -90,8 +91,9 @@ event-details:
     'not blocked':           
       annotate:
         Stream: WAF
-        Action: URL_ALLOWED
+        Action: URL_BLOCKED
         Status: FAILED
+        Blocked: 'NO'
       translate: 
         src: SrcIP
         url: URL
@@ -117,6 +119,7 @@ event-details:
         Stream: WAF
         Action: URL_BLOCKED
         Status: FAILED
+        Blocked: 'YES'
       translate: 
         src: SrcIP
         url: URL
@@ -124,8 +127,9 @@ event-details:
     'not blocked':           
       annotate:
         Stream: WAF
-        Action: URL_ALLOWED
+        Action: URL_BLOCKED
         Status: FAILED
+        Blocked: 'NO'
       translate: 
         src: SrcIP
         url: URL

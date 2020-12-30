@@ -16,13 +16,14 @@ event-details:
     '200':
       annotate:
         Stream: WEBSERVER
+        Action: URL_ALLOWED
+        Status: PASSED
       translate:
         SourceIP: SrcIP
         HTTPReferer: Referrer
         HTTPMethod: Method
         HTTPRetCode: ReturnCode
         TXLen: TXLen
-        SystemName: System
         RXLen: RXLen
         SourcePort: SrcPort
         DstPort: DstPort
@@ -39,3 +40,4 @@ event-details:
   globals:
     translate:
       EventReceivedTime: SystemTstamp
+      SystemName: System
