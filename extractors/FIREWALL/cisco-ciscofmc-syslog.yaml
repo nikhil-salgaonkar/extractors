@@ -3,7 +3,7 @@ schema-version: 1.0
 extractor-id: 232
 source-name: CISCO-FMC
 source-type: FIREWALL
-source-description: Extractor for Cisco-FMC Firewall 
+source-description: Extractor for Cisco-FMC Firewall Events
 provides-streams:
 - AUTHENTICATION
 - NETWORK-FIREWALL
@@ -79,6 +79,7 @@ event-details:
         Stream: NETWORK-FIREWALL
         Action: PACKET_BLOCKED
         Status: PASSED
+        BLocked: 'YES'
       translate: 
         src: SrcIP
         proto: Proto
@@ -92,6 +93,7 @@ event-details:
         Stream: NETWORK-FIREWALL
         Action: PACKET_BLOCKED
         Status: PASSED
+        BLocked: 'YES'
       translate: 
         src: SrcIP
         protocol: Proto

@@ -20,6 +20,7 @@ event-details:
         Stream: WEBSERVER
         Action: URL_ALLOWED
         Status: PASSED
+        UserAgent: '-'
       translate: 
         url: URL
         httpmethod: Method
@@ -29,6 +30,8 @@ event-details:
         Stream: WEBSERVER
         Action: URL_BLOCKED
         Status: FAILED
+        Blocked: 'YES'
+        UserAgent: '-'
       translate: 
         url: URL
         httpmethod: Method
@@ -57,7 +60,7 @@ event-details:
         url: URL
         httpmethod: Method
         txlen: TXLen 
-        httpreferer: Referer
+#        httpreferer: Referer
         useragent: UserAgent                                   
         
   fallback:

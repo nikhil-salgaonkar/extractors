@@ -35,6 +35,7 @@ event-details:
         Stream: WAF
         Action: URL_BLOCKED
         Status: FAILED
+        Blocked: 'YES'
       translate: 
         src: SrcIP
         requestMethod: Method

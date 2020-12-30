@@ -3,7 +3,7 @@ schema-version: 1.0
 extractor-id: 127
 source-name: FORTIGATE
 source-type: FIREWALL
-source-description: Extractor for Fortigate Firewall
+source-description: Extractor for Fortigate Firewall Events
 provides-streams:
 - NETWORK-FIREWALL
 - AUTHENTICATION
@@ -26,6 +26,7 @@ event-details:
         Stream: NETWORK-FIREWALL
         Action: PACKET_BLOCKED
         Status: FAILED
+        Blocked: 'YES'
       translate:
         srcip: SrcIP
         srcport: SrcPort
@@ -54,6 +55,7 @@ event-details:
         Stream: NETWORK-FIREWALL
         Action: PACKET_BLOCKED
         Status: FAILED
+        Blocked: 'YES'
       translate:
         srcip: SrcIP
         srcport: SrcPort
@@ -124,6 +126,7 @@ event-details:
         Stream: NETWORK-FIREWALL
         Action: PACKET_BLOCKED
         Status: FAILED
+        Blocked: 'YES'
       translate:
         srcip: SrcIP
         srcport: SrcPort
@@ -452,6 +455,7 @@ event-details:
         Stream: NETWORK-THREAT
         Action: BOTNET_BLOCKED
         Status: FAILED
+        Blocked: 'YES'
       translate:
         srcip: SrcIP
         srcport: SrcPort
@@ -466,6 +470,7 @@ event-details:
         Stream: NETWORK-THREAT
         Action: BOTNET_BLOCKED
         Status: FAILED
+        Blocked: 'YES'
       translate:
         srcip: SrcIP
         srcport: SrcPort
@@ -491,7 +496,6 @@ event-details:
         Action: LOGIN
         Status: FAILED
         AuthMethod: '-'
-        Reason: '-'
         User: '-'
       translate:
         reason: Reason
@@ -760,7 +764,6 @@ event-details:
     translate:
       date: SystemTstamp
       devname: System
-      proto: Proto
 
   subs:
     Proto:

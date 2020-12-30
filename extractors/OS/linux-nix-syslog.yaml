@@ -1,5 +1,5 @@
 schema-version: 1.0
-extractor-version: 1
+#extractor-version: 1
 extractor-id: 56
 source-name: NIX
 source-type: OS
@@ -95,7 +95,6 @@ event-details:
         Action: LOGOUT
         Status: PASSED
         AuthMethod: SSH
-        Reason: '-'
       translate:
         user: User
         src: SrcIP 
@@ -120,7 +119,6 @@ event-details:
         Action: LOGOUT
         Status: PASSED
         AuthMethod: SFTP
-        Reason: '-'
       translate:
         user: User
         src: SrcIP        
@@ -263,7 +261,6 @@ event-details:
         Action: LOGOUT
         Status: PASSED
         AuthMethod: '-'
-        Reason: '-'
       translate:
         user: User
         src: SrcIP       
@@ -422,7 +419,6 @@ event-details:
         Action: LOGOUT
         Status: PASSED
         AuthMethod: SSH
-        Reason: '-'
         User: '-'
       translate:
         src: SrcIP
@@ -454,7 +450,7 @@ event-details:
       Stream: OTHER
 
 - first-match: '\s+\S+\[\d+\]\:\s+.*?session\s+closed\s+for\s+'
- decoder: regex
+  decoder: regex
   decoder-regex: '\s+(?P<daemon>\S+)\[(?P<pid>\d+)\]\:.*?(?P<msg>(?P<action>session\s+closed)\s+for.*?user\s+(?P<user>\S+)(?:\s+by\s+\(uid\=(?P<uid>\d+)\))?(?:\s+from\s+\[(?P<src>[\d\.]+)\])?)'
   event-key-format: '{action}'
   event-key-mapping:
@@ -464,7 +460,6 @@ event-details:
         Action: LOGOUT
         Status: PASSED
         AuthMethod: SFTP
-        Reason: '-'
       translate:
         src: SrcIP
         user: User
@@ -506,7 +501,6 @@ event-details:
         Action: LOGOUT
         Status: PASSED
         AuthMethod: '-'
-        Reason: '-'
       translate:
         user: User
         src: SrcIP

@@ -3,7 +3,7 @@ schema-version: 1.0
 extractor-id: 68
 source-name: IIS
 source-type: WEBSERVER
-source-description: Extractor for IIS Webserver
+source-description: Extractor for IIS Webserver Events
 provides-streams:
 - WEBSERVER
 master-filters:
@@ -16,13 +16,14 @@ event-details:
     '200':
       annotate:
         Stream: WEBSERVER
+        Action: URL_ALLOWED
+        Status: PASSED
       translate:
         SourceIP: SrcIP
         HTTPReferer: Referrer
         HTTPMethod: Method
         HTTPRetCode: ReturnCode
         TXLen: TXLen
-        SystemName: System
         RXLen: RXLen
         SourcePort: SrcPort
         DstPort: DstPort
@@ -39,3 +40,4 @@ event-details:
   globals:
     translate:
       EventReceivedTime: SystemTstamp
+      SystemName: System

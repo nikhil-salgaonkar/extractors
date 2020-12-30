@@ -257,7 +257,7 @@ event-details:
         Status: PASSED
         AuthMethod: '-'
       translate:
-\        IpAddress: SrcIP
+        IpAddress: SrcIP
         AccountName: User
     '4670':          
       annotate:

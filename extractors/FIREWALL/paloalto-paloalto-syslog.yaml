@@ -3,7 +3,7 @@ schema-version: 1.0
 extractor-id: 97
 source-name: PALOALTO
 source-type: FIREWALL
-source-description: Extractor for PaloAlto Firewall
+source-description: Extractor for PaloAlto Firewall Events
 provides-streams:
 - NETWORK-FIREWALL
 - NETWORK-THREAT
@@ -102,6 +102,7 @@ event-details:
         Stream: NETWORK-THREAT
         Action: THREAT_DETECTED
         Status: PASSED
+        Blocked: 'NO'
       translate:
         src: SrcIP
         dst: DstIP
@@ -116,6 +117,7 @@ event-details:
         Stream: NETWORK-THREAT
         Action: THREAT_DETECTED
         Status: PASSED
+        Blocked: 'NO'
       translate:
         src: SrcIP
         dst: DstIP
@@ -130,6 +132,7 @@ event-details:
         Stream: NETWORK-THREAT
         Action: THREAT_DETECTED
         Status: PASSED 
+        Blocked: 'NO'
       translate:
         src: SrcIP
         dst: DstIP
@@ -144,6 +147,7 @@ event-details:
         Stream: NETWORK-THREAT
         Action: THREAT_DETECTED
         Status: PASSED
+        Blocked: 'YES'
       translate:
         src: SrcIP
         dst: DstIP
@@ -158,6 +162,7 @@ event-details:
         Stream: NETWORK-THREAT
         Action: THREAT_DETECTED                                               
         Status: PASSED
+        Blocked: 'YES'
       translate:
         src: SrcIP
         dst: DstIP
@@ -172,6 +177,7 @@ event-details:
         Stream: NETWORK-THREAT
         Action: THREAT_DETECTED
         Status: PASSED
+        Blocked: 'NO'
       translate:
         src: SrcIP
         dst: DstIP
@@ -274,7 +280,7 @@ event-details:
         Action: LOGIN
         Status: FAILED
         AuthMethod: '-'
-        Reason: '-'
+        Reason: INVALID_PASSWORD
       translate:
         src: SrcIP
         user: User
@@ -312,7 +318,8 @@ event-details:
         Status: PASSED
         AuthMethod: '-'
       translate:
-        user: User                                               
+        user: User 
+        src: SrcIP                                              
 
   fallback:
     annotate:
@@ -326,8 +333,8 @@ event-details:
 
 - first-match: 'SYSTEM\,general\,.*?\,\"\s+Accepted\s+password\s+'
   decoder: regex
-  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+\d+\,.*?\,.*?\,(?P<event_type>\w+)\,.*?\,.*?\,.*?\,.*?\,.*?\,.*?\,.*?\,.*?\,.*?\,(?P<severity>.*?)\,\"(?P<message>.*?(?P<reason>Accepted\s+password)\s+for\s+(?P<user>.*?)\s+from\s+(?P<src>\S+)\s+port\s+(?P<sport>\d+)\s+.*?)\"\,'
-  event-key-format: '{reason}'
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+\d+\,.*?\,.*?\,(?P<event_type>\w+)\,.*?\,.*?\,.*?\,.*?\,.*?\,.*?\,.*?\,.*?\,.*?\,(?P<severity>.*?)\,\"(?P<message>.*?(?P<action>Accepted\s+password)\s+for\s+(?P<user>.*?)\s+from\s+(?P<src>\S+)\s+port\s+(?P<sport>\d+)\s+.*?)\"\,'
+  event-key-format: '{action}'
   event-key-mapping:
     'Accepted password':
       annotate:
@@ -339,7 +346,6 @@ event-details:
       translate:
         user: User 
         src: SrcIP
-        reason: Reason
 
   fallback:
     annotate:

@@ -17,14 +17,14 @@ event-details:
     Virus found:
       annotate:
         Stream: ENDPOINT-THREAT
-        Action: VIRUS_DETECTED
+        Action: THREAT_DETECTED
         Status: PASSED
       translate:
         virus_name: AtkMsg
         user_name: User
-        device_name: SrcHost
+        #device_name: SrcHost
         domain_name: Domain
-        device_ip: SrcIP
+        #device_ip: InternalIP
         app_name: FileName
 
   fallback:
@@ -44,7 +44,7 @@ event-details:
     ClientIDS Attacks:
       annotate:
         Stream: ENDPOINT-THREAT
-        Action: ATTACK_DETECTED
+        Action: THREAT_DETECTED
         Status: PASSED
       translate:
         user_name: User
@@ -70,9 +70,9 @@ event-details:
         Status: PASSED
       translate:
         user_name: User
-        device_name: SrcHost
+        #device_name: SrcHost
         domain_name: Domain
-        device_ip: SrcIP
+        #device_ip: InternalIP
         app_name: FileName
         intrusion_url: URL
 
@@ -90,14 +90,14 @@ event-details:
     Advanced Attack Technique:
       annotate:
         Stream: ENDPOINT-THREAT
-        Action: ATTACK_DETECTED
+        Action: THREAT_DETECTED
         Status: PASSED
       translate:
         virus_name: AtkMsg
         user_name: User
-        device_name: SrcHost
+        #device_name: SrcHost
         domain_name: Domain
-        device_ip: SrcIP
+        #device_ip: InternalIP
         app_name: FileName
 
   fallback:
@@ -114,12 +114,12 @@ event-details:
     BASH-SONAR-TEST-BAD:
       annotate:
         Stream: ENDPOINT-THREAT
-        Action: VIRUS_DETECTED
+        Action: THREAT_DETECTED
         Status: PASSED
       translate:
         user_name: User
-        device_name: SrcHost
-        device_ip: SrcIP
+        #device_name: SrcHost
+        #device_ip: InternalIP
         app_name: FileName
         virus_name: AtkMsg
 
@@ -127,9 +127,6 @@ event-details:
     annotate:
       EventName: Generic Symantec ATP Endpoint Event
       Stream: OTHER
-
-#  globals:
- #   translate:
 
 - first-match: \|sep\_proxy\_av\_event\|
   decoder: custom
@@ -143,8 +140,8 @@ event-details:
         Status: PASSED
       translate:
         user_name: User
-        device_name: SrcHost
-        device_ip: SrcIP
+        #device_name: SrcHost
+        #device_ip: InternalIP
         app_name: FileName
 
   fallback:

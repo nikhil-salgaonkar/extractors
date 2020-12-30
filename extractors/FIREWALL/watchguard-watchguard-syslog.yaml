@@ -3,7 +3,7 @@ schema-version: 1.0
 extractor-id: 245
 source-name: WATCHGUARD
 source-type: FIREWALL
-source-description: extractor for WatchGuard Firewall
+source-description: extractor for WatchGuard Firewall Events
 provides-streams:
 - NETWORK-FIREWALL
 master-filters:
@@ -55,4 +55,3 @@ event-details:
     translate:
       datetime: SystemTstamp
       hostname: System
-     #message: Message

@@ -3,7 +3,7 @@ schema-version: 1.0
 extractor-id: 175
 source-name: ZSCALER
 source-type: FIREWALL
-source-description: Extractor for Zscaler Firewall
+source-description: Extractor for Zscaler Firewall Events
 provides-streams:
 - NETWORK-FIREWALL
 master-filters:
@@ -23,6 +23,9 @@ event-details:
         src_port: SrcPort
         src_ip: SrcIP
         dst_ip: DstIP
+        rxlen: RXLen
+        txlen: TXLen
+        dst_port: DstPort
 
   fallback:
     annotate:
@@ -32,6 +35,3 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
-      rxlen: RXLen
-      txlen: TXLen
-      dst_port: DstPort

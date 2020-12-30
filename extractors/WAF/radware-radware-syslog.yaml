@@ -3,10 +3,11 @@ schema-version: 1.0
 extractor-id: 153
 source-name: RADWARE
 source-type: WAF
-source-description: extractor for Radware WAF
+source-description: extractor for Radware WAF Events
 provides-streams:
 - WAF
 - AUTHENTICATION
+- NETWORK-THREAT
 master-filters:
 - '\s+\S+\s+AlteonOS\s+.*?\:\s+'
 - 'OLF\d+\s+appwall\s+\d+\.\d+\s+date\=\"\d+\/\d+\/\d+\s+\d+\:\d+\:\d+\s+'
@@ -17,14 +18,15 @@ event-details:
   decoder-regex: '(?P<datetime>\d{4}\-\d{1,2}\-\d{2}T\d{2}\:\d{2}\:\d{2})\+.*?\s+(?P<hostname>\S+)\s+(?P<loglevel>\S+)\s+.*?\:(?P<message>\s+(?P<user>\S+).*?(?P<action>\w+)\s+from(?:\s+host)?\s+(?P<src>[\w\.\:]+)\s+.*)'
   event-key-format: '{action}'
   event-key-mapping:
-    #'timeout':           
-    #  annotate:
-    #    Stream: AUTHENTICATION
-    #    Action: LOGIN_SESSION_DISCONNECTED
-    #    Status: PASSED
-    #  translate: 
-    #    src: SrcIP
-    #    user: User
+    'timeout':           
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+        AuthMethod: WBM
+      translate: 
+        src: SrcIP
+        user: User
     'login':           
       annotate:
         Stream: AUTHENTICATION
@@ -90,11 +92,10 @@ event-details:
   event-key-mapping:
     'Pattern Violation Detected':           
       annotate:
-        Stream: WAF
+        Stream: NETWORK-THREAT
         Action: THREAT_DETECTED
         Status: PASSED
-      translate: 
-        attackrisk: RiskLevel
+      translate:
         uri: URL
         method: Method
         proto: Proto
@@ -106,17 +107,15 @@ event-details:
         dhost: DstHost 
         #useraction: ActionTaken
         attackname: AtkName
-        threatcategory: ThreatCategory
         user: User
         req: Request
         sev: Severity
     'Empty response page returned to the web user':      
       annotate:
-        Stream: WAF
+        Stream: NETWORK-THREAT
         Action: THREAT_DETECTED
         Status: PASSED
-      translate: 
-        attackrisk: RiskLevel
+      translate:
         uri: URL
         method: Method
         proto: Proto
@@ -128,17 +127,15 @@ event-details:
         dhost: DstHost 
         #useraction: ActionTaken
         attackname: AtkName
-        threatcategory: ThreatCategory
         user: User
         req: Request
         sev: Severity
     'HTTP request not RFC-compliant':      
       annotate:
-        Stream: WAF
+        Stream: NETWORK-THREAT
         Action: THREAT_DETECTED
         Status: PASSED
-      translate: 
-        attackrisk: RiskLevel
+      translate:
         uri: URL
         method: Method
         proto: Proto
@@ -150,7 +147,6 @@ event-details:
         dhost: DstHost 
         #useraction: ActionTaken
         attackname: AtkName
-        threatcategory: ThreatCategory
         user: User
         req: Request   
         sev: Severity  
@@ -176,6 +172,7 @@ event-details:
         Stream: WAF
         Action: URL_BLOCKED
         Status: FAILED
+        Blocked: 'YES'
       translate: 
         Title: AtkMsg
         URI: URL
@@ -183,7 +180,6 @@ event-details:
         SourcePort: SrcPort
         Host: SrcHost
         Attackname: AtkName
-        Threatcategory: ThreatCategory
         WebUser: User
         Description: AtkDesc
         Priority: Severity

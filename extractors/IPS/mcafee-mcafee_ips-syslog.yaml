@@ -3,7 +3,7 @@ schema-version: 1.0
 extractor-id: 173
 source-name: MCAFEE
 source-type: IPS
-source-description: extractor for Mcafee IPS
+source-description: extractor for Mcafee IPS Events
 provides-streams:
 - NETWORK-THREAT
 master-filters:
@@ -17,8 +17,9 @@ event-details:
     'Smart Blocked':
       annotate:
         Stream: NETWORK-THREAT
-        Action: ATTACK_BLOCKED
+        Action: THREAT_BLOCKED
         Status: PASSED
+        Blocked: 'YES'
       translate:
         atkmsg: AtkMsg
         src: SrcIP
@@ -28,8 +29,9 @@ event-details:
     'Attack Failed': 
       annotate:
         Stream: NETWORK-THREAT
-        Action: ATTACK_BLOCKED
+        Action: THREAT_BLOCKED
         Status: FAILED
+        Blocked: 'YES'
       translate:
         atkmsg: AtkMsg
         src: SrcIP
@@ -39,7 +41,7 @@ event-details:
     'Attack Successful':
       annotate:
         Stream: NETWORK-THREAT
-        Action: ATTACK_DETECTED
+        Action: THREAT_DETECTED
         Status: PASSED
       translate:
         atkmsg: AtkMsg
@@ -50,8 +52,9 @@ event-details:
     'Attack Blocked':
       annotate:
         Stream: NETWORK-THREAT
-        Action: ATTACK_BLOCKED
+        Action: THREAT_BLOCKED
         Status: PASSED
+        Blocked: 'YES'
       translate:
         atkmsg: AtkMsg
         src: SrcIP
@@ -61,7 +64,7 @@ event-details:
     'Inconclusive': 
       annotate:
         Stream: NETWORK-THREAT
-        Action: ATTACK_DETECTED
+        Action: THREAT_DETECTED
         Status: PASSED
       translate:
         atkmsg: AtkMsg

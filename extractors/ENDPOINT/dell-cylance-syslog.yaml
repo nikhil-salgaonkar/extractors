@@ -40,7 +40,7 @@ event-details:
         Action: THREAT_BLOCKED
         Status: FAILED
       translate: 
-        'IP Address': ScannedIP
+        #'IP Address': ScannedIP
         'Process Name': Process
         'User Name': User
         #'Device Name': Device
@@ -52,7 +52,7 @@ event-details:
         Action: THREAT_QUARANTINED
         Status: PASSED
       translate: 
-        'IP Address': ScannedIP
+        #'IP Address': ScannedIP
         'File Name': FileName
         'Path': FilePath
         #'Drive Type': DriveType
@@ -69,7 +69,7 @@ event-details:
         Action: THREAT_DETECTED
         Status: PASSED
       translate: 
-        'IP Address': ScannedIP
+        #'IP Address': ScannedIP
         'File Name': FileName
         'Path': FilePath
         #'Drive Type': DriveType
@@ -86,7 +86,7 @@ event-details:
         Action: THREAT_DETECTED
         Status: PASSED
       translate: 
-        'IP Address': ScannedIP
+        #'IP Address': ScannedIP
         'File Name': FileName
         'Path': FilePath
         #'Drive Type': DriveType
@@ -103,7 +103,7 @@ event-details:
         Action: THREAT_DETECTED
         Status: PASSED
       translate: 
-        'IP Address': ScannedIP
+        #'IP Address': ScannedIP
         'File Name': FileName
         'Path': FilePath
         #'Drive Type': DriveType
@@ -120,7 +120,7 @@ event-details:
         Action: THREAT_BLOCKED
         Status: FAILED
       translate: 
-        'IP Address': ScannedIP
+        #'IP Address': ScannedIP
         'Process Name': Process
         'User Name': User
         #'Device Name': Device
