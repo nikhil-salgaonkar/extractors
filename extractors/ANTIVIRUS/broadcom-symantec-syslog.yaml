@@ -26,10 +26,8 @@ event-details:
         Domain: Domain
         Source IP: SrcIP
         Local Host IP: DstIP
-   #    Local Host MAC: DstMAC
         Remote Host Name: SrcHost
         Remote Host IP: SrcIP
-    #   Remote Host MAC: SrcMAC
         Application: App
         User Name: User
         Domain Name: Domain

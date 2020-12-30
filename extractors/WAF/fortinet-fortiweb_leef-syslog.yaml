@@ -33,9 +33,6 @@ event-details:
         requestMethod: Method
         url: URL
         httpAgent: UserAgent
-       #service: AppService
-       #serverPool: ServerPool
-       #reason: Reason
     'attack-Alert-None':           
       annotate:
         Stream: NETWORK-THREAT
@@ -54,9 +51,6 @@ event-details:
         url: URL
         attackType: AtkDesc
         httpAgent: UserAgent
-       #service: AppService
-       #serverPool: ServerPool
-       #reason: Reason
     'event-login-success':           
       annotate:
         Stream: AUTHENTICATION
@@ -102,5 +96,3 @@ event-details:
   globals:
     translate:
       devTime: SystemTstamp
-      #logLevel: LogLevel
-     #message: Message

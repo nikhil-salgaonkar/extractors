@@ -12,31 +12,6 @@ master-filters:
 - \w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+httpd\:\s+
 - \w+\s+\d+\s+\d+\:\d+\:\d+\s+\S+\s+(?!nginx\-access\:)(?:\S+\s+)?[\d\:\.\w\-]+\s+\S+\s+\S+\s+\[.*?\]\s+\"
 event-details:
-- first-match: '\[\w{3}\s+\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\d{4}\]\s+\[error\]\s+\[client\s+[\w\.]+]\s+File\s+does\s+not\s+exist'
-  decoder: regex
-  decoder-regex: '\[(?P<datetime>\w{3}\s+\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\d{4})\]\s+\[(?P<severity>\w+)\]\s+\[client\s(?P<src>[\w\.]+)\]\s+(?P<msg>.*?\:\s+(?P<filepath>.*?(?P<httpretcode>\d+)\..*))'
-  event-key-format: '{action}'
-  event-key-mapping:
-#    '404': 
-#      annotate:
-#        Stream: WEBSERVER
-#        Action: URL_BLOCKED
-#        Status: FAILED
-#        Blocked: YES
-#        UserAgent: '-' 
-#      translate:
-#       src: SrcIP
-#        user: User
-
-#  fallback:
-#    annotate:
-#      EventName: Generic Apache2 Webserver Event
-#      Stream: OTHER
-
-#  globals:
-#    translate:
-#      datetime: SystemTstamp
-
 - first-match: '\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+(?!.*?Apache|.*?httpd\:).*?\[.*?\]\s+\"?.*?\"?\s+\d+'
   decoder: regex
   decoder-regex: '\w+\s+\d+\s+\d+\:\d+\:\d+\s+.*?\s+(?:(?P<hostname>\S+)\s+)?(?P<src>[\d\:\.\w]+)\s+\S+\s+\S+\s+\[(?P<datetime>\d+\/\w+\/\d+\:\d+\:\d+\:\d+).*?\"(?:(?P<httpmethod>\w+)\s+(?P<url>.*?)\s+.*?|\-)?\"\s+(?P<httpretcode>\d+|\-)\s+(?P<txlen>\d+|\-)(?:\s+(\"(?P<httpreferer>.*?)\")?(?:\s+\"(?P<useragent>.*?)\"))?'

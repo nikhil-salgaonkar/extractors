@@ -13,7 +13,6 @@ event-details:
   decoder: regex
   decoder-regex: (?P<datetime>\w+\s+\d+\s+\d+\:\d+\:\d+)\s+(?P<system>.*?)\s+.*?cs-method\=(?P<method>.*?)\s+cs\-uri\-stem\=(?P<url>.*?)\s+cs\-uri\-query\=(?P<query_string>.*?)\s+cs\-username\=(?P<user>.*?)\s+c\-ip\=(?P<src_ip>.*?)\s+sc\-status\=(?P<status_code>.*?)\s+sc\-substatus\=(.*?)\s+.*?sc\-bytes\=(?P<rxlen>.*?)\s+cs\-bytes\=(?P<txlen>.*?)\s+
   event-key-format: '{status_code}'
-  #decoder-header: CEF
   event-key-mapping:
     '200':           
       annotate:

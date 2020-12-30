@@ -29,8 +29,7 @@ event-details:
         request: URL
         Header-5: EventName
         Header-6: Severity
-        #app: App
-    'deny-403':           
+    'deny-403':
       annotate:
         Stream: WAF
         Action: URL_BLOCKED
@@ -45,8 +44,7 @@ event-details:
         request: URL
         Header-5: EventName
         Header-6: Severity
-        #app: App
-        
+
   fallback:
     annotate:
       EventName: Generic Akamai WAF Event

@@ -22,9 +22,7 @@ event-details:
       translate:
         virus_name: AtkMsg
         user_name: User
-        #device_name: SrcHost
         domain_name: Domain
-        #device_ip: InternalIP
         app_name: FileName
 
   fallback:
@@ -70,9 +68,7 @@ event-details:
         Status: PASSED
       translate:
         user_name: User
-        #device_name: SrcHost
         domain_name: Domain
-        #device_ip: InternalIP
         app_name: FileName
         intrusion_url: URL
 
@@ -95,9 +91,7 @@ event-details:
       translate:
         virus_name: AtkMsg
         user_name: User
-        #device_name: SrcHost
         domain_name: Domain
-        #device_ip: InternalIP
         app_name: FileName
 
   fallback:
@@ -140,8 +134,6 @@ event-details:
         Status: PASSED
       translate:
         user_name: User
-        #device_name: SrcHost
-        #device_ip: InternalIP
         app_name: FileName
 
   fallback:

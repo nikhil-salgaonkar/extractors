@@ -6,7 +6,6 @@ source-type: FIREWALL
 source-description: Extractor for Cyberoam Firewall Events
 provides-streams:
 - AUTHENTICATION
-#- ANTIVIRUS
 - ENDPOINT-THREAT
 - NETWORK-FIREWALL
 master-filters:
@@ -199,32 +198,7 @@ event-details:
         src_port: SrcPort
         dst_port: DstPort
         sent_bytes: TXLen
-        recv_bytes: RXLen 
-#    '064011617819-Successful':
-#      annotate:
-#        Stream: ANTIVIRUS
-#        Action: SIGNATURE_UPDATED
-#        Status: PASSED
-#      translate:
-#        message: Message
-#        priority: LogLevel
-#    '064011517922-Failed':
-#      annotate:
-#        Stream: ANTIVIRUS
-#        Action: SIGNATURE_UPDATED
-#        Status: FAILED
-#      translate:
-#        suser_name: User
-#        src_ip: SrcIP
-#        priority: LogLevel
-#    '063911517921-Failed':
-#      annotate:
-#        Stream: IPS
-#        Action: SIGNATURE_UPDATED
-#        Status: FAILED
-#      translate:
-#        message: Message 
-#        priority: LogLevel                                                                 
+        recv_bytes: RXLen
 
   fallback:
     annotate:

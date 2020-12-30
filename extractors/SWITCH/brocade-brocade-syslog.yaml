@@ -26,10 +26,7 @@ event-details:
       translate: 
         user: User
         src: SrcIP
-        #app: APP
-        #severity: Severity
-        #message: Message
-        #Event: EventName
+
     'SEC-3022':           
       annotate:
         Stream: AUTHENTICATION
@@ -50,10 +47,7 @@ event-details:
       translate: 
         user: User
         src: SrcIP
-        #app: APP
-        #severity: Severity
-        #message: Message
-        #Event: EventName
+
   fallback:
     annotate:
       EventName: Generic Brocade Switch Event
@@ -79,8 +73,6 @@ event-details:
         protocol: Proto
         sport: SrcPort
         severity: Severity
-        #message: Message
-        #Event: EventName
     
   fallback:
     annotate:
@@ -105,8 +97,7 @@ event-details:
       translate: 
         interface: Iface
         severity: Severity
-        #message: Message
-    'NSM-1003':           
+    'NSM-1003':
       annotate:
         Stream: SWITCH
         Action: INTERFACE_DOWN
@@ -114,8 +105,7 @@ event-details:
       translate: 
         interface: Iface
         severity: Severity
-        #message: Message 
-    'NSM-1002':           
+    'NSM-1002':
       annotate:
         Stream: SWITCH
         Action: INTERFACE_DOWN
@@ -123,8 +113,7 @@ event-details:
       translate: 
         interface: Iface
         severity: Severity
-        #message: Message       
-    
+
   fallback:
     annotate:
       EventName: Generic Brocade Switch Event
@@ -160,8 +149,6 @@ event-details:
       translate: 
         src: SrcIP
         user: User
-        #macaddress: MACAddress
-        #message: Message 
     'terminated':
       annotate:
         Stream: AUTHENTICATION
@@ -171,8 +158,6 @@ event-details:
       translate: 
         src: SrcIP
         user: User
-        #macaddress: MACAddress
-        #message: Message       
     
   fallback:
     annotate:
@@ -196,16 +181,14 @@ event-details:
         Status: PASSED
       translate: 
         interface: Iface
-        #message: Message
-    'down':           
+    'down':
       annotate:
         Stream: SWITCH
         Action: INTERFACE_DOWN
         Status: PASSED
       translate: 
         interface: Iface
-        #message: Message   
-    
+
   fallback:
     annotate:
       EventName: Generic Brocade Switch Event

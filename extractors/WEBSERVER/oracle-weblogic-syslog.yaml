@@ -13,7 +13,6 @@ event-details:
   decoder: regex
   decoder-regex: Weblogic\s+logs\s+forwarded\s+\:\s+(?:(?P<src_ip>[\d\.\:]+)\s+)?.*?\[?(?P<datetime>\d+(?:\/|\-)?\d+(?:\/|\-)?\d+(?:\:|\s+)?\d+\:\d+\:\d+).*?(?P<method>GET|POST)\s+(?:[\w\-]+\s+\d+\s+)?(?P<url>.*?)\s+(?P<status_code>\d+)\s+(?P<txlen>\d+)
   event-key-format: '{status_code}'
-  #decoder-header: CEF
   event-key-mapping:
     '200':           
       annotate:

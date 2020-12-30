@@ -98,8 +98,6 @@ event-details:
         filePath: FilePath
         dst: DstIP
         fileHash: FileHash
-        #duser: DstUser
-        #suser: SrcUser
         shost: SrcHost 
         Header-5: Signature 
         Header-6: Severity
@@ -115,8 +113,6 @@ event-details:
         dst: DstIP
         fileHash: FileHash
         cat: Category
-        #duser: DstUser
-        #suser: SrcUser
         shost: SrcHost 
         Header-5: Signature 
         Header-6: Severity
@@ -146,12 +142,10 @@ event-details:
         Status: PASSED
       translate:
         cn3: ThreatType  
-        #dmac: DstMAC
         shost: SrcHost
         src: SrcIP
         spt: SrcPort
-        #smac: SrcMAC
-        request: URL     
+        request: URL
         requestClientApplication: UserAgent 
         app: App
         dhost: DstHost

@@ -8,7 +8,6 @@ provides-streams:
 - AUTHENTICATION
 master-filters:
 - db\[\d+\]\:\s+category\=\"Event\"\s+subcategory\=\"[\w\s]+\"\s+typeid\=\d+\s+
-
 event-details:  
 - first-match: category\=\"\w+\"\s+subcategory\=\"[\w\s]+\"\s+
   decoder: custom
@@ -30,7 +29,3 @@ event-details:
     annotate:
       EventName: Generic Fortiauthenticator Event
       Stream: OTHER
-
-
-  #globals:
-    #translate:

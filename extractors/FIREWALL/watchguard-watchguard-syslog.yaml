@@ -26,9 +26,8 @@ event-details:
         sport: SrcPort
         dport: DstPort
         sent_bytes: TXLen
-        rcvd_bytes: RXLen 
-        #iface_src: IfaceSrc
-        #iface_dst: IfaceDst
+        rcvd_bytes: RXLen
+
     'Deny':           
       annotate:
         Stream: NETWORK-FIREWALL
@@ -41,10 +40,7 @@ event-details:
         sport: SrcPort
         dport: DstPort
         sent_bytes: TXLen
-        rcvd_bytes: RXLen 
-        #iface_src: IfaceSrc
-        #iface_dst: IfaceDst 
-        #reason: Reason                                   
+        rcvd_bytes: RXLen
         
   fallback:
     annotate:

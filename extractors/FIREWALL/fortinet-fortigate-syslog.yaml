@@ -11,7 +11,6 @@ provides-streams:
 - WEBFILTER
 - DLP
 - DNS
-#- HONEYPOT
 master-filters:
 - device_id=FG
 - devid=\"?FG
@@ -146,7 +145,6 @@ event-details:
       translate:
         srcip: SrcIP
         user: User
-        #dstip: DstIP
 
     0102043015-FSSO-logoff:
       annotate:
@@ -190,17 +188,6 @@ event-details:
         srcip: SrcIP
         user: User
 
-#    0102043011-authentication:
-#      annotate:
-#        Stream: AUTHENTICATION
-#        Action: USER_TIME_OUT
-#        Status: FAILED
-#      translate:
-#        srcip: SrcIP
-#        dstip: DstIP
-#        user: User
-#        subtype: SubCategory
-
     0102043039-auth-logon:
       annotate:
         Stream: AUTHENTICATION
@@ -232,84 +219,6 @@ event-details:
       translate:
         srcip: SrcIP
         user: User
-
-#    0101037122-negotiate:
-#      annotate:
-#        Stream: AUTHENTICATION
-#        Action: LOGIN
-#        Status: PASSED
-#        AuthMethod: VPN
-#      translate:
-#        srcip: SrcIP
-#        dstip: DstIP
-#        user: User
-#        subtype: SubCategory
-
-#    0101037128-negotiate:
-#      annotate:
-#        Stream: AUTHENTICATION
-#        Action: LOGIN
-#        Status: PASSED
-#        AuthMethod: VPN
-#        Reason: INVALID_PASSWORD
-#      translate:
-#        srcip: SrcIP
-#        user: User
-
-#    0101037129-negotiate:
-#      annotate:
-#        Stream: AUTHENTICATION
-#        Action: LOGIN
-  #      Status: PASSED
-  #      AuthMethod: VPN
-   #     Reason: '-'
-    #  translate:
-     #   srcip: SrcIP
-      #  user: User
-#
- #   0101037188-negotiate:
-  #    annotate:
-   #     Stream: AUTHENTICATION
-    #    Action: LOGIN
-    #    Status: FAILED
-    #    AuthMethod: VPN
-    #  translate:
-    #    srcip: SrcIP
-    #    user: User
-    #    reason: Reason
-
-    #0101037192-negotiate:
-    #  annotate:
-    #    Stream: AUTHENTICATION
-    #    Action: LOGIN
-    #    Status: FAILED
-    #    AuthMethod: VPN
-    #    Reason: INVALID_PASSWORD
-    #  translate:
-    #    srcip: SrcIP
-    #    user: User
-
-  #  0101037127-negotiate:
-  #    annotate:
-  #      Stream: AUTHENTICATION
-  #      Action: LOGIN
-  #      Status: PASSED
-  #      AuthMethod: VPN
-  #      Reason: '-'
-   #   translate:
-   #     srcip: SrcIP
-    #    user: User
-
-#    0101037121-negotiate:
- #     annotate:
-  #      Stream: AUTHENTICATION
-   #     Action: LOGIN
-    #    Status: FAILED
-     #   AuthMethod: VPN
-      #  Reason: INVALID_PASSWORD
-      #translate:
-       # srcip: SrcIP
-        #user: User
 
     0317013312-passthrough:
       annotate:
@@ -500,22 +409,6 @@ event-details:
       translate:
         reason: Reason
         srcip: SrcIP
-        #subtype: SubCategory
-
-#    0101037124-negotiate:
-#      annotate:
-#        Stream: AUTHENTICATION
-#        Action: LOGIN
-#        Status: FAILED
-#        AuthMethod: VPN
-#      translate:
-#        srcip: SrcIP
-#        srcport: SrcPort
-#        dstip: DstIP
-#        dstport: DstPort
-#        user: User
-#        group: UserGroup
-#        subtype: SubCategory
 
     0315012556-passthrough:
       annotate:
@@ -542,21 +435,6 @@ event-details:
         sentbyte: TXLen
         rcvdbyte: RXLen
 
-#    0101037120-negotiate:
-#      annotate:
-#        Stream: AUTHENTICATION
-#        Action: LOGIN
-#        Status: PASSED
-#        AuthMethod: VPN
-#      translate:
-#        srcip: SrcIP
-#        srcport: SrcPort
-#        dstip: DstIP
-#        dstport: DstPort
-#        user: User
-#        group: UserGroup
-#        subtype: SubCategory
-
     0954024576-block:
       annotate:
         Stream: DLP
@@ -571,17 +449,6 @@ event-details:
         url: URL
         hostname: Domain
         subtype: SubCategory
-
-#    1059028705-block:
-#      annotate:
-#        Stream: NETWORK-FIREWALL
-#        Action: PACKET_BLOCKED
-#        Status: FAILED
-#      translate:
-#        srcip: SrcIP
-#        srcport: SrcPort
-#        dstip: DstIP
-#        dstport: DstPort
 
     0100032001-login:
       annotate:
@@ -607,30 +474,6 @@ event-details:
         dstip: DstIP
         dstport: DstPort
         subtype: SubCategory
-
-#    0000000013-close:
- #     annotate:
- #       Stream: NETWORK-FIREWALL
-  #      Action: CLOSED
-  #      Status: PASSED
-  #    translate:
-  #      user: User
-  #      srcip: SrcIP
-  #      srcport: SrcPort
-  #      dstip: DstIP
-  #      dstport: DstPort
-
-#    0000000013-server-rst:
-#      annotate:
-#        Stream: NETWORK-FIREWALL
-#        Action: SERVER_RESET
-#        Status: PASSED
-#      translate:
-#        user: User
-#        srcip: SrcIP
-#        srcport: SrcPort
-#        dstip: DstIP
-#        dstport: DstPort
 
     0419016385-detected:
       annotate:
@@ -665,18 +508,6 @@ event-details:
       translate:
         user: User
         srcip: SrcIP
-        #subtype: SubCategory
-
-#    1059028704-pass:
-#      annotate:
-#        Stream: NETWORK-FIREWALL
-#        Action: PACKET_ALLOWED
-#        Status: PASSED
-#      translate:
-#        srcip: SrcIP
-#        srcport: SrcPort
-#        dstip: DstIP
-#        dstport: DstPort
 
     0100022113-None:
       annotate:
@@ -699,7 +530,6 @@ event-details:
         srcip: SrcIP
         user: User
         reason: Reason
-        #subtype: SubCategory
 
     0002000012-accept:
       annotate:
@@ -737,23 +567,6 @@ event-details:
         dstip: DstIP
         dstport: DstPort
         qname: Query
-        subtype: SubCategory
-
-#    0000000013-timeout:
-#      annotate:
-#        Stream: HONEYPOT
-#        Action: NONE
-#        Status: NONE
-#      translate:
-#        srcip: SrcIP
-#        srcport: SrcPort
-#        dstip: DstIP
-#        dstport: DstPort
-#        subtype: SubCategory
-#        sentbyte: TXLen
-#        rcvdbyte: RXLen
-#        srcintf: Iface
-#        proto: Proto
 
   fallback:
     annotate:

@@ -71,9 +71,3 @@ event-details:
     annotate:
       EventName: Generic CISCO-FIREPOWER Event
       Stream: OTHER
-          
-
-#  globals:
-#    translate:
-#      Protocol: Proto
-       

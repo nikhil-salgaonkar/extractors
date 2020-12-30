@@ -229,27 +229,6 @@ event-details:
     translate:
       hostname: System
 
-#- first-match: 'Accepted\s+publickey\s+for'
-#  decoder: regex
-#  decoder-regex: '\s+(?P<daemon>\w+)\[(?P<pid>\d+)\]\:.*?(?P<msg>(?P<action>Accepted\s+publickey)\s+for\s+(?P<user>\S+)\s+from\s+(?P<src>[\d\.]+).*?port.*?\s+(?P<sport>\d+)\s+.*)'
-#  event-key-format: '{action}'
-#  event-key-mapping:
-#    'Accepted publickey': 
-#      annotate:
-#        Stream: AUTHENTICATION
-#        Action: LOGIN
-#        Status: PASSED
-#        AuthMethod: SSH
-#        Reason: '-'
-#      translate:
-#        user: User
-#        src: SrcIP      
-
-#  fallback:
-#    annotate:
-#      EventName: Generic NIX Event
-#      Stream: OTHER
-
 - first-match: '\s+User.*?logged\s+out'
   decoder: regex
   decoder-regex: '(?P<daemon>\S+)(?:\[(?P<pid>\d+)\])?\:\s+(?P<msg>.*?User[\:\s]+(?P<user>\S+).*?(?P<action>logged\s+out)\.?)'
@@ -385,28 +364,6 @@ event-details:
   globals:
     translate:
       hostname: System
-
-#- first-match: '\S+\[\d+\]\:\s+Accepted\s+keyboard\-interactive(?:\/pam)?\s+'
-#  decoder: regex
-#  decoder-regex: '\s+(?P<daemon>\S+)\[(?P<pid>\d+)\]\:\s+(?P<msg>(?P<action>Accepted\s+keyboard\-interactive).*?for\s+(?P<user>\S+).*?from\s+(?P<src>[\d\.]+).*?port\s+(?P<sport>\d+).*)'
-#  event-key-format: '{action}'
-#  event-key-mapping:
-#    'Accepted keyboard-interactive': 
-#      annotate:
-#        Stream: AUTHENTICATION
-#        Action: LOGIN
-#        Status: PASSED
-#        AuthMethod: SSH
-#        Reason: '-'
-#      translate:
-#        user: User
-#        src: SrcIP
-        
-#  fallback:
-#    annotate:
-#      EventName: Generic NIX Event
-#      Stream: OTHER
-
 
 - first-match: '\s+\S+\[\d+\]\:\s+.*?Received\s+disconnect\s+from\s+'
   decoder: regex

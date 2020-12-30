@@ -81,5 +81,4 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
-      #detecteddatetime: DetectedTstamp
       hostname: System

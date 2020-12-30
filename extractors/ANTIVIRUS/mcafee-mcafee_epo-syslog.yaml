@@ -28,9 +28,7 @@ event-details:
         TargetUserName: User
         SourceIPV4: SrcIP
         ThreatSeverity: Severity
-  #     DetectedUTC: DetectedTstamp
         ThreatCategory: Category
-        #TargetHostName: TargetHost
         ThreatName: AtkMsg
     '34865':
       annotate:
@@ -43,10 +41,8 @@ event-details:
         TargetUserName: User
         SourceIPV4: SrcIP
         ThreatSeverity: Severity
-    #   DetectedUTC: DetectedTstamp
         ThreatCategory: Category
-        #TargetHostName: TargetHost
-        ThreatName: AtkMsg 
+        ThreatName: AtkMsg
     '1102':  
       annotate:
         Stream: ENDPOINT-THREAT
@@ -58,165 +54,9 @@ event-details:
         TargetUserName: User
         SourceIPV4: SrcIP
         ThreatSeverity: Severity
- #      DetectedUTC: DetectedTstamp
         ThreatCategory: Category
-        #TargetHostName: TargetHost
-        ThreatName: AtkMsg 
-    #'1034':  
-    #  annotate:
-    #    Stream: ANTIVIRUS
-    #    Action: SCAN_COMPLETED
-    #    Status: PASSED
-    #  translate:
-    #    TargetFileName: FileName
-    #    TargetIPV4: DstIP
-    #    TargetUserName: User
-    #    SourceIPV4: SrcIP
-    #    ThreatSeverity: Severity
-    #    DetectedUTC: DetectedTstamp
-    #    ThreatCategory: Category
-    ##    TargetHostName: TargetHost    
-    #'1035':  
-    #  annotate:
-    #    Stream: ANTIVIRUS
-    #    Action: SCAN_CANCELLED
-    #    Status: FAILED
-    #  translate:
-    #    TargetFileName: FileName
-    #    TargetIPV4: DstIP
-    #    TargetUserName: User
-    #    SourceIPV4: SrcIP
-    #    ThreatSeverity: Severity
-    #    DetectedUTC: DetectedTstamp
-    #    ThreatCategory: Category
-    ##    TargetHostName: TargetHost 
-    #'1051':  
-    #  annotate:
-    #    Stream: ANTIVIRUS
-    #    Action: SCAN_FAILED
-    #    Status: FAILED
-    #  translate:
-    #    TargetFileName: FileName
-    #    TargetIPV4: DstIP
-    #    TargetUserName: User
-    #    SourceIPV4: SrcIP
-    #    ThreatSeverity: Severity
-    #    DetectedUTC: DetectedTstamp
-    #    ThreatCategory: Category
-    ##    TargetHostName: TargetHost 
-    #'1087':  
-    #  annotate:
-    #    Stream: ANTIVIRUS
-    #    Action: SCAN_STARTED
-    #    Status: PASSED
-    #  translate:
-    #    TargetFileName: FileName
-    #    TargetIPV4: DstIP
-    #   TargetUserName: User
-    #    SourceIPV4: SrcIP
-    #    ThreatSeverity: Severity
-    #    DetectedUTC: DetectedTstamp
-    #    ThreatCategory: Category
-    ##    TargetHostName: TargetHost 
-    #'1088':  
-    #  annotate:
-    #    Stream: ANTIVIRUS
-    #    Action: SCAN_STOPPED
-    #    Status: PASSED
-    # translate:
-    #   TargetFileName: FileName
-    #    TargetIPV4: DstIP
-    #    TargetUserName: User
-    #    SourceIPV4: SrcIP
-    #   ThreatSeverity: Severity
-    #    DetectedUTC: DetectedTstamp
-    #    ThreatCategory: Category
-    ##    TargetHostName: TargetHost 
-    #'1064':  
-    #  annotate:
-    #    Stream: ANTIVIRUS
-    #    Action: APP_STARTED
-    #    Status: PASSED
-    #  translate:
-    #    TargetFileName: FileName
-    #    TargetIPV4: DstIP
-    #    TargetUserName: User
-    #    SourceIPV4: SrcIP
-    #    ThreatSeverity: Severity
-    #    DetectedUTC: DetectedTstamp
-    #    ThreatCategory: Category
-    ##    TargetHostName: TargetHost
-    #'1067':  
-    #  annotate:
-    #    Stream: ANTIVIRUS
-    #    Action: APP_STARTED
-    #    Status: FAILED
-    #  translate:
-    #    TargetFileName: FileName
-    #    TargetIPV4: DstIP
-    #    TargetUserName: User
-    #    SourceIPV4: SrcIP
-    #    ThreatSeverity: Severity
-    #    DetectedUTC: DetectedTstamp
-    #    ThreatCategory: Category
-    ##    TargetHostName: TargetHost
-    #'1065':  
-    #  annotate:
-    #    Stream: ANTIVIRUS
-    #    Action: APP_STOPPED
-    #    Status: PASSED
-    #  translate:
-    #    TargetFileName: FileName
-    #    TargetIPV4: DstIP
-     #   TargetUserName: User
-    #    SourceIPV4: SrcIP
-    #    ThreatSeverity: Severity
-    #    DetectedUTC: DetectedTstamp
-     #   ThreatCategory: Category
-      ##  TargetHostName: TargetHost
-    #'1319':  
-     # annotate:
-      #  Stream: ANTIVIRUS
-       # Action: EMAIL_DELETED
-        #Status: PASSED
-    #  translate:
-     #   TargetFileName: FileName
-      #  TargetIPV4: DstIP
-       # TargetUserName: User
-        #SourceIPV4: SrcIP
-    #    ThreatSeverity: Severity
-     #   DetectedUTC: DetectedTstamp
-      #  ThreatCategory: Category
-       ## TargetHostName: TargetHost   
-#    '1094':  
- #     annotate:
-  #      Stream: ANTIVIRUS
-   #     Action: PACKET_BLOCKED
-    #    Status: FAILED
-     # translate:
-      #  TargetFileName: FileName
-       # TargetIPV4: DstIP
-        #TargetUserName: User
-#        SourceIPV4: SrcIP
-#        ThreatSeverity: Severity
- #       DetectedUTC: DetectedTstamp
-  #      ThreatCategory: Category
-   ##     TargetHostName: TargetHost
-    #'19115':  
-    #  annotate:
-    #    Stream: ANTIVIRUS
-     #   Action: DEVICE_CONNECTED
-      #  Status: PASSED
-      #translate:
-       # TargetFileName: FileName
-        #TargetIPV4: DstIP
-        #TargetUserName: User
-        #SourceIPV4: SrcIP
-        #ThreatSeverity: Severity
-        #DetectedUTC: DetectedTstamp
-        #ThreatCategory: Category
-        ##TargetHostName: TargetHost   
-    '18055':  
+        ThreatName: AtkMsg
+    '18055':
       annotate:
         Stream: ENDPOINT-THREAT
         Action: THREAT_DETECTED
@@ -227,10 +67,8 @@ event-details:
         TargetUserName: User
         SourceIPV4: SrcIP
         ThreatSeverity: Severity
-      # DetectedUTC: DetectedTstamp
         ThreatCategory: Category
-        #TargetHostName: TargetHost
-        ThreatName: AtkMsg   
+        ThreatName: AtkMsg
 
 
   fallback:

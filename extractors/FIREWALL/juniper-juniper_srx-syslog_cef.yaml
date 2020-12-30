@@ -16,17 +16,6 @@ event-details:
   decoder-header: CEF
   event-key-format: '{categoryBehavior}-{categoryOutcome}'
   event-key-mapping:
-#    /Access-/Failure:
-#      annotate:
-#        Stream: NETWORK-FIREWALL
-#        Action: PACKET_BLOCKED
-#        Status: FAILED
-#      translate:
-#        spt: SrcPort
-#        src: SrcIP
-#        dst: DstIP
-#        proto: Proto
-#        dpt: DstPort
     /Authentication/Verify-/Failure:
       annotate:
         Stream: AUTHENTICATION

@@ -24,8 +24,7 @@ event-details:
         Domain: Domain
         File: FileName
         Severity: Severity
-        #Endpoint: ScannedHost
-        #VirusName: VirusName
+
     '600':
       annotate:
         Stream: ENDPOINT-THREAT
@@ -36,8 +35,7 @@ event-details:
         Domain: Domain
         File: FileName
         Severity: Severity
-        #Endpoint: ScannedHost
-        #VirusName: VirusName
+
 
   fallback:
     annotate:
