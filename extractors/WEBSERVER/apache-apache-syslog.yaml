@@ -3,7 +3,7 @@ schema-version: 1.0
 extractor-id: 55
 source-name: APACHE2
 source-type: WEBSERVER
-source-description: Extractor for Apache2 Webserver
+source-description: Extractor for Apache2 Webserver Events
 provides-streams:
 - WEBSERVER
 master-filters:

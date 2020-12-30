@@ -3,7 +3,7 @@ schema-version: 1.0
 extractor-id: 84
 source-name: TOMCAT
 source-type: WEBSERVER
-source-description: extractor for Tomcat Webserver
+source-description: extractor for Tomcat Webserver Events
 provides-streams:
 - WEBSERVER
 master-filters:

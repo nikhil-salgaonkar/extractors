@@ -3,7 +3,7 @@ schema-version: 1.0
 extractor-id: 115
 source-name: FORTIWEB
 source-type: WAF
-source-description: extractor for FortiWeb WAF
+source-description: extractor for FortiWeb WAF Events
 provides-streams:
 - WAF
 - AUTHENTICATION

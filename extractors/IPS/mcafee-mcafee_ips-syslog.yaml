@@ -3,7 +3,7 @@ schema-version: 1.0
 extractor-id: 173
 source-name: MCAFEE
 source-type: IPS
-source-description: extractor for Mcafee IPS
+source-description: extractor for Mcafee IPS Events
 provides-streams:
 - NETWORK-THREAT
 master-filters:

@@ -3,12 +3,11 @@ schema-version: 1.0
 extractor-id: 112
 source-name: WEBLOGIC
 source-type: WEBSERVER
-source-description: extractor for Weblogic Webserver
+source-description: extractor for Weblogic Webserver Events
 provides-streams:
 - WEBSERVER
 master-filters:
 - Weblogic\s+logs\s+forwarded\s+\:\s+
-
 event-details:  
 - first-match: Weblogic\s+logs
   decoder: regex

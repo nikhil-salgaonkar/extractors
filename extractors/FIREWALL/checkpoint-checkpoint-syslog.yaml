@@ -3,7 +3,7 @@ schema-version: 1.0
 extractor-id: 188
 source-name: CHECKPOINT
 source-type: FIREWALL
-source-description: Extractor for Checkpoint Firewall
+source-description: Extractor for Checkpoint Firewall Events
 provides-streams:
 - NETWORK-FIREWALL
 - NETWORK-THREAT
@@ -91,7 +91,7 @@ event-details:
         Action: LOGIN
         Status: FAILED 
         AuthMethod: '-'
-        Reason: '-'  
+        Reason: INVALID_PASSWORD  
       translate: 
         src: SrcIP  
         #dst: DstIP   
@@ -111,17 +111,16 @@ event-details:
         attack: AtkMsg
         attack_info: AtkDesc
         malware_action: AtkDesc
-#    Decrypt-VPN-1 & FireWall-1-VPN-1: 
-#      annotate:
-#        Stream: AUTHENTICATION
-#        Action: LOGIN 
-#        Status: PASSED  
-#        AuthMethod: VPN 
-#      translate: 
-#        src: SrcIP  
-#        dst: DstIP 
-#        s_port: SrcPort
-#        user: User
+    Decrypt-VPN-1 & FireWall-1-VPN-1: 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN 
+        Status: PASSED  
+        AuthMethod: VPN 
+        Reasn: '-'
+      translate: 
+        src: SrcIP  
+        user: User
 #    Allow-VPN-1 & FireWall-1-None:
 #      annotate:
 #        Stream: NETWORK-FIREWALL
@@ -273,7 +272,6 @@ event-details:
     annotate:
       EventName: Generic Checkpoint Firewall Event
       Stream: OTHER
-
 
   subs:
     Proto:

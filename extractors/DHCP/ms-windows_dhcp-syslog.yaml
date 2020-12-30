@@ -3,7 +3,7 @@ schema-version: 1.0
 extractor-id: 79
 source-name: WIN-DHCP
 source-type: DHCP
-source-description: Extractor for Windows DHCP
+source-description: Extractor for Windows DHCP Events
 provides-streams:
 - DHCP
 master-filters:
@@ -152,7 +152,6 @@ event-details:
     translate:
       hostname: System
       datetime: SystemTstamp
-    # message: Message
 
   subs:
     ResultCode:

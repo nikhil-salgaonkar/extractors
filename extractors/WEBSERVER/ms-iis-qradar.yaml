@@ -3,12 +3,11 @@ schema-version: 1.0
 extractor-id: 179
 source-name: IIS-QR
 source-type: WEBSERVER
-source-description: extractor for IIS Webserver
+source-description: extractor for IIS Webserver Events
 provides-streams:
 - WEBSERVER
 master-filters:
 - \w+\s+\d+\s+\d+\:\d+\:\d+\s+.*?date\=\d+\-\d+\-\d+\s+time\=\d+\:\d+\:\d+\s+.*?cs\-method\=.*?\s+cs\-uri\-stem\=.*?\s+
-
 event-details:  
 - first-match: cs\-method\=.*?\s+cs\-uri\-stem\=.*?\s+
   decoder: regex

@@ -3,7 +3,7 @@ schema-version: 1.0
 extractor-id: 153
 source-name: RADWARE
 source-type: WAF
-source-description: extractor for Radware WAF
+source-description: extractor for Radware WAF Events
 provides-streams:
 - WAF
 - AUTHENTICATION
@@ -17,14 +17,15 @@ event-details:
   decoder-regex: '(?P<datetime>\d{4}\-\d{1,2}\-\d{2}T\d{2}\:\d{2}\:\d{2})\+.*?\s+(?P<hostname>\S+)\s+(?P<loglevel>\S+)\s+.*?\:(?P<message>\s+(?P<user>\S+).*?(?P<action>\w+)\s+from(?:\s+host)?\s+(?P<src>[\w\.\:]+)\s+.*)'
   event-key-format: '{action}'
   event-key-mapping:
-    #'timeout':           
-    #  annotate:
-    #    Stream: AUTHENTICATION
-    #    Action: LOGIN_SESSION_DISCONNECTED
-    #    Status: PASSED
-    #  translate: 
-    #    src: SrcIP
-    #    user: User
+    'timeout':           
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+        AuthMethod: WBM
+      translate: 
+        src: SrcIP
+        user: User
     'login':           
       annotate:
         Stream: AUTHENTICATION

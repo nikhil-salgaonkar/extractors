@@ -3,7 +3,7 @@ schema-version: 1.0
 extractor-id: 70
 source-name: IMPERVA
 source-type: WAF
-source-description: extractor for Imperva WAF
+source-description: extractor for Imperva WAF Events
 provides-streams:
 - WAF
 master-filters:

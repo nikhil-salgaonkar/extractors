@@ -3,7 +3,7 @@ schema-version: 1.0
 extractor-id: 93
 source-name: JUNIPER-SRX-CEF
 source-type: FIREWALL
-source-description: Extractor for Juniper SRX Firewall
+source-description: Extractor for Juniper SRX Firewall Events
 provides-streams:
 - NETWORK-FIREWALL
 - AUTHENTICATION
@@ -35,7 +35,6 @@ event-details:
         AuthMethod: '-'
         Reason: INVALID_PASSWORD
       translate:
-        spt: SrcPort
         src: SrcIP
         suser: User
 
@@ -43,7 +42,3 @@ event-details:
       annotate:
         EventName: Generic Juniper Event
         Stream: OTHER
-
-  globals:
-    translate:
-      dpt: DstPort

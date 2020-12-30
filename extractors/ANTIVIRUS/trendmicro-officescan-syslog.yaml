@@ -3,7 +3,7 @@ schema-version: 1.0
 extractor-id: 198
 source-name: OFFICESCAN-XG-WINEVT
 source-type: ANTIVIRUS
-source-description: extractor for OfficeScan-XG
+source-description: extractor for OfficeScan-XG Events
 provides-streams:
 - ENDPOINT-THREAT
 master-filters:
@@ -48,4 +48,3 @@ event-details:
     translate:
       EventTime: SystemTstamp
       Hostname: System
-     #Message: Message

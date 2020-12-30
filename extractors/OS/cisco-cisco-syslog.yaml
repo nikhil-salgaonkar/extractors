@@ -183,7 +183,6 @@ event-details:
         Action: LOGOUT
         Status: PASSED
         AuthMethod: '-'
-        Reason: '-'
       translate:
         src: SrcIP
         user: User

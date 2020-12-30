@@ -128,9 +128,6 @@ event-details:
       EventName: Generic Symantec ATP Endpoint Event
       Stream: OTHER
 
-#  globals:
- #   translate:
-
 - first-match: \|sep\_proxy\_av\_event\|
   decoder: custom
   decoder-regex: \"(\w+)\":([^\,{}]+)

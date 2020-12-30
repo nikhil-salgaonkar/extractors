@@ -3,7 +3,7 @@ schema-version: 1.0
 extractor-id: 161
 source-name: MIMECAST
 source-type: EMAIL-GATEWAY
-source-description: extractor for Mimecast
+source-description: extractor for Mimecast Events
 provides-streams:
 - EMAIL-GATEWAY
 master-filters:
@@ -81,7 +81,3 @@ event-details:
   globals:
     translate:
         datetime: SystemTstamp
-        AttNames: AttachmentName
-        AttCnt: AttachmentCount
-        AttSize: AttachmentSize
-        sha256: HashSHA256

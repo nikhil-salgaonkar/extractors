@@ -3,7 +3,7 @@ schema-version: 1.0
 extractor-id: 127
 source-name: FORTIGATE
 source-type: FIREWALL
-source-description: Extractor for Fortigate Firewall
+source-description: Extractor for Fortigate Firewall Events
 provides-streams:
 - NETWORK-FIREWALL
 - AUTHENTICATION
@@ -760,7 +760,6 @@ event-details:
     translate:
       date: SystemTstamp
       devname: System
-      proto: Proto
 
   subs:
     Proto:

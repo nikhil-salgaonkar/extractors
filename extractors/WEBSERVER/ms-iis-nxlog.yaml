@@ -3,7 +3,7 @@ schema-version: 1.0
 extractor-id: 68
 source-name: IIS
 source-type: WEBSERVER
-source-description: Extractor for IIS Webserver
+source-description: Extractor for IIS Webserver Events
 provides-streams:
 - WEBSERVER
 master-filters:

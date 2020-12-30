@@ -3,7 +3,7 @@ schema-version: 1.0
 extractor-id: 259
 source-name: FORTINET-FORTIAUTHENTICATOR
 source-type: IAM
-source-description: extractor for Fortiauthenticator
+source-description: extractor for Fortiauthenticator Events
 provides-streams:
 - AUTHENTICATION
 master-filters:

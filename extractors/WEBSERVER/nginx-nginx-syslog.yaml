@@ -3,12 +3,11 @@ schema-version: 1.0
 extractor-id: 190
 source-name: NGINX
 source-type: WEBSERVER
-source-description: extractor for NGINX Webserver
+source-description: extractor for NGINX Webserver Events
 provides-streams:
 - WEBSERVER
 master-filters:
 - \w+\s+\d+\s+\d+\:\d+\:\d+\s+\S+\s+nginx
-
 event-details:  
 - first-match: 'nginx\-access\:'
   decoder: regex
