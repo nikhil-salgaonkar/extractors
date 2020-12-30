@@ -1,0 +1,74 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 715
+source-name: NIX
+source-type: OS
+source-description: Extractor for NIX Auditbeat Events
+provides-streams:
+- AUTHENTICATION
+- AUDITD
+master-filters:
+- \"type\"\:\"auditbeat\"
+event-details:
+- first-match: '\"action\"\:'
+  decoder: json
+  event-key-format: '{event[action]}-{event[outcome]}'
+  event-key-mapping:
+    'logged-in-success':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+        AuthMethod: '-'
+      translate:
+        user[name]: User
+        source[ip]: SrcIP
+
+    'logged-in-failure':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+        AuthMethod: '-'
+      translate:
+        user[name]: User
+        source[ip]: SrcIP
+
+    'ran-command-success':
+      annotate:
+        Stream: AUDITD
+        Action: PROCESS_ADDED
+        Status: PASSED
+      translate:
+        user[name]: User
+        audit[data][cmd]: CommandLine
+
+    'started-service-success':
+      annotate:
+        Stream: AUDITD
+        Action: SERVICE_START
+        Status: PASSED
+      translate:
+        user[name]: User
+        process[name]: Process
+        process[args]: ProcessArgs
+
+    'stopped-service-success':
+      annotate:
+        Stream: AUDITD
+        Action: SERVICE_STOP
+        Status: PASSED
+      translate:
+        user[name]: User
+        process[name]: Process
+        process[args]: ProcessArgs
+
+  fallback:
+    annotate:
+      EventName: Generic Auditbeat Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      host[hostname]: System
+      '@timestamp': SystemTstamp
