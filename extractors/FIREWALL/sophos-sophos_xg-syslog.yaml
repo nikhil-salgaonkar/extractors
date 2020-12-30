@@ -71,6 +71,7 @@ event-details:
         Stream: NETWORK-THREAT
         Action: THREAT_DETECTED
         Status: FAILED
+        Blocked: 'NO'
       translate:
         src_ip: SrcIP 
         dst_ip: DstIP

@@ -102,6 +102,7 @@ event-details:
         Stream: NETWORK-THREAT
         Action: THREAT_DETECTED
         Status: PASSED
+        Blocked: 'NO'
       translate:
         src: SrcIP
         dst: DstIP
@@ -116,6 +117,7 @@ event-details:
         Stream: NETWORK-THREAT
         Action: THREAT_DETECTED
         Status: PASSED
+        Blocked: 'NO'
       translate:
         src: SrcIP
         dst: DstIP
@@ -130,6 +132,7 @@ event-details:
         Stream: NETWORK-THREAT
         Action: THREAT_DETECTED
         Status: PASSED 
+        Blocked: 'NO'
       translate:
         src: SrcIP
         dst: DstIP
@@ -144,6 +147,7 @@ event-details:
         Stream: NETWORK-THREAT
         Action: THREAT_DETECTED
         Status: PASSED
+        Blocked: 'YES'
       translate:
         src: SrcIP
         dst: DstIP
@@ -158,6 +162,7 @@ event-details:
         Stream: NETWORK-THREAT
         Action: THREAT_DETECTED                                               
         Status: PASSED
+        Blocked: 'YES'
       translate:
         src: SrcIP
         dst: DstIP
@@ -172,6 +177,7 @@ event-details:
         Stream: NETWORK-THREAT
         Action: THREAT_DETECTED
         Status: PASSED
+        Blocked: 'NO'
       translate:
         src: SrcIP
         dst: DstIP

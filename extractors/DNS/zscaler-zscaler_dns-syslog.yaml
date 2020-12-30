@@ -20,9 +20,9 @@ event-details:
       translate:
         response: Action
         src_ip: SrcIP
-        dst_ip: DstIP
+       # dst_ip: DstIP
         domain: Domain
-        dst_port: DstPort
+      #  dst_port: DstPort
         lookup: Lookup
 
   fallback:

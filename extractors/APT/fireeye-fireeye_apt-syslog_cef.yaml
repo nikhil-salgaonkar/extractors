@@ -5,7 +5,7 @@ source-name: FIREEYE
 source-type: APT
 source-description: Extractor for Fireeye APT Events
 provides-streams:
-- APT
+- NETWORK-THREAT
 master-filters:
 - CEF\:0\|(FireEye|fireeye)\|
 event-details:
@@ -17,9 +17,10 @@ event-details:
   event-key-mapping:
     blocked:
       annotate:
-        Stream: APT
+        Stream: NETWORK-THREAT
         Action: THREAT_BLOCKED
         Status: PASSED
+        #Blocked: 'YES'
       translate:
         src: SrcIP
         cs1: AtkMsg
@@ -31,9 +32,10 @@ event-details:
         Header-6: Severity
     notified:           
       annotate:
-        Stream: APT
+        Stream: NETWORK-THREAT
         Action: THREAT_DETECTED
         Status: PASSED
+        Blocked: 'NO'
       translate: 
         src: SrcIP
         cs1: AtkMsg
@@ -51,6 +53,10 @@ event-details:
       EventName: Generic Fireeye Event
       Stream: OTHER
 
+  globals:
+    translate:
+      rt: SystemTstamp 
+
   subs: &id001
     Severity:
       '0': 'LOW'
@@ -65,72 +71,72 @@ event-details:
       '9': 'HIGH'
       '10': 'HIGH'
 
-- first-match: act\=(?:Acquisition\s+Status|Detection\s+IOC\s+Hit|Acquisition\s+Create)
-  decoder: regex
-  decoder-regex: (?P<daemon>\w+)\|\d+\.\d+\.\d+.*?\|.*?\|(?P<signature>.*?)\|(?P<severity>\d+)\|.*?rt=(?P<datetime>\w+\s+\d+\s+\d+\s+\d+\:\d+\:\d+)\s+.*?dvchost\=.*?\s+.*?dst\=(?P<dst_ip>.*?)\s+.*?dhost\=(?P<dst_host>.*?)\s+(?:.*?suser\=(?P<src_user>.*?)\s)?.*?act\=(?P<action>.*?\s+.*?)\s+(?:in\=.*?request\=(?P<url>.*?)\s+)?msg\=(?P<msg>.*?)\s+categoryTupleDescription\=
-  event-key-format: '{action}'
-  event-key-mapping:
-    Acquisition Status:
-      annotate:
-        Stream: APT
-        Action: ACQUISITION_STATUS
-        Status: PASSED
-      translate:
-        url: URL
-        dst: DstIP
-        src_user: SrcUser
-        signature: Signature
-        severity: Severity
-    Detection IOC Hit:           
-      annotate:
-        Stream: APT
-        Action: DETECTION_IOC_ICU
-        Status: PASSED
-      translate: 
-        url: URL
-        dst: DstIP
-        src_user: SrcUser
-        signature: Signature
-        severity: Severity
-    Acquisition Create:
-      annotate:
-        Stream: APT
-        Action: ACQUISITION_CREATE
-        Status: PASSED
-      translate:
-        url: URL
-        dst: DstIP
-        src_user: SrcUser
-        signature: Signature
-        severity: Severity
+#- first-match: act\=(?:Acquisition\s+Status|Detection\s+IOC\s+Hit|Acquisition\s+Create)
+#  decoder: regex
+#  decoder-regex: (?P<daemon>\w+)\|\d+\.\d+\.\d+.*?\|.*?\|(?P<signature>.*?)\|(?P<severity>\d+)\|.*?rt=(?P<datetime>\w+\s+\d+\s+\d+\s+\d+\:\d+\:\d+)\s+.*?dvchost\=.*?\s+.*?dst\=(?P<dst_ip>.*?)\s+.*?dhost\=(?P<dst_host>.*?)\s+(?:.*?suser\=(?P<src_user>.*?)\s)?.*?act\=(?P<action>.*?\s+.*?)\s+(?:in\=.*?request\=(?P<url>.*?)\s+)?msg\=(?P<msg>.*?)\s+categoryTupleDescription\=
+#  event-key-format: '{action}'
+#  event-key-mapping:
+#    Acquisition Status:
+#      annotate:
+#        Stream: APT
+#        Action: ACQUISITION_STATUS
+#        Status: PASSED
+#      translate:
+#        url: URL
+#        dst: DstIP
+#        src_user: SrcUser
+#        signature: Signature
+#        severity: Severity
+#    Detection IOC Hit:           
+#      annotate:
+#        Stream: APT
+#        Action: DETECTION_IOC_ICU
+#        Status: PASSED
+#      translate: 
+#        url: URL
+#        dst: DstIP
+#        src_user: SrcUser
+#        signature: Signature
+#        severity: Severity
+#    Acquisition Create:
+#      annotate:
+#        Stream: APT
+#        Action: ACQUISITION_CREATE
+#        Status: PASSED
+#      translate:
+#        url: URL
+#        dst: DstIP
+#        src_user: SrcUser
+#        signature: Signature
+#        severity: Severity
         
-  fallback:
-    annotate:
-      EventName: Generic Fireeye Event
-      Stream: OTHER
+#  fallback:
+#    annotate:
+#      EventName: Generic Fireeye Event
+#      Stream: OTHER
 
-  subs: *id001
+  #subs: *id001
 
-- first-match: act\=Security\s+Content\s+Status
-  decoder: regex
-  decoder-regex: (?P<daemon>\w+)\|\d+\.\d+\.\d+.*?\|.*?\|(?P<signature>.*?)\|(?P<severity>\d+)\|.*?rt=(?P<datetime>\w+\s+\d+\s+\d+\s+\d+\:\d+\:\d+)\s+.*?dvchost\=(?P<device_host>\S+)\s+.*?act\=(?P<action>.*?)\s+msg\=(?P<message>.*?)\s+categoryTupleDescription\=(?P<evt_desc>.*)
-  event-key-format: '{action}'
-  event-key-mapping:
-    Security Content Status:
-      annotate:
-        Stream: APT
-        Action: SECURITY_CONTENT_STATUS
-        Status: PASSED
-      translate:
-        url: URL
-        dst: DstIP
-        src_user: SrcUser
-        signature: Signature
-        severity: Severity
+#- first-match: act\=Security\s+Content\s+Status
+#  decoder: regex
+#  decoder-regex: (?P<daemon>\w+)\|\d+\.\d+\.\d+.*?\|.*?\|(?P<signature>.*?)\|(?P<severity>\d+)\|.*?rt=(?P<datetime>\w+\s+\d+\s+\d+\s+\d+\:\d+\:\d+)\s+.*?dvchost\=(?P<device_host>\S+)\s+.*?act\=(?P<action>.*?)\s+msg\=(?P<message>.*?)\s+categoryTupleDescription\=(?P<evt_desc>.*)
+#  event-key-format: '{action}'
+#  event-key-mapping:
+#    Security Content Status:
+#      annotate:
+#        Stream: APT
+#        Action: SECURITY_CONTENT_STATUS
+#        Status: PASSED
+#      translate:
+#        url: URL
+#        dst: DstIP
+#        src_user: SrcUser
+#        signature: Signature
+#        severity: Severity
         
-  fallback:
-    annotate:
-      EventName: Generic Fireeye Event
-      Stream: OTHER
-
-  subs: *id001
+#  fallback:
+#    annotate:
+#      EventName: Generic Fireeye Event
+#      Stream: OTHER
+#
+#  subs: *id001

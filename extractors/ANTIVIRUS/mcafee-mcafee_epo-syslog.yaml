@@ -20,7 +20,7 @@ event-details:
     '1024':
       annotate:
         Stream: ENDPOINT-THREAT
-        Action: VIRUS_DETECTED
+        Action: THREAT_DETECTED
         Status: PASSED
       translate:
         TargetFileName: FileName
@@ -28,14 +28,14 @@ event-details:
         TargetUserName: User
         SourceIPV4: SrcIP
         ThreatSeverity: Severity
-        DetectedUTC: DetectedTstamp
+  #     DetectedUTC: DetectedTstamp
         ThreatCategory: Category
-        TargetHostName: TargetHost
+        #TargetHostName: TargetHost
         ThreatName: AtkMsg
     '34865':
       annotate:
         Stream: ENDPOINT-THREAT
-        Action: VIRUS_BLOCKED
+        Action: THREAT_BLOCKED
         Status: PASSED
       translate:
         TargetFileName: FileName
@@ -43,14 +43,14 @@ event-details:
         TargetUserName: User
         SourceIPV4: SrcIP
         ThreatSeverity: Severity
-        DetectedUTC: DetectedTstamp
+    #   DetectedUTC: DetectedTstamp
         ThreatCategory: Category
-        TargetHostName: TargetHost  
+        #TargetHostName: TargetHost
         ThreatName: AtkMsg 
     '1102':  
       annotate:
         Stream: ENDPOINT-THREAT
-        Action: VIRUS_QUARANTINE
+        Action: THREAT_QUARANTINE
         Status: PASSED
       translate:
         TargetFileName: FileName
@@ -58,9 +58,9 @@ event-details:
         TargetUserName: User
         SourceIPV4: SrcIP
         ThreatSeverity: Severity
-        DetectedUTC: DetectedTstamp
+ #      DetectedUTC: DetectedTstamp
         ThreatCategory: Category
-        TargetHostName: TargetHost
+        #TargetHostName: TargetHost
         ThreatName: AtkMsg 
     #'1034':  
     #  annotate:
@@ -75,7 +75,7 @@ event-details:
     #    ThreatSeverity: Severity
     #    DetectedUTC: DetectedTstamp
     #    ThreatCategory: Category
-    #    TargetHostName: TargetHost    
+    ##    TargetHostName: TargetHost    
     #'1035':  
     #  annotate:
     #    Stream: ANTIVIRUS
@@ -89,7 +89,7 @@ event-details:
     #    ThreatSeverity: Severity
     #    DetectedUTC: DetectedTstamp
     #    ThreatCategory: Category
-    #    TargetHostName: TargetHost 
+    ##    TargetHostName: TargetHost 
     #'1051':  
     #  annotate:
     #    Stream: ANTIVIRUS
@@ -103,7 +103,7 @@ event-details:
     #    ThreatSeverity: Severity
     #    DetectedUTC: DetectedTstamp
     #    ThreatCategory: Category
-    #    TargetHostName: TargetHost 
+    ##    TargetHostName: TargetHost 
     #'1087':  
     #  annotate:
     #    Stream: ANTIVIRUS
@@ -117,7 +117,7 @@ event-details:
     #    ThreatSeverity: Severity
     #    DetectedUTC: DetectedTstamp
     #    ThreatCategory: Category
-    #    TargetHostName: TargetHost 
+    ##    TargetHostName: TargetHost 
     #'1088':  
     #  annotate:
     #    Stream: ANTIVIRUS
@@ -131,7 +131,7 @@ event-details:
     #   ThreatSeverity: Severity
     #    DetectedUTC: DetectedTstamp
     #    ThreatCategory: Category
-    #    TargetHostName: TargetHost 
+    ##    TargetHostName: TargetHost 
     #'1064':  
     #  annotate:
     #    Stream: ANTIVIRUS
@@ -145,7 +145,7 @@ event-details:
     #    ThreatSeverity: Severity
     #    DetectedUTC: DetectedTstamp
     #    ThreatCategory: Category
-    #    TargetHostName: TargetHost
+    ##    TargetHostName: TargetHost
     #'1067':  
     #  annotate:
     #    Stream: ANTIVIRUS
@@ -159,7 +159,7 @@ event-details:
     #    ThreatSeverity: Severity
     #    DetectedUTC: DetectedTstamp
     #    ThreatCategory: Category
-    #    TargetHostName: TargetHost
+    ##    TargetHostName: TargetHost
     #'1065':  
     #  annotate:
     #    Stream: ANTIVIRUS
@@ -173,7 +173,7 @@ event-details:
     #    ThreatSeverity: Severity
     #    DetectedUTC: DetectedTstamp
      #   ThreatCategory: Category
-      #  TargetHostName: TargetHost
+      ##  TargetHostName: TargetHost
     #'1319':  
      # annotate:
       #  Stream: ANTIVIRUS
@@ -187,7 +187,7 @@ event-details:
     #    ThreatSeverity: Severity
      #   DetectedUTC: DetectedTstamp
       #  ThreatCategory: Category
-       # TargetHostName: TargetHost   
+       ## TargetHostName: TargetHost   
 #    '1094':  
  #     annotate:
   #      Stream: ANTIVIRUS
@@ -201,7 +201,7 @@ event-details:
 #        ThreatSeverity: Severity
  #       DetectedUTC: DetectedTstamp
   #      ThreatCategory: Category
-   #     TargetHostName: TargetHost
+   ##     TargetHostName: TargetHost
     #'19115':  
     #  annotate:
     #    Stream: ANTIVIRUS
@@ -215,11 +215,11 @@ event-details:
         #ThreatSeverity: Severity
         #DetectedUTC: DetectedTstamp
         #ThreatCategory: Category
-        #TargetHostName: TargetHost   
+        ##TargetHostName: TargetHost   
     '18055':  
       annotate:
         Stream: ENDPOINT-THREAT
-        Action: ATTACK_DETECTED
+        Action: THREAT_DETECTED
         Status: PASSED
       translate:
         TargetFileName: FileName
@@ -227,9 +227,9 @@ event-details:
         TargetUserName: User
         SourceIPV4: SrcIP
         ThreatSeverity: Severity
-        DetectedUTC: DetectedTstamp
+      # DetectedUTC: DetectedTstamp
         ThreatCategory: Category
-        TargetHostName: TargetHost
+        #TargetHostName: TargetHost
         ThreatName: AtkMsg   
 
 
