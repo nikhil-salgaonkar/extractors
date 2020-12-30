@@ -17,21 +17,25 @@ event-details:
   decoder-regex: '\[(?P<datetime>\w{3}\s+\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\d{4})\]\s+\[(?P<severity>\w+)\]\s+\[client\s(?P<src>[\w\.]+)\]\s+(?P<msg>.*?\:\s+(?P<filepath>.*?(?P<httpretcode>\d+)\..*))'
   event-key-format: '{action}'
   event-key-mapping:
-    '404': 
-      annotate:
-        Stream: WEBSERVER 
-      translate:
-        src: SrcIP
-        user: User
+#    '404': 
+#      annotate:
+#        Stream: WEBSERVER
+#        Action: URL_BLOCKED
+#        Status: FAILED
+#        Blocked: YES
+#        UserAgent: '-' 
+#      translate:
+#       src: SrcIP
+#        user: User
 
-  fallback:
-    annotate:
-      EventName: Generic Apache2 Webserver Event
-      Stream: OTHER
+#  fallback:
+#    annotate:
+#      EventName: Generic Apache2 Webserver Event
+#      Stream: OTHER
 
-  globals:
-    translate:
-      datetime: SystemTstamp
+#  globals:
+#    translate:
+#      datetime: SystemTstamp
 
 - first-match: '\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+(?!.*?Apache|.*?httpd\:).*?\[.*?\]\s+\"?.*?\"?\s+\d+'
   decoder: regex
@@ -41,6 +45,8 @@ event-details:
     '200': 
       annotate:
         Stream: WEBSERVER
+        Action: URL_ALLOWED
+        Status: PASSED
       translate:
         src: SrcIP
         httpmethod: Method
@@ -68,6 +74,8 @@ event-details:
     '200': 
       annotate:
         Stream: WEBSERVER
+        Action: URL_ALLOWED
+        Status: PASSED
       translate:
         src: SrcIP
         httpmethod: Method
@@ -95,6 +103,8 @@ event-details:
     '200': 
       annotate:
         Stream: WEBSERVER
+        Action: URL_ALLOWED
+        Status: PASSED
       translate:
         httpmethod: Method
         url: URL
@@ -119,6 +129,8 @@ event-details:
     '200': 
       annotate:
         Stream: WEBSERVER
+        Action: URL_ALLOWED
+        Status: PASSED
       translate:
         src: SrcIP
         httpmethod: Method
@@ -146,6 +158,8 @@ event-details:
     '200': 
       annotate:
         Stream: WEBSERVER
+        Action: URL_ALLOWED
+        Status: PASSED
       translate:
         src: SrcIP
         httpmethod: Method
@@ -164,7 +178,6 @@ event-details:
     translate:
       hostname: System
       datetime: SystemTstamp   
-      daemon: Daemon
 
 - first-match: '\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+Apache\[\d+\]\:\s+.*?\[\d{1,2}\/\w{3}\/\d{4}\:\d{2}\:\d{2}\:\d{2}\s+\+\d+\]\s+\-\s+\d+\s+'
   decoder: regex
@@ -174,6 +187,9 @@ event-details:
     '408': 
       annotate:
         Stream: WEBSERVER
+        Action: URL_BLOCKED
+        Status: FAILED
+        Blocked: 'YES'
       translate:
         src: SrcIP
         httpmethod: Method
@@ -200,6 +216,9 @@ event-details:
     '400': 
       annotate:
         Stream: WEBSERVER
+        Action: URL_BLOCKED
+        Status: FAILED
+        Blocked: 'YES'
       translate:
         src: SrcIP
         httpmethod: Method
@@ -236,6 +255,8 @@ event-details:
     '304': 
       annotate:
         Stream: WEBSERVER
+        Action: URL_ALLOWED
+        Status: PASSED
       translate:
         src: SrcIP
         httpmethod: Method

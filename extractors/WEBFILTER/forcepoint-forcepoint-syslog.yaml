@@ -37,6 +37,7 @@ event-details:
         Stream: WEBFILTER
         Action: URL_BLOCKED
         Status: FAILED
+        Blocked: 'YES'
       translate:
         src: SrcIP
         dst: DstIP

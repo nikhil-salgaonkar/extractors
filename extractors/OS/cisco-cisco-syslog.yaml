@@ -8,6 +8,7 @@ provides-streams:
 - AUTHENTICATION
 - ROUTER
 - SWITCH
+- NETWORK-FIREWALL
 master-filters:
 - '\s+\%(?:ETHPORT|AUTHPRIV|LINEPROTO-SW2|LINK-SW2|SEC|FMANFP|PORT_SECURITY|DOT1X|PORT|SEC_LOGIN|SYS|SSH|VSHD|LINK|LINEPROTO)\-\d+\-(?:IF_UP|IF_DOWN_LINK_FAILURE|SYSTEM_MSG|UPDOWN|IPACCESSLOGS|IPACCESSLOGP|PACK_SND_FAIL|IPACCESSLOGDP|LOGIN_SUCCESS|LOGOUT|LOGIN_FAILED|IPACCESSLOGNP|PSECURE_VIOLATION|FAIL)\:\s+'
 event-details:
@@ -18,7 +19,7 @@ event-details:
   event-key-mapping:
     permitted:
       annotate:
-        Stream: ROUTER
+        Stream: NETWORK-FIREWALL
         Action: PACKET_ALLOWED
         Status: PASSED
       translate:
@@ -28,9 +29,10 @@ event-details:
         severity: Severity
     denied:
       annotate:
-        Stream: ROUTER
+        Stream: NETWORK-FIREWALL
         Action: PACKET_BLOCKED
         Status: FAILED
+        Blocked: 'YES'
       translate:
         src: SrcIP
         message: Message
@@ -53,15 +55,16 @@ event-details:
   event-key-mapping:
     denied:
       annotate:
-        Stream: ROUTER
+        Stream: NETWORK-FIREWALL
         Action: PACKET_BLOCKED
         Status: FAILED
+        Blocked: 'YES'
       translate:
         message: Message
         severity: Severity
     permitted:
       annotate:
-        Stream: ROUTER
+        Stream: NETWORK-FIREWALL
         Action: PACKET_ALLOWED
         Status: PASSED
       translate:
@@ -107,9 +110,10 @@ event-details:
   event-key-mapping:
     denied:
       annotate:
-        Stream: ROUTER
+        Stream: NETWORK-FIREWALL
         Action: PACKET_BLOCKED
         Status: FAILED
+        Blocked: 'YES'
       translate:
         message: Message
         src: SrcIP
@@ -118,7 +122,7 @@ event-details:
         severity: Severity
     permitted:
       annotate:
-        Stream: ROUTER
+        Stream: NETWORK-FIREWALL
         Action: PACKET_ALLOWED
         Status: PASSED
       translate:
@@ -203,7 +207,7 @@ event-details:
   event-key-mapping:
     permitted:
       annotate:
-        Stream: ROUTER
+        Stream: NETWORK-FIREWALL
         Action: PACKET_ALLOWED
         Status: PASSED
       translate:
@@ -229,9 +233,10 @@ event-details:
   event-key-mapping:
     denied:
       annotate:
-        Stream: ROUTER
+        Stream: NETWORK-FIREWALL
         Action: PACKET_BLOCKED
         Status: FAILED
+        Blocked: 'YES'
       translate:
         message: Message
         src: SrcIP
@@ -240,9 +245,10 @@ event-details:
         severity: Severity
     permitted:
       annotate:
-        Stream: ROUTER
+        Stream: NETWORK-FIREWALL
         Action: PACKET_BLOCKED
         Status: FAILED
+        Blocked: 'YES'
       translate:
         message: Message
         src: SrcIP
@@ -291,7 +297,7 @@ event-details:
   event-key-mapping:
     'permitted':
       annotate:
-        Stream: SWITCH
+        Stream: NETWORK-FIREWALL
         Action: PACKET_ALLOWED
         Status: PASSED
       translate:
@@ -319,9 +325,10 @@ event-details:
   event-key-mapping:
     'denied':
       annotate:
-        Stream: SWITCH
+        Stream: NETWORK-FIREWALL
         Action: PACKET_BLOCKED
         Status: FAILED
+        Blocked: 'YES'
       translate:
         protocol: Proto
         src: SrcIP

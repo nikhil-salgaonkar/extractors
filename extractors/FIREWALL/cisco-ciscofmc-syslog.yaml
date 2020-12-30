@@ -79,6 +79,7 @@ event-details:
         Stream: NETWORK-FIREWALL
         Action: PACKET_BLOCKED
         Status: PASSED
+        BLocked: 'YES'
       translate: 
         src: SrcIP
         proto: Proto
@@ -92,6 +93,7 @@ event-details:
         Stream: NETWORK-FIREWALL
         Action: PACKET_BLOCKED
         Status: PASSED
+        BLocked: 'YES'
       translate: 
         src: SrcIP
         protocol: Proto

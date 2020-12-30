@@ -26,6 +26,7 @@ event-details:
         Stream: NETWORK-FIREWALL
         Action: PACKET_BLOCKED
         Status: FAILED
+        Blocked: 'YES'
       translate:
         srcip: SrcIP
         srcport: SrcPort
@@ -54,6 +55,7 @@ event-details:
         Stream: NETWORK-FIREWALL
         Action: PACKET_BLOCKED
         Status: FAILED
+        Blocked: 'YES'
       translate:
         srcip: SrcIP
         srcport: SrcPort
@@ -124,6 +126,7 @@ event-details:
         Stream: NETWORK-FIREWALL
         Action: PACKET_BLOCKED
         Status: FAILED
+        Blocked: 'YES'
       translate:
         srcip: SrcIP
         srcport: SrcPort
@@ -452,6 +455,7 @@ event-details:
         Stream: NETWORK-THREAT
         Action: BOTNET_BLOCKED
         Status: FAILED
+        Blocked: 'YES'
       translate:
         srcip: SrcIP
         srcport: SrcPort
@@ -466,6 +470,7 @@ event-details:
         Stream: NETWORK-THREAT
         Action: BOTNET_BLOCKED
         Status: FAILED
+        Blocked: 'YES'
       translate:
         srcip: SrcIP
         srcport: SrcPort
