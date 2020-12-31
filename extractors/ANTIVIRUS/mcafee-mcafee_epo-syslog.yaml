@@ -7,6 +7,7 @@ source-description: Extractor for McAfee Antivirus Events
 provides-streams:
 - ANTIVIRUS
 - AUTHENTICATION
+- ENDPOINT-THREAT
 master-filters:
 - \'?AnalyzerName\'?\:\s+\'?(?:VirusScan\s+Enterprise|McAfee\s+Endpoint\s+Security|Data\s+Loss\s+Prevention|McAfee\s+System\s+Prep\s+Tool|Endpoint\s+Security\s+Platform|McAfee\s+Host\s+Intrusion\s+Prevention|Solidifier|VirusScan\s+Enterprise\s+for\s+Linux)\'?\,?
 - \{DBLogForwarderError\:\s+OperationalError\(\(.*?severity\s+\d+
@@ -79,6 +80,7 @@ event-details:
   globals:
     translate:
       ReceivedUTC: SystemTstamp
+      TargetHostName: System
 
   subs: &id001
     Severity:
@@ -131,6 +133,7 @@ event-details:
 
   globals:
     translate:
-      StartTime: SystemTstamp        
+      StartTime: SystemTstamp  
+      TargetHostName: System      
 
   subs: *id001

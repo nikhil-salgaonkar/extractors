@@ -12,7 +12,7 @@ master-filters:
 event-details:  
 - first-match: '\w+\s+\d+\s+\d+\:\d+\:\d+\s+.*?\[.*?\]\s+\"\S+\s+\S+\s+\S+\"\s+\d+\s+'
   decoder: regex
-  decoder-regex: '\[(?P<datetime>\d+\/\w+\/\d+\:\d+\:\d+\:\d+).*?\"(?:(?P<httpmethod>\w+)\s+(?P<url>.*?)\s+.*?|\-)\"\s+(?P<eventid>\d+|\-)\s+(?:(?P<txlen>\d+|\-))?'
+  decoder-regex: '(?P<hostname>\d+\.\d+\.\d+\.\d+).*?\[(?P<datetime>\d+\/\w+\/\d+\:\d+\:\d+\:\d+).*?\"(?:(?P<httpmethod>\w+)\s+(?P<url>.*?)\s+.*?|\-)\"\s+(?P<eventid>\d+|\-)\s+(?:(?P<txlen>\d+|\-))?'
   event-key-format: '{eventid}'
   event-key-mapping:
     '200':           
@@ -30,7 +30,6 @@ event-details:
         Stream: WEBSERVER
         Action: URL_BLOCKED
         Status: FAILED
-        Blocked: 'YES'
         UserAgent: '-'
       translate: 
         url: URL
@@ -45,10 +44,11 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
+      hostname: System
 
 - first-match: '\d+\-\d+\-\d+\s+\d+\:\d+\:\d+\s+\w+\s+\S+\s+\d+\s+(?:\d+|\-)\s+(?:\".*?\"|\-)'
   decoder: regex
-  decoder-regex: '(?P<datetime>\d+\-\d+\-\d+\s+\d+\:\d+\:\d+)\s+(?P<httpmethod>\w+)\s+(?P<url>\S+)\s+(?P<eventid>\d+)\s+(?:(?P<txlen>\d+)|(\-))\s+(?:\"(?P<httpreferer>.*?)\"|(\-))\s+(?:(?P<useragent>.*)|(\-))'
+  decoder-regex: '(?P<hostname>\d+\.\d+\.\d+\.\d+).*?(?P<datetime>\d+\-\d+\-\d+\s+\d+\:\d+\:\d+)\s+(?P<httpmethod>\w+)\s+(?P<url>\S+)\s+(?P<eventid>\d+)\s+(?:(?P<txlen>\d+)|(\-))\s+(?:\"(?P<httpreferer>.*?)\"|(\-))\s+(?:(?P<useragent>.*)|(\-))'
   event-key-format: '{eventid}'
   event-key-mapping:
     '200':           
@@ -70,4 +70,5 @@ event-details:
 
   globals:
     translate:
-      datetime: SystemTstamp      
+      datetime: SystemTstamp 
+      hostname: System     

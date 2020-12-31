@@ -35,6 +35,15 @@ event-details:
         Remote Port: SrcPort
         CIDS Signature string: AtkMsg
         Intrusion URL: URL
+
+  fallback:
+    annotate:
+      EventName: Generic Symantec Endpoint Event
+      Stream: OTHER  
+
+  globals:
+    translate:
+      Server: System          
     
 - first-match: Category\s+set\:\s+.*?\,Category\s+type\:\s+
   decoder: custom
@@ -59,6 +68,11 @@ event-details:
       EventName: Generic Symantec Endpoint Event
       Stream: OTHER
 
+  globals:
+    translate:
+      Server: System
+      Server Name: System
+
 - first-match: Detection\s+type\:\s+
   decoder: custom
   decoder-regex: ([^\:]+)\:\s([^,]*)\,
@@ -81,4 +95,8 @@ event-details:
   fallback:
     annotate:
       EventName: Generic Symantec Endpoint Event
-      Stream: OTHER      
+      Stream: OTHER  
+
+  globals:
+    translate:
+      Server: System           

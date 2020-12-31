@@ -11,7 +11,7 @@ master-filters:
 event-details:
 - first-match: '\s+PACKET\s+\S+\s+\w+\s+\w{3}\s+'
   decoder: regex
-  decoder-regex: '(?P<datetime>\d+\-\d+\-\d+\s+\d+\:\d+\:\d+|\d{1,2}\/\d{1,2}\/\d{4}\s+\d+\:\d+\:\d+)\s+\w+.*?PACKET\s+\S+\s+(?P<protocol>\S+)\s+\S+\s+(?P<src>[\d\.]+).*?\[\d+(?:\s+\w+)?\s+(?P<flag>\w+)(?:\](?:\s+(?P<lookup>\S+))?(?:\s+.*?\)(?P<domain>\S+)\()?(?:\s+(\(0\)))?)?'
+  decoder-regex: '\s+(?P<hostname>\S+)\s+(?P<datetime>\d+\-\d+\-\d+\s+\d+\:\d+\:\d+|\d{1,2}\/\d{1,2}\/\d{4}\s+\d+\:\d+\:\d+)\s+\w+.*?PACKET\s+\S+\s+(?P<protocol>\S+)\s+\S+\s+(?P<src>[\d\.]+).*?\[\d+(?:\s+\w+)?\s+(?P<flag>\w+)(?:\](?:\s+(?P<lookup>\S+))?(?:\s+.*?\)(?P<domain>\S+)\()?(?:\s+(\(0\)))?)?'
   event-key-format: ''
   event-key-mapping:
     '':
@@ -32,3 +32,4 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
+      hostname: System
