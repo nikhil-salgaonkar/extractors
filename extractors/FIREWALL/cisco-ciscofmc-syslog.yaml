@@ -79,7 +79,6 @@ event-details:
         Stream: NETWORK-FIREWALL
         Action: PACKET_BLOCKED
         Status: PASSED
-        BLocked: 'YES'
       translate: 
         src: SrcIP
         proto: Proto
@@ -93,7 +92,6 @@ event-details:
         Stream: NETWORK-FIREWALL
         Action: PACKET_BLOCKED
         Status: PASSED
-        BLocked: 'YES'
       translate: 
         src: SrcIP
         protocol: Proto
@@ -123,6 +121,7 @@ event-details:
         Stream: NETWORK-THREAT
         Action: THREAT_DETECTED
         Status: PASSED
+        Blocked: 'YES'
       translate: 
         atkmsg: AtkMsg
         atkvector: AtkVector

@@ -5,7 +5,6 @@ source-name: CISCO-FTD
 source-type: FIREWALL
 source-description: Extractor for Cisco-FTD Firewall Events
 provides-streams:
-- NETWORK-FIREWALL
 - NETWORK-THREAT
 - AUTHENTICATION
 master-filters:
@@ -21,6 +20,7 @@ event-details:
         Stream: NETWORK-THREAT
         Action: THREAT_DETECTED
         Status: PASSED
+        Blocked: 'YES'
       translate: 
         src: SrcIP
         dst: DstIP
