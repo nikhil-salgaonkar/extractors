@@ -20,7 +20,7 @@ event-details:
         Stream: NETWORK-THREAT
         Action: THREAT_DETECTED
         Status: PASSED
-        Blocked: 'YES'
+        Blocked: 'NO'
       translate:
         src: SrcIP
         sport: SrcPort

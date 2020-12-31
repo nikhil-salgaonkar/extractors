@@ -14,7 +14,7 @@ master-filters:
 event-details:
 - first-match: '\%SEC\-6\-IPACCESSLOGS\:'
   decoder: regex
-  decoder-regex: '(?P<datetime>\w+\s+\d+\s+\d+\:\d+\:\d+).*?\s+\%(?P<facility>\S+)\-(?P<severity>\d+)\-(?P<mnemonic>.*?)\:\s+(?P<message>list\s+(.*?)\s+(?P<action>(?:permitted|denied))\s+(?P<src>.*?)\s+(?P<packets>\w+).*)'
+  decoder-regex: '(?P<datetime>\w+\s+\d+\s+\d+\:\d+\:\d+).*?\s+\%(?P<facility>\S+)\-(?P<severity>\d+)\-(?P<hostname>.*?)\:\s+(?P<message>list\s+(.*?)\s+(?P<action>(?:permitted|denied))\s+(?P<src>.*?)\s+(?P<packets>\w+).*)'
   event-key-format: '{action}'
   event-key-mapping:
     permitted:
@@ -46,10 +46,11 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
+      hostname: System
 
 - first-match: '\%FMANFP\-6\-IPACCESSLOGP\:'
   decoder: regex
-  decoder-regex: '(?P<datetime>\w+\s+\d+\s+\d+\:\d+\:\d+).*?\s+\%(?P<facility>\S+)\-(?P<severity>\d+)\-(?P<mnemonic>.*?)\:.*?\s+(?P<message>list.*?\s+(?P<action>(?:denied|permitted)).*)'
+  decoder-regex: '(?P<datetime>\w+\s+\d+\s+\d+\:\d+\:\d+).*?\s+\%(?P<facility>\S+)\-(?P<severity>\d+)\-(?P<hostname>.*?)\:.*?\s+(?P<message>list.*?\s+(?P<action>(?:denied|permitted)).*)'
   event-key-format: '{action}'
   event-key-mapping:
     denied:
@@ -77,11 +78,12 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
+      hostname: System
 
 - first-match: '\%SSH\-3\-PACK\_SND\_FAIL'
   decoder: regex
-  decoder-regex: '(?P<datetime>\w+\s+\d+\s+\d+\:\d+\:\d+).*?\s+\%(?P<facility>\S+)\-(?P<severity>\d+)\-(?P<mnemonic>.*?)\:\s+(?P<action>.*)'
-  event-key-format: '{mnemonic}'
+  decoder-regex: '(?P<datetime>\w+\s+\d+\s+\d+\:\d+\:\d+).*?\s+\%(?P<facility>\S+)\-(?P<severity>\d+)\-(?P<hostname>.*?)\:\s+(?P<action>.*)'
+  event-key-format: '{hostname}'
   event-key-mapping:
     PACK_SND_FAIL:
       annotate:
@@ -100,10 +102,11 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
+      hostname: System
 
 - first-match: '\%FMANFP\-6\-IPACCESSLOGDP\:'
   decoder: regex
-  decoder-regex: '(?P<datetime>\w+\s+\d+\s+\d+\:\d+\:\d+).*?\s+\%(?P<facility>\S+)\-(?P<severity>\d+)\-(?P<mnemonic>.*?)\:\s+(?P<message>.*?list\s+(?P<acl>.*?)\s+(?P<action>\w+)\s+(?P<proto>\w+)\s+(?P<src>.*?)\s+(?P<iface>.*?)\-\>\s+(?P<dst>.*?)\s+.*?\,\s+(?P<packets>\d+)\s+(?:packet|packets))'
+  decoder-regex: '(?P<datetime>\w+\s+\d+\s+\d+\:\d+\:\d+).*?\s+\%(?P<facility>\S+)\-(?P<severity>\d+)\-(?P<hostname>.*?)\:\s+(?P<message>.*?list\s+(?P<acl>.*?)\s+(?P<action>\w+)\s+(?P<proto>\w+)\s+(?P<src>.*?)\s+(?P<iface>.*?)\-\>\s+(?P<dst>.*?)\s+.*?\,\s+(?P<packets>\d+)\s+(?:packet|packets))'
   event-key-format: '{action}'
   event-key-mapping:
     denied:
@@ -137,10 +140,11 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
+      hostname: System
 
 - first-match: '\%SEC\_LOGIN\-'
   decoder: regex
-  decoder-regex: '(?P<datetime>\w+\s+\d+\s+\d+\:\d+\:\d+).*?\s+\%(?P<facility>\S+)\-(?P<severity>\d+)\-(?P<mnemonic>.*?)\:\s+(?P<action>.*?)\s+\[user\:\s+(?P<user>.*?)\]\s+\[Source\:\s+(?P<src>[\d\.]+)\]\s+\[localport\:\s+(?P<sport>\d+)\]\s+'
+  decoder-regex: '(?P<datetime>\w+\s+\d+\s+\d+\:\d+\:\d+).*?\s+\%(?P<facility>\S+)\-(?P<severity>\d+)\-(?P<hostname>.*?)\:\s+(?P<action>.*?)\s+\[user\:\s+(?P<user>.*?)\]\s+\[Source\:\s+(?P<src>[\d\.]+)\]\s+\[localport\:\s+(?P<sport>\d+)\]\s+'
   event-key-format: '{action}'
   event-key-mapping:
     Login Success:
@@ -172,11 +176,12 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
+      hostname: System
 
 - first-match: '\%SYS\-6\-LOGOUT\:'
   decoder: regex
-  decoder-regex: '(?P<datetime>\w+\s+\d+\s+\d+\:\d+\:\d+).*?\s+\%(?P<facility>\w+)\-(?P<severity>\d+)\-(?P<mnemonic>\w+)\:\s+(?P<message>User\s+(?P<user>[\w\.\-]+)\s+.*?\((?P<src>[\d\.]+)\))'
-  event-key-format: '{mnemonic}'
+  decoder-regex: '(?P<datetime>\w+\s+\d+\s+\d+\:\d+\:\d+).*?\s+\%(?P<facility>\w+)\-(?P<severity>\d+)\-(?P<hostname>\w+)\:\s+(?P<message>User\s+(?P<user>[\w\.\-]+)\s+.*?\((?P<src>[\d\.]+)\))'
+  event-key-format: '{hostname}'
   event-key-mapping:
     LOGOUT:
       annotate:
@@ -196,10 +201,11 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
+      hostname: System
 
 - first-match: '\%SEC\-6\-IPACCESSLOGNP'
   decoder: regex
-  decoder-regex: '(?P<datetime>\w+\s+\d+\s+\d+\:\d+\:\d+).*?\s+\%(?P<facility>\S+)\-(?P<severity>\d+)\-(?P<mnemonic>.*?)\:\s+(?P<message>.*?list\s+(?P<acl>.*?)\s+(?P<action>\w+)\s+(?P<proto>\w+)\s+(?P<src>.*?)\s+(?P<iface>.*?)\-\>\s+(?P<dst>.*?)\,\s+(?P<packets>\d+)\s+(?:packets|packet))'
+  decoder-regex: '(?P<datetime>\w+\s+\d+\s+\d+\:\d+\:\d+).*?\s+\%(?P<facility>\S+)\-(?P<severity>\d+)\-(?P<hostname>.*?)\:\s+(?P<message>.*?list\s+(?P<acl>.*?)\s+(?P<action>\w+)\s+(?P<proto>\w+)\s+(?P<src>.*?)\s+(?P<iface>.*?)\-\>\s+(?P<dst>.*?)\,\s+(?P<packets>\d+)\s+(?:packets|packet))'
   event-key-format: '{action}'
   event-key-mapping:
     permitted:
@@ -222,10 +228,11 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
+      hostname: System
 
 - first-match: '\%SEC\-6\-IPACCESSLOGDP\:'
   decoder: regex
-  decoder-regex: '(?P<datetime>\w+\s+\d+\s+\d+\:\d+\:\d+).*?\s+\%(?P<facility>\S+)\-(?P<severity>\d+)\-(?P<mnemonic>.*?)\:\s+(?P<message>.*?list\s+(?P<acl>.*?)\s+(?P<action>\w+)\s+(?P<proto>\w+)\s+(?P<src>.*?)\s+(?P<iface>.*?)\-\>\s+(?P<dst>.*?)\s+.*?\,\s+(?P<packets>\d+)\s+(?:packet|packets))'
+  decoder-regex: '(?P<datetime>\w+\s+\d+\s+\d+\:\d+\:\d+).*?\s+\%(?P<facility>\S+)\-(?P<severity>\d+)\-(?P<hostname>.*?)\:\s+(?P<message>.*?list\s+(?P<acl>.*?)\s+(?P<action>\w+)\s+(?P<proto>\w+)\s+(?P<src>.*?)\s+(?P<iface>.*?)\-\>\s+(?P<dst>.*?)\s+.*?\,\s+(?P<packets>\d+)\s+(?:packet|packets))'
   event-key-format: '{action}'
   event-key-mapping:
     denied:
@@ -259,10 +266,11 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
+      hostname: System
 
 - first-match: '\%AUTHPRIV\-3\-SYSTEM\_MSG\:'
   decoder: regex
-  decoder-regex: '(?P<Pdatetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}).*?\s+\%(?P<facility>\S+)\-(?P<severity>\d+)\-(?P<mnemonic>.*?)\:\s+.*?\:(?P<msg>(?P<action>Authentication\s+failed)\s+from\s+(?P<src>.*?)\s+.*?(?P<daemon>\S+)\[(?P<pid>\d+)\])'
+  decoder-regex: '(?P<Pdatetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}).*?\s+\%(?P<facility>\S+)\-(?P<severity>\d+)\-(?P<hostname>.*?)\:\s+.*?\:(?P<msg>(?P<action>Authentication\s+failed)\s+from\s+(?P<src>.*?)\s+.*?(?P<daemon>\S+)\[(?P<pid>\d+)\])'
   event-key-format: '{action}'
   event-key-mapping:
     'Authentication failed':
@@ -283,11 +291,12 @@ event-details:
 
   globals:
     translate:
-      datetime: SystemTstamp       
+      datetime: SystemTstamp
+      hostname: System       
 
 - first-match: '\%SEC\-6\-IPACCESSLOGP\:.*?permitted\s+\w+'
   decoder: regex
-  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}).*?\s+\%(?P<facility>\S+)\-(?P<severity>\d+)\-(?P<mnemonic>\S+)\:\s+.*?(?P<action>permitted)\s+(?P<protocol>\w+)\s+.*?(?P<src>.*?)\((?P<sport>\d+)\)\s.*?\s(?P<dst>[\d\.]+)\((?P<dport>\d+)\)\,\s+(?P<packets>\d+)\s+packet'
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}).*?\s+\%(?P<facility>\S+)\-(?P<severity>\d+)\-(?P<hostname>\S+)\:\s+.*?(?P<action>permitted)\s+(?P<protocol>\w+)\s+.*?(?P<src>.*?)\((?P<sport>\d+)\)\s.*?\s(?P<dst>[\d\.]+)\((?P<dport>\d+)\)\,\s+(?P<packets>\d+)\s+packet'
   event-key-format: '{action}'
   event-key-mapping:
     'permitted':
@@ -311,11 +320,12 @@ event-details:
 
   globals:
     translate:
-      datetime: SystemTstamp       
+      datetime: SystemTstamp
+      hostname: System       
 
 - first-match: '\%SEC\-6\-IPACCESSLOGP\:.*?denied\s+\w+\s+'
   decoder: regex
-  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}).*?\s+\%(?P<facility>\S+)\-(?P<severity>\d+)\-(?P<mnemonic>\S+)\:\s+.*?(?P<action>denied)\s+(?P<protocol>\w+)\s+.*?(?P<src>.*?)\((?P<sport>\d+)\)\s.*?\s(?P<dst>[\d\.]+)\((?P<dport>\d+)\)\,\s+(?P<packets>\d+)\s+packet'
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}).*?\s+\%(?P<facility>\S+)\-(?P<severity>\d+)\-(?P<hostname>\S+)\:\s+.*?(?P<action>denied)\s+(?P<protocol>\w+)\s+.*?(?P<src>.*?)\((?P<sport>\d+)\)\s.*?\s(?P<dst>[\d\.]+)\((?P<dport>\d+)\)\,\s+(?P<packets>\d+)\s+packet'
   event-key-format: '{action}'
   event-key-mapping:
     'denied':
@@ -340,10 +350,11 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
+      hostname: System
       
 - first-match: '\%DOT1X\-5\-FAIL\:'
   decoder: regex
-  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}).*?\%(?P<facility>\S+)\-(?P<severity>\d+)\-(?P<mnemonic>\S+)\:\s+(?P<message>(?P<action>Authentication\s+failed).*?Interface\s+(?P<iface>\S+)\s+.*)'
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}).*?\%(?P<facility>\S+)\-(?P<severity>\d+)\-(?P<hostname>\S+)\:\s+(?P<message>(?P<action>Authentication\s+failed).*?Interface\s+(?P<iface>\S+)\s+.*)'
   event-key-format: '{action}'
   event-key-mapping:
     'Authentication failed':
@@ -365,10 +376,11 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
+      hostname: System
        
 - first-match: '\%PORT\_SECURITY\-2\-PSECURE\_VIOLATION\:'
   decoder: regex
-  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}).*?\%(?P<facility>\w+)\-(?P<severity>\d+)\-(?P<mnemonic>\S+)\:\s+(?P<message>(?P<evtdesc>.*?)\,.*?address\s+(?P<mac_address>[\w\.]+)\s+.*?\.)(?:\s+\((?P<hostname>.*?)\))?'
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}).*?\%(?P<facility>\w+)\-(?P<severity>\d+)\-(?P<hostname>\S+)\:\s+(?P<message>(?P<evtdesc>.*?)\,.*?address\s+(?P<mac_address>[\w\.]+)\s+.*?\.)(?:\s+\((?P<hostname>.*?)\))?'
   event-key-format: ''
   event-key-mapping:
     '':
@@ -390,4 +402,4 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
-      hostname: System              
+      hostname: System

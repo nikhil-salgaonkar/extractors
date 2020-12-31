@@ -6,6 +6,7 @@ source-type: FIREWALL
 source-description: Extractor for SOPHOS-XG Firewall Events
 provides-streams:
 - NETWORK-FIREWALL
+- NETWORK-THREAT
 master-filters:
 - date\=\d+\-\d+\-\d+\s+time\=\d+\:\d+\:\d+\s+.*?\s+device_id\=\S+\s+log_id\=\d+
 event-details:
@@ -102,5 +103,3 @@ event-details:
   globals:
     translate:
       device_name: System
-
-  
