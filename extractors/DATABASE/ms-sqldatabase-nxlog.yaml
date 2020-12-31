@@ -238,4 +238,3 @@ event-details:
     translate:
       EventTime: SystemTstamp
       Hostname: System
-      

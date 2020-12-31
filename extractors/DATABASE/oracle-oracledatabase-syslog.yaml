@@ -20,7 +20,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
-        AuthMethod: '-'
+        AuthMethod: DIRECT
         Reason: '-'
       translate: 
         USERID: User
@@ -30,7 +30,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        AuthMethod: '-'
+        AuthMethod: DIRECT
         Reason: INVALID_PASSWORD
       translate: 
         USERID: User
@@ -40,7 +40,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        AuthMethod: '-'
+        AuthMethod: DIRECT
         Reason: INVALID_PASSWORD
       translate: 
         USERID: User
@@ -50,7 +50,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        AuthMethod: '-'
+        AuthMethod: DIRECT
         Reason: INVALID_PASSWORD
       translate: 
         USERID: User
@@ -64,6 +64,7 @@ event-details:
   globals:
     translate:
       DATETIME: SystemTstamp
+      USERHOST: System
 
 - first-match: 'ACTION\:\[\d+\]\s+\"(?:101|102)\"\s+RETURNCODE\:\[\d+\]\s+\"\d+\"'
   decoder: regex
@@ -75,7 +76,8 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGOUT
         Status: PASSED
-        AuthMethod: '-'
+        AuthMethod: DIRECT
+        Reason: '-'
       translate: 
         USERID: User
         HOST: SrcIP
@@ -84,7 +86,8 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGOUT
         Status: PASSED
-        AuthMethod: '-'
+        AuthMethod: DIRECT
+        Reason: '-'
       translate: 
         USERID: User
         HOST: SrcIP  
@@ -97,6 +100,7 @@ event-details:
   globals:
     translate:
       DATETIME: SystemTstamp
+      USERHOST: System
 
 - first-match: 'ACTION\:\[\d+\]\s+\"47\"\s+RETURNCODE\:\[\d+\]\s+\"\d+\"'
   decoder: regex
@@ -110,7 +114,6 @@ event-details:
         Status: PASSED
       translate: 
         USERID: User
-        USERHOST: SrcHost
         OBJECTNAME: ObjectName    
 
   fallback:
@@ -121,6 +124,7 @@ event-details:
   globals:
     translate:
       DATETIME: SystemTstamp
+      USERHOST: System
 
 - first-match: 'ACTION\s+\:\[\d+\]\s+(?:select|commit|alter|connect|begin|create).*?DBID\:\[\d+\]'
   decoder: regex
@@ -146,6 +150,7 @@ event-details:
   globals:
     translate:
       DATETIME: SystemTstamp 
+      USERHOST: System
 
 - first-match: 'ACTION\s+\:\[\d+\]\s+\w+(?!.*?\s+DATABASE\s+USER\:\[\d+\])'
   decoder: regex
@@ -170,6 +175,7 @@ event-details:
   globals:
     translate:
       DATETIME: SystemTstamp 
+      USERHOST: System
 
 - first-match: 'ACTION\s+\:\[\d+\]\s+grant\s+dba.*?DBID\:\[\d+\]'
   decoder: regex
@@ -194,7 +200,8 @@ event-details:
 
   globals:
     translate:
-      DATETIME: SystemTstamp   
+      DATETIME: SystemTstamp 
+      USERHOST: System  
 
 - first-match: 'ACTION\s+\:\[\d+\]\s+.*?DBID\:\[\d+\].*?SESSIONID\:\[\d+\]'
   decoder: regex
@@ -220,6 +227,7 @@ event-details:
   globals:
     translate:
       DATETIME: SystemTstamp 
+      USERHOST: System
 
 - first-match: 'Message\s+forwarded\s+from\s+.*?\:.*?ACTION\s+\:\[\d+\]\s+.*?\s+DATABASE\s+USER\:\[\d+\]'
   decoder: regex
@@ -244,4 +252,5 @@ event-details:
 
   globals:
     translate:
-      DATETIME: SystemTstamp                                       
+      DATETIME: SystemTstamp
+      USERHOST: System                                       

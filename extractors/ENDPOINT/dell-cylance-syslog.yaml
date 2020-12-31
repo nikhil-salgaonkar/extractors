@@ -110,3 +110,4 @@ event-details:
   globals:
     translate:
       'Found Date': SystemTstamp
+      'Device Name': System

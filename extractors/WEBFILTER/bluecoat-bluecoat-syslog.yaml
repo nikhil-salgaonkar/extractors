@@ -20,8 +20,7 @@ event-details:
       annotate:
         Stream: WEBFILTER
         Action: URL_BLOCKED
-        Status: FAILED
-        BLocked: 'YES'   
+        Status: FAILED   
       translate:
         src: SrcIP 
         user: User 
@@ -154,8 +153,7 @@ event-details:
       annotate:
         Stream: WEBFILTER
         Action: URL_BLOCKED
-        Status: FAILED  
-        BLocked: 'YES' 
+        Status: FAILED   
       translate:
         src: SrcIP 
         dport: DstPort
@@ -189,8 +187,7 @@ event-details:
       annotate:
         Stream: WEBFILTER
         Action: URL_BLOCKED
-        Status: FAILED 
-        BLocked: 'YES'  
+        Status: FAILED   
       translate:
         src: SrcIP 
         dport: DstPort
@@ -224,8 +221,7 @@ event-details:
       annotate:
         Stream: WEBFILTER
         Action: URL_BLOCKED
-        Status: FAILED 
-        BLocked: 'YES'  
+        Status: FAILED   
       translate:
         src: SrcIP
         receive_byte: RXLen 
@@ -255,8 +251,7 @@ event-details:
       annotate:
         Stream: WEBFILTER
         Action: URL_BLOCKED
-        Status: FAILED  
-        BLocked: 'YES' 
+        Status: FAILED   
       translate:
         src: SrcIP 
         dport: DstPort
