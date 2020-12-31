@@ -25,7 +25,6 @@ event-details:
         requestMethod: Method
         AkamaiSiemResponseStatus: RetCode
         dpt: DstPort
-        dhost: DstHost
         request: URL
         Header-5: EventName
         Header-6: Severity
@@ -34,13 +33,11 @@ event-details:
         Stream: WAF
         Action: URL_BLOCKED
         Status: FAILED
-        Blocked: 'YES'
       translate: 
         src: SrcIP
         requestMethod: Method
         AkamaiSiemResponseStatus: RetCode
         dpt: DstPort
-        dhost: DstHost
         request: URL
         Header-5: EventName
         Header-6: Severity
@@ -53,6 +50,7 @@ event-details:
   globals:
     translate:
       start: SystemTstamp
+      dhost: System
 
   subs:
     Severity:

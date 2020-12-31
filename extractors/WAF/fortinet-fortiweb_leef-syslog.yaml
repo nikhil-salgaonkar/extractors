@@ -38,6 +38,7 @@ event-details:
         Stream: NETWORK-THREAT
         Action: THREAT_DETECTED
         Status: PASSED
+        Blocked: 'NO'
       translate: 
         proto: Proto
         src: SrcIP
@@ -96,3 +97,4 @@ event-details:
   globals:
     translate:
       devTime: SystemTstamp
+      deviceID: System
