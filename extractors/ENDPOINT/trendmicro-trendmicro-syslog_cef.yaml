@@ -18,7 +18,7 @@ event-details:
     'File renamed': 
       annotate:
         Stream: ENDPOINT-THREAT
-        Action: VIRUS_DETECTED
+        Action: THREAT_DETECTED
         Status: PASSED
       translate:
         Source IP: SrcIP
@@ -44,7 +44,7 @@ event-details:
     '': 
       annotate:
         Stream: ENDPOINT-THREAT
-        Action: VIRUS_DETECTED
+        Action: THREAT_DETECTED
         Status: PASSED
       translate:
         dhost: DstHost
@@ -90,7 +90,7 @@ event-details:
     'File cleaned': 
       annotate:
         Stream: ENDPOINT-THREAT
-        Action: VIRUS_DETECTED
+        Action: THREAT_DETECTED
         Status: PASSED
       translate:
         dhost: DstHost
@@ -104,7 +104,7 @@ event-details:
     'File passed':
       annotate:
         Stream: ENDPOINT-THREAT
-        Action: VIRUS_DETECTED
+        Action: THREAT_DETECTED
         Status: PASSED
       translate:  
         dhost: DstHost
