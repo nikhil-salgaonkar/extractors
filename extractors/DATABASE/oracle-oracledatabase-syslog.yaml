@@ -20,7 +20,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
-        AuthMethod: DIRECT
+        AuthMethod: '-'
         Reason: '-'
       translate: 
         USERID: User
@@ -30,7 +30,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        AuthMethod: DIRECT
+        AuthMethod: '-'
         Reason: INVALID_PASSWORD
       translate: 
         USERID: User
@@ -40,7 +40,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        AuthMethod: DIRECT
+        AuthMethod: '-'
         Reason: INVALID_PASSWORD
       translate: 
         USERID: User
@@ -50,7 +50,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        AuthMethod: DIRECT
+        AuthMethod: '-'
         Reason: INVALID_PASSWORD
       translate: 
         USERID: User
@@ -76,9 +76,8 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGOUT
         Status: PASSED
-        AuthMethod: DIRECT
-        Reason: '-'
-      translate: 
+        AuthMethod: '-'
+      translate:
         USERID: User
         HOST: SrcIP
     '102-0': 
@@ -86,9 +85,8 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGOUT
         Status: PASSED
-        AuthMethod: DIRECT
-        Reason: '-'
-      translate: 
+        AuthMethod: '-'
+      translate:
         USERID: User
         HOST: SrcIP  
 
