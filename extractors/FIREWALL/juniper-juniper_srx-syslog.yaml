@@ -5,7 +5,6 @@ source-name: JUNIPER-SRX
 source-type: FIREWALL
 source-description: Extractor for Juniper-SRX Firewall Events
 provides-streams:
-- NETWORK-FIREWALL
 - AUTHENTICATION
 master-filters:
 - '\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+\S+\:\s+\S+\:\s+'

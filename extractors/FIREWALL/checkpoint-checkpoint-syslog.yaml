@@ -5,7 +5,6 @@ source-name: CHECKPOINT
 source-type: FIREWALL
 source-description: Extractor for Checkpoint Firewall Events
 provides-streams:
-- NETWORK-FIREWALL
 - NETWORK-THREAT
 - AUTHENTICATION
 - DHCP
@@ -22,7 +21,8 @@ event-details:
       annotate:
         Stream: NETWORK-THREAT
         Action: THREAT_DETECTED
-        Status: PASSED   
+        Status: PASSED 
+        Blocked: 'YES'  
       translate:
         src: SrcIP  
         dst: DstIP  
@@ -87,6 +87,7 @@ event-details:
         Stream: NETWORK-THREAT
         Action: THREAT_DETECTED
         Status: PASSED   
+        Blocked: 'YES'
       translate:
         src: SrcIP  
         dst: DstIP  
@@ -110,7 +111,8 @@ event-details:
       annotate:
         Stream: NETWORK-THREAT
         Action: THREAT_DETECTED
-        Status: PASSED   
+        Status: PASSED 
+        Blocked: 'YES'  
       translate: 
         src: SrcIP  
         dst: DstIP  

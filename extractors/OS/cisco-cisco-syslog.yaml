@@ -32,7 +32,6 @@ event-details:
         Stream: NETWORK-FIREWALL
         Action: PACKET_BLOCKED
         Status: FAILED
-        Blocked: 'YES'
       translate:
         src: SrcIP
         message: Message
@@ -58,7 +57,6 @@ event-details:
         Stream: NETWORK-FIREWALL
         Action: PACKET_BLOCKED
         Status: FAILED
-        Blocked: 'YES'
       translate:
         message: Message
         severity: Severity
@@ -113,7 +111,6 @@ event-details:
         Stream: NETWORK-FIREWALL
         Action: PACKET_BLOCKED
         Status: FAILED
-        Blocked: 'YES'
       translate:
         message: Message
         src: SrcIP
@@ -236,7 +233,6 @@ event-details:
         Stream: NETWORK-FIREWALL
         Action: PACKET_BLOCKED
         Status: FAILED
-        Blocked: 'YES'
       translate:
         message: Message
         src: SrcIP
@@ -248,7 +244,6 @@ event-details:
         Stream: NETWORK-FIREWALL
         Action: PACKET_BLOCKED
         Status: FAILED
-        Blocked: 'YES'
       translate:
         message: Message
         src: SrcIP
@@ -328,7 +323,6 @@ event-details:
         Stream: NETWORK-FIREWALL
         Action: PACKET_BLOCKED
         Status: FAILED
-        Blocked: 'YES'
       translate:
         protocol: Proto
         src: SrcIP
