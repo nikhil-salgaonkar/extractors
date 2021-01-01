@@ -34,6 +34,7 @@ event-details:
     translate:
       host_name: System
 
+
 - first-match: \|sep\_proxy\_ips\_event\|
   decoder: custom
   decoder-regex: \"(\w+)\":([^\,{}]+)
@@ -56,6 +57,10 @@ event-details:
       EventName: Generic Symantec ATP Endpoint Event
       Stream: OTHER
 
+  globals:
+    translate:
+      device_name: System
+
 - first-match: \|lcp\_sep\_risk\_event\|
   decoder: custom
   decoder-regex: \"(\w+)\":([^\,{}]+)
@@ -77,6 +82,9 @@ event-details:
       EventName: Generic Symantec ATP Endpoint Event
       Stream: OTHER
 
+  globals:
+    translate:
+      host_name: System
 
 - first-match: \|atp\_incident\|
   decoder: custom
@@ -99,6 +107,9 @@ event-details:
       EventName: Generic Symantec ATP Endpoint Event
       Stream: OTHER
 
+  globals:
+    translate:
+      device_name: System
 
 - first-match: \|sep\_proxy\_sonar\_event\|
   decoder: custom
@@ -112,8 +123,6 @@ event-details:
         Status: PASSED
       translate:
         user_name: User
-        #device_name: SrcHost
-        #device_ip: InternalIP
         app_name: FileName
         virus_name: AtkMsg
 
@@ -121,6 +130,10 @@ event-details:
     annotate:
       EventName: Generic Symantec ATP Endpoint Event
       Stream: OTHER
+
+  globals:
+    translate:
+      device_name: System
 
 - first-match: \|sep\_proxy\_av\_event\|
   decoder: custom
@@ -140,3 +153,7 @@ event-details:
     annotate:
       EventName: Generic Symantec ATP Endpoint Event
       Stream: OTHER
+
+  globals:
+    translate:
+      device_name: System

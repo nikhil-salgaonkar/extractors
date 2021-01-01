@@ -73,7 +73,7 @@ event-details:
 
 - first-match: '\s+APPFW\s+(?!Message|AF_MALFORMED_REQ_ERR|AF_400_RESP|AF_SIGNATURE_ERR|AF_INVALID_HTTP_HEADER|APPFW_SIGNATURE_MATCH|APPFW_SQL).*?<(?:blocked|not\s+blocked)>'
   decoder: regex
-  decoder-regex: '(?P<datetime>\d+\/\d+\/\d+\:\d+\:\d+\:\d+)\s+(?:GMT|IST|)\s?(?P<hostnmae>[\w-]+)\s+\d+\-\w{3}\-\d+\s+\:\s+(?:[\w\d_-]+|)+\s?APPFW.*?\s+\d+\s+\d+\s+\:\s+(?P<src>\d+.\d+\.\d+\.\d+).*?(?P<url>(?P<baseurl>[htps]+\:[\/]+(?:[\w\d\.\-]+)?)(?P<domain>[^\?\s]+)?)\??(?:\S+)?.*?\<(?P<action>.*?)\>'
+  decoder-regex: '(?P<datetime>\d+\/\d+\/\d+\:\d+\:\d+\:\d+)\s+(?:GMT|IST|)\s?(?P<hostname>[\w-]+)\s+\d+\-\w{3}\-\d+\s+\:\s+(?:[\w\d_-]+|)+\s?APPFW.*?\s+\d+\s+\d+\s+\:\s+(?P<src>\d+.\d+\.\d+\.\d+).*?(?P<url>(?P<baseurl>[htps]+\:[\/]+(?:[\w\d\.\-]+)?)(?P<domain>[^\?\s]+)?)\??(?:\S+)?.*?\<(?P<action>.*?)\>'
   event-key-format: '{action}'
   event-key-mapping:
     'blocked':           
@@ -81,7 +81,6 @@ event-details:
         Stream: WAF
         Action: URL_BLOCKED
         Status: FAILED
-        Blocked: 'YES'
       translate: 
         src: SrcIP
         url: URL
@@ -91,7 +90,6 @@ event-details:
         Stream: WAF
         Action: URL_BLOCKED
         Status: FAILED
-        Blocked: 'NO'
       translate: 
         src: SrcIP
         url: URL
@@ -109,7 +107,7 @@ event-details:
 
 - first-match: '\s+(?:APPFW_RESP|AF_400_RESP|AF_SIGNATURE_ERR|AF_INVALID_HTTP_HEADER|APPFW_SQL|APPFW_SIGNATURE_MATCH)\s+.*?<(?:blocked|not\s+blocked)>'
   decoder: regex
-  decoder-regex: '(?P<datetime>\d+\/\d+\/\d+\:\d+\:\d+\:\d+)\s+(?:GMT|IST|)\s?(?P<hostnmae>[\w-]+)\s+\d+\-\w{3}\-\d+\s+\:\s+(?:[\w\d_-]+|)+\s?APPFW.*?\s+\d+\s+\d+\s+\:\s+(?P<src>\d+.\d+\.\d+\.\d+).*?(?P<url>(?P<baseurl>[htps]+\:[\/]+(?:[\w\d\.\-]+)?)(?P<domain>[^\?\s]+)?)\??(?:\S+)?.*?\<(?P<action>.*?)\>'
+  decoder-regex: '(?P<datetime>\d+\/\d+\/\d+\:\d+\:\d+\:\d+)\s+(?:GMT|IST|)\s?(?P<hostname>\S+)\s+\d+\-\w{3}\-\d+\s+\:\s+(?:[\w\d_-]+|)+\s?APPFW.*?\s+\d+\s+\d+\s+\:\s+(?P<src>\d+.\d+\.\d+\.\d+).*?(?P<url>(?P<baseurl>[htps]+\:[\/]+(?:[\w\d\.\-]+)?)(?P<domain>[^\?\s]+)?)\??(?:\S+)?.*?\<(?P<action>.*?)\>'
   event-key-format: '{action}'
   event-key-mapping:
     'blocked':           
@@ -117,7 +115,6 @@ event-details:
         Stream: WAF
         Action: URL_BLOCKED
         Status: FAILED
-        Blocked: 'YES'
       translate: 
         src: SrcIP
         url: URL
@@ -127,7 +124,6 @@ event-details:
         Stream: WAF
         Action: URL_BLOCKED
         Status: FAILED
-        Blocked: 'NO'
       translate: 
         src: SrcIP
         url: URL

@@ -8,7 +8,6 @@ provides-streams:
 - WAF
 master-filters:
 - LEEF\:\d+\.\d+\|Imperva\|SecureSphere\|\d+
-
 event-details:  
 - first-match: Imperva\|SecureSphere
   decoder: custom
@@ -20,7 +19,6 @@ event-details:
         Stream: WAF
         Action: URL_BLOCKED
         Status: FAILED
-        Blocked: 'YES'
       translate: 
         src: SrcIP
         webMethod: Method

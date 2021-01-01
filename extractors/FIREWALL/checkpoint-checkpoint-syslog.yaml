@@ -147,6 +147,7 @@ event-details:
       translate:
         src: SrcIP
         user: User
+        
   fallback:
     annotate:
       EventName: Generic Checkpoint Firewall Event

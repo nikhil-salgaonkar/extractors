@@ -56,7 +56,7 @@ event-details:
     translate:
       datetime: SystemTstamp
       hostname: System
-     #message: Message
+
 
 - first-match: '\s+AlteonOS\s+.*?\:\s+Failed\s+login\s+attempt.*?\s+from\s+host\s+\S+\.'
   decoder: regex
@@ -83,7 +83,7 @@ event-details:
     translate:
       datetime: SystemTstamp
       hostname: System
-     #message: Message     
+
 
 - first-match: 'OLF\d+\s+appwall\s+\d+\.\d+\s+date\='
   decoder: regex
@@ -95,6 +95,7 @@ event-details:
         Stream: NETWORK-THREAT
         Action: THREAT_DETECTED
         Status: PASSED
+        Blcoked: 'YES'
       translate:
         uri: URL
         method: Method
@@ -105,7 +106,6 @@ event-details:
         dip: DstIP
         dport: DstPort  
         dhost: DstHost 
-        #useraction: ActionTaken
         attackname: AtkName
         user: User
         req: Request
@@ -115,6 +115,7 @@ event-details:
         Stream: NETWORK-THREAT
         Action: THREAT_DETECTED
         Status: PASSED
+        Blcoked: 'YES'
       translate:
         uri: URL
         method: Method
@@ -125,7 +126,6 @@ event-details:
         dip: DstIP
         dport: DstPort  
         dhost: DstHost 
-        #useraction: ActionTaken
         attackname: AtkName
         user: User
         req: Request
@@ -135,6 +135,7 @@ event-details:
         Stream: NETWORK-THREAT
         Action: THREAT_DETECTED
         Status: PASSED
+        Blcoked: 'YES'
       translate:
         uri: URL
         method: Method
@@ -145,7 +146,6 @@ event-details:
         dip: DstIP
         dport: DstPort  
         dhost: DstHost 
-        #useraction: ActionTaken
         attackname: AtkName
         user: User
         req: Request   
@@ -160,7 +160,7 @@ event-details:
     translate:
       date: SystemTstamp
       hostname: System
-     #msg: Message          
+
 
 - first-match: '\s+ServerName\=.*?Type\=.*?Priority\=.*?Object\=.*?Host\=.*?ParamType\=.*?Description\='
   decoder: regex
@@ -172,7 +172,6 @@ event-details:
         Stream: WAF
         Action: URL_BLOCKED
         Status: FAILED
-        Blocked: 'YES'
       translate: 
         Title: AtkMsg
         URI: URL

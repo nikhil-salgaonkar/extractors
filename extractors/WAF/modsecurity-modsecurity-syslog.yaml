@@ -12,7 +12,7 @@ master-filters:
 event-details:
 - first-match: '\[tag\s+\"attack\-xss\"\]'
   decoder: regex
-  decoder-regex: '(?P<datetime>\w+\s+\d+\s+\d+\:\d+\:\d+)\s+\S+\s+(?:.*?\[client\s+(?P<src>\d+\.\d+\.\d+\.\d+)(?:\:(?P<sport>\d+))?\])?.*?\[file\s+\"(?P<filepath>.*?)\"\]\s+.*?\[id\s+\".*?\]\s+.*?\[msg\s+\"(?P<message>.*?)\]\s+\[data\s+\"(?:.*?ARGS\:(?:param|message|subject|password)\:\s+(?P<app>.*?)|.*?)?\"\]\s+\[severity\s+\"(?P<severity>.*?)\"\]\s+\[ver\s+\"(?P<version>.*?)\"\].*?\s+\[tag\s+\".*?\"\]\s+\[tag\s+\".*?\"\]\s+\[tag\s+\".*?\"\]\s+\[tag\s+\"(?P<atkname>.*?)\"\]\s+\[tag\s+\"(?P<atkdesc>.*?)\"\]\s+(?:.*?\[hostname\s+\"(?P<dst>..*?)\"\]\s+\[uri\s+\"(?P<url>.*?)\"\])?'
+  decoder-regex: '(?P<datetime>\w+\s+\d+\s+\d+\:\d+\:\d+)\s+(?P<hostname>\S+)\s+(?:.*?\[client\s+(?P<src>\d+\.\d+\.\d+\.\d+)(?:\:(?P<sport>\d+))?\])?.*?\[file\s+\"(?P<filepath>.*?)\"\]\s+.*?\[id\s+\".*?\]\s+.*?\[msg\s+\"(?P<message>.*?)\]\s+\[data\s+\"(?:.*?ARGS\:(?:param|message|subject|password)\:\s+(?P<app>.*?)|.*?)?\"\]\s+\[severity\s+\"(?P<severity>.*?)\"\]\s+\[ver\s+\"(?P<version>.*?)\"\].*?\s+\[tag\s+\".*?\"\]\s+\[tag\s+\".*?\"\]\s+\[tag\s+\".*?\"\]\s+\[tag\s+\"(?P<atkname>.*?)\"\]\s+\[tag\s+\"(?P<atkdesc>.*?)\"\]\s+(?:.*?\[hostname\s+\"(?P<dst>..*?)\"\]\s+\[uri\s+\"(?P<url>.*?)\"\])?'
   event-key-format: '{atkname}'
   event-key-mapping:
     'attack-xss':
@@ -20,6 +20,7 @@ event-details:
         Stream: NETWORK-THREAT
         Action: THREAT_DETECTED
         Status: PASSED
+        Blocked: 'NO'
       translate:
         src: SrcIP
         sport: SrcPort
@@ -38,3 +39,4 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
+      hostname: System

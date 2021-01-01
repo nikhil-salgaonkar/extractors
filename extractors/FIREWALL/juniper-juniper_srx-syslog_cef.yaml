@@ -31,3 +31,7 @@ event-details:
       annotate:
         EventName: Generic Juniper Event
         Stream: OTHER
+
+  globals:
+    translate:
+      dvchost: System
