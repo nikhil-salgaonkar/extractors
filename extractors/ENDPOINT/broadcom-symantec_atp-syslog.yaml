@@ -32,7 +32,7 @@ event-details:
 
   globals:
     translate:
-      device_name: System
+      host_name: System
 
 
 - first-match: \|sep\_proxy\_ips\_event\|
