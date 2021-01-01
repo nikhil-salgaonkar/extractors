@@ -30,6 +30,11 @@ event-details:
       EventName: Generic Symantec ATP Endpoint Event
       Stream: OTHER
 
+  globals:
+    translate:
+      device_name: System
+
+
 - first-match: \|sep\_proxy\_ips\_event\|
   decoder: custom
   decoder-regex: \"(\w+)\":([^\,{}]+)
