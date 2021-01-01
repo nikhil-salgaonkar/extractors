@@ -60,8 +60,7 @@ event-details:
         url: URL
         httpmethod: Method
         txlen: TXLen 
-#        httpreferer: Referer
-        useragent: UserAgent                                   
+        useragent: UserAgent
         
   fallback:
     annotate:

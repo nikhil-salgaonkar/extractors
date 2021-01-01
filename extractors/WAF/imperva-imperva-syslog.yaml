@@ -8,7 +8,6 @@ provides-streams:
 - WAF
 master-filters:
 - LEEF\:\d+\.\d+\|Imperva\|SecureSphere\|\d+
-
 event-details:  
 - first-match: Imperva\|SecureSphere
   decoder: custom

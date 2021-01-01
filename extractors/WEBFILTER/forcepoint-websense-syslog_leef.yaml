@@ -27,8 +27,7 @@ event-details:
         dst: DstIP
         sev: Severity
         dstPort: DstPort
-        sev: Severity
-        url: URL 
+        url: URL
 
   fallback:
     annotate:
