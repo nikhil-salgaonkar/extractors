@@ -103,7 +103,7 @@ event-details:
         Action: LOGIN 
         Status: PASSED  
         AuthMethod: VPN 
-        Reasn: '-'
+        Reason: '-'
       translate: 
         src: SrcIP  
         user: User

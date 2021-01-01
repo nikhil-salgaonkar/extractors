@@ -10,7 +10,7 @@ provides-streams:
 master-filters:
 - \"type\"\:\"auditbeat\"
 event-details:
-- first-match: '\"action\"\:'
+- first-match: '\"category\":\[\"authentication\"'
   decoder: json
   event-key-format: '{event[action]}-{event[outcome]}'
   event-key-mapping:
@@ -20,6 +20,7 @@ event-details:
         Action: LOGIN
         Status: PASSED
         AuthMethod: '-'
+        Reason: '-'
       translate:
         user[name]: User
         source[ip]: SrcIP
@@ -30,20 +31,86 @@ event-details:
         Action: LOGIN
         Status: FAILED
         AuthMethod: '-'
+        Reason: '-'
       translate:
         user[name]: User
         source[ip]: SrcIP
 
-    'ran-command-success':
+  fallback:
+    annotate:
+      EventName: Generic Auditbeat Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      host[hostname]: System
+      '@timestamp': SystemTstamp
+
+
+- first-match: '\"category\":\[\"file\"'
+  decoder: json
+  event-key-format: '{event[type][0]}-{event[outcome]}'
+  event-key-mapping:
+    'creation':
       annotate:
         Stream: AUDITD
-        Action: PROCESS_ADDED
+        Action: FILE_CREATED
         Status: PASSED
       translate:
         user[name]: User
-        audit[data][cmd]: CommandLine
+        file[path]: FilePath
+        process[name]: Process
+        process[args]: ProcessArgs
 
-    'started-service-success':
+    'deletion':
+      annotate:
+        Stream: AUDITD
+        Action: FILE_DELETED
+        Status: PASSED
+      translate:
+        user[name]: User
+        file[path]: FilePath
+        process[name]: Process
+        process[args]: ProcessArgs
+
+    'change':
+      annotate:
+        Stream: AUDITD
+        Action: FILE_MODIFIED
+        Status: PASSED
+      translate:
+        user[name]: User
+        file[path]: FilePath
+        process[name]: Process
+        process[args]: ProcessArgs
+
+    'info':
+      annotate:
+        Stream: AUDITD
+        Action: FILE_INFO
+        Status: PASSED
+      translate:
+        user[name]: User
+        file[path]: FilePath
+        process[name]: Process
+        process[args]: ProcessArgs
+
+  fallback:
+    annotate:
+      EventName: Generic Auditbeat Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      host[hostname]: System
+      '@timestamp': SystemTstamp
+
+
+- first-match: '\"category\":\[\"process\"'
+  decoder: json
+  event-key-format: '{event[action]}'
+  event-key-mapping:
+    'started-service':
       annotate:
         Stream: AUDITD
         Action: SERVICE_START
@@ -53,10 +120,20 @@ event-details:
         process[name]: Process
         process[args]: ProcessArgs
 
-    'stopped-service-success':
+    'stopped-service':
       annotate:
         Stream: AUDITD
         Action: SERVICE_STOP
+        Status: PASSED
+      translate:
+        user[name]: User
+        process[name]: Process
+        process[args]: ProcessArgs
+
+    'executed':
+      annotate:
+        Stream: AUDITD
+        Action: PROCESS_ACCESSED
         Status: PASSED
       translate:
         user[name]: User
