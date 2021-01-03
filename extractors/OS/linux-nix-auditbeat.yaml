@@ -139,7 +139,7 @@ event-details:
     'executed':
       annotate:
         Stream: AUDITD
-        Action: SERVICE_START
+        Action: PROCESS_ADDED
         Status: PASSED
       translate:
         user[name]: User
