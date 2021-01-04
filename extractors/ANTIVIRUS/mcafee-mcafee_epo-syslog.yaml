@@ -5,7 +5,6 @@ source-name: MCAFEE-EPO
 source-type: ANTIVIRUS
 source-description: Extractor for McAfee Antivirus Events
 provides-streams:
-- ANTIVIRUS
 - AUTHENTICATION
 - ENDPOINT-THREAT
 master-filters:
