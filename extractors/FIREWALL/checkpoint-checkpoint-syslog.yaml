@@ -8,7 +8,6 @@ provides-streams:
 - NETWORK-THREAT
 - AUTHENTICATION
 - DHCP
-- WEBFILTER
 master-filters:
 - \d+\-\d+\-\d+T\d+\:\d+\:\d+.*?CheckPoint\s+\d+\s+\-\s+\[
 event-details:
@@ -119,10 +118,10 @@ event-details:
         proto: Proto  
         s_port: SrcPort  
         service: DstPort
-        malware_rule_name: RuleName
-        malware_rule_id: RuleID
-        file_name: FileName
-        file_type: FileType
+#        malware_rule_name: RuleName
+#        malware_rule_id: RuleID
+#        file_name: FileName
+#        file_type: FileType
         malware_action: AtkDesc
     Reject-SmartDefense-None:
       annotate:

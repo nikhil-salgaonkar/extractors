@@ -29,7 +29,7 @@ event-details:
         TargetUserName: User
         SourceIPV4: SrcIP
         ThreatSeverity: Severity
-        ThreatCategory: Category
+#        ThreatCategory: Category
         ThreatName: AtkMsg
     '34865':
       annotate:
@@ -42,7 +42,7 @@ event-details:
         TargetUserName: User
         SourceIPV4: SrcIP
         ThreatSeverity: Severity
-        ThreatCategory: Category
+#        ThreatCategory: Category
         ThreatName: AtkMsg
     '1102':  
       annotate:
@@ -55,7 +55,7 @@ event-details:
         TargetUserName: User
         SourceIPV4: SrcIP
         ThreatSeverity: Severity
-        ThreatCategory: Category
+#        ThreatCategory: Category
         ThreatName: AtkMsg
     '18055':
       annotate:
@@ -68,7 +68,7 @@ event-details:
         TargetUserName: User
         SourceIPV4: SrcIP
         ThreatSeverity: Severity
-        ThreatCategory: Category
+#        ThreatCategory: Category
         ThreatName: AtkMsg
 
 

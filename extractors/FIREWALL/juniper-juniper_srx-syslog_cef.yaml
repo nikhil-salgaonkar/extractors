@@ -5,7 +5,6 @@ source-name: JUNIPER-SRX-CEF
 source-type: FIREWALL
 source-description: Extractor for Juniper SRX Firewall Events
 provides-streams:
-- NETWORK-FIREWALL
 - AUTHENTICATION
 master-filters:
 - CEF:0\|Juniper\|JUNOS\|
