@@ -482,18 +482,18 @@ event-details:
         dstip: DstIP
         attack: AtkMsg
 
-    1501054200-pass:
-      annotate:
-        Stream: DNS
-        Action: NONE
-        Status: NONE
-      translate:
-        srcip: SrcIP
-        srcport: SrcPort
-        dstip: DstIP
-        dstport: DstPort
-        qname: Query
-        subtype: SubCategory
+#    1501054200-pass:
+#      annotate:
+#        Stream: DNS
+#        Action: NONE
+#        Status: NONE
+#      translate:
+#        srcip: SrcIP
+#        srcport: SrcPort
+#        dstip: DstIP
+#        dstport: DstPort
+#        qname: Query
+#        subtype: SubCategory
 
     0100022952-login:
       annotate:
@@ -553,17 +553,17 @@ event-details:
         dstip: DstIP
         dstport: DstPort
 
-    0000000015-start:
-      annotate:
-        Stream: DNS
-        Action: NONE
-        Status: NONE
-      translate:
-        srcip: SrcIP
-        srcport: SrcPort
-        dstip: DstIP
-        dstport: DstPort
-        qname: Query
+#    0000000015-start:
+#      annotate:
+#        Stream: DNS
+#        Action: NONE
+#        Status: NONE
+#      translate:
+#        srcip: SrcIP
+#        srcport: SrcPort
+#        dstip: DstIP
+#        dstport: DstPort
+#        qname: Query
 
   fallback:
     annotate:
