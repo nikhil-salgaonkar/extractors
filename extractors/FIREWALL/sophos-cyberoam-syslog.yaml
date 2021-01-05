@@ -7,7 +7,7 @@ source-description: Extractor for Cyberoam Firewall Events
 provides-streams:
 - AUTHENTICATION
 - ENDPOINT-THREAT
-- NETWORK-FIREWALL
+- FIREWALL
 master-filters:
 - 'date\=\d+\-\d+\-\d+\s+time\=\d+\:\d+\:\d+\s+timezone\=\"\w+\"\s+device_name\=\"\S+\"\sdevice_id=C\d+\-\w+\s+log_id\=\d+\s+'
 event-details:
@@ -48,7 +48,7 @@ event-details:
         src_ip: SrcIP 
     '050901616003-None':
       annotate:
-        Stream: NETWORK-FIREWALL
+        Stream: FIREWALL
         Action: PACKET_ALLOWED
         Status: PASSED
       translate:
@@ -80,7 +80,7 @@ event-details:
         src_ip: SrcIP            
     '010102600002-Deny':
       annotate:
-        Stream: NETWORK-FIREWALL
+        Stream: FIREWALL
         Action: PACKET_BLOCKED
         Status: FAILED
       translate:
@@ -93,7 +93,7 @@ event-details:
         recv_bytes: RXLen 
     '050902616002-None':
       annotate:
-        Stream: NETWORK-FIREWALL
+        Stream: FIREWALL
         Action: PACKET_BLOCKED
         Status: FAILED
       translate:
@@ -106,7 +106,7 @@ event-details:
         recv_bytes: RXLen 
     '010101600001-Allow':
       annotate:
-        Stream: NETWORK-FIREWALL
+        Stream: FIREWALL
         Action: PACKET_ALLOWED
         Status: PASSED
       translate:
@@ -136,7 +136,7 @@ event-details:
         priority: LogLevel       
     '050901616001-None':
       annotate:
-        Stream: NETWORK-FIREWALL
+        Stream: FIREWALL
         Action: PACKET_ALLOWED
         Status: PASSED
       translate:
@@ -188,7 +188,7 @@ event-details:
         src_ip: SrcIP 
     '010301602001-Allow':
       annotate:
-        Stream: NETWORK-FIREWALL
+        Stream: FIREWALL
         Action: PACKET_ALLOWED
         Status: PASSED
       translate:

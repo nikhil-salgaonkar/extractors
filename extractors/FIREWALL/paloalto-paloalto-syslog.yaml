@@ -5,7 +5,7 @@ source-name: PALOALTO
 source-type: FIREWALL
 source-description: Extractor for PaloAlto Firewall Events
 provides-streams:
-- NETWORK-FIREWALL
+- FIREWALL
 - NETWORK-THREAT
 - AUTHENTICATION
 master-filters:
@@ -18,7 +18,7 @@ event-details:
   event-key-mapping:
     'allow':
       annotate:
-        Stream: NETWORK-FIREWALL
+        Stream: FIREWALL
         Action: PACKET_ALLOWED
         Status: PASSED
       translate:
@@ -31,7 +31,7 @@ event-details:
         receive_bytes: RXLen
     'deny':
       annotate:
-        Stream: NETWORK-FIREWALL
+        Stream: FIREWALL
         Action: PACKET_BLOCKED
         Status: FAILED
       translate:
@@ -44,7 +44,7 @@ event-details:
         receive_bytes: RXLen
     'drop':
       annotate:
-        Stream: NETWORK-FIREWALL
+        Stream: FIREWALL
         Action: PACKET_BLOCKED
         Status: FAILED
       translate:
@@ -57,7 +57,7 @@ event-details:
         receive_bytes: RXLen 
     'reset-both':   
       annotate:
-        Stream: NETWORK-FIREWALL
+        Stream: FIREWALL
         Action: PACKET_ALLOWED
         Status: PASSED
       translate:
@@ -70,7 +70,7 @@ event-details:
         receive_bytes: RXLen 
     'drop-icmp':  
       annotate:
-        Stream: NETWORK-FIREWALL
+        Stream: FIREWALL
         Action: PACKET_BLOCKED
         Status: FAILED
       translate:

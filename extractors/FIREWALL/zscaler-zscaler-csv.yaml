@@ -5,7 +5,7 @@ source-name: ZSCALER
 source-type: FIREWALL
 source-description: Extractor for Zscaler Firewall Events
 provides-streams:
-- NETWORK-FIREWALL
+- FIREWALL
 master-filters:
 - '\"\w+\s+\w+\s+\d+\s+\d+\:\d+\:\d+\s+\d+\"\,.*?\"\,.*?\"\d+\"\,\"(?:DNS\s+Blocks\s+From\s+URL\s+Cat|gras\s+reset\s+rule|Blocks\-reduce\-logs|Skype\s+Block|Blocked\s+ports|Default\s+Firewall\s+Filtering\s+Rule|Zoom\-ZS\-Defined|ICMP|Zoom\.us|Dialpad-DNS-NTP)\"\,\".*?\"\,\".*?\"\,\".*?\"\,\".*?\"\,\".*?\"'
 event-details:
@@ -16,7 +16,7 @@ event-details:
   event-key-mapping:
     Blocked ports:
       annotate:
-        Stream: NETWORK-FIREWALL
+        Stream: FIREWALL
         Action: PORT_BLOCKED
         Status: PASSED
       translate:

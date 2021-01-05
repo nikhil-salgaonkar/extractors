@@ -16,7 +16,7 @@ provides-streams:
 - SYSMON-DNS
 - IAM
 - AUTHENTICATION
-- NETWORK-FIREWALL
+- FIREWALL
 master-filters:
 - \"beat\"\:\"winlogbeat\"
 event-details:
@@ -518,7 +518,7 @@ event-details:
         winlog[event_data][IpAddress]: SrcIP
     '5156':
       annotate:
-        Stream: NETWORK-FIREWALL
+        Stream: FIREWALL
         Action: PACKET_ALLOWED
         Status: PASSED
       translate:
@@ -530,7 +530,7 @@ event-details:
         winlog[event_data][Application]: App
     '5158':
       annotate:
-        Stream: NETWORK-FIREWALL
+        Stream: FIREWALL
         Action: PORT_ALLOWED
         Status: PASSED
       translate:

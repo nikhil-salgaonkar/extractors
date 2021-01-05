@@ -5,7 +5,7 @@ source-name: WATCHGUARD
 source-type: FIREWALL
 source-description: extractor for WatchGuard Firewall Events
 provides-streams:
-- NETWORK-FIREWALL
+- FIREWALL
 master-filters:
 - '\(\d{4}\-\d{1,2}\-\d{2}\T\d{2}\:\d{2}\:\d{2}\)\s+(?:firewall|link-mon|networkd|networkd|sigd)(?:\[\d+\])?\:\s+msg\_id\=\"\S+\"\s+'
 event-details:  
@@ -16,7 +16,7 @@ event-details:
   event-key-mapping:
     'Allow':           
       annotate:
-        Stream: NETWORK-FIREWALL
+        Stream: FIREWALL
         Action: PACKET_ALLOWED
         Status: PASSED
       translate: 
@@ -30,7 +30,7 @@ event-details:
 
     'Deny':           
       annotate:
-        Stream: NETWORK-FIREWALL
+        Stream: FIREWALL
         Action: PACKET_BLOCKED
         Status: FAILED
       translate: 
