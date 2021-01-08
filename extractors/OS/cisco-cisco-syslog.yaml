@@ -152,7 +152,7 @@ event-details:
        
 - first-match: '\%PORT\_SECURITY\-2\-PSECURE\_VIOLATION\:'
   decoder: regex
-  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}).*?\%(?P<facility>\w+)\-(?P<severity>\d+)\-(?P<hostname>\S+)\:\s+(?P<message>(?P<evtdesc>.*?)\,.*?address\s+(?P<mac_address>[\w\.]+)\s+.*?\.)(?:\s+\((?P<hostname>.*?)\))?'
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}).*?\%(?P<facility>\w+)\-(?P<severity>\d+)\-\S+\:\s+(?P<message>(?P<evtdesc>.*?)\,.*?address\s+(?P<mac_address>[\w\.]+)\s+.*?\.)(?:\s+\((?P<hostname>.*?)\))?'
   event-key-format: ''
   event-key-mapping:
     '':
