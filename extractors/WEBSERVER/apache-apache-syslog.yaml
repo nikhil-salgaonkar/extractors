@@ -27,7 +27,7 @@ event-details:
         httpmethod: Method
         url: URL
         httpretcode: ReturnCode 
-#        httpreferer: Referrer
+        httpreferer: Referrer
         useragent: UserAgent
         txlen: TXLen
         app: App 

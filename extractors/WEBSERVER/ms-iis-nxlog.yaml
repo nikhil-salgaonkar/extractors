@@ -20,7 +20,7 @@ event-details:
         Status: PASSED
       translate:
         SourceIP: SrcIP
-#        HTTPReferer: Referrer
+        HTTPReferer: Referrer
         HTTPMethod: Method
         HTTPRetCode: ReturnCode
         TXLen: TXLen

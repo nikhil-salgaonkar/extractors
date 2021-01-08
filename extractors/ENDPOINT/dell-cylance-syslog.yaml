@@ -52,8 +52,6 @@ event-details:
         'File Type': FileType 
         'SHA256': HashSHA256
         'MD5': HashMD5
-#        'Threat Classification': ThreatCategory
-#        'Is Malware': MalwareStatus
     'Threat-threat_found': 
       annotate:
         Stream: ENDPOINT-THREAT
@@ -65,8 +63,7 @@ event-details:
         'File Type': FileType 
         'SHA256': HashSHA256
         'MD5': HashMD5
-#        'Threat Classification': ThreatCategory
-#        'Is Malware': MalwareStatus
+
     'Threat-threat_changed': 
       annotate:
         Stream: ENDPOINT-THREAT
@@ -77,9 +74,8 @@ event-details:
         'Path': FilePath
         'File Type': FileType 
         'SHA256': HashSHA256
-        'MD5': HashMD5
-#        'Threat Classification': ThreatCategory
-#        'Is Malware': MalwareStatus 
+        'MD5': HashMD5 
+
     'Threat-threat_cleared': 
       annotate:
         Stream: ENDPOINT-THREAT
@@ -90,9 +86,8 @@ event-details:
         'Path': FilePath
         'File Type': FileType 
         'SHA256': HashSHA256
-        'MD5': HashMD5
-#        'Threat Classification': ThreatCategory
-#        'Is Malware': MalwareStatus   
+        'MD5': HashMD5  
+         
     'ExploitAttempt-terminated':           
       annotate:
         Stream: ENDPOINT-THREAT
