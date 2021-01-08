@@ -5,7 +5,6 @@ source-name: MCAFEE-EPO
 source-type: ANTIVIRUS
 source-description: Extractor for McAfee Antivirus Events
 provides-streams:
-- ANTIVIRUS
 - AUTHENTICATION
 - ENDPOINT-THREAT
 master-filters:
@@ -29,7 +28,6 @@ event-details:
         TargetUserName: User
         SourceIPV4: SrcIP
         ThreatSeverity: Severity
-        ThreatCategory: Category
         ThreatName: AtkMsg
     '34865':
       annotate:
@@ -42,7 +40,6 @@ event-details:
         TargetUserName: User
         SourceIPV4: SrcIP
         ThreatSeverity: Severity
-        ThreatCategory: Category
         ThreatName: AtkMsg
     '1102':  
       annotate:
@@ -55,7 +52,6 @@ event-details:
         TargetUserName: User
         SourceIPV4: SrcIP
         ThreatSeverity: Severity
-        ThreatCategory: Category
         ThreatName: AtkMsg
     '18055':
       annotate:
@@ -68,7 +64,6 @@ event-details:
         TargetUserName: User
         SourceIPV4: SrcIP
         ThreatSeverity: Severity
-        ThreatCategory: Category
         ThreatName: AtkMsg
 
 

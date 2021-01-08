@@ -48,7 +48,6 @@ event-details:
         Status: PASSED
       translate:
         dhost: DstHost
-        cat: Category
         filePath: FilePath
         fname: FileName
         dst: DstIP
@@ -112,7 +111,6 @@ event-details:
         filePath: FilePath
         dst: DstIP
         fileHash: FileHash
-        cat: Category
         shost: SrcHost 
         Header-5: Signature 
         Header-6: Severity

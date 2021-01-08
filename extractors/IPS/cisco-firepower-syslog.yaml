@@ -46,7 +46,6 @@ event-details:
         InitiatorBytes: TXLen
         ResponderBytes: RXLen
         URL: URL
-        WebApplication: App
         Protocol: Proto
     Block with reset:   
       annotate:
@@ -62,7 +61,6 @@ event-details:
         InitiatorBytes: TXLen
         ResponderBytes: RXLen
         URL: URL
-        WebApplication: App
         Protocol: Proto
 
   fallback:

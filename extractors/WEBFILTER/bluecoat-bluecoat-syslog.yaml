@@ -125,7 +125,6 @@ event-details:
         dport: DstPort
         user: User
         url: URL
-    #   application: App
         httpmethod: Method
         sent_byte: TXLen
         receive_byte: RXLen  
