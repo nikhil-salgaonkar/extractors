@@ -1,0 +1,39 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 288
+source-name: CARBON-BLACK
+source-type: ENDPOINT
+source-description: Extractor for Carbon-Black Events
+provides-streams:
+- ENDPOINT-THREAT
+master-filters:
+- \"eventId\"\:\s+\"\w+\"\,\s+\"eventTime\"\:\s+\d+\,\s+\"loginName\"\:\s+\"\S+\"
+- \"eventTime\"\:\s+\d+\,\s+\"eventDescription\"\:\s+\"\[Syslog\]\s+\[Carbon\s+Black\s+has\s+detected\s+a\s+threat\s+against\s+your\s+company.\]
+event-details:
+- first-match: \"eventTime\"\:\s+\d+\,\s+
+  decoder: custom
+  decoder-regex: \"(\w+)\"\:\s+\"?([^\"]+)\"?\,
+  event-key-format: '{type}'
+  event-key-mapping:
+    'THREAT':
+      annotate:
+        Stream: ENDPOINT-THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+      translate:
+        app: App
+        #internalIpAddress: InternalIP
+        #externalIpAddress: ExternalIP
+        email: User
+        url: URL
+        source: SrcURL
+        targetPriorityType: Severity
+
+  fallback:
+    annotate:
+      EventName: Generic Carbon-Black Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      deviceHostName: System
