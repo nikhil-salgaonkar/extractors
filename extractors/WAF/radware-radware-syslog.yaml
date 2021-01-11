@@ -95,7 +95,7 @@ event-details:
         Stream: NETWORK-THREAT
         Action: THREAT_DETECTED
         Status: PASSED
-        Blcoked: 'YES'
+        Blocked: 'YES'
       translate:
         uri: URL
         method: Method
@@ -115,7 +115,7 @@ event-details:
         Stream: NETWORK-THREAT
         Action: THREAT_DETECTED
         Status: PASSED
-        Blcoked: 'YES'
+        Blocked: 'YES'
       translate:
         uri: URL
         method: Method
@@ -135,7 +135,7 @@ event-details:
         Stream: NETWORK-THREAT
         Action: THREAT_DETECTED
         Status: PASSED
-        Blcoked: 'YES'
+        Blocked: 'YES'
       translate:
         uri: URL
         method: Method
