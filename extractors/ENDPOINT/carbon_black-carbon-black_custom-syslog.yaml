@@ -1,0 +1,82 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 6001
+source-name: CARBON-BLACK-CUSTOM
+source-type: EPP
+source-description: Extractor for Carbon Black Events
+provides-streams:
+- AUTHENTICATION
+- ENDPOINT-THREAT
+master-filters:
+- '\d+\-\d+\-\d+T\d+\:\d+\:\d+Z\s+\S+\s+[\s\-]+Cb\s+Protection\s+event\:\s+'
+event-details:
+- first-match: '\s+Cb\s+Protection\s+event\:\s+text\=\".*?type\='
+  decoder: custom
+  decoder-regex: '([\w]+)\=(\"[^\"]*\"|[^\s]*)'
+  event-key-format: '{file_threat}-{process_threat}-{subtype}'
+  event-key-mapping:
+    '-1-0':
+      annotate:
+        Stream: ENDPOINT-THREAT
+        Action: THREAT_BLOCKED
+        Status: PASSED
+      translate:
+        username: User
+        ip_address: SrcIP
+        process: Process
+        file_path: FilePath
+        file_name: FileName
+        file_hash: FileHash
+        server_version: Version
+        file_threat: EPThreats
+        process_threat: ParentProcess
+    '-2-0':
+      annotate:
+        Stream: ENDPOINT-THREAT
+        Action: THREAT_BLOCKED
+        Status: PASSED
+      translate:
+        username: User
+        ip_address: SrcIP
+        process: Process
+        file_path: FilePath
+        file_name: FileName
+        file_hash: FileHash
+        server_version: Version
+        file_threat: EPThreats
+        process_threat: ParentProcess 
+    'None-0':
+      annotate:
+        Stream: ENDPOINT-THREAT
+        Action: THREAT_BLOCKED
+        Status: PASSED
+      translate:
+        username: User
+        ip_address: SrcIP
+        process: Process
+        file_path: FilePath
+        file_name: FileName
+        file_hash: FileHash
+        server_version: Version
+        file_threat: EPThreats
+        process_threat: ParentProcess  
+    'None-None-Console user login':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+        AuthMethod: '-'
+        Reason: '-'  
+      translate:
+        username: User
+        ip_address: SrcIP          
+
+  fallback:
+    annotate:
+      EventName: Generic Carbon Black Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      date: SystemTstamp
+      hostname: System
