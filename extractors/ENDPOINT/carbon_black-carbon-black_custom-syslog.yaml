@@ -48,7 +48,7 @@ event-details:
     'Policy Management-None--2':
       annotate:
         Stream: ENDPOINT-THREAT
-        Action: THREAT_BLOCKED
+        Action: THREAT_DETECTED
         Status: PASSED
       translate:
         username: User
