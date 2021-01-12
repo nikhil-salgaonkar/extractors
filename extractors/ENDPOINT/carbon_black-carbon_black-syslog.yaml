@@ -18,16 +18,19 @@ event-details:
       annotate:
         Stream: ENDPOINT-THREAT
         Action: THREAT_DETECTED
-        Status: PAASED
+        Status: PASSED
       translate:
         remote_ip: SrcIP
         direction: Flow
+        reason: Reason
         remote_port: SrcPort
         local_ip: DstIP
         local_port: DstPort
         sentbyte: TXLen
         rcvdbyte: RXLen
         protocol: Proto
+        interface_ip: IfaceIP
+        comms_ip: ExternalIP
         process_name: Process
         username: User
         parent_name: ParentProcess
