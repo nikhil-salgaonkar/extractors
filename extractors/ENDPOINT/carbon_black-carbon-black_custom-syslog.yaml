@@ -13,9 +13,9 @@ event-details:
 - first-match: '\s+Cb\s+Protection\s+event\:\s+text\=\".*?type\='
   decoder: custom
   decoder-regex: '([\w]+)\=(\"[^\"]*\"|[^\s]*)'
-  event-key-format: '{file_threat}-{process_threat}-{subtype}'
+  event-key-format: '{type}-{file_threat}-{process_threat}'
   event-key-mapping:
-    '-1-0':
+    'Discovery--1-0':
       annotate:
         Stream: ENDPOINT-THREAT
         Action: THREAT_BLOCKED
@@ -30,7 +30,7 @@ event-details:
         server_version: Version
         file_threat: EPThreats
         process_threat: ParentProcess
-    '-2-0':
+    'Policy Enforcement--2-0':
       annotate:
         Stream: ENDPOINT-THREAT
         Action: THREAT_BLOCKED
@@ -45,7 +45,7 @@ event-details:
         server_version: Version
         file_threat: EPThreats
         process_threat: ParentProcess 
-    'None-0':
+    'Policy Management-None--2':
       annotate:
         Stream: ENDPOINT-THREAT
         Action: THREAT_BLOCKED
@@ -60,7 +60,7 @@ event-details:
         server_version: Version
         file_threat: EPThreats
         process_threat: ParentProcess  
-    'None-None-Console user login':
+    'Session Management-None-None':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
