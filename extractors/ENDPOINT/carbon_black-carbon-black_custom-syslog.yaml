@@ -18,8 +18,8 @@ event-details:
     'Discovery--1-0':
       annotate:
         Stream: ENDPOINT-THREAT
-        Action: THREAT_BLOCKED
-        Status: PASSED
+        Action: THREAT_DETECTED
+        Status: FAILED
       translate:
         username: User
         ip_address: SrcIP
@@ -33,8 +33,8 @@ event-details:
     'Policy Enforcement--2-0':
       annotate:
         Stream: ENDPOINT-THREAT
-        Action: THREAT_BLOCKED
-        Status: PASSED
+        Action: THREAT_DETECTED
+        Status: FAILED
       translate:
         username: User
         ip_address: SrcIP
