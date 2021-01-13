@@ -1,0 +1,241 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 161
+source-name: MIMECAST
+source-type: EMAIL-GATEWAY
+source-description: extractor for Mimecast Events
+provides-streams:
+- EMAIL-GATEWAY
+- AUTHENTICATION
+master-filters:
+- '(?:datetime|date)\=\d{4}\-\d{2}\-\d{2}T\d{2}\:\d{2}\:\d{2}\+\d+\|(?:mcType|aCode|acc)\=\"?[\w\_]+'
+event-details:
+- first-match: '(?:datetime|date)\=\d{4}\-\d{2}\-\d{2}T\d{2}\:\d{2}\:\d{2}\+\d+\|(?:mcType|aCode|acc)\='
+  decoder: custom
+  decoder-regex: (\w+)\=([^|]+)
+  event-key-format: '{action}-{auditType}-{Delivered}-{Act}-{RejCode}'
+  event-key-mapping:
+    'failure-Logon Authentication Failed-None-None-None':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+        AuthMethod: '-'
+      translate:
+        src: SrcIP
+        user: User
+        eventInfo: Reason
+    'success-User Logged On-None-None-None':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        src: SrcIP
+        user: User
+        eventInfo: Reason
+    'None-None-true-None-None':
+      annotate:
+        Stream: EMAIL-GATEWAY
+        Action: EMAIL_DELIVERED
+        Status: PASSED
+      translate:
+        IP: DstIP
+        Dir: Flow
+        Subject: Subject
+        Sender: Sender
+        Rcpt: Recipient
+        AttSize: AttachmentSize
+        Snt: TXLen
+        Route: MCRoute
+        protocol: Proto 
+    'None-None-None-Acc-None':
+      annotate:
+        Stream: EMAIL-GATEWAY
+        Action: EMAIL_DELIVERED
+        Status: PASSED
+      translate:
+        IP: SrcIP
+        Dir: Flow
+        Subject: Subject
+        Sender: Sender
+        Rcpt: Recipient
+        protocol: Proto 
+    'None-None-true-None-None':
+      annotate:
+        Stream: EMAIL-GATEWAY
+        Action: EMAIL_DELIVERED
+        Status: PASSED
+      translate:
+        IP: DstIP
+        Dir: Flow
+        Subject: Subject
+        Sender: Sender
+        Rcpt: Recipient
+        AttSize: AttachmentSize
+        Snt: TXLen
+        Route: MCRoute
+        protocol: Proto
+    'None-None-None-Rej-550':
+      annotate:
+        Stream: EMAIL-GATEWAY
+        Action: EMAIL_RECEIPTED
+        Status: FAILED
+      translate:
+        IP: SrcIP
+        Dir: Flow
+        Subject: Subject
+        Sender: Sender
+        Rcpt: Recipient    
+    'None-None-None-Acc-None':
+      annotate:
+        Stream: EMAIL-GATEWAY
+        Action: EMAIL_DELIVERED
+        Status: PASSED
+      translate:
+        IP: SrcIP
+        Dir: Flow
+        Subject: Subject
+        Sender: Sender
+        Rcpt: Recipient   
+    'None-None-false-None-550':
+      annotate:
+        Stream: EMAIL-GATEWAY
+        Action: EMAIL_DELIVERED
+        Status: FAILED
+      translate:
+        IP: SrcIP
+        Dir: Flow
+        Subject: Subject
+        Sender: Sender
+        Rcpt: Recipient
+        Route: MCRoute
+        Snt: TXLen  
+    'None-None-None-Rej-554':
+      annotate:
+        Stream: EMAIL-GATEWAY
+        Action: THREAT-DETECTED
+        Status: FAILED
+      translate:
+        IP: SrcIP
+        Dir: Flow
+        Subject: Subject
+        Sender: Sender
+        Rcpt: Recipient
+        Route: MCRoute
+        Virus: VirusName
+        Snt: TXLen 
+    'None-None-None-Rej-550':
+      annotate:
+        Stream: EMAIL-GATEWAY
+        Action: EMAIL_DELIVERED
+        Status: FAILED
+      translate:
+        IP: SrcIP
+        Dir: Flow
+        Subject: Subject
+        Sender: Sender
+        Rcpt: Recipient
+    'None-None-None-Rej-451':
+      annotate:
+        Stream: EMAIL-GATEWAY
+        Action: EMAIL_DELIVERED
+        Status: FAILED
+      translate:
+        IP: SrcIP
+        Dir: Flow
+        Subject: Subject
+        Sender: Sender
+        Rcpt: Recipient  
+    'None-None-false-None-None':
+      annotate:
+        Stream: EMAIL-GATEWAY
+        Action: EMAIL_DELIVERED
+        Status: FAILED
+      translate:
+        IP: SrcIP
+        Dir: Flow
+        Subject: Subject
+        Sender: Sender
+        Rcpt: Recipient
+        Route: MCRoute
+        Snt: TXLen
+    'None-None-true-None-None':
+      annotate:
+        Stream: EMAIL-GATEWAY
+        Action: EMAIL_DELIVERED
+        Status: PASSED
+      translate:
+        IP: SrcIP
+        Dir: Flow
+        Subject: Subject
+        Sender: Sender
+        Rcpt: Recipient
+        Route: MCRoute
+        Snt: TXLen  
+    'None-None-None-Rej-None':
+      annotate:
+        Stream: EMAIL-GATEWAY
+        Action: EMAIL_DELIVERED
+        Status: FAILED
+      translate:
+        IP: SrcIP
+        Dir: Flow
+        Subject: Subject
+        Sender: Sender
+        Rcpt: Recipient
+        Route: MCRoute
+        Snt: TXLen
+    'None-None-false-None-553':
+      annotate:
+        Stream: EMAIL-GATEWAY
+        Action: EMAIL_DELIVERED
+        Status: FAILED
+      translate:
+        IP: SrcIP
+        Dir: Flow
+        Subject: Subject
+        Sender: Sender
+        Rcpt: Recipient
+        Route: MCRoute
+        Snt: TXLen   
+        AttSize: AttachmentSize    
+    'None-None-false-None-554':
+      annotate:
+        Stream: EMAIL-GATEWAY
+        Action: EMAIL_DELIVERED
+        Status: FAILED
+      translate:
+        IP: SrcIP
+        Dir: Flow
+        Subject: Subject
+        Sender: Sender
+        Rcpt: Recipient
+        Route: MCRoute
+        Snt: TXLen    
+        AttSize: AttachmentSize 
+    'None-None-false-None-421':
+      annotate:
+        Stream: EMAIL-GATEWAY
+        Action: EMAIL_DELIVERED
+        Status: FAILED
+      translate:
+        IP: SrcIP
+        Dir: Flow
+        Subject: Subject
+        Sender: Sender
+        Rcpt: Recipient
+        Route: MCRoute
+        Snt: TXLen    
+        AttSize: AttachmentSize                
+
+  fallback:
+      annotate:
+        EventName: Generic Mimecast Event
+        Stream: OTHER
+
+  globals:
+    translate:
+        datetime: SystemTstamp
+        date: SystemTstamp
+        Hostname: System
