@@ -105,6 +105,7 @@ event-details:
         winlog[event_data][Description]: Description
         winlog[event_data][Company]: Company
         winlog[event_data][Product]: Product
+        winlog[event_data][Signed]: Signed
 
     '8':
       annotate:

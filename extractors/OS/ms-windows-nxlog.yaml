@@ -364,7 +364,8 @@ event-details:
         User: User
         Description: Description
         Company: Company
-        Product: Product   
+        Product: Product 
+        Signed: Signed  
              
   fallback:
     annotate:
