@@ -33,22 +33,7 @@ event-details:
       translate:
         src: SrcIP
         user: User
-        eventInfo: Reason
-    'None-None-true-None-None':
-      annotate:
-        Stream: EMAIL-GATEWAY
-        Action: EMAIL_DELIVERED
-        Status: PASSED
-      translate:
-        IP: DstIP
-        Dir: Flow
-        Subject: Subject
-        Sender: Sender
-        Rcpt: Recipient
-        AttSize: AttachmentSize
-        Snt: TXLen
-        Route: MCRoute
-        protocol: Proto 
+        eventInfo: Reason 
     'None-None-None-Acc-None':
       annotate:
         Stream: EMAIL-GATEWAY
@@ -160,19 +145,6 @@ event-details:
         Rcpt: Recipient
         Route: MCRoute
         Snt: TXLen
-    'None-None-true-None-None':
-      annotate:
-        Stream: EMAIL-GATEWAY
-        Action: EMAIL_DELIVERED
-        Status: PASSED
-      translate:
-        IP: SrcIP
-        Dir: Flow
-        Subject: Subject
-        Sender: Sender
-        Rcpt: Recipient
-        Route: MCRoute
-        Snt: TXLen  
     'None-None-None-Rej-None':
       annotate:
         Stream: EMAIL-GATEWAY
