@@ -25,6 +25,9 @@ event-details:
         awsRegion: AwsRegion
         userIdentity[type]: UserGroup
         userAgent: UserAgent
+        requestParameters: RequestParameters
+        responseElements: ResponseElements
+        errorCode: ErrorCode
 
     'IAMUser':
       annotate:
@@ -37,9 +40,14 @@ event-details:
         awsRegion: AwsRegion
         userIdentity[userName]: User
         userIdentity[accessKeyId]: AccessKey
+        userIdentity[arn]: UserArn
         userIdentity[type]: UserGroup
         sourceIPAddress: SrcIP
         userAgent: UserAgent
+        requestParameters: RequestParameters
+        responseElements: ResponseElements
+        errorCode: ErrorCode
+
 
     'Root':
       annotate:
@@ -55,6 +63,9 @@ event-details:
         userIdentity[type]: UserGroup
         sourceIPAddress: SrcIP
         userAgent: UserAgent
+        requestParameters: RequestParameters
+        responseElements: ResponseElements
+        errorCode: ErrorCode
 
   fallback:
     annotate:
