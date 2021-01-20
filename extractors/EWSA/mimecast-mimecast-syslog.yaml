@@ -7,15 +7,17 @@ source-description: extractor for Mimecast Events
 provides-streams:
 - EMAIL-GATEWAY
 - AUTHENTICATION
+- THREAT
+- IAM
 master-filters:
 - '(?:datetime|date)\=\d{4}\-\d{2}\-\d{2}T\d{2}\:\d{2}\:\d{2}\+\d+\|(?:mcType|aCode|acc)\=\"?[\w\_]+'
 event-details:
 - first-match: '(?:datetime|date)\=\d{4}\-\d{2}\-\d{2}T\d{2}\:\d{2}\:\d{2}\+\d+\|(?:mcType|aCode|acc)\='
   decoder: custom
   decoder-regex: (\w+)\=([^|]+)
-  event-key-format: '{action}-{auditType}-{Delivered}-{Act}-{RejCode}'
+  event-key-format: '{action}-{auditType}-{Delivered}-{Act}-{UrlCategory}-{reason}'
   event-key-mapping:
-    'failure-Logon Authentication Failed-None-None-None':
+    'failure-Logon Authentication Failed-None-None-None-None':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
@@ -25,32 +27,82 @@ event-details:
         src: SrcIP
         user: User
         eventInfo: Reason
-    'success-User Logged On-None-None-None':
+    'success-User Logged On-None-None-None-None':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
+        AuthMethod: '-'
       translate:
         src: SrcIP
         user: User
-        eventInfo: Reason 
-    'None-None-None-Acc-None':
+        eventInfo: Reason
+    'None-Account Updated-None-None-None-None':
       annotate:
-        Stream: EMAIL-GATEWAY
-        Action: EMAIL_DELIVERED
+        Stream: IAM
+        Action: USER_ACCOUNT_UPDATED
         Status: PASSED
       translate:
-        IP: SrcIP
-        Dir: Flow
-        Subject: Subject
-        Sender: Sender
-        Rcpt: Recipient
-        protocol: Proto 
-    'None-None-true-None-None':
+        Administrator: AdminUser
+        Accountdetails: AccountDetails
+        user: User
+    'None-New Policy-None-None-None-None':
+      annotate:
+        Stream: IAM
+        Action: POLICY_CREATED
+        Status: PASSED
+      translate:
+        Administrator: AdminUser
+        user: User      
+        Policydetails: PolicyDetails 
+    'None-Policy Deleted-None-None-None-None':
+      annotate:
+        Stream: IAM
+        Action: POLICY_DELETED
+        Status: PASSED
+      translate:
+        Administrator: AdminUser
+        user: User      
+        Policydetails: PolicyDetails 
+    'None-Existing User Role Updated-None-None-None-None':
+      annotate:
+        Stream: IAM
+        Action: USER_ROLE_UPDATED
+        Status: PASSED
+      translate:
+        Administrator: AdminUser      
+        Rolename: RoleName 
+    'None-User removed from role-None-None-None-None':
+      annotate:
+        Stream: IAM
+        Action: USER_REMOVED
+        Status: PASSED
+      translate:
+        Administrator: AdminUser      
+        Rolename: RoleName  
+        user: User 
+    'None-User added from role-None-None-None-None':
+      annotate:
+        Stream: IAM
+        Action: USER_ADDED
+        Status: PASSED
+      translate:
+        Administrator: AdminUser      
+        Rolename: RoleName  
+        user: User
+    'None-User Password Changed-None-None-None-None':
+      annotate:
+        Stream: IAM
+        Action: ACCOUNT_PASSWORD_RESET
+        Status: PASSED
+      translate:
+        Administrator: AdminUser      
+        src: SrcIP
+        user: User 
+    'None-None-true-None-None-None':
       annotate:
         Stream: EMAIL-GATEWAY
         Action: EMAIL_DELIVERED
-        Status: PASSED
       translate:
         IP: DstIP
         Dir: Flow
@@ -59,80 +111,42 @@ event-details:
         Rcpt: Recipient
         AttSize: AttachmentSize
         Snt: TXLen
-        Route: MCRoute
-        protocol: Proto
-    'None-None-None-Rej-550':
+        AttNames: AttachmentName
+        AttCnt: AttachmentCount
+        protocol: Proto 
+    'None-None-None-Acc-None-None':
       annotate:
         Stream: EMAIL-GATEWAY
-        Action: EMAIL_RECEIPTED
-        Status: FAILED
-      translate:
-        IP: SrcIP
-        Dir: Flow
-        Subject: Subject
-        Sender: Sender
-        Rcpt: Recipient    
-    'None-None-None-Acc-None':
-      annotate:
-        Stream: EMAIL-GATEWAY
-        Action: EMAIL_DELIVERED
-        Status: PASSED
-      translate:
-        IP: SrcIP
-        Dir: Flow
-        Subject: Subject
-        Sender: Sender
-        Rcpt: Recipient   
-    'None-None-false-None-550':
-      annotate:
-        Stream: EMAIL-GATEWAY
-        Action: EMAIL_DELIVERED
-        Status: FAILED
+        Action: EMAIL_ACCEPTED
       translate:
         IP: SrcIP
         Dir: Flow
         Subject: Subject
         Sender: Sender
         Rcpt: Recipient
-        Route: MCRoute
-        Snt: TXLen  
-    'None-None-None-Rej-554':
+        protocol: Proto 
+        SpamInfo: SpamInfo
+        SpamScore: SpamScore
+        AttNames: AttachmentName
+        AttCnt: AttachmentCount
+        AttSize: AttachmentSize
+    'None-None-None-Rej-None-None':
       annotate:
         Stream: EMAIL-GATEWAY
-        Action: THREAT-DETECTED
-        Status: FAILED
-      translate:
-        IP: SrcIP
-        Dir: Flow
-        Subject: Subject
-        Sender: Sender
-        Rcpt: Recipient
-        Route: MCRoute
-        Virus: VirusName
-        Snt: TXLen 
-    'None-None-None-Rej-550':
-      annotate:
-        Stream: EMAIL-GATEWAY
-        Action: EMAIL_DELIVERED
-        Status: FAILED
-      translate:
-        IP: SrcIP
-        Dir: Flow
-        Subject: Subject
-        Sender: Sender
-        Rcpt: Recipient
-    'None-None-None-Rej-451':
-      annotate:
-        Stream: EMAIL-GATEWAY
-        Action: EMAIL_DELIVERED
-        Status: FAILED
+        Action: EMAIL_REJECTED
       translate:
         IP: SrcIP
         Dir: Flow
         Subject: Subject
         Sender: Sender
         Rcpt: Recipient  
-    'None-None-false-None-None':
+        RejInfo: RejInfo
+        SpamScore: SpamScore
+        RejType: RejType
+        AttNames: AttachmentName
+        AttCnt: AttachmentCount
+        AttSize: AttachmentSize
+    'None-None-false-None-None-None':
       annotate:
         Stream: EMAIL-GATEWAY
         Action: EMAIL_DELIVERED
@@ -143,63 +157,69 @@ event-details:
         Subject: Subject
         Sender: Sender
         Rcpt: Recipient
-        Route: MCRoute
-        Snt: TXLen
-    'None-None-None-Rej-None':
+        Snt: TXLen  
+        RejInfo: RejInfo
+        RejType: RejType
+        AttSize: AttachmentSize  
+        AttNames: AttachmentName
+        AttCnt: AttachmentCount  
+    'None-None-None-Bnc-None-None':
       annotate:
         Stream: EMAIL-GATEWAY
-        Action: EMAIL_DELIVERED
-        Status: FAILED
+        Action: EMAIL_BOUNCED
       translate:
         IP: SrcIP
         Dir: Flow
         Subject: Subject
         Sender: Sender
         Rcpt: Recipient
-        Route: MCRoute
-        Snt: TXLen
-    'None-None-false-None-553':
+        SpamLimit: SpamLimit
+        SpamInfo: SpamInfo
+        SpamScore: SpamScore
+        AttNames: AttachmentName
+        AttCnt: AttachmentCount
+        AttSize: AttachmentSize
+    'None-None-None-Hld-None-None':
       annotate:
         Stream: EMAIL-GATEWAY
-        Action: EMAIL_DELIVERED
-        Status: FAILED
+        Action: EMAIL_HOLD
       translate:
-        IP: SrcIP
-        Dir: Flow
-        Subject: Subject
         Sender: Sender
         Rcpt: Recipient
-        Route: MCRoute
-        Snt: TXLen   
-        AttSize: AttachmentSize    
-    'None-None-false-None-554':
+        Subject: Subject
+        AttNames: AttachmentName
+        AttCnt: AttachmentCount
+        AttSize: AttachmentSize
+    'None-None-None-None-None-malicious':
       annotate:
-        Stream: EMAIL-GATEWAY
-        Action: EMAIL_DELIVERED
-        Status: FAILED
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
       translate:
-        IP: SrcIP
-        Dir: Flow
-        Subject: Subject
+        sourceIp: SrcIP
+        url: URL
+        route: Flow
+        subject: Subject
         Sender: Sender
-        Rcpt: Recipient
-        Route: MCRoute
-        Snt: TXLen    
-        AttSize: AttachmentSize 
-    'None-None-false-None-421':
+        senderDomain: SenderDomain
+        recipient: Recipient
+        urlCategory: URLCategory    
+        reason: Reason
+    'None-None-None-None-Phishing & Fraud-None':
       annotate:
-        Stream: EMAIL-GATEWAY
-        Action: EMAIL_DELIVERED
-        Status: FAILED
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
       translate:
-        IP: SrcIP
-        Dir: Flow
+        sourceIp: SrcIP
+        URL: URL
+        route: Flow
         Subject: Subject
         Sender: Sender
-        Rcpt: Recipient
-        Route: MCRoute
-        Snt: TXLen    
-        AttSize: AttachmentSize                
+        senderDomain: SenderDomain
+        Recipient: Recipient
+        UrlCategory: URLCategory
+        Reason: Reason                           
 
   fallback:
       annotate:
@@ -208,6 +228,5 @@ event-details:
 
   globals:
     translate:
-        datetime: SystemTstamp
         date: SystemTstamp
-        Hostname: System
+        Hostname: System        
