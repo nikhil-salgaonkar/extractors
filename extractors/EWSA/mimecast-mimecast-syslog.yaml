@@ -15,9 +15,9 @@ event-details:
 - first-match: '(?:datetime|date)\=\d{4}\-\d{2}\-\d{2}T\d{2}\:\d{2}\:\d{2}\+\d+\|(?:mcType|aCode|acc)\='
   decoder: custom
   decoder-regex: (\w+)\=([^|]+)
-  event-key-format: '{action}-{auditType}-{Delivered}-{Act}-{UrlCategory}-{reason}'
+  event-key-format: '{action}-{auditType}-{Delivered}-{Act}-{UrlCategory}-{reason}-{TaggedExternal}-{fileExt}'
   event-key-mapping:
-    'failure-Logon Authentication Failed-None-None-None-None':
+    'failure-Logon Authentication Failed-None-None-None-None-None-None':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
@@ -27,7 +27,7 @@ event-details:
         src: SrcIP
         user: User
         eventInfo: Reason
-    'success-User Logged On-None-None-None-None':
+    'success-User Logged On-None-None-None-None-None-None':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
@@ -37,7 +37,7 @@ event-details:
         src: SrcIP
         user: User
         eventInfo: Reason
-    'None-Account Updated-None-None-None-None':
+    'None-Account Updated-None-None-None-None-None-None':
       annotate:
         Stream: IAM
         Action: USER_ACCOUNT_UPDATED
@@ -46,7 +46,7 @@ event-details:
         Administrator: AdminUser
         Accountdetails: AccountDetails
         user: User
-    'None-New Policy-None-None-None-None':
+    'None-New Policy-None-None-None-None-None-None':
       annotate:
         Stream: IAM
         Action: POLICY_CREATED
@@ -55,7 +55,7 @@ event-details:
         Administrator: AdminUser
         user: User      
         Policydetails: PolicyDetails 
-    'None-Policy Deleted-None-None-None-None':
+    'None-Policy Deleted-None-None-None-None-None-None':
       annotate:
         Stream: IAM
         Action: POLICY_DELETED
@@ -64,7 +64,7 @@ event-details:
         Administrator: AdminUser
         user: User      
         Policydetails: PolicyDetails 
-    'None-Existing User Role Updated-None-None-None-None':
+    'None-Existing User Role Updated-None-None-None-None-None-None':
       annotate:
         Stream: IAM
         Action: USER_ROLE_UPDATED
@@ -72,7 +72,7 @@ event-details:
       translate:
         Administrator: AdminUser      
         Rolename: RoleName 
-    'None-User removed from role-None-None-None-None':
+    'None-User removed from role-None-None-None-None-None-None':
       annotate:
         Stream: IAM
         Action: USER_REMOVED
@@ -81,7 +81,7 @@ event-details:
         Administrator: AdminUser      
         Rolename: RoleName  
         user: User 
-    'None-User added from role-None-None-None-None':
+    'None-User added from role-None-None-None-None-None-None':
       annotate:
         Stream: IAM
         Action: USER_ADDED
@@ -90,7 +90,7 @@ event-details:
         Administrator: AdminUser      
         Rolename: RoleName  
         user: User
-    'None-User Password Changed-None-None-None-None':
+    'None-User Password Changed-None-None-None-None-None-None':
       annotate:
         Stream: IAM
         Action: ACCOUNT_PASSWORD_RESET
@@ -99,27 +99,32 @@ event-details:
         Administrator: AdminUser      
         src: SrcIP
         user: User 
-    'None-None-true-None-None-None':
+    'None-None-true-None-None-None-None-None':
       annotate:
         Stream: EMAIL-GATEWAY
         Action: EMAIL_DELIVERED
       translate:
         IP: DstIP
+        src: SrcIP
         Dir: Flow
         Subject: Subject
         Sender: Sender
         Rcpt: Recipient
         AttSize: AttachmentSize
+        SpamInfo: SpamInfo
+        SpamScore: SpamScore
+        SpamLimit: SpamLimit
         Snt: TXLen
         AttNames: AttachmentName
         AttCnt: AttachmentCount
         protocol: Proto 
-    'None-None-None-Acc-None-None':
+    'None-None-None-Acc-None-None-None-None':
       annotate:
         Stream: EMAIL-GATEWAY
         Action: EMAIL_ACCEPTED
       translate:
         IP: SrcIP
+        dst: DstIP
         Dir: Flow
         Subject: Subject
         Sender: Sender
@@ -127,48 +132,53 @@ event-details:
         protocol: Proto 
         SpamInfo: SpamInfo
         SpamScore: SpamScore
+        SpamLimit: SpamLimit
         AttNames: AttachmentName
         AttCnt: AttachmentCount
         AttSize: AttachmentSize
-    'None-None-None-Rej-None-None':
+    'None-None-None-Rej-None-None-None-None':
       annotate:
         Stream: EMAIL-GATEWAY
         Action: EMAIL_REJECTED
       translate:
         IP: SrcIP
+        dst: DstIP
         Dir: Flow
         Subject: Subject
         Sender: Sender
-        Rcpt: Recipient  
-        RejInfo: RejInfo
+        Rcpt: Recipient
         SpamScore: SpamScore
-        RejType: RejType
+        SpamLimit: SpamLimit
+        SpamInfo: SpamInfo
         AttNames: AttachmentName
         AttCnt: AttachmentCount
         AttSize: AttachmentSize
-    'None-None-false-None-None-None':
+    'None-None-false-None-None-None-None-None':
       annotate:
         Stream: EMAIL-GATEWAY
         Action: EMAIL_DELIVERED
         Status: FAILED
       translate:
         IP: SrcIP
+        dst: DstIP
         Dir: Flow
         Subject: Subject
         Sender: Sender
         Rcpt: Recipient
         Snt: TXLen  
-        RejInfo: RejInfo
-        RejType: RejType
+        SpamScore: SpamScore
+        SpamLimit: SpamLimit
+        SpamInfo: SpamInfo
         AttSize: AttachmentSize  
         AttNames: AttachmentName
         AttCnt: AttachmentCount  
-    'None-None-None-Bnc-None-None':
+    'None-None-None-Bnc-None-None-None-None':
       annotate:
         Stream: EMAIL-GATEWAY
         Action: EMAIL_BOUNCED
       translate:
         IP: SrcIP
+        dst: DstIP
         Dir: Flow
         Subject: Subject
         Sender: Sender
@@ -179,47 +189,117 @@ event-details:
         AttNames: AttachmentName
         AttCnt: AttachmentCount
         AttSize: AttachmentSize
-    'None-None-None-Hld-None-None':
+    'None-None-None-Hld-None-None-None-None':
       annotate:
         Stream: EMAIL-GATEWAY
         Action: EMAIL_HOLD
       translate:
+        IP: SrcIP
+        dst: DstIP
+        Dir: Flow
         Sender: Sender
         Rcpt: Recipient
         Subject: Subject
+        SpamLimit: SpamLimit
+        SpamInfo: SpamInfo
+        SpamScore: SpamScore
         AttNames: AttachmentName
         AttCnt: AttachmentCount
         AttSize: AttachmentSize
-    'None-None-None-None-None-malicious':
+    'None-None-None-None-None-malicious-None-None':
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
         Status: PASSED
+        Vector: EMAIL
       translate:
         sourceIp: SrcIP
         url: URL
-        route: Flow
         subject: Subject
         Sender: Sender
-        senderDomain: SenderDomain
+        TaggedExternal: TaggedExternal
+        SenderDomain: SenderDomain
         recipient: Recipient
-        urlCategory: URLCategory    
         reason: Reason
-    'None-None-None-None-Phishing & Fraud-None':
+        fileName: FileName 
+        ThreatType: ThreatType
+        ThreatName: ThreatName 
+    'None-None-None-None-Phishing & Fraud-None-None-None':
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
         Status: PASSED
+        Vector: EMAIL
       translate:
         sourceIp: SrcIP
+        dst: DstIP
         URL: URL
-        route: Flow
         Subject: Subject
         Sender: Sender
-        senderDomain: SenderDomain
+        TaggedExternal: TaggedExternal
+        SenderDomain: SenderDomain
         Recipient: Recipient
-        UrlCategory: URLCategory
-        Reason: Reason                           
+        Reason: Reason
+        fileName: FileName 
+        ThreatType: ThreatType
+        ThreatName: ThreatName 
+    'None-None-None-None-None-None-true-None':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: EMAIL
+      translate:
+        IP: SrcIP
+        dst: DstIP
+        URL: URL
+        TaggedExternal: TaggedExternal
+        Subject: Subject
+        Sender: Sender
+        SenderDomain: SenderDomain
+        Recipient: Recipient
+        Reason: Reason
+        fileName: FileName 
+        ThreatType: ThreatType
+        ThreatName: ThreatName    
+    'None-None-None-None-None-None-None-pptx':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: EMAIL
+      translate:
+        IP: SrcIP
+        dst: DstIP
+        URL: URL
+        TaggedExternal: TaggedExternal
+        Subject: Subject
+        Sender: Sender
+        SenderDomain: SenderDomain
+        Recipient: Recipient
+        Reason: Reason
+        fileName: FileName 
+        ThreatType: ThreatType
+        ThreatName: ThreatName  
+    'None-None-None-None-None-None-None-img':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: EMAIL
+      translate:
+        IP: SrcIP
+        dst: DstIP
+        URL: URL
+        TaggedExternal: TaggedExternal
+        Subject: Subject
+        Sender: Sender
+        SenderDomain: SenderDomain
+        Recipient: Recipient
+        Reason: Reason
+        fileName: FileName 
+        ThreatType: ThreatType
+        ThreatName: ThreatName                                    
 
   fallback:
       annotate:
@@ -229,4 +309,5 @@ event-details:
   globals:
     translate:
         date: SystemTstamp
-        Hostname: System        
+        datetime: SystemTstamp
+        Hostname: System
