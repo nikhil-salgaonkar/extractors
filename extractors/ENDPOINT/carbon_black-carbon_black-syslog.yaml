@@ -26,9 +26,7 @@ event-details:
         process_name: Process
         username: User
         cmdline: Cmd
-        ThreatType: ThreatType
-        Threat: Threat
-        App: App
+        reason: Threat
         Url: URL       
         
   fallback:
