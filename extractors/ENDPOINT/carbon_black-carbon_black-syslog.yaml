@@ -27,6 +27,7 @@ event-details:
         username: User
         cmdline: Cmd
         reason: Threat
+        App: App
         Url: URL       
         
   fallback:
