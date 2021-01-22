@@ -22,14 +22,14 @@ event-details:
         Vector: HOST
       translate:
         remote_ip: SrcIP
-        Threat: Threat
-        App: App
-        Url: URL
-        ThreatType: ThreatType
         local_ip: DstIP
         process_name: Process
         username: User
         cmdline: Cmd
+        ThreatType: ThreatType
+        Threat: Threat
+        App: App
+        Url: URL       
         
   fallback:
     annotate:
