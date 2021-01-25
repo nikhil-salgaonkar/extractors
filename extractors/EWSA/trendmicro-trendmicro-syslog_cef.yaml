@@ -1,0 +1,163 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 265
+source-name: TREND-MICRO
+source-type: DDEI
+source-description: extractor for Trend Micro DDEI Events
+provides-streams:
+- THREAT
+master-filters:
+- '\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+CEF\:\d+\|Trend\s+Micro\|Deep\s+Discovery\s+Email\s+Inspector'
+event-details:
+- first-match: 'Trend\s+Micro\|Deep\s+Discovery\s+Email\s+Inspector'
+  decoder: custom
+  decoder-header: CEF
+  decoder-regex: '\s([\w\s]+)\=(\"[^\"]*\"|[^\s]*)'
+  event-key-format: '{cn1}'
+  event-key-mapping:
+    '1':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: EMAIL
+      translate:
+        src: SrcIP
+        user: User
+        suser: Sender
+        duser: Recipient
+        cn1: ThreatType 
+        cs1: Threat
+        Header-5: Signature 
+        Header-6: Severity
+    '2':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: EMAIL
+      translate:
+        src: SrcIP
+        user: User
+        suser: Sender
+        duser: Recipient
+        cn1: ThreatType 
+        cs1: Threat 
+        Header-5: Signature 
+        Header-6: Severity
+    '3':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: EMAIL
+      translate:
+        src: SrcIP
+        user: User
+        suser: Sender
+        duser: Recipient
+        cn1: ThreatType 
+        cs1: Threat 
+        Header-5: Signature 
+        Header-6: Severity
+    '4':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: EMAIL
+      translate:
+        src: SrcIP
+        user: User
+        suser: Sender
+        duser: Recipient
+        cn1: ThreatType 
+        cs1: Threat
+        Header-5: Signature 
+        Header-6: Severity 
+    '5':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: EMAIL
+      translate:
+        src: SrcIP
+        user: User
+        suser: Sender
+        duser: Recipient
+        cn1: ThreatType 
+        cs1: Threat
+        Header-5: Signature 
+        Header-6: Severity 
+    '6':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: EMAIL
+      translate:
+        src: SrcIP
+        user: User
+        suser: Sender
+        duser: Recipient
+        cn1: ThreatType 
+        cs1: Threat 
+        Header-5: Signature 
+        Header-6: Severity
+    '7':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: EMAIL
+      translate:
+        src: SrcIP
+        user: User
+        suser: Sender
+        duser: Recipient
+        cn1: ThreatType 
+        cs1: Threat
+        Header-5: Signature 
+        Header-6: Severity 
+    '8':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: EMAIL
+      translate:
+        src: SrcIP
+        user: User
+        suser: Sender
+        duser: Recipient
+        cn1: ThreatType 
+        cs1: Threat 
+        Header-5: Signature 
+        Header-6: Severity                           
+    
+  fallback:
+      annotate:
+        EventName: Generic Trend Micro DDEI Event
+        Stream: OTHER
+
+  globals:
+    translate:
+        rt: SystemTstamp
+        dvchost: System    
+
+  subs: 
+    ThreatType:
+      '1': 'Targeted malware'
+      '2': 'Malware'
+      '3': 'Malicious URL'
+      '4': 'Suspicious file'
+      '5': 'Suspicious URL'
+      '6': 'Spam/Graymail'
+      '7': 'Phishing'
+      '8': 'Content violation'  
+    Severity:
+      '2': 'UNAVAILABLE'
+      '4': 'LOW'
+      '6': 'MEDIUM'
+      '8': 'HIGH'    
