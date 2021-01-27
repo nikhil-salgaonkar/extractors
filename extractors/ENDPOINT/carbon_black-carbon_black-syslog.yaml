@@ -1,0 +1,42 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 288
+source-name: CARBON-BLACK
+source-type: ENDPOINT-DEFENSE
+source-description: Extractor for Carbon-Black Defense Events
+provides-streams:
+- THREAT
+master-filters:
+- \"eventId\"\:\s+\"\w+\"\,\s+\"eventTime\"\:\s+\d+\,\s+\"loginName\"\:\s+\"\S+\"
+- \"eventTime\"\:\s+\d+\,\s+\"eventDescription\"\:\s+\"\[Syslog\]\s+\[Carbon\s+Black\s+has\s+detected\s+a\s+threat\s+against\s+your\s+company.\]
+event-details:
+- first-match: \"eventTime\"\:\s+\d+\,\s+
+  decoder: custom
+  decoder-regex: \"(\w+)\"\:\s+\"?(?:([^\"]+|[^\,]))
+  event-key-format: '{type}'
+  event-key-mapping:
+    'THREAT':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        applicationName: File
+        threatCategory: ThreatType
+        reason: Threat
+        Process: Process
+        cmdline: Cmd
+        internalIpAddress: DstIP
+        email: User
+        url: URL
+
+  fallback:
+    annotate:
+      EventName: Generic Carbon-Black Defense Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      deviceName: System
+      eventTime: SystemTstamp
