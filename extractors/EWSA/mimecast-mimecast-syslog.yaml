@@ -214,16 +214,16 @@ event-details:
         Vector: EMAIL
       translate:
         sourceIp: SrcIP
+        dst: DstIP
         url: URL
-        subject: Subject
-        Sender: Sender
+        Sender: SrcEntity
         TaggedExternal: TaggedExternal
         SenderDomain: SenderDomain
-        recipient: Recipient
+        recipient: DstEntity
         reason: Reason
-        fileName: FileName 
+        fileName: File 
         ThreatType: ThreatType
-        ThreatName: ThreatName 
+        ThreatName: Threat
     'None-None-None-None-Phishing & Fraud-None-None-None':
       annotate:
         Stream: THREAT
@@ -234,15 +234,14 @@ event-details:
         sourceIp: SrcIP
         dst: DstIP
         URL: URL
-        Subject: Subject
-        Sender: Sender
+        Sender: SrcEntity
         TaggedExternal: TaggedExternal
         SenderDomain: SenderDomain
-        Recipient: Recipient
+        Recipient: DstEntity
         Reason: Reason
-        fileName: FileName 
+        fileName: File 
         ThreatType: ThreatType
-        ThreatName: ThreatName 
+        ThreatName: Threat
     'None-None-None-None-None-None-true-None':
       annotate:
         Stream: THREAT
@@ -254,14 +253,13 @@ event-details:
         dst: DstIP
         URL: URL
         TaggedExternal: TaggedExternal
-        Subject: Subject
-        Sender: Sender
+        Sender: SrcEntity
         SenderDomain: SenderDomain
-        Recipient: Recipient
+        Recipient: DstEntity
         Reason: Reason
-        fileName: FileName 
+        fileName: File 
         ThreatType: ThreatType
-        ThreatName: ThreatName    
+        ThreatName: Threat   
     'None-None-None-None-None-None-None-pptx':
       annotate:
         Stream: THREAT
@@ -273,14 +271,13 @@ event-details:
         dst: DstIP
         URL: URL
         TaggedExternal: TaggedExternal
-        Subject: Subject
-        Sender: Sender
+        Sender: SrcEntity
         SenderDomain: SenderDomain
-        Recipient: Recipient
+        Recipient: DstEntity
         Reason: Reason
-        fileName: FileName 
+        fileName: File 
         ThreatType: ThreatType
-        ThreatName: ThreatName  
+        ThreatName: Threat 
     'None-None-None-None-None-None-None-img':
       annotate:
         Stream: THREAT
@@ -292,14 +289,13 @@ event-details:
         dst: DstIP
         URL: URL
         TaggedExternal: TaggedExternal
-        Subject: Subject
-        Sender: Sender
+        Sender: SrcEntity
         SenderDomain: SenderDomain
-        Recipient: Recipient
+        Recipient: DstEntity
         Reason: Reason
-        fileName: FileName 
+        fileName: File 
         ThreatType: ThreatType
-        ThreatName: ThreatName                                    
+        ThreatName: Threat                                   
 
   fallback:
       annotate:
@@ -310,4 +306,4 @@ event-details:
     translate:
         date: SystemTstamp
         datetime: SystemTstamp
-        Hostname: System
+        Hostname: System        
