@@ -26,13 +26,14 @@ event-details:
         process_name: Process
         username: User
         cmdline: Cmd
+        feed_name: ThreatType
         reason: Threat
-        App: App
+        App: File
         Url: URL       
         
   fallback:
     annotate:
-      EventName: Generic Carbon Black Event
+      EventName: Generic Carbon Black Response Event
       Stream: OTHER
 
   globals:
