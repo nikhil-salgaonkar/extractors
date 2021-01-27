@@ -23,13 +23,17 @@ event-details:
         Vector: EMAIL
       translate:
         src: SrcIP
-        user: User
-        suser: Sender
-        duser: Recipient
+        dst: DstIP
+        reason: Reason
+        file: File
+        SenderDomain: SenderDomain
+        TaggedExternal: TaggedExternal
+        url: URL
+        suser: SrcEntity
+        duser: DstEntity
         cn1: ThreatType 
         cs1: Threat
-        Header-5: Signature 
-        Header-6: Severity
+        
     '2':
       annotate:
         Stream: THREAT
@@ -38,13 +42,17 @@ event-details:
         Vector: EMAIL
       translate:
         src: SrcIP
-        user: User
-        suser: Sender
-        duser: Recipient
+        dst: DstIP
+        reason: Reason
+        file: File
+        SenderDomain: SenderDomain
+        TaggedExternal: TaggedExternal
+        url: URL
+        suser: SrcEntity
+        duser: DstEntity
         cn1: ThreatType 
         cs1: Threat 
-        Header-5: Signature 
-        Header-6: Severity
+        
     '3':
       annotate:
         Stream: THREAT
@@ -53,13 +61,17 @@ event-details:
         Vector: EMAIL
       translate:
         src: SrcIP
-        user: User
-        suser: Sender
-        duser: Recipient
+        dst: DstIP
+        reason: Reason
+        file: File
+        SenderDomain: SenderDomain
+        TaggedExternal: TaggedExternal
+        url: URL
+        suser: SrcEntity
+        duser: DstEntity
         cn1: ThreatType 
-        cs1: Threat 
-        Header-5: Signature 
-        Header-6: Severity
+        cs1: Threat
+        
     '4':
       annotate:
         Stream: THREAT
@@ -68,13 +80,17 @@ event-details:
         Vector: EMAIL
       translate:
         src: SrcIP
-        user: User
-        suser: Sender
-        duser: Recipient
+        dst: DstIP
+        reason: Reason
+        file: File
+        SenderDomain: SenderDomain
+        TaggedExternal: TaggedExternal
+        url: URL
+        suser: SrcEntity
+        duser: DstEntity
         cn1: ThreatType 
         cs1: Threat
-        Header-5: Signature 
-        Header-6: Severity 
+        
     '5':
       annotate:
         Stream: THREAT
@@ -83,13 +99,17 @@ event-details:
         Vector: EMAIL
       translate:
         src: SrcIP
-        user: User
-        suser: Sender
-        duser: Recipient
+        dst: DstIP
+        reason: Reason
+        file: File
+        SenderDomain: SenderDomain
+        TaggedExternal: TaggedExternal
+        url: URL
+        suser: SrcEntity
+        duser: DstEntity
         cn1: ThreatType 
         cs1: Threat
-        Header-5: Signature 
-        Header-6: Severity 
+       
     '6':
       annotate:
         Stream: THREAT
@@ -98,13 +118,17 @@ event-details:
         Vector: EMAIL
       translate:
         src: SrcIP
-        user: User
-        suser: Sender
-        duser: Recipient
+        dst: DstIP
+        reason: Reason
+        file: File
+        SenderDomain: SenderDomain
+        TaggedExternal: TaggedExternal
+        url: URL
+        suser: SrcEntity
+        duser: DstEntity
         cn1: ThreatType 
         cs1: Threat 
-        Header-5: Signature 
-        Header-6: Severity
+        
     '7':
       annotate:
         Stream: THREAT
@@ -113,13 +137,17 @@ event-details:
         Vector: EMAIL
       translate:
         src: SrcIP
-        user: User
-        suser: Sender
-        duser: Recipient
+        dst: DstIP
+        reason: Reason
+        file: File
+        SenderDomain: SenderDomain
+        TaggedExternal: TaggedExternal
+        url: URL
+        suser: SrcEntity
+        duser: DstEntity
         cn1: ThreatType 
         cs1: Threat
-        Header-5: Signature 
-        Header-6: Severity 
+       
     '8':
       annotate:
         Stream: THREAT
@@ -128,14 +156,17 @@ event-details:
         Vector: EMAIL
       translate:
         src: SrcIP
-        user: User
-        suser: Sender
-        duser: Recipient
+        dst: DstIP
+        reason: Reason
+        file: File
+        SenderDomain: SenderDomain
+        TaggedExternal: TaggedExternal
+        url: URL
+        suser: SrcEntity
+        duser: DstEntity
         cn1: ThreatType 
         cs1: Threat 
-        Header-5: Signature 
-        Header-6: Severity                           
-    
+       
   fallback:
       annotate:
         EventName: Generic Trend Micro DDEI Event
@@ -155,9 +186,4 @@ event-details:
       '5': 'Suspicious URL'
       '6': 'Spam/Graymail'
       '7': 'Phishing'
-      '8': 'Content violation'  
-    Severity:
-      '2': 'UNAVAILABLE'
-      '4': 'LOW'
-      '6': 'MEDIUM'
-      '8': 'HIGH'    
+      '8': 'Content violation'
