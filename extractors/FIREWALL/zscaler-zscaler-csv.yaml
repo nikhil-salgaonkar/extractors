@@ -6,19 +6,24 @@ source-type: FIREWALL
 source-description: Extractor for Zscaler Firewall Events
 provides-streams:
 - NETWORK-FIREWALL
+- AUTHENTICATION
+- IAM
+- THREAT
 master-filters:
 - '\"\w+\s+\w+\s+\d+\s+\d+\:\d+\:\d+\s+\d+\"\,.*?\"\,.*?\"\d+\"\,\"(?:DNS\s+Blocks\s+From\s+URL\s+Cat|gras\s+reset\s+rule|Blocks\-reduce\-logs|Skype\s+Block|Blocked\s+ports|Default\s+Firewall\s+Filtering\s+Rule|Zoom\-ZS\-Defined|ICMP|Zoom\.us|Dialpad-DNS-NTP)\"\,\".*?\"\,\".*?\"\,\".*?\"\,\".*?\"\,\".*?\"'
 event-details:
-- first-match: '\"\w{3}\s+\w{3}\s+\d{1,2}\s+\d{1,2}\:\d{1,2}\:\d{1,2}\s+\d{4}\"\,\".*?\"\,\".*?\"\,\".*?\"\,\"\d+\"\,\"\d+\"\,\"\d+\"\,\"\d+\"\,\"[\d\.]+\"\,\"[\d\.]+\"\,\"[\d\.]+\"\,\"[\d\.]+\"\,\"[\d\.]+\"\,\"\d+\"\,\"\w+\"\,\"Drop\"\,\"\w+\"\,\"\w+\"\,\"\w+\"\,\"[\w\s\-]+\"\,\"\w+\"\,\"\w+\"\,\".*?\"\,\".*?\"\,\"\d+\"\,\"Blocked\s+ports\"\,'
+- first-match: '\"\w{3}\s+\w{3}\s+\d{1,2}\s+\d{1,2}\:\d{1,2}\:\d{1,2}\s+\d{4}\"\,\".*?\"\,\".*?\"\,\".*?\"\,\"\d+\"\,\"\d+\"\,\"\d+\"\,\"\d+\"\,\"[\d\.]+\"\,\"[\d\.]+\"\,\"[\d\.]+\"\,\"[\d\.]+\"\,\"[\d\.]+\"\,\"\d+\"\,\"\w+\"\,\"Drop\"\,\"\w+\"\,\"\w+\"\,\"\w+\"\,\"[\w\s\-]+\"\,\"\w+\"\,\"\w+\"\,\".*?\"\,\".*?\"\,\"\d+\"\,\"'
   decoder: regex
   decoder-regex: '\"\w{3}\s+(?P<datetime>\w{3}\s+\d+\s+\d+\:\d+\:\d+\s+\d{4})\"\,\"(?P<user>.*?)\"\,\"(?P<group_name>.*?)\"\,\".*?\"\,\"(?P<dst_port>.*?)\"\,\"(?P<src_port>.*?)\"\,\"(?P<server_dst_port>.*?)\"\,\"(?P<server_src_port>.*?)\"\,\"(?P<src_ip>.*?)\"\,\"(?P<dst_ip>.*?)\"\,\"(?P<server_src_ip>.*?)\"\,\"(?P<server_dst_ip>.*?)\"\,\"(?P<tunnel_ip>.*?)\"\,\"(?P<tunnel_port>.*?)\"\,\"(?P<traffic_type>.*?)\"\,\"(?P<action_taken>.*?)\"\,\"(?P<dst_tran_ip>.*?)\"\,\".*?\"\,\".*?\"\,\"(?P<net_service>.*?)\"\,\"(?P<net_app>.*?)\"\,\"(?P<proto>.*?)\"\,\"(?P<category>.*?)\"\,\".*?\"\,\".*?\"\,\"(?P<rule>.*?)\"\,\"(?P<txlen>.*?)\"\,\"(?P<rxlen>.*?)\"\,'
-  event-key-format: '{rule}'
+  event-key-format: '{rule}-{category}-{action}'
   event-key-mapping:
-    Blocked ports:
+    Blocked ports-Professional Services-None:
       annotate:
         Stream: NETWORK-FIREWALL
         Action: PORT_BLOCKED
         Status: PASSED
+        User: '-'
+        Reason: '-'
       translate:
         src_port: SrcPort
         src_ip: SrcIP
@@ -26,6 +31,85 @@ event-details:
         rxlen: RXLen
         txlen: TXLen
         dst_port: DstPort
+        proto: Proto
+        net_app: App
+        net_service: Service
+        flow: Flow
+        iface: Iface
+    DNS Blocks From URL Cat-Advanced Persistent Threats (domains)-None:
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: NETWORK
+      translate:
+        src_ip: SrcIP
+        dst_ip: DstIP
+        proto: Proto
+        threat_name: Threat
+        threat_type: ThreatType
+        url: URL
+        severity: Severity
+    None-Login-Sign In:
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+        User: '-'
+        AuthMethod: '-'
+        Reason: '-'
+      translate:
+        src_ip: SrcIP
+        dst_ip: DstIP
+        proto: Proto
+    None-Login-Sign Out:
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+        User: '-'
+        AuthMethod: '-'
+        Reason: '-'
+      translate:
+        src_ip: SrcIP
+        dst_ip: DstIP
+        proto: Proto
+    None-Firewall Access Control-Update:
+      annotate:
+        Stream: IAM
+        Action: ACCESS_CONTROL_UPDATED
+        Status: PASSED
+        User: '-'
+      translate:
+        src_ip: SrcIP
+        dst_ip: DstIP
+        message: Message
+        policydetails: PolicyDetails
+        targetuser: TargetUser
+    None-Firewall Access Control-Delete:
+      annotate:
+        Stream: IAM
+        Action: ACCESS_CONTROL_DELETED
+        Status: PASSED
+        User: '-'
+      translate:
+        src_ip: SrcIP
+        dst_ip: DstIP
+        message: Message
+        policydetails: PolicyDetails
+        targetuser: TargetUser
+    None-Firewall Access Control-Create:
+      annotate:
+        Stream: IAM
+        Action: ACCESS_CONTROL_CREATED
+        Status: PASSED
+        User: '-'
+      translate:
+        src_ip: SrcIP
+        dst_ip: DstIP
+        message: Message
+        policydetails: PolicyDetails
+        targetuser: TargetUser
 
   fallback:
     annotate:
