@@ -168,14 +168,14 @@ event-details:
         cs1: Threat 
        
   fallback:
-      annotate:
-        EventName: Generic Trend Micro DDEI Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Trend Micro Event
+      Stream: OTHER
 
   globals:
     translate:
-        rt: SystemTstamp
-        dvchost: System    
+      rt: SystemTstamp
+      dvchost: System    
 
   subs: 
     ThreatType:
