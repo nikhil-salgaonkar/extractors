@@ -111,9 +111,7 @@ event-details:
         Sender: Sender
         Rcpt: Recipient
         AttSize: AttachmentSize
-        SpamInfo: SpamInfo
-        SpamScore: SpamScore
-        SpamLimit: SpamLimit
+        SpamScore: SpamConfidence
         Snt: TXLen
         AttNames: AttachmentName
         AttCnt: AttachmentCount
@@ -129,10 +127,8 @@ event-details:
         Subject: Subject
         Sender: Sender
         Rcpt: Recipient
-        protocol: Proto 
-        SpamInfo: SpamInfo
-        SpamScore: SpamScore
-        SpamLimit: SpamLimit
+        protocol: Proto
+        SpamScore: SpamConfidence
         AttNames: AttachmentName
         AttCnt: AttachmentCount
         AttSize: AttachmentSize
@@ -147,9 +143,7 @@ event-details:
         Subject: Subject
         Sender: Sender
         Rcpt: Recipient
-        SpamScore: SpamScore
-        SpamLimit: SpamLimit
-        SpamInfo: SpamInfo
+        SpamScore: SpamConfidence
         AttNames: AttachmentName
         AttCnt: AttachmentCount
         AttSize: AttachmentSize
@@ -166,9 +160,7 @@ event-details:
         Sender: Sender
         Rcpt: Recipient
         Snt: TXLen  
-        SpamScore: SpamScore
-        SpamLimit: SpamLimit
-        SpamInfo: SpamInfo
+        SpamScore: SpamConfidence
         AttSize: AttachmentSize  
         AttNames: AttachmentName
         AttCnt: AttachmentCount  
@@ -183,9 +175,7 @@ event-details:
         Subject: Subject
         Sender: Sender
         Rcpt: Recipient
-        SpamLimit: SpamLimit
-        SpamInfo: SpamInfo
-        SpamScore: SpamScore
+        SpamScore: SpamConfidence
         AttNames: AttachmentName
         AttCnt: AttachmentCount
         AttSize: AttachmentSize
@@ -200,9 +190,7 @@ event-details:
         Sender: Sender
         Rcpt: Recipient
         Subject: Subject
-        SpamLimit: SpamLimit
-        SpamInfo: SpamInfo
-        SpamScore: SpamScore
+        SpamScore: SpamConfidence
         AttNames: AttachmentName
         AttCnt: AttachmentCount
         AttSize: AttachmentSize
@@ -298,12 +286,43 @@ event-details:
         ThreatName: Threat                                   
 
   fallback:
-      annotate:
-        EventName: Generic Mimecast Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic Mimecast Event
+      Stream: OTHER
 
   globals:
     translate:
-        date: SystemTstamp
-        datetime: SystemTstamp
-        Hostname: System        
+      date: SystemTstamp
+      datetime: SystemTstamp
+      Hostname: System    
+
+  subs: 
+    SpamConfidence:
+      '1': 'LOW'
+      '2': 'LOW'
+      '3': 'LOW'
+      '4': 'LOW'
+      '5': 'LOW'
+      '6': 'LOW'
+      '7': 'LOW'
+      '8': 'LOW'   
+      '9': 'LOW'
+      '10': 'LOW'
+      '11': 'MEDIUM'
+      '12': 'MEDIUM'
+      '13': 'MEDIUM'
+      '14': 'MEDIUM'
+      '15': 'MEDIUM'
+      '16': 'MEDIUM'
+      '17': 'MEDIUM'
+      '18': 'MEDIUM'   
+      '19': 'MEDIUM'
+      '20': 'MEDIUM'
+      '21': 'MEDIUM'
+      '22': 'MEDIUM'
+      '23': 'MEDIUM'
+      '24': 'MEDIUM'
+      '25': 'HIGH'
+      '26': 'HIGH'
+      '27': 'HIGH'
+      '28': 'HIGH'
