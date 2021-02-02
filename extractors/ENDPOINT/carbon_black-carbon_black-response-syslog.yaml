@@ -2,7 +2,7 @@ schema-version: 1.0
 #extractor-version: 1
 extractor-id: 163
 source-name: CARBON-BLACK
-source-type: EDR
+source-type: ENDPOINT-RESPONSE
 source-description: Extractor for Carbon Black Response Events
 provides-streams:
 - THREAT
