@@ -2,7 +2,7 @@ schema-version: 1.0
 #extractor-version: 1
 extractor-id: 163
 source-name: CARBON-BLACK
-source-type: ENDPOINT-RESPONSE
+source-type: EDR
 source-description: Extractor for Carbon Black Response Events
 provides-streams:
 - THREAT
@@ -25,8 +25,7 @@ event-details:
         local_ip: DstIP
         process_name: Process
         username: User
-        cmdline: Cmd
-        feed_name: ThreatType
+        cmdline: CommandLine
         reason: Threat
         App: File
         Url: URL       
