@@ -3,7 +3,7 @@ schema-version: 1.0
 extractor-id: 288
 source-name: CARBON-BLACK
 source-type: ENDPOINT-DEFENSE
-source-description: Extractor for Carbon-Black Defense Events
+source-description: Extractor for Carbon Black Defense Events
 provides-streams:
 - THREAT
 master-filters:
@@ -23,17 +23,16 @@ event-details:
         Vector: HOST
       translate:
         applicationName: File
-        threatCategory: ThreatType
         reason: Threat
         Process: Process
-        cmdline: Cmd
+        cmdline: CommandLine
         internalIpAddress: DstIP
         email: User
         url: URL
 
   fallback:
     annotate:
-      EventName: Generic Carbon-Black Defense Event
+      EventName: Generic Carbon Black Defense Event
       Stream: OTHER
 
   globals:
