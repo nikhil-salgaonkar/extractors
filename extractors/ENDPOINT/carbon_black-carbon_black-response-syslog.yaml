@@ -12,9 +12,9 @@ event-details:
 - first-match: '\s+\[\d+\]\s+\<\w+\>\s+reason\=\S+\s'
   decoder: custom
   decoder-regex: '([\w]+)=(\"[^\"]*\"|[^\s]*)'
-  event-key-format: ''
+  event-key-format: '{direction}'
   event-key-mapping:
-    '':
+    'Inbound':
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
@@ -28,7 +28,22 @@ event-details:
         cmdline: CommandLine
         reason: Threat
         App: File
-        Url: URL       
+        Url: URL
+    'Outbound':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        remote_ip: DstIP
+        local_ip: SrcIP
+        process_name: Process
+        username: User
+        cmdline: CommandLine
+        reason: Threat
+        App: File
+        Url: URL             
         
   fallback:
     annotate:
