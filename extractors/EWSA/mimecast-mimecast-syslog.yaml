@@ -110,7 +110,7 @@ event-details:
         Subject: Subject
         Sender: Sender
         Rcpt: Recipient
-        fileName: File
+        FileName: File
     'None-None-None-Acc-None-None-None-None':
       annotate:
         Stream: EMAIL-GATEWAY
@@ -121,7 +121,7 @@ event-details:
         Subject: Subject
         Sender: Sender
         Rcpt: Recipient
-        fileName: File
+        FileName: File
     'None-None-None-Rej-None-None-None-None':
       annotate:
         Stream: EMAIL-GATEWAY
@@ -132,7 +132,7 @@ event-details:
         Subject: Subject
         Sender: Sender
         Rcpt: Recipient
-        fileName: File
+        FileName: File
     'None-None-false-None-None-None-None-None':
       annotate:
         Stream: EMAIL-GATEWAY
@@ -144,7 +144,7 @@ event-details:
         Subject: Subject
         Sender: Sender
         Rcpt: Recipient
-        fileName: File  
+        FileName: File  
     'None-None-None-Bnc-None-None-None-None':
       annotate:
         Stream: EMAIL-GATEWAY
@@ -155,7 +155,7 @@ event-details:
         Subject: Subject
         Sender: Sender
         Rcpt: Recipient
-        fileName: File
+        FileName: File
     'None-None-None-Hld-None-None-None-None':
       annotate:
         Stream: EMAIL-GATEWAY
@@ -166,7 +166,7 @@ event-details:
         Subject: Subject
         Sender: Sender
         Rcpt: Recipient
-        fileName: File
+        FileName: File
     'None-None-None-None-None-malicious-None-None':
       annotate:
         Stream: THREAT
