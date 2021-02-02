@@ -14,7 +14,7 @@ master-filters:
 event-details:
 - first-match: '(?:datetime|date)\=\d{4}\-\d{2}\-\d{2}T\d{2}\:\d{2}\:\d{2}\+\d+\|(?:mcType|aCode|acc)\='
   decoder: custom
-  decoder-regex: (\w+)\=([^|]+)
+  decoder-regex: (\w+)\=([^|\,\]]+)
   event-key-format: '{action}-{auditType}-{Delivered}-{Act}-{UrlCategory}-{reason}-{TaggedExternal}-{fileExt}'
   event-key-mapping:
     'failure-Logon Authentication Failed-None-None-None-None-None-None':
@@ -110,7 +110,7 @@ event-details:
         Subject: Subject
         Sender: Sender
         Rcpt: Recipient
-        FileName: File
+        AttNames: File
     'None-None-None-Acc-None-None-None-None':
       annotate:
         Stream: EMAIL-GATEWAY
@@ -121,7 +121,7 @@ event-details:
         Subject: Subject
         Sender: Sender
         Rcpt: Recipient
-        FileName: File
+        AttNames: File
     'None-None-None-Rej-None-None-None-None':
       annotate:
         Stream: EMAIL-GATEWAY
@@ -132,7 +132,7 @@ event-details:
         Subject: Subject
         Sender: Sender
         Rcpt: Recipient
-        FileName: File
+        AttNames: File
     'None-None-false-None-None-None-None-None':
       annotate:
         Stream: EMAIL-GATEWAY
@@ -144,7 +144,7 @@ event-details:
         Subject: Subject
         Sender: Sender
         Rcpt: Recipient
-        FileName: File  
+        AttNames: File  
     'None-None-None-Bnc-None-None-None-None':
       annotate:
         Stream: EMAIL-GATEWAY
@@ -155,7 +155,7 @@ event-details:
         Subject: Subject
         Sender: Sender
         Rcpt: Recipient
-        FileName: File
+        AttNames: File
     'None-None-None-Hld-None-None-None-None':
       annotate:
         Stream: EMAIL-GATEWAY
@@ -166,7 +166,7 @@ event-details:
         Subject: Subject
         Sender: Sender
         Rcpt: Recipient
-        FileName: File
+        AttNames: File
     'None-None-None-None-None-malicious-None-None':
       annotate:
         Stream: THREAT
@@ -177,7 +177,7 @@ event-details:
         sourceIp: SrcIP
         Sender: Sender
         recipient: Recipient
-        ThreatName: Threat
+        Definition: Threat
     'None-None-None-None-Phishing & Fraud-None-None-None':
       annotate:
         Stream: THREAT
@@ -188,7 +188,7 @@ event-details:
         sourceIp: SrcIP
         Sender: Sender
         Recipient: Recipient
-        ThreatName: Threat
+        Definition: Threat
     'None-None-None-None-None-None-true-None':
       annotate:
         Stream: THREAT
@@ -199,7 +199,7 @@ event-details:
         IP: SrcIP
         Sender: Sender
         Recipient: Recipient
-        ThreatName: Threat   
+        Definition: Threat   
     'None-None-None-None-None-None-None-pptx':
       annotate:
         Stream: THREAT
@@ -210,7 +210,7 @@ event-details:
         IP: SrcIP
         Sender: Sender
         Recipient: Recipient
-        ThreatName: Threat 
+        Definition: Threat 
     'None-None-None-None-None-None-None-img':
       annotate:
         Stream: THREAT
@@ -221,7 +221,7 @@ event-details:
         IP: SrcIP
         Sender: Sender
         Recipient: Recipient
-        ThreatName: Threat                                   
+        Definition: Threat                                   
 
   fallback:
     annotate:
