@@ -23,7 +23,7 @@ event-details:
         Vector: HOST
       translate:
         applicationName: File
-        reason: Threat
+        summary: Threat
         Process: Process
         cmdline: CommandLine
         internalIpAddress: DstIP
