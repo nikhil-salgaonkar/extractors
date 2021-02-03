@@ -14,7 +14,7 @@ master-filters:
 event-details:
 - first-match: '(?:datetime|date)\=\d{4}\-\d{2}\-\d{2}T\d{2}\:\d{2}\:\d{2}\+\d+\|(?:mcType|aCode|acc)\='
   decoder: custom
-  decoder-regex: (\w+)\=([^|\,\]]+)
+  decoder-regex: (\w+)\=([^|]+)
   event-key-format: '{action}-{auditType}-{Delivered}-{Act}-{UrlCategory}-{reason}-{TaggedExternal}-{fileExt}'
   event-key-mapping:
     'failure-Logon Authentication Failed-None-None-None-None-None-None':
@@ -229,7 +229,8 @@ event-details:
       Stream: OTHER
 
   globals:
+    annotate:
+      System: Mimecast
     translate:
       date: SystemTstamp
       datetime: SystemTstamp
-      Hostname: System
