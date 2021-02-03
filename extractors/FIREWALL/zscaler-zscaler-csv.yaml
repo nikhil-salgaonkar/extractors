@@ -22,8 +22,6 @@ event-details:
         Stream: NETWORK-FIREWALL
         Action: PORT_BLOCKED
         Status: PASSED
-        User: '-'
-        Reason: '-'
       translate:
         src_port: SrcPort
         src_ip: SrcIP
@@ -33,47 +31,37 @@ event-details:
         dst_port: DstPort
         proto: Proto
         net_app: App
-        net_service: Service
-        flow: Flow
-        iface: Iface
     DNS Blocks From URL Cat-Advanced Persistent Threats (domains)-None:
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
         Status: PASSED
-        Vector: NETWORK
+        Vector: WEB
       translate:
         src_ip: SrcIP
         dst_ip: DstIP
-        proto: Proto
         threat_name: Threat
-        threat_type: ThreatType
-        url: URL
-        severity: Severity
+        user: User
     None-Login-Sign In:
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
         User: '-'
-        AuthMethod: '-'
         Reason: '-'
       translate:
         src_ip: SrcIP
-        dst_ip: DstIP
-        proto: Proto
+        proto: AuthProto
     None-Login-Sign Out:
       annotate:
         Stream: AUTHENTICATION
         Action: LOGOUT
         Status: PASSED
         User: '-'
-        AuthMethod: '-'
         Reason: '-'
       translate:
         src_ip: SrcIP
-        dst_ip: DstIP
-        proto: Proto
+        proto: AuthProto
     None-Firewall Access Control-Update:
       annotate:
         Stream: IAM
@@ -81,11 +69,8 @@ event-details:
         Status: PASSED
         User: '-'
       translate:
-        src_ip: SrcIP
-        dst_ip: DstIP
-        message: Message
-        policydetails: PolicyDetails
         targetuser: TargetUser
+        role: Role
     None-Firewall Access Control-Delete:
       annotate:
         Stream: IAM
@@ -93,11 +78,8 @@ event-details:
         Status: PASSED
         User: '-'
       translate:
-        src_ip: SrcIP
-        dst_ip: DstIP
-        message: Message
-        policydetails: PolicyDetails
         targetuser: TargetUser
+        role: Role
     None-Firewall Access Control-Create:
       annotate:
         Stream: IAM
@@ -105,17 +87,15 @@ event-details:
         Status: PASSED
         User: '-'
       translate:
-        src_ip: SrcIP
-        dst_ip: DstIP
-        message: Message
-        policydetails: PolicyDetails
         targetuser: TargetUser
+        role: Role
 
   fallback:
     annotate:
-      EventName: Generic Zscaler Event
+      EventName: Generic Zscaler Firewall Event
       Stream: OTHER
 
   globals:
     translate:
       datetime: SystemTstamp
+      system: System
