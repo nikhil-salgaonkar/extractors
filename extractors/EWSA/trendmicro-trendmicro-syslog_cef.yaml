@@ -12,7 +12,7 @@ event-details:
 - first-match: 'Trend\s+Micro\|Deep\s+Discovery\s+Email\s+Inspector'
   decoder: custom
   decoder-header: CEF
-  decoder-regex: '\s([\w\s]+)\=(\"[^\"]*\"|[^\s]*)'
+  decoder-regex: '([\w]+)=(\"[^\"]*\"|[^\s]*)'
   event-key-format: '{cn1}'
   event-key-mapping:
     '1':
@@ -23,15 +23,8 @@ event-details:
         Vector: EMAIL
       translate:
         src: SrcIP
-        dst: DstIP
-        reason: Reason
-        file: File
-        SenderDomain: SenderDomain
-        TaggedExternal: TaggedExternal
-        url: URL
-        suser: SrcEntity
-        duser: DstEntity
-        cn1: ThreatType 
+        suser: Sender
+        duser: Recipient
         cs1: Threat
         
     '2':
@@ -42,15 +35,8 @@ event-details:
         Vector: EMAIL
       translate:
         src: SrcIP
-        dst: DstIP
-        reason: Reason
-        file: File
-        SenderDomain: SenderDomain
-        TaggedExternal: TaggedExternal
-        url: URL
-        suser: SrcEntity
-        duser: DstEntity
-        cn1: ThreatType 
+        suser: Sender
+        duser: Recipient
         cs1: Threat 
         
     '3':
@@ -61,15 +47,8 @@ event-details:
         Vector: EMAIL
       translate:
         src: SrcIP
-        dst: DstIP
-        reason: Reason
-        file: File
-        SenderDomain: SenderDomain
-        TaggedExternal: TaggedExternal
-        url: URL
-        suser: SrcEntity
-        duser: DstEntity
-        cn1: ThreatType 
+        suser: Sender
+        duser: Recipient
         cs1: Threat
         
     '4':
@@ -80,15 +59,8 @@ event-details:
         Vector: EMAIL
       translate:
         src: SrcIP
-        dst: DstIP
-        reason: Reason
-        file: File
-        SenderDomain: SenderDomain
-        TaggedExternal: TaggedExternal
-        url: URL
-        suser: SrcEntity
-        duser: DstEntity
-        cn1: ThreatType 
+        suser: Sender
+        duser: Recipient
         cs1: Threat
         
     '5':
@@ -99,15 +71,8 @@ event-details:
         Vector: EMAIL
       translate:
         src: SrcIP
-        dst: DstIP
-        reason: Reason
-        file: File
-        SenderDomain: SenderDomain
-        TaggedExternal: TaggedExternal
-        url: URL
-        suser: SrcEntity
-        duser: DstEntity
-        cn1: ThreatType 
+        suser: Sender
+        duser: Recipient
         cs1: Threat
        
     '6':
@@ -118,15 +83,8 @@ event-details:
         Vector: EMAIL
       translate:
         src: SrcIP
-        dst: DstIP
-        reason: Reason
-        file: File
-        SenderDomain: SenderDomain
-        TaggedExternal: TaggedExternal
-        url: URL
-        suser: SrcEntity
-        duser: DstEntity
-        cn1: ThreatType 
+        suser: Sender
+        duser: Recipient
         cs1: Threat 
         
     '7':
@@ -137,15 +95,8 @@ event-details:
         Vector: EMAIL
       translate:
         src: SrcIP
-        dst: DstIP
-        reason: Reason
-        file: File
-        SenderDomain: SenderDomain
-        TaggedExternal: TaggedExternal
-        url: URL
-        suser: SrcEntity
-        duser: DstEntity
-        cn1: ThreatType 
+        suser: Sender
+        duser: Recipient
         cs1: Threat
        
     '8':
@@ -156,34 +107,16 @@ event-details:
         Vector: EMAIL
       translate:
         src: SrcIP
-        dst: DstIP
-        reason: Reason
-        file: File
-        SenderDomain: SenderDomain
-        TaggedExternal: TaggedExternal
-        url: URL
-        suser: SrcEntity
-        duser: DstEntity
-        cn1: ThreatType 
+        suser: Sender
+        duser: Recipient
         cs1: Threat 
        
   fallback:
     annotate:
-      EventName: Generic Trend Micro Event
+      EventName: Generic Trend Micro DDEI Event
       Stream: OTHER
 
   globals:
     translate:
       rt: SystemTstamp
-      dvchost: System    
-
-  subs: 
-    ThreatType:
-      '1': 'Targeted malware'
-      '2': 'Malware'
-      '3': 'Malicious URL'
-      '4': 'Suspicious file'
-      '5': 'Suspicious URL'
-      '6': 'Spam/Graymail'
-      '7': 'Phishing'
-      '8': 'Content violation'
+      dvchost: System
