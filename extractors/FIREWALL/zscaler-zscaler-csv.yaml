@@ -5,7 +5,7 @@ source-name: ZSCALER
 source-type: FIREWALL
 source-description: Extractor for Zscaler Firewall Events
 provides-streams:
-- NETWORK-FIREWALL
+- FIREWALL
 - AUTHENTICATION
 - IAM
 - THREAT
@@ -19,7 +19,7 @@ event-details:
   event-key-mapping:
     Blocked ports-Professional Services-None:
       annotate:
-        Stream: NETWORK-FIREWALL
+        Stream: FIREWALL
         Action: PORT_BLOCKED
         Status: PASSED
       translate:
