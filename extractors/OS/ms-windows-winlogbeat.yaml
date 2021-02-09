@@ -567,7 +567,7 @@ event-details:
         Action: USER_ACCOUNT_CREATED
         Status: PASSED    
       translate: 
-        Swinlog[event_data][SubjectUserName]: User 
+        winlog[event_data][SubjectUserName]: User 
         winlog[event_data][SubjectDomainName]: Domain    
         winlog[event_data][SubjectLogonId]: SubjectLogonId  
         winlog[event_data][TargetUserName]: TargetUser
