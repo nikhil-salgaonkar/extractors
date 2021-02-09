@@ -1,0 +1,142 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 231
+source-name: MS-O365
+source-type: CLOUD
+source-description: Extractor for Microsoft Office 365 Events
+provides-streams:
+- EMAIL-GATEWAY
+- AUTHENTICATION
+- IAM
+master-filters:
+- \{\"CreationTime\"\:\"\d{4}\-\d{1,2}\-\d{2}T\d{2}\:\d{2}\:\d{2}\".*?OrganizationId\"\:\"\S+\"\,.*?\"UserType\"\:\d+\,
+event-details:
+- first-match: \"UserType\"\:\d+\,
+  decoder: json
+  event-key-format: '{Operation}'
+  event-key-mapping:
+    'Set-Mailbox':
+      annotate:
+        Stream: EMAIL-GATEWAY
+        Action: EMAIL_ACCEPTED
+      translate:
+        From: Sender
+        To: Recipient
+        Subject: Subject
+        Workload: File
+        Flow: Direction
+        ClientIP: RemoteIP
+    'DlpRuleMatch':
+      annotate:
+        Stream: EMAIL-GATEWAY
+        Action: EMAIL_ACCEPTED
+      translate:
+        From: Sender
+        To: Recipient
+        Subject: Subject
+        Workload: File
+        Flow: Direction
+        ClientIP: RemoteIP
+    'UserLoggedIn':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+        AuthProto: '-'
+        Reason: '-'
+      translate:
+        UserId: User
+        ClientIP: SrcIP
+    'UserLoginFailed':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+        AuthProto: '-'
+        Reason: '-'
+      translate:
+        UserId: User
+        ClientIP: SrcIP    
+    'Update user.':
+      annotate:
+        Stream: IAM
+        Action: USER_UPDATED
+        Status: PASSED
+      translate:
+        UserId: User
+        Role: Role
+        Target: TargetUser
+    'Delete user.':
+      annotate:
+        Stream: IAM
+        Action: USER_DELETED
+        Status: PASSED
+      translate:
+        UserId: User
+        Role: Role
+        Target: TargetUser        
+    'Change user license.':
+      annotate:
+        Stream: IAM
+        Action: USER_LICENSE_CHANGED
+        Status: PASSED
+      translate:
+        UserId: User
+        Role: Role
+        Target: TargetUser
+    'Disable account.':
+      annotate:
+        Stream: IAM
+        Action: ACCOUNT_DISABLED
+        Status: PASSED
+      translate:
+        UserId: User
+        Role: Role
+        Target: TargetUser
+    'Change user password.':
+      annotate:
+        Stream: IAM
+        Action: USER_PASSWORD_CHANGED
+        Status: PASSED
+      translate:
+        UserId: User
+        Role: Role
+        Target: TargetUser
+    'Reset user password.':
+      annotate:
+        Stream: IAM
+        Action: ACCOUNT_PASSWORD_RESET
+        Status: PASSED
+      translate:
+        UserId: User
+        Role: Role
+        Target: TargetUser  
+    'Remove member from group.':
+      annotate:
+        Stream: IAM
+        Action: GROUP_MEMBER_REMOVED
+        Status: PASSED
+      translate:
+        UserId: User
+        Role: Role
+        Target: TargetUser
+    'Add member to group.':
+      annotate:
+        Stream: IAM
+        Action: GROUP_MEMBER_ADDED
+        Status: PASSED
+      translate:
+        UserId: User
+        Role: Role
+        Target: TargetUser                                
+    
+  fallback:
+    annotate:
+      EventName: Generic Microsoft Office 365 Event
+      Stream: OTHER
+
+  globals:
+    annotate:
+      System: MS-O365
+    translate:
+      CreationTime: SystemTstamp
