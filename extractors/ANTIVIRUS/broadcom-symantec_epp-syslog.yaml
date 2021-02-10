@@ -23,9 +23,9 @@ event-details:
       translate: 
         Source Computer IP: SrcIP
         Local Host IP: DstIP
-        Application name: File
+        File path: File
         User Name: User
-        reason: Threat
+        Permitted application reason: Threat
         cmdline: CommandLine
         Process: Process
         url: URL
