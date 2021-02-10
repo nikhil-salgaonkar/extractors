@@ -5,8 +5,8 @@ source-name: PALOALTO
 source-type: FIREWALL
 source-description: Extractor for PaloAlto Firewall Events
 provides-streams:
-- NETWORK-FIREWALL
-- NETWORK-THREAT
+- FIREWALL
+- THREAT
 - AUTHENTICATION
 master-filters:
 - '\w+\s+\d+\s+\d+\:\d+\:\d+\s+\S+\s+\d+\,\d+\/\d+\/\d+\s+\d+\:\d+\:\d+\,\d+\,.*?(?:TRAFFIC|THREAT|SYSTEM|CONFIG|USERID\,login|GLOBALPROTECT)\,'
@@ -18,7 +18,7 @@ event-details:
   event-key-mapping:
     'allow':
       annotate:
-        Stream: NETWORK-FIREWALL
+        Stream: FIREWALL
         Action: PACKET_ALLOWED
         Status: PASSED
       translate:
@@ -26,12 +26,13 @@ event-details:
         dst: DstIP
         sport: SrcPort
         dport: DstPort
+        app: App
         proto: Proto  
         sent_bytes: TXLen
         receive_bytes: RXLen
     'deny':
       annotate:
-        Stream: NETWORK-FIREWALL
+        Stream: FIREWALL
         Action: PACKET_BLOCKED
         Status: FAILED
       translate:
@@ -39,12 +40,13 @@ event-details:
         dst: DstIP
         sport: SrcPort
         dport: DstPort
+        app: App
         proto: Proto  
         sent_bytes: TXLen
         receive_bytes: RXLen
     'drop':
       annotate:
-        Stream: NETWORK-FIREWALL
+        Stream: FIREWALL
         Action: PACKET_BLOCKED
         Status: FAILED
       translate:
@@ -52,12 +54,13 @@ event-details:
         dst: DstIP
         sport: SrcPort
         dport: DstPort
+        app: App
         proto: Proto  
         sent_bytes: TXLen
         receive_bytes: RXLen 
     'reset-both':   
       annotate:
-        Stream: NETWORK-FIREWALL
+        Stream: FIREWALL
         Action: PACKET_ALLOWED
         Status: PASSED
       translate:
@@ -65,12 +68,13 @@ event-details:
         dst: DstIP
         sport: SrcPort
         dport: DstPort
+        app: App
         proto: Proto  
         sent_bytes: TXLen
         receive_bytes: RXLen 
     'drop-icmp':  
       annotate:
-        Stream: NETWORK-FIREWALL
+        Stream: FIREWALL
         Action: PACKET_BLOCKED
         Status: FAILED
       translate:
@@ -78,6 +82,7 @@ event-details:
         dst: DstIP
         sport: SrcPort
         dport: DstPort
+        app: App
         proto: Proto  
         sent_bytes: TXLen
         receive_bytes: RXLen                                    
@@ -99,7 +104,7 @@ event-details:
   event-key-mapping:
     'alert-34556':
       annotate:
-        Stream: NETWORK-THREAT
+        Stream: THREAT
         Action: THREAT_DETECTED
         Status: PASSED
         Blocked: 'NO'
@@ -114,7 +119,7 @@ event-details:
         objecttype: Object
     'alert-10015':
       annotate:
-        Stream: NETWORK-THREAT
+        Stream: THREAT
         Action: THREAT_DETECTED
         Status: PASSED
         Blocked: 'NO'
@@ -129,7 +134,7 @@ event-details:
         objecttype: Object
     'alert-52004':
       annotate:
-        Stream: NETWORK-THREAT
+        Stream: THREAT
         Action: THREAT_DETECTED
         Status: PASSED 
         Blocked: 'NO'
@@ -144,7 +149,7 @@ event-details:
         objecttype: Object
     'block-url-9999':
       annotate:
-        Stream: NETWORK-THREAT
+        Stream: THREAT
         Action: THREAT_DETECTED
         Status: PASSED
         Blocked: 'YES'
@@ -159,7 +164,7 @@ event-details:
         objecttype: Object
     'reset-both-325904520':
       annotate:
-        Stream: NETWORK-THREAT
+        Stream: THREAT
         Action: THREAT_DETECTED                                               
         Status: PASSED
         Blocked: 'YES'
@@ -174,7 +179,7 @@ event-details:
         objecttype: Object
     'alert-197353851':
       annotate:
-        Stream: NETWORK-THREAT
+        Stream: THREAT
         Action: THREAT_DETECTED
         Status: PASSED
         Blocked: 'NO'
