@@ -23,8 +23,7 @@ event-details:
       translate:
         ip_address: SrcIP
         username: User
-        rolename: RoleName
-        #modifiedproperties: ModificationProperties
+        rolename: Role
     'Session Management-Console user deleted':
       annotate:
         Stream: IAM
@@ -33,8 +32,7 @@ event-details:
       translate:
         ip_address: SrcIP
         username: User
-        rolename: RoleName
-        #modifiedproperties: ModificationProperties
+        rolename: Role
     'Session Management-Console user modified':
       annotate:
         Stream: IAM
@@ -43,8 +41,7 @@ event-details:
       translate:
         ip_address: SrcIP
         username: User
-        rolename: RoleName
-        #modifiedproperties: ModificationProperties
+        rolename: Role
     
   fallback:
     annotate:
@@ -72,7 +69,7 @@ event-details:
         username: User
         dest_ipaddress: DstIP
         indicator_name: Threat
-        command_line: Cmd
+        command_line: CommandLine
         file_name: File
         process: Process
         url: URL
@@ -87,7 +84,7 @@ event-details:
         username: User
         dest_ipaddress: DstIP
         indicator_name: Threat
-        command_line: Cmd
+        command_line: CommandLine
         file_name: File
         process: Process
         url: URL
