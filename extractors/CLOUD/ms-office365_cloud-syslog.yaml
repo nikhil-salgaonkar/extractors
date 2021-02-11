@@ -12,7 +12,8 @@ master-filters:
 - \{\"CreationTime\"\:\"\d{4}\-\d{1,2}\-\d{2}T\d{2}\:\d{2}\:\d{2}\".*?OrganizationId\"\:\"\S+\"\,.*?\"UserType\"\:\d+\,
 event-details:
 - first-match: \"UserType\"\:\d+\,
-  decoder: json
+  decoder: custom
+  decoder-regex: '\"([^\"]+)\"\:\"?\[?([^\"]+|[^\,]+)'
   event-key-format: '{Operation}'
   event-key-mapping:
     'Set-Mailbox':
@@ -23,9 +24,42 @@ event-details:
         From: Sender
         To: Recipient
         Subject: Subject
-        Workload: File
+        Attachments: File
         Flow: Direction
         ClientIP: RemoteIP
+    'Create':
+      annotate:
+        Stream: EMAIL-GATEWAY
+        Action: EMAIL_ACCEPTED
+      translate:
+        From: Sender
+        To: Recipient
+        Subject: Subject
+        Attachments: File
+        Flow: Direction
+        ClientIPAddress: RemoteIP
+    'Update':
+      annotate:
+        Stream: EMAIL-GATEWAY
+        Action: EMAIL_ACCEPTED
+      translate:
+        From: Sender
+        To: Recipient
+        Subject: Subject
+        Attachments: File
+        Flow: Direction
+        ClientIP: RemoteIP 
+    'Move':
+      annotate:
+        Stream: EMAIL-GATEWAY
+        Action: EMAIL_ACCEPTED
+      translate:
+        From: Sender
+        To: Recipient
+        Subject: Subject
+        Attachments: File
+        Flow: Direction
+        ClientIP: RemoteIP            
     'DlpRuleMatch':
       annotate:
         Stream: EMAIL-GATEWAY
@@ -34,7 +68,7 @@ event-details:
         From: Sender
         To: Recipient
         Subject: Subject
-        Workload: File
+        Attachments: File
         Flow: Direction
         ClientIP: RemoteIP
     'UserLoggedIn':
@@ -42,21 +76,21 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
-        AuthProto: '-'
-        Reason: '-'
       translate:
-        UserId: User
+        protocol: AuthProto
+        Reason: Reason
         ClientIP: SrcIP
+        UserId: User
     'UserLoginFailed':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        AuthProto: '-'
-        Reason: '-'
       translate:
-        UserId: User
-        ClientIP: SrcIP    
+        protocol: AuthProto
+        LogonError: Reason
+        ClientIP: SrcIP 
+        UserId: User   
     'Update user.':
       annotate:
         Stream: IAM
@@ -65,7 +99,7 @@ event-details:
       translate:
         UserId: User
         Role: Role
-        Target: TargetUser
+        TargetUser: TargetUser
     'Delete user.':
       annotate:
         Stream: IAM
@@ -74,7 +108,7 @@ event-details:
       translate:
         UserId: User
         Role: Role
-        Target: TargetUser        
+        TargetUser: TargetUser        
     'Change user license.':
       annotate:
         Stream: IAM
@@ -83,7 +117,7 @@ event-details:
       translate:
         UserId: User
         Role: Role
-        Target: TargetUser
+        TargetUser: TargetUser
     'Disable account.':
       annotate:
         Stream: IAM
@@ -92,7 +126,7 @@ event-details:
       translate:
         UserId: User
         Role: Role
-        Target: TargetUser
+        TargetUser: TargetUser
     'Change user password.':
       annotate:
         Stream: IAM
@@ -101,7 +135,7 @@ event-details:
       translate:
         UserId: User
         Role: Role
-        Target: TargetUser
+        TargetUser: TargetUser
     'Reset user password.':
       annotate:
         Stream: IAM
@@ -110,7 +144,7 @@ event-details:
       translate:
         UserId: User
         Role: Role
-        Target: TargetUser  
+        TargetUser: TargetUser  
     'Remove member from group.':
       annotate:
         Stream: IAM
@@ -119,7 +153,7 @@ event-details:
       translate:
         UserId: User
         Role: Role
-        Target: TargetUser
+        TargetUser: TargetUser
     'Add member to group.':
       annotate:
         Stream: IAM
@@ -128,7 +162,7 @@ event-details:
       translate:
         UserId: User
         Role: Role
-        Target: TargetUser                                
+        TargetUser: TargetUser                                
     
   fallback:
     annotate:
