@@ -100,7 +100,7 @@ event-details:
 
 - first-match: '\,THREAT\,.*?\,'
   decoder: regex
-  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostnmae>\S+)\s+\d+\,\d+\/\d+\/\d+\s+\d+\:\d+\:\d+\,\d+\,(?P<event_type>\w+)\,(?P<threat>.*?)\,\d+\,[\d\/\:\s]+\,(?P<src>[\d\.]+)\,(?P<dst>[\d\.]+)\,(?P<srctranip>[\d\.]+)\,(?P<dsttranip>[\d\.]+)\,(?P<rule>.*?)\,(?P<suser>.*?)\,(?P<duser>.*?)\,(?P<app>.*?)\,.*?\,(?P<szone>.*?)\,(?P<dzone>.*?)\,(?P<iface_in>.*?)\,(?P<iface_out>.*?)\,.*?\,.*?\,.*?\,.*?\,(?P<sport>\d+)\,(?P<dport>\d+)\,(?P<srctranport>\d+)\,(?P<dsttranport>\d+)\,.*?\,(?P<proto>.*?)\,(?P<action>.*?)\,\"?(?P<objecttype>.*?)\"?\,((?P<atkmsg>.*?)\((?P<eventid>\d+)\))\,(?P<siteclass>.*?)\,(?P<severity>.*?)\,'
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostnmae>\S+)\s+\d+\,\d+\/\d+\/\d+\s+\d+\:\d+\:\d+\,\d+\,(?P<event_type>\w+)\,.*?\,\d+\,[\d\/\:\s]+\,(?P<src>[\d\.]+)\,(?P<dst>[\d\.]+)\,(?P<srctranip>[\d\.]+)\,(?P<dsttranip>[\d\.]+)\,(?P<rule>.*?)\,(?P<suser>.*?)\,(?P<duser>.*?)\,(?P<app>.*?)\,.*?\,(?P<szone>.*?)\,(?P<dzone>.*?)\,(?P<iface_in>.*?)\,(?P<iface_out>.*?)\,.*?\,.*?\,.*?\,.*?\,(?P<sport>\d+)\,(?P<dport>\d+)\,(?P<srctranport>\d+)\,(?P<dsttranport>\d+)\,.*?\,(?P<proto>.*?)\,(?P<action>.*?)\,\"?(?P<objecttype>.*?)\"?\,((?P<threat>.*?)\((?P<eventid>\d+)\))\,(?P<siteclass>.*?)\,(?P<severity>.*?)\,'
   event-key-format: '{action}-{eventid}'
   event-key-mapping:
     'alert-34556':
@@ -180,24 +180,9 @@ event-details:
       hostname: System
       datetime: SystemTstamp
 
-  subs: 
-    Threat:
-      'data': 'Data pattern matching a Data Filtering profile.'
-      'file': 'File type matching a File Blocking profile.'
-      'flood': 'Flood detected via a Zone Protection profile.'
-      'packet': 'Packet-based attack protection triggered by a Zone Protection profile.'
-      'scan': 'Scan detected via a Zone Protection profile.'
-      'spyware': 'Spyware detected via an Anti-Spyware profile.'
-      'url': 'URL filtering log.'
-      'virus': 'Virus detected via an Antivirus profile.'
-      'vulnerability': 'Vulnerability exploit detected via a Vulnerability Protection profile.'
-      'wildfire': 'A WildFire verdict generated when the firewall submits a file to WildFire per a WildFire Analysis profile and a verdict 
-      (malicious, phishing, grayware, or benign, depending on what you are logging) is logged in the WildFire Submissions log'
-      'wildfire-virus': 'Virus detected via an Antivirus profile.'  
-
 - first-match: '\,SYSTEM\,.*?(?:auth\-success|auth-fail)'
   decoder: regex
-  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+\d+\,.*?\,.*?\,(?P<event_type>\w+)\,.*?\,.*?\,.*?\,.*?\,(?P<action>.*?)\,.*?\,.*?\,.*?\,.*?\,(?P<severity>.*?)\,.*?(?P<message>(?:User|user)\s+(?P<user>.*?)\s+.*?(?:Reason\:\s+(?P<reason>.*?)\s+)?(?:From|from)\:?\s+(?P<src>[\w\.\:]+))\.?\"?\,'
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+\d+\,.*?\,.*?\,(?P<event_type>\w+)\,.*?\,.*?\,.*?\,.*?\,(?P<action>.*?)\,.*?\,.*?\,.*?\,.*?\,(?P<severity>.*?)\,.*?(?P<message>(?:User|user)\s+(?P<user>.*?)\s+.*?(?:Reason\:\s+(?P<reason>.*?)\s+)?(?:From|from)\:?\s+(?P<src>[\w\.\:]+))\.?\"?\,(?:.*?method\s+(?P<auth_proto>.*?)\s+)?'
   event-key-format: '{action}'
   event-key-mapping:
     'auth-success':
@@ -205,21 +190,20 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
-        Reason: '-'
-        AuthProto: '-'
       translate:
         src: SrcIP
         user: User
+        auth_proto: AuthProto
     'auth-fail':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
         Reason: INVALID_PASSWORD
-        AuthProto: '-'
       translate:
         src: SrcIP
-        user: User                                        
+        user: User  
+        auth_proto: AuthProto                                    
 
   fallback:
     annotate:
@@ -241,20 +225,19 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGOUT
         Status: PASSED
-        AuthProto: '-'
       translate:
         src: SrcIP
         user: User
+        auth_proto: AuthProto
     'logged in':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
-        Reason: '-'
-        AuthProto: '-'
       translate:
         src: SrcIP
-        user: User                                              
+        user: User  
+        auth_proto: AuthProto                                            
 
   fallback:
     annotate:
@@ -268,7 +251,7 @@ event-details:
 
 - first-match: '\,SYSTEM\,.*?\s+user\s+authentication\s+(?:failed|succeeded)'
   decoder: regex
-  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+\d+\,.*?\,.*?\,(?P<event_type>\w+)\,.*?\,.*?\,.*?\,.*?\,.*?\,.*?\,.*?\,.*?\,.*?\,(?P<severity>.*?)\,\"(?P<message>.*?(?P<action>authentication\s+(?:failed|succeeded)).*?\s+Login\s+from\:\s+(?P<src>\S+)\,.*?User\s+name\:\s+(?P<user>.*?)\,.*?(?:.*?Reason\:\s+(?P<Reason>.*?)\,)?.*?)\"\,'
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+\d+\,.*?\,.*?\,(?P<event_type>\w+)\,.*?\,.*?\,.*?\,.*?\,.*?\,.*?\,.*?\,.*?\,.*?\,(?P<severity>.*?)\,\"(?P<message>.*?(?P<action>authentication\s+(?:failed|succeeded)).*?\s+Login\s+from\:\s+(?P<src>\S+)\,.*?User\s+name\:\s+(?P<user>.*?)\,.*?(?:.*?Reason\:\s+(?P<reason>.*?)\,)?.*?)\"\,'
   event-key-format: '{action}'
   event-key-mapping:
     'authentication failed':
@@ -276,20 +259,20 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        AuthProto: '-'
       translate:
         src: SrcIP
         user: User
-        Reason: Reason
+        reason: Reason
+        auth_proto: AuthProto
     'authentication succeeded':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
-        AuthProto: '-'
       translate:
         src: SrcIP
-        user: User                                             
+        user: User
+        auth_proto: AuthProto                                             
 
   fallback:
     annotate:
@@ -311,10 +294,10 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGOUT
         Status: PASSED
-        AuthProto: '-'
       translate:
         user: User 
-        src: SrcIP                                              
+        src: SrcIP
+        auth_proto: AuthProto                                              
 
   fallback:
     annotate:
@@ -336,10 +319,10 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
-        AuthProto: '-'
       translate:
         user: User 
         src: SrcIP
+        auth_proto: AuthProto
 
   fallback:
     annotate:
@@ -350,85 +333,3 @@ event-details:
     translate:
       hostname: System
       datetime: SystemTstamp
-
-- first-match: '\,CONFIG\,.*?\,(?:Failed|Succeeded)\,'
-  decoder: regex
-  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+\d+\,.*?\,.*?\,(?P<event_type>\w+)\,\d+\,\d+\,.*?\,(?P<src>[\d\.]+)\,.*?\,(?P<action>\w+)\,(?P<user>.*?)\,\w+\,(?P<status>\w+)\,(?P<message>.*?(?:user\s+(?P<target_user>\w+))?)\,'
-  event-key-format: '{event_type}-{action}-{status}'
-  event-key-mapping:
-    'CONFIG-delete-Succeeded':
-      annotate:
-        Stream: IAM
-        Action: CONFIGURATION_ERASED
-        Status: PASSED
-      translate:
-        user: User 
-        src: SrcIP
-        Role: Role
-        target_user: TargetUser
-    'CONFIG-edit-Failed':
-      annotate:
-        Stream: IAM
-        Action: CONFIGURATION_CHANGED
-        Status: FAILED
-      translate:
-        user: User 
-        src: SrcIP
-        Role: Role
-        target_user: TargetUser 
-    'CONFIG-edit-Succeeded':
-      annotate:
-        Stream: IAM
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-      translate:
-        user: User 
-        src: SrcIP
-        Role: Role
-        target_user: TargetUser      
-    'CONFIG-set-Succeeded':
-      annotate:
-        Stream: IAM
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-      translate:
-        user: User 
-        src: SrcIP
-        Role: Role
-        target_user: TargetUser        
-
-  fallback:
-    annotate:
-      EventName: Generic PaloAlto Firewall Event
-      Stream: OTHER
-
-  globals:
-    translate:
-      hostname: System
-      datetime: SystemTstamp 
-
-- first-match: '\,SYSTEM\,.*?\s+from\s+[\d\.]+\s+timed\s+out'
-  decoder: regex
-  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+\d+\,.*?\,.*?\,(?P<event_type>\w+)\,.*?\,.*?\,.*?\,.*?\,.*?\,.*?\,.*?\,.*?\,.*?\,(?P<severity>\w+)\,\"(?P<message>.*?user\s+(?P<user>.*?)\s+via\s+(?:Web|CLI)\sfrom\s+(?P<src>[\d\.]+)\s+(?P<action>timed\s+out))\"\,'
-  event-key-format: '{action}'
-  event-key-mapping:
-    'timed out':
-      annotate:
-        Stream: IAM
-        Action: USER_TIME_OUT
-        Status: PASSED
-      translate:
-        user: User 
-        src: SrcIP
-        Role: Role
-        target_user: TargetUser
-
-  fallback:
-    annotate:
-      EventName: Generic PaloAlto Firewall Event
-      Stream: OTHER
-
-  globals:
-    translate:
-      hostname: System
-      datetime: SystemTstamp                                         
