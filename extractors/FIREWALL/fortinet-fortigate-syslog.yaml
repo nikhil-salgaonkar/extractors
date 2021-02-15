@@ -5,7 +5,7 @@ source-name: FORTIGATE
 source-type: FIREWALL
 source-description: Extractor for Fortigate Firewall Events
 provides-streams:
-- NETWORK-FIREWALL
+- FIREWALL
 - AUTHENTICATION
 - NETWORK-THREAT
 - WEBFILTER
@@ -22,7 +22,7 @@ event-details:
   event-key-mapping:
     0001000014-deny:
       annotate:
-        Stream: NETWORK-FIREWALL
+        Stream: FIREWALL
         Action: PACKET_BLOCKED
         Status: FAILED
       translate:
@@ -36,7 +36,7 @@ event-details:
 
     0000000013-accept:
       annotate:
-        Stream: NETWORK-FIREWALL
+        Stream: FIREWALL
         Action: PACKET_ALLOWED
         Status: PASSED
       translate:
@@ -50,7 +50,7 @@ event-details:
 
     0000000013-deny:
       annotate:
-        Stream: NETWORK-FIREWALL
+        Stream: FIREWALL
         Action: PACKET_BLOCKED
         Status: FAILED
       translate:
@@ -64,7 +64,7 @@ event-details:
 
     0001000014-accept:
       annotate:
-        Stream: NETWORK-FIREWALL
+        Stream: FIREWALL
         Action: PACKET_ALLOWED
         Status: PASSED
       translate:
@@ -78,7 +78,7 @@ event-details:
 
     0000000010-accept:
       annotate:
-        Stream: NETWORK-FIREWALL
+        Stream: FIREWALL
         Action: PACKET_ALLOWED
         Status: PASSED
       translate:
@@ -92,7 +92,7 @@ event-details:
 
     0000000009-accept:
       annotate:
-        Stream: NETWORK-FIREWALL
+        Stream: FIREWALL
         Action: PACKET_ALLOWED
         Status: PASSED
       translate:
@@ -106,7 +106,7 @@ event-details:
 
     0000000020-accept:
       annotate:
-        Stream: NETWORK-FIREWALL
+        Stream: FIREWALL
         Action: PACKET_ALLOWED
         Status: PASSED
       translate:
@@ -120,7 +120,7 @@ event-details:
 
     0000000020-deny:
       annotate:
-        Stream: NETWORK-FIREWALL
+        Stream: FIREWALL
         Action: PACKET_BLOCKED
         Status: FAILED
       translate:
@@ -345,7 +345,7 @@ event-details:
 
     0000000011-dns:
       annotate:
-        Stream: NETWORK-FIREWALL
+        Stream: FIREWALL
         Action: PACKET_ALLOWED
         Status: PASSED
       translate:
@@ -517,7 +517,7 @@ event-details:
 
     0002000012-accept:
       annotate:
-        Stream: NETWORK-FIREWALL
+        Stream: FIREWALL
         Action: PACKET_ALLOWED
         Status: PASSED
       translate:

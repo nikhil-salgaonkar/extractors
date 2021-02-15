@@ -5,7 +5,7 @@ source-name: SOPHOS-XG
 source-type: FIREWALL
 source-description: Extractor for SOPHOS-XG Firewall Events
 provides-streams:
-- NETWORK-FIREWALL
+- FIREWALL
 - NETWORK-THREAT
 master-filters:
 - date\=\d+\-\d+\-\d+\s+time\=\d+\:\d+\:\d+\s+.*?\s+device_id\=\S+\s+log_id\=\d+
@@ -17,7 +17,7 @@ event-details:
   event-key-mapping:
     010101600001-Allowed: 
       annotate:
-        Stream: NETWORK-FIREWALL
+        Stream: FIREWALL
         Action: PACKET_ALLOWED
         Status: PASSED
       translate:
@@ -30,7 +30,7 @@ event-details:
         recv_bytes: RXLen
     010202601001-Denied: 
       annotate:
-        Stream: NETWORK-FIREWALL
+        Stream: FIREWALL
         Action: PACKET_BLOCKED
         Status: FAILED
       translate:
@@ -43,7 +43,7 @@ event-details:
         recv_bytes: RXLen
     010102600002-Denied: 
       annotate:
-        Stream: NETWORK-FIREWALL
+        Stream: FIREWALL
         Action: PACKET_BLOCKED
         Status: PASSED
       translate:
@@ -56,7 +56,7 @@ event-details:
         recv_bytes: RXLen  
     010301602001-Allowed: 
       annotate:
-        Stream: NETWORK-FIREWALL
+        Stream: FIREWALL
         Action: PACKET_ALLOWED
         Status: PASSED
       translate:
@@ -83,7 +83,7 @@ event-details:
         recv_bytes: RXLen
     018201500005-Allowed: 
       annotate:
-        Stream: NETWORK-FIREWALL
+        Stream: FIREWALL
         Action: PACKET_ALLOWED
         Status: PASSED
       translate:

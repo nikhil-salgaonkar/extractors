@@ -6,7 +6,7 @@ source-type: FIREWALL
 source-description: Extractor for Cisco-FMC Firewall Events
 provides-streams:
 - AUTHENTICATION
-- NETWORK-FIREWALL
+- FIREWALL
 - NETWORK-THREAT
 master-filters:
 - FMC(?:\:|\])\s+\S+
@@ -63,7 +63,7 @@ event-details:
   event-key-mapping:  
     'Allow': 
       annotate:
-        Stream: NETWORK-FIREWALL
+        Stream: FIREWALL
         Action: PACKET_ALLOWED
         Status: PASSED
       translate: 
@@ -76,7 +76,7 @@ event-details:
         responder_bytes: RXLen
     'Block with reset':
       annotate:
-        Stream: NETWORK-FIREWALL
+        Stream: FIREWALL
         Action: PACKET_BLOCKED
         Status: PASSED
       translate: 
@@ -89,7 +89,7 @@ event-details:
         responder_bytes: RXLen  
     'Block':
       annotate:
-        Stream: NETWORK-FIREWALL
+        Stream: FIREWALL
         Action: PACKET_BLOCKED
         Status: PASSED
       translate: 
