@@ -27,35 +27,35 @@ event-details:
         s_port: SrcPort
         service: DstPort
         proto: Proto
-        app: App  
+        protocol: App  
         received_bytes: RXLen
         sent_bytes: TXLen
     Accept-VPN-1 & FireWall-1-None:
       annotate:
         Stream: FIREWALL
         Action: PACKET_ALLOWED
-        Status: FAILED
+        Status: PASSED
       translate:
         src: SrcIP  
         dst: DstIP
         s_port: SrcPort
         service: DstPort
         proto: Proto
-        app: App  
+        protocol: App  
         received_bytes: RXLen
         sent_bytes: TXLen    
     Allow-MEPP-None:
       annotate:
         Stream: FIREWALL
         Action: PACKET_ALLOWED
-        Status: FAILED
+        Status: PASSED
       translate:
         src: SrcIP  
         dst: DstIP
         s_port: SrcPort
         service: DstPort
         proto: Proto
-        app: App  
+        protocol: App  
         received_bytes: RXLen
         sent_bytes: TXLen 
     Block-MEPP-None:
@@ -69,7 +69,7 @@ event-details:
         s_port: SrcPort
         service: DstPort
         proto: Proto
-        app: App  
+        protocol: App  
         received_bytes: RXLen
         sent_bytes: TXLen            
     Prevent-SmartDefense-None:
@@ -102,7 +102,7 @@ event-details:
       translate:
         src: SrcIP
         user: User
-        AuthProto: AuthProto
+        auth_method: AuthProto
     Log In-Connectra-None:
       annotate:
         Stream: AUTHENTICATION
@@ -111,7 +111,7 @@ event-details:
       translate:
         src: SrcIP
         user: User
-        AuthProto: AuthProto
+        auth_method: AuthProto
     Failed Log In-Connectra-None: 
       annotate:
         Stream: AUTHENTICATION
@@ -121,7 +121,7 @@ event-details:
       translate:
         src: SrcIP
         user: User
-        AuthProto: AuthProto
+        auth_method: AuthProto
     Detect-SmartDefense-None: 
       annotate:
         Stream: THREAT
@@ -141,7 +141,7 @@ event-details:
       translate:
         src: SrcIP
         user: User
-        AuthProto: AuthProto
+        auth_method: AuthProto
     Extract-Threat Extraction-None:
       annotate:
         Stream: THREAT
@@ -172,7 +172,7 @@ event-details:
       translate:
         src: SrcIP
         user: User
-        AuthProto: AuthProto
+        auth_method: AuthProto
         
   fallback:
     annotate:

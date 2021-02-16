@@ -5,11 +5,10 @@ source-name: FORTIGATE
 source-type: FIREWALL
 source-description: Extractor for Fortigate Firewall Events
 provides-streams:
-- NETWORK-FIREWALL
+- FIREWALL
 - AUTHENTICATION
-- NETWORK-THREAT
+- THREAT
 - WEBFILTER
-- DLP
 - DNS
 master-filters:
 - device_id=FG
@@ -22,7 +21,7 @@ event-details:
   event-key-mapping:
     0001000014-deny:
       annotate:
-        Stream: NETWORK-FIREWALL
+        Stream: FIREWALL
         Action: PACKET_BLOCKED
         Status: FAILED
       translate:
@@ -36,7 +35,7 @@ event-details:
 
     0000000013-accept:
       annotate:
-        Stream: NETWORK-FIREWALL
+        Stream: FIREWALL
         Action: PACKET_ALLOWED
         Status: PASSED
       translate:
@@ -50,7 +49,7 @@ event-details:
 
     0000000013-deny:
       annotate:
-        Stream: NETWORK-FIREWALL
+        Stream: FIREWALL
         Action: PACKET_BLOCKED
         Status: FAILED
       translate:
@@ -64,7 +63,7 @@ event-details:
 
     0001000014-accept:
       annotate:
-        Stream: NETWORK-FIREWALL
+        Stream: FIREWALL
         Action: PACKET_ALLOWED
         Status: PASSED
       translate:
@@ -78,7 +77,7 @@ event-details:
 
     0000000010-accept:
       annotate:
-        Stream: NETWORK-FIREWALL
+        Stream: FIREWALL
         Action: PACKET_ALLOWED
         Status: PASSED
       translate:
@@ -92,7 +91,7 @@ event-details:
 
     0000000009-accept:
       annotate:
-        Stream: NETWORK-FIREWALL
+        Stream: FIREWALL
         Action: PACKET_ALLOWED
         Status: PASSED
       translate:
@@ -106,7 +105,7 @@ event-details:
 
     0000000020-accept:
       annotate:
-        Stream: NETWORK-FIREWALL
+        Stream: FIREWALL
         Action: PACKET_ALLOWED
         Status: PASSED
       translate:
@@ -120,7 +119,7 @@ event-details:
 
     0000000020-deny:
       annotate:
-        Stream: NETWORK-FIREWALL
+        Stream: FIREWALL
         Action: PACKET_BLOCKED
         Status: FAILED
       translate:
@@ -345,7 +344,7 @@ event-details:
 
     0000000011-dns:
       annotate:
-        Stream: NETWORK-FIREWALL
+        Stream: FIREWALL
         Action: PACKET_ALLOWED
         Status: PASSED
       translate:
@@ -358,7 +357,7 @@ event-details:
 
     1501054601-block:
       annotate:
-        Stream: NETWORK-THREAT
+        Stream: THREAT
         Action: BOTNET_BLOCKED
         Status: FAILED
       translate:
@@ -372,7 +371,7 @@ event-details:
 
     1501054600-block:
       annotate:
-        Stream: NETWORK-THREAT
+        Stream: THREAT
         Action: BOTNET_BLOCKED
         Status: FAILED
       translate:
@@ -430,21 +429,6 @@ event-details:
         sentbyte: TXLen
         rcvdbyte: RXLen
 
-    0954024576-block:
-      annotate:
-        Stream: DLP
-        Action: FILE_BLOCKED
-        Status: FAILED
-      translate:
-        srcip: SrcIP
-        srcport: SrcPort
-        dstip: DstIP
-        dstport: DstPort
-        user: User
-        url: URL
-        hostname: Domain
-        subtype: SubCategory
-
     0100032001-login:
       annotate:
         Stream: AUTHENTICATION
@@ -459,7 +443,7 @@ event-details:
 
     0419016384-detected:
       annotate:
-        Stream: NETWORK-THREAT
+        Stream: THREAT
         Action: THREAT_DETECTED
         Status: PASSED
         Blocked: 'YES'
@@ -473,7 +457,7 @@ event-details:
 
     0419016385-detected:
       annotate:
-        Stream: NETWORK-THREAT
+        Stream: THREAT
         Action: THREAT_DETECTED
         Status: PASSED
         Blocked: 'YES'
@@ -517,7 +501,7 @@ event-details:
 
     0002000012-accept:
       annotate:
-        Stream: NETWORK-FIREWALL
+        Stream: FIREWALL
         Action: PACKET_ALLOWED
         Status: PASSED
       translate:
@@ -528,17 +512,6 @@ event-details:
         proto: Proto
         sentbyte: TXLen
         rcvdbyte: RXLen
-
-    0954024577-log-only:
-      annotate:
-        Stream: DLP
-        Action: DATA_LEAK_DETECTED
-        Status: PASSED
-      translate:
-        srcip: SrcIP
-        srcport: SrcPort
-        dstip: DstIP
-        dstport: DstPort
 
   fallback:
     annotate:
