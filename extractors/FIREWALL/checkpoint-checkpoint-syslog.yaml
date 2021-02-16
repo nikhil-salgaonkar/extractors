@@ -156,8 +156,6 @@ event-details:
     Reject-SmartDefense-None:
       annotate:
         Stream: THREAT
-        Actiannotate:
-        Stream: THREAT
         Action: THREAT_DETECTED
         Status: PASSED
         Vector: WEB
