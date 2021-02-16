@@ -57,7 +57,7 @@ event-details:
 
 - first-match: '\s+FMC\:\s+Protocol\:\s+\w+.*?AccessControlRuleName\:'
   decoder: regex
-  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+FMC\:\s+.*?Protocol\:\s+(?P<protocol>[\w\-\s]+)\,\s+SrcIP\:\s+(?P<src>[abcdef\d\:\.\-]+)\,.*?DstIP\:\s+(?P<dst>[abcdef\d\:\.\-]+)\,(?:.*?SrcPort\:\s+(?P<sport>\d+)\,)?(?:.*?DstPort\:\s+(?P<dport>\d+)\,)?\s+.*?Policy\:\s+(?P<policy>.*?)\,.*?AccessControlRuleName\:\s+(?P<rulename>.*?)\,(?:.*?AccessControlRuleAction\:\s+(?P<action>.*?)\,)?.*?UserName\:\s+(?P<user>.*?)\,.*?InitiatorBytes\:\s+(?P<initiator_bytes>\d+)\,.*?ResponderBytes\:\s+(?P<responder_bytes>\d+)\,'
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+FMC\:\s+.*?Protocol\:\s+(?P<protocol>[\w\-\s]+)\,\s+SrcIP\:\s+(?P<src>[abcdef\d\:\.\-]+)\,.*?DstIP\:\s+(?P<dst>[abcdef\d\:\.\-]+)\,(?:.*?SrcPort\:\s+(?P<sport>\d+)\,)?(?:.*?DstPort\:\s+(?P<dport>\d+)\,)?\s+.*?Policy\:\s+(?P<policy>.*?)\,.*?AccessControlRuleName\:\s+(?P<rulename>.*?)\,(?:.*?AccessControlRuleAction\:\s+(?P<action>.*?)\,)?.*?UserName\:\s+(?P<user>.*?)\,(?:.*?ApplicationProtocol\:\s+(?P<app>.*?)\,)?.*?InitiatorBytes\:\s+(?P<initiator_bytes>\d+)\,.*?ResponderBytes\:\s+(?P<responder_bytes>\d+)\,'
   event-key-format: '{action}'
   event-key-mapping:  
     'Allow': 
@@ -67,13 +67,13 @@ event-details:
         Status: PASSED
       translate: 
         src: SrcIP
-        proto: Proto
+        protocol: Proto
         sport: SrcPort
         dst: DstIP
         dport: DstPort
         initiator_bytes: TXLen
         responder_bytes: RXLen
-        App: App
+        app: App
     'Block with reset':
       annotate:
         Stream: FIREWALL
@@ -81,13 +81,13 @@ event-details:
         Status: PASSED
       translate: 
         src: SrcIP
-        proto: Proto
+        protocol: Proto
         sport: SrcPort
         dst: DstIP
         dport: DstPort
         initiator_bytes: TXLen
         responder_bytes: RXLen
-        App: App  
+        app: App  
     'Block':
       annotate:
         Stream: FIREWALL
@@ -95,13 +95,13 @@ event-details:
         Status: PASSED
       translate: 
         src: SrcIP
-        proto: Proto
+        protocol: Proto
         sport: SrcPort
         dst: DstIP
         dport: DstPort
         initiator_bytes: TXLen
         responder_bytes: RXLen
-        App: App          
+        app: App          
 
   fallback:
     annotate:
@@ -115,7 +115,7 @@ event-details:
 
 - first-match: '\sFMC\:.*?\[Impact\:\s+.*?\].*?\[Priority\:\s+\d+\]'
   decoder: regex
-  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+.*?\[.*?\](?:\s\"(?P<atkmsg>.*?)\")?.*?\[Impact\:\s+(?P<atkvector>.*?)\].*?\[Classification\:\s+(?P<atkclass>.*?)\]\s+\[Priority\:\s(?P<pri>\d+)\]\s+\{(?P<protocol>.*?)\}\s+(?P<src>[\d\.]+)\:(?P<sport>\d+).*?(?P<dst>[\d\.]+)\:(?P<dport>\d+)'
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+.*?\[.*?\](?:\s\"?(?P<atkmsg>.*?)\"?)?\s+\[Impact\:\s+(?P<atkvector>.*?)\].*?\[Classification\:\s+(?P<atkclass>.*?)\]\s+\[Priority\:\s(?P<pri>\d+)\]\s+\{(?P<protocol>.*?)\}\s+(?P<src>[\d\.]+)\:(?P<sport>\d+).*?(?P<dst>[\d\.]+)\:(?P<dport>\d+)'
   event-key-format: ''
   event-key-mapping:  
     '': 
