@@ -6,8 +6,8 @@ source-type: FIREWALL
 source-description: Extractor for Cisco-FMC Firewall Events
 provides-streams:
 - AUTHENTICATION
-- NETWORK-FIREWALL
-- NETWORK-THREAT
+- FIREWALL
+- THREAT
 master-filters:
 - FMC(?:\:|\])\s+\S+
 event-details:
@@ -21,30 +21,29 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        AuthMethod: '-'
         Reason: INVALID_PASSWORD
       translate: 
         src: SrcIP    
         user: User
+        AuthProto: AuthProto  
     'Logout Success': 
       annotate:
         Stream: AUTHENTICATION
         Action: LOGOUT
         Status: PASSED
-        AuthMethod: '-'
       translate:
         src: SrcIP    
         user: User
+        AuthProto: AuthProto
     'Login Success': 
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
-        AuthMethod: '-'
-        Reason: '-'
       translate: 
         src: SrcIP    
         user: User
+        AuthProto: AuthProto 
         
   fallback:
     annotate:
@@ -63,7 +62,7 @@ event-details:
   event-key-mapping:  
     'Allow': 
       annotate:
-        Stream: NETWORK-FIREWALL
+        Stream: FIREWALL
         Action: PACKET_ALLOWED
         Status: PASSED
       translate: 
@@ -74,9 +73,10 @@ event-details:
         dport: DstPort
         initiator_bytes: TXLen
         responder_bytes: RXLen
+        App: App
     'Block with reset':
       annotate:
-        Stream: NETWORK-FIREWALL
+        Stream: FIREWALL
         Action: PACKET_BLOCKED
         Status: PASSED
       translate: 
@@ -86,20 +86,22 @@ event-details:
         dst: DstIP
         dport: DstPort
         initiator_bytes: TXLen
-        responder_bytes: RXLen  
+        responder_bytes: RXLen
+        App: App  
     'Block':
       annotate:
-        Stream: NETWORK-FIREWALL
+        Stream: FIREWALL
         Action: PACKET_BLOCKED
         Status: PASSED
       translate: 
         src: SrcIP
-        protocol: Proto
+        proto: Proto
         sport: SrcPort
         dst: DstIP
         dport: DstPort
         initiator_bytes: TXLen
-        responder_bytes: RXLen        
+        responder_bytes: RXLen
+        App: App          
 
   fallback:
     annotate:
@@ -118,19 +120,15 @@ event-details:
   event-key-mapping:  
     '': 
       annotate:
-        Stream: NETWORK-THREAT
+        Stream: THREAT
         Action: THREAT_DETECTED
         Status: PASSED
-        Blocked: 'YES'
-      translate: 
-        atkmsg: AtkMsg
-        atkvector: AtkVector
-        pri: Severity  
-        protocol: Proto
+        Vector: WEB
+      translate:  
+        atkmsg: Threat
         src: SrcIP
-        sport: SrcPort
         dst: DstIP
-        dport: DstPort     
+        user: User     
 
   fallback:
     annotate:
@@ -141,9 +139,3 @@ event-details:
     translate:
       datetime: SystemTstamp
       hostname: System
-
-  subs:
-    Severity:
-      '1': LOW
-      '2': MEDIUM
-      '3': HIGH               
