@@ -1,0 +1,38 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 172
+source-name: AZURE-ACTIVITY
+source-type: CLOUD
+source-description: Extractor for Azure Activity Events
+provides-streams:
+- AZURE
+master-filters:
+- \"?time\"?\:\s+\"?\d{4}\-\d{2}\-\d{2}T\d{1,2}\:\d{1,2}\:\d{1,2}.*?(?:resourceId|tenantId)?.*?category\"?\:\s+\"?(?:AuditEvent|Delete|Action|Write|SignInLogs|AuditLogs|OperationLogs|OperationalLogs|Administrative|ResourceHealth|recommendationsdation|Recommendation|ServiceHealth|DeviceComplianceOrg|RequestResponse|Errors)
+- \{time\:\s+\d{4}\-\d{2}\-\d{2}T\d{1,2}\:\d{1,2}\:\d{1,2}\.\w+\,\s+resourceId\:\s+\S+\,\s+dimensions\:\s+\{
+- \s+resourceId\:\s+\S+\,\s+time\:\s+\d{4}\-\d{2}\-\d{2}T\d{2}\:\d{2}\:\d{2}\.\d+Z\,\s+metricName\:\s+  
+event-details:
+- first-match: \s+\"?category\"?\:\s+\"?\S+\"?\,
+  decoder: custom
+  decoder-regex: '\"?([\w]+)\"?\:(?!\s+\{)\"?(?:\{)?([^\,\}]+)\"?'
+  event-key-format: ''
+  event-key-mapping:
+    '':
+      annotate:               
+        Stream: AZURE
+      translate:
+        details: EventName
+        eventName: EventName
+        operationName: OperationName
+        category: Category
+        UserName: User
+        ResourceGroup: ResourceGroupName
+        resultType: Status                                      
+    
+  fallback:
+    annotate:
+      EventName: Generic Azure Activity Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      time: SystemTstamp
