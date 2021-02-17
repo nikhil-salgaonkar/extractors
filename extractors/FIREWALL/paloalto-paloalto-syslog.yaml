@@ -6,7 +6,7 @@ source-type: FIREWALL
 source-description: Extractor for PaloAlto Firewall Events
 provides-streams:
 - FIREWALL
-- NETWORK-THREAT
+- THREAT
 - AUTHENTICATION
 master-filters:
 - '\w+\s+\d+\s+\d+\:\d+\:\d+\s+\S+\s+\d+\,\d+\/\d+\/\d+\s+\d+\:\d+\:\d+\,\d+\,.*?(?:TRAFFIC|THREAT|SYSTEM|CONFIG|USERID\,login|GLOBALPROTECT)\,'
@@ -26,6 +26,7 @@ event-details:
         dst: DstIP
         sport: SrcPort
         dport: DstPort
+        app: App
         proto: Proto  
         sent_bytes: TXLen
         receive_bytes: RXLen
@@ -39,6 +40,7 @@ event-details:
         dst: DstIP
         sport: SrcPort
         dport: DstPort
+        app: App
         proto: Proto  
         sent_bytes: TXLen
         receive_bytes: RXLen
@@ -52,6 +54,7 @@ event-details:
         dst: DstIP
         sport: SrcPort
         dport: DstPort
+        app: App
         proto: Proto  
         sent_bytes: TXLen
         receive_bytes: RXLen 
@@ -65,6 +68,7 @@ event-details:
         dst: DstIP
         sport: SrcPort
         dport: DstPort
+        app: App
         proto: Proto  
         sent_bytes: TXLen
         receive_bytes: RXLen 
@@ -78,6 +82,7 @@ event-details:
         dst: DstIP
         sport: SrcPort
         dport: DstPort
+        app: App
         proto: Proto  
         sent_bytes: TXLen
         receive_bytes: RXLen                                    
@@ -94,99 +99,75 @@ event-details:
 
 - first-match: '\,THREAT\,.*?\,'
   decoder: regex
-  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostnmae>\S+)\s+\d+\,\d+\/\d+\/\d+\s+\d+\:\d+\:\d+\,\d+\,(?P<event_type>\w+)\,.*?\,\d+\,[\d\/\:\s]+\,(?P<src>[\d\.]+)\,(?P<dst>[\d\.]+)\,(?P<srctranip>[\d\.]+)\,(?P<dsttranip>[\d\.]+)\,(?P<rule>.*?)\,(?P<suser>.*?)\,(?P<duser>.*?)\,(?P<app>.*?)\,.*?\,(?P<szone>.*?)\,(?P<dzone>.*?)\,(?P<iface_in>.*?)\,(?P<iface_out>.*?)\,.*?\,.*?\,.*?\,.*?\,(?P<sport>\d+)\,(?P<dport>\d+)\,(?P<srctranport>\d+)\,(?P<dsttranport>\d+)\,.*?\,(?P<proto>.*?)\,(?P<action>.*?)\,\"?(?P<objecttype>.*?)\"?\,((?P<atkmsg>.*?)\((?P<eventid>\d+)\))\,(?P<siteclass>.*?)\,(?P<severity>.*?)\,'
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostnmae>\S+)\s+\d+\,\d+\/\d+\/\d+\s+\d+\:\d+\:\d+\,\d+\,(?P<event_type>\w+)\,.*?\,\d+\,[\d\/\:\s]+\,(?P<src>[\d\.]+)\,(?P<dst>[\d\.]+)\,(?P<srctranip>[\d\.]+)\,(?P<dsttranip>[\d\.]+)\,(?P<rule>.*?)\,(?P<suser>.*?)\,(?P<duser>.*?)\,(?P<app>.*?)\,.*?\,(?P<szone>.*?)\,(?P<dzone>.*?)\,(?P<iface_in>.*?)\,(?P<iface_out>.*?)\,.*?\,.*?\,.*?\,.*?\,(?P<sport>\d+)\,(?P<dport>\d+)\,(?P<srctranport>\d+)\,(?P<dsttranport>\d+)\,.*?\,(?P<proto>.*?)\,(?P<action>.*?)\,\"?(?P<objecttype>.*?)\"?\,((?P<threat>.*?)\((?P<eventid>\d+)\))\,(?P<siteclass>.*?)\,(?P<severity>.*?)\,'
   event-key-format: '{action}-{eventid}'
   event-key-mapping:
     'alert-34556':
       annotate:
-        Stream: NETWORK-THREAT
+        Stream: THREAT
         Action: THREAT_DETECTED
         Status: PASSED
-        Blocked: 'NO'
+        Vector: WEB
       translate:
         src: SrcIP
         dst: DstIP
-        sport: SrcPort
-        dport: DstPort
-        proto: Proto  
-        atkmsg: AtkMsg
-        severity: Severity
-        objecttype: Object
+        suser: User
+        threat: Threat
     'alert-10015':
       annotate:
-        Stream: NETWORK-THREAT
+        Stream: THREAT
         Action: THREAT_DETECTED
         Status: PASSED
-        Blocked: 'NO'
+        Vector: WEB
       translate:
         src: SrcIP
         dst: DstIP
-        sport: SrcPort
-        dport: DstPort
-        proto: Proto  
-        atkmsg: AtkMsg
-        severity: Severity
-        objecttype: Object
+        suser: User
+        threat: Threat
     'alert-52004':
       annotate:
-        Stream: NETWORK-THREAT
+        Stream: THREAT
         Action: THREAT_DETECTED
-        Status: PASSED 
-        Blocked: 'NO'
+        Status: PASSED
+        Vector: WEB
       translate:
         src: SrcIP
         dst: DstIP
-        sport: SrcPort
-        dport: DstPort
-        proto: Proto  
-        atkmsg: AtkMsg
-        severity: Severity
-        objecttype: Object
+        suser: User
+        threat: Threat
     'block-url-9999':
       annotate:
-        Stream: NETWORK-THREAT
+        Stream: THREAT
         Action: THREAT_DETECTED
         Status: PASSED
-        Blocked: 'YES'
+        Vector: WEB
       translate:
         src: SrcIP
         dst: DstIP
-        sport: SrcPort
-        dport: DstPort
-        proto: Proto  
-        atkmsg: AtkMsg
-        severity: Severity
-        objecttype: Object
+        suser: User
+        threat: Threat
     'reset-both-325904520':
       annotate:
-        Stream: NETWORK-THREAT
-        Action: THREAT_DETECTED                                               
-        Status: PASSED
-        Blocked: 'YES'
-      translate:
-        src: SrcIP
-        dst: DstIP
-        sport: SrcPort
-        dport: DstPort
-        proto: Proto  
-        atkmsg: AtkMsg
-        severity: Severity
-        objecttype: Object
-    'alert-197353851':
-      annotate:
-        Stream: NETWORK-THREAT
+        Stream: THREAT
         Action: THREAT_DETECTED
         Status: PASSED
-        Blocked: 'NO'
+        Vector: WEB
       translate:
         src: SrcIP
         dst: DstIP
-        sport: SrcPort
-        dport: DstPort
-        proto: Proto  
-        atkmsg: AtkMsg
-        severity: Severity
-        objecttype: Object                                               
+        suser: User
+        threat: Threat
+    'alert-197353851':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        src: SrcIP
+        dst: DstIP
+        suser: User
+        threat: Threat                                              
 
   fallback:
     annotate:
@@ -200,7 +181,7 @@ event-details:
 
 - first-match: '\,SYSTEM\,.*?(?:auth\-success|auth-fail)'
   decoder: regex
-  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+\d+\,.*?\,.*?\,(?P<event_type>\w+)\,.*?\,.*?\,.*?\,.*?\,(?P<action>.*?)\,.*?\,.*?\,.*?\,.*?\,(?P<severity>.*?)\,.*?(?P<message>(?:User|user)\s+(?P<user>.*?)\s+.*?(?:Reason\:\s+(?P<reason>.*?)\s+)?(?:From|from)\:?\s+(?P<src>[\w\.\:]+))\.?\"?\,'
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+\d+\,.*?\,.*?\,(?P<event_type>\w+)\,.*?\,.*?\,.*?\,.*?\,(?P<action>.*?)\,.*?\,.*?\,.*?\,.*?\,(?P<severity>.*?)\,.*?(?P<message>(?:User|user)\s+(?P<user>.*?)\s+.*?(?:Reason\:\s+(?P<reason>.*?)\s+)?(?:From|from)\:?\s+(?P<src>[\w\.\:]+))\.?\"?\,(?:.*?method\s+(?P<auth_proto>.*?)\s+)?'
   event-key-format: '{action}'
   event-key-mapping:
     'auth-success':
@@ -208,21 +189,20 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
-        Reason: '-'
-        AuthMethod: '-'
       translate:
         src: SrcIP
         user: User
+        auth_proto: AuthProto
     'auth-fail':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
         Reason: INVALID_PASSWORD
-        AuthMethod: '-'
       translate:
         src: SrcIP
-        user: User                                        
+        user: User  
+        auth_proto: AuthProto                                    
 
   fallback:
     annotate:
@@ -244,20 +224,19 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGOUT
         Status: PASSED
-        AuthMethod: '-'
       translate:
         src: SrcIP
         user: User
+        auth_proto: AuthProto
     'logged in':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
-        Reason: '-'
-        AuthMethod: '-'
       translate:
         src: SrcIP
-        user: User                                              
+        user: User  
+        auth_proto: AuthProto                                            
 
   fallback:
     annotate:
@@ -271,7 +250,7 @@ event-details:
 
 - first-match: '\,SYSTEM\,.*?\s+user\s+authentication\s+(?:failed|succeeded)'
   decoder: regex
-  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+\d+\,.*?\,.*?\,(?P<event_type>\w+)\,.*?\,.*?\,.*?\,.*?\,.*?\,.*?\,.*?\,.*?\,.*?\,(?P<severity>.*?)\,\"(?P<message>.*?(?P<action>authentication\s+(?:failed|succeeded)).*?\s+Login\s+from\:\s+(?P<src>\S+)\,.*?User\s+name\:\s+(?P<user>.*?)\,.*?(?:.*?Reason\:\s+(.*?)\,)?.*?)\"\,'
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+\d+\,.*?\,.*?\,(?P<event_type>\w+)\,.*?\,.*?\,.*?\,.*?\,.*?\,.*?\,.*?\,.*?\,.*?\,(?P<severity>.*?)\,\"(?P<message>.*?(?P<action>authentication\s+(?:failed|succeeded)).*?\s+Login\s+from\:\s+(?P<src>\S+)\,.*?User\s+name\:\s+(?P<user>.*?)\,.*?(?:.*?Reason\:\s+(?P<reason>.*?)\,)?.*?)\"\,'
   event-key-format: '{action}'
   event-key-mapping:
     'authentication failed':
@@ -279,22 +258,20 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        AuthMethod: '-'
-        Reason: INVALID_PASSWORD
       translate:
         src: SrcIP
         user: User
         reason: Reason
+        auth_proto: AuthProto
     'authentication succeeded':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
-        Reason: '-'
-        AuthMethod: '-'
       translate:
         src: SrcIP
-        user: User                                             
+        user: User
+        auth_proto: AuthProto                                             
 
   fallback:
     annotate:
@@ -316,10 +293,10 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGOUT
         Status: PASSED
-        AuthMethod: '-'
       translate:
         user: User 
-        src: SrcIP                                              
+        src: SrcIP
+        auth_proto: AuthProto                                              
 
   fallback:
     annotate:
@@ -341,11 +318,10 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
-        AuthMethod: '-'
-        Reason: '-'
       translate:
         user: User 
         src: SrcIP
+        auth_proto: AuthProto
 
   fallback:
     annotate:
@@ -355,4 +331,4 @@ event-details:
   globals:
     translate:
       hostname: System
-      datetime: SystemTstamp                             
+      datetime: SystemTstamp
