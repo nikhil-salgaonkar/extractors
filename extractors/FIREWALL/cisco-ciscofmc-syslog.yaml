@@ -7,7 +7,7 @@ source-description: Extractor for Cisco-FMC Firewall Events
 provides-streams:
 - AUTHENTICATION
 - FIREWALL
-- NETWORK-THREAT
+- THREAT
 master-filters:
 - FMC(?:\:|\])\s+\S+
 event-details:
@@ -21,30 +21,29 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        AuthMethod: '-'
         Reason: INVALID_PASSWORD
       translate: 
         src: SrcIP    
         user: User
+        AuthProto: AuthProto  
     'Logout Success': 
       annotate:
         Stream: AUTHENTICATION
         Action: LOGOUT
         Status: PASSED
-        AuthMethod: '-'
       translate:
         src: SrcIP    
         user: User
+        AuthProto: AuthProto
     'Login Success': 
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
-        AuthMethod: '-'
-        Reason: '-'
       translate: 
         src: SrcIP    
         user: User
+        AuthProto: AuthProto 
         
   fallback:
     annotate:
@@ -58,7 +57,7 @@ event-details:
 
 - first-match: '\s+FMC\:\s+Protocol\:\s+\w+.*?AccessControlRuleName\:'
   decoder: regex
-  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+FMC\:\s+.*?Protocol\:\s+(?P<protocol>[\w\-\s]+)\,\s+SrcIP\:\s+(?P<src>[abcdef\d\:\.\-]+)\,.*?DstIP\:\s+(?P<dst>[abcdef\d\:\.\-]+)\,(?:.*?SrcPort\:\s+(?P<sport>\d+)\,)?(?:.*?DstPort\:\s+(?P<dport>\d+)\,)?\s+.*?Policy\:\s+(?P<policy>.*?)\,.*?AccessControlRuleName\:\s+(?P<rulename>.*?)\,(?:.*?AccessControlRuleAction\:\s+(?P<action>.*?)\,)?.*?UserName\:\s+(?P<user>.*?)\,.*?InitiatorBytes\:\s+(?P<initiator_bytes>\d+)\,.*?ResponderBytes\:\s+(?P<responder_bytes>\d+)\,'
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+FMC\:\s+.*?Protocol\:\s+(?P<protocol>[\w\-\s]+)\,\s+SrcIP\:\s+(?P<src>[abcdef\d\:\.\-]+)\,.*?DstIP\:\s+(?P<dst>[abcdef\d\:\.\-]+)\,(?:.*?SrcPort\:\s+(?P<sport>\d+)\,)?(?:.*?DstPort\:\s+(?P<dport>\d+)\,)?\s+.*?Policy\:\s+(?P<policy>.*?)\,.*?AccessControlRuleName\:\s+(?P<rulename>.*?)\,(?:.*?AccessControlRuleAction\:\s+(?P<action>.*?)\,)?.*?UserName\:\s+(?P<user>.*?)\,(?:.*?ApplicationProtocol\:\s+(?P<app>.*?)\,)?.*?InitiatorBytes\:\s+(?P<initiator_bytes>\d+)\,.*?ResponderBytes\:\s+(?P<responder_bytes>\d+)\,'
   event-key-format: '{action}'
   event-key-mapping:  
     'Allow': 
@@ -68,12 +67,13 @@ event-details:
         Status: PASSED
       translate: 
         src: SrcIP
-        proto: Proto
+        protocol: Proto
         sport: SrcPort
         dst: DstIP
         dport: DstPort
         initiator_bytes: TXLen
         responder_bytes: RXLen
+        app: App
     'Block with reset':
       annotate:
         Stream: FIREWALL
@@ -81,12 +81,13 @@ event-details:
         Status: PASSED
       translate: 
         src: SrcIP
-        proto: Proto
+        protocol: Proto
         sport: SrcPort
         dst: DstIP
         dport: DstPort
         initiator_bytes: TXLen
-        responder_bytes: RXLen  
+        responder_bytes: RXLen
+        app: App  
     'Block':
       annotate:
         Stream: FIREWALL
@@ -99,7 +100,8 @@ event-details:
         dst: DstIP
         dport: DstPort
         initiator_bytes: TXLen
-        responder_bytes: RXLen        
+        responder_bytes: RXLen
+        app: App          
 
   fallback:
     annotate:
@@ -113,24 +115,20 @@ event-details:
 
 - first-match: '\sFMC\:.*?\[Impact\:\s+.*?\].*?\[Priority\:\s+\d+\]'
   decoder: regex
-  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+.*?\[.*?\](?:\s\"(?P<atkmsg>.*?)\")?.*?\[Impact\:\s+(?P<atkvector>.*?)\].*?\[Classification\:\s+(?P<atkclass>.*?)\]\s+\[Priority\:\s(?P<pri>\d+)\]\s+\{(?P<protocol>.*?)\}\s+(?P<src>[\d\.]+)\:(?P<sport>\d+).*?(?P<dst>[\d\.]+)\:(?P<dport>\d+)'
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+.*?\[.*?\](?:\s\"?(?P<atkmsg>.*?)\"?)?\s+\[Impact\:\s+(?P<atkvector>.*?)\].*?\[Classification\:\s+(?P<atkclass>.*?)\]\s+\[Priority\:\s(?P<pri>\d+)\]\s+\{(?P<protocol>.*?)\}\s+(?P<src>[\d\.]+)\:(?P<sport>\d+).*?(?P<dst>[\d\.]+)\:(?P<dport>\d+)'
   event-key-format: ''
   event-key-mapping:  
     '': 
       annotate:
-        Stream: NETWORK-THREAT
+        Stream: THREAT
         Action: THREAT_DETECTED
         Status: PASSED
-        Blocked: 'YES'
-      translate: 
-        atkmsg: AtkMsg
-        atkvector: AtkVector
-        pri: Severity  
-        protocol: Proto
+        Vector: WEB
+      translate:  
+        atkmsg: Threat
         src: SrcIP
-        sport: SrcPort
         dst: DstIP
-        dport: DstPort     
+        user: User     
 
   fallback:
     annotate:
@@ -141,9 +139,3 @@ event-details:
     translate:
       datetime: SystemTstamp
       hostname: System
-
-  subs:
-    Severity:
-      '1': LOW
-      '2': MEDIUM
-      '3': HIGH               
