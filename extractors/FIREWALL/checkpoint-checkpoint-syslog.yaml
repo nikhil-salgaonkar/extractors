@@ -5,9 +5,9 @@ source-name: CHECKPOINT
 source-type: FIREWALL
 source-description: Extractor for Checkpoint Firewall Events
 provides-streams:
-- NETWORK-THREAT
+- THREAT
+- FIREWALL
 - AUTHENTICATION
-- DHCP
 master-filters:
 - \d+\-\d+\-\d+T\d+\:\d+\:\d+.*?CheckPoint\s+\d+\s+\-\s+\[
 event-details:
@@ -16,132 +16,163 @@ event-details:
   decoder-regex: \[?([^\s]+)\:\"([^\"]*)\"
   event-key-format: '{action}-{product}-{fw_subproduct}'
   event-key-mapping:
+    Drop-VPN-1 & FireWall-1-None:
+      annotate:
+        Stream: FIREWALL
+        Action: PACKET_BLOCKED
+        Status: FAILED
+      translate:
+        src: SrcIP  
+        dst: DstIP
+        s_port: SrcPort
+        service: DstPort
+        proto: Proto
+        protocol: App  
+        received_bytes: RXLen
+        sent_bytes: TXLen
+    Accept-VPN-1 & FireWall-1-None:
+      annotate:
+        Stream: FIREWALL
+        Action: PACKET_ALLOWED
+        Status: PASSED
+      translate:
+        src: SrcIP  
+        dst: DstIP
+        s_port: SrcPort
+        service: DstPort
+        proto: Proto
+        protocol: App  
+        received_bytes: RXLen
+        sent_bytes: TXLen    
+    Allow-MEPP-None:
+      annotate:
+        Stream: FIREWALL
+        Action: PACKET_ALLOWED
+        Status: PASSED
+      translate:
+        src: SrcIP  
+        dst: DstIP
+        s_port: SrcPort
+        service: DstPort
+        proto: Proto
+        protocol: App  
+        received_bytes: RXLen
+        sent_bytes: TXLen 
+    Block-MEPP-None:
+      annotate:
+        Stream: FIREWALL
+        Action: PACKET_BLOCKED
+        Status: PASSED
+      translate:
+        src: SrcIP  
+        dst: DstIP
+        s_port: SrcPort
+        service: DstPort
+        proto: Proto
+        protocol: App  
+        received_bytes: RXLen
+        sent_bytes: TXLen            
     Prevent-SmartDefense-None:
       annotate:
-        Stream: NETWORK-THREAT
+        Stream: THREAT
         Action: THREAT_DETECTED
-        Status: PASSED 
-        Blocked: 'YES'  
+        Status: PASSED
+        Vector: WEB
       translate:
         src: SrcIP  
         dst: DstIP  
-        proto: Proto  
-        s_port: SrcPort  
-        service: DstPort
-        attack: AtkMsg
-        attack_info: AtkDesc
-        malware_action: AtkDesc
-    IP Changed-Connectra-None:   
-      annotate:
-        Stream: DHCP
-        Action: IP_LEASE_RENEW
-        Status: PASSED  
-      translate:  
-        mac_address: MACAddress
-        user: User
-        src: SrcIP
+        User: User
+        attack: Threat
     Redirect-Anti Malware-None: 
       annotate:
-        Stream: NETWORK-THREAT
-        Action: THREAT_REDIRECT
-        Status: PASSED   
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
       translate:
         src: SrcIP  
         dst: DstIP  
-        proto: Proto  
-        s_port: SrcPort  
-        service: DstPort
-        malware_action: AtkDesc
+        User: User
+        attack: Threat
     Log Out-Connectra-None:  
       annotate:
         Stream: AUTHENTICATION
         Action: LOGOUT
-        Status: PASSED   
-        AuthMethod: '-'
+        Status: PASSED
       translate:
         src: SrcIP
         user: User
+        auth_method: AuthProto
     Log In-Connectra-None:
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
-        Status: PASSED   
-        AuthMethod: VPN
-        Reason: '-'
-      translate:  
+        Status: PASSED 
+      translate:
         src: SrcIP
         user: User
+        auth_method: AuthProto
     Failed Log In-Connectra-None: 
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED 
-        AuthMethod: '-'
         Reason: INVALID_PASSWORD  
-      translate: 
+      translate:
         src: SrcIP
         user: User
+        auth_method: AuthProto
     Detect-SmartDefense-None: 
       annotate:
-        Stream: NETWORK-THREAT
+        Stream: THREAT
         Action: THREAT_DETECTED
-        Status: PASSED   
-        Blocked: 'YES'
+        Status: PASSED
+        Vector: WEB
       translate:
         src: SrcIP  
         dst: DstIP  
-        proto: Proto  
-        s_port: SrcPort  
-        service: DstPort
-        attack: AtkMsg
-        attack_info: AtkDesc
-        malware_action: AtkDesc
+        User: User
+        attack: Threat
     Decrypt-VPN-1 & FireWall-1-VPN-1: 
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN 
-        Status: PASSED  
-        AuthMethod: VPN 
-        Reason: '-'
-      translate: 
-        src: SrcIP  
+        Status: PASSED 
+      translate:
+        src: SrcIP
         user: User
+        auth_method: AuthProto
     Extract-Threat Extraction-None:
       annotate:
-        Stream: NETWORK-THREAT
+        Stream: THREAT
         Action: THREAT_DETECTED
-        Status: PASSED 
-        Blocked: 'YES'  
-      translate: 
-        src: SrcIP  
-        dst: DstIP  
-        proto: Proto  
-        s_port: SrcPort  
-        service: DstPort
-        malware_action: AtkDesc
-    Reject-SmartDefense-None:
-      annotate:
-        Stream: NETWORK-THREAT
-        Action: THREAT_BLOCKED
         Status: PASSED
+        Vector: WEB
       translate:
         src: SrcIP  
         dst: DstIP  
-        proto: Proto  
-        s_port: SrcPort  
-        service: DstPort
-        attack: AtkMsg
-        attack_info: AtkDesc
+        User: User
+        attack: Threat
+    Reject-SmartDefense-None:
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        src: SrcIP  
+        dst: DstIP  
+        User: User
+        attack: Threat
     Update-Identity Awareness-None:
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
-        Reason: '-'
-        AuthMethod: '-'
       translate:
         src: SrcIP
         user: User
+        auth_method: AuthProto
         
   fallback:
     annotate:
@@ -289,10 +320,3 @@ event-details:
       '141': WESP
       '142': ROHC
       '255': RESERVED
-    Severity:
-      '0': NULL
-      '1': VERY-LOW
-      '2': LOW
-      '3': MEDIUM
-      '4': HIGH
-      '5': CRITICAL
