@@ -11,9 +11,9 @@ master-filters:
 - \{time\:\s+\d{4}\-\d{2}\-\d{2}T\d{1,2}\:\d{1,2}\:\d{1,2}\.\w+\,\s+resourceId\:\s+\S+\,\s+dimensions\:\s+\{
 - \s+resourceId\:\s+\S+\,\s+time\:\s+\d{4}\-\d{2}\-\d{2}T\d{2}\:\d{2}\:\d{2}\.\d+Z\,\s+metricName\:\s+  
 event-details:
-- first-match: \s+\"?category\"?\:\s+\"?\S+\"?\,
+- first-match: '\s+\"?category\"?\:\s+\"?\S+\"?\,'
   decoder: custom
-  decoder-regex: '\"?([\w]+)\"?\:(?!\s+\{)\"?(?:\{)?([^\,\}]+)\"?'
+  decoder-regex: '\{?\"?([\w]+)\"?\:?\s?\"?([^\{\}\,]+)\"?'
   event-key-format: ''
   event-key-mapping:
     '':
