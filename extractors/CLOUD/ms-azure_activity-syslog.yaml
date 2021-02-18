@@ -1,9 +1,9 @@
 schema-version: 1.0
 #extractor-version: 1
 extractor-id: 172
-source-name: AZURE-ACTIVITY
+source-name: AZURE
 source-type: CLOUD
-source-description: Extractor for Azure Activity Events
+source-description: Extractor for Azure Events
 provides-streams:
 - AZURE
 master-filters:
@@ -30,7 +30,7 @@ event-details:
     
   fallback:
     annotate:
-      EventName: Generic Azure Activity Event
+      EventName: Generic Azure Event
       Stream: OTHER
 
   globals:
