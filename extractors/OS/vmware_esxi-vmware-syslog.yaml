@@ -19,10 +19,11 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGOUT
         Status: PASSED
-        AuthMethod: '-'
       translate:
         user: User
         src: SrcIP
+        reason: Reason
+        AuthProto: AuthProto
 
   fallback:
       annotate:
@@ -44,11 +45,11 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
-        AuthMethod: '-'
-        Reason: '-'
       translate:
         user: User
         src: SrcIP
+        reason: Reason
+        AuthProto: AuthProto
 
   fallback:
       annotate:
@@ -70,10 +71,11 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        AuthMethod: '-'
         Reason: INVALID_PASSWORD
       translate:
         user: User
+        src: SrcIP
+        AuthProto: AuthProto
 
   fallback:
       annotate:
@@ -95,18 +97,21 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
-        AuthMethod: '-'
-        Reason: '-'
       translate:
         user: User
+        src: SrcIP
+        reason: Reason
+        AuthProto: AuthProto
     'logged out':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGOUT
         Status: PASSED
-        AuthMethod: '-'
       translate:
-        user: User    
+        user: User
+        src: SrcIP
+        reason: Reason
+        AuthProto: AuthProto    
 
   fallback:
       annotate:
