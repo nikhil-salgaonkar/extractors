@@ -1,4 +1,4 @@
-blank_issues_enabled: false
+blank_issues_enabled: true
 contact_links:
   - name: Feature request (dnif / roadmap)
     url: https://github.com/dnif-backyard/roadmap/issues/new?template=feature_request.md
