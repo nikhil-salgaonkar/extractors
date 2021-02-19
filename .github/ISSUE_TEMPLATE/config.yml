@@ -1,8 +1,8 @@
 blank_issues_enabled: false
 contact_links:
-  - name: Feature request
+  - name: Feature request (dnif / roadmap)
     url: https://github.com/dnif-backyard/roadmap/issues/new?template=feature_request.md
-    about: Request a feature / enhancement for DNIF
-  - name: Bug report
+    about: Request a feature / enhancement
+  - name: Bug report (dnif / roadmap)
     url: https://github.com/dnif-backyard/roadmap/issues/new?template=bug_report.md
-    about: Report a bug in DNIF
+    about: Report a bug
