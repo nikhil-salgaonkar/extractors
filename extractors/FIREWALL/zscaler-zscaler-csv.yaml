@@ -47,48 +47,47 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
-        User: '-'
-        Reason: '-'
       translate:
         src_ip: SrcIP
         proto: AuthProto
+        reason: Reason
+        user: User
     None-Login-Sign Out:
       annotate:
         Stream: AUTHENTICATION
         Action: LOGOUT
         Status: PASSED
-        User: '-'
-        Reason: '-'
       translate:
         src_ip: SrcIP
         proto: AuthProto
+        user: User
     None-Firewall Access Control-Update:
       annotate:
         Stream: IAM
         Action: ACCESS_CONTROL_UPDATED
         Status: PASSED
-        User: '-'
       translate:
         targetuser: TargetUser
         role: Role
+        user: User
     None-Firewall Access Control-Delete:
       annotate:
         Stream: IAM
         Action: ACCESS_CONTROL_DELETED
         Status: PASSED
-        User: '-'
       translate:
         targetuser: TargetUser
         role: Role
+        user: User
     None-Firewall Access Control-Create:
       annotate:
         Stream: IAM
         Action: ACCESS_CONTROL_CREATED
         Status: PASSED
-        User: '-'
       translate:
         targetuser: TargetUser
         role: Role
+        user: User
 
   fallback:
     annotate:
