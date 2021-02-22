@@ -25,6 +25,7 @@ event-details:
         dst: DstIP
         sport: SrcPort
         dport: DstPort
+        app: App
         sent_bytes: TXLen
         rcvd_bytes: RXLen
 
@@ -39,6 +40,7 @@ event-details:
         dst: DstIP
         sport: SrcPort
         dport: DstPort
+        app: App
         sent_bytes: TXLen
         rcvd_bytes: RXLen
         
