@@ -17,33 +17,32 @@ event-details:
     '0001010018-None':
       annotate:
         Stream: AUTHENTICATION
-        Action: LOGIN
+        Action: LOGIN 
         Status: PASSED
-        AuthMethod: '-'
-        Reason: '-'
       translate:
-        user: User
-        src: SrcIP 
+        src: SrcIP
+        AuthProto: AuthProto
+        user: User 
     '0028037013-fail':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        AuthMethod: '-'
         Reason: INVALID_USER
       translate:
+        src: SrcIP
+        AuthProto: AuthProto
         user: User
-        src: SrcIP 
     '0001010019-None':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        AuthMethod: '-'
         Reason: INVALID_PASSWORD
       translate:
-        user: User
         src: SrcIP
+        AuthProto: AuthProto
+        user: User
 
   fallback:
     annotate:
