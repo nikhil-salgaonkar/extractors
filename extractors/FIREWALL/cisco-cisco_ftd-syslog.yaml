@@ -5,7 +5,7 @@ source-name: CISCO-FTD
 source-type: FIREWALL
 source-description: Extractor for Cisco-FTD Firewall Events
 provides-streams:
-- NETWORK-THREAT
+- THREAT
 - AUTHENTICATION
 master-filters:
 - \s+\%FTD\-\d+\-\d+\:\s+
@@ -17,14 +17,15 @@ event-details:
   event-key-mapping:  
     '106021': 
       annotate:
-        Stream: NETWORK-THREAT
+        Stream: THREAT
         Action: THREAT_DETECTED
         Status: PASSED
-        Blocked: 'YES'
+        Vector: WEB
       translate: 
+        User: User
+        Threat: Threat
         src: SrcIP
-        dst: DstIP
-        proto: Proto    
+        dst: DstIP    
     
   fallback:
     annotate:
@@ -46,9 +47,8 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
-        AuthMethod: VPN
-        Reason: '-'
       translate: 
+        AuthProto: AuthProto
         user: User
         src: SrcIP
     '113005': 
@@ -56,9 +56,9 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        AuthMethod: '-'
-        Reason: INVALID_PASSWORD
       translate: 
+        AuthProto: AuthProto
+        reason: Reason
         user: User
         src: SrcIP 
            
