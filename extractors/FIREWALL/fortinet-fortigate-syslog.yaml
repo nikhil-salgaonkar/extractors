@@ -418,8 +418,8 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        User: '-'
       translate:
+        user: User
         reason: Reason
         srcip: SrcIP
         method: AuthProto
@@ -499,9 +499,9 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        User: '-'
         Reason: INVALID_PASSWORD
       translate:
+        user: User
         srcip: SrcIP
         method: AuthProto
 
@@ -533,7 +533,7 @@ event-details:
 
   fallback:
     annotate:
-      EventName: Generic FORTIGATE Event
+      EventName: Generic Fortigate Firewall Event
       Stream: OTHER
 
   globals:
