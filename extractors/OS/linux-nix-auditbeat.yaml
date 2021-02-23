@@ -19,7 +19,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
-        AuthMethod: '-'
+        AuthProto: '-'
         Reason: '-'
       translate:
         user[name]: User
@@ -30,7 +30,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        AuthMethod: '-'
+        AuthProto: '-'
         Reason: '-'
       translate:
         user[name]: User
