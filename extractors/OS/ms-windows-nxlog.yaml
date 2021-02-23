@@ -25,74 +25,74 @@ event-details:
       translate: 
         SubjectUserName: User
         TargetUserName: TargetUser
-        TargetDomainName: TargetDomain 
     '4625': 
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        AuthMethod: '-'
-        Reason: INVALID_PASSWORD
       translate: 
         TargetUserName: User
         IpAddress: SrcIP
+        AuthenticationPackageName: AuthProto
+        SubStatus: Reason
     '4624':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
-        Status: PASSED  
-        AuthMethod: '-'
-        Reason: '-'  
+        Status: PASSED
       translate: 
         TargetUserName: User
         IpAddress: SrcIP
+        AuthenticationPackageName: AuthProto
+        SubStatus: Reason
     '4634':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGOUT
-        Status: PASSED   
-        AuthMethod: '-'
+        Status: PASSED
       translate:
         TargetUserName: User
+        IpAddress: SrcIP
+        AuthenticationPackageName: AuthProto
     '4647':
       annotate:
         Stream: AUTHENTICATION 
         Action: LOGOUT
-        Status: PASSED   
-        AuthMethod: '-'
+        Status: PASSED
       translate:
         TargetUserName: User
         IpAddress: SrcIP
+        AuthenticationPackageName: AuthProto
     '4648':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
-        Status: PASSED
-        AuthMethod: '-'
-        Reason: '-'    
+        Status: PASSED   
       translate: 
         TargetUserName: User
         IpAddress: SrcIP
+        AuthenticationPackageName: AuthProto
+        SubStatus: Reason
     '4776':         
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
-        Status: PASSED 
-        AuthMethod: '-'
-        Reason: '-'   
+        Status: PASSED   
       translate: 
         TargetUserName: User
         IpAddress: SrcIP
+        AuthenticationPackageName: AuthProto
+        SubStatus: Reason
     '4778':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
-        Status: PASSED   
-        AuthMethod: '-'
-        Reason: '-'
+        Status: PASSED
       translate:
         ClientAddress: SrcIP
         AccountName: User
+        AuthenticationPackageName: AuthProto
+        SubStatus: Reason
     '4741':         
       annotate:
         Stream: IAM
@@ -101,7 +101,6 @@ event-details:
       translate: 
         SubjectUserName: User
         TargetUserName: TargetUser
-        TargetDomainName: TargetDomain  
     '4722':          
       annotate:
         Stream: IAM
@@ -110,7 +109,6 @@ event-details:
       translate: 
         SubjectUserName: User
         TargetUserName: TargetUser
-        TargetDomainName: TargetDomain
     '4723':         
       annotate:
         Stream: IAM
@@ -119,7 +117,6 @@ event-details:
       translate: 
         SubjectUserName: User
         TargetUserName: TargetUser
-        TargetDomainName: TargetDomain
     '4724':         
       annotate:
         Stream: IAM
@@ -128,7 +125,6 @@ event-details:
       translate: 
         SubjectUserName: User
         TargetUserName: TargetUser
-        TargetDomainName: TargetDomain
     '4725':         
       annotate:
         Stream: IAM
@@ -137,7 +133,6 @@ event-details:
       translate:  
         SubjectUserName: User
         TargetUserName: TargetUser
-        TargetDomainName: TargetDomain
     '4726':         
       annotate:
         Stream: IAM
@@ -146,7 +141,6 @@ event-details:
       translate:
         SubjectUserName: User
         TargetUserName: TargetUser
-        TargetDomainName: TargetDomain 
     '4738':            
       annotate:
         Stream: IAM
@@ -155,7 +149,6 @@ event-details:
       translate: 
         SubjectUserName: User
         TargetUserName: TargetUser
-        TargetDomainName: TargetDomain
     '4740':           
       annotate:
         Stream: IAM
@@ -164,7 +157,6 @@ event-details:
       translate:  
         SubjectUserName: User
         TargetUserName: TargetUser
-        TargetDomainName: TargetDomain 
     '4767':          
       annotate:
         Stream: IAM
@@ -173,7 +165,6 @@ event-details:
       translate:  
         SubjectUserName: User
         TargetUserName: TargetUser
-        TargetDomainName: TargetDomain
     '4742':            
       annotate:
         Stream: IAM
@@ -182,7 +173,6 @@ event-details:
       translate: 
         SubjectUserName: User
         TargetUserName: TargetUser
-        TargetDomainName: TargetDomain
     '4743':           
       annotate:
         Stream: IAM
@@ -191,7 +181,6 @@ event-details:
       translate:  
         SubjectUserName: User
         TargetUserName: TargetUser
-        TargetDomainName: TargetDomain
     '4731':         
       annotate:
         Stream: IAM
@@ -200,8 +189,6 @@ event-details:
       translate: 
         SubjectUserName: User
         TargetUserName: TargetUser
-        TargetDomainName: TargetDomain
-        SubjectDomainName: Domain 
     '4732':         
       annotate:
         Stream: IAM
@@ -210,8 +197,6 @@ event-details:
       translate: 
         SubjectUserName: User
         TargetUserName: TargetUser
-        TargetDomainName: TargetDomain
-        SubjectDomainName: Domain
     '4733':         
       annotate:
         Stream: IAM
@@ -220,8 +205,6 @@ event-details:
       translate: 
         SubjectUserName: User
         TargetUserName: TargetUser
-        TargetDomainName: TargetDomain
-        SubjectDomainName: Domain
     '4756':         
       annotate:
         Stream: IAM
@@ -229,9 +212,7 @@ event-details:
         Status: PASSED    
       translate:  
         SubjectUserName: User
-        SubjectDomainName: Domain
         TargetUserName: TargetUser
-        TargetDomainName: TargetDomain
     '4672':          
       annotate:
         Stream: IAM
@@ -239,16 +220,16 @@ event-details:
         Status: PASSED    
       translate:  
         SubjectUserName: User
-        SubjectDomainName: Domain     
+        TargetUserName: TargetUser 
     '4779':          
       annotate:
         Stream: AUTHENTICATION
         Action: LOGOUT
         Status: PASSED
-        AuthMethod: '-'
       translate:
         IpAddress: SrcIP
         AccountName: User
+        AuthenticationPackageName: AuthProto
     '4670':          
       annotate:
         Stream: IAM
@@ -256,25 +237,23 @@ event-details:
         Status: PASSED    
       translate:  
         SubjectUserName: User
-        SubjectDomainName: Domain 
+        TargetUserName: TargetUser
     '4674': 
       annotate:
         Stream: IAM
         Action: PRIVILEGE_OBJECT_ACCESS
         Status: PASSED    
       translate:  
-        SubjectUserName: User
-        SubjectDomainName: Domain 
+        SubjectUserName: User 
+        TargetUserName: TargetUser
     '5140':    
       annotate:
         Stream: IAM
         Action: NETWORK_SHARE_ACCESSED
         Status: PASSED    
       translate:  
-        IpAddress: SrcIP
-        IpPort: SrcPort
-        SubjectUserName: User
-        SubjectDomainName: Domain  
+        SubjectUserName: User  
+        TargetUserName: TargetUser
 
   fallback:
     annotate:
@@ -285,6 +264,32 @@ event-details:
     translate:
       EventTime: SystemTstamp
       Hostname: System
+
+  subs:
+    Reason: 
+      '0x0': 'SUCCESS'
+      '0xc000005e': 'SRVC_UNAVAIL'
+      '0xc0000064': 'BAD_USER'
+      '0xc000006a': 'BAD_PASS'
+      '0xc000006d': 'SYS_CREDS'
+      '0xc000006e': 'BAD_USER_PASS'
+      '0xc000006f': 'OUT_OFF_HRS'
+      '0xc0000070': 'WRNG_WKSTN'
+      '0xc0000071': 'PASS_EXPIRD'
+      '0xC0000072': 'USR_DISBLD'
+      '0xc00000dc': 'SAM_STAT'
+      '0xc0000133': 'TIME_SYC_ERR'
+      '0xc000015b': 'BAD_POL'
+      '0xc000018c': 'DOMAIN_TRUST_FAIL'
+      '0xc0000192': 'SRVC_UNAVAIL'
+      '0xc0000193': 'AC_EXPIRD'
+      '0xc0000199': 'WKSTN_TRUST_FAIL'
+      '0xc0000224': 'CHNG_PASS'
+      '0xc0000225': 'BUG'
+      '0xc0000234': 'USR_LKOUT'
+      '0xc00002ee': 'ERR'
+      '0xc0000413': 'LOGIN_FAIL_FW_POL'
+
 
 - first-match: \"SourceName\"\:\s*\"Microsoft\-Windows\-Sysmon\"
   decoder: json
