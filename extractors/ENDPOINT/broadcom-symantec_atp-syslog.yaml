@@ -5,7 +5,7 @@ source-name: SYMANTEC_ATP
 source-type: ENDPOINT
 source-description: Extractor for Symantec ATP Endpoint Events
 provides-streams:
-- ENDPOINT-THREAT
+- THREAT
 master-filters:
 - CEF\:\d+\|Symantec\|
 event-details:
@@ -16,15 +16,22 @@ event-details:
   event-key-mapping:
     Virus found:
       annotate:
-        Stream: ENDPOINT-THREAT
+        Stream: THREAT
         Action: THREAT_DETECTED
         Status: PASSED
+        Vector: HOST
       translate:
-        virus_name: AtkMsg
+        AVEVirusName: Threat
+        SrcIP: SrcIP
+        DstIP: DstIP
         user_name: User
-        domain_name: Domain
-        app_name: FileName
-
+        CommandLine: CommandLine
+        app_name: File
+        URL: URL
+        Process: Process
+        app_name: Suspect
+        host_name: Target
+        
   fallback:
     annotate:
       EventName: Generic Symantec ATP Endpoint Event
@@ -33,7 +40,7 @@ event-details:
   globals:
     translate:
       host_name: System
-
+      device_time: SystemTstamp
 
 - first-match: \|sep\_proxy\_ips\_event\|
   decoder: custom
@@ -42,16 +49,22 @@ event-details:
   event-key-mapping:
     ClientIDS Attacks:
       annotate:
-        Stream: ENDPOINT-THREAT
+        Stream: THREAT
         Action: THREAT_DETECTED
         Status: PASSED
+        Vector: HOST
       translate:
-        user_name: User
-        data_source_url_domain: Domain
+        Threat: Threat
         source_ip: SrcIP
-        app_name: FileName
-        data_source_url: URL
-
+        DstIP: DstIP
+        user_name: User
+        CommandLine: CommandLine
+        name: File
+        data_source_URL: URL
+        Process: Process
+        user_name: Suspect
+        device_name: Target
+  
   fallback:
     annotate:
       EventName: Generic Symantec ATP Endpoint Event
@@ -60,6 +73,7 @@ event-details:
   globals:
     translate:
       device_name: System
+      device_time: SystemTstamp
 
 - first-match: \|lcp\_sep\_risk\_event\|
   decoder: custom
@@ -68,15 +82,22 @@ event-details:
   event-key-mapping:
     "206":
       annotate:
-        Stream: ENDPOINT-THREAT
+        Stream: THREAT
         Action: THREAT_DETECTED
         Status: PASSED
+        Vector: HOST
       translate:
+        Threat: Threat
+        SrcIP: SrcIP
+        DstIP: DstIP
         user_name: User
-        domain_name: Domain
-        app_name: FileName
-        intrusion_url: URL
-
+        CommandLine: CommandLine
+        File: File
+        URL: URL
+        Process: Process
+        Suspect: Suspect
+        Target: Target
+  
   fallback:
     annotate:
       EventName: Generic Symantec ATP Endpoint Event
@@ -85,6 +106,7 @@ event-details:
   globals:
     translate:
       host_name: System
+      device_time: SystemTstamp
 
 - first-match: \|atp\_incident\|
   decoder: custom
@@ -93,15 +115,22 @@ event-details:
   event-key-mapping:
     Advanced Attack Technique:
       annotate:
-        Stream: ENDPOINT-THREAT
+        Stream: THREAT
         Action: THREAT_DETECTED
         Status: PASSED
+        Vector: HOST
       translate:
-        virus_name: AtkMsg
+        heuristicevent_virus_name: Threat
+        SrcIP: SrcIP
+        DstIP: DstIP
         user_name: User
-        domain_name: Domain
-        app_name: FileName
-
+        heuristicevent_scored_process_cmdline: CommandLine
+        name: File
+        URL: URL
+        Process: Process
+        image_path: Suspect
+        device_name: Target
+  
   fallback:
     annotate:
       EventName: Generic Symantec ATP Endpoint Event
@@ -110,21 +139,30 @@ event-details:
   globals:
     translate:
       device_name: System
+      device_time: SystemTstamp
 
 - first-match: \|sep\_proxy\_sonar\_event\|
   decoder: custom
-  decoder-regex: \"(\w+)\":([^\,{}]+)
+  decoder-regex: \{?\"?([^\=\"\,]+)\"?(?:\:|\=)?\"?([^\"\s\,}]+)\"?
   event-key-format: '{submission_type}'
   event-key-mapping:
     BASH-SONAR-TEST-BAD:
       annotate:
-        Stream: ENDPOINT-THREAT
+        Stream: THREAT
         Action: THREAT_DETECTED
         Status: PASSED
+        Vector: HOST
       translate:
+        virus_name: Threat
+        SrcIP: SrcIP
+        DstIP: DstIP
         user_name: User
-        app_name: FileName
-        virus_name: AtkMsg
+        CommandLine: CommandLine
+        fname: File
+        URL: URL
+        Process: Process
+        fname: Suspect
+        device_name: Target
 
   fallback:
     annotate:
@@ -134,6 +172,7 @@ event-details:
   globals:
     translate:
       device_name: System
+      device_time: SystemTstamp
 
 - first-match: \|sep\_proxy\_av\_event\|
   decoder: custom
@@ -142,12 +181,21 @@ event-details:
   event-key-mapping:
     AV Engine:
       annotate:
-        Stream: ENDPOINT-THREAT
+        Stream: THREAT
         Action: THREAT_DETECTED
         Status: PASSED
+        Vector: HOST
       translate:
+        AVEVirusName: Threat
+        SrcIP: SrcIP
+        DstIP: DstIP
         user_name: User
-        app_name: FileName
+        CommandLine: CommandLine
+        fname: File
+        URL: URL
+        Process: Process
+        name: Suspect
+        device_name: Target
 
   fallback:
     annotate:
@@ -157,3 +205,4 @@ event-details:
   globals:
     translate:
       device_name: System
+      device_time: SystemTstamp
