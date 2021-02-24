@@ -17,14 +17,14 @@ This is a live information on the exctractors that are ready.
 |Firewall							              |PaloAlto           | FIREWALL,THREAT,AUTHENTICATION,IAM 	 			   |
 |Firewall							              |Checkpoint         | FIREWALL,THREAT,AUTHENTICATION,IAM 	 			   |
 |EmailGateway  						          |Mimecast 	        | EMAIL, THREAT, AUTHENTICATION, IAM		       |
-|Endpoint Security                  |Carbonblack EPP    | Threat	                                     |
-|Endpoint Security                  |Symantec AV		    | Threat								              		     |
-|EDR                                |Carbonblack Reponse| Threat								                       |
-|EDR                                |Carbonblack Defense| Threat								                 		   |
+|Endpoint Security                  |Carbonblack EPP    | THREAT	                                     |
+|Endpoint Security                  |Symantec AV		    | THREAT								              		     |
+|EDR                                |Carbonblack Reponse| THREAT								                       |
+|EDR                                |Carbonblack Defense| THREAT								                 		   |
 |Webfiler							              |ZScaler			      | WEBFILTER,AUTHENTICATION, IAM		    		     |
 |Office                             |O365				        | EMAIL, AUTHENTICATION, IAM				  		     |
-|Azure							                |Azure              | Azure                                			   |
-|AWS							                  |AWS-Cludtrail      | Cludtrail                          	 			   |
+|Azure							                |Azure              | AZURE                                			   |
+|AWS							                  |AWS-Cludtrail      | CLOUDTRAIL                         	 			   |
 
 <!--|GCP							                  |GCP                | AUTHENTICATION, GCP                	 			   |-->
 <!---|Firewall							        |ZScaler			      | FIREWALL,THREAT,AUTHENTICATION,IAM 	|Custom			| -->
