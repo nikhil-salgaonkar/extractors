@@ -29,7 +29,7 @@ event-details:
         suser: User
         filepath: File
         Process: Process
-        Url: Url
+        URL: URL
         name: Suspect
         dhost: Target
     "Event::Endpoint::WebControlViolation":
@@ -46,7 +46,7 @@ event-details:
         suser: User
         filePath: File
         Process: Process
-        Url: Url
+        URL: URL
         name: Suspect
         dhost: Target
     "Event::Endpoint::CorePuaDetection":
@@ -63,7 +63,7 @@ event-details:
         suser: User
         filePath: File
         Process: Process
-        Url: Url
+        URL: URL
         name: Suspect
         dhost: Target
     "Event::Endpoint::Threat::HIPSDetected":
@@ -80,7 +80,7 @@ event-details:
         suser: User
         filePath: File
         Process: Process
-        Url: Url
+        URL: URL
         name: Suspect
         dhost: Target
     "Event::Endpoint::WebFilteringBlocked":
@@ -97,7 +97,7 @@ event-details:
         suser: User
         filePath: File
         Process: Process
-        Url: Url
+        URL: URL
         name: Suspect
         dhost: Target
     "Event::Endpoint::Threat::Detected":
@@ -114,7 +114,7 @@ event-details:
         suser: User
         filePath: File
         Process: Process
-        Url: Url
+        URL: URL
         name: Suspect
         dhost: Target
     "Event::Endpoint::Threat::PuaDetected":
@@ -131,7 +131,7 @@ event-details:
         suser: User
         filePath: File
         Process: Process
-        Url: Url
+        URL: URL
         name: Suspect
         dhost: Target
     "Event::Endpoint::HmpaMalwareDetected":
@@ -148,7 +148,7 @@ event-details:
         suser: User
         filePath: File
         Process: Process
-        Url: Url
+        URL: URL
         name: Suspect
         dhost: Target
     "Event::Endpoint::HomeThreatRemnantsDetected":
@@ -165,7 +165,7 @@ event-details:
         suser: User
         filePath: File
         Process: Process
-        Url: Url
+        URL: URL
         name: Suspect
         dhost: Target
     "Event::Endpoint::HmpaPuaDetected":
@@ -182,7 +182,7 @@ event-details:
         suser: User
         filePath: File
         Process: Process
-        Url: Url
+        URL: URL
         name: Suspect
         dhost: Target
         dhost: Target
@@ -200,7 +200,7 @@ event-details:
         suser: User
         filePath: File
         Process: Process
-        Url: Url
+        URL: URL
         name: Suspect
         dhost: Target
     "Event::Endpoint::CoreRemoteDetection":
@@ -217,7 +217,7 @@ event-details:
         suser: User
         filePath: File
         Process: Process
-        Url: Url
+        URL: URL
         name: Suspect
     "Event::Smc::MitmAttackEvent::0":
       annotate:
@@ -233,7 +233,7 @@ event-details:
         suser: User
         filepath: File
         Process: Process
-        Url: Url
+        URL: URL
         name: Suspect
         dhost: Target
     "Event::Smc::MitmAttackEvent::1":
@@ -250,7 +250,7 @@ event-details:
         suser: User
         filepath: File
         Process: Process
-        Url: Url
+        URL: URL
         name: Suspect
         dhost: Target
     "Event::Smc::MitmAttackEvent::2":
@@ -267,7 +267,7 @@ event-details:
         suser: User
         filepath: File
         Process: Process
-        Url: Url
+        URL: URL
         name: Suspect
         dhost: Target
     "Event::Smc::MitmAttackEvent::3":
@@ -284,7 +284,7 @@ event-details:
         suser: User
         filepath: File
         Process: Process
-        Url: Url
+        URL: URL
         name: Suspect
         dhost: Target
     "Event::Smc::MitmAttackEvent::4":
@@ -301,7 +301,7 @@ event-details:
         suser: User
         filepath: File
         Process: Process
-        Url: Url
+        URL: URL
         name: Suspect
         dhost: Target
     "Event::Smc::MitmAttackEvent::5":
@@ -318,7 +318,7 @@ event-details:
         suser: User
         filepath: File
         Process: Process
-        Url: Url
+        URL: URL
         name: Suspect
         dhost: Target
     "Event::Smc::MitmAttackEvent::6":
@@ -335,7 +335,7 @@ event-details:
         suser: User
         filepath: File
         Process: Process
-        Url: Url
+        URL: URL
         name: Suspect
         dhost: Target
     "Event::Endpoint::UserAutoCreated":
