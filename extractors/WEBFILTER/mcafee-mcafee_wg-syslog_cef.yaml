@@ -1,0 +1,72 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 213
+source-name: MCAFEE-WG
+source-type: WEBFILTER
+source-description: Extractor for McAfee Web Gateway Proxy Events
+provides-streams:
+- AUTHENTICATION
+- WEBFILTER
+master-filters:
+- '\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+mwg\:\s+CEF\:[\w\.]+\|McAfee\|(?:WebGateway|Web\s+Gateway)\|'
+event-details:
+- first-match: '\s+mwg\:\s+CEF\:[\w\.]+\|McAfee\|(?:WebGateway|Web\s+Gateway)\|'
+  decoder: custom
+  decoder-regex: '([\w]+)\=(\"[^\"]*|[^\s]*)\"?'
+  event-key-format: '{Action}'
+  event-key-mapping:
+    'USER_LOGIN':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN 
+        Status: PASSED
+      translate:
+        Source_ID: SrcIP
+        AuthProto: AuthProto
+        User: User 
+    'USER_LOGIN_FAILED':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate:
+        Details: Reason
+        Source_ID: SrcIP
+        AuthProto: AuthProto
+        User: User
+    'USER_LOGOUT':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+      translate:
+        Source_ID: SrcIP
+        AuthProto: AuthProto
+        User: User
+    'None':
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_ALLOWED
+        Status: PASSED
+      translate:
+        requestMethod: HTTPMethod
+        requestClientApplication: UserAgent
+        Proto: Proto
+        TXLen: TXLen
+        RXLen: RXLen
+        suser: User
+        DstPort: DstPort
+        request: URL
+        src: SrcIP
+        dst: DstIP    
+
+  fallback:
+    annotate:
+      EventName: Generic McAfee Web Gateway Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      Timestamp: SystemTstamp
+      rt: SystemTstamp
+      Appliance: System
