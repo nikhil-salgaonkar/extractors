@@ -1,0 +1,358 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 204
+source-name: SOPHOS
+source-type: ENDPOINT
+source-description: Extractor for Sophos Endpoint Events
+provides-streams:
+- THREAT
+- IAM
+master-filters:
+- \"rt\"\:\s+\".*?\"\,.*?\"type\"\:\s+\"Event\:\:(?:Endpoint|Smc)?\:\:.*?\",
+event-details:
+- first-match: \"Event\:\:(?:Endpoint|Smc)?\:\:.*?\"\,
+  decoder: custom
+  decoder-regex: \"([\w]+)\"\:\s+\"([^\,]+)\"
+  event-key-format: '{type}'
+  event-key-mapping:
+    "Event::Endpoint::CoreClean":
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        threat: Threat
+        ip: SrcIP
+        DstIP: DstIP
+        CommandLine: CommandLine
+        suser: User
+        filepath: File
+        Process: Process
+        Url: Url
+        name: Suspect
+        dhost: Target
+    "Event::Endpoint::WebControlViolation":
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        threat: Threat
+        ip: SrcIP
+        DstIP: DstIP
+        CommandLine: CommandLine
+        suser: User
+        filePath: File
+        Process: Process
+        Url: Url
+        name: Suspect
+        dhost: Target
+    "Event::Endpoint::CorePuaDetection":
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        threat: Threat
+        ip: SrcIP
+        DstIP: DstIP
+        CommandLine: CommandLine
+        suser: User
+        filePath: File
+        Process: Process
+        Url: Url
+        name: Suspect
+        dhost: Target
+    "Event::Endpoint::Threat::HIPSDetected":
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        threat: Threat
+        ip: SrcIP
+        DstIP: DstIP
+        CommandLine: CommandLine
+        suser: User
+        filePath: File
+        Process: Process
+        Url: Url
+        name: Suspect
+        dhost: Target
+    "Event::Endpoint::WebFilteringBlocked":
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        threat: Threat
+        ip: SrcIP
+        DstIP: DstIP
+        CommandLine: CommandLine
+        suser: User
+        filePath: File
+        Process: Process
+        Url: Url
+        name: Suspect
+        dhost: Target
+    "Event::Endpoint::Threat::Detected":
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        threat: Threat
+        ip: SrcIP
+        DstIP: DstIP
+        CommandLine: CommandLine
+        suser: User
+        filePath: File
+        Process: Process
+        Url: Url
+        name: Suspect
+        dhost: Target
+    "Event::Endpoint::Threat::PuaDetected":
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        threat: Threat
+        ip: SrcIP
+        DstIP: DstIP
+        CommandLine: CommandLine
+        suser: User
+        filePath: File
+        Process: Process
+        Url: Url
+        name: Suspect
+        dhost: Target
+    "Event::Endpoint::HmpaMalwareDetected":
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        threat: Threat
+        ip: SrcIP
+        DstIP: DstIP
+        CommandLine: CommandLine
+        suser: User
+        filePath: File
+        Process: Process
+        Url: Url
+        name: Suspect
+        dhost: Target
+    "Event::Endpoint::HomeThreatRemnantsDetected":
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        threat: Threat
+        ip: SrcIP
+        DstIP: DstIP
+        CommandLine: CommandLine
+        suser: User
+        filePath: File
+        Process: Process
+        Url: Url
+        name: Suspect
+        dhost: Target
+    "Event::Endpoint::HmpaPuaDetected":
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        threat: Threat
+        ip: SrcIP
+        DstIP: DstIP
+        CommandLine: CommandLine
+        suser: User
+        filePath: File
+        Process: Process
+        Url: Url
+        name: Suspect
+        dhost: Target
+        dhost: Target
+    "Event::Endpoint::CoreDetection":
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        threat: Threat
+        ip: SrcIP
+        DstIP: DstIP
+        CommandLine: CommandLine
+        suser: User
+        filePath: File
+        Process: Process
+        Url: Url
+        name: Suspect
+        dhost: Target
+    "Event::Endpoint::CoreRemoteDetection":
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        threat: Threat
+        ip: SrcIP
+        DstIP: DstIP
+        CommandLine: CommandLine
+        suser: User
+        filePath: File
+        Process: Process
+        Url: Url
+        name: Suspect
+    "Event::Smc::MitmAttackEvent::0":
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        threat: Threat
+        ip: SrcIP
+        DstIP: DstIP
+        CommandLine: CommandLine
+        suser: User
+        filepath: File
+        Process: Process
+        Url: Url
+        name: Suspect
+        dhost: Target
+    "Event::Smc::MitmAttackEvent::1":
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        threat: Threat
+        ip: SrcIP
+        DstIP: DstIP
+        CommandLine: CommandLine
+        suser: User
+        filepath: File
+        Process: Process
+        Url: Url
+        name: Suspect
+        dhost: Target
+    "Event::Smc::MitmAttackEvent::2":
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        threat: Threat
+        ip: SrcIP
+        DstIP: DstIP
+        CommandLine: CommandLine
+        suser: User
+        filepath: File
+        Process: Process
+        Url: Url
+        name: Suspect
+        dhost: Target
+    "Event::Smc::MitmAttackEvent::3":
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        threat: Threat
+        ip: SrcIP
+        DstIP: DstIP
+        CommandLine: CommandLine
+        suser: User
+        filepath: File
+        Process: Process
+        Url: Url
+        name: Suspect
+        dhost: Target
+    "Event::Smc::MitmAttackEvent::4":
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        threat: Threat
+        ip: SrcIP
+        DstIP: DstIP
+        CommandLine: CommandLine
+        suser: User
+        filepath: File
+        Process: Process
+        Url: Url
+        name: Suspect
+        dhost: Target
+    "Event::Smc::MitmAttackEvent::5":
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        threat: Threat
+        ip: SrcIP
+        DstIP: DstIP
+        CommandLine: CommandLine
+        suser: User
+        filepath: File
+        Process: Process
+        Url: Url
+        name: Suspect
+        dhost: Target
+    "Event::Smc::MitmAttackEvent::6":
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        threat: Threat
+        ip: SrcIP
+        DstIP: DstIP
+        CommandLine: CommandLine
+        suser: User
+        filepath: File
+        Process: Process
+        Url: Url
+        name: Suspect
+        dhost: Target
+    "Event::Endpoint::UserAutoCreated":
+      annotate:
+        Stream: IAM
+        Action: USER_ACCOUNT_CREATED
+        Status: PASSED
+      translate:
+        suser: User
+        Target_user: TargetUser
+        Role: Role
+
+  fallback:
+    annotate:
+      EventName: Generic Sophos Endpoint Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      rt: SystemTstamp
