@@ -185,7 +185,6 @@ event-details:
         URL: URL
         name: Suspect
         dhost: Target
-        dhost: Target
     "Event::Endpoint::CoreDetection":
       annotate:
         Stream: THREAT
