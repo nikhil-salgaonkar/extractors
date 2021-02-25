@@ -24,7 +24,6 @@ event-details:
         Status: PASSED
       translate:
         log_component: AuthProto
-        reason: Reason
         user_name: User
         src_ip: SrcIP
     '062910617701-Successful':
@@ -34,7 +33,6 @@ event-details:
         Status: PASSED
       translate:
         log_component: AuthProto
-        reason: Reason
         user_name: User
         src_ip: SrcIP
     '062109517507-Failed':
@@ -54,7 +52,6 @@ event-details:
         Status: PASSED
       translate:
         log_component: AuthProto
-        reason: Reason
         user_name: User
         src_ip: SrcIP 
     '062910517702-Failed':
@@ -74,7 +71,6 @@ event-details:
         Status: PASSED
       translate:
         log_component: AuthProto
-        reason: Reason
         user_name: User
         src_ip: SrcIP 
     '063210617704-Successful':
@@ -84,7 +80,6 @@ event-details:
         Status: PASSED
       translate:
         log_component: AuthProto
-        reason: Reason
         user_name: User
         src_ip: SrcIP 
     '062009617501-Successful':
@@ -94,7 +89,6 @@ event-details:
         Status: PASSED
       translate:
         log_component: AuthProto
-        reason: Reason
         user_name: User
         src_ip: SrcIP
     '062009517504-Successful':
@@ -104,7 +98,6 @@ event-details:
         Status: PASSED
       translate:
         log_component: AuthProto
-        reason: Reason
         user_name: User
         src_ip: SrcIP    
     '030906208001-':
