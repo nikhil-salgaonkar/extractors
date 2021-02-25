@@ -10,8 +10,8 @@ master-filters:
 - 'device_id=FM[\w\-]+\s+log_id\=\d+'
 event-details:
 - first-match: 'log_id\=\"?\d+\"?\s+type\=\"?.*?\"?\s+subtype\='
-  decoder: custom
-  decoder-regex: '([\w]+)\=(\"[^\"]*|[^\s]*)\"?'
+  decoder: regex
+  decoder-regex: '(?P<datetime>date\=\w{4}\-\w{2}\-\w{2}\s+time\=\d{2}\:\d{2}\:\d{2})\s+devname\=(?P<devname>\S+)\s+device_id\=(?P<device_id>\S+)\s+log_id\=(?P<log_id>\d+)\s+type\=(?P<type>\w+)\s+subtype\=(?P<subtype>\w+)\s+pri\=(?P<pri>\w+)\s+desc\=\"(?P<desc>.*?)\"(?:\s+user\=\"(?P<user>\S+)\")?(?:\s+userfrom\=\"(?P<authproto>\w+)\((?P<src>[\d\.]+)\)\")?(?:\s+msg\=\"(?P<msg>.*?reason:(?P<reason>.*?))\")?(?:\s+adminprof\=\"(?P<adminprof>.*?)\")?(?:.*?action\=\"(?P<action>.*?)\")?'
   event-key-format: '{log_id}-{action}'
   event-key-mapping:
     '0001010018-None':
@@ -21,7 +21,7 @@ event-details:
         Status: PASSED
       translate:
         src: SrcIP
-        AuthProto: AuthProto
+        authproto: AuthProto
         user: User 
     '0028037013-fail':
       annotate:
@@ -31,17 +31,17 @@ event-details:
         Reason: INVALID_USER
       translate:
         src: SrcIP
-        AuthProto: AuthProto
+        authproto: AuthProto
         user: User
     '0001010019-None':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        Reason: INVALID_PASSWORD
       translate:
         src: SrcIP
-        AuthProto: AuthProto
+        reason: Reason
+        authproto: AuthProto
         user: User
 
   fallback:
@@ -51,5 +51,5 @@ event-details:
 
   globals:
     translate:
-      date: SystemTstamp
+      datetime: SystemTstamp
       devname: System
