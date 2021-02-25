@@ -8,8 +8,9 @@ provides-streams:
 - AUTHENTICATION
 - THREAT
 - FIREWALL
+- IAM
 master-filters:
-- 'date\=\d+\-\d+\-\d+\s+time\=\d+\:\d+\:\d+\s+timezone\=\"\w+\"\s+device_name\=\"\S+\"\sdevice_id=C\d+\-\w+\s+log_id\=\d+\s+'
+- 'date\=\d+\-\d+\-\d+\s+time\=\d+\:\d+\:\d+\s+timezone\=\"\w+\"\s+device_name\=\"\S+\"\sdevice_id\=\s?\w+\-\w+\s+log_id\=\d+\s+'
 event-details:
 - first-match: log\_id\=\d+\s+log\_type\=\".*?\"
   decoder: custom
@@ -46,20 +47,6 @@ event-details:
         log_component: AuthProto
         user_name: User
         src_ip: SrcIP
-    '050901616003-':
-      annotate:
-        Stream: FIREWALL
-        Action: PACKET_ALLOWED
-        Status: PASSED
-      translate:
-        src_ip: SrcIP
-        dst_ip: DstIP
-        protocol: Proto
-        src_port: SrcPort
-        dst_port: DstPort
-        sent_bytes: TXLen
-        recv_bytes: RXLen 
-        app: App
     '062910617703-Successful':
       annotate:
         Stream: AUTHENTICATION
@@ -79,7 +66,126 @@ event-details:
         log_component: AuthProto
         reason: Reason
         user_name: User
-        src_ip: SrcIP           
+        src_ip: SrcIP
+    '063210617706-Successful':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+      translate:
+        log_component: AuthProto
+        reason: Reason
+        user_name: User
+        src_ip: SrcIP 
+    '063210617704-Successful':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        log_component: AuthProto
+        reason: Reason
+        user_name: User
+        src_ip: SrcIP 
+    '062009617501-Successful':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        log_component: AuthProto
+        reason: Reason
+        user_name: User
+        src_ip: SrcIP
+    '062009517504-Successful':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+      translate:
+        log_component: AuthProto
+        reason: Reason
+        user_name: User
+        src_ip: SrcIP    
+    '030906208001-':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        user_name: User
+        url: Suspect  
+        device_name: Target
+        virus: Threat
+        src_ip: SrcIP
+        dst_ip: DstIP 
+    '031206211001-':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        user_name: User
+        filename: Suspect
+        to_email_address: Target
+        virus: Threat
+        src_ip: SrcIP
+        dst_ip: DstIP 
+    '10001-':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        user_name: User
+        Suspect: Suspect
+        Target: Target
+        virus: Threat
+        src_ip: SrcIP
+        dst_ip: DstIP
+    '12001-':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        user_name: User
+        Suspect: Suspect
+        Target: Target
+        virus: Threat
+        src_ip: SrcIP
+        dst_ip: DstIP 
+    '12021-':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        user_name: User
+        Suspect: Suspect
+        Target: Target
+        virus: Threat
+        src_ip: SrcIP
+        dst_ip: DstIP                  
+    '050901616003-':
+      annotate:
+        Stream: FIREWALL
+        Action: PACKET_ALLOWED
+        Status: PASSED
+      translate:
+        src_ip: SrcIP
+        dst_ip: DstIP
+        protocol: Proto
+        src_port: SrcPort
+        dst_port: DstPort
+        sent_bytes: TXLen
+        recv_bytes: RXLen 
+        application: App       
     '010102600002-Deny':
       annotate:
         Stream: FIREWALL
@@ -121,18 +227,7 @@ event-details:
         dst_port: DstPort
         sent_bytes: TXLen
         recv_bytes: RXLen
-        application: App
-    '030906208001-':
-      annotate:
-        Stream: THREAT
-        Action: THREAT_DETECTED
-        Status: PASSED
-        Vector: WEB
-      translate:
-        user_name: User
-        virus: Threat
-        src_ip: SrcIP
-        dst_ip: DstIP       
+        application: App                 
     '050901616001-':
       annotate:
         Stream: FIREWALL
@@ -147,46 +242,6 @@ event-details:
         sent_bytes: TXLen
         recv_bytes: RXLen
         application: App   
-    '063210617706-Successful':
-      annotate:
-        Stream: AUTHENTICATION
-        Action: LOGOUT
-        Status: PASSED
-      translate:
-        log_component: AuthProto
-        reason: Reason
-        user_name: User
-        src_ip: SrcIP 
-    '063210617704-Successful':
-      annotate:
-        Stream: AUTHENTICATION
-        Action: LOGIN
-        Status: PASSED
-      translate:
-        log_component: AuthProto
-        reason: Reason
-        user_name: User
-        src_ip: SrcIP 
-    '062009617501-Successful':
-      annotate:
-        Stream: AUTHENTICATION
-        Action: LOGIN
-        Status: PASSED
-      translate:
-        log_component: AuthProto
-        reason: Reason
-        user_name: User
-        src_ip: SrcIP
-    '062009517504-Successful':
-      annotate:
-        Stream: AUTHENTICATION
-        Action: LOGOUT
-        Status: PASSED
-      translate:
-        log_component: AuthProto
-        reason: Reason
-        user_name: User
-        src_ip: SrcIP
     '010301602001-Allow':
       annotate:
         Stream: FIREWALL
@@ -201,6 +256,42 @@ event-details:
         sent_bytes: TXLen
         recv_bytes: RXLen
         application: App
+    '17501-':
+      annotate:
+        Stream: IAM
+        Action: OPERATION_ADDED
+        Status: PASSED
+      translate:
+        User: User
+        TargetUser: TargetUser
+        Role: Role
+    '17502-':
+      annotate:
+        Stream: IAM
+        Action: OPERATION_UPDATED
+        Status: PASSED
+      translate:
+        User: User
+        TargetUser: TargetUser
+        Role: Role
+    '17503-':
+      annotate:
+        Stream: IAM
+        Action: OPERATION_DELETED
+        Status: PASSED
+      translate:
+        User: User
+        TargetUser: TargetUser
+        Role: Role          
+    '17504-':
+      annotate:
+        Stream: IAM
+        Action: ACTION_MANAGEMENT
+        Status: PASSED
+      translate:
+        User: User
+        TargetUser: TargetUser
+        Role: Role       
 
   fallback:
     annotate:
