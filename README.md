@@ -24,7 +24,7 @@ This is a live information on the exctractors that are ready.
 |Webfiler							              |ZScaler			      | WEBFILTER,AUTHENTICATION, IAM		    		     |
 |Office                             |O365				        | EMAIL, AUTHENTICATION, IAM				  		     |
 |Azure							                |Azure              | AZURE                                			   |
-|AWS							                  |AWS-Cludtrail      | CLOUDTRAIL                         	 			   |
+|AWS							                  |AWS-Cloudtrail     | CLOUDTRAIL                         	 			   |
 
 <!--|GCP							                  |GCP                | AUTHENTICATION, GCP                	 			   |-->
 <!---|Firewall							        |ZScaler			      | FIREWALL,THREAT,AUTHENTICATION,IAM 	|Custom			| -->
