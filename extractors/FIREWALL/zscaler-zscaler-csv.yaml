@@ -15,9 +15,9 @@ event-details:
 - first-match: '\"\w{3}\s+\w{3}\s+\d{1,2}\s+\d{1,2}\:\d{1,2}\:\d{1,2}\s+\d{4}\"\,\".*?\"\,\".*?\"\,\".*?\"\,\"\d+\"\,\"\d+\"\,\"\d+\"\,\"\d+\"\,\"[\d\.]+\"\,\"[\d\.]+\"\,\"[\d\.]+\"\,\"[\d\.]+\"\,\"[\d\.]+\"\,\"\d+\"\,\"\w+\"\,\"Drop\"\,\"\w+\"\,\"\w+\"\,\"\w+\"\,\"[\w\s\-]+\"\,\"\w+\"\,\"\w+\"\,\".*?\"\,\".*?\"\,\"\d+\"\,\"'
   decoder: regex
   decoder-regex: '\"\w{3}\s+(?P<datetime>\w{3}\s+\d+\s+\d+\:\d+\:\d+\s+\d{4})\"\,\"(?P<user>.*?)\"\,\"(?P<group_name>.*?)\"\,\".*?\"\,\"(?P<dst_port>.*?)\"\,\"(?P<src_port>.*?)\"\,\"(?P<server_dst_port>.*?)\"\,\"(?P<server_src_port>.*?)\"\,\"(?P<src_ip>.*?)\"\,\"(?P<dst_ip>.*?)\"\,\"(?P<server_src_ip>.*?)\"\,\"(?P<server_dst_ip>.*?)\"\,\"(?P<tunnel_ip>.*?)\"\,\"(?P<tunnel_port>.*?)\"\,\"(?P<traffic_type>.*?)\"\,\"(?P<action_taken>.*?)\"\,\"(?P<dst_tran_ip>.*?)\"\,\".*?\"\,\".*?\"\,\"(?P<net_service>.*?)\"\,\"(?P<net_app>.*?)\"\,\"(?P<proto>.*?)\"\,\"(?P<category>.*?)\"\,\".*?\"\,\".*?\"\,\"(?P<rule>.*?)\"\,\"(?P<txlen>.*?)\"\,\"(?P<rxlen>.*?)\"\,'
-  event-key-format: '{rule}-{category}-{action}'
+  event-key-format: '{rule}-{category}-{action_taken}'
   event-key-mapping:
-    Blocked ports-Professional Services-None:
+    Blocked ports-Professional Services-Drop:
       annotate:
         Stream: FIREWALL
         Action: PORT_BLOCKED
@@ -31,17 +31,20 @@ event-details:
         dst_port: DstPort
         proto: Proto
         net_app: App
-    DNS Blocks From URL Cat-Advanced Persistent Threats (domains)-None:
+    DNS Blocks From URL Cat-Advanced Persistent Threats (domains)-Drop:
       annotate:
-        Stream: THREAT
-        Action: THREAT_DETECTED
+        Stream: FIREWALL
+        Action: PACKET_BLOCKED
         Status: PASSED
-        Vector: WEB
       translate:
+        src_port: SrcPort
         src_ip: SrcIP
         dst_ip: DstIP
-        threat_name: Threat
-        user: User
+        rxlen: RXLen
+        txlen: TXLen
+        dst_port: DstPort
+        proto: Proto
+        net_app: App
     None-Login-Sign In:
       annotate:
         Stream: AUTHENTICATION
@@ -88,6 +91,188 @@ event-details:
         targetuser: TargetUser
         role: Role
         user: User
+    None-Suspicious Destinations-None:
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        threat: Threat
+        src_ip: SrcIP
+        dst_ip: DstIP
+        user: User
+        url: Suspect
+        system: Target
+    None-Advanced Security-None:
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        threat: Threat
+        src_ip: SrcIP
+        dst_ip: DstIP
+        user: User
+        src_ip: Suspect
+        dst_ip: Target
+    None-Adware/Spyware Sites-None:
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        threat: Threat
+        src_ip: SrcIP
+        dst_ip: DstIP
+        user: User
+        url: Suspect
+        system: Target
+    None-Botnet Callback-None:
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        threat: Threat
+        src_ip: SrcIP
+        dst_ip: DstIP
+        user: User
+        net_app: Suspect
+        system: Target
+    None-Browser Exploit-None:
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        threat: Threat
+        src_ip: SrcIP
+        dst_ip: DstIP
+        user: User
+        net_app: Suspect
+        system: Target
+    None-Cross-site Scripting-None:
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        threat: Threat
+        src_ip: SrcIP
+        dst_ip: DstIP
+        user: User
+        url: Suspect
+        system: Target
+    None-Crypto Mining-None:
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        threat: Threat
+        src_ip: SrcIP
+        dst_ip: DstIP
+        user: User
+        url: Suspect
+        system: Target
+    None-Exploit-None:
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        threat: Threat
+        src_ip: SrcIP
+        dst_ip: DstIP
+        user: User
+        url: Suspect
+        system: Target
+    None-Malicious Content-None:
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        threat: Threat
+        src_ip: SrcIP
+        dst_ip: DstIP
+        user: User
+        url: Suspect
+        system: Target
+    None-Peer to peer-None:
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        threat: Threat
+        src_ip: SrcIP
+        dst_ip: DstIP
+        user: User
+        url: Suspect
+        dst_ip: Target
+    None-Phishing-None:
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        threat: Threat
+        src_ip: SrcIP
+        dst_ip: DstIP
+        user: User
+        url: Suspect
+        user: Target
+    None-Suspected Spyware or Adware-None:
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        threat: Threat
+        src_ip: SrcIP
+        dst_ip: DstIP
+        user: User
+        url: Suspect
+        system: Target
+    None-Unauthorized Communication-None:
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        threat: Threat
+        src_ip: SrcIP
+        dst_ip: DstIP
+        user: User
+        url: Suspect
+        system: Target
+    None-WebSpam-None:
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        threat: Threat
+        src_ip: SrcIP
+        dst_ip: DstIP
+        user: User
+        url: Suspect
+        system: Target
 
   fallback:
     annotate:
