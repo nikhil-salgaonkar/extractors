@@ -6,6 +6,8 @@ source-type: FIREWALL
 source-description: Extractor for Juniper-SRX Firewall Events
 provides-streams:
 - AUTHENTICATION
+- FIREWALL
+- THREAT
 master-filters:
 - '\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+\S+\:\s+\S+\:\s+'
 event-details:
@@ -19,8 +21,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED   
-        AuthMethod: SSH
-        Reason: '-'
+        AuthProto: SSH
       translate:
         src: SrcIP 
         user: User
@@ -44,9 +45,9 @@ event-details:
       annotate:
         Stream: AUTHENTICATION
         Action: LOGOUT
-        Status: PASSED
-        AuthMethod: '-'  
+        Status: PASSED 
       translate:
+        AuthProto: AuthProto
         user: User
         src: SrcIP
 
@@ -70,11 +71,11 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        AuthMethod: SSH
-        Reason: INVALID_PASSWORD   
+        AuthProto: SSH
       translate:
         user: User
-        src: SrcIP   
+        src: SrcIP 
+        reason: Reason  
 
   fallback:
     annotate:
@@ -96,9 +97,8 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED  
-        AuthMethod: '-'
-        Reason: '-'
       translate:
+        AuthProto: AuthProto
         user: User
         src: SrcIP
 
@@ -121,9 +121,9 @@ event-details:
       annotate:
         Stream: AUTHENTICATION
         Action: LOGOUT
-        Status: PASSED
-        AuthMethod: '-'  
+        Status: PASSED 
       translate:
+        AuthProto: AuthProto
         user: User
         src: SrcIP
 
@@ -147,12 +147,121 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED  
-        AuthMethod: SSH
-        Reason: '-'
+        AuthProto: SSH
       translate:
         user: User
         src: SrcIP
 
+  fallback:
+    annotate:
+      EventName: Generic Juniper-SRX Firewall Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System
+
+- first-match: '\s+PFE\_FW\_SYSLOG\_IP\:\s+'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<category>\S+)\:\s+FW\:\s+(?P<message>(?P<interface>\S+)\s+(?P<action>\w+)\s+(?P<proto>\w+)\s+(?P<src>[\d\.]+)\s+(?P<dst>[\d\.]+)\s+(?P<sport>\d+)\s+(?P<dport>\d+)\s+\((?P<packets>\w+)\s+packets\))'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'R': 
+      annotate:
+        Stream: FIREWALL
+        Action: PACKET_BLOCKED
+        Status: FAILED
+      translate:
+        proto: Proto
+        src: SrcIP
+        dst: DstIP
+        sport: SrcPort
+        dport: DstPort
+        packets: TXLen
+        app: App
+    'A': 
+      annotate:
+        Stream: FIREWALL
+        Action: PACKET_ALLOWED
+        Status: PASSED
+      translate:
+        proto: Proto
+        src: SrcIP
+        dst: DstIP
+        sport: SrcPort
+        dport: DstPort
+        packets: TXLen
+        app: App 
+    'D': 
+      annotate:
+        Stream: FIREWALL
+        Action: PACKET_ALLOWED
+        Status: FAILED
+      translate:
+        proto: Proto
+        src: SrcIP
+        dst: DstIP
+        sport: SrcPort
+        dport: DstPort
+        packets: TXLen
+        app: App  
+    'drop': 
+      annotate:
+        Stream: FIREWALL
+        Action: PACKET_BLOCKED
+        Status: PASSED
+      translate:
+        proto: Proto
+        src: SrcIP
+        dst: DstIP
+        sport: SrcPort
+        dport: DstPort
+        packets: TXLen
+        app: App            
+
+  fallback:
+    annotate:
+      EventName: Generic Juniper-SRX Firewall Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System     
+
+- first-match: '\s+RT\_IDS\:\s+RT_SCREEN_\w+\:'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s\S+\:\s+(?P<category>\S+)\:\s+(?P<threat>.*?)\s+source\:\s+(?P<src>[\d\.]+)(?:\:(?P<sport>\d+))?\,\s+destination\:\s+(?P<dst>[\d\.]+)(?:\:(?P<dport>\d+))?\,(?:\s+protocol\-id\:\s+(?P<protocol_id>\d+)\,)?\s+.*?interface\s+name\:\s+(?P<interface>.*?)\,\s+action\:\s+(?P<action>[\w\-]+)'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'alarm-without-drop': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        threat: Threat
+        src: SrcIP
+        dst: DstIP
+        user: User
+        interface: Suspect
+        hostname: Target
+    'drop': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        threat: Threat
+        src: SrcIP
+        dst: DstIP
+        user: User
+        interface: Suspect
+        hostname: Target
+    
   fallback:
     annotate:
       EventName: Generic Juniper-SRX Firewall Event
