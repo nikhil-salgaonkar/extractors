@@ -10,6 +10,7 @@ provides-streams:
 - THREAT
 master-filters:
 - '\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+\S+\:\s+\S+\:\s+'
+- '\d{4}\-\d{1,2}\-\d{2}\s+\d{2}\:\d{2}\:\d{2}\s+\w+\,\s+Filter\:\s+\w+\,'
 event-details:
 - first-match: '\s+UI_LOGIN_EVENT.*?j\-super\-user.*?client-mode\s+cli'
   decoder: regex
@@ -178,8 +179,8 @@ event-details:
         dst: DstIP
         sport: SrcPort
         dport: DstPort
-        packets: TXLen
-        app: App
+        Packet Length: TXLen
+        Service Name: App
     'A': 
       annotate:
         Stream: FIREWALL
@@ -191,12 +192,12 @@ event-details:
         dst: DstIP
         sport: SrcPort
         dport: DstPort
-        packets: TXLen
-        app: App 
+        Packet Length: TXLen
+        Service Name: App 
     'D': 
       annotate:
         Stream: FIREWALL
-        Action: PACKET_ALLOWED
+        Action: PACKET_BLOCKED
         Status: FAILED
       translate:
         proto: Proto
@@ -204,8 +205,8 @@ event-details:
         dst: DstIP
         sport: SrcPort
         dport: DstPort
-        packets: TXLen
-        app: App  
+        Packet Length: TXLen
+        Service Name: App  
     'drop': 
       annotate:
         Stream: FIREWALL
@@ -217,8 +218,8 @@ event-details:
         dst: DstIP
         sport: SrcPort
         dport: DstPort
-        packets: TXLen
-        app: App            
+        Packet Length: TXLen
+        Service Name: App            
 
   fallback:
     annotate:
@@ -228,14 +229,43 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
-      hostname: System     
+      hostname: System  
+
+- first-match: '\d{4}\-\d{1,2}\-\d{2}\s+\d{2}\:\d{2}\:\d{2}\s+\w+\,\s+Filter\:\s+\w+\,'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\d{4}\-\d{1,2}\-\d{2}\s+\d{2}\:\d{2}\:\d{2})\s+\w+\,\s+Filter\:\s+(\w+)\,\s+Filter\s+action\:\s+(?P<action>\w+)\,\s+Name\s+of\s+interface\:\s+(?P<interface>.*?)\s+Name of protocol\:\s+(?P<proto>\w+)\,\s+Packet Length\:\s+(?P<packet_length>\d+)\,\s+Source address\:\s+(?P<src>[\d\.]+)\:(?P<sport>\d+)\,\s+Destination address\:\s+(?P<dst>[\d\.]+)\:(?P<dport>\d+)'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'accept': 
+      annotate:
+        Stream: FIREWALL
+        Action: PACKET_ALLOWED
+        Status: PASSED
+      translate:
+        proto: Proto
+        src: SrcIP
+        dst: DstIP
+        sport: SrcPort
+        dport: DstPort
+        packet_length: TXLen
+        Service Name: App
+
+  fallback:
+    annotate:
+      EventName: Generic Juniper-SRX Firewall Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System           
 
 - first-match: '\s+RT\_IDS\:\s+RT_SCREEN_\w+\:'
   decoder: regex
   decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s\S+\:\s+(?P<category>\S+)\:\s+(?P<threat>.*?)\s+source\:\s+(?P<src>[\d\.]+)(?:\:(?P<sport>\d+))?\,\s+destination\:\s+(?P<dst>[\d\.]+)(?:\:(?P<dport>\d+))?\,(?:\s+protocol\-id\:\s+(?P<protocol_id>\d+)\,)?\s+.*?interface\s+name\:\s+(?P<interface>.*?)\,\s+action\:\s+(?P<action>[\w\-]+)'
-  event-key-format: '{action}'
+  event-key-format: '{category}'
   event-key-mapping:
-    'alarm-without-drop': 
+    'IDP_ATTACK_LOG_EVENT': 
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
@@ -245,10 +275,10 @@ event-details:
         threat: Threat
         src: SrcIP
         dst: DstIP
+        dst: Target
         user: User
-        interface: Suspect
-        hostname: Target
-    'drop': 
+        src: Suspect
+    'FLOW_IP_ACTION': 
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
@@ -258,9 +288,35 @@ event-details:
         threat: Threat
         src: SrcIP
         dst: DstIP
+        dst: Target
         user: User
-        interface: Suspect
-        hostname: Target
+        src: Suspect
+    'RT_SCREEN_UDP': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        threat: Threat
+        src: SrcIP
+        dst: DstIP
+        dst: Target
+        user: User
+        src: Suspect
+    'RT_SCREEN_IP': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        threat: Threat
+        src: SrcIP
+        dst: DstIP
+        dst: Target
+        user: User
+        src: Suspect        
     
   fallback:
     annotate:
