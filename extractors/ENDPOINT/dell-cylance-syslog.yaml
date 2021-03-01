@@ -9,155 +9,83 @@ provides-streams:
 master-filters:
 - '\d+\-\d+\-\d+\T\d+\:\d+\:\d+.*?CylancePROTECT\s+'
 event-details:
-- first-match: 'Event\s+Type\:\s+.*?\,\s+Event\s+Name\:\s+\S+\,'
+- first-match: '\d+\-\d+\-\d+\T\d+\:\d+\:\d+.*?CylancePROTECT\s+[\-\s]+Event\s+Type\:'
   decoder: custom
   decoder-regex: '\s+([\w\s]+)\:\s+([^\,]+)\,'
-  event-key-format: '{Event Type}-{Event Name}'
+  event-key-format: '{Threat Classification}'
   event-key-mapping:
-    'ScriptControl-Alert':           
+    'PUP - Scripting Tool':           
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
         Status: PASSED
         Vector: HOST
       translate:
-        Threat: Threat
+        Threat Classification: Threat
         SrcIP: SrcIP
         DstIP: DstIP
         User Name: User
         CommandLine: CommandLine
-        File: File
+        File Name: File
+        File Name: Suspect
         Url: URL
         Process: Process
-        File Path: Suspect
         Device Name: Target
     
-    'ScriptControl-Blocked':           
+    'PUP - Generic':           
       annotate:
         Stream: THREAT
-        Action: THREAT_BLOCKED
+        Action: THREAT_DETECTED
         Status: PASSED
         Vector: HOST
       translate:
-        Threat: Threat
+        Threat Classification: Threat
         SrcIP: SrcIP
         DstIP: DstIP
         User Name: User
         CommandLine: CommandLine
-        File: File
+        File Name: File
+        File Name: Suspect
         Url: URL
         Process: Process
-        File Path: Suspect
         Device Name: Target
 
-    'ExploitAttempt-blocked':           
+    'UNCLASSIFIED':           
       annotate:
         Stream: THREAT
-        Action: THREAT_BLOCKED
-        Status: FAILED
+        Action: THREAT_DETECTED
+        Status: PASSED
         Vector: HOST
       translate:
-        Threat: Threat
+        Threat Classification: Threat
         SrcIP: SrcIP
         DstIP: DstIP
         User Name: User
         CommandLine: CommandLine
-        File: File
+        File Name: File
+        File Name: Suspect
         Url: URL
         Process Name: Process
-        Suspect: Suspect
         Device Name: Target
 
-    'Threat-threat_quarantined': 
+    'Malware - Generic': 
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
         Status: PASSED
         Vector: HOST
       translate:
-        Threat: Threat
-        SrcIP: SrcIP
-        DstIP: DstIP
-        User: User
-        CommandLine: CommandLine
-        File Name: File
-        Url: URL
-        Process: Process
-        File Name: Suspect
-        Device Name: Target
-    
-    'Threat-threat_found': 
-      annotate:
-        Stream: THREAT
-        Action: THREAT_DETECTED
-        Status: PASSED
-        Vector: HOST
-      translate:
-        Threat: Threat
-        SrcIP: SrcIP
-        DstIP: DstIP
-        User: User
-        CommandLine: CommandLine
-        File Name: File
-        Url: URL
-        Process: Process
-        File Name: Suspect
-        Device Name: Target
-
-    'Threat-threat_changed': 
-      annotate:
-        Stream: THREAT
-        Action: THREAT_DETECTED
-        Status: PASSED
-        Vector: HOST
-      translate:
-        Threat: Threat
-        SrcIP: SrcIP
-        DstIP: DstIP
-        User: User
-        CommandLine: CommandLine
-        File Name: File
-        Url: URL
-        Process: Process
-        File Name: Suspect
-        Device Name: Target
-
-    'Threat-threat_cleared': 
-      annotate:
-        Stream: THREAT
-        Action: THREAT_DETECTED
-        Status: PASSED
-        Vector: HOST
-      translate:
-        Threat: Threat
-        SrcIP: SrcIP
-        DstIP: DstIP
-        User: User
-        CommandLine: CommandLine
-        File Name: File
-        Url: URL
-        Process: Process
-        File Name: Suspect
-        Device Name: Target  
-         
-    'ExploitAttempt-terminated':           
-      annotate:
-        Stream: THREAT
-        Action: THREAT_BLOCKED
-        Status: FAILED
-        Vector: HOST
-      translate:
-        Threat: Threat
+        Threat Classification: Threat
         SrcIP: SrcIP
         DstIP: DstIP
         User Name: User
         CommandLine: CommandLine
         File Name: File
+        File Name: Suspect
         Url: URL
-        Process Name: Process
-        Suspect: Suspect
+        Process: Process
         Device Name: Target
-        
+     
   fallback:
     annotate:
       EventName: Generic Dell-Cylance Endpoint Event
