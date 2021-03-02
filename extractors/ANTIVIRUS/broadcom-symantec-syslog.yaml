@@ -5,92 +5,390 @@ source-name: SYMANTEC-ENDPOINT
 source-type: ANTIVIRUS
 source-description: extractor for Symantec Endpoint Events
 provides-streams:
-- ENDPOINT-THREAT
+- THREAT
 master-filters:
-- \w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+SymantecServer\:\s+
+- '\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+SymantecServer\:\s+'
+- '\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+SymantecServer\:\s+'
 event-details:
-- first-match: \,CIDS\s+Signature\s+ID\:\s+\d+\,CIDS\s+Signature\s+string\:\s+
+- first-match: '\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+'
   decoder: custom
-  decoder-regex: ([^\:]+)\:\s([^,]*)\,
-  event-key-format: ''
+  decoder-regex: '((?!\d+|\s+)[\w\s\-]+)\:\s([^,]*)\,?'
+  event-key-format: '{Category set}-{CIDS Signature ID}'
   event-key-mapping:
-    "":
+    "Malware-None":
       annotate:
-        Stream: ENDPOINT-THREAT
+        Stream: THREAT
         Action: THREAT_DETECTED
         Status: PASSED
+        Vector: HOST
       translate: 
-        Risk name: AtkMsg
-        User: User
-        Source computer: SrcHost
-        Domain: Domain
-        Source IP: SrcIP
-        Local Host IP: DstIP
-        Remote Host Name: SrcHost
-        Remote Host IP: SrcIP
-        Application: App
-        User Name: User
-        Domain Name: Domain
-        Local Port: DstPort
-        Remote Port: SrcPort
-        CIDS Signature string: AtkMsg
-        Intrusion URL: URL
-
-  fallback:
-    annotate:
-      EventName: Generic Symantec Endpoint Event
-      Stream: OTHER  
-
-  globals:
-    translate:
-      Server: System          
-    
-- first-match: Category\s+set\:\s+.*?\,Category\s+type\:\s+
-  decoder: custom
-  decoder-regex: ([^\:]+)\:\s([^,]*)\,
-  event-key-format: '{Category set}'
-  event-key-mapping:
-    "Malware":
-      annotate:
-        Stream: ENDPOINT-THREAT
-        Action: THREAT_DETECTED
-        Status: PASSED
-      translate: 
-        Risk name: AtkMsg
-        User: User
-        Source computer: SrcHost
-        Source IP: SrcIP
-        Application name: App
-        Domain Name: Domain
-
-  fallback:
-    annotate:
-      EventName: Generic Symantec Endpoint Event
-      Stream: OTHER
-
-  globals:
-    translate:
-      Server: System
-      Server Name: System
-
-- first-match: Detection\s+type\:\s+
-  decoder: custom
-  decoder-regex: ([^\:]+)\:\s([^,]*)\,
-  event-key-format: ''
-  event-key-mapping:
-    "":
-      annotate:
-        Stream: ENDPOINT-THREAT
-        Action: THREAT_DETECTED
-        Status: PASSED
-      translate: 
+        Source Computer IP: SrcIP
         IP Address: DstIP
-        Application name: App
-        Download site: URL
-        Risk name: AtkMsg
-        Domain: Domain
+        Application name: File
+        User Name: User
+        Risk name: Threat
+        cmdline: CommandLine
+        Process: Process
+        URL: URL
+        Application name: Suspect
+        User Name: Target
+    "None-31350":
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate: 
+        Remote Host IP: SrcIP
+        Remote: SrcIP
+        Local Host IP: DstIP
+        Local: DstIP
+        Application: File
+        User Name: User
         User: User
-        Source computer: SrcHost
+        CIDS Signature string: Threat
+        cmdline: CommandLine
+        Process: Process
+        Intrusion URL: URL    
+        Intrusion URL: Suspect
+        User Name: Target
+        User: Target
+    "None-30358":
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate: 
+        Remote Host IP: SrcIP
+        Remote: SrcIP
+        Local Host IP: DstIP
+        Local: DstIP
+        Application: File
+        User Name: User
+        User: User
+        CIDS Signature string: Threat
+        cmdline: CommandLine
+        Process: Process
+        Intrusion URL: URL    
+        Intrusion URL: Suspect
+        User Name: Target
+        User: Target
+    "None-31651":
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate: 
+        Remote Host IP: SrcIP
+        Remote: SrcIP
+        Local Host IP: DstIP
+        Local: DstIP
+        Application: File
+        User Name: User
+        User: User
+        CIDS Signature string: Threat
+        cmdline: CommandLine
+        Process: Process
+        Intrusion URL: URL    
+        Intrusion URL: Suspect
+        User Name: Target
+        User: Target
+    "None-29634":
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate: 
+        Remote Host IP: SrcIP
+        Remote: SrcIP
+        Local Host IP: DstIP
+        Local: DstIP
+        Application: File
+        User Name: User
+        User: User
+        CIDS Signature string: Threat
+        cmdline: CommandLine
+        Process: Process
+        Intrusion URL: URL    
+        Intrusion URL: Suspect
+        User Name: Target
+        User: Target
+    "None-99990":
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate: 
+        Remote Host IP: SrcIP
+        Remote: SrcIP
+        Local Host IP: DstIP
+        Local: DstIP
+        Application: File
+        User Name: User
+        User: User
+        CIDS Signature string: Threat
+        cmdline: CommandLine
+        Process: Process
+        Intrusion URL: URL    
+        Intrusion URL: Suspect
+        User Name: Target
+        User: Target  
+    "None-27907":
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate: 
+        Remote Host IP: SrcIP
+        Remote: SrcIP
+        Local Host IP: DstIP
+        Local: DstIP
+        Application: File
+        User Name: User
+        User: User
+        CIDS Signature string: Threat
+        cmdline: CommandLine
+        Process: Process
+        Intrusion URL: URL    
+        Intrusion URL: Suspect
+        User Name: Target
+        User: Target    
+    "None-28875":
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate: 
+        Remote Host IP: SrcIP
+        Remote: SrcIP
+        Local Host IP: DstIP
+        Local: DstIP
+        Application: File
+        User Name: User
+        User: User
+        CIDS Signature string: Threat
+        cmdline: CommandLine
+        Process: Process
+        Intrusion URL: URL    
+        Intrusion URL: Suspect
+        User Name: Target
+        User: Target   
+    "None-25618":
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate: 
+        Remote Host IP: SrcIP
+        Remote: SrcIP
+        Local Host IP: DstIP
+        Local: DstIP
+        Application: File
+        User Name: User
+        User: User
+        CIDS Signature string: Threat
+        cmdline: CommandLine
+        Process: Process
+        Intrusion URL: URL    
+        Intrusion URL: Suspect
+        User Name: Target
+        User: Target   
+    "None-30369":
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate: 
+        Remote Host IP: SrcIP
+        Remote: SrcIP
+        Local Host IP: DstIP
+        Local: DstIP
+        Application: File
+        User Name: User
+        User: User
+        CIDS Signature string: Threat
+        cmdline: CommandLine
+        Process: Process
+        Intrusion URL: URL    
+        Intrusion URL: Suspect
+        User Name: Target
+        User: Target
+    "None-23179":
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate: 
+        Remote Host IP: SrcIP
+        Remote: SrcIP
+        Local Host IP: DstIP
+        Local: DstIP
+        Application: File
+        User Name: User
+        User: User
+        CIDS Signature string: Threat
+        cmdline: CommandLine
+        Process: Process
+        Intrusion URL: URL    
+        Intrusion URL: Suspect
+        User Name: Target
+        User: Target 
+    "None-22689":
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate: 
+        Remote Host IP: SrcIP
+        Remote: SrcIP
+        Local Host IP: DstIP
+        Local: DstIP
+        Application: File
+        User Name: User
+        User: User
+        CIDS Signature string: Threat
+        cmdline: CommandLine
+        Process: Process
+        Intrusion URL: URL    
+        Intrusion URL: Suspect
+        User Name: Target
+        User: Target
+    "None-30413":
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate: 
+        Remote Host IP: SrcIP
+        Remote: SrcIP
+        Local Host IP: DstIP
+        Local: DstIP
+        Application: File
+        User Name: User
+        User: User
+        CIDS Signature string: Threat
+        cmdline: CommandLine
+        Process: Process
+        Intrusion URL: URL    
+        Intrusion URL: Suspect
+        User Name: Target
+        User: Target
+    "None-27517":
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate: 
+        Remote Host IP: SrcIP
+        Remote: SrcIP
+        Local Host IP: DstIP
+        Local: DstIP
+        Application: File
+        User Name: User
+        User: User
+        CIDS Signature string: Threat
+        cmdline: CommandLine
+        Process: Process
+        Intrusion URL: URL    
+        Intrusion URL: Suspect
+        User Name: Target
+        User: Target
+    "None-31349":
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate: 
+        Remote Host IP: SrcIP
+        Remote: SrcIP
+        Local Host IP: DstIP
+        Local: DstIP
+        Application: File
+        User Name: User
+        User: User
+        CIDS Signature string: Threat
+        cmdline: CommandLine
+        Process: Process
+        Intrusion URL: URL    
+        Intrusion URL: Suspect
+        User Name: Target
+        User: Target
+    "None-31485":
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate: 
+        Remote Host IP: SrcIP
+        Remote: SrcIP
+        Local Host IP: DstIP
+        Local: DstIP
+        Application: File
+        User Name: User
+        User: User
+        CIDS Signature string: Threat
+        cmdline: CommandLine
+        Process: Process
+        Intrusion URL: URL    
+        Intrusion URL: Suspect
+        User Name: Target
+        User: Target   
+    "None-28239":
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate: 
+        Remote Host IP: SrcIP
+        Remote: SrcIP
+        Local Host IP: DstIP
+        Local: DstIP
+        Application: File
+        User Name: User
+        User: User
+        CIDS Signature string: Threat
+        cmdline: CommandLine
+        Process: Process
+        Intrusion URL: URL    
+        Intrusion URL: Suspect
+        User Name: Target
+        User: Target
+    "None-30253":
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate: 
+        Remote Host IP: SrcIP
+        Remote: SrcIP
+        Local Host IP: DstIP
+        Local: DstIP
+        Application: File
+        User Name: User
+        User: User
+        CIDS Signature string: Threat
+        cmdline: CommandLine
+        Process: Process
+        Intrusion URL: URL    
+        Intrusion URL: Suspect
+        User Name: Target
+        User: Target   
 
   fallback:
     annotate:
@@ -99,4 +397,7 @@ event-details:
 
   globals:
     translate:
-      Server: System           
+      Server Name: System
+      End Time: SystemTstamp
+      End: SystemTstamp
+      Event Insert Time: SystemTstamp          
