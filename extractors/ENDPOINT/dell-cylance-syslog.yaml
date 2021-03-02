@@ -5,98 +5,141 @@ source-name: DELL-CYLANCE
 source-type: ENDPOINT
 source-description: extractor for Dell-Cylance Endpoint Events
 provides-streams:
-- ENDPOINT-THREAT
+- THREAT
 master-filters:
 - '\d+\-\d+\-\d+\T\d+\:\d+\:\d+.*?CylancePROTECT\s+'
 event-details:
-- first-match: 'Event\s+Type\:\s+.*?\,\s+Event\s+Name\:\s+\S+\,'
+- first-match: '\d+\-\d+\-\d+\T\d+\:\d+\:\d+.*?CylancePROTECT\s+[\-\s]+Event\s+Type\:'
   decoder: custom
   decoder-regex: '\s+([\w\s]+)\:\s+([^\,]+)\,'
-  event-key-format: '{Event Type}-{Event Name}'
+  event-key-format: '{Threat Classification}'
   event-key-mapping:
-    'ScriptControl-Alert':           
+    'PUP - Scripting Tool':           
       annotate:
-        Stream: ENDPOINT-THREAT
-        Action: SCRIPT_ALLOWED
-        Status: PASSED
-      translate: 
-        'File Path': FilePath
-        'User Name': User
-
-    'ScriptControl-Blocked':           
-      annotate:
-        Stream: ENDPOINT-THREAT
-        Action: SCRIPT_BLOCKED
-        Status: PASSED
-      translate: 
-        'File Path': FilePath
-        'User Name': User
-
-    'ExploitAttempt-blocked':           
-      annotate:
-        Stream: ENDPOINT-THREAT
-        Action: THREAT_BLOCKED
-        Status: FAILED
-      translate: 
-        'Process Name': Process
-        'User Name': User
-
-    'Threat-threat_quarantined': 
-      annotate:
-        Stream: ENDPOINT-THREAT
-        Action: THREAT_QUARANTINED
-        Status: PASSED
-      translate: 
-        'File Name': FileName
-        'Path': FilePath
-        'File Type': FileType 
-        'SHA256': HashSHA256
-        'MD5': HashMD5
-    'Threat-threat_found': 
-      annotate:
-        Stream: ENDPOINT-THREAT
+        Stream: THREAT
         Action: THREAT_DETECTED
         Status: PASSED
-      translate: 
-        'File Name': FileName
-        'Path': FilePath
-        'File Type': FileType 
-        'SHA256': HashSHA256
-        'MD5': HashMD5
-
-    'Threat-threat_changed': 
+        Vector: HOST
+      translate:
+        Threat Classification: Threat
+        SrcIP: SrcIP
+        DstIP: DstIP
+        User Name: User
+        CommandLine: CommandLine
+        File Name: File
+        File Name: Suspect
+        Url: URL
+        Process: Process
+        Device Name: Target
+    
+    'PUP - Generic':           
       annotate:
-        Stream: ENDPOINT-THREAT
+        Stream: THREAT
         Action: THREAT_DETECTED
         Status: PASSED
-      translate: 
-        'File Name': FileName
-        'Path': FilePath
-        'File Type': FileType 
-        'SHA256': HashSHA256
-        'MD5': HashMD5 
+        Vector: HOST
+      translate:
+        Threat Classification: Threat
+        SrcIP: SrcIP
+        DstIP: DstIP
+        User Name: User
+        CommandLine: CommandLine
+        File Name: File
+        File Name: Suspect
+        Url: URL
+        Process: Process
+        Device Name: Target
 
-    'Threat-threat_cleared': 
+    'UNCLASSIFIED':           
       annotate:
-        Stream: ENDPOINT-THREAT
+        Stream: THREAT
         Action: THREAT_DETECTED
         Status: PASSED
-      translate: 
-        'File Name': FileName
-        'Path': FilePath
-        'File Type': FileType 
-        'SHA256': HashSHA256
-        'MD5': HashMD5  
-         
-    'ExploitAttempt-terminated':           
+        Vector: HOST
+      translate:
+        Threat Classification: Threat
+        SrcIP: SrcIP
+        DstIP: DstIP
+        User Name: User
+        CommandLine: CommandLine
+        File Name: File
+        File Name: Suspect
+        Url: URL
+        Process Name: Process
+        Device Name: Target
+
+    'Malware - Generic': 
       annotate:
-        Stream: ENDPOINT-THREAT
-        Action: THREAT_BLOCKED
-        Status: FAILED
-      translate: 
-        'Process Name': Process
-        'User Name': User
-        
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Threat Classification: Threat
+        SrcIP: SrcIP
+        DstIP: DstIP
+        User Name: User
+        CommandLine: CommandLine
+        File Name: File
+        File Name: Suspect
+        Url: URL
+        Process: Process
+        Device Name: Target
+
+    'File Unavailable': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Threat Classification: Threat
+        SrcIP: SrcIP
+        DstIP: DstIP
+        User Name: User
+        CommandLine: CommandLine
+        File Name: File
+        File Name: Suspect
+        Url: URL
+        Process: Process
+        Device Name: Target
+
+    'Trusted': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Threat Classification: Threat
+        SrcIP: SrcIP
+        DstIP: DstIP
+        User Name: User
+        CommandLine: CommandLine
+        File Name: File
+        File Name: Suspect
+        Url: URL
+        Process: Process
+        Device Name: Target 
+
+    'Possible PUP': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Threat Classification: Threat
+        SrcIP: SrcIP
+        DstIP: DstIP
+        User Name: User
+        CommandLine: CommandLine
+        File Name: File
+        File Name: Suspect
+        Url: URL
+        Process: Process
+        Device Name: Target            
+     
   fallback:
     annotate:
       EventName: Generic Dell-Cylance Endpoint Event
