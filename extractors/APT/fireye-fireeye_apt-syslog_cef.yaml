@@ -1,0 +1,174 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 96
+source-name: FIREEYE
+source-type: APT
+source-description: Extractor for Fireeye APT
+provides-streams:
+- THREAT
+master-filters:
+- CEF\:0\|(?:FireEye|fireeye)\|
+event-details:
+- first-match: act\=(?:blocked|notified)
+  decoder: regex
+  decoder-regex: (?P<daemon>\w+)\|\d+\.\d+\.\d+.*?\|.*?\|(?P<signature>.*?)\|(?P<severity>\d+)\|.*?rt=(?P<datetime>\w+\s+\d+\s+\d+\s+\d+\:\d+\:\d+)\s+.*?\w+\s+(?:src\=(?P<src_ip>.*?)\s+)?.*?(?:.*?shost\=(?P<src_host>.*?)\s+)?.*?(?:.*?dst\=(?P<dst_ip>.*?)\s+(?:cs|external))?.*?dvchost\=(?P<system>.*?)\s+.*?(?:.*?dst\=(?P<dstip>.*?)\s+proto)?.*?(?:.*?cs4\=(?P<url>.*?)\s+)?.*?(?:.*?request\=(?P<request>.*?)\s+)?.*?act\=(?P<act>\w+)\s+.*?(?:.*?dst\=(?P<destip>.*?)\s+)?.*?cs1\=(?P<threat>\S+)
+  event-key-format: '{act}-{signature}'
+  event-key-mapping:
+    notified-web-infection:
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        src_ip: SrcIP
+        cmdline: CommandLine
+        suser: User
+        threat: Threat
+        fname: File
+        dst_ip: DstIP
+        url: URL
+        url: Suspect
+        system: Target
+        Process: Process
+    notified-domain-match:           
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate: 
+        src_ip: SrcIP
+        cmdline: CommandLine
+        suser: User
+        threat: Threat
+        fname: File
+        destip: DstIP
+        url: URL
+        url: Suspect
+        system: Target
+        Process: Process
+    blocked-infection-match:           
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate: 
+        src_ip: SrcIP
+        cmdline: CommandLine
+        suser: User
+        threat: Threat
+        fname: File
+        dst_ip: DstIP
+        url: URL
+        src_host: Suspect
+        system: Target
+        Process: Process
+    notified-malware-object:           
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate: 
+        src_ip: SrcIP
+        cmdline: CommandLine
+        suser: User
+        threat: Threat
+        fname: File
+        dst_ip: DstIP
+        dstip: DstIP
+        url: URL
+        Process: Process
+    blocked-malware-callback:           
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate: 
+        src_ip: SrcIP
+        cmdline: CommandLine
+        suser: User
+        threat: Threat
+        fname: File
+        dst_ip: DstIP
+        request: URL
+        src_ip: Suspect
+        system: Target
+        Process: Process
+  fallback:
+    annotate:
+      EventName: Generic Fireeye Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      dvchost: System
+
+- first-match: act\=(?:Acquisition\s+Status|Detection\s+IOC\s+Hit|Acquisition\s+Create)
+  decoder: regex
+  decoder-regex: (?P<daemon>\w+)\|\d+\.\d+\.\d+.*?\|.*?\|(?P<signature>.*?)\|(?P<severity>\d+)\|.*?rt=(?P<datetime>\w+\s+\d+\s+\d+\s+\d+\:\d+\:\d+)\s+.*?dvchost\=(?P<system>.*?)\s+.*?dst\=(?P<dst_ip>.*?)\s+.*?dhost\=(?P<dst_host>.*?)\s+(?:.*?suser\=(?P<src_user>.*?)\s)?.*?act\=(?P<action>.*?\s+.*?)\s+(?:in\=.*?request\=(?P<url>.*?)\s+)?msg\=(?P<msg>.*?)\s+categoryTupleDescription\=(?:.*?cs4\=(?P<threat>.*?)\s+categoryTechnique)?
+  event-key-format: '{action}'
+  event-key-mapping:
+    Acquisition Status:
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        src_ip: SrcIP
+        cmdline: CommandLine
+        src_user: User
+        msg: Threat
+        fname: File
+        dst_ip: DstIP
+        url: URL
+        src_host: Suspect
+        dst_host: Target
+        Process: Process
+    Detection IOC Hit:           
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate: 
+        src_ip: SrcIP
+        cmdline: CommandLine
+        src_user: User
+        threat: Threat
+        fname: File
+        dst_ip: DstIP
+        url: URL
+        Process: Process
+    Acquisition Create:
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        src_ip: SrcIP
+        cmdline: CommandLine
+        src_user: User
+        msg: Threat
+        fname: File
+        dst_ip: DstIP
+        url: URL
+        src_host: Suspect
+        dst_host: Target
+        Process: Process
+        
+  fallback:
+    annotate:
+      EventName: Generic Fireeye Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      dvchost: System
