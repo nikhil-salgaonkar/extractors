@@ -1,0 +1,14 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Feature request (dnif / roadmap)
+    url: https://github.com/dnif-backyard/roadmap/issues/new?template=feature_request.md
+    about: Request a feature / enhancement
+  - name: Bug report (dnif / roadmap)
+    url: https://github.com/dnif-backyard/roadmap/issues/new?template=bug_report.md
+    about: Report a bug
+  - name: New detection analytic (dnif / threat-detection)
+    url: https://github.com/dnif-backyard/dnif-threat-detection/issues/new?template=new_analytic.md
+    about: Request a new detection analytic
+  - name: Update a detection analytic (dnif / threat-detection)
+    url: https://github.com/dnif-backyard/dnif-threat-detection/issues/new?template=update_analytic.md
+    about: Request an update to an analytic

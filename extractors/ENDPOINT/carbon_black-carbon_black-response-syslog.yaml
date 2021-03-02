@@ -1,0 +1,56 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 163
+source-name: CARBON-BLACK
+source-type: ENDPOINT-RESPONSE
+source-description: Extractor for Carbon Black Response Events
+provides-streams:
+- THREAT
+master-filters:
+- '\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+\[\d+\]\s+\<\w+\>\s+reason\=\S+\s+'
+event-details:
+- first-match: '\s+\[\d+\]\s+\<\w+\>\s+reason\=\S+\s'
+  decoder: custom
+  decoder-regex: '([\w]+)=(\"[^\"]*\"|[^\s]*)'
+  event-key-format: '{direction}'
+  event-key-mapping:
+    'Inbound':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        remote_ip: SrcIP
+        local_ip: DstIP
+        process_name: Process
+        username: User
+        cmdline: CommandLine
+        reason: Threat
+        App: File
+        Url: URL
+    'Outbound':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        remote_ip: DstIP
+        local_ip: SrcIP
+        process_name: Process
+        username: User
+        cmdline: CommandLine
+        reason: Threat
+        App: File
+        Url: URL             
+        
+  fallback:
+    annotate:
+      EventName: Generic Carbon Black Response Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      timestamp: SystemTstamp
+      host: System
