@@ -27,6 +27,8 @@ event-details:
         Process: Process
         cmdline: CommandLine
         internalIpAddress: DstIP
+        deviceName: Target
+        url: Suspect
         email: User
         url: URL
 
