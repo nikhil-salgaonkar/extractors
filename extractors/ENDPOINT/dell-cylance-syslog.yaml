@@ -85,6 +85,60 @@ event-details:
         Url: URL
         Process: Process
         Device Name: Target
+
+    'File Unavailable': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Threat Classification: Threat
+        SrcIP: SrcIP
+        DstIP: DstIP
+        User Name: User
+        CommandLine: CommandLine
+        File Name: File
+        File Name: Suspect
+        Url: URL
+        Process: Process
+        Device Name: Target
+
+    'Trusted': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Threat Classification: Threat
+        SrcIP: SrcIP
+        DstIP: DstIP
+        User Name: User
+        CommandLine: CommandLine
+        File Name: File
+        File Name: Suspect
+        Url: URL
+        Process: Process
+        Device Name: Target 
+
+    'Possible PUP': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Threat Classification: Threat
+        SrcIP: SrcIP
+        DstIP: DstIP
+        User Name: User
+        CommandLine: CommandLine
+        File Name: File
+        File Name: Suspect
+        Url: URL
+        Process: Process
+        Device Name: Target            
      
   fallback:
     annotate:
