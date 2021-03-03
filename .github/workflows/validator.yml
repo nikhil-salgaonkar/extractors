@@ -1,0 +1,12 @@
+name: Content Validation
+on: [push, pull_request]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Content Validator
+        id: validator
+        uses: dnif-backyard/dnif-extractors@master
+        with:
+          myInput: "."
