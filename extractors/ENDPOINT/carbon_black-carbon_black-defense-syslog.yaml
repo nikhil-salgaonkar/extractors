@@ -28,9 +28,9 @@ event-details:
         cmdline: CommandLine
         internalIpAddress: DstIP
         deviceName: Target
+        url: URL
         url: Suspect
         email: User
-        url: URL
 
   fallback:
     annotate:
