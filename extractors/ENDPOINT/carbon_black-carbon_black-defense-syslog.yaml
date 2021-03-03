@@ -27,8 +27,10 @@ event-details:
         Process: Process
         cmdline: CommandLine
         internalIpAddress: DstIP
-        email: User
+        deviceName: Target
         url: URL
+        url: Suspect
+        email: User
 
   fallback:
     annotate:
