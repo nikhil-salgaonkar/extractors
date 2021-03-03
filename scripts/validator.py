@@ -17,7 +17,7 @@ def check_yaml(path):
 def main():
     valid_flag = True
     path = os.environ["INPUT_MYINPUT"]
-    for root, files in os.walk(path):
+    for root, subdirs, files in os.walk(path):
         for file in files:
             if file.endswith(".yml") or file.endswith(".yaml"):
                 yaml_path = f'{root}/{file}'
