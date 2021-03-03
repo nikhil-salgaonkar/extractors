@@ -6,7 +6,7 @@ import yaml
 def main():
     valid_flag = True
     files_issue = []
-    path = os.environ["INPUT_ENTRYPOINT"]
+    path = os.environ["INPUT_MYINPUT"]
     for root, subdirs, files in os.walk(path):
         for file in files:
             if file.endswith(".yml") or file.endswith(".yaml"):

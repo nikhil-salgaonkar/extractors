@@ -9,4 +9,4 @@ jobs:
         id: validator
         uses: dnif-backyard/dnif-extractors@master
         with:
-          entryPoint: "."
+          myInput: "."
