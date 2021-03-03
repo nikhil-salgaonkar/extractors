@@ -32,7 +32,7 @@ def main():
                         missing_keys = [k for k, v in validate_dct.items() if not v]
                         # Validating top level keys in parser
                         if missing_keys:
-                            print(Fore.RED + f"{f} - ExtractorID - {ext_id}: Missing keys : {missing_keys}")
+                            print(Fore.RED + f"{file} - ExtractorID - {ext_id}: Missing keys : {missing_keys}")
                             valid_flag = False
                         elif validate_dct['master-filters'] and isinstance(validate_dct['master-filters'], list):
                             ed = validate_dct['event-details']
@@ -50,12 +50,12 @@ def main():
 
                                 # Validating decoder type
                                 if ed_validate['decoder'] not in ['custom', 'json', 'regex']:
-                                    print(Fore.RED + f"{f} - ExtractorID - {ext_id}: Invalid decoder found: '{ed_validate['decoder']}' Expected: 'custom' or 'json' or'regex'")
+                                    print(Fore.RED + f"{file} - ExtractorID - {ext_id}: Invalid decoder found: '{ed_validate['decoder']}' Expected: 'custom' or 'json' or'regex'")
                                     valid_flag = False
                                 # Validating keys at event-details level
                                 ed_missing_keys = [k for k, v in validate_dct.items() if not v]
                                 if ed_missing_keys:
-                                    print(Fore.RED + f"{f} - ExtractorID - {ext_id}: Missing keys in 'event-details' section for first match - {i['first-match']}: {ed_missing_keys}")
+                                    print(Fore.RED + f"{file} - ExtractorID - {ext_id}: Missing keys in 'event-details' section for first match - {i['first-match']}: {ed_missing_keys}")
                                     valid_flag = False
                                 else:
                                     fallback_keys = ed_validate['fallback'].keys()
@@ -73,7 +73,7 @@ def main():
                                         if 'annotate' in v or 'translate' in v:
                                             continue
                                         else:
-                                            print(Fore.RED + f"{f} - ExtractorID - {ext_id}: Keys 'annotate/translate' missing for key '{k}' in first-match {i['first-match']}")
+                                            print(Fore.RED + f"{file} - ExtractorID - {ext_id}: Keys 'annotate/translate' missing for key '{k}' in first-match {i['first-match']}")
                                             valid_flag = False
                                 # Validating mappings Stream wise
                                 fm = i['event-key-mapping']
@@ -81,19 +81,19 @@ def main():
                                     annotate_list = [x for x in chain(fm[k]["annotate"].keys()) if x]
                                     for m in annotate_list:
                                         if m not in valid_annotate:
-                                            print(Fore.RED + f"{f} - ExtractorID - {ext_id}: Unexpected field '{m}' for stream '{fm[k]['annotate']['Stream']}' located at 'annotate' key '{k}' in first-match '{i['first-match']}'")
+                                            print(Fore.RED + f"{file} - ExtractorID - {ext_id}: Unexpected field '{m}' for stream '{fm[k]['annotate']['Stream']}' located at 'annotate' key '{k}' in first-match '{i['first-match']}'")
                                             valid_flag = False
                                     translate_list = [x for x in chain(fm[k]["translate"].values()) if x]
                                     if fm[k]["annotate"]["Stream"] in valid_translate:
                                         for n in translate_list:
                                             if n not in valid_translate[fm[k]["annotate"]["Stream"]]:
-                                                print(Fore.RED + f"{f} - ExtractorID - {ext_id}: Unexpected field '{n}' for stream '{fm[k]['annotate']['Stream']}' located at 'translate' key '{k}' at first-match '{i['first-match']}'")
+                                                print(Fore.RED + f"{file} - ExtractorID - {ext_id}: Unexpected field '{n}' for stream '{fm[k]['annotate']['Stream']}' located at 'translate' key '{k}' at first-match '{i['first-match']}'")
                                                 valid_flag = False
                                     else:
-                                        print(Fore.RED + f"{f} - ExtractorID - {ext_id}: Guide for the stream: '{fm[k]['annotate']['Stream']}' is not defined located at first-match '{i['first-match']}")
+                                        print(Fore.RED + f"{file} - ExtractorID - {ext_id}: Guide for the stream: '{fm[k]['annotate']['Stream']}' is not defined located at first-match '{i['first-match']}")
                                         valid_flag = False
                 except Exception as e:
-                    print(Fore.RED + f"[-] The yaml is invalid for file {path}: {e}")
+                    print(Fore.RED + f"[-] The yaml is invalid for file {file}: {e}")
                     valid_flag = False
 
     if valid_flag:
