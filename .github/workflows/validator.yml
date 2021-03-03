@@ -7,6 +7,6 @@ jobs:
       - uses: actions/checkout@master
       - name: Content Validator
         id: validator
-        uses: dnif-backyard/dnif-extractors@master
+        uses: ./
         with:
           myInput: "."
