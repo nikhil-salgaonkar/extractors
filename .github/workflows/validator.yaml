@@ -9,4 +9,4 @@ jobs:
         id: validator
         uses: ./
         with:
-          myInput: "./extractors"
+          myInput: "."

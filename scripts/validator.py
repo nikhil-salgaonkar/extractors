@@ -8,11 +8,11 @@ from colorama import Fore
 path = os.environ["INPUT_MYINPUT"]
 valid_translate = yaml.safe_load(open(os.path.join(path, "scripts/stream_translate_guide.yaml")))
 valid_annotate = ['Action', 'AuthMethod', 'Blocked', 'Reason', 'Status', 'Stream', 'User', 'UserAgent']
-
+extractor_path = os.path.join(path, "extractors")
 
 def main():
     valid_flag = True
-    for root, subdirs, files in os.walk(path):
+    for root, subdirs, files in os.walk(extractor_path):
         for file in files:
             if (file.endswith(".yml") or file.endswith(".yaml")):
                 yaml_path = f'{root}/{file}'
