@@ -10,7 +10,7 @@ def main():
     for root, subdirs, files in os.walk(path):
         for file in files:
             if file.endswith(".yml") or file.endswith(".yaml"):
-                yaml_path = f'{root}/{file}'
+                yaml_path = f'{root}/{subdirs}/{file}'
                 try:
                     with open(yaml_path, 'r') as f:
                         yaml.safe_load(f)
