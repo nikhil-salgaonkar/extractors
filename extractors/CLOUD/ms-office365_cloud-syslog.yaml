@@ -13,6 +13,7 @@ master-filters:
 event-details:
 - first-match: \"UserType\"\:\d+\,
   decoder: custom
+  decoder-header: CEF
   decoder-regex: '\"([^\"]+)\"\:\"?\[?([^\"]+|[^\,]+)'
   event-key-format: '{Operation}'
   event-key-mapping:
@@ -191,3 +192,4 @@ event-details:
       System: MS-O365
     translate:
       CreationTime: SystemTstamp
+      HostName: System
