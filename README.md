@@ -21,15 +21,12 @@ This is a live information on the exctractors that are ready.
 |Firewall           							  |Juniper-SRX          | FIREWALL,THREAT,AUTHENTICATION               |
 |Firewall                           |ZScaler				      | FIREWALL,THREAT,AUTHENTICATION,IAM 			  	 |
 |EmailGateway  						          |Mimecast 	          | EMAIL, THREAT, AUTHENTICATION, IAM		       |
-|Endpoint Security                  |Carbonblack EPP      | THREAT	                                     |
 |Endpoint Security                  |Symantec AV		      | THREAT								              		     |
 |Endpoint Security							    |Sophos Endpoint      | THREAT, IAM                                  |
 |Endpoint Security								  |Symantec ATP         | THREAT                         	 			       |
 |Endpoint Security							    |DELL-CYLANCE         | THREAT                                       |
 |EDR                                |Carbonblack Reponse  | THREAT								                       |
-|EDR                                |Carbonblack Defense  | THREAT								                 		   |
 |Webfiler							              |ZScaler			        | WEBFILTER,AUTHENTICATION, IAM		    		     |
-|Office                             |O365				          | EMAIL, AUTHENTICATION, IAM				  		     |
 |Azure							                |Azure                | AZURE                                			   |
 |AWS							                  |AWS-Cloudtrail       | CLOUDTRAIL                         	 			   |
 
@@ -41,9 +38,12 @@ This is a live information on the exctractors that are ready.
 <!---|DNS								            |ZScaler			      | DNS, IAM								            |Custom			| -->
 
 ## In progress
-|Cisco FTD        |
-|Watchguard       |
-|McAfee gateway   |
-|TREND-MICRO      |
-|Symantec Endpoint|
+|Cisco FTD          |
+|Watchguard         |
+|McAfee gateway     |
+|TREND-MICRO        |
+|Symantec Endpoint  |
+|Carbonblack EPP    |
+|O365               |
+|Carbonblack Defense|
 
