@@ -19,100 +19,59 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGOUT
         Status: PASSED
-        AuthMethod: '-'
       translate:
         user: User
         src: SrcIP
+        reason: Reason
+        AuthProto: AuthProto
 
   fallback:
-      annotate:
-        EventName: Generic VMWARE OS Event
-        Stream: OTHER
-
-  globals:
-    translate:
-      datetime: SystemTstamp
-      hostname: System
-
-- first-match: '\s+Hostd\:.*?logged\s+in\s+'
-  decoder: regex
-  decoder-regex: '(?P<datetime>\d+\-\d+\-\d+T\d+\:\d+\:\d+)\.\w+\s+(?P<hostname>.*?)\s+(?P<daemon>.*?)\:\s(?:\[\w+\s)?(?P<severity>\w+)\s+(?:(\w+)\[)?.*?(?:user\=|User)\s+(?P<user>.*?)\@(?P<src>[\d\.]+)\s+(?P<action>logged\s+in).*'
-  event-key-format: '{action}'
-  event-key-mapping:
-    'logged in':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
-        AuthMethod: '-'
-        Reason: '-'
       translate:
         user: User
         src: SrcIP
+        reason: Reason
+        AuthProto: AuthProto
 
   fallback:
-      annotate:
-        EventName: Generic VMWARE OS Event
-        Stream: OTHER
-
-  globals:
-    translate:
-      datetime: SystemTstamp
-      hostname: System
-
-- first-match: '\s+vobd\:.*?Authentication\s+for\s+user.*?failed'
-  decoder: regex
-  decoder-regex: '(?P<datetime>\d+\-\d+\-\d+T\d+\:\d+\:\d+).*?\s+(?P<hostname>.*?)\s+(?P<daemon>\w+)\:.*?\:(?P<message>.*?user\s+(?P<user>\w+)\@.*)'
-  event-key-format: ''
-  event-key-mapping:
-    '':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        AuthMethod: '-'
         Reason: INVALID_PASSWORD
       translate:
         user: User
+        src: SrcIP
+        AuthProto: AuthProto
 
   fallback:
-      annotate:
-        EventName: Generic VMWARE OS Event
-        Stream: OTHER
-
-  globals:
-    translate:
-      datetime: SystemTstamp
-      hostname: System
-
-- first-match: '\s+vpxd.*?\[\w+\].*?logged\s+(?:in|out)'
-  decoder: regex
-  decoder-regex: '(?P<datetime>\d+\-\d+\-\d+T\d+\:\d+\:\d+)\..*?\s+(?P<hostname>\S+)\s+(?P<daemon>vpxd)\s+\S+\s+\S+\s+\S+\s+.*?\[(?P<severity>info)\]\s+\[.*?\]\s+\[.*?\]\s+\[\d+\]\s+\[(?P<message>User\s+(?P<user>.*?)\@.*?(?P<action>logged\s+(?:in|out)).*)\]'
-  event-key-format: '{action}'
-  event-key-mapping:
-    'logged in':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
-        AuthMethod: '-'
-        Reason: '-'
       translate:
         user: User
+        src: SrcIP
+        reason: Reason
+        AuthProto: AuthProto
     'logged out':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGOUT
         Status: PASSED
-        AuthMethod: '-'
       translate:
-        user: User    
+        user: User
+        src: SrcIP
+        reason: Reason
+        AuthProto: AuthProto    
 
   fallback:
       annotate:
         EventName: Generic VMWARE OS Event
         Stream: OTHER
-
   globals:
     translate:
       datetime: SystemTstamp
