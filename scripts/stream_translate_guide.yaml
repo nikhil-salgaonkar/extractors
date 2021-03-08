@@ -1,263 +1,48 @@
-GSUITE:
-- EventName
-- UserGroup
-- IsSecondFactor
-- User
-- LoginChallengeMethod
-- AffectedEmailAddress
-- Client
-- Scope
-- SrcIP
-- LoginType
-- LoginChallengeStatus
-- EventType
-- App
-- IsSuspicious
-WEBFILTER:
-- SiteClass
-- Method
-- Domain
-- User
-- UserAgent
-- DstPort
-- MIMEType
-- Proto
-- ReturnCode
-- RXLen
-- App
-- EventName
-- URL
-- DstIP
-- AppService
-- Severity
-- SrcPort
-- SrcIP
-- TXLen
 THREAT:
-- Method
-- Domain
-- User
-- DstPort
-- Proto
-- RXLen
-- AtkMsg
-- App
-- URL
+- SrcIP
+- Sender
+- Recipient
+- Threat
 - DstIP
-- AtkDesc
-- RuleName
-- Flow
-- Severity
-- AtkName
-- Request
-- SrcPort
-- SrcIP
-- DstHost
-- TXLen
-AUTHENTICATION:
-- Domain
-- TargetDomain
-- Reason
-- User
-- SrcIP
-- TargetUser
-WEBSERVER:
-- Method
-- URL
-- Referrer
-- Domain
-- User
-- SrcPort
-- UserAgent
-- ReturnCode
-- SrcIP
-- URIQuery
-- RXLen
-- App
-- TXLen
-- DstPort
-WAF:
-- Method
-- Domain
-- SrcHost
-- User
-- UserAgent
-- DstPort
-- Proto
-- RetCode
-- ReturnCode
-- AtkMsg
-- RXLen
-- EventName
-- URL
-- AtkDesc
-- DstIP
-- PolicyName
-- Severity
-- AtkName
-- SrcPort
-- SrcIP
-- AtkClass
-- TXLen
-ENDPOINT-THREAT:
-- FileHash
-- Domain
-- SrcHost
-- User
 - Process
-- UserAgent
-- DstPort
-- Proto
-- FilePath
-- AtkMsg
-- RXLen
-- App
-- Category
-- FileName
+- File
 - URL
-- HashSHA256
-- DstIP
-- FileType
-- HashMD5
-- ThreatCategory
-- Severity
-- SrcPort
-- LogLevel
+- User
+- CommandLine
+AUTHENTICATION:
+- System
+- User
 - SrcIP
-- Signature
-- DstHost
+- Reason
+- AuthProto
+IAM:
+- TargetUser
+- User
+- Role
+EMAIL-GATEWAY:
+- Sender
+- Recipient
+- RemoteIP
+- Subject
+- File
+- Direction
+WEBFILTER:
+- User
+- UserAgent
+- Proto
+- RXLen
+- URL
+- DstIP
+- SrcIP
 - TXLen
+- HTTPMethod
+- DstPort
 DNS:
 - Query
-- Action
-- Domain
-- SrcPort
+- ResponseCode
+- QueryType
+- RecordType
 - SrcIP
-- Lookup
-DATABASE:
-- Severity
-- ObjectName
-- Domain
-- User
-- SQLQuery
-- DBUser
-- EventSource
-- DBAccess
-SYSMON-PROCESS:
-- ImageLoaded
-- User
-- SignatureStatus
-- Product
-- Hashes
-- OriginalFileName
-- GrantedAccess
-- CommandLine
-- CreationUtcTime
-- SourceImage
-- ParentCommandLine
-- Description
-- TargetFilename
-- CallTrace
-- ParentImage
-- StartModule
-- StartFunction
-- StartAddress
-- Image
-- Company
-- TargetImage
-- PreviousCreationUtcTime
-- Signature
-SYSMON-NETWORK:
-- SrcHost
-- User
-- DstIP
-- SrcPort
-- Description
-- Image
-- SrcIP
-- Protocol
-- DstHost
-- DstPort
-SYSMON-SERVICE:
-- State
-- SchemaVersion
-SYSMON-DRIVER-LOAD:
-- ImageLoaded
-- User
-- SignatureStatus
-- Signed
-- Description
-- Image
-- Signature
-SYSMON-IMAGE-LOAD:
-- Product
-- Company
-- Description
-- User
-SYSMON-FILE:
-- User
-- Hash
-- Description
-- TargetFilename
-- Hashes
-- Image
-- CreationUtcTime
-SYSMON-REGISTRY:
-- Action
-- Details
-- Description
-- Image
-- TargetObject
-SYSMON-CONFIG:
-- ConfigurationFileHash
-- Configuration
-SYSMON-PIPE:
-- Image
-- PipeName
-- Action
-SYSMON-WMI:
-- Query
-- Action
-- User
-- Consumer
-- Operation
-- Description
-- Name
-- Destination
-- EventNamespace
-- Filter
-- Type
-SYSMON-DNS:
-- QueryName
-- Image
-- QueryStatus
-- QueryResults
-IAM:
-- ObjectServer
-- Domain
-- User
-- AccountExpires
-- BytesTransferredFromPeer
-- AccessReason
-- TargetDomain
-- BytesTransferred
-- Name
-- TargetUser
-- URL
-- FileLength
-- ShareLocalPath
-- ObjectType
-- BytesTotal
-- LogonHours
-- AccessMask
-- ProfilePath
-- ObjectName
-- ShareName
-- SrcPort
-- RelativeTargetName
-- SrcIP
-- AccessList
-- SubjectLogonId
 FIREWALL:
 - Proto
 - DstIP
@@ -267,46 +52,106 @@ FIREWALL:
 - App
 - TXLen
 - DstPort
-SWITCH:
-- Message
-- Severity
-- Proto
-- Iface
-- SrcPort
-- SrcIP
-- EvtDesc
-- MACAddress
-ROUTER:
-- Message
-- Severity
-DHCP:
-- SrcIP
-- MACAddress
-- ResultCode
-- User
-CLOUDTRAIL:
-- AwsRegion
-- EventName
-- SystemTstamp
-- UserGroup
-- User
-- UserAgent
-- SrcIP
-- EventSource
-- EventType
-- AccessKey
 AUDITD:
 - ProcessArgs
 - User
-- FilePath
+- CommandLine
 - Process
-- ProcessName
-DLP:
-- URL
-- Domain
+SYSMON-PROCESS:
+- OriginalFileName
+- ParentUser
+- CommandLine
+- ParentCommandLine
+- ParentImage
+- Image
+- SrcIP
+- SrcHost
+- SrcPort
+- DstHost
+- DstIP
+- DstPort
+- User
+- TargetImage
+- Description
+- Product
+- Company
+- GrantedAccess
+- CallTrace
+SYSMON-NETWORK:
+- SrcHost
+- SrcIP
 - User
 - DstIP
 - SrcPort
-- SrcIP
-- SubCategory
+- Description
+- Image
+- Proto
+- DstHost
 - DstPort
+SYSMON-IMAGE-LOAD:
+- Product
+- Company
+- Description
+- User
+- Image
+- ImageLoaded
+SYSMON-DNS:
+- QueryName
+- Image
+- QueryStatus
+- QueryResults
+SYSMON-WMI:
+- User
+- Consumer
+- Operation
+- Name
+- Destination
+- Filter
+- Type
+SYSMON-FILE:
+- User
+- TargetFilename
+- Image
+- CreationUtcTime
+SYSMON-DRIVER-LOAD:
+- ImageLoaded
+- User
+- SignatureStatus
+- Signed
+- Signature
+SYSMON-CONFIG:
+- ConfigurationFileHash
+- Configuration
+- User
+SYSMON-SERVICE:
+- State
+- SchemaVersion
+SYSMON-REGISTRY:
+- Details
+- Description
+- Image
+- TargetObject
+- User
+AZURE:
+- EventName
+- Category
+- User
+- ResourceGroupName
+- OperationName
+- Status
+GCP:
+- SrcIP
+- EventName
+- User
+- Operation
+CONFIGURATION:
+- User
+- Config
+WEBSERVER:
+- SrcIP
+- Method
+- UriQUery
+- User
+- UserAgent
+- URL
+- ReturnCode
