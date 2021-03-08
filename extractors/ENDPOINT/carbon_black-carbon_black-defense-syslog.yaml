@@ -23,12 +23,11 @@ event-details:
         Vector: HOST
       translate:
         applicationName: File
-        applicationName: Suspect
         summary: Threat
+        src: SrcIP
         Process: Process
         cmdline: CommandLine
         internalIpAddress: DstIP
-        deviceName: Target
         url: URL
         email: User
 
@@ -40,12 +39,11 @@ event-details:
         Vector: HOST
       translate:
         applicationName: File
-        applicationName: Suspect
         summary: Threat
+        src: SrcIP
         Process: Process
         cmdline: CommandLine
         internalIpAddress: DstIP
-        deviceName: Target
         url: URL
         email: User    
 
