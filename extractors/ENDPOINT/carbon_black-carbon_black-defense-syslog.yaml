@@ -28,7 +28,6 @@ event-details:
         Process: Process
         cmdline: CommandLine
         internalIpAddress: DstIP
-        url: URL
         email: User
 
     'NON_MALWARE':
@@ -44,7 +43,6 @@ event-details:
         Process: Process
         cmdline: CommandLine
         internalIpAddress: DstIP
-        url: URL
         email: User    
 
   fallback:
