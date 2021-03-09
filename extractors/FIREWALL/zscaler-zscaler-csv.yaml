@@ -102,8 +102,6 @@ event-details:
         src_ip: SrcIP
         dst_ip: DstIP
         user: User
-        url: Suspect
-        system: Target
     None-Advanced Security-None:
       annotate:
         Stream: THREAT
@@ -115,8 +113,6 @@ event-details:
         src_ip: SrcIP
         dst_ip: DstIP
         user: User
-        src_ip: Suspect
-        dst_ip: Target
     None-Adware/Spyware Sites-None:
       annotate:
         Stream: THREAT
@@ -128,8 +124,6 @@ event-details:
         src_ip: SrcIP
         dst_ip: DstIP
         user: User
-        url: Suspect
-        system: Target
     None-Botnet Callback-None:
       annotate:
         Stream: THREAT
@@ -141,8 +135,6 @@ event-details:
         src_ip: SrcIP
         dst_ip: DstIP
         user: User
-        net_app: Suspect
-        system: Target
     None-Browser Exploit-None:
       annotate:
         Stream: THREAT
@@ -154,8 +146,6 @@ event-details:
         src_ip: SrcIP
         dst_ip: DstIP
         user: User
-        net_app: Suspect
-        system: Target
     None-Cross-site Scripting-None:
       annotate:
         Stream: THREAT
@@ -167,8 +157,6 @@ event-details:
         src_ip: SrcIP
         dst_ip: DstIP
         user: User
-        url: Suspect
-        system: Target
     None-Crypto Mining-None:
       annotate:
         Stream: THREAT
@@ -180,8 +168,6 @@ event-details:
         src_ip: SrcIP
         dst_ip: DstIP
         user: User
-        url: Suspect
-        system: Target
     None-Exploit-None:
       annotate:
         Stream: THREAT
@@ -193,8 +179,6 @@ event-details:
         src_ip: SrcIP
         dst_ip: DstIP
         user: User
-        url: Suspect
-        system: Target
     None-Malicious Content-None:
       annotate:
         Stream: THREAT
@@ -206,8 +190,6 @@ event-details:
         src_ip: SrcIP
         dst_ip: DstIP
         user: User
-        url: Suspect
-        system: Target
     None-Peer to peer-None:
       annotate:
         Stream: THREAT
@@ -219,8 +201,6 @@ event-details:
         src_ip: SrcIP
         dst_ip: DstIP
         user: User
-        url: Suspect
-        dst_ip: Target
     None-Phishing-None:
       annotate:
         Stream: THREAT
@@ -232,8 +212,6 @@ event-details:
         src_ip: SrcIP
         dst_ip: DstIP
         user: User
-        url: Suspect
-        user: Target
     None-Suspected Spyware or Adware-None:
       annotate:
         Stream: THREAT
@@ -245,8 +223,6 @@ event-details:
         src_ip: SrcIP
         dst_ip: DstIP
         user: User
-        url: Suspect
-        system: Target
     None-Unauthorized Communication-None:
       annotate:
         Stream: THREAT
@@ -258,8 +234,6 @@ event-details:
         src_ip: SrcIP
         dst_ip: DstIP
         user: User
-        url: Suspect
-        system: Target
     None-WebSpam-None:
       annotate:
         Stream: THREAT
@@ -271,8 +245,6 @@ event-details:
         src_ip: SrcIP
         dst_ip: DstIP
         user: User
-        url: Suspect
-        system: Target
 
   fallback:
     annotate:

@@ -29,7 +29,6 @@ event-details:
         name: File
         Url: URL
         Process: Process
-        device_name: Target
     'Critical AVE Email Detections':
       annotate:
         Stream: THREAT
@@ -45,7 +44,6 @@ event-details:
         name: File
         Url: URL
         Process: Process
-        device_name: Target 
     'Critical AVE detections':
       annotate:
         Stream: THREAT
@@ -61,7 +59,6 @@ event-details:
         name: File
         Url: URL
         Process: Process
-        device_name: Target
     'Breach Detection':
       annotate:
         Stream: THREAT
@@ -77,7 +74,6 @@ event-details:
         name: File
         Url: URL
         Process: Process
-        device_name: Target
     'Critical Cynic Detections':
       annotate:
         Stream: THREAT
@@ -93,7 +89,6 @@ event-details:
         name: File
         Url: URL
         Process: Process
-        device_name: Target
     'Access to C&C web site(s)':
       annotate:
         Stream: THREAT
@@ -109,7 +104,6 @@ event-details:
         name: File
         Url: URL
         Process: Process
-        device_name: Target
     'Access to malicious web site(s)':
       annotate:
         Stream: THREAT
@@ -125,7 +119,6 @@ event-details:
         name: File
         Url: URL
         Process: Process
-        device_name: Target 
     'Multiple IoCs from one actor':
       annotate:
         Stream: THREAT
@@ -141,7 +134,6 @@ event-details:
         name: File
         Url: URL
         Process: Process
-        device_name: Target
     'Multiple IoCs from one sha256 indicator':
       annotate:
         Stream: THREAT
@@ -157,7 +149,6 @@ event-details:
         name: File
         Url: URL
         Process: Process
-        device_name: Target
     'Multiple IoCs from same signature and url':
       annotate:
         Stream: THREAT
@@ -173,7 +164,6 @@ event-details:
         name: File
         Url: URL
         Process: Process
-        device_name: Target
     'Multiple detections are from one computer':
       annotate:
         Stream: THREAT
@@ -189,7 +179,6 @@ event-details:
         name: File
         Url: URL
         Process: Process
-        device_name: Target
     'Unresolved Risk':
       annotate:
         Stream: THREAT
@@ -205,7 +194,6 @@ event-details:
         name: File
         Url: URL
         Process: Process
-        device_name: Target
     'Multiple detections targeted to one computer':
       annotate:
         Stream: THREAT
@@ -221,7 +209,6 @@ event-details:
         name: File
         Url: URL
         Process: Process
-        device_name: Target  
     'Critical NDC detections':
       annotate:
         Stream: THREAT
@@ -237,7 +224,6 @@ event-details:
         name: File
         Url: URL
         Process: Process
-        device_name: Target  
     'PEP detections':
       annotate:
         Stream: THREAT
@@ -253,7 +239,6 @@ event-details:
         name: File
         Url: URL
         Process: Process
-        device_name: Target
     'Anti-analysis technique':
       annotate:
         Stream: THREAT
@@ -269,7 +254,6 @@ event-details:
         name: File
         Url: URL
         Process: Process
-        device_name: Target
     'Base64 encoded and compressed command line':
       annotate:
         Stream: THREAT
@@ -285,7 +269,6 @@ event-details:
         name: File
         Url: URL
         Process: Process
-        device_name: Target
     'Download and execute .DLL':
       annotate:
         Stream: THREAT
@@ -301,7 +284,6 @@ event-details:
         name: File
         Url: URL
         Process: Process
-        device_name: Target     
     'Content downloaded from a remote location and executed':
       annotate:
         Stream: THREAT
@@ -317,7 +299,6 @@ event-details:
         name: File
         Url: URL
         Process: Process
-        device_name: Target
     'Execution of PS script stored in registry':
       annotate:
         Stream: THREAT
@@ -333,7 +314,6 @@ event-details:
         name: File
         Url: URL
         Process: Process
-        device_name: Target
     'Extract and store cookie':
       annotate:
         Stream: THREAT
@@ -349,7 +329,6 @@ event-details:
         name: File
         Url: URL
         Process: Process
-        device_name: Target
     'Execution of file-less shellcode':
       annotate:
         Stream: THREAT
@@ -365,7 +344,6 @@ event-details:
         name: File
         Url: URL
         Process: Process
-        device_name: Target
     'Suspicious encoded PowerShell command invoked':
       annotate:
         Stream: THREAT
@@ -381,7 +359,6 @@ event-details:
         name: File
         Url: URL
         Process: Process
-        device_name: Target
     'Invoke Mimikatz to attempt credential theft':
       annotate:
         Stream: THREAT
@@ -397,7 +374,6 @@ event-details:
         name: File
         Url: URL
         Process: Process
-        device_name: Target 
     'Invoke a Powersploit command':
       annotate:
         Stream: THREAT
@@ -413,7 +389,6 @@ event-details:
         name: File
         Url: URL
         Process: Process
-        device_name: Target
     'Targeted Email Attack':
       annotate:
         Stream: THREAT
@@ -429,7 +404,6 @@ event-details:
         name: File
         Url: URL
         Process: Process
-        device_name: Target 
     'Targeted Attack':
       annotate:
         Stream: THREAT
@@ -444,8 +418,7 @@ event-details:
         CommandLine: CommandLine
         name: File
         Url: URL
-        Process: Process
-        device_name: Target                                                                                                  
+        Process: Process                                                                                                
 
   fallback:
     annotate:

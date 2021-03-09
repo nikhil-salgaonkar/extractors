@@ -27,10 +27,8 @@ event-details:
         User Name: User
         CommandLine: CommandLine
         File Name: File
-        File Name: Suspect
         Url: URL
         Process: Process
-        Device Name: Target
     
     'PUP - Generic':           
       annotate:
@@ -45,10 +43,8 @@ event-details:
         User Name: User
         CommandLine: CommandLine
         File Name: File
-        File Name: Suspect
         Url: URL
         Process: Process
-        Device Name: Target
 
     'UNCLASSIFIED':           
       annotate:
@@ -63,10 +59,8 @@ event-details:
         User Name: User
         CommandLine: CommandLine
         File Name: File
-        File Name: Suspect
         Url: URL
         Process Name: Process
-        Device Name: Target
 
     'Malware - Generic': 
       annotate:
@@ -81,10 +75,8 @@ event-details:
         User Name: User
         CommandLine: CommandLine
         File Name: File
-        File Name: Suspect
         Url: URL
         Process: Process
-        Device Name: Target
 
     'File Unavailable': 
       annotate:
@@ -99,10 +91,8 @@ event-details:
         User Name: User
         CommandLine: CommandLine
         File Name: File
-        File Name: Suspect
         Url: URL
         Process: Process
-        Device Name: Target
 
     'Trusted': 
       annotate:
@@ -117,10 +107,8 @@ event-details:
         User Name: User
         CommandLine: CommandLine
         File Name: File
-        File Name: Suspect
         Url: URL
-        Process: Process
-        Device Name: Target 
+        Process: Process 
 
     'Possible PUP': 
       annotate:
@@ -135,10 +123,8 @@ event-details:
         User Name: User
         CommandLine: CommandLine
         File Name: File
-        File Name: Suspect
         Url: URL
-        Process: Process
-        Device Name: Target            
+        Process: Process            
      
   fallback:
     annotate:

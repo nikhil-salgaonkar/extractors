@@ -12,7 +12,7 @@ provides-streams:
 master-filters:
 - 'date\=\d+\-\d+\-\d+\s+time\=\d+\:\d+\:\d+\s+timezone\=\"\w+\"\s+device_name\=\"\S+\"\sdevice_id\=\s?\w+\-\w+\s+log_id\=\d+\s+'
 event-details:
-- first-match: log\_id\=\d+\s+log\_type\=\".*?\"
+- first-match: log\_id\=\d+\s+log\_type\=
   decoder: custom
   decoder-regex: '([\w]+)=(\"[^\"]*\"|[^\s]*)'
   event-key-format: '{log_id}-{status}'
@@ -107,9 +107,7 @@ event-details:
         Status: PASSED
         Vector: WEB
       translate:
-        user_name: User
-        url: Suspect  
-        device_name: Target
+        user_name: User 
         virus: Threat
         src_ip: SrcIP
         dst_ip: DstIP 
@@ -121,8 +119,6 @@ event-details:
         Vector: WEB
       translate:
         user_name: User
-        filename: Suspect
-        to_email_address: Target
         virus: Threat
         src_ip: SrcIP
         dst_ip: DstIP 
@@ -134,8 +130,6 @@ event-details:
         Vector: WEB
       translate:
         user_name: User
-        Suspect: Suspect
-        Target: Target
         virus: Threat
         src_ip: SrcIP
         dst_ip: DstIP
@@ -147,8 +141,6 @@ event-details:
         Vector: WEB
       translate:
         user_name: User
-        Suspect: Suspect
-        Target: Target
         virus: Threat
         src_ip: SrcIP
         dst_ip: DstIP 
@@ -160,8 +152,6 @@ event-details:
         Vector: WEB
       translate:
         user_name: User
-        Suspect: Suspect
-        Target: Target
         virus: Threat
         src_ip: SrcIP
         dst_ip: DstIP                  
