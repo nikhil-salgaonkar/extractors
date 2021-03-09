@@ -32,9 +32,6 @@ event-details:
         cmdline: CommandLine
         Process: Process
         Intrusion URL: URL    
-        Application: Suspect
-        User Name: Target
-        User: Target
 
   fallback:
     annotate:
@@ -62,14 +59,12 @@ event-details:
       translate: 
         Source Computer IP: SrcIP
         IP Address: DstIP
-        Application name: File
+        File path: File
+        Application name: Process
         User Name: User
         Risk name: Threat
         cmdline: CommandLine
-        Process: Process
         URL: URL
-        Application name: Suspect
-        User Name: Target
         
   fallback:
     annotate:
