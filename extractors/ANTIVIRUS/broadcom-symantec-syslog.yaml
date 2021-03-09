@@ -74,6 +74,8 @@ event-details:
   globals:
     translate:
       Server Name: System
+      Computer name: System
+      Computer: System
       End Time: SystemTstamp
       End: SystemTstamp
       Event Insert Time: SystemTstamp      
