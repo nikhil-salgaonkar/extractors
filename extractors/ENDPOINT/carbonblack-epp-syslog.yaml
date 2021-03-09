@@ -29,8 +29,6 @@ event-details:
         file_name: File
         process: Process
         url: URL
-        installer_name: Suspect
-        hostname: Target
     'Discovery-2':
       annotate:
         Stream: THREAT
@@ -46,8 +44,6 @@ event-details:
         file_name: File
         process: Process
         url: URL
-        installer_name: Suspect
-        hostname: Target
     'Discovery--1':
       annotate:
         Stream: THREAT
@@ -63,8 +59,6 @@ event-details:
         file_name: File
         process: Process
         url: URL
-        installer_name: Suspect
-        hostname: Target
     'Discovery--2':
       annotate:
         Stream: THREAT
@@ -79,9 +73,7 @@ event-details:
         command_line: CommandLine
         file_name: File
         process: Process
-        url: URL
-        installer_name: Suspect
-        hostname: Target        
+        url: URL        
     
   fallback:
     annotate:
