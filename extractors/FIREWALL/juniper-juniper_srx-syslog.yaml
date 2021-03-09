@@ -275,9 +275,7 @@ event-details:
         threat: Threat
         src: SrcIP
         dst: DstIP
-        dst: Target
         user: User
-        src: Suspect
     'FLOW_IP_ACTION': 
       annotate:
         Stream: THREAT
@@ -288,9 +286,7 @@ event-details:
         threat: Threat
         src: SrcIP
         dst: DstIP
-        dst: Target
         user: User
-        src: Suspect
     'RT_SCREEN_UDP': 
       annotate:
         Stream: THREAT
@@ -301,9 +297,7 @@ event-details:
         threat: Threat
         src: SrcIP
         dst: DstIP
-        dst: Target
         user: User
-        src: Suspect
     'RT_SCREEN_IP': 
       annotate:
         Stream: THREAT
@@ -314,9 +308,7 @@ event-details:
         threat: Threat
         src: SrcIP
         dst: DstIP
-        dst: Target
         user: User
-        src: Suspect        
     
   fallback:
     annotate:
