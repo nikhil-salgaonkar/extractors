@@ -12,10 +12,10 @@ master-filters:
 event-details:
 - first-match: \"eventTime\"\:\s+\d+\,\s+
   decoder: custom
-  decoder-regex: \"(\w+)\"\:\s+\"?(?:([^\"]+|[^\,]))
-  event-key-format: '{type}'
+  decoder-regex: '\"(\w+)\"\:\s+\"?(?:([^\"]+|[^\,]))'
+  event-key-format: '{threatCategory}'
   event-key-mapping:
-    'THREAT':
+    'NEW_MALWARE':
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
@@ -24,13 +24,26 @@ event-details:
       translate:
         applicationName: File
         summary: Threat
+        src: SrcIP
         Process: Process
         cmdline: CommandLine
         internalIpAddress: DstIP
-        deviceName: Target
-        url: URL
-        url: Suspect
         email: User
+
+    'NON_MALWARE':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        applicationName: File
+        summary: Threat
+        src: SrcIP
+        Process: Process
+        cmdline: CommandLine
+        internalIpAddress: DstIP
+        email: User    
 
   fallback:
     annotate:
