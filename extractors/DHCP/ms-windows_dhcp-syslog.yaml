@@ -7,7 +7,7 @@ source-description: Extractor for Windows DHCP Events
 provides-streams:
 - DHCP
 master-filters:
-- '\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+\d+\,\d{2}\/\d{2}\/\d{2}\,\d{2}\:\d{2}\:\d{2}\,.*?\,'
+- '^(?:<\d+>)?\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+\d+\,\d{2}\/\d{2}\/\d{2}\,\d{2}\:\d{2}\:\d{2}\,[\w\s]+\,'
 event-details:
 - first-match: '\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+\d+\,\d{2}\/\d{2}\/\d{2}\,\d{2}\:\d{2}\:\d{2}\,.*?\,'
   decoder: regex
