@@ -10,7 +10,7 @@ provides-streams:
 - FIREWALL
 - IAM
 master-filters:
-- 'date\=\d+\-\d+\-\d+\s+time\=\d+\:\d+\:\d+\s+timezone\=\"\w+\"\s+device_name\=\"\S+\"\sdevice_id\=\s?\w+\-\w+\s+log_id\=\d+\s+'
+- '^(?:\<\d+\>)?date\=\d+\-\d+\-\d+\s+time\=\d+\:\d+\:\d+\s+timezone\=\"\w+\"\s+device_name\=\"\S+\"\sdevice_id\=\s?\w+\-\w+\s+log_id\=\d+\s+'
 event-details:
 - first-match: log\_id\=\d+\s+log\_type\=
   decoder: custom
