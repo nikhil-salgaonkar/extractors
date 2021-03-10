@@ -9,7 +9,7 @@ provides-streams:
 - THREAT
 - AUTHENTICATION
 master-filters:
-- '\w+\s+\d+\s+\d+\:\d+\:\d+\s+\S+\s+\d+\,\d+\/\d+\/\d+\s+\d+\:\d+\:\d+\,\d+\,.*?(?:TRAFFIC|THREAT|SYSTEM|CONFIG|USERID\,login|GLOBALPROTECT)\,'
+- '^(?:<\d+>)?\w+\s+\d+\s+\d+\:\d+\:\d+\s+\S+\s+\d+\,\d+\/\d+\/\d+\s+\d+\:\d+\:\d+\,\d+\,.*?(?:TRAFFIC|THREAT|SYSTEM|CONFIG|USERID\,login|GLOBALPROTECT)\,'
 event-details:
 - first-match: '\,TRAFFIC\,.*?\,\S+\,'
   decoder: regex
