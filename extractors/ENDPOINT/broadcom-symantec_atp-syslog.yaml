@@ -22,8 +22,8 @@ event-details:
         Vector: HOST
       translate:
         rule_name: Threat
-        SrcIP: SrcIP
-        DstIP: DstIP
+        internalIP: SrcIP
+        external_ip: DstIP
         user_name: User
         heuristicevent_scored_process_cmdline: CommandLine
         name: File
@@ -37,8 +37,8 @@ event-details:
         Vector: HOST
       translate:
         rule_name: Threat
-        SrcIP: SrcIP
-        DstIP: DstIP
+        internalIP: SrcIP
+        external_ip: DstIP
         user_name: User
         CommandLine: CommandLine
         name: File
@@ -52,8 +52,8 @@ event-details:
         Vector: HOST
       translate:
         rule_name: Threat
-        SrcIP: SrcIP
-        DstIP: DstIP
+        internalIP: SrcIP
+        external_ip: DstIP
         user_name: User
         CommandLine: CommandLine
         name: File
@@ -67,8 +67,8 @@ event-details:
         Vector: HOST
       translate:
         rule_name: Threat
-        SrcIP: SrcIP
-        DstIP: DstIP
+        internalIP: SrcIP
+        external_ip: DstIP
         user_name: User
         CommandLine: CommandLine
         name: File
@@ -82,8 +82,8 @@ event-details:
         Vector: HOST
       translate:
         rule_name: Threat
-        SrcIP: SrcIP
-        DstIP: DstIP
+        internalIP: SrcIP
+        external_ip: DstIP
         user_name: User
         CommandLine: CommandLine
         name: File
@@ -97,8 +97,8 @@ event-details:
         Vector: HOST
       translate:
         rule_name: Threat
-        SrcIP: SrcIP
-        DstIP: DstIP
+        internalIP: SrcIP
+        external_ip: DstIP
         user_name: User
         CommandLine: CommandLine
         name: File
@@ -112,8 +112,8 @@ event-details:
         Vector: HOST
       translate:
         rule_name: Threat
-        SrcIP: SrcIP
-        DstIP: DstIP
+        internalIP: SrcIP
+        external_ip: DstIP
         user_name: User
         CommandLine: CommandLine
         name: File
@@ -127,8 +127,8 @@ event-details:
         Vector: HOST
       translate:
         rule_name: Threat
-        SrcIP: SrcIP
-        DstIP: DstIP
+        internalIP: SrcIP
+        external_ip: DstIP
         user_name: User
         CommandLine: CommandLine
         name: File
@@ -142,8 +142,8 @@ event-details:
         Vector: HOST
       translate:
         rule_name: Threat
-        SrcIP: SrcIP
-        DstIP: DstIP
+        internalIP: SrcIP
+        external_ip: DstIP
         user_name: User
         CommandLine: CommandLine
         name: File
@@ -157,8 +157,8 @@ event-details:
         Vector: HOST
       translate:
         rule_name: Threat
-        SrcIP: SrcIP
-        DstIP: DstIP
+        internalIP: SrcIP
+        external_ip: DstIP
         user_name: User
         CommandLine: CommandLine
         name: File
@@ -172,8 +172,8 @@ event-details:
         Vector: HOST
       translate:
         rule_name: Threat
-        SrcIP: SrcIP
-        DstIP: DstIP
+        internalIP: SrcIP
+        external_ip: DstIP
         user_name: User
         CommandLine: CommandLine
         name: File
@@ -187,8 +187,8 @@ event-details:
         Vector: HOST
       translate:
         rule_name: Threat
-        SrcIP: SrcIP
-        DstIP: DstIP
+        internalIP: SrcIP
+        external_ip: DstIP
         user_name: User
         CommandLine: CommandLine
         name: File
@@ -202,8 +202,8 @@ event-details:
         Vector: HOST
       translate:
         rule_name: Threat
-        SrcIP: SrcIP
-        DstIP: DstIP
+        internalIP: SrcIP
+        external_ip: DstIP
         user_name: User
         CommandLine: CommandLine
         name: File
@@ -217,8 +217,8 @@ event-details:
         Vector: HOST
       translate:
         rule_name: Threat
-        SrcIP: SrcIP
-        DstIP: DstIP
+        internalIP: SrcIP
+        external_ip: DstIP
         user_name: User
         CommandLine: CommandLine
         name: File
@@ -232,8 +232,8 @@ event-details:
         Vector: HOST
       translate:
         rule_name: Threat
-        SrcIP: SrcIP
-        DstIP: DstIP
+        internalIP: SrcIP
+        external_ip: DstIP
         user_name: User
         CommandLine: CommandLine
         name: File
@@ -247,8 +247,8 @@ event-details:
         Vector: HOST
       translate:
         rule_name: Threat
-        SrcIP: SrcIP
-        DstIP: DstIP
+        internalIP: SrcIP
+        external_ip: DstIP
         user_name: User
         CommandLine: CommandLine
         name: File
@@ -262,8 +262,8 @@ event-details:
         Vector: HOST
       translate:
         rule_name: Threat
-        SrcIP: SrcIP
-        DstIP: DstIP
+        internalIP: SrcIP
+        external_ip: DstIP
         user_name: User
         CommandLine: CommandLine
         name: File
@@ -277,8 +277,8 @@ event-details:
         Vector: HOST
       translate:
         rule_name: Threat
-        SrcIP: SrcIP
-        DstIP: DstIP
+        internalIP: SrcIP
+        external_ip: DstIP
         user_name: User
         CommandLine: CommandLine
         name: File
@@ -292,8 +292,8 @@ event-details:
         Vector: HOST
       translate:
         rule_name: Threat
-        SrcIP: SrcIP
-        DstIP: DstIP
+        internalIP: SrcIP
+        external_ip: DstIP
         user_name: User
         CommandLine: CommandLine
         name: File
@@ -307,8 +307,8 @@ event-details:
         Vector: HOST
       translate:
         rule_name: Threat
-        SrcIP: SrcIP
-        DstIP: DstIP
+        internalIP: SrcIP
+        external_ip: DstIP
         user_name: User
         CommandLine: CommandLine
         name: File
@@ -322,8 +322,8 @@ event-details:
         Vector: HOST
       translate:
         rule_name: Threat
-        SrcIP: SrcIP
-        DstIP: DstIP
+        internalIP: SrcIP
+        external_ip: DstIP
         user_name: User
         CommandLine: CommandLine
         name: File
@@ -337,8 +337,8 @@ event-details:
         Vector: HOST
       translate:
         rule_name: Threat
-        SrcIP: SrcIP
-        DstIP: DstIP
+        internalIP: SrcIP
+        external_ip: DstIP
         user_name: User
         CommandLine: CommandLine
         name: File
@@ -352,8 +352,8 @@ event-details:
         Vector: HOST
       translate:
         rule_name: Threat
-        SrcIP: SrcIP
-        DstIP: DstIP
+        internalIP: SrcIP
+        external_ip: DstIP
         user_name: User
         CommandLine: CommandLine
         name: File
@@ -367,8 +367,8 @@ event-details:
         Vector: HOST
       translate:
         rule_name: Threat
-        SrcIP: SrcIP
-        DstIP: DstIP
+        internalIP: SrcIP
+        external_ip: DstIP
         user_name: User
         CommandLine: CommandLine
         name: File
@@ -382,8 +382,8 @@ event-details:
         Vector: HOST
       translate:
         rule_name: Threat
-        SrcIP: SrcIP
-        DstIP: DstIP
+        internalIP: SrcIP
+        external_ip: DstIP
         user_name: User
         CommandLine: CommandLine
         name: File
@@ -397,8 +397,8 @@ event-details:
         Vector: HOST
       translate:
         rule_name: Threat
-        SrcIP: SrcIP
-        DstIP: DstIP
+        internalIP: SrcIP
+        external_ip: DstIP
         user_name: User
         CommandLine: CommandLine
         name: File
@@ -412,8 +412,8 @@ event-details:
         Vector: HOST
       translate:
         rule_name: Threat
-        SrcIP: SrcIP
-        DstIP: DstIP
+        internalIP: SrcIP
+        external_ip: DstIP
         user_name: User
         CommandLine: CommandLine
         name: File

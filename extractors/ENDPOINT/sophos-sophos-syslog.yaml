@@ -8,7 +8,7 @@ provides-streams:
 - THREAT
 - IAM
 master-filters:
-- \"rt\"\:\s+\".*?\"\,.*?\"type\"\:\s+\"Event\:\:(?:Endpoint|Smc)?\:\:.*?\",
+- \"rt\"\:\s+\"\d{4}\-\d{1,2}\-\d{1,2}T\d{2}\:\d{2}\:\d{2}\.\d+Z\"\,.*\"type\"\:\s+\"Event\:\:(?:Endpoint|Smc)?
 event-details:
 - first-match: \"Event\:\:(?:Endpoint|Smc)?\:\:.*?\"\,
   decoder: custom
