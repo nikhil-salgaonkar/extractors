@@ -9,8 +9,8 @@ provides-streams:
 - FIREWALL
 - THREAT
 master-filters:
-- '\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+\S+\:\s+\S+\:\s+'
-- '\d{4}\-\d{1,2}\-\d{2}\s+\d{2}\:\d{2}\:\d{2}\s+\w+\,\s+Filter\:\s+\w+\,'
+- '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+\S+\:\s+\S+\:\s+'
+- '^(?:\<\d+\>)?\d{4}\-\d{1,2}\-\d{2}\s+\d{2}\:\d{2}\:\d{2}\s+\w+\,\s+Filter\:\s+\w+\,'
 event-details:
 - first-match: '\s+UI_LOGIN_EVENT.*?j\-super\-user.*?client-mode\s+cli'
   decoder: regex
