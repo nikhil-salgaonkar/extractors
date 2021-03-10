@@ -7,7 +7,7 @@ source-description: Extractor for VMWARE OS Events
 provides-streams:
 - AUTHENTICATION
 master-filters:
-- '\d{4}\-\d+\-\d+T\d+\:\d+\:\d+[\.\w]+.*?(?:smbiosDump|Hostd|vmkernel|Vpxa|vobd|lwsmd|Rhttpproxy|hostd\-probe|storageRM|cimslp|smartd|heartbeat|sdrsInjector|vmkwarning|vsantraced|vmon|vpxd|vmcad|vmdird|Fdm|localcli|backup\.sh\.\d+|vmauthd|sfcb-vmware_raw|slpd)'
+- '^(?:<\d+>\d*)?\s*\d{4}\-\d+\-\d+T\d+\:\d+\:\d+[\.\w\+\:]+\s+[\.\w\-]+\s+(?:smbiosDump|Hostd|vmkernel|Vpxa|vobd|lwsmd|Rhttpproxy|hostd\-probe|storageRM|cimslp|smartd|heartbeat|sdrsInjector|vmkwarning|vsantraced|vmon|vpxd|vmcad|vmdird|Fdm|localcli|root|backup\.sh\.\d+|vmauthd|sfcb-vmware_raw|slpd)'
 event-details:
 - first-match: '\s+Hostd\:\s+info\s+hostd.*?logged\s+out'
   decoder: regex
