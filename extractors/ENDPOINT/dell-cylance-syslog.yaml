@@ -7,7 +7,7 @@ source-description: extractor for Dell-Cylance Endpoint Events
 provides-streams:
 - THREAT
 master-filters:
-- '\d+\-\d+\-\d+\T\d+\:\d+\:\d+.*?CylancePROTECT\s+'
+- '^(?:\<\d+\>\d+\s+)?\d+\-\d+\-\d+\T\d+\:\d+\:\d+[\d\.\+Z\:]+\s+\S+\s+CylancePROTECT\s+'
 event-details:
 - first-match: '\d+\-\d+\-\d+\T\d+\:\d+\:\d+.*?CylancePROTECT\s+[\-\s]+Event\s+Type\:'
   decoder: custom
@@ -22,8 +22,7 @@ event-details:
         Vector: HOST
       translate:
         Threat Classification: Threat
-        SrcIP: SrcIP
-        DstIP: DstIP
+        IP Address: DstIP
         User Name: User
         CommandLine: CommandLine
         File Name: File
@@ -38,8 +37,7 @@ event-details:
         Vector: HOST
       translate:
         Threat Classification: Threat
-        SrcIP: SrcIP
-        DstIP: DstIP
+        IP Address: DstIP
         User Name: User
         CommandLine: CommandLine
         File Name: File
@@ -54,8 +52,7 @@ event-details:
         Vector: HOST
       translate:
         Threat Classification: Threat
-        SrcIP: SrcIP
-        DstIP: DstIP
+        IP Address: DstIP
         User Name: User
         CommandLine: CommandLine
         File Name: File
@@ -70,8 +67,7 @@ event-details:
         Vector: HOST
       translate:
         Threat Classification: Threat
-        SrcIP: SrcIP
-        DstIP: DstIP
+        IP Address: DstIP
         User Name: User
         CommandLine: CommandLine
         File Name: File
@@ -86,8 +82,7 @@ event-details:
         Vector: HOST
       translate:
         Threat Classification: Threat
-        SrcIP: SrcIP
-        DstIP: DstIP
+        IP Address: DstIP
         User Name: User
         CommandLine: CommandLine
         File Name: File
@@ -102,8 +97,7 @@ event-details:
         Vector: HOST
       translate:
         Threat Classification: Threat
-        SrcIP: SrcIP
-        DstIP: DstIP
+        IP Address: DstIP
         User Name: User
         CommandLine: CommandLine
         File Name: File
@@ -118,8 +112,7 @@ event-details:
         Vector: HOST
       translate:
         Threat Classification: Threat
-        SrcIP: SrcIP
-        DstIP: DstIP
+        IP Address: DstIP
         User Name: User
         CommandLine: CommandLine
         File Name: File
