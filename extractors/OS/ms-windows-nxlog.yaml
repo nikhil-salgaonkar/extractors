@@ -11,7 +11,7 @@ provides-streams:
 - SYSMON-IMAGE-LOAD
 - IAM
 master-filters:
-- \"SourceName\"\:\s*\"Microsoft\-Windows
+- \"SourceName\"\:\"Microsoft\-Windows
 event-details:  
 - first-match: \"SourceName\"\:\s*\"Microsoft-Windows-Security-Auditing\"
   decoder: json

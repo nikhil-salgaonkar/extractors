@@ -7,7 +7,7 @@ source-description: Extractor for FortiManager Firewall Events
 provides-streams:
 - AUTHENTICATION
 master-filters:
-- 'device_id=FM[\w\-]+\s+log_id\=\d+'
+- 'device\_id\=FM[\w\-]+\s+log\_id\=\d+'
 event-details:
 - first-match: 'log_id\=\"?\d+\"?\s+type\=\"?.*?\"?\s+subtype\='
   decoder: regex

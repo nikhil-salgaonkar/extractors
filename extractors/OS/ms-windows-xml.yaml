@@ -16,7 +16,7 @@ provides-streams:
 - SYSMON-CONFIG
 - SYSMON-SERVICE
 master-filters:
-- <Provider Name='Microsoft-Windows-Sysmon'
+- \<Provider\s+Name\=\'Microsoft\-Windows\-Sysmon\'
 event-details:
 - first-match: <EventID>1</EventID>
   decoder: regex
