@@ -7,7 +7,7 @@ source-description: Extractor for NIX OS Events
 provides-streams:
 - AUTHENTICATION
 master-filters:
-- '(systemd-logind|sshd|cron|internal-sftp|sftpd|syslog|sudo|su|login|saphostexec|sftp-server|sapdbctrl|pkexec|polkit-agent-helper-\d+)(:|\[\d+\]:)'
+- '^(?:\<\d+\>)?[\w\-\:\s\+\.\d]+(?:systemd-logind|sshd|cron|internal-sftp|sftpd|syslog|sudo|su|login|saphostexec|sftp-server|sapdbctrl|pkexec|polkit-agent-helper-\d+)(?:\[\d+\]\:|\:)'
 event-details:
 - first-match: '\S+\[\d+\]\:\s+Accepted\s+password\s+for'
   decoder: regex
