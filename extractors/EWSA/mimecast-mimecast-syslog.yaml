@@ -10,7 +10,7 @@ provides-streams:
 - THREAT
 - IAM
 master-filters:
-- '(?:datetime|date)\=\d{4}\-\d{2}\-\d{2}T\d{2}\:\d{2}\:\d{2}\+\d+\|(?:mcType|aCode|acc)\=\"?[\w\_]+'
+- '(?:datetime|date)\=\d{4}\-\d{2}\-\d{2}T\d{2}\:\d{2}\:\d{2}\+\d+\|(?:mcType|aCode|acc)'
 event-details:
 - first-match: '(?:datetime|date)\=\d{4}\-\d{2}\-\d{2}T\d{2}\:\d{2}\:\d{2}\+\d+\|(?:mcType|aCode|acc)\='
   decoder: custom
