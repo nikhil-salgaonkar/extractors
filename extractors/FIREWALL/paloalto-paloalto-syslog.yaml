@@ -9,14 +9,14 @@ provides-streams:
 - THREAT
 - AUTHENTICATION
 master-filters:
-- '\w+\s+\d+\s+\d+\:\d+\:\d+\s+\S+\s+\d+\,\d+\/\d+\/\d+\s+\d+\:\d+\:\d+\,\d+\,.*?(?:TRAFFIC|THREAT|SYSTEM|CONFIG|USERID\,login|GLOBALPROTECT)\,'
+- '^(?:\<\d+\>)?\w+\s+\d+\s+\d+\:\d+\:\d+\s+\S+\s+\d+\,\d+\/\d+\/\d+\s+\d+\:\d+\:\d+\,\d+\,.*?(?:TRAFFIC|THREAT|SYSTEM|CONFIG|USERID\,login|GLOBALPROTECT)\,'
 event-details:
 - first-match: '\,TRAFFIC\,.*?\,\S+\,'
   decoder: regex
-  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostnmae>\S+)\s+\d+\,\d+\/\d+\/\d+\s+\d+\:\d+\:\d+\,\d+\,(?P<event_type>\w+)\,\w+\,\d+\,[\d\/\:\s]+\,(?P<src>[\d\.]+)\,(?P<dst>[\d\.]+)\,(?P<srctranip>[\d\.]+)\,(?P<dsttranip>[\d\.]+)\,(?P<rule>.*?)\,(?P<suser>.*?)\,(?P<duser>.*?)\,(?P<app>.*?)\,.*?\,(?P<szone>.*?)\,(?P<dzone>.*?)\,(?P<iface_in>.*?)\,(?P<iface_out>.*?)\,.*?\,.*?\,.*?\,.*?\,(?P<sport>\d+)\,(?P<dport>\d+)\,(?P<srctranport>\d+)\,(?P<dsttranport>\d+)\,.*?\,(?P<proto>.*?)\,(?P<action>.*?)\,(?P<length>\d+)\,(?P<sent_bytes>\d+)\,(?P<receive_bytes>\d+)\,.*?\,\d+\/\d+\/\d+\s+\d+\:\d+\:\d+\,.*?\,(?P<siteclass>.*?)\,.*?\,\d+\,.*?\,.*?\,.*?\,\d+\,\d+\,\d+\,(?P<reason>.*?)\,'
-  event-key-format: '{action}'
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostnmae>\S+)\s+\d+\,\d+\/\d+\/\d+\s+\d+\:\d+\:\d+\,\d+\,(?P<event_type>\w+)\,(?P<subtype>\w+)\,\d+\,[\d\/\:\s]+\,(?P<src>[\d\.]+)\,(?P<dst>[\d\.]+)\,(?P<srctranip>[\d\.]+)\,(?P<dsttranip>[\d\.]+)\,(?P<rule>.*?)\,(?P<suser>.*?)\,(?P<duser>.*?)\,(?P<app>.*?)\,.*?\,(?P<szone>.*?)\,(?P<dzone>.*?)\,(?P<iface_in>.*?)\,(?P<iface_out>.*?)\,.*?\,.*?\,.*?\,.*?\,(?P<sport>\d+)\,(?P<dport>\d+)\,(?P<srctranport>\d+)\,(?P<dsttranport>\d+)\,.*?\,(?P<proto>.*?)\,(?P<action>.*?)\,(?P<length>\d+)\,(?P<sent_bytes>\d+)\,(?P<receive_bytes>\d+)\,.*?\,\d+\/\d+\/\d+\s+\d+\:\d+\:\d+\,.*?\,(?P<siteclass>.*?)\,.*?\,\d+\,.*?\,.*?\,.*?\,\d+\,\d+\,\d+\,(?P<reason>.*?)\,'
+  event-key-format: '{event_type}-{subtype}'
   event-key-mapping:
-    'allow':
+    'TRAFFIC-start':
       annotate:
         Stream: FIREWALL
         Action: PACKET_ALLOWED
@@ -30,7 +30,7 @@ event-details:
         proto: Proto  
         sent_bytes: TXLen
         receive_bytes: RXLen
-    'deny':
+    'TRAFFIC-end':
       annotate:
         Stream: FIREWALL
         Action: PACKET_BLOCKED
@@ -44,25 +44,11 @@ event-details:
         proto: Proto  
         sent_bytes: TXLen
         receive_bytes: RXLen
-    'drop':
-      annotate:
-        Stream: FIREWALL
-        Action: PACKET_BLOCKED
-        Status: FAILED
-      translate:
-        src: SrcIP
-        dst: DstIP
-        sport: SrcPort
-        dport: DstPort
-        app: App
-        proto: Proto  
-        sent_bytes: TXLen
-        receive_bytes: RXLen 
-    'reset-both':   
+    'TRAFFIC-drop':
       annotate:
         Stream: FIREWALL
         Action: PACKET_ALLOWED
-        Status: PASSED
+        Status: FAILED
       translate:
         src: SrcIP
         dst: DstIP
@@ -72,11 +58,11 @@ event-details:
         proto: Proto  
         sent_bytes: TXLen
         receive_bytes: RXLen 
-    'drop-icmp':  
+    'TRAFFIC-deny':   
       annotate:
         Stream: FIREWALL
         Action: PACKET_BLOCKED
-        Status: FAILED
+        Status: PASSED
       translate:
         src: SrcIP
         dst: DstIP
@@ -100,9 +86,9 @@ event-details:
 - first-match: '\,THREAT\,.*?\,'
   decoder: regex
   decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostnmae>\S+)\s+\d+\,\d+\/\d+\/\d+\s+\d+\:\d+\:\d+\,\d+\,(?P<event_type>\w+)\,.*?\,\d+\,[\d\/\:\s]+\,(?P<src>[\d\.]+)\,(?P<dst>[\d\.]+)\,(?P<srctranip>[\d\.]+)\,(?P<dsttranip>[\d\.]+)\,(?P<rule>.*?)\,(?P<suser>.*?)\,(?P<duser>.*?)\,(?P<app>.*?)\,.*?\,(?P<szone>.*?)\,(?P<dzone>.*?)\,(?P<iface_in>.*?)\,(?P<iface_out>.*?)\,.*?\,.*?\,.*?\,.*?\,(?P<sport>\d+)\,(?P<dport>\d+)\,(?P<srctranport>\d+)\,(?P<dsttranport>\d+)\,.*?\,(?P<proto>.*?)\,(?P<action>.*?)\,\"?(?P<objecttype>.*?)\"?\,((?P<threat>.*?)\((?P<eventid>\d+)\))\,(?P<siteclass>.*?)\,(?P<severity>.*?)\,'
-  event-key-format: '{action}-{eventid}'
+  event-key-format: '{event_type}'
   event-key-mapping:
-    'alert-34556':
+    'THREAT':
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
@@ -112,62 +98,7 @@ event-details:
         src: SrcIP
         dst: DstIP
         suser: User
-        threat: Threat
-    'alert-10015':
-      annotate:
-        Stream: THREAT
-        Action: THREAT_DETECTED
-        Status: PASSED
-        Vector: WEB
-      translate:
-        src: SrcIP
-        dst: DstIP
-        suser: User
-        threat: Threat
-    'alert-52004':
-      annotate:
-        Stream: THREAT
-        Action: THREAT_DETECTED
-        Status: PASSED
-        Vector: WEB
-      translate:
-        src: SrcIP
-        dst: DstIP
-        suser: User
-        threat: Threat
-    'block-url-9999':
-      annotate:
-        Stream: THREAT
-        Action: THREAT_DETECTED
-        Status: PASSED
-        Vector: WEB
-      translate:
-        src: SrcIP
-        dst: DstIP
-        suser: User
-        threat: Threat
-    'reset-both-325904520':
-      annotate:
-        Stream: THREAT
-        Action: THREAT_DETECTED
-        Status: PASSED
-        Vector: WEB
-      translate:
-        src: SrcIP
-        dst: DstIP
-        suser: User
-        threat: Threat
-    'alert-197353851':
-      annotate:
-        Stream: THREAT
-        Action: THREAT_DETECTED
-        Status: PASSED
-        Vector: WEB
-      translate:
-        src: SrcIP
-        dst: DstIP
-        suser: User
-        threat: Threat                                              
+        threat: Threat                                            
 
   fallback:
     annotate:
