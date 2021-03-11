@@ -9,8 +9,8 @@ provides-streams:
 - THREAT
 - AUTHENTICATION
 master-filters:
-- device_id=FG
-- devid=\"?FG
+- device_id\=FG
+- devid\=\"?FG
 event-details:
 - first-match: (?:logid|log_id)\=\"?\d+\"?\s+type\=\"?.*?\"?\s+subtype\=
   decoder: custom
