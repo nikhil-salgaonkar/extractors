@@ -5,67 +5,96 @@ source-name: MCAFEE-EPO
 source-type: ANTIVIRUS
 source-description: Extractor for McAfee Antivirus Events
 provides-streams:
-- AUTHENTICATION
-- ENDPOINT-THREAT
+- THREAT
 master-filters:
-- \'?AnalyzerName\'?\:\s+\'?(?:VirusScan\s+Enterprise|McAfee\s+Endpoint\s+Security|Data\s+Loss\s+Prevention|McAfee\s+System\s+Prep\s+Tool|Endpoint\s+Security\s+Platform|McAfee\s+Host\s+Intrusion\s+Prevention|Solidifier|VirusScan\s+Enterprise\s+for\s+Linux)\'?\,?
+- \'?AnalyzerName\'?\:\s+\'?(?:VirusScan\s+Enterprise|McAfee\s+Endpoint\s+Security|Data\s+Loss\s+Prevention|McAfee\s+System\s+Prep\s+Tool|Endpoint\s+Security\s+Platform|McAfee\s+Host\s+Intrusion\s+Prevention|Solidifier|VirusScan\s+Enterprise\s+for\s+Linux|McAfee\s+Active\s+Response)\'?\,?
 - \{DBLogForwarderError\:\s+OperationalError\(\(.*?severity\s+\d+
 - \'AutoId\'\:\s+\d+\,\s+\'UserId\'\:\s+\d+\,\s+\'UserName\'\:\s+\'.*?\'\,\s+\'Priority\'\:\s+\d+\,\s+\'CmdName\'\:\s+\'.*?\'\,
 event-details:
 - first-match: \'?ThreatEventID\'?\:\s+\d+\,
   decoder: custom
   decoder-regex: \'?([\w]+)\'?\:\s+\'?([^\,\']+)
-  event-key-format: '{ThreatEventID}'
+  event-key-format: '{ThreatType}'
   event-key-mapping:
-    '1024':
+    'trojan':
       annotate:
-        Stream: ENDPOINT-THREAT
+        Stream: THREAT
         Action: THREAT_DETECTED
         Status: PASSED
+        Vector: HOST
       translate:
-        TargetFileName: FileName
+        ThreatType: Threat
+        SourceIPV4: SrcIP
         TargetIPV4: DstIP
         TargetUserName: User
-        SourceIPV4: SrcIP
-        ThreatSeverity: Severity
-        ThreatName: AtkMsg
-    '34865':
+        CommandLine: CommandLine
+        TargetFileName: File
+        SourceURL: URL
+        TargetProcessName: Process
+    
+    'IDS_THREAT_TYPE_VALUE_SP':
       annotate:
-        Stream: ENDPOINT-THREAT
-        Action: THREAT_BLOCKED
-        Status: PASSED
-      translate:
-        TargetFileName: FileName
-        TargetIPV4: DstIP
-        TargetUserName: User
-        SourceIPV4: SrcIP
-        ThreatSeverity: Severity
-        ThreatName: AtkMsg
-    '1102':  
-      annotate:
-        Stream: ENDPOINT-THREAT
-        Action: THREAT_QUARANTINE
-        Status: PASSED
-      translate:
-        TargetFileName: FileName
-        TargetIPV4: DstIP
-        TargetUserName: User
-        SourceIPV4: SrcIP
-        ThreatSeverity: Severity
-        ThreatName: AtkMsg
-    '18055':
-      annotate:
-        Stream: ENDPOINT-THREAT
+        Stream: THREAT
         Action: THREAT_DETECTED
         Status: PASSED
+        Vector: HOST
       translate:
-        TargetFileName: FileName
+        ThreatType: Threat
+        SourceIPV4: SrcIP
         TargetIPV4: DstIP
         TargetUserName: User
+        CommandLine: CommandLine
+        TargetFileName: File
+        SourceURL: URL
+        TargetProcessName: Process
+    
+    'IDS_THREAT_TYPE_VALUE_BOP':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        ThreatType: Threat
         SourceIPV4: SrcIP
-        ThreatSeverity: Severity
-        ThreatName: AtkMsg
+        TargetIPV4: DstIP
+        TargetUserName: User
+        CommandLine: CommandLine
+        TargetFileName: File
+        SourceURL: URL
+        TargetProcessName: Process
+    
+    'IDS_FW_THREAT_TYPE_DETECTION':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        ThreatType: Threat
+        SourceIPV4: SrcIP
+        TargetIPV4: DstIP
+        TargetUserName: User
+        CommandLine: CommandLine
+        TargetFileName: File
+        SourceURL: URL
+        TargetProcessName: Process
 
+    'IDS_THREAT_TYPE_VALUE_DACAP':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        ThreatType: Threat
+        SourceIPV4: SrcIP
+        TargetIPV4: DstIP
+        TargetUserName: User
+        CommandLine: CommandLine
+        TargetFileName: File
+        SourceURL: URL
+        TargetProcessName: Process    
 
   fallback:
     annotate:
@@ -76,59 +105,3 @@ event-details:
     translate:
       ReceivedUTC: SystemTstamp
       TargetHostName: System
-
-  subs: &id001
-    Severity:
-      '1': ALERT
-      '2': CRITICAL
-      '3': ERROR
-      '4': WARNING
-      '5': NOTICE
-      '6': INFORMATION    
-
-- first-match: \'AutoId\'\:\s+\d+\,\s+\'UserId\'\:\s+\d+\,\s+\'UserName\'\:\s+\'.*?\'\,\s+\'Priority\'\:\s+\d+\,\s+\'CmdName\'\:\s+
-  decoder: custom
-  decoder-regex: \'?([\w]+)\'?\:\s+\'?([^\,\']+)
-  event-key-format: '{CmdName}-{Success}'
-  event-key-mapping:
-    'Logon Attempt-True':
-      annotate:
-        Stream: AUTHENTICATION
-        Action: LOGIN
-        Status: PASSED
-        AuthMethod: '-'
-        Reason: '-'
-      translate:
-        UserName: User                                               
-        LocalAddress: SrcIP        
-    'User Log Off-True':
-      annotate:
-        Stream: AUTHENTICATION
-        Action: LOGOUT
-        Status: PASSED
-        AuthMethod: '-'
-      translate:
-        UserName: User                                              
-        LocalAddress: SrcIP
-    'Logon Attempt-False':
-      annotate:
-        Stream: AUTHENTICATION
-        Action: LOGIN
-        Status: FAILED
-        AuthMethod: '-'
-        Reason: INVALID_PASSWORD
-      translate:
-        UserName: User                                               
-        LocalAddress: SrcIP
-
-  fallback:
-    annotate:
-      EventName: Generic McAfee Antivirus Event
-      Stream: OTHER
-
-  globals:
-    translate:
-      StartTime: SystemTstamp  
-      TargetHostName: System      
-
-  subs: *id001
