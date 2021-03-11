@@ -11,7 +11,7 @@ provides-streams:
 master-filters:
 - '^(?:\<\d+\>)?\w+\s+\d+\s+\d+\:\d+\:\d+\s+\S+\s+\d+\,\d+\/\d+\/\d+\s+\d+\:\d+\:\d+\,\d+\,.*?(?:TRAFFIC|THREAT|SYSTEM|CONFIG|USERID\,login|GLOBALPROTECT)\,'
 event-details:
-- first-match: '\,TRAFFIC\,.*?\,\S+\,'
+- first-match: '\,TRAFFIC\,'
   decoder: regex
   decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostnmae>\S+)\s+\d+\,\d+\/\d+\/\d+\s+\d+\:\d+\:\d+\,\d+\,(?P<event_type>\w+)\,(?P<subtype>\w+)\,\d+\,[\d\/\:\s]+\,(?P<src>[\d\.]+)\,(?P<dst>[\d\.]+)\,(?P<srctranip>[\d\.]+)\,(?P<dsttranip>[\d\.]+)\,(?P<rule>.*?)\,(?P<suser>.*?)\,(?P<duser>.*?)\,(?P<app>.*?)\,.*?\,(?P<szone>.*?)\,(?P<dzone>.*?)\,(?P<iface_in>.*?)\,(?P<iface_out>.*?)\,.*?\,.*?\,.*?\,.*?\,(?P<sport>\d+)\,(?P<dport>\d+)\,(?P<srctranport>\d+)\,(?P<dsttranport>\d+)\,.*?\,(?P<proto>.*?)\,(?P<action>.*?)\,(?P<length>\d+)\,(?P<sent_bytes>\d+)\,(?P<receive_bytes>\d+)\,.*?\,\d+\/\d+\/\d+\s+\d+\:\d+\:\d+\,.*?\,(?P<siteclass>.*?)\,.*?\,\d+\,.*?\,.*?\,.*?\,\d+\,\d+\,\d+\,(?P<reason>.*?)\,'
   event-key-format: '{event_type}-{subtype}'
@@ -83,12 +83,12 @@ event-details:
       hostname: System
       datetime: SystemTstamp
 
-- first-match: '\,THREAT\,.*?\,'
+- first-match: '\,THREAT\,'
   decoder: regex
-  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostnmae>\S+)\s+\d+\,\d+\/\d+\/\d+\s+\d+\:\d+\:\d+\,\d+\,(?P<event_type>\w+)\,.*?\,\d+\,[\d\/\:\s]+\,(?P<src>[\d\.]+)\,(?P<dst>[\d\.]+)\,(?P<srctranip>[\d\.]+)\,(?P<dsttranip>[\d\.]+)\,(?P<rule>.*?)\,(?P<suser>.*?)\,(?P<duser>.*?)\,(?P<app>.*?)\,.*?\,(?P<szone>.*?)\,(?P<dzone>.*?)\,(?P<iface_in>.*?)\,(?P<iface_out>.*?)\,.*?\,.*?\,.*?\,.*?\,(?P<sport>\d+)\,(?P<dport>\d+)\,(?P<srctranport>\d+)\,(?P<dsttranport>\d+)\,.*?\,(?P<proto>.*?)\,(?P<action>.*?)\,\"?(?P<objecttype>.*?)\"?\,((?P<threat>.*?)\((?P<eventid>\d+)\))\,(?P<siteclass>.*?)\,(?P<severity>.*?)\,'
-  event-key-format: '{event_type}'
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostnmae>\S+)\s+\d+\,\d+\/\d+\/\d+\s+\d+\:\d+\:\d+\,\d+\,(?P<event_type>\w+)\,(?P<subtype>.*?)\,\d+\,[\d\/\:\s]+\,(?P<src>[\d\.]+)\,(?P<dst>[\d\.]+)\,(?P<srctranip>[\d\.]+)\,(?P<dsttranip>[\d\.]+)\,(?P<rule>.*?)\,(?P<suser>.*?)\,(?P<duser>.*?)\,(?P<app>.*?)\,.*?\,(?P<szone>.*?)\,(?P<dzone>.*?)\,(?P<iface_in>.*?)\,(?P<iface_out>.*?)\,.*?\,.*?\,.*?\,.*?\,(?P<sport>\d+)\,(?P<dport>\d+)\,(?P<srctranport>\d+)\,(?P<dsttranport>\d+)\,.*?\,(?P<proto>.*?)\,(?P<action>.*?)\,\"?(?P<objecttype>.*?)\"?\,((?P<threat>.*?)\((?P<eventid>\d+)\))\,(?P<siteclass>.*?)\,(?P<severity>.*?)\,'
+  event-key-format: '{event_type}-{subtype}'
   event-key-mapping:
-    'THREAT':
+    'THREAT-data':
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
@@ -98,7 +98,117 @@ event-details:
         src: SrcIP
         dst: DstIP
         suser: User
-        threat: Threat                                            
+        threat: Threat
+    'THREAT-file':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        src: SrcIP
+        dst: DstIP
+        suser: User
+        threat: Threat
+    'THREAT-flood':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        src: SrcIP
+        dst: DstIP
+        suser: User
+        threat: Threat
+    'THREAT-packet':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        src: SrcIP
+        dst: DstIP
+        suser: User
+        threat: Threat
+    'THREAT-scan':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        src: SrcIP
+        dst: DstIP
+        suser: User
+        threat: Threat
+    'THREAT-spyware':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        src: SrcIP
+        dst: DstIP
+        suser: User
+        threat: Threat
+    'THREAT-url':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+        Threat: Paloalto THREAT url event
+      translate:
+        src: SrcIP
+        dst: DstIP
+        suser: User
+    'THREAT-virus':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        src: SrcIP
+        dst: DstIP
+        suser: User
+        threat: Threat
+    'THREAT-vulnerability':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        src: SrcIP
+        dst: DstIP
+        suser: User
+        threat: Threat
+    'THREAT-wildfire':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        src: SrcIP
+        dst: DstIP
+        suser: User
+        threat: Threat 
+    'THREAT-wildfire-virus':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        src: SrcIP
+        dst: DstIP
+        suser: User
+        threat: Threat                                                                                    
 
   fallback:
     annotate:
