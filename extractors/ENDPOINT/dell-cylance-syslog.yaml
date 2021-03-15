@@ -7,11 +7,11 @@ source-description: extractor for Dell-Cylance Endpoint Events
 provides-streams:
 - THREAT
 master-filters:
-- '\d+\-\d+\-\d+\T\d+\:\d+\:\d+.*?CylancePROTECT\s+'
+- '^(?:\<\d+\>\d+\s+)?\d+\-\d+\-\d+\T\d+\:\d+\:\d+[\d\.\+Z\:]+\s+\S+\s+CylancePROTECT\s+'
 event-details:
 - first-match: '\d+\-\d+\-\d+\T\d+\:\d+\:\d+.*?CylancePROTECT\s+[\-\s]+Event\s+Type\:'
   decoder: custom
-  decoder-regex: '\s+([\w\s]+)\:\s+([^\,]+)\,'
+  decoder-regex: 'CylancePROTECT\s+'
   event-key-format: '{Threat Classification}'
   event-key-mapping:
     'PUP - Scripting Tool':           
@@ -22,15 +22,12 @@ event-details:
         Vector: HOST
       translate:
         Threat Classification: Threat
-        SrcIP: SrcIP
-        DstIP: DstIP
+        IP Address: DstIP
         User Name: User
         CommandLine: CommandLine
         File Name: File
-        File Name: Suspect
         Url: URL
         Process: Process
-        Device Name: Target
     
     'PUP - Generic':           
       annotate:
@@ -40,15 +37,12 @@ event-details:
         Vector: HOST
       translate:
         Threat Classification: Threat
-        SrcIP: SrcIP
-        DstIP: DstIP
+        IP Address: DstIP
         User Name: User
         CommandLine: CommandLine
         File Name: File
-        File Name: Suspect
         Url: URL
         Process: Process
-        Device Name: Target
 
     'UNCLASSIFIED':           
       annotate:
@@ -58,15 +52,12 @@ event-details:
         Vector: HOST
       translate:
         Threat Classification: Threat
-        SrcIP: SrcIP
-        DstIP: DstIP
+        IP Address: DstIP
         User Name: User
         CommandLine: CommandLine
         File Name: File
-        File Name: Suspect
         Url: URL
         Process Name: Process
-        Device Name: Target
 
     'Malware - Generic': 
       annotate:
@@ -76,15 +67,12 @@ event-details:
         Vector: HOST
       translate:
         Threat Classification: Threat
-        SrcIP: SrcIP
-        DstIP: DstIP
+        IP Address: DstIP
         User Name: User
         CommandLine: CommandLine
         File Name: File
-        File Name: Suspect
         Url: URL
         Process: Process
-        Device Name: Target
 
     'File Unavailable': 
       annotate:
@@ -94,15 +82,12 @@ event-details:
         Vector: HOST
       translate:
         Threat Classification: Threat
-        SrcIP: SrcIP
-        DstIP: DstIP
+        IP Address: DstIP
         User Name: User
         CommandLine: CommandLine
         File Name: File
-        File Name: Suspect
         Url: URL
         Process: Process
-        Device Name: Target
 
     'Trusted': 
       annotate:
@@ -112,15 +97,12 @@ event-details:
         Vector: HOST
       translate:
         Threat Classification: Threat
-        SrcIP: SrcIP
-        DstIP: DstIP
+        IP Address: DstIP
         User Name: User
         CommandLine: CommandLine
         File Name: File
-        File Name: Suspect
         Url: URL
-        Process: Process
-        Device Name: Target 
+        Process: Process 
 
     'Possible PUP': 
       annotate:
@@ -130,15 +112,12 @@ event-details:
         Vector: HOST
       translate:
         Threat Classification: Threat
-        SrcIP: SrcIP
-        DstIP: DstIP
+        IP Address: DstIP
         User Name: User
         CommandLine: CommandLine
         File Name: File
-        File Name: Suspect
         Url: URL
-        Process: Process
-        Device Name: Target            
+        Process: Process            
      
   fallback:
     annotate:

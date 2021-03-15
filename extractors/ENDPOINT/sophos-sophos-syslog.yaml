@@ -8,9 +8,9 @@ provides-streams:
 - THREAT
 - IAM
 master-filters:
-- \"rt\"\:\s+\".*?\"\,.*?\"type\"\:\s+\"Event\:\:(?:Endpoint|Smc)?\:\:.*?\",
+- \"rt\"\:\s+\"\d{4}\-\d{1,2}\-\d{1,2}T\d{2}\:\d{2}\:\d{2}\.\d+Z\"\,.*\"type\"\:\s+\"Event\:\:(?:Endpoint|Smc)?
 event-details:
-- first-match: \"Event\:\:(?:Endpoint|Smc)?\:\:.*?\"\,
+- first-match: Event\:\:(?:Endpoint|Smc)?\:\:\S+\"\,
   decoder: custom
   decoder-regex: \"([\w]+)\"\:\s+\"([^\,]+)\"
   event-key-format: '{type}'
@@ -23,15 +23,12 @@ event-details:
         Vector: HOST
       translate:
         threat: Threat
-        ip: SrcIP
-        DstIP: DstIP
+        ip: DstIP
         CommandLine: CommandLine
         suser: User
         filepath: File
         Process: Process
         URL: URL
-        name: Suspect
-        dhost: Target
     "Event::Endpoint::WebControlViolation":
       annotate:
         Stream: THREAT
@@ -40,15 +37,12 @@ event-details:
         Vector: HOST
       translate:
         threat: Threat
-        ip: SrcIP
-        DstIP: DstIP
+        ip: DstIP
         CommandLine: CommandLine
         suser: User
         filePath: File
         Process: Process
         URL: URL
-        name: Suspect
-        dhost: Target
     "Event::Endpoint::CorePuaDetection":
       annotate:
         Stream: THREAT
@@ -57,15 +51,12 @@ event-details:
         Vector: HOST
       translate:
         threat: Threat
-        ip: SrcIP
-        DstIP: DstIP
+        ip: DstIP
         CommandLine: CommandLine
         suser: User
         filePath: File
         Process: Process
         URL: URL
-        name: Suspect
-        dhost: Target
     "Event::Endpoint::Threat::HIPSDetected":
       annotate:
         Stream: THREAT
@@ -74,15 +65,12 @@ event-details:
         Vector: HOST
       translate:
         threat: Threat
-        ip: SrcIP
-        DstIP: DstIP
+        ip: DstIP
         CommandLine: CommandLine
         suser: User
         filePath: File
         Process: Process
         URL: URL
-        name: Suspect
-        dhost: Target
     "Event::Endpoint::WebFilteringBlocked":
       annotate:
         Stream: THREAT
@@ -91,15 +79,12 @@ event-details:
         Vector: HOST
       translate:
         threat: Threat
-        ip: SrcIP
-        DstIP: DstIP
+        ip: DstIP
         CommandLine: CommandLine
         suser: User
         filePath: File
         Process: Process
         URL: URL
-        name: Suspect
-        dhost: Target
     "Event::Endpoint::Threat::Detected":
       annotate:
         Stream: THREAT
@@ -108,15 +93,12 @@ event-details:
         Vector: HOST
       translate:
         threat: Threat
-        ip: SrcIP
-        DstIP: DstIP
+        ip: DstIP
         CommandLine: CommandLine
         suser: User
         filePath: File
         Process: Process
         URL: URL
-        name: Suspect
-        dhost: Target
     "Event::Endpoint::Threat::PuaDetected":
       annotate:
         Stream: THREAT
@@ -125,15 +107,12 @@ event-details:
         Vector: HOST
       translate:
         threat: Threat
-        ip: SrcIP
-        DstIP: DstIP
+        ip: DstIP
         CommandLine: CommandLine
         suser: User
         filePath: File
         Process: Process
         URL: URL
-        name: Suspect
-        dhost: Target
     "Event::Endpoint::HmpaMalwareDetected":
       annotate:
         Stream: THREAT
@@ -142,15 +121,12 @@ event-details:
         Vector: HOST
       translate:
         threat: Threat
-        ip: SrcIP
-        DstIP: DstIP
+        ip: DstIP
         CommandLine: CommandLine
         suser: User
         filePath: File
         Process: Process
         URL: URL
-        name: Suspect
-        dhost: Target
     "Event::Endpoint::HomeThreatRemnantsDetected":
       annotate:
         Stream: THREAT
@@ -159,15 +135,12 @@ event-details:
         Vector: HOST
       translate:
         threat: Threat
-        ip: SrcIP
-        DstIP: DstIP
+        ip: DstIP
         CommandLine: CommandLine
         suser: User
         filePath: File
         Process: Process
         URL: URL
-        name: Suspect
-        dhost: Target
     "Event::Endpoint::HmpaPuaDetected":
       annotate:
         Stream: THREAT
@@ -176,15 +149,12 @@ event-details:
         Vector: HOST
       translate:
         threat: Threat
-        ip: SrcIP
-        DstIP: DstIP
+        ip: DstIP
         CommandLine: CommandLine
         suser: User
         filePath: File
         Process: Process
         URL: URL
-        name: Suspect
-        dhost: Target
     "Event::Endpoint::CoreDetection":
       annotate:
         Stream: THREAT
@@ -193,15 +163,12 @@ event-details:
         Vector: HOST
       translate:
         threat: Threat
-        ip: SrcIP
-        DstIP: DstIP
+        ip: DstIP
         CommandLine: CommandLine
         suser: User
         filePath: File
         Process: Process
         URL: URL
-        name: Suspect
-        dhost: Target
     "Event::Endpoint::CoreRemoteDetection":
       annotate:
         Stream: THREAT
@@ -210,14 +177,12 @@ event-details:
         Vector: HOST
       translate:
         threat: Threat
-        ip: SrcIP
-        DstIP: DstIP
+        ip: DstIP
         CommandLine: CommandLine
         suser: User
         filePath: File
         Process: Process
         URL: URL
-        name: Suspect
     "Event::Smc::MitmAttackEvent::0":
       annotate:
         Stream: THREAT
@@ -226,15 +191,12 @@ event-details:
         Vector: HOST
       translate:
         threat: Threat
-        ip: SrcIP
-        DstIP: DstIP
+        ip: DstIP
         CommandLine: CommandLine
         suser: User
         filepath: File
         Process: Process
         URL: URL
-        name: Suspect
-        dhost: Target
     "Event::Smc::MitmAttackEvent::1":
       annotate:
         Stream: THREAT
@@ -243,15 +205,12 @@ event-details:
         Vector: HOST
       translate:
         threat: Threat
-        ip: SrcIP
-        DstIP: DstIP
+        ip: DstIP
         CommandLine: CommandLine
         suser: User
         filepath: File
         Process: Process
         URL: URL
-        name: Suspect
-        dhost: Target
     "Event::Smc::MitmAttackEvent::2":
       annotate:
         Stream: THREAT
@@ -260,15 +219,12 @@ event-details:
         Vector: HOST
       translate:
         threat: Threat
-        ip: SrcIP
-        DstIP: DstIP
+        ip: DstIP
         CommandLine: CommandLine
         suser: User
         filepath: File
         Process: Process
         URL: URL
-        name: Suspect
-        dhost: Target
     "Event::Smc::MitmAttackEvent::3":
       annotate:
         Stream: THREAT
@@ -277,15 +233,12 @@ event-details:
         Vector: HOST
       translate:
         threat: Threat
-        ip: SrcIP
-        DstIP: DstIP
+        ip: DstIP
         CommandLine: CommandLine
         suser: User
         filepath: File
         Process: Process
         URL: URL
-        name: Suspect
-        dhost: Target
     "Event::Smc::MitmAttackEvent::4":
       annotate:
         Stream: THREAT
@@ -294,15 +247,12 @@ event-details:
         Vector: HOST
       translate:
         threat: Threat
-        ip: SrcIP
-        DstIP: DstIP
+        ip: DstIP
         CommandLine: CommandLine
         suser: User
         filepath: File
         Process: Process
         URL: URL
-        name: Suspect
-        dhost: Target
     "Event::Smc::MitmAttackEvent::5":
       annotate:
         Stream: THREAT
@@ -311,15 +261,12 @@ event-details:
         Vector: HOST
       translate:
         threat: Threat
-        ip: SrcIP
-        DstIP: DstIP
+        ip: DstIP
         CommandLine: CommandLine
         suser: User
         filepath: File
         Process: Process
         URL: URL
-        name: Suspect
-        dhost: Target
     "Event::Smc::MitmAttackEvent::6":
       annotate:
         Stream: THREAT
@@ -328,15 +275,12 @@ event-details:
         Vector: HOST
       translate:
         threat: Threat
-        ip: SrcIP
-        DstIP: DstIP
+        ip: DstIP
         CommandLine: CommandLine
         suser: User
         filepath: File
         Process: Process
         URL: URL
-        name: Suspect
-        dhost: Target
     "Event::Endpoint::UserAutoCreated":
       annotate:
         Stream: IAM

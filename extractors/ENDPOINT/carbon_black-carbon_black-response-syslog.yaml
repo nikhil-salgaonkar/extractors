@@ -29,8 +29,6 @@ event-details:
         reason: Threat
         App: File
         Url: URL
-        cmdline: Suspect
-        host: Target
     'Outbound':
       annotate:
         Stream: THREAT
@@ -45,9 +43,7 @@ event-details:
         cmdline: CommandLine
         reason: Threat
         App: File
-        Url: URL    
-        cmdline: Suspect
-        host: Target         
+        Url: URL             
         
   fallback:
     annotate:
