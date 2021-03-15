@@ -9,7 +9,7 @@ provides-streams:
 master-filters:
 - '^(?:\<\d+\>)?\w{3}\s+\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\w+\s+\d{4}\s+zscaler\-nss\:\s+LEEF\:\d+\.\d+\|'
 event-details:
-- first-match: '\s+zscaler\-nss\: LEEF\:\d+\.\d+\|Zscaler\|NSS\|'
+- first-match: '\s+zscaler\-nss\:LEEF\:\d+\.\d+\|Zscaler\|NSS\|'
   decoder: custom
   decoder-regex: '([\w]+)\=(\"[^\"]*\"|[^\s]*)'
   event-key-format: '{cat}'
