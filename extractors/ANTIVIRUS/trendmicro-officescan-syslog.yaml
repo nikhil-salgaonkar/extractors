@@ -5,38 +5,31 @@ source-name: OFFICESCAN-XG-WINEVT
 source-type: ANTIVIRUS
 source-description: extractor for OfficeScan-XG Events
 provides-streams:
-- ENDPOINT-THREAT
+- THREAT
 master-filters:
-- '\"SourceName\"\:\"Trend\s+Micro\s+OfficeScan\s+Server\"\,'
+- '\d{4}\-\d{1,2}\-\d{2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+\w+\s+\d+.*?Virus/Malware\:'
 event-details:
-- first-match: '\"EventID\"\:(?:500|600)\,\"SourceName\"\:\"Trend\s+Micro\s+OfficeScan\s+Server\"\,'
-  decoder: regex
-  decoder-regex: '\"EventTime\"\:\"(?P<EventTime>\d+\-\d+\-\d+\s\d+\:\d+\:\d+)\"\,\"Hostname\"\:\"(?P<Hostname>.*?)\"\,.*?\"Severity\"\:\"(?P<Severity>.*?)\"\,\"EventID\"\:(?P<EventID>\d+)\,.*?\"ProcessID\"\:(?P<ProcessID>\d+)\,.*?\"Channel\"\:\"(?P<Channel>.*?)\"\,.*?\"AccountName\"\:\"(?P<AccountName>.*?)\"\,.*?\"Message\"\:\"(?P<Message>Virus\/Malware\:\s+(?P<VirusName>.*?)\\r.*?Endpoint\:\s+(?P<Endpoint>.*?)\\r.*?Domain\:\s+(?P<Domain>.*?)\\\\\\r.*?File\:\s+(?P<File>.*?)\\r.*?Result\:\s+(?P<Result>.*?)\\r.*?)\"\,\"Category\"\:\"(?P<Category>.*?)\"\,'
-  event-key-format: '{EventID}'
+- first-match: 'Virus/Malware\:\s+'
+  decoder: custom
+  decoder-regex: '([^\:\s]+)\:\s+([^\s]+)'
+  event-key-format: ''
   event-key-mapping:
-    '500':
+    '':
       annotate:
-        Stream: ENDPOINT-THREAT
+        Stream: THREAT
         Action: THREAT_DETECTED
         Status: PASSED
+        Vector: HOST
       translate:
-        AccountName: User
-        Domain: Domain
-        File: FileName
-        Severity: Severity
-
-    '600':
-      annotate:
-        Stream: ENDPOINT-THREAT
-        Action: THREAT_DETECTED
-        Status: PASSED
-      translate:
-        AccountName: User
-        Domain: Domain
-        File: FileName
-        Severity: Severity
-
-
+        Virus/Malware: Threat
+        SrcIP: SrcIP
+        DstIP: DstIP
+        cmdline: CommandLine
+        User: User
+        File: File
+        Result: Process
+        URL: URL
+    
   fallback:
     annotate:
       EventName: Generic OfficeScan-XG Event
@@ -44,5 +37,4 @@ event-details:
 
   globals:
     translate:
-      EventTime: SystemTstamp
-      Hostname: System
+      Date/Time: SystemTstamp
