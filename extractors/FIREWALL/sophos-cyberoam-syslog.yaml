@@ -12,7 +12,7 @@ provides-streams:
 master-filters:
 - '^(?:\<\d+\>)?date\=\d+\-\d+\-\d+\s+time\=\d+\:\d+\:\d+\s+timezone\=\"\w+\"\s+device_name\=\"\S+\"\sdevice_id\=\s?\w+\-\w+\s+log_id\=\d+\s+'
 event-details:
-- first-match: log\_id\=\d+\s+log\_type\=
+- first-match: log_subtype\=\"(?:Allowed|Denied|Drop|Clean|Admin|Authentication|System)\"
   decoder: custom
   decoder-regex: '([\w]+)=(\"[^\"]*\"|[^\s]*)'
   event-key-format: '{log_id}-{status}'
@@ -23,7 +23,7 @@ event-details:
         Action: LOGIN
         Status: PASSED
       translate:
-        log_component: AuthProto
+        auth_mechanism: AuthProto
         user_name: User
         src_ip: SrcIP
     '062910617701-Successful':
@@ -32,7 +32,7 @@ event-details:
         Action: LOGIN
         Status: PASSED
       translate:
-        log_component: AuthProto
+        auth_mechanism: AuthProto
         user_name: User
         src_ip: SrcIP
     '062109517507-Failed':
@@ -42,7 +42,7 @@ event-details:
         Status: FAILED
         Reason: INVALID_PASSWORD
       translate:
-        log_component: AuthProto
+        auth_mechanism: AuthProto
         user_name: User
         src_ip: SrcIP
     '062910617703-Successful':
@@ -51,7 +51,7 @@ event-details:
         Action: LOGOUT
         Status: PASSED
       translate:
-        log_component: AuthProto
+        auth_mechanism: AuthProto
         user_name: User
         src_ip: SrcIP 
     '062910517702-Failed':
@@ -60,7 +60,7 @@ event-details:
         Action: LOGIN
         Status: FAILED
       translate:
-        log_component: AuthProto
+        auth_mechanism: AuthProto
         reason: Reason
         user_name: User
         src_ip: SrcIP
@@ -70,7 +70,7 @@ event-details:
         Action: LOGOUT
         Status: PASSED
       translate:
-        log_component: AuthProto
+        auth_mechanism: AuthProto
         user_name: User
         src_ip: SrcIP 
     '063210617704-Successful':
@@ -79,7 +79,7 @@ event-details:
         Action: LOGIN
         Status: PASSED
       translate:
-        log_component: AuthProto
+        auth_mechanism: AuthProto
         user_name: User
         src_ip: SrcIP 
     '062009617501-Successful':
@@ -88,7 +88,7 @@ event-details:
         Action: LOGIN
         Status: PASSED
       translate:
-        log_component: AuthProto
+        auth_mechanism: AuthProto
         user_name: User
         src_ip: SrcIP
     '062009517504-Successful':
@@ -97,64 +97,9 @@ event-details:
         Action: LOGOUT
         Status: PASSED
       translate:
-        log_component: AuthProto
+        auth_mechanism: AuthProto
         user_name: User
-        src_ip: SrcIP    
-    '030906208001-':
-      annotate:
-        Stream: THREAT
-        Action: THREAT_DETECTED
-        Status: PASSED
-        Vector: WEB
-      translate:
-        user_name: User 
-        virus: Threat
-        src_ip: SrcIP
-        dst_ip: DstIP 
-    '031206211001-':
-      annotate:
-        Stream: THREAT
-        Action: THREAT_DETECTED
-        Status: PASSED
-        Vector: WEB
-      translate:
-        user_name: User
-        virus: Threat
-        src_ip: SrcIP
-        dst_ip: DstIP 
-    '10001-':
-      annotate:
-        Stream: THREAT
-        Action: THREAT_DETECTED
-        Status: PASSED
-        Vector: WEB
-      translate:
-        user_name: User
-        virus: Threat
-        src_ip: SrcIP
-        dst_ip: DstIP
-    '12001-':
-      annotate:
-        Stream: THREAT
-        Action: THREAT_DETECTED
-        Status: PASSED
-        Vector: WEB
-      translate:
-        user_name: User
-        virus: Threat
-        src_ip: SrcIP
-        dst_ip: DstIP 
-    '12021-':
-      annotate:
-        Stream: THREAT
-        Action: THREAT_DETECTED
-        Status: PASSED
-        Vector: WEB
-      translate:
-        user_name: User
-        virus: Threat
-        src_ip: SrcIP
-        dst_ip: DstIP                  
+        src_ip: SrcIP                     
     '050901616003-':
       annotate:
         Stream: FIREWALL
@@ -183,6 +128,20 @@ event-details:
         sent_bytes: TXLen
         recv_bytes: RXLen 
         application: App 
+    '010202601001-Deny':
+      annotate:
+        Stream: FIREWALL
+        Action: PACKET_BLOCKED
+        Status: FAILED
+      translate:
+        src_ip: SrcIP
+        dst_ip: DstIP
+        protocol: Proto
+        src_port: SrcPort
+        dst_port: DstPort
+        sent_bytes: TXLen
+        recv_bytes: RXLen 
+        application: App     
     '050902616002-':
       annotate:
         Stream: FIREWALL
@@ -285,3 +244,63 @@ event-details:
     translate:
       date: SystemTstamp
       device_name: System
+
+- first-match: log_subtype\=\"(?:Detect|Virus|Spam|Probable\s+Spam)\"
+  decoder: custom
+  decoder-regex: '([\w]+)=(\"[^\"]*\"|[^\s]*)'
+  event-key-format: '{log_subtype}'
+  event-key-mapping:  
+    'Detect':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        user_name: User 
+        virus: Threat
+        src_ip: SrcIP
+        dst_ip: DstIP 
+    'Virus':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        user_name: User
+        virus: Threat
+        src_ip: SrcIP
+        dst_ip: DstIP 
+    'Spam':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        user_name: User
+        virus: Threat
+        src_ip: SrcIP
+        dst_ip: DstIP
+    'Probable Spam':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        user_name: User
+        virus: Threat
+        src_ip: SrcIP
+        dst_ip: DstIP 
+    
+  fallback:
+    annotate:
+      EventName: Generic Cyberoam Firewall Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      date: SystemTstamp
+      device_name: System      
