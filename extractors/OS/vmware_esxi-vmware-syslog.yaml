@@ -9,7 +9,7 @@ provides-streams:
 master-filters:
 - '^(?:<\d+>\d*)?\s*\d{4}\-\d+\-\d+T\d+\:\d+\:\d+[\.\w\+\:]+\s+[\.\w\-]+\s+(?:smbiosDump|Hostd|vmkernel|Vpxa|vobd|lwsmd|Rhttpproxy|hostd\-probe|storageRM|cimslp|smartd|heartbeat|sdrsInjector|vmkwarning|vsantraced|vmon|vpxd|vmcad|vmdird|Fdm|localcli|root|backup\.sh\.\d+|vmauthd|sfcb-vmware_raw|slpd)'
 event-details:
-- first-match: '\s+Hostd\:\s+info\s+hostd.*?logged\s+out'
+- first-match: 'Event\s+\d+\s+\:\s+User[\s\w\.\@\:]+logged\s+out\s+'
   decoder: regex
   decoder-regex: '(?P<datetime>\d+\-\d+\-\d+T\d+\:\d+\:\d+)\.\w+\s+(?P<hostname>\S+)\s+(?P<daemon>\S+)\:\s+(?P<severity>\w+)\s+(?P<appserverice>\w+).*?(?:user=|User)\s+(?P<user>.*?)\@.*?(?P<action>logged\s+out)\s+'
   event-key-format: '{action}'
@@ -35,7 +35,7 @@ event-details:
       datetime: SystemTstamp
       hostname: System
 
-- first-match: '\s+Hostd\:.*?logged\s+in\s+'
+- first-match: 'Event\s+\d+\s+\:\s+User[\s\w\.\@\:]+logged\s+in\s+'
   decoder: regex
   decoder-regex: '(?P<datetime>\d+\-\d+\-\d+T\d+\:\d+\:\d+)\.\w+\s+(?P<hostname>.*?)\s+(?P<daemon>.*?)\:\s(?:\[\w+\s)?(?P<severity>\w+)\s+(?:(\w+)\[)?.*?(?:user\=|User)\s+(?P<user>.*?)\@(?P<src>[\d\.]+)\s+(?P<action>logged\s+in).*'
   event-key-format: '{action}'
@@ -61,7 +61,7 @@ event-details:
       datetime: SystemTstamp
       hostname: System
 
-- first-match: '\s+vobd\:.*?Authentication\s+for\s+user.*?failed'
+- first-match: 'Authentication\s+for\s+user.*?failed'
   decoder: regex
   decoder-regex: '(?P<datetime>\d+\-\d+\-\d+T\d+\:\d+\:\d+).*?\s+(?P<hostname>.*?)\s+(?P<daemon>\w+)\:.*?\:(?P<message>.*?user\s+(?P<user>\w+)\@.*)'
   event-key-format: ''
@@ -87,7 +87,7 @@ event-details:
       datetime: SystemTstamp
       hostname: System
 
-- first-match: '\s+vpxd.*?\[\w+\].*?logged\s+(?:in|out)'
+- first-match: 'vpxd.*logged\s+(?:in|out)'
   decoder: regex
   decoder-regex: '(?P<datetime>\d+\-\d+\-\d+T\d+\:\d+\:\d+)\..*?\s+(?P<hostname>\S+)\s+(?P<daemon>vpxd)\s+\S+\s+\S+\s+\S+\s+.*?\[(?P<severity>info)\]\s+\[.*?\]\s+\[.*?\]\s+\[\d+\]\s+\[(?P<message>User\s+(?P<user>.*?)\@.*?(?P<action>logged\s+(?:in|out)).*)\]'
   event-key-format: '{action}'
