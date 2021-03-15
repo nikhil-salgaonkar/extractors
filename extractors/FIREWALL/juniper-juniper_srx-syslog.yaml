@@ -12,7 +12,7 @@ master-filters:
 - '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+\S+\:\s+\S+\:\s+'
 - '^(?:\<\d+\>)?\d{4}\-\d{1,2}\-\d{2}\s+\d{2}\:\d{2}\:\d{2}\s+\w+\,\s+Filter\:\s+\w+\,'
 event-details:
-- first-match: '\s+UI_LOGIN_EVENT.*?j\-super\-user.*?client-mode\s+cli'
+- first-match: 'UI_LOGIN_EVENT\:\s+User\s+\S+\s+login\,\s+\w+\s+j\-super\-user'
   decoder: regex
   decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>\w+)\[(?P<pid>\d+)\]\:\s+(?P<category>\S+)\:\s+.*?\s(?P<user>.*?)\slogin.*?ssh-connection\s+(?P<src>[\d\.]+)\s+(?P<sport>\d+)\s+(?P<dst>[\d\.]+)\s+(?P<dport>\d+)'
   event-key-format: '{category}'
@@ -37,7 +37,7 @@ event-details:
       datetime: SystemTstamp
       hostname: System
 
-- first-match: '\s+UI_LOGOUT_EVENT\:'
+- first-match: 'UI_LOGOUT_EVENT\:'
   decoder: regex
   decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>.*?)\[(?P<pid>\d+)\]\:\s+(?P<category>\S+)\:\s.*?\s(?P<user>\w+)\s+'
   event-key-format: '{category}'
@@ -62,7 +62,7 @@ event-details:
       datetime: SystemTstamp
       hostname: System
 
-- first-match: '\s+SSHD_LOGIN_FAILED\:'
+- first-match: 'SSHD_LOGIN_FAILED\:'
   decoder: regex
   decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>\w+)\:\s+(?P<category>\S+)\:.*?user\s+(?P<user>.*?)\s+.*?(?P<src>[\d\.]+)'
   event-key-format: '{category}'
@@ -88,7 +88,7 @@ event-details:
       datetime: SystemTstamp
       hostname: System
 
-- first-match: '\s+UI_DBASE_LOGIN_EVENT\:'
+- first-match: 'UI_DBASE_LOGIN_EVENT\:'
   decoder: regex
   decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>\w+)\[(?P<pid>\d+)\]\:\s+(?P<category>\S+)\:\s+User\s+(?P<user>.*?)\s+'
   event-key-format: '{category}'
@@ -113,7 +113,7 @@ event-details:
       datetime: SystemTstamp
       hostname: System
 
-- first-match: '\s+UI_DBASE_LOGOUT_EVENT\:'
+- first-match: 'UI_DBASE_LOGOUT_EVENT\:'
   decoder: regex
   decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>\w+)\[(?P<pid>\d+)\]\:\s+(?P<category>\S+)\:\s+User\s+(?P<user>.*?)\s+'
   event-key-format: '{category}'
@@ -138,7 +138,7 @@ event-details:
       datetime: SystemTstamp
       hostname: System
   
-- first-match: '\sUI_LOGIN_EVENT.*?\sclass.*?\s+super\-user'
+- first-match: 'UI_LOGIN_EVENT\:\s+User\s+\S+\s+login\,\s+class\s+super\-user'
   decoder: regex
   decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>\w+)\[(?P<pid>\d+)\]\:\s(?P<category>\S+)\:\sUser\s(?P<user>\S+)\s+'
   event-key-format: '{category}'
@@ -163,7 +163,7 @@ event-details:
       datetime: SystemTstamp
       hostname: System
 
-- first-match: '\s+PFE\_FW\_SYSLOG\_IP\:\s+'
+- first-match: 'PFE\_FW\_SYSLOG\_IP\:'
   decoder: regex
   decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<category>\S+)\:\s+FW\:\s+(?P<message>(?P<interface>\S+)\s+(?P<action>\w+)\s+(?P<proto>\w+)\s+(?P<src>[\d\.]+)\s+(?P<dst>[\d\.]+)\s+(?P<sport>\d+)\s+(?P<dport>\d+)\s+\((?P<packets>\w+)\s+packets\))'
   event-key-format: '{action}'
@@ -231,7 +231,7 @@ event-details:
       datetime: SystemTstamp
       hostname: System  
 
-- first-match: '\d{4}\-\d{1,2}\-\d{2}\s+\d{2}\:\d{2}\:\d{2}\s+\w+\,\s+Filter\:\s+\w+\,'
+- first-match: 'Filter\:\s+\w+\,\s+Filter\s+action\:'
   decoder: regex
   decoder-regex: '(?P<datetime>\d{4}\-\d{1,2}\-\d{2}\s+\d{2}\:\d{2}\:\d{2})\s+\w+\,\s+Filter\:\s+(\w+)\,\s+Filter\s+action\:\s+(?P<action>\w+)\,\s+Name\s+of\s+interface\:\s+(?P<interface>.*?)\s+Name of protocol\:\s+(?P<proto>\w+)\,\s+Packet Length\:\s+(?P<packet_length>\d+)\,\s+Source address\:\s+(?P<src>[\d\.]+)\:(?P<sport>\d+)\,\s+Destination address\:\s+(?P<dst>[\d\.]+)\:(?P<dport>\d+)'
   event-key-format: '{action}'
@@ -260,7 +260,7 @@ event-details:
       datetime: SystemTstamp
       hostname: System           
 
-- first-match: '\s+RT\_IDS\:\s+RT_SCREEN_\w+\:'
+- first-match: 'RT\_IDS\:\s+RT_SCREEN_\w+\:'
   decoder: regex
   decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s\S+\:\s+(?P<category>\S+)\:\s+(?P<threat>.*?)\s+source\:\s+(?P<src>[\d\.]+)(?:\:(?P<sport>\d+))?\,\s+destination\:\s+(?P<dst>[\d\.]+)(?:\:(?P<dport>\d+))?\,(?:\s+protocol\-id\:\s+(?P<protocol_id>\d+)\,)?\s+.*?interface\s+name\:\s+(?P<interface>.*?)\,\s+action\:\s+(?P<action>[\w\-]+)'
   event-key-format: '{category}'
