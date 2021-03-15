@@ -9,46 +9,45 @@ provides-streams:
 master-filters:
 - CEF\:\d+\|Forcepoint\|Security\|
 event-details:
-- first-match: CEF\:\d+\|Forcepoint\|Security\|.*?act\=\w+
+- first-match: CEF\:\d+\|Forcepoint\|Security\|.*?act\=
   decoder: custom
   decoder-header: CEF
   decoder-regex: (\w+)\=([^\s]+\s\([^\)]+\)|[^\s]+)
   event-key-format: '{act}'
   event-key-mapping:
-    permitted:
+    'permitted':
       annotate:
         Stream: WEBFILTER
         Action: URL_ALLOWED
         Status: PASSED
       translate:
+        request: URL
+        requestMethod: HTTPMethod
         src: SrcIP
         dst: DstIP
+        requestClientApplication: UserAgent
         dpt: DstPort
-        spt: SrcPort
-        request: URL
-        requestMethod: Method
         out: TXLen
         in: RXLen
-        app: AppService
-        Header-5: EventName 
-        Header-6: Severity
-    blocked:
+        suser: User
+        Proto: Proto
+
+    'blocked':
       annotate:
         Stream: WEBFILTER
         Action: URL_BLOCKED
         Status: FAILED
       translate:
+        request: URL
+        requestMethod: HTTPMethod
         src: SrcIP
         dst: DstIP
+        requestClientApplication: UserAgent
         dpt: DstPort
-        spt: SrcPort
-        request: URL
-        requestMethod: Method
         out: TXLen
         in: RXLen
-        app: AppService
-        Header-5: EventName 
-        Header-6: Severity
+        suser: User
+        Proto: Proto  
 
   fallback:
     annotate:
@@ -57,18 +56,4 @@ event-details:
 
   globals:
     translate:
-      dhost: System        
-
-  subs:   
-    Severity: 
-      '0': 'LOW'
-      '1': 'LOW'
-      '2': 'LOW'
-      '3': 'LOW'
-      '4': 'MEDIUM' 
-      '5': 'MEDIUM' 
-      '6': 'MEDIUM' 
-      '7': 'HIGH' 
-      '8': 'HIGH'
-      '9': 'VERY-HIGH' 
-      '10': 'VERY-HIGH'
+      dhost: System
