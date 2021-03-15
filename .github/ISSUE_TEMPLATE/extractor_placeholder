@@ -1,4 +1,12 @@
-Is the DDM ready for this extractor ?
-Yes/NO
+---
+name: Extractor placeholder
+about: this template will be used by DNIF Team
+title: 'Displaying the relative position in the Extractor pipeline'
+labels: extractor_placeholder
+assignees: ''
+
+---
+
+
 
 
