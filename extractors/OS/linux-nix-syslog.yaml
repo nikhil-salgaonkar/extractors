@@ -9,7 +9,7 @@ provides-streams:
 master-filters:
 - '^(?:\<\d+\>)?[\w\-\:\s\+\.\d]+(?:systemd-logind|sshd|cron|internal-sftp|sftpd|syslog|sudo|su|login|saphostexec|sftp-server|sapdbctrl|pkexec|polkit-agent-helper-\d+)(?:\[\d+\]\:|\:)'
 event-details:
-- first-match: '\S+\[\d+\]\:\s+Accepted\s+password\s+for'
+- first-match: '\[\d+\]\:\s+Accepted\s+password\s+for\s+'
   decoder: regex
   decoder-regex: '(?P<hostname>\S+)\s+(?P<daemon>\w+)\[(?P<pid>\d+)\]\:\s+(?P<msg>(?P<action>Accepted\s+password)\s+for\s+(?P<user>\S+)\s+from\s+(?P<src>[\d\.]+)\s+.*?port\s+(?P<sport>\d+)\s+.*)'
   event-key-format: '{action}'
@@ -34,7 +34,7 @@ event-details:
     translate:
       hostname: System
 
-- first-match: '\s+\S+\[\d+\]\:\s+input_userauth_request\:\s+invalid\s+user\s+\S+\s+'
+- first-match: '\[\d+\]\:\s+input_userauth_request\:\s+invalid\s+user\s+'
   decoder: regex
   decoder-regex: '(?:(?P<hostname>\S+)\s+)?(?P<daemon>\w+)\[(?P<pid>\d+)\]\:\s+(?P<msg>.*?\s+(?P<action>invalid\s+user)\s+(?P<user>\S+))'
   event-key-format: '{action}'
@@ -59,7 +59,7 @@ event-details:
     translate:
       hostname: System
 
-- first-match: '\S+\[\d+\]\:\s+Invalid\s+user\s+\S+\s+from\s+\S+'
+- first-match: '\[\d+\]\:\s+Invalid\s+user\s+[\S]+\s+from\s+[\w\.\:]+'
   decoder: regex
   decoder-regex: '(?:(?P<hostname>\S+)\s+)?(?P<daemon>\w+)\[(?P<pid>\d+)\]\:\s+(?P<msg>(?P<action>Invalid\s+user)\s+(?P<user>\S+)\s+from\s+(?P<src>[abcdef\d\:\.\-]+))'
   event-key-format: '{action}'
@@ -84,7 +84,7 @@ event-details:
     translate:
       hostname: System
 
-- first-match: '\S+\[\d+\]\:\s+.*?session\s+closed\s+for\s+user\s+\S+'
+- first-match: '\[\d+\]\:[\(\w\:\_\s\)]+session\s+closed\s+for\s+user\s+\S+'
   decoder: regex
   decoder-regex: '(?P<hostname>\S+)\s+(?P<daemon>\w+)\[(?P<pid>\d+)\]\:.*?\s+(?P<msg>(?P<action>session\s+closed)\s+for\s+user\s+(?P<user>\S+))'
   event-key-format: '{action}'
@@ -109,7 +109,7 @@ event-details:
    translate:
       hostname: System
 
-- first-match: '\S+\s+\S+\[\d+\]\:\s+session\s+closed\s+for\s+local\s+user\s+\S+\s+from\s+\['
+- first-match: '\[\d+\]\:\s+session\s+closed\s+for\s+local\s+user\s+\S+\s+from\s+\['
   decoder: regex
   decoder-regex: '(?P<hostname>\S+)\s+(?P<daemon>\S+)\[(?P<pid>\d+)\]\:\s+(?P<msg>(?P<action>session\s+closed)\s+for\s+local\s+user\s+(?P<user>\S+)\s+from\s+\[(?P<src>[abcdef\d\:\.\-]+)\])'
   event-key-format: '{action}'
@@ -155,7 +155,7 @@ event-details:
       EventName: Generic NIX Event
       Stream: OTHER
 
-- first-match: 'password\s+authentication\s+failed'
+- first-match: 'PAM\:\s+password\s+authentication\s+failed\s+for\s+'
   decoder: regex
   decoder-regex: '(?:(?P<hostname>\S+)\s)?(?P<daemon>\w+)\[(?P<pid>\d+)\]\:.*?\:\s+(?P<msg>.*?\:\spassword\s(?P<action>authentication\sfailed)\sfor\s(?P<user>.*?)\:\s.*)'
   event-key-format: '{action}'
@@ -181,7 +181,7 @@ event-details:
       hostname: System
 
 
-- first-match: 'password\s+authentication\s+accepted'
+- first-match: 'PAM\:\s+password\s+authentication\s+accepted\s+for\s+'
   decoder: regex
   decoder-regex: '(?:(?P<hostname>\S+)\s)?(?P<daemon>\w+)\[(?P<pid>\d+)\]\:.*?\:\s+(?P<msg>.*?\:\spassword\s(?P<action>authentication\saccepted)\sfor\s(?P<user>.*))'
   event-key-format: '{action}'
@@ -206,7 +206,7 @@ event-details:
     translate:
       hostname: System
 
-- first-match: '\s+Login\s+successful\s+'
+- first-match: 'Login\s+successful\s+for\s+\S+\s+from\s+[\w\.\:]+'
   decoder: regex
   decoder-regex: '(?P<hostname>\S+)\:\s+(?P<daemon>\S+)\:\s+(?P<msg>(?P<action>Login\s+successful)\s+for\s+(?P<user>\S+)\s+from(?:\s+(?P<src>[abcdef\d\:\.\-]+))?.*)'
   event-key-format: '{action}'
@@ -231,7 +231,7 @@ event-details:
     translate:
       hostname: System
 
-- first-match: '\s+User.*?logged\s+out'
+- first-match: 'User.*logged\s+out'
   decoder: regex
   decoder-regex: '(?P<daemon>\S+)(?:\[(?P<pid>\d+)\])?\:\s+(?P<msg>.*?User[\:\s]+(?P<user>\S+).*?(?P<action>logged\s+out)\.?)'
   event-key-format: '{action}'
@@ -252,7 +252,7 @@ event-details:
       EventName: Generic NIX Event
       Stream: OTHER
 
-- first-match: '\s+logged\s+in'
+- first-match: 'New\s+user\s+\S+\s+logged\s+in'
   decoder: regex
   decoder-regex: '(?P<hostname>\S+)\s+(?P<daemon>\S+)\[(?P<pid>\d+)\]\:\s+(?P<msg>.*?(?P<action>logged\s+in)\.)'
   event-key-format: '{action}'
@@ -277,7 +277,7 @@ event-details:
     translate:
       hostname: System
 
-- first-match: '\s+(?:Authentication|authentication)\s+(?:failure|failures)\s+for\s+'
+- first-match: '\[\d+\]\:[\s\w\:]+(?:Authentication|authentication)\s+(?:failure|failures)\s+for\s+'
   decoder: regex
   decoder-regex: '\s+(?P<daemon>\S+)\[(?P<pid>\d+)\]\:\s+(?P<msg>.*?(?P<action>(?:Authentication|authentication)\s+(?:failure|failures))\s+for\s+(?P<user>\S+)(?:\s+from\s+(?P<src>.*))?)'
   event-key-format: '{action}'
@@ -308,7 +308,7 @@ event-details:
       EventName: Generic NIX Event
       Stream: OTHER
 
-- first-match: '\S+\[\d+\]\:\s+.*?authentication\s+(?:failure|failures)\;\s+logname\=.*?uid\=\d+\s+'
+- first-match: '\[\d+\]\:[\s\w\_\:\(\)\-]+authentication\s+(?:failure|failures)\;\s+logname\='
   decoder: regex
   decoder-regex: '\s+(?P<hostname>\S+)\s+(?P<daemon>\S+)\[(?P<pid>\d+)\]\:\s+.*?(?P<msg>(?P<action>authentication\s+(?:failure|failures))\;.*?uid\=(?P<uid>\d+).*?ruser\=(?P<ruser>\S+|)\s+rhost\=(?P<rhost>\S+|)(?:\s+user\=(?P<user>.*))?)'
   event-key-format: '{action}'
@@ -343,7 +343,7 @@ event-details:
     translate:
       hostname: System
 
-- first-match: '\w+\:\s+.*?authentication\s+failure\;\s+logname\=.*?uid\=\d+\s+'
+- first-match: '(?:su|sudo)\:.*?authentication\s+failure\;\s+logname\='
   decoder: regex
   decoder-regex: '\s+(?P<hostname>\S+)\s+(?P<daemon>\w+)\:\s+.*?(?P<msg>(?P<action>authentication\s+failure)\;.*?uid\=(?P<uid>\d+).*?ruser\=(?P<ruser>\S+|)\s+rhost\=(?P<rhost>\S+|)(?:\s+user\=(?P<user>.*))?)'
   event-key-format: '{action}'
@@ -368,7 +368,7 @@ event-details:
     translate:
       hostname: System
 
-- first-match: '\s+\S+\[\d+\]\:\s+.*?Received\s+disconnect\s+from\s+'
+- first-match: '\[\d+\]\:\s+.*?Received\s+disconnect\s+from\s+'
   decoder: regex
   decoder-regex: '\s+(?P<daemon>\S+)\[(?P<pid>\d+)\]\:.*?(?P<msg>(?P<action>Received\s+disconnect)\s+from\s+(?P<src>[\d\.]+)\:?(?:\s+port\s+(?P<sport>\d+)\:\d+)?.*)'
   event-key-format: '{action}'
@@ -389,7 +389,7 @@ event-details:
       EventName: Generic NIX Event
       Stream: OTHER
 
-- first-match: '\s+\S+\[\d+\]\:\s+.*?session\s+opened\s+for\s+'
+- first-match: '\[\d+\]\:[\s\w\_\:\(\)\-]+session\s+opened\s+for\s+'
   decoder: regex
   decoder-regex: '\s+(?P<daemon>\S+)\[(?P<pid>\d+)\]\:.*?(?P<msg>(?P<action>session\s+opened)\s+for.*?user\s+(?P<user>\S+)\s+(?:by\s+\(uid\=(?P<uid>\d+)\))?(?:from\s+\[(?P<src>[\d\.]+)\])?)'
   event-key-format: '{action}'
@@ -410,7 +410,7 @@ event-details:
       EventName: Generic NIX Event
       Stream: OTHER
 
-- first-match: '\s+\S+\[\d+\]\:\s+.*?session\s+closed\s+for\s+'
+- first-match: '\[\d+\]\:[\s\w\_\:\(\)\-]+session\s+closed\s+for\s+'
   decoder: regex
   decoder-regex: '\s+(?P<daemon>\S+)\[(?P<pid>\d+)\]\:.*?(?P<msg>(?P<action>session\s+closed)\s+for.*?user\s+(?P<user>\S+)(?:\s+by\s+\(uid\=(?P<uid>\d+)\))?(?:\s+from\s+\[(?P<src>[\d\.]+)\])?)'
   event-key-format: '{action}'
@@ -431,7 +431,7 @@ event-details:
       EventName: Generic NIX Event
       Stream: OTHER
 
-- first-match: '\w+\:\s+.*?session\s+opened\s+for\s+'
+- first-match: '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+\w+\:\s+.*?session\s+opened\s+for\s+'
   decoder: regex
   decoder-regex: '(?P<daemon>\w+)\:\s+.*?(?P<msg>(?P<action>session\s+opened)\s+for.*?user\s+(?P<user>\S+).*)'
   event-key-format: '{action}'
@@ -452,7 +452,7 @@ event-details:
       EventName: Generic NIX Event
       Stream: OTHER
 
-- first-match: '\w+\:\s+.*?session\s+closed\s+for\s+'
+- first-match: '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+\w+\:[\s\w\_\:\(\)\-]+session\s+closed\s+for\s+'
   decoder: regex
   decoder-regex: '(?P<daemon>\w+)\:\s+.*?(?P<msg>(?P<action>session\s+closed)\s+for.*?user\s+(?P<user>\S+).*)'
   event-key-format: '{action}'
@@ -473,7 +473,7 @@ event-details:
       EventName: Generic NIX Event
       Stream: OTHER
 
-- first-match: '\S+\:\s+New\s+session\s+\d+\s+of\s+user\s+'
+- first-match: 'New\s+session\s+\d+\s+of\s+user\s+'
   decoder: regex
   decoder-regex: '(?P<daemon>\S+)\:\s+.*?(?P<msg>(?P<action>New\s+session)\s+\d+\s+of\s+user\s+(?P<user>\S+).*)'
   event-key-format: '{action}'
