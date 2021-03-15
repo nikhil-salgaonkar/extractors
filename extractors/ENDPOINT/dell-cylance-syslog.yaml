@@ -11,7 +11,7 @@ master-filters:
 event-details:
 - first-match: '\d+\-\d+\-\d+\T\d+\:\d+\:\d+.*?CylancePROTECT\s+[\-\s]+Event\s+Type\:'
   decoder: custom
-  decoder-regex: '\s+([\w\s]+)\:\s+(?:(?=\()\(([^\)]+)\)\,|([^\,]+)\,)'
+  decoder-regex: 'CylancePROTECT\s+'
   event-key-format: '{Threat Classification}'
   event-key-mapping:
     'PUP - Scripting Tool':           

@@ -10,7 +10,7 @@ provides-streams:
 master-filters:
 - \"rt\"\:\s+\"\d{4}\-\d{1,2}\-\d{1,2}T\d{2}\:\d{2}\:\d{2}\.\d+Z\"\,.*\"type\"\:\s+\"Event\:\:(?:Endpoint|Smc)?
 event-details:
-- first-match: \"Event\:\:(?:Endpoint|Smc)?\:\:.*?\"\,
+- first-match: Event\:\:(?:Endpoint|Smc)?\:\:\S+\"\,
   decoder: custom
   decoder-regex: \"([\w]+)\"\:\s+\"([^\,]+)\"
   event-key-format: '{type}'
