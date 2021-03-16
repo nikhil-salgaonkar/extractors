@@ -1,0 +1,86 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 6001
+source-name: CARBON-BLACK
+source-type: EPP
+source-description: extractor for Carbon Black EPP Events
+provides-streams:
+- THREAT
+master-filters:
+- '\d+\-\d+\-\d+T\d+\:\d+\:\d+Z\s+\S+\s+[\s\-]+Cb\s+Protection\s+event\:\s+'
+event-details:
+- first-match: 'Cb\s+Protection\s+event\:\s+'
+  decoder: custom
+  decoder-regex: '(\w+)\=\"([^\"]+)\"'
+  event-key-format: '{type}-{file_threat}'
+  event-key-mapping:
+    'Discovery-1':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        ip_address: SrcIP
+        username: User
+        dest_ipaddress: DstIP
+        indicator_name: Threat
+        command_line: CommandLine
+        file_name: File
+        process: Process
+        url: URL
+    'Discovery-2':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        ip_address: SrcIP
+        username: User
+        dest_ipaddress: DstIP
+        indicator_name: Threat
+        command_line: CommandLine
+        file_name: File
+        process: Process
+        url: URL
+    'Discovery--1':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        ip_address: SrcIP
+        username: User
+        dest_ipaddress: DstIP
+        indicator_name: Threat
+        command_line: CommandLine
+        file_name: File
+        process: Process
+        url: URL
+    'Discovery--2':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        ip_address: SrcIP
+        username: User
+        dest_ipaddress: DstIP
+        indicator_name: Threat
+        command_line: CommandLine
+        file_name: File
+        process: Process
+        url: URL        
+    
+  fallback:
+    annotate:
+      EventName: Generic Carbon Black EPP Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      date: SystemTstamp
+      hostname: System
