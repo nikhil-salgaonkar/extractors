@@ -19,7 +19,7 @@ provides-streams:
 master-filters:
 - \"beat\"\:\"winlogbeat\"
 event-details:
-- first-match: \"Microsoft-Windows-Sysmon/Operational\"
+- first-match: \"Microsoft\-Windows\-Sysmon/Operational\"
   decoder: json
   event-key-format: '{winlog[event_id]}'
   event-key-mapping:
@@ -284,7 +284,7 @@ event-details:
       'CONSUMER_ACTIVITY': CONSUMER_ACTIVITY
       'CONSUMER_TO_FILTER_ACTIVITY': CONSUMER_TO_FILTER_ACTIVITY
 
-- first-match: \"Microsoft-Windows-Eventlog\"
+- first-match: \"Microsoft\-Windows\-Eventlog\"
   decoder: json
   event-key-format: '{winlog[event_id]}'
   event-key-mapping:
@@ -306,7 +306,7 @@ event-details:
       winlog[computer_name]: System
       '@timestamp': SystemTstamp
 
-- first-match: \"Microsoft-Windows-Security-Auditing\"
+- first-match: \"Microsoft\-Windows\-Security\-Auditing\"
   decoder: json
   event-key-format: '{winlog[event_id]}'
   event-key-mapping:
