@@ -108,6 +108,7 @@ SYSMON-WMI:
 - Destination
 - Filter
 - Type
+- Action
 SYSMON-FILE:
 - User
 - TargetFilename
@@ -132,6 +133,7 @@ SYSMON-REGISTRY:
 - Image
 - TargetObject
 - User
+- Action
 AZURE:
 - EventName
 - Category

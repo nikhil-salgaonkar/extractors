@@ -19,9 +19,9 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
-        AuthMethod: SSH
-        Reason: '-'
+        AuthProto: SSH
       translate:
+        reason: Reason
         src: SrcIP
         user: User 
          
@@ -44,7 +44,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        AuthMethod: SSH
+        AuthProto: SSH
         Reason: INVALID_USER 
       translate:
         user: User
@@ -69,7 +69,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        AuthMethod: SSH
+        AuthProto: SSH
         Reason: INVALID_USER
       translate:
         user: User
@@ -94,8 +94,9 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGOUT
         Status: PASSED
-        AuthMethod: SSH
+        AuthProto: SSH
       translate:
+        reason: Reason
         user: User
         src: SrcIP 
 
@@ -118,8 +119,9 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGOUT
         Status: PASSED
-        AuthMethod: SFTP
+        AuthProto: SFTP
       translate:
+        reason: Reason
         user: User
         src: SrcIP        
 
@@ -142,9 +144,9 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        AuthMethod: SSH
-        Reason: '-'
+        AuthProto: SSH
       translate:
+        reason: Reason
         user: User
         src: SrcIP 
         
@@ -163,7 +165,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        AuthMethod: SSH
+        AuthProto: SSH
         Reason: INVALID_PASSWORD 
       translate:
         user: User
@@ -189,9 +191,9 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
-        AuthMethod: SSH
-        Reason: '-'
-      translate:  
+        AuthProto: SSH
+      translate:
+        reason: Reason  
         user: User
         src: SrcIP
 
@@ -214,9 +216,9 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
-        AuthMethod: CLI
-        Reason: '-'
+        AuthProto: CLI
       translate:
+        reason: Reason
         user: User
         src: SrcIP
         
@@ -239,8 +241,9 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGOUT
         Status: PASSED
-        AuthMethod: '-'
       translate:
+        AuthProto: AuthProto
+        reason: Reason
         user: User
         src: SrcIP       
 
@@ -259,11 +262,11 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
-        AuthMethod: '-'
-        Reason: '-'
       translate:
+        AuthProto: AuthProto
+        reason: Reason
         user: User
-        src: SrcIP
+        src: SrcIP 
 
   fallback:
     annotate:
@@ -284,7 +287,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        AuthMethod: SSH
+        AuthProto: SSH
         Reason: INVALID_PASSWORD
       translate:
         user: User
@@ -294,7 +297,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        AuthMethod: SSH
+        AuthProto: SSH
         Reason: INVALID_PASSWORD
       translate:
         user: User
@@ -315,7 +318,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        AuthMethod: SSH
+        AuthProto: SSH
         Reason: INVALID_PASSWORD
       translate:
         user: User
@@ -325,7 +328,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        AuthMethod: SSH
+        AuthProto: SSH
         Reason: INVALID_PASSWORD
       translate:
         user: User 
@@ -350,7 +353,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        AuthMethod: SSH
+        AuthProto: SSH
         Reason: INVALID_PASSWORD
       translate:
         user: User
@@ -375,9 +378,10 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGOUT
         Status: PASSED
-        AuthMethod: SSH
+        AuthProto: SSH
         User: '-'
       translate:
+        reason: Reason
         src: SrcIP
 
   fallback:
@@ -395,9 +399,9 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
-        AuthMethod: SFTP
-        Reason: '-'
+        AuthProto: SFTP
       translate:
+        reason: Reason
         src: SrcIP
         user: User
 
@@ -416,8 +420,9 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGOUT
         Status: PASSED
-        AuthMethod: SFTP
+        AuthProto: SFTP
       translate:
+        reason: Reason
         src: SrcIP
         user: User
 
@@ -436,9 +441,9 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
-        AuthMethod: '-'
-        Reason: '-'
       translate:
+        AuthProto: AuthProto
+        reason: Reason
         user: User
         src: SrcIP        
 
@@ -457,10 +462,11 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGOUT
         Status: PASSED
-        AuthMethod: '-'
       translate:
+        AuthProto: AuthProto
+        reason: Reason
         user: User
-        src: SrcIP
+        src: SrcIP 
 
   fallback:
     annotate:
@@ -477,11 +483,11 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
-        AuthMethod: '-'
-        Reason: '-'
       translate:
+        AuthProto: AuthProto
+        reason: Reason
         user: User
-        src: SrcIP
+        src: SrcIP 
 
   fallback:
     annotate:
