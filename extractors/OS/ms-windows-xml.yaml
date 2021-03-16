@@ -62,7 +62,7 @@ event-details:
       translate:
         Image: Image
         User: User
-        Protocol: Protocol
+        Protocol: Proto
         SourceIp: SrcIP
         SourcePort: SrcPort
         SourceHostname: SrcHost
