@@ -157,3 +157,6 @@ WEBSERVER:
 - UserAgent
 - URL
 - ReturnCode
+SYSMON-WMI:
+- PipeName
+- Image
