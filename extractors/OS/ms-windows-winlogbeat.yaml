@@ -213,7 +213,6 @@ event-details:
         winlog[event_data][User]: User
         winlog[event_data][Name]: Name
         winlog[event_data][Type]: Type
-        winlog[event_data][Destination]: Destinations
 
     '21':
       annotate:
