@@ -58,7 +58,6 @@ event-details:
         Status: PASSED
       translate:
         user[name]: User
-        file[path]: FilePath
         process[executable]: Process
         process[args]: ProcessArgs
 
@@ -69,7 +68,6 @@ event-details:
         Status: PASSED
       translate:
         user[name]: User
-        file[path]: FilePath
         process[executable]: Process
         process[args]: ProcessArgs
 
@@ -80,7 +78,6 @@ event-details:
         Status: PASSED
       translate:
         user[name]: User
-        file[path]: FilePath
         process[executable]: Process
         process[args]: ProcessArgs
 
@@ -91,7 +88,6 @@ event-details:
         Status: PASSED
       translate:
         user[name]: User
-        file[path]: FilePath
         process[executable]: Process
         process[args]: ProcessArgs
 
