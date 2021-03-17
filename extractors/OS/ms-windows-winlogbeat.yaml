@@ -180,7 +180,6 @@ event-details:
         Action: PIPE_CREATED
         Status: PASSED
       translate:
-        winlog[event_data][EventType]: Action
         winlog[event_data][PipeName]: PipeName
         winlog[event_data][Image]: Image 
 
