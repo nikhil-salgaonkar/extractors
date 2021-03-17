@@ -7,9 +7,9 @@ source-description: extractor for Dell-Cylance Endpoint Events
 provides-streams:
 - THREAT
 master-filters:
-- '^(?:\<\d+\>\d+\s+)?\d+\-\d+\-\d+\T\d+\:\d+\:\d+[\d\.\+Z\:]+\s+\S+\s+CylancePROTECT\s+'
+- '^(?:\<\d+\>\d+\s+)?\d+\-\d+\-\d+T\d+\:\d+\:\d+[\d\.\+Z\:]+\s+\S+\s+CylancePROTECT\s+'
 event-details:
-- first-match: '\d+\-\d+\-\d+\T\d+\:\d+\:\d+.*?CylancePROTECT\s+[\-\s]+Event\s+Type\:'
+- first-match: '^(?:\<\d+\>\d+\s+)?\d+\-\d+\-\d+T\d+\:\d+\:\d+[\d\.\+Z\:]+\s+\S+\s+CylancePROTECT\s+'
   decoder: custom
   decoder-regex: 'CylancePROTECT\s+'
   event-key-format: '{Threat Classification}'
