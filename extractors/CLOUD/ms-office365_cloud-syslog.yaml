@@ -33,7 +33,7 @@ event-details:
       translate:
         From: Sender
         To: Recipient
-        Subject: Subject
+        Item[Subject] : Subject
         Attachments: File
         Directionality: Direction
         ClientIPAddress: RemoteIP
@@ -55,7 +55,7 @@ event-details:
       translate:
         From: Sender
         To: Recipient
-        Subject: Subject
+        AffectedItems[0][Subject]: Subject
         Attachments: File
         Directionality: Direction
         ClientIP: RemoteIP            
@@ -168,7 +168,7 @@ event-details:
         Status: PASSED
       translate:
         UserId: User
-        Role: Role
+        Members[0][Role]: Role
         TargetUser: TargetUser
     'MemberAdded':
       annotate:
@@ -479,7 +479,6 @@ event-details:
         SourceFileName: File
         ClientIP: SrcIP
         SharingType: Visibility                                                
-
     
   fallback:
     annotate:
