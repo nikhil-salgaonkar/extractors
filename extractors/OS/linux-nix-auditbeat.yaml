@@ -58,9 +58,7 @@ event-details:
         Status: PASSED
       translate:
         user[name]: User
-        file[path]: FilePath
         process[executable]: Process
-        process[name]: ProcessName
         process[args]: ProcessArgs
 
     'deletion':
@@ -70,9 +68,7 @@ event-details:
         Status: PASSED
       translate:
         user[name]: User
-        file[path]: FilePath
         process[executable]: Process
-        process[name]: ProcessName
         process[args]: ProcessArgs
 
     'change':
@@ -82,9 +78,7 @@ event-details:
         Status: PASSED
       translate:
         user[name]: User
-        file[path]: FilePath
         process[executable]: Process
-        process[name]: ProcessName
         process[args]: ProcessArgs
 
     'info':
@@ -94,9 +88,7 @@ event-details:
         Status: PASSED
       translate:
         user[name]: User
-        file[path]: FilePath
         process[executable]: Process
-        process[name]: ProcessName
         process[args]: ProcessArgs
 
   fallback:
@@ -122,7 +114,6 @@ event-details:
       translate:
         user[name]: User
         process[executable]: Process
-        process[name]: ProcessName
         process[args]: ProcessArgs
 
     'stopped-service':
@@ -133,7 +124,6 @@ event-details:
       translate:
         user[name]: User
         process[executable]: Process
-        process[name]: ProcessName
         process[args]: ProcessArgs
 
     'executed':
@@ -144,7 +134,6 @@ event-details:
       translate:
         user[name]: User
         process[executable]: Process
-        process[name]: ProcessName
         process[args]: ProcessArgs
 
   fallback:

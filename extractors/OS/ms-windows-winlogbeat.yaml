@@ -45,9 +45,6 @@ event-details:
         Status: PASSED
       translate:
         winlog[event_data][Image]: Image
-        winlog[event_data][TargetFilename]: TargetFilename
-        winlog[event_data][CreationUtcTime]: CreationUtcTime
-        winlog[event_data][PreviousCreationUtcTime]: PreviousCreationUtcTime  
 
     '3':
       annotate:
@@ -79,10 +76,14 @@ event-details:
         Action: PROCESS_REMOVED
         Status: PASSED
       translate:
-        winlog[event_data][ImageLoaded]: ImageLoaded
-        winlog[event_data][Hashes]: Hashes
-        winlog[event_data][Signature]: Signature
-        winlog[event_data][SignatureStatus]: SignatureStatus
+        winlog[event_data][User]: User
+          winlog[event_data][ParentCommandLine]: ParentCommandLine
+          winlog[event_data][ParentImage]: ParentImage
+          winlog[event_data][Image]: Image
+          winlog[event_data][CommandLine]: CommandLine
+          winlog[event_data][Description]: Description
+          winlog[event_data][Company]: Company
+          winlog[event_data][Product]: Product
 
     '6':
       annotate:
@@ -90,9 +91,7 @@ event-details:
         Action: DRIVER_LOADED
         Status: PASSED
       translate:
-        winlog[event_data][Image]: Image
         winlog[event_data][User]: User
-        winlog[event_data][Description]: Description    
 
     '7':
       annotate:
@@ -111,12 +110,8 @@ event-details:
         Action: CREATE_REMOTE_THREAD
         Status: PASSED
       translate:
-        winlog[event_data][SourceImage]: SourceImage
         winlog[event_data][TargetImage]: TargetImage
         winlog[event_data][Description]: Description
-        winlog[event_data][StartAddress]: StartAddress
-        winlog[event_data][StartModule]: StartModule
-        winlog[event_data][StartFunction]: StartFunction
 
     '10':
       annotate:
@@ -125,7 +120,6 @@ event-details:
         Status: PASSED
       translate:
         winlog[event_data][TargetImage]: TargetImage
-        winlog[event_data][SourceImage]: SourceImage
         winlog[event_data][CallTrace]: CallTrace
         winlog[event_data][GrantedAccess]: GrantedAccess
         winlog[event_data][Description]: Description
@@ -139,7 +133,6 @@ event-details:
         winlog[event_data][Image]: Image
         winlog[event_data][TargetFilename]: TargetFilename
         winlog[event_data][CreationUtcTime]: CreationUtcTime
-        winlog[event_data][Description]: Description
 
     '12':
       annotate:
@@ -171,12 +164,11 @@ event-details:
         winlog[event_data][Image]: Image
         winlog[event_data][TargetFilename]: TargetFilename
         winlog[event_data][CreationUtcTime]: CreationUtcTime
-        winlog[event_data][Hash]: Hash
 
     '16':
       annotate:
         Stream: SYSMON-CONFIG
-        Action: STATE-CHANGED
+        Action: STATE_CHANGED
         Status: PASSED
       translate:
         winlog[event_data][Configuration]: Configuration
@@ -207,9 +199,7 @@ event-details:
         Action: FILTER_ACTIVITY
         Status: DETECTED
       translate:
-        winlog[event_data][EventNamespace]: EventNamespace
         winlog[event_data][EventType]: Action
-        winlog[event_data][Query]: Query
         winlog[event_data][Name]: Name
         winlog[event_data][Operation]: Operation
         winlog[event_data][User]: User
@@ -224,7 +214,6 @@ event-details:
         winlog[event_data][Name]: Name
         winlog[event_data][Type]: Type
         winlog[event_data][Destination]: Destination
-        winlog[event_data][Description]: Description
 
     '21':
       annotate:
@@ -236,7 +225,6 @@ event-details:
         winlog[event_data][Operation]: Operation
         winlog[event_data][Consumer]: Consumer
         winlog[event_data][Filter]: Filter
-        winlog[event_data][Description]: Description
 
     '22':
       annotate:
@@ -258,7 +246,6 @@ event-details:
         winlog[event_data][Image]: Image
         winlog[event_data][TargetFilename]: TargetFilename
         winlog[event_data][User]: User
-        winlog[event_data][Hashes]: Hashes       
 
   fallback:
     annotate:

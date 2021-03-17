@@ -341,7 +341,6 @@ event-details:
         Action: PROCESS_ACCESSED
         Status: PASSED
       translate:
-        SourceImage: SourceImage
         TargetImage: TargetImage
         GrantedAccess: GrantedAccess
         CallTrace: CallTrace
@@ -353,12 +352,8 @@ event-details:
         Action: CREATE_REMOTE_THREAD
         Status: PASSED
       translate:
-        SourceImage: SourceImage
         TargetImage: TargetImage
         Description: Description
-        StartAddress: StartAddress
-        StartModule: StartModule
-        StartFunction: StartFunction
 
     '7':
       annotate:
