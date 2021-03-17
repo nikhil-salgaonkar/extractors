@@ -157,6 +157,26 @@ WEBSERVER:
 - UserAgent
 - URL
 - ReturnCode
-SYSMON-WMI:
+DHCP:
+- SrcIP
+- MACAddress
+- ResultCode
+- User
+CLOUDTRAIL:
+- EventType
+- EventSource
+- EventName
+- SystemTstamp
+- AwsRegion
+- UserGroup
+- UserAgent
+- RequestParameters
+- ResponseElements
+- ErrorCode
+- User
+- AccessKey
+- UserArn
+- SrcIP
+SYSMON-PIPE:
 - PipeName
 - Image
