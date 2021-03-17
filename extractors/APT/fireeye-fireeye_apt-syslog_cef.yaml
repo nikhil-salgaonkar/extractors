@@ -1,0 +1,289 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 96
+source-name: FIREEYE
+source-type: APT
+source-description: Extractor for Fireeye APT
+provides-streams:
+- THREAT
+master-filters:
+- CEF\:0\|(?:FireEye|fireeye)\|
+event-details:
+- first-match: CEF\:0\|(?:FireEye|fireeye)\|
+  decoder: custom
+  decoder-regex: ([\w]+)\=([^\s]+)
+  event-key-format: '{Header-5}'
+  decoder-header: CEF
+  event-key-mapping:
+    web-infection:
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        src: SrcIP
+        cmdline: CommandLine
+        suser: User
+        cs1: Threat
+        fname: File
+        dst: DstIP
+        request: URL
+        cs4: Process
+    domain-match:           
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate: 
+        src: SrcIP
+        cmdline: CommandLine
+        suser: User
+        cs1: Threat
+        fname: File
+        dst: DstIP
+        request: URL
+        cs4: Process
+    ExD Hit Found:           
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate: 
+        src: SrcIP
+        cmdline: CommandLine
+        suser: User
+        cs1: Threat
+        fname: File
+        dst: DstIP
+        request: URL
+        cs4: Process
+    infection-match:           
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate: 
+        src: SrcIP
+        cmdline: CommandLine
+        suser: User
+        cs1: Threat
+        fname: File
+        dst: DstIP
+        request: URL
+        cs4: Process
+    Malware Hit Found:           
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate: 
+        src: SrcIP
+        cmdline: CommandLine
+        suser: User
+        cs1: Threat
+        fname: File
+        dst: DstIP
+        request: URL
+        cs4: Process
+    Malware Scan:           
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate: 
+        src: SrcIP
+        cmdline: CommandLine
+        suser: User
+        cs1: Threat
+        fname: File
+        dst: DstIP
+        request: URL
+    malware-object:           
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate: 
+        src: SrcIP
+        cmdline: CommandLine
+        suser: User
+        cs1: Threat
+        fname: File
+        dst: DstIP
+        request: URL
+        cs4: Process
+    malware-callback:           
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate: 
+        src: SrcIP
+        cmdline: CommandLine
+        suser: User
+        cs1: Threat
+        fname: File
+        dst: DstIP
+        request: URL
+        cs4: Process
+    riskware-callback:           
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate: 
+        src: SrcIP
+        cmdline: CommandLine
+        suser: User
+        cs1: Threat
+        fname: File
+        dst: DstIP
+        request: URL
+        cs4: Process
+    riskware-infection:
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate: 
+        src: SrcIP
+        cmdline: CommandLine
+        suser: User
+        cs1: Threat
+        fname: File
+        dst: DstIP
+        request: URL
+        cs4: Process
+    riskware-object:           
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate: 
+        src: SrcIP
+        cmdline: CommandLine
+        suser: User
+        cs1: Threat
+        fname: File
+        dst: DstIP
+        request: URL
+        cs4: Process
+    ips-event:           
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate: 
+        src: SrcIP
+        cmdline: CommandLine
+        suser: User
+        cs1: Threat
+        fname: File
+        dst: DstIP
+        request: URL
+        cs4: Process
+    malicious email:           
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate: 
+        src: SrcIP
+        cmdline: CommandLine
+        suser: User
+        cs1: Threat
+        fname: File
+        dst: DstIP
+        request: URL
+    FireEye Acquisition Completed:
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        src: SrcIP
+        cmdline: CommandLine
+        suser: User
+        cs1: Threat
+        fname: File
+        dst: DstIP
+        request: URL
+    FireEye Acquisition Queued:
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        src: SrcIP
+        cmdline: CommandLine
+        suser: User
+        cs1: Threat
+        fname: File
+        dst: DstIP
+        request: URL
+    IOC Hit Found:           
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate: 
+        src: SrcIP
+        cmdline: CommandLine
+        suser: User
+        cs4: Threat
+        fname: File
+        dst: DstIP
+        request: URL
+    FireEye Acquisition Queued:
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        src: SrcIP
+        cmdline: CommandLine
+        suser: User
+        cs1: Threat
+        fname: File
+        dst: DstIP
+        request: URL
+    FireEye Acquisition Started:
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        src: SrcIP
+        cmdline: CommandLine
+        suser: User
+        cs1: Threat
+        fname: File
+        dst: DstIP
+        request: URL
+  fallback:
+    annotate:
+      EventName: Generic Fireeye Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      dvchost: System
