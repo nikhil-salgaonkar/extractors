@@ -7,9 +7,9 @@ source-description: Extractor for FortiManager Firewall Events
 provides-streams:
 - AUTHENTICATION
 master-filters:
-- 'device_id=FM[\w\-]+\s+log_id\=\d+'
+- 'device\_id\=FM[\w\-]+\s+log\_id\='
 event-details:
-- first-match: 'log_id\=\"?\d+\"?\s+type\=\"?.*?\"?\s+subtype\='
+- first-match: 'log_id\=\"?\d+\"?'
   decoder: regex
   decoder-regex: '(?P<datetime>date\=\w{4}\-\w{2}\-\w{2}\s+time\=\d{2}\:\d{2}\:\d{2})\s+devname\=(?P<devname>\S+)\s+device_id\=(?P<device_id>\S+)\s+log_id\=(?P<log_id>\d+)\s+type\=(?P<type>\w+)\s+subtype\=(?P<subtype>\w+)\s+pri\=(?P<pri>\w+)\s+desc\=\"(?P<desc>.*?)\"(?:\s+user\=\"(?P<user>\S+)\")?(?:\s+userfrom\=\"(?P<authproto>\w+)\((?P<src>[\d\.]+)\)\")?(?:\s+msg\=\"(?P<msg>.*?reason:(?P<reason>.*?))\")?(?:\s+adminprof\=\"(?P<adminprof>.*?)\")?(?:.*?action\=\"(?P<action>.*?)\")?'
   event-key-format: '{log_id}-{action}'

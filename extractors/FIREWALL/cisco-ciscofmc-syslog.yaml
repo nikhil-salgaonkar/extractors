@@ -11,7 +11,7 @@ provides-streams:
 master-filters:
 - FMC(?:\:|\])\s+\S+
 event-details:
-- first-match: '\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\:\s+\w+FMC\:\s+\w+\@.*?\,\s+'
+- first-match: '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\:\s+\w+FMC\:\s+'
   decoder: regex
   decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+\S+\:\s+(?P<hostname>\S+)\:\s+(?P<user>.*?)\@(?P<src>.*?)\,\s+(?P<event_name>.*?)\,\s+(?P<evt_desc>(?:(?P<action>(?:Logout|Login)\s+(?:Success|Failed)))?.*)'
   event-key-format: '{action}'
@@ -55,7 +55,7 @@ event-details:
       datetime: SystemTstamp
       hostname: System
 
-- first-match: '\s+FMC\:\s+Protocol\:\s+\w+.*?AccessControlRuleName\:'
+- first-match: '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+FMC\:\s+Protocol\:\s+'
   decoder: regex
   decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+FMC\:\s+.*?Protocol\:\s+(?P<protocol>[\w\-\s]+)\,\s+SrcIP\:\s+(?P<src>[abcdef\d\:\.\-]+)\,.*?DstIP\:\s+(?P<dst>[abcdef\d\:\.\-]+)\,(?:.*?SrcPort\:\s+(?P<sport>\d+)\,)?(?:.*?DstPort\:\s+(?P<dport>\d+)\,)?\s+.*?Policy\:\s+(?P<policy>.*?)\,.*?AccessControlRuleName\:\s+(?P<rulename>.*?)\,(?:.*?AccessControlRuleAction\:\s+(?P<action>.*?)\,)?.*?UserName\:\s+(?P<user>.*?)\,(?:.*?ApplicationProtocol\:\s+(?P<app>.*?)\,)?.*?InitiatorBytes\:\s+(?P<initiator_bytes>\d+)\,.*?ResponderBytes\:\s+(?P<responder_bytes>\d+)\,'
   event-key-format: '{action}'
@@ -113,7 +113,7 @@ event-details:
       datetime: SystemTstamp
       hostname: System
 
-- first-match: '\sFMC\:.*?\[Impact\:\s+.*?\].*?\[Priority\:\s+\d+\]'
+- first-match: '\[Impact\:[\s\w]+\].*\[Priority\:\s+\d+\]'
   decoder: regex
   decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+.*?\[.*?\](?:\s\"?(?P<atkmsg>.*?)\"?)?\s+\[Impact\:\s+(?P<atkvector>.*?)\].*?\[Classification\:\s+(?P<atkclass>.*?)\]\s+\[Priority\:\s(?P<pri>\d+)\]\s+\{(?P<protocol>.*?)\}\s+(?P<src>[\d\.]+)\:(?P<sport>\d+).*?(?P<dst>[\d\.]+)\:(?P<dport>\d+)'
   event-key-format: ''

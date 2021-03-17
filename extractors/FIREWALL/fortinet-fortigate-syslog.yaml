@@ -9,10 +9,9 @@ provides-streams:
 - THREAT
 - AUTHENTICATION
 master-filters:
-- device_id=FG
-- devid=\"?FG
+- devname\=\S+\s+(?:device\_id|devid)\=\"?FG
 event-details:
-- first-match: (?:logid|log_id)\=\"?\d+\"?\s+type\=\"?.*?\"?\s+subtype\=
+- first-match: (?:logid|log_id)\=\"?\d+\"?
   decoder: custom
   decoder-regex: ([\w]+)=(\"[^\"]*\"|[^\s]*)
   event-key-format: '{logid}-{action}'

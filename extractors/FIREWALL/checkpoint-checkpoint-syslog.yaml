@@ -9,7 +9,7 @@ provides-streams:
 - FIREWALL
 - AUTHENTICATION
 master-filters:
-- \d+\-\d+\-\d+T\d+\:\d+\:\d+.*?CheckPoint\s+\d+\s+\-\s+\[
+- CheckPoint\s+\d+\s+\-\s+\[
 event-details:
 - first-match: CheckPoint[\s\d\-]+\[
   decoder: custom
