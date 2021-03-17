@@ -1,0 +1,494 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 231
+source-name: MS-O365
+source-type: CLOUD
+source-description: Extractor for Microsoft Office 365 Events
+provides-streams:
+- EMAIL-GATEWAY
+- AUTHENTICATION
+- IAM
+master-filters:
+- \{\"CreationTime\"\:\"\d{4}\-\d{1,2}\-\d{2}T\d{2}\:\d{2}\:\d{2}\"\,\"Id\"\:\"[\w\-]+\"\,\"Operation\"\:\"
+event-details:
+- first-match: \"UserType\"\:\d+\,
+  decoder: json
+  event-key-format: '{Operation}'
+  event-key-mapping:
+    'Set-Mailbox':
+      annotate:
+        Stream: EMAIL-GATEWAY
+        Action: EMAIL_ACCEPTED
+      translate:
+        From: Sender
+        To: Recipient
+        Subject: Subject
+        Attachments: File
+        Directionality: Direction
+        ClientIP: RemoteIP
+    'Create':
+      annotate:
+        Stream: EMAIL-GATEWAY
+        Action: EMAIL_ACCEPTED
+      translate:
+        From: Sender
+        To: Recipient
+        Subject: Subject
+        Attachments: File
+        Directionality: Direction
+        ClientIPAddress: RemoteIP
+    'Update':
+      annotate:
+        Stream: EMAIL-GATEWAY
+        Action: EMAIL_ACCEPTED
+      translate:
+        From: Sender
+        To: Recipient
+        Subject: Subject
+        Attachments: File
+        Directionality: Direction
+        ClientIP: RemoteIP 
+    'Move':
+      annotate:
+        Stream: EMAIL-GATEWAY
+        Action: EMAIL_ACCEPTED
+      translate:
+        From: Sender
+        To: Recipient
+        Subject: Subject
+        Attachments: File
+        Directionality: Direction
+        ClientIP: RemoteIP            
+    'DlpRuleMatch':
+      annotate:
+        Stream: EMAIL-GATEWAY
+        Action: EMAIL_ACCEPTED
+      translate:
+        From: Sender
+        To: Recipient
+        Subject: Subject
+        Attachments: File
+        Directionality: Direction
+        ClientIP: RemoteIP
+    'UserLoggedIn':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        protocol: AuthProto
+        ClientIP: SrcIP
+        UserId: User
+    'UserLoginFailed':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate:
+        protocol: AuthProto
+        LogonError: Reason
+        ClientIP: SrcIP 
+        UserId: User   
+    'Update user.':
+      annotate:
+        Stream: IAM
+        Action: USER_UPDATED
+        Status: PASSED
+      translate:
+        UserId: User
+        Role: Role
+        TargetUser: TargetUser
+    'Delete user.':
+      annotate:
+        Stream: IAM
+        Action: USER_DELETED
+        Status: PASSED
+      translate:
+        UserId: User
+        Role: Role
+        TargetUser: TargetUser        
+    'Change user license.':
+      annotate:
+        Stream: IAM
+        Action: USER_LICENSE_CHANGED
+        Status: PASSED
+      translate:
+        UserId: User
+        Role: Role
+        TargetUser: TargetUser
+    'Disable account.':
+      annotate:
+        Stream: IAM
+        Action: ACCOUNT_DISABLED
+        Status: PASSED
+      translate:
+        UserId: User
+        Role: Role
+        TargetUser: TargetUser
+    'Change user password.':
+      annotate:
+        Stream: IAM
+        Action: USER_PASSWORD_CHANGED
+        Status: PASSED
+      translate:
+        UserId: User
+        Role: Role
+        TargetUser: TargetUser
+    'Reset user password.':
+      annotate:
+        Stream: IAM
+        Action: ACCOUNT_PASSWORD_RESET
+        Status: PASSED
+      translate:
+        UserId: User
+        Role: Role
+        TargetUser: TargetUser  
+    'Remove member from group.':
+      annotate:
+        Stream: IAM
+        Action: GROUP_MEMBER_REMOVED
+        Status: PASSED
+      translate:
+        UserId: User
+        Role: Role
+        TargetUser: TargetUser
+    'Add member to group.':
+      annotate:
+        Stream: IAM
+        Action: GROUP_MEMBER_ADDED
+        Status: PASSED
+      translate:
+        UserId: User
+        Role: Role  
+        TargetUser: TargetUser
+    'MemberRemoved':
+      annotate:
+        Stream: IAM
+        Action: MEMBER_REMOVED
+        Status: PASSED
+      translate:
+        UserId: User
+        Role: Role
+        TargetUser: TargetUser
+    'MemberAdded':
+      annotate:
+        Stream: IAM
+        Action: MEMBER_ADDED
+        Status: PASSED
+      translate:
+        UserId: User
+        Role: Role
+        TargetUser: TargetUser  
+    'FileAccessed':
+      annotate:
+        Stream: DOCUMENTS
+        Action: ACCESSED
+        Status: PASSED
+      translate:
+        UserId: User
+        SourceFileName: File
+        ClientIP: SrcIP
+        SharingType: Visibility
+    'FileAccessedExtended':
+      annotate:
+        Stream: DOCUMENTS
+        Action: ACCESSED
+        Status: PASSED
+      translate:
+        UserId: User
+        SourceFileName: File
+        ClientIP: SrcIP
+        SharingType: Visibility 
+    'FileCopied':
+      annotate:
+        Stream: DOCUMENTS
+        Action: COPIED
+        Status: PASSED
+      translate:
+        UserId: User
+        SourceFileName: File
+        ClientIP: SrcIP
+        SharingType: Visibility
+    'FileCheckedIn':
+      annotate:
+        Stream: DOCUMENTS
+        Action: CHECKED_IN
+        Status: PASSED
+      translate:
+        UserId: User
+        SourceFileName: File
+        ClientIP: SrcIP
+        SharingType: Visibility
+    'FileCheckedOut':
+      annotate:
+        Stream: DOCUMENTS
+        Action: CHECKED_OUT
+        Status: PASSED
+      translate:
+        UserId: User
+        SourceFileName: File
+        ClientIP: SrcIP
+        SharingType: Visibility
+    'FileDeleted':
+      annotate:
+        Stream: DOCUMENTS
+        Action: DELETED
+        Status: PASSED
+      translate:
+        UserId: User
+        SourceFileName: File
+        ClientIP: SrcIP
+        SharingType: Visibility
+    'FileDeletedFirstStageRecycleBin':
+      annotate:
+        Stream: DOCUMENTS
+        Action: DELETED_RECYCLE_BIN
+        Status: PASSED
+      translate:
+        UserId: User
+        SourceFileName: File
+        ClientIP: SrcIP
+        SharingType: Visibility
+    'FileDeletedSecondStageRecycleBin':
+      annotate:
+        Stream: DOCUMENTS
+        Action: DELETED_RECYCLE_BIN
+        Status: PASSED
+      translate:
+        UserId: User
+        SourceFileName: File
+        ClientIP: SrcIP
+        SharingType: Visibility
+    'FileMalwareDetected':
+      annotate:
+        Stream: DOCUMENTS
+        Action: MALWARE_DETECTED
+        Status: PASSED
+      translate:
+        UserId: User
+        SourceFileName: File
+        ClientIP: SrcIP
+        SharingType: Visibility 
+    'FileCheckOutDiscarded':
+      annotate:
+        Stream: DOCUMENTS
+        Action: CHECKOUT_DISCARDED
+        Status: PASSED
+      translate:
+        UserId: User
+        SourceFileName: File
+        ClientIP: SrcIP
+        SharingType: Visibility
+    'FileDownloaded':
+      annotate:
+        Stream: DOCUMENTS
+        Action: DOWNLOADED
+        Status: PASSED
+      translate:
+        UserId: User
+        SourceFileName: File
+        ClientIP: SrcIP
+        SharingType: Visibility
+    'FileModified':
+      annotate:
+        Stream: DOCUMENTS
+        Action: MODIFIED
+        Status: PASSED
+      translate:
+        UserId: User
+        SourceFileName: File
+        ClientIP: SrcIP
+        SharingType: Visibility
+    'FileModifiedExtended':
+      annotate:
+        Stream: DOCUMENTS
+        Action: MODIFIED
+        Status: PASSED
+      translate:
+        UserId: User
+        SourceFileName: File
+        ClientIP: SrcIP
+        SharingType: Visibility 
+    'FileMoved':
+      annotate:
+        Stream: DOCUMENTS
+        Action: MOVED
+        Status: PASSED
+      translate:
+        UserId: User
+        SourceFileName: File
+        ClientIP: SrcIP
+        SharingType: Visibility
+    'FilePreviewed':
+      annotate:
+        Stream: DOCUMENTS
+        Action: PREVIEWED
+        Status: PASSED
+      translate:
+        UserId: User
+        SourceFileName: File
+        ClientIP: SrcIP
+        SharingType: Visibility
+    'FileVersionsAllMinorsRecycled':
+      annotate:
+        Stream: DOCUMENTS
+        Action: VERSIONS_RECYCLED
+        Status: PASSED
+      translate:
+        UserId: User
+        SourceFileName: File
+        ClientIP: SrcIP
+        SharingType: Visibility
+    'FileVersionsAllRecycled':
+      annotate:
+        Stream: DOCUMENTS
+        Action: VERSIONS_RECYCLED
+        Status: PASSED
+      translate:
+        UserId: User
+        SourceFileName: File
+        ClientIP: SrcIP
+        SharingType: Visibility
+    'FileVersionRecycled':
+      annotate:
+        Stream: DOCUMENTS
+        Action: VERSIONS_RECYCLED
+        Status: PASSED
+      translate:
+        UserId: User
+        SourceFileName: File
+        ClientIP: SrcIP
+        SharingType: Visibility
+    'FileRenamed':
+      annotate:
+        Stream: DOCUMENTS
+        Action: RENAMED
+        Status: PASSED
+      translate:
+        UserId: User
+        SourceFileName: File
+        ClientIP: SrcIP
+        SharingType: Visibility
+    'FileRestored':
+      annotate:
+        Stream: DOCUMENTS
+        Action: RESTORED
+        Status: PASSED
+      translate:
+        UserId: User
+        SourceFileName: File
+        ClientIP: SrcIP
+        SharingType: Visibility
+    'FileUploaded':
+      annotate:
+        Stream: DOCUMENTS
+        Action: UPLOADED
+        Status: PASSED
+      translate:
+        UserId: User
+        SourceFileName: File
+        ClientIP: SrcIP
+        SharingType: Visibility
+    'FolderCopied':
+      annotate:
+        Stream: DOCUMENTS
+        Action: COPIED
+        Status: PASSED
+      translate:
+        UserId: User
+        SourceFileName: File
+        ClientIP: SrcIP
+        SharingType: Visibility
+    'FolderCreated':
+      annotate:
+        Stream: DOCUMENTS
+        Action: CREATED
+        Status: PASSED
+      translate:
+        UserId: User
+        SourceFileName: File
+        ClientIP: SrcIP
+        SharingType: Visibility
+    'FolderDeleted':
+      annotate:
+        Stream: DOCUMENTS
+        Action: DELETED
+        Status: PASSED
+      translate:
+        UserId: User
+        SourceFileName: File
+        ClientIP: SrcIP
+        SharingType: Visibility 
+    'FolderDeletedFirstStageRecycleBin':
+      annotate:
+        Stream: DOCUMENTS
+        Action: DELETED_RECYCLE_BIN
+        Status: PASSED
+      translate:
+        UserId: User
+        SourceFileName: File
+        ClientIP: SrcIP
+        SharingType: Visibility
+    'FolderDeletedSecondStageRecycleBin':
+      annotate:
+        Stream: DOCUMENTS
+        Action: DELETED_RECYCLE_BIN
+        Status: PASSED
+      translate:
+        UserId: User
+        SourceFileName: File
+        ClientIP: SrcIP
+        SharingType: Visibility
+    'FolderModified':
+      annotate:
+        Stream: DOCUMENTS
+        Action: MODIFIED
+        Status: PASSED
+      translate:
+        UserId: User
+        SourceFileName: File
+        ClientIP: SrcIP
+        SharingType: Visibility
+    'FolderMoved':
+      annotate:
+        Stream: DOCUMENTS
+        Action: MOVED
+        Status: PASSED
+      translate:
+        UserId: User
+        SourceFileName: File
+        ClientIP: SrcIP
+        SharingType: Visibility
+    'FolderRenamed':
+      annotate:
+        Stream: DOCUMENTS
+        Action: RENAMED
+        Status: PASSED
+      translate:
+        UserId: User
+        SourceFileName: File
+        ClientIP: SrcIP
+        SharingType: Visibility
+    'FolderRestored':
+      annotate:
+        Stream: DOCUMENTS
+        Action: RESTORED
+        Status: PASSED
+      translate:
+        UserId: User
+        SourceFileName: File
+        ClientIP: SrcIP
+        SharingType: Visibility                                                
+
+    
+  fallback:
+    annotate:
+      EventName: Generic Microsoft Office 365 Event
+      Stream: OTHER
+
+  globals:
+    annotate:
+      System: MS-O365
+    translate:
+      CreationTime: SystemTstamp
+      HostName: System
