@@ -9,14 +9,14 @@ provides-streams:
 - THREAT
 - AUTHENTICATION
 master-filters:
-- '^(?:<\d+>)?\w+\s+\d+\s+\d+\:\d+\:\d+\s+\S+\s+\d+\,\d+\/\d+\/\d+\s+\d+\:\d+\:\d+\,\d+\,.*?(?:TRAFFIC|THREAT|SYSTEM|CONFIG|USERID\,login|GLOBALPROTECT)\,'
+- '^(?:\<\d+\>)?\w+\s+\d+\s+\d+\:\d+\:\d+\s+\S+\s+\d+\,\d+\/\d+\/\d+\s+\d+\:\d+\:\d+\,\d+\,.*?(?:TRAFFIC|THREAT|SYSTEM|CONFIG|USERID\,login|GLOBALPROTECT)\,'
 event-details:
-- first-match: '\,TRAFFIC\,.*?\,\S+\,'
+- first-match: 'TRAFFIC\,\w+\,'
   decoder: regex
-  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostnmae>\S+)\s+\d+\,\d+\/\d+\/\d+\s+\d+\:\d+\:\d+\,\d+\,(?P<event_type>\w+)\,\w+\,\d+\,[\d\/\:\s]+\,(?P<src>[\d\.]+)\,(?P<dst>[\d\.]+)\,(?P<srctranip>[\d\.]+)\,(?P<dsttranip>[\d\.]+)\,(?P<rule>.*?)\,(?P<suser>.*?)\,(?P<duser>.*?)\,(?P<app>.*?)\,.*?\,(?P<szone>.*?)\,(?P<dzone>.*?)\,(?P<iface_in>.*?)\,(?P<iface_out>.*?)\,.*?\,.*?\,.*?\,.*?\,(?P<sport>\d+)\,(?P<dport>\d+)\,(?P<srctranport>\d+)\,(?P<dsttranport>\d+)\,.*?\,(?P<proto>.*?)\,(?P<action>.*?)\,(?P<length>\d+)\,(?P<sent_bytes>\d+)\,(?P<receive_bytes>\d+)\,.*?\,\d+\/\d+\/\d+\s+\d+\:\d+\:\d+\,.*?\,(?P<siteclass>.*?)\,.*?\,\d+\,.*?\,.*?\,.*?\,\d+\,\d+\,\d+\,(?P<reason>.*?)\,'
-  event-key-format: '{action}'
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostnmae>\S+)\s+\d+\,\d+\/\d+\/\d+\s+\d+\:\d+\:\d+\,\d+\,(?P<event_type>\w+)\,(?P<subtype>\w+)\,\d+\,[\d\/\:\s]+\,(?P<src>[\d\.]+)\,(?P<dst>[\d\.]+)\,(?P<srctranip>[\d\.]+)\,(?P<dsttranip>[\d\.]+)\,(?P<rule>.*?)\,(?P<suser>.*?)\,(?P<duser>.*?)\,(?P<app>.*?)\,.*?\,(?P<szone>.*?)\,(?P<dzone>.*?)\,(?P<iface_in>.*?)\,(?P<iface_out>.*?)\,.*?\,.*?\,.*?\,.*?\,(?P<sport>\d+)\,(?P<dport>\d+)\,(?P<srctranport>\d+)\,(?P<dsttranport>\d+)\,.*?\,(?P<proto>.*?)\,(?P<action>.*?)\,(?P<length>\d+)\,(?P<sent_bytes>\d+)\,(?P<receive_bytes>\d+)\,.*?\,\d+\/\d+\/\d+\s+\d+\:\d+\:\d+\,.*?\,(?P<siteclass>.*?)\,.*?\,\d+\,.*?\,.*?\,.*?\,\d+\,\d+\,\d+\,(?P<reason>.*?)\,'
+  event-key-format: '{event_type}-{subtype}'
   event-key-mapping:
-    'allow':
+    'TRAFFIC-start':
       annotate:
         Stream: FIREWALL
         Action: PACKET_ALLOWED
@@ -30,7 +30,7 @@ event-details:
         proto: Proto  
         sent_bytes: TXLen
         receive_bytes: RXLen
-    'deny':
+    'TRAFFIC-end':
       annotate:
         Stream: FIREWALL
         Action: PACKET_BLOCKED
@@ -44,25 +44,11 @@ event-details:
         proto: Proto  
         sent_bytes: TXLen
         receive_bytes: RXLen
-    'drop':
-      annotate:
-        Stream: FIREWALL
-        Action: PACKET_BLOCKED
-        Status: FAILED
-      translate:
-        src: SrcIP
-        dst: DstIP
-        sport: SrcPort
-        dport: DstPort
-        app: App
-        proto: Proto  
-        sent_bytes: TXLen
-        receive_bytes: RXLen 
-    'reset-both':   
+    'TRAFFIC-drop':
       annotate:
         Stream: FIREWALL
         Action: PACKET_ALLOWED
-        Status: PASSED
+        Status: FAILED
       translate:
         src: SrcIP
         dst: DstIP
@@ -72,11 +58,11 @@ event-details:
         proto: Proto  
         sent_bytes: TXLen
         receive_bytes: RXLen 
-    'drop-icmp':  
+    'TRAFFIC-deny':   
       annotate:
         Stream: FIREWALL
         Action: PACKET_BLOCKED
-        Status: FAILED
+        Status: PASSED
       translate:
         src: SrcIP
         dst: DstIP
@@ -97,12 +83,12 @@ event-details:
       hostname: System
       datetime: SystemTstamp
 
-- first-match: '\,THREAT\,.*?\,'
+- first-match: 'THREAT\,\S+\,'
   decoder: regex
-  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostnmae>\S+)\s+\d+\,\d+\/\d+\/\d+\s+\d+\:\d+\:\d+\,\d+\,(?P<event_type>\w+)\,.*?\,\d+\,[\d\/\:\s]+\,(?P<src>[\d\.]+)\,(?P<dst>[\d\.]+)\,(?P<srctranip>[\d\.]+)\,(?P<dsttranip>[\d\.]+)\,(?P<rule>.*?)\,(?P<suser>.*?)\,(?P<duser>.*?)\,(?P<app>.*?)\,.*?\,(?P<szone>.*?)\,(?P<dzone>.*?)\,(?P<iface_in>.*?)\,(?P<iface_out>.*?)\,.*?\,.*?\,.*?\,.*?\,(?P<sport>\d+)\,(?P<dport>\d+)\,(?P<srctranport>\d+)\,(?P<dsttranport>\d+)\,.*?\,(?P<proto>.*?)\,(?P<action>.*?)\,\"?(?P<objecttype>.*?)\"?\,((?P<threat>.*?)\((?P<eventid>\d+)\))\,(?P<siteclass>.*?)\,(?P<severity>.*?)\,'
-  event-key-format: '{action}-{eventid}'
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostnmae>\S+)\s+\d+\,\d+\/\d+\/\d+\s+\d+\:\d+\:\d+\,\d+\,(?P<event_type>\w+)\,(?P<subtype>.*?)\,\d+\,[\d\/\:\s]+\,(?P<src>[\d\.]+)\,(?P<dst>[\d\.]+)\,(?P<srctranip>[\d\.]+)\,(?P<dsttranip>[\d\.]+)\,(?P<rule>.*?)\,(?P<suser>.*?)\,(?P<duser>.*?)\,(?P<app>.*?)\,.*?\,(?P<szone>.*?)\,(?P<dzone>.*?)\,(?P<iface_in>.*?)\,(?P<iface_out>.*?)\,.*?\,.*?\,.*?\,.*?\,(?P<sport>\d+)\,(?P<dport>\d+)\,(?P<srctranport>\d+)\,(?P<dsttranport>\d+)\,.*?\,(?P<proto>.*?)\,(?P<action>.*?)\,\"?(?P<objecttype>.*?)\"?\,((?P<threat>.*?)\((?P<eventid>\d+)\))\,(?P<siteclass>.*?)\,(?P<severity>.*?)\,'
+  event-key-format: '{event_type}-{subtype}'
   event-key-mapping:
-    'alert-34556':
+    'THREAT-data':
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
@@ -113,7 +99,7 @@ event-details:
         dst: DstIP
         suser: User
         threat: Threat
-    'alert-10015':
+    'THREAT-file':
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
@@ -124,7 +110,7 @@ event-details:
         dst: DstIP
         suser: User
         threat: Threat
-    'alert-52004':
+    'THREAT-flood':
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
@@ -135,7 +121,7 @@ event-details:
         dst: DstIP
         suser: User
         threat: Threat
-    'block-url-9999':
+    'THREAT-packet':
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
@@ -146,7 +132,7 @@ event-details:
         dst: DstIP
         suser: User
         threat: Threat
-    'reset-both-325904520':
+    'THREAT-scan':
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
@@ -157,7 +143,7 @@ event-details:
         dst: DstIP
         suser: User
         threat: Threat
-    'alert-197353851':
+    'THREAT-spyware':
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
@@ -167,7 +153,62 @@ event-details:
         src: SrcIP
         dst: DstIP
         suser: User
-        threat: Threat                                              
+        threat: Threat
+    'THREAT-url':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+        Threat: Paloalto THREAT url event
+      translate:
+        src: SrcIP
+        dst: DstIP
+        suser: User
+    'THREAT-virus':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        src: SrcIP
+        dst: DstIP
+        suser: User
+        threat: Threat
+    'THREAT-vulnerability':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        src: SrcIP
+        dst: DstIP
+        suser: User
+        threat: Threat
+    'THREAT-wildfire':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        src: SrcIP
+        dst: DstIP
+        suser: User
+        threat: Threat 
+    'THREAT-wildfire-virus':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        src: SrcIP
+        dst: DstIP
+        suser: User
+        threat: Threat                                                                                    
 
   fallback:
     annotate:
@@ -179,7 +220,7 @@ event-details:
       hostname: System
       datetime: SystemTstamp
 
-- first-match: '\,SYSTEM\,.*?(?:auth\-success|auth-fail)'
+- first-match: '(?:auth\-success|auth-fail)\,\S+\,\w+'
   decoder: regex
   decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+\d+\,.*?\,.*?\,(?P<event_type>\w+)\,.*?\,.*?\,.*?\,.*?\,(?P<action>.*?)\,.*?\,.*?\,.*?\,.*?\,(?P<severity>.*?)\,.*?(?P<message>(?:User|user)\s+(?P<user>.*?)\s+.*?(?:Reason\:\s+(?P<reason>.*?)\s+)?(?:From|from)\:?\s+(?P<src>[\w\.\:]+))\.?\"?\,(?:.*?method\s+(?P<auth_proto>.*?)\s+)?'
   event-key-format: '{action}'
@@ -214,7 +255,7 @@ event-details:
       hostname: System
       datetime: SystemTstamp 
 
-- first-match: '\,SYSTEM\,.*?\s+(?:logged\s+out|logged\s+in)'
+- first-match: '\"User\s+\w+\s+(?:logged\s+out|logged\s+in)'
   decoder: regex
   decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+\d+\,.*?\,.*?\,(?P<event_type>\w+)\,.*?\,.*?\,.*?\,.*?\,.*?\,.*?\,.*?\,.*?\,.*?\,(?P<severity>.*?)\,.*?(?P<message>(?:User|user)\s+(?P<user>.*?)\s+(?P<action>logged\s+(?:out|in)).*?(?:Reason\:\s+(?P<reason>.*?)\s+)?(?:From|from)\:?\s+(?P<src>[\w\.\:]+))\.?\"?'
   event-key-format: '{action}'
@@ -248,7 +289,7 @@ event-details:
       hostname: System
       datetime: SystemTstamp  
 
-- first-match: '\,SYSTEM\,.*?\s+user\s+authentication\s+(?:failed|succeeded)'
+- first-match: 'user\s+authentication\s+(?:failed|succeeded)\.'
   decoder: regex
   decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+\d+\,.*?\,.*?\,(?P<event_type>\w+)\,.*?\,.*?\,.*?\,.*?\,.*?\,.*?\,.*?\,.*?\,.*?\,(?P<severity>.*?)\,\"(?P<message>.*?(?P<action>authentication\s+(?:failed|succeeded)).*?\s+Login\s+from\:\s+(?P<src>\S+)\,.*?User\s+name\:\s+(?P<user>.*?)\,.*?(?:.*?Reason\:\s+(?P<reason>.*?)\,)?.*?)\"\,'
   event-key-format: '{action}'
@@ -283,7 +324,7 @@ event-details:
       hostname: System
       datetime: SystemTstamp  
 
-- first-match: '\w{3}\s+\d+\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+\d+\,\d{4}\/\d{1,2}\/\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\,\d+\,\d+\,[\dx]+\,GLOBALPROTECT\,\d+\,\d+\,\d+\/\d+\/\d+\s+\d+\:\d+\:\d+\,\w+\,gateway\-logout\,'
+- first-match: 'GLOBALPROTECT\,\d+\,\d+\,\d+\/\d+\/\d+\s+\d+\:\d+\:\d+\,\w+\,gateway\-logout\,'
   decoder: regex
   decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+\d+\,.*?\,.*?\,\w+\,.*?\,(?P<daemon>.*?)\,.*?\,.*?\,.*?\,.*?\,(?P<message>.*?)\,(?P<event_type>.*?)\,.*?\,.*?\,(?P<user>.*?)\,.*?\".*?\".*?\"(?P<EvtDesc>.*?)\"'
   event-key-format: '{event_type}'
@@ -308,7 +349,7 @@ event-details:
       hostname: System
       datetime: SystemTstamp
 
-- first-match: 'SYSTEM\,general\,.*?\,\"\s+Accepted\s+password\s+'
+- first-match: '\"\s+Accepted\s+password\s+'
   decoder: regex
   decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+\d+\,.*?\,.*?\,(?P<event_type>\w+)\,.*?\,.*?\,.*?\,.*?\,.*?\,.*?\,.*?\,.*?\,.*?\,(?P<severity>.*?)\,\"(?P<message>.*?(?P<action>Accepted\s+password)\s+for\s+(?P<user>.*?)\s+from\s+(?P<src>\S+)\s+port\s+(?P<sport>\d+)\s+.*?)\"\,'
   event-key-format: '{action}'
