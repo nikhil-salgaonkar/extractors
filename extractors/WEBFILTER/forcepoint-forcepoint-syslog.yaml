@@ -1,0 +1,59 @@
+schema-version: 1.0
+#extractor-version: 1.0
+extractor-id: 207
+source-name: FORCEPOINT
+source-type: WEBFILTER
+source-description: extractor for Forcepoint Webfilter Events
+provides-streams:
+- WEBFILTER
+master-filters:
+- CEF\:\d+\|Forcepoint\|Security\|
+event-details:
+- first-match: CEF\:\d+\|Forcepoint\|Security\|.*?act\=
+  decoder: custom
+  decoder-header: CEF
+  decoder-regex: (\w+)\=([^\s]+\s\([^\)]+\)|[^\s]+)
+  event-key-format: '{act}'
+  event-key-mapping:
+    'permitted':
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_ALLOWED
+        Status: PASSED
+      translate:
+        request: URL
+        requestMethod: HTTPMethod
+        src: SrcIP
+        dst: DstIP
+        requestClientApplication: UserAgent
+        dpt: DstPort
+        out: TXLen
+        in: RXLen
+        suser: User
+        Proto: Proto
+
+    'blocked':
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_BLOCKED
+        Status: FAILED
+      translate:
+        request: URL
+        requestMethod: HTTPMethod
+        src: SrcIP
+        dst: DstIP
+        requestClientApplication: UserAgent
+        dpt: DstPort
+        out: TXLen
+        in: RXLen
+        suser: User
+        Proto: Proto  
+
+  fallback:
+    annotate:
+      EventName: Generic Forcepoint Webfilter Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      dhost: System
