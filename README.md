@@ -12,6 +12,7 @@ This is a live information on the exctractors that are ready.
 |OS       							            |Linux (Auditbeat)    | AUTHENTICATION,AUDITD              	     		 |
 |OS       							            |Linux (Syslog)       | AUTHENTICATION                             	 |
 |OS       							            |VMware(Syslog)       | AUTHENTICATION                          		 |
+|DHCP                               |Windows -DHCP        | DHCP
 |Firewall							              |Fortigate            | FIREWALL,THREAT,AUTHENTICATION,IAM 	 			   |
 |Firewall							              |Cisco-FMC            | FIREWALL,THREAT,AUTHENTICATION,IAM 	 		     |
 |Firewall							              |PaloAlto             | FIREWALL,THREAT,AUTHENTICATION,IAM 	 			   |
@@ -22,14 +23,15 @@ This is a live information on the exctractors that are ready.
 |Firewall                           |ZScaler				      | FIREWALL,THREAT,AUTHENTICATION,IAM 			  	 |
 |EmailGateway  						          |Mimecast 	          | EMAIL, THREAT, AUTHENTICATION, IAM		       |
 |Endpoint Security                  |Symantec AV		      | THREAT								              		     |
+|Endpoint Security                  |McAfee EPO   	      | THREAT								              		     |
 |Endpoint Security							    |Sophos Endpoint      | THREAT, IAM                                  |
 |Endpoint Security								  |Symantec ATP         | THREAT                         	 			       |
 |Endpoint Security							    |DELL-CYLANCE         | THREAT                                       |
+|Endpoint Security	                |Carbonblack EPP      | THREAT								                       |
 |EDR                                |Carbonblack Reponse  | THREAT								                       |
+|EDR                                |Carbonblack Defence  | THREAT								                       |
 |Webfiler							              |ZScaler			        | WEBFILTER,AUTHENTICATION, IAM		    		     |
-|Azure							                |Azure                | AZURE                                			   |
-|AWS							                  |AWS-Cloudtrail       | CLOUDTRAIL                         	 			   |
-
+|Cloud							                |AWS-Cloudtrail       | CLOUDTRAIL                         	 			   |
 
 
 
@@ -42,8 +44,7 @@ This is a live information on the exctractors that are ready.
 |Watchguard         |
 |McAfee gateway     |
 |TREND-MICRO        |
-|Symantec Endpoint  |
-|Carbonblack EPP    |
 |O365               |
-|Carbonblack Defense|
+|Azure              |
+|F5BIGIP-CEF        |
 
