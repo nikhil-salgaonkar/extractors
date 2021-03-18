@@ -180,3 +180,8 @@ CLOUDTRAIL:
 SYSMON-PIPE:
 - PipeName
 - Image
+DOCUMENTS:
+- User
+- File
+- SrcIP
+- Visibility
