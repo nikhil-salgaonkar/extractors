@@ -7,9 +7,9 @@ source-description: extractor for OfficeScan-XG Events
 provides-streams:
 - THREAT
 master-filters:
-- '\d{4}\-\d{1,2}\-\d{2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+\w+\s+\d+.*?Virus/Malware\:'
+- '\d{4}\-\d{1,2}\-\d{2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+\w+\s+\d+.*?(?:Virus\/Malware|Spyware\/Grayware|Web\s+Reputation)\:'
 event-details:
-- first-match: 'Virus/Malware\:\s+'
+- first-match: '(?:Virus\/Malware|Spyware\/Grayware|Web\s+Reputation)\:\s+'
   decoder: custom
   decoder-regex: '([^\:\s]+)\:\s+([^\s]+)'
   event-key-format: ''
