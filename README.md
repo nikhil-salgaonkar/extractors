@@ -38,13 +38,3 @@ This is a live information on the exctractors that are ready.
 <!--|GCP							                  |GCP                | AUTHENTICATION, GCP                	 			   |-->
 <!---|Firewall							        |ZScaler			      | FIREWALL,THREAT,AUTHENTICATION,IAM 	|Custom			| -->
 <!---|DNS								            |ZScaler			      | DNS, IAM								            |Custom			| -->
-
-## In progress
-|Cisco FTD          |
-|Watchguard         |
-|McAfee gateway     |
-|TREND-MICRO        |
-|O365               |
-|Azure              |
-|F5BIGIP-CEF        |
-
