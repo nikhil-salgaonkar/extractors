@@ -22,7 +22,7 @@ event-details:
         Vector: HOST
       translate:
         Virus/Malware: Threat
-        pyware/Grayware: Threat
+        Spyware/Grayware: Threat
         'Web Reputation': Threat
         SrcIP: SrcIP
         DstIP: DstIP
