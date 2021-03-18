@@ -212,7 +212,7 @@ event-details:
     'FileCheckedIn':
       annotate:
         Stream: DOCUMENTS
-        Action: CHECKED_IN
+        Action: MODIFIED
         Status: PASSED
       translate:
         UserId: User
@@ -222,7 +222,7 @@ event-details:
     'FileCheckedOut':
       annotate:
         Stream: DOCUMENTS
-        Action: CHECKED_OUT
+        Action: MODIFIED
         Status: PASSED
       translate:
         UserId: User
@@ -242,7 +242,7 @@ event-details:
     'FileDeletedFirstStageRecycleBin':
       annotate:
         Stream: DOCUMENTS
-        Action: DELETED_RECYCLE_BIN
+        Action: DELETED
         Status: PASSED
       translate:
         UserId: User
@@ -252,27 +252,17 @@ event-details:
     'FileDeletedSecondStageRecycleBin':
       annotate:
         Stream: DOCUMENTS
-        Action: DELETED_RECYCLE_BIN
+        Action: DELETED
         Status: PASSED
       translate:
         UserId: User
         SourceFileName: File
         ClientIP: SrcIP
         SharingType: Visibility
-    'FileMalwareDetected':
-      annotate:
-        Stream: DOCUMENTS
-        Action: MALWARE_DETECTED
-        Status: PASSED
-      translate:
-        UserId: User
-        SourceFileName: File
-        ClientIP: SrcIP
-        SharingType: Visibility 
     'FileCheckOutDiscarded':
       annotate:
         Stream: DOCUMENTS
-        Action: CHECKOUT_DISCARDED
+        Action: MODIFIED
         Status: PASSED
       translate:
         UserId: User
@@ -422,7 +412,7 @@ event-details:
     'FolderDeletedFirstStageRecycleBin':
       annotate:
         Stream: DOCUMENTS
-        Action: DELETED_RECYCLE_BIN
+        Action: DELETED
         Status: PASSED
       translate:
         UserId: User
@@ -432,7 +422,7 @@ event-details:
     'FolderDeletedSecondStageRecycleBin':
       annotate:
         Stream: DOCUMENTS
-        Action: DELETED_RECYCLE_BIN
+        Action: DELETED
         Status: PASSED
       translate:
         UserId: User
