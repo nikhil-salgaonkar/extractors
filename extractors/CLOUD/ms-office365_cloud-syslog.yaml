@@ -34,8 +34,8 @@ event-details:
       translate:
         From: Sender
         To: Recipient
-        Item[Subject] : Subject
-        Attachments: File
+        Item[Subject]: Subject
+        Item[Attachments]: File
         Directionality: Direction
         ClientIPAddress: RemoteIP
     'Update':
@@ -57,7 +57,7 @@ event-details:
         From: Sender
         To: Recipient
         AffectedItems[0][Subject]: Subject
-        Attachments: File
+        AffectedItems[0][Attachments]: File
         Directionality: Direction
         ClientIP: RemoteIP            
     'DlpRuleMatch':
