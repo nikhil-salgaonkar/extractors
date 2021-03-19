@@ -23,8 +23,7 @@ event-details:
       translate:
         Virus/Malware: Threat
         Spyware/Grayware: Threat
-        'Web Reputation': Threat
-        SrcIP: SrcIP
+        IP address: SrcIP
         DstIP: DstIP
         cmdline: CommandLine
         User: User
