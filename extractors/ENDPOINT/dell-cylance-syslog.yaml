@@ -9,9 +9,9 @@ provides-streams:
 master-filters:
 - '^(?:\<\d+\>\d+\s+)?\d+\-\d+\-\d+T\d+\:\d+\:\d+[\d\.\+Z\:]+\s+\S+\s+CylancePROTECT\s+'
 event-details:
-- first-match: '^(?:\<\d+\>\d+\s+)?\d+\-\d+\-\d+T\d+\:\d+\:\d+[\d\.\+Z\:]+\s+\S+\s+CylancePROTECT\s+'
+- first-match: 'CylancePROTECT\s+[\-\s]+Event\s+Type\:'
   decoder: custom
-  decoder-regex: 'CylancePROTECT\s+'
+  decoder-regex: '\s+([\w\s]+)\:\s+([^\,]+)\,'
   event-key-format: '{Threat Classification}'
   event-key-mapping:
     'PUP - Scripting Tool':           
