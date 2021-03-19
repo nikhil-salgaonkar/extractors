@@ -30,7 +30,7 @@ event-details:
         out: TXLen
         in: RXLen
         suser: User
-        Proto: Proto
+        app: Proto
 
     'blocked':
       annotate:
@@ -47,7 +47,7 @@ event-details:
         out: TXLen
         in: RXLen
         suser: User
-        Proto: Proto  
+        app: Proto  
 
   fallback:
     annotate:
