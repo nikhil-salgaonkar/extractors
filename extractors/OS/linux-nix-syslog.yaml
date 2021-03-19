@@ -379,10 +379,10 @@ event-details:
         Action: LOGOUT
         Status: PASSED
         AuthProto: SSH
-        User: '-'
       translate:
         reason: Reason
         src: SrcIP
+        user: User
 
   fallback:
     annotate:

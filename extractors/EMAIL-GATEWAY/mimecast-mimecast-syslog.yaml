@@ -22,21 +22,21 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        AuthProto: '-'
       translate:
         src: SrcIP
         user: User
         eventInfo: Reason
+        AuthProto: AuthProto
     'success-User Logged On-None-None-None-None-None-None':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
-        AuthProto: '-'
       translate:
         src: SrcIP
         user: User
         eventInfo: Reason
+        AuthProto: AuthProto
     'None-Account Updated-None-None-None-None-None-None':
       annotate:
         Stream: IAM
@@ -69,10 +69,10 @@ event-details:
         Stream: IAM
         Action: USER_ROLE_UPDATED
         Status: PASSED
-        User: '-'
       translate:
         TargetUser: TargetUser      
         Rolename: Role
+        user: User
     'None-User removed from role-None-None-None-None-None-None':
       annotate:
         Stream: IAM
