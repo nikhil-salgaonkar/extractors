@@ -1,0 +1,51 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 70
+source-name: IMPERVA
+source-type: WAF
+source-description: extractor for Imperva WAF Events
+provides-streams:
+- THREAT
+master-filters:
+- 'CEF\:\s?\d+\|Imperva\sInc\.\|SecureSphere\|'
+event-details:  
+- first-match: 'CEF\:\s?\d+\|Imperva\s+Inc\.\|SecureSphere\|[\d\.\_]+\|'
+  decoder: custom
+  decoder-regex: '([\w]+)\=([^\s\|]+)'
+  event-key-format: '{cat}'
+  decoder-header: CEF
+  event-key-mapping:
+    'Alert':        
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        Header-5: Threat 
+        src: SrcIP
+        dst: DstIP
+        duser: User
+    'SecurityEvent':        
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        Header-5: Threat 
+        src: SrcIP
+        dst: DstIP
+        duser: User
+        
+  fallback:
+    annotate:
+      EventName: Generic Imperva Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      rt: SystemTstamp
+      event_date: SystemTstamp
+      dhost: System
+      Host: System
