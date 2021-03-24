@@ -1,9 +1,9 @@
 schema-version: 1.0
 #extractor-version: 1
 extractor-id: 58
-source-name: JUNIPER-SRX
+source-name: JUNIPER
 source-type: FIREWALL
-source-description: Extractor for Juniper-SRX Firewall Events
+source-description: Extractor for Juniper Firewall Events
 provides-streams:
 - AUTHENTICATION
 - FIREWALL
@@ -29,7 +29,7 @@ event-details:
 
   fallback:
     annotate:
-      EventName: Generic Juniper-SRX Firewall Event
+      EventName: Generic Juniper Firewall Event
       Stream: OTHER
 
   globals:
@@ -54,7 +54,7 @@ event-details:
 
   fallback:
     annotate:
-      EventName: Generic Juniper-SRX Firewall Event
+      EventName: Generic Juniper Firewall Event
       Stream: OTHER
 
   globals:
@@ -80,7 +80,7 @@ event-details:
 
   fallback:
     annotate:
-      EventName: Generic Juniper-SRX Firewall Event
+      EventName: Generic Juniper Firewall Event
       Stream: OTHER
 
   globals:
@@ -105,7 +105,7 @@ event-details:
 
   fallback:
     annotate:
-      EventName: Generic Juniper-SRX Firewall Event
+      EventName: Generic Juniper Firewall Event
       Stream: OTHER
 
   globals:
@@ -130,7 +130,7 @@ event-details:
 
   fallback:
     annotate:
-      EventName: Generic Juniper-SRX Firewall Event
+      EventName: Generic Juniper Firewall Event
       Stream: OTHER
 
   globals:
@@ -155,7 +155,7 @@ event-details:
 
   fallback:
     annotate:
-      EventName: Generic Juniper-SRX Firewall Event
+      EventName: Generic Juniper Firewall Event
       Stream: OTHER
 
   globals:
@@ -223,7 +223,7 @@ event-details:
 
   fallback:
     annotate:
-      EventName: Generic Juniper-SRX Firewall Event
+      EventName: Generic Juniper Firewall Event
       Stream: OTHER
 
   globals:
@@ -252,7 +252,7 @@ event-details:
 
   fallback:
     annotate:
-      EventName: Generic Juniper-SRX Firewall Event
+      EventName: Generic Juniper Firewall Event
       Stream: OTHER
 
   globals:
@@ -312,7 +312,7 @@ event-details:
     
   fallback:
     annotate:
-      EventName: Generic Juniper-SRX Firewall Event
+      EventName: Generic Juniper Firewall Event
       Stream: OTHER
 
   globals:
