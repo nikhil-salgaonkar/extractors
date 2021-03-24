@@ -1,0 +1,66 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 150
+source-name: F5BIGIP-CEF
+source-type: WAF
+source-description: extractor for F5-BigIP WAF Events
+provides-streams:
+- THREAT
+master-filters:
+- 'CEF\:\d+\|F5\|ASM\|'
+event-details:  
+- first-match: 'cs4Label\=attack_type'
+  decoder: custom
+  decoder-regex: '([\w]+)\=([^\s]*)'
+  event-key-format: ''
+  decoder-header: CEF 
+  event-key-mapping:
+    '':           
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate: 
+        cs4: Threat 
+        src: SrcIP
+        dst: DstIP
+        suser: User    
+    
+  fallback:
+    annotate:
+      EventName: Generic F5-BigIP Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      rt: SystemTstamp
+      dvchost: System
+
+- first-match: 'cs4Label\=attack_status'
+  decoder: custom
+  decoder-regex: '([\w]+)\=([^\s]*)'
+  event-key-format: ''
+  decoder-header: CEF 
+  event-key-mapping:
+    '':           
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate: 
+        Header-4: Threat 
+        src: SrcIP
+        dst: DstIP
+        suser: User    
+    
+  fallback:
+    annotate:
+      EventName: Generic F5-BigIP Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      rt: SystemTstamp
+      dvchost: System      
