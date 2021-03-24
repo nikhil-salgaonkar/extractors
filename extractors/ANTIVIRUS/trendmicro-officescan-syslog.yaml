@@ -1,0 +1,41 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 198
+source-name: OFFICESCAN-XG-WINEVT
+source-type: ANTIVIRUS
+source-description: extractor for OfficeScan-XG Events
+provides-streams:
+- THREAT
+master-filters:
+- '\d{4}\-\d{1,2}\-\d{2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+\w+\s+\d+.*?(?:Virus\/Malware|Spyware\/Grayware|Web\s+Reputation)\:'
+event-details:
+- first-match: '(?:Virus\/Malware|Spyware\/Grayware|Web\s+Reputation)\:\s+'
+  decoder: custom
+  decoder-regex: '([^\:\s]+)\:\s+([^\s]+)'
+  event-key-format: ''
+  event-key-mapping:
+    '':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Virus/Malware: Threat
+        Spyware/Grayware: Threat
+        IP address: SrcIP
+        DstIP: DstIP
+        cmdline: CommandLine
+        User: User
+        File: File
+        Result: Process
+        URL: URL
+    
+  fallback:
+    annotate:
+      EventName: Generic OfficeScan-XG Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      Date/Time: SystemTstamp
