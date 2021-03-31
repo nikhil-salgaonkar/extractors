@@ -8,6 +8,7 @@ provides-streams:
 - AUTHENTICATION
 - SYSMON-PROCESS
 - SYSMON-NETWORK
+- SYSMON-REGISTRY
 - SYSMON-IMAGE-LOAD
 - IAM
 master-filters:
@@ -345,6 +346,27 @@ event-details:
         GrantedAccess: GrantedAccess
         CallTrace: CallTrace
         Description: Description
+    
+    '12':
+      annotate:
+        Stream: SYSMON-REGISTRY 
+        Action: OBJECT_MODIFIED
+        Status: PASSED
+      translate:
+        Image: Image
+        TargetObject: TargetObject
+        Description: Description 
+
+    '13':
+      annotate:
+        Stream: SYSMON-REGISTRY 
+        Action: OBJECT_MODIFIED
+        Status: PASSED
+      translate:
+        Image: Image
+        TargetObject: TargetObject
+        Details: Details
+        Description: Description    
 
     '8':
       annotate:
