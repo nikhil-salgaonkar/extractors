@@ -9,7 +9,7 @@ provides-streams:
 - FIREWALL
 - THREAT
 master-filters:
-- '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+\S+\:\s+\S+\:\s+'
+- '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+(?:RT\_FLOW|kmd|RT\_IPSEC|mgd|sshd|checklogin|junos\-alg|rpd|ip\_mon\_reth\_scan|L2ALM|xntpd|PFE\_FW\_SYSLOG\_IP|RT\_IDS)\:?\[?'
 - '^(?:\<\d+\>)?\d{4}\-\d{1,2}\-\d{2}\s+\d{2}\:\d{2}\:\d{2}\s+\w+\,\s+Filter\:\s+\w+\,'
 event-details:
 - first-match: 'UI_LOGIN_EVENT\:\s+User\s+\S+\s+login\,\s+\w+\s+j\-super\-user'
