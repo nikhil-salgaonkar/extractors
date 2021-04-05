@@ -1,0 +1,201 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 67
+source-name: CISCO
+source-type: OS
+source-description: Extractor for Cisco OS Events
+provides-streams:
+- AUTHENTICATION
+- FIREWALL
+master-filters:
+- '\s+\%(?:SEC|FMANFP|SYS|SEC_LOGIN|PORT_SECURITY|AUTHPRIV|SNMP)\-\d+\-(?:IPACCESSLOGS|IPACCESSLOGP|IPACCESSLOGDP|LOGIN_SUCCESS|LOGOUT|LOGIN_FAILED|IPACCESSLOGNP|PSECURE_VIOLATION|SYSTEM_MSG|AUTHFAIL)\:\s+'
+event-details:
+- first-match: '\%(?:FMANFP|SEC)\-\d+\-IPACCESSLOGP\:'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w+\s+\d+\s+\d+\:\d+\:\d+)[\.\w\s\:]+\%(?P<facility>\S+)\-(?P<severity>\d+)\-(?P<actiontaken>\S+)\:.*?\s+(?P<message>list.*?\s+(?P<action>(?:denied|permitted))\s+(?P<protocol>\w+)\s+(?P<src>[\w\.\:]+)\((?P<sport>\d+)\)\s+.*?[\-\>\s]+(?P<dst>[\w\:\.]+)\((?P<dport>\d+)\)\,.*)'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'denied':
+      annotate:
+        Stream: FIREWALL
+        Action: PACKET_BLOCKED
+        Status: FAILED
+      translate:
+        src: SrcIP
+        dst: DstIP
+        sport: SrcPort
+        dport: DstPort
+        protocol: Proto
+        Packet Length: TXLen
+        App: App
+    'permitted':
+      annotate:
+        Stream: FIREWALL
+        Action: PACKET_ALLOWED
+        Status: PASSED
+      translate:
+        src: SrcIP
+        dst: DstIP
+        sport: SrcPort
+        dport: DstPort
+        protocol: Proto
+        Packet Length: TXLen
+        App: App
+
+  fallback:
+    annotate:
+      EventName: Generic Cisco OS Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+
+- first-match: '\%(?:FMANFP|SEC)\-\d+\-IPACCESSLOGDP\:'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w+\s+\d+\s+\d+\:\d+\:\d+)[\w\.\:\s]+\%(?P<facility>\S+)\-(?P<severity>\d+)\-(?P<actiontaken>\S+)\:\s+(?P<message>.*?list\s+(?P<acl>.*?)\s+(?P<action>\w+)\s+(?P<protocol>\w+)\s+(?P<src>[\w\.\:]+)\s+(?P<iface>.*?)\-\>\s+(?P<dst>[\w\.\:]+)\s+.*?\,\s+(?P<packets>\d+)\s+(?:packet|packets))'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'denied':
+      annotate:
+        Stream: FIREWALL
+        Action: PACKET_BLOCKED
+        Status: FAILED
+      translate:
+        src: SrcIP
+        dst: DstIP
+        App: App
+        sport: SrcPort
+        dport: DstPort
+        protocol: Proto
+        Packet Length: TXLen
+    'permitted':
+      annotate:
+        Stream: FIREWALL
+        Action: PACKET_ALLOWED
+        Status: PASSED
+      translate:
+        src: SrcIP
+        dst: DstIP
+        App: App
+        sport: SrcPort
+        dport: DstPort
+        protocol: Proto
+        Packet Length: TXLen
+
+  fallback:
+    annotate:
+      EventName: Generic Cisco OS Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+
+- first-match: '\%SEC\_LOGIN\-'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w+\s+\d+\s+\d+\:\d+\:\d+)[\.\w\:\s]+\%(?P<facility>\S+)\-(?P<severity>\d+)\-(?P<action>\S+)\:\s+(?P<message>.*?)\s+\[user\:\s+(?P<user>.*?)\]\s+\[Source\:\s+(?P<src>[\w\:\.]+)\]\s+\[localport\:\s+(?P<sport>\d+)\]\s+(?:\[Reason\:\s+(?P<Reason>.*?)\])?'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'LOGIN_SUCCESS':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        AuthProto: AuthProto
+        src: SrcIP
+        user: User
+    'LOGIN_FAILED':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate:
+        AuthProto: AuthProto
+        Reason: Reason
+        src: SrcIP
+        user: User
+
+  fallback:
+    annotate:
+      EventName: Generic Cisco OS Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+
+- first-match: '\%SNMP\-\d+\-AUTHFAIL\:'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w+\s+\d+\s+\d+\:\d+\:\d+)[\w\:\.\s]+\%(?P<facility>\w+)\-\d+\-(?P<actiontaken>\S+)\:\s+(?P<reason>Authentication\s+failure\s+for\s+(?P<auth_protocol>\w+)\s+.*?host\s+(?P<src>.*))'
+  event-key-format: '{actiontaken}'
+  event-key-mapping:
+    'AUTHFAIL':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate:
+        auth_protocol: AuthProto
+        reason: Reason
+        src: SrcIP
+        user: User
+
+  fallback:
+    annotate:
+      EventName: Generic Cisco OS Event
+      Stream: OTHER
+      
+  globals:
+    translate:
+      datetime: SystemTstamp
+
+- first-match: '\%AUTHPRIV\-\d+\-SYSTEM\_MSG\:'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w+\s+\d+\s+\d+\:\d+\:\d+)[\w\.\:\s]+\%(?P<facility>\S+)\-\d+\-(?P<actiontaken>\S+)\:\s+.*?\:(?P<reason>(?P<action>Authentication\s+failed)\s+from\s+(?P<src>[\w\.\:]+)\s+.*?(?P<daemon>dcos_sshd)\[(?P<pid>\d+)\])'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'Authentication failed':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+        AuthProto: SSH
+      translate:
+        reason: Reason
+        src: SrcIP
+        user: User
+
+  fallback:
+    annotate:
+      EventName: Generic Cisco OS Event
+      Stream: OTHER
+      
+  globals:
+    translate:
+      datetime: SystemTstamp      
+
+- first-match: '\%SYS\-6\-LOGOUT\:'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w+\s+\d+\s+\d+\:\d+\:\d+)[\.\w\:\s]+\%(?P<facility>\w+)\-(?P<severity>\d+)\-(?P<action>\w+)\:\s+(?P<message>User\s+(?P<user>[\w\.\-]+)\s+.*?\((?P<src>[\d\.]+)\))'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'LOGOUT':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+      translate:
+        AuthProto: AuthProto
+        src: SrcIP
+        user: User
+
+  fallback:
+    annotate:
+      EventName: Generic Cisco OS Event
+      Stream: OTHER
+      
+  globals:
+    translate:
+      datetime: SystemTstamp
