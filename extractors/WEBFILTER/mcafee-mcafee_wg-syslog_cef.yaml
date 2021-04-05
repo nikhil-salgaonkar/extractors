@@ -6,13 +6,14 @@ source-type: WEBFILTER
 source-description: Extractor for McAfee Web Gateway Proxy Events
 provides-streams:
 - AUTHENTICATION
+- THREAT
 - WEBFILTER
 master-filters:
 - '\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+mwg\:\s+CEF\:[\w\.]+\|McAfee\|(?:WebGateway|Web\s+Gateway)\|'
 event-details:
-- first-match: '\s+mwg\:\s+CEF\:[\w\.]+\|McAfee\|(?:WebGateway|Web\s+Gateway)\|'
+- first-match: 'mwg\:\s+CEF\:[\w\.]+\|McAfee\|(?:WebGateway|Web\s+Gateway)\|\d+\|\w+\|'
   decoder: custom
-  decoder-regex: '([\w]+)\=(\"[^\"]*|[^\s]*)\"?'
+  decoder-regex: '([\w\-]+)\=(\"[^\"]*|[^\s]*)\"?'
   event-key-format: '{Action}'
   event-key-mapping:
     'USER_LOGIN':
@@ -21,44 +22,28 @@ event-details:
         Action: LOGIN 
         Status: PASSED
       translate:
+        User: User 
         Source_ID: SrcIP
         AuthProto: AuthProto
-        User: User 
     'USER_LOGIN_FAILED':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
       translate:
-        Details: Reason
+        User: User 
         Source_ID: SrcIP
         AuthProto: AuthProto
-        User: User
+        Details: Reason
     'USER_LOGOUT':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGOUT
         Status: PASSED
       translate:
+        User: User 
         Source_ID: SrcIP
         AuthProto: AuthProto
-        User: User
-    'None':
-      annotate:
-        Stream: WEBFILTER
-        Action: URL_ALLOWED
-        Status: PASSED
-      translate:
-        requestMethod: HTTPMethod
-        requestClientApplication: UserAgent
-        Proto: Proto
-        TXLen: TXLen
-        RXLen: RXLen
-        suser: User
-        DstPort: DstPort
-        request: URL
-        src: SrcIP
-        dst: DstIP    
 
   fallback:
     annotate:
@@ -68,5 +53,637 @@ event-details:
   globals:
     translate:
       Timestamp: SystemTstamp
-      rt: SystemTstamp
       Appliance: System
+
+- first-match: 'McAfee\|(?:WebGateway|Web\s+Gateway)\|[\d\.]+\|\d+\|.*?cs1\=\S+\s+cs1Label\=Virus\s+Name'
+  decoder: custom
+  decoder-regex: '([\w\-]+)\=(\"[^\"]*|[^\s]*)\"?'
+  event-key-format: ''
+  event-key-mapping:
+    '':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        cs1: Threat
+        src: SrcIP
+        dst: DstIP
+        suser: User
+
+  fallback:
+    annotate:
+      EventName: Generic McAfee Web Gateway Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      Timestamp: SystemTstamp
+
+- first-match: 'McAfee\|(?:WebGateway|Web\s+Gateway)\|[\d\.]+\|\d+\|.*?cs1\=(?!\S+)\s+cs1Label\=Virus\s+Name.*?cn1Label\=Block\s+Reason'
+  decoder: custom
+  decoder-regex: '([\w\-]+)\=(\"[^\"]*|[^\s]*)\"?'
+  event-key-format: '{cn1}'
+  event-key-mapping:
+    '0':
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_ALLOWED
+        Status: PASSED
+      translate:
+        request: URL
+        requestMethod: HTTPMethod
+        src: SrcIP
+        dst: DstIP
+        requestClientApplication: UserAgent
+        DstPort: DstPort
+        TXLen: TXLen
+        RXLen: RXLen
+        suser: User
+        app: Proto
+    '10':
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_BLOCKED
+        Status: PASSED
+      translate:
+        request: URL
+        requestMethod: HTTPMethod
+        src: SrcIP
+        dst: DstIP
+        requestClientApplication: UserAgent
+        DstPort: DstPort
+        TXLen: TXLen
+        RXLen: RXLen
+        suser: User
+        app: Proto
+    '14':
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_BLOCKED
+        Status: PASSED
+      translate:
+        request: URL
+        requestMethod: HTTPMethod
+        src: SrcIP
+        dst: DstIP
+        requestClientApplication: UserAgent
+        DstPort: DstPort
+        TXLen: TXLen
+        RXLen: RXLen
+        suser: User
+        app: Proto
+    '15':
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_BLOCKED
+        Status: PASSED
+      translate:
+        request: URL
+        requestMethod: HTTPMethod
+        src: SrcIP
+        dst: DstIP
+        requestClientApplication: UserAgent
+        DstPort: DstPort
+        TXLen: TXLen
+        RXLen: RXLen
+        suser: User
+        app: Proto
+    '20':
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_BLOCKED
+        Status: PASSED
+      translate:
+        request: URL
+        requestMethod: HTTPMethod
+        src: SrcIP
+        dst: DstIP
+        requestClientApplication: UserAgent
+        DstPort: DstPort
+        TXLen: TXLen
+        RXLen: RXLen
+        suser: User
+        app: Proto
+    '22':
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_BLOCKED
+        Status: PASSED
+      translate:
+        request: URL
+        requestMethod: HTTPMethod
+        src: SrcIP
+        dst: DstIP
+        requestClientApplication: UserAgent
+        DstPort: DstPort
+        TXLen: TXLen
+        RXLen: RXLen
+        suser: User
+        app: Proto
+    '30':
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_BLOCKED
+        Status: PASSED
+      translate:
+        request: URL
+        requestMethod: HTTPMethod
+        src: SrcIP
+        dst: DstIP
+        requestClientApplication: UserAgent
+        DstPort: DstPort
+        TXLen: TXLen
+        RXLen: RXLen
+        suser: User
+        app: Proto
+    '35':
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_BLOCKED
+        Status: PASSED
+      translate:
+        request: URL
+        requestMethod: HTTPMethod
+        src: SrcIP
+        dst: DstIP
+        requestClientApplication: UserAgent
+        DstPort: DstPort
+        TXLen: TXLen
+        RXLen: RXLen
+        suser: User
+        app: Proto
+    '80':
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_BLOCKED
+        Status: PASSED
+      translate:
+        request: URL
+        requestMethod: HTTPMethod
+        src: SrcIP
+        dst: DstIP
+        requestClientApplication: UserAgent
+        DstPort: DstPort
+        TXLen: TXLen
+        RXLen: RXLen
+        suser: User
+        app: Proto
+    '81':
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_BLOCKED
+        Status: PASSED
+      translate:
+        request: URL
+        requestMethod: HTTPMethod
+        src: SrcIP
+        dst: DstIP
+        requestClientApplication: UserAgent
+        DstPort: DstPort
+        TXLen: TXLen
+        RXLen: RXLen
+        suser: User
+        app: Proto
+    '82':
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_BLOCKED
+        Status: PASSED
+      translate:
+        request: URL
+        requestMethod: HTTPMethod
+        src: SrcIP
+        dst: DstIP
+        requestClientApplication: UserAgent
+        DstPort: DstPort
+        TXLen: TXLen
+        RXLen: RXLen
+        suser: User
+        app: Proto
+    '85':
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_BLOCKED
+        Status: PASSED
+      translate:
+        request: URL
+        requestMethod: HTTPMethod
+        src: SrcIP
+        dst: DstIP
+        requestClientApplication: UserAgent
+        DstPort: DstPort
+        TXLen: TXLen
+        RXLen: RXLen
+        suser: User
+        app: Proto
+    '92':
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_BLOCKED
+        Status: PASSED
+      translate:
+        request: URL
+        requestMethod: HTTPMethod
+        src: SrcIP
+        dst: DstIP
+        requestClientApplication: UserAgent
+        DstPort: DstPort
+        TXLen: TXLen
+        RXLen: RXLen
+        suser: User
+        app: Proto
+    '93':
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_BLOCKED
+        Status: PASSED
+      translate:
+        request: URL
+        requestMethod: HTTPMethod
+        src: SrcIP
+        dst: DstIP
+        requestClientApplication: UserAgent
+        DstPort: DstPort
+        TXLen: TXLen
+        RXLen: RXLen
+        suser: User
+        app: Proto
+    '94':
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_BLOCKED
+        Status: PASSED
+      translate:
+        request: URL
+        requestMethod: HTTPMethod
+        src: SrcIP
+        dst: DstIP
+        requestClientApplication: UserAgent
+        DstPort: DstPort
+        TXLen: TXLen
+        RXLen: RXLen
+        suser: User
+        app: Proto
+    '95':
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_BLOCKED
+        Status: PASSED
+      translate:
+        request: URL
+        requestMethod: HTTPMethod
+        src: SrcIP
+        dst: DstIP
+        requestClientApplication: UserAgent
+        DstPort: DstPort
+        TXLen: TXLen
+        RXLen: RXLen
+        suser: User
+        app: Proto
+    '97':
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_BLOCKED
+        Status: PASSED
+      translate:
+        request: URL
+        requestMethod: HTTPMethod
+        src: SrcIP
+        dst: DstIP
+        requestClientApplication: UserAgent
+        DstPort: DstPort
+        TXLen: TXLen
+        RXLen: RXLen
+        suser: User
+        app: Proto
+    '98':
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_BLOCKED
+        Status: PASSED
+      translate:
+        request: URL
+        requestMethod: HTTPMethod
+        src: SrcIP
+        dst: DstIP
+        requestClientApplication: UserAgent
+        DstPort: DstPort
+        TXLen: TXLen
+        RXLen: RXLen
+        suser: User
+        app: Proto
+    '102':
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_BLOCKED
+        Status: PASSED
+      translate:
+        request: URL
+        requestMethod: HTTPMethod
+        src: SrcIP
+        dst: DstIP
+        requestClientApplication: UserAgent
+        DstPort: DstPort
+        TXLen: TXLen
+        RXLen: RXLen
+        suser: User
+        app: Proto
+    '103':
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_BLOCKED
+        Status: PASSED
+      translate:
+        request: URL
+        requestMethod: HTTPMethod
+        src: SrcIP
+        dst: DstIP
+        requestClientApplication: UserAgent
+        DstPort: DstPort
+        TXLen: TXLen
+        RXLen: RXLen
+        suser: User
+        app: Proto
+    '104':
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_BLOCKED
+        Status: PASSED
+      translate:
+        request: URL
+        requestMethod: HTTPMethod
+        src: SrcIP
+        dst: DstIP
+        requestClientApplication: UserAgent
+        DstPort: DstPort
+        TXLen: TXLen
+        RXLen: RXLen
+        suser: User
+        app: Proto
+    '140':
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_BLOCKED
+        Status: PASSED
+      translate:
+        request: URL
+        requestMethod: HTTPMethod
+        src: SrcIP
+        dst: DstIP
+        requestClientApplication: UserAgent
+        DstPort: DstPort
+        TXLen: TXLen
+        RXLen: RXLen
+        suser: User
+        app: Proto
+    '150':
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_BLOCKED
+        Status: PASSED
+      translate:
+        request: URL
+        requestMethod: HTTPMethod
+        src: SrcIP
+        dst: DstIP
+        requestClientApplication: UserAgent
+        DstPort: DstPort
+        TXLen: TXLen
+        RXLen: RXLen
+        suser: User
+        app: Proto
+    '151':
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_BLOCKED
+        Status: PASSED
+      translate:
+        request: URL
+        requestMethod: HTTPMethod
+        src: SrcIP
+        dst: DstIP
+        requestClientApplication: UserAgent
+        DstPort: DstPort
+        TXLen: TXLen
+        RXLen: RXLen
+        suser: User
+        app: Proto
+    '160':
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_BLOCKED
+        Status: PASSED
+      translate:
+        request: URL
+        requestMethod: HTTPMethod
+        src: SrcIP
+        dst: DstIP
+        requestClientApplication: UserAgent
+        DstPort: DstPort
+        TXLen: TXLen
+        RXLen: RXLen
+        suser: User
+        app: Proto
+    '161':
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_BLOCKED
+        Status: PASSED
+      translate:
+        request: URL
+        requestMethod: HTTPMethod
+        src: SrcIP
+        dst: DstIP
+        requestClientApplication: UserAgent
+        DstPort: DstPort
+        TXLen: TXLen
+        RXLen: RXLen
+        suser: User
+        app: Proto
+    '162':
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_BLOCKED
+        Status: PASSED
+      translate:
+        request: URL
+        requestMethod: HTTPMethod
+        src: SrcIP
+        dst: DstIP
+        requestClientApplication: UserAgent
+        DstPort: DstPort
+        TXLen: TXLen
+        RXLen: RXLen
+        suser: User
+        app: Proto
+    '200':
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_BLOCKED
+        Status: PASSED
+      translate:
+        request: URL
+        requestMethod: HTTPMethod
+        src: SrcIP
+        dst: DstIP
+        requestClientApplication: UserAgent
+        DstPort: DstPort
+        TXLen: TXLen
+        RXLen: RXLen
+        suser: User
+        app: Proto
+    '201':
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_BLOCKED
+        Status: PASSED
+      translate:
+        request: URL
+        requestMethod: HTTPMethod
+        src: SrcIP
+        dst: DstIP
+        requestClientApplication: UserAgent
+        DstPort: DstPort
+        TXLen: TXLen
+        RXLen: RXLen
+        suser: User
+        app: Proto
+    '202':
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_BLOCKED
+        Status: PASSED
+      translate:
+        request: URL
+        requestMethod: HTTPMethod
+        src: SrcIP
+        dst: DstIP
+        requestClientApplication: UserAgent
+        DstPort: DstPort
+        TXLen: TXLen
+        RXLen: RXLen
+        suser: User
+        app: Proto
+    '203':
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_BLOCKED
+        Status: PASSED
+      translate:
+        request: URL
+        requestMethod: HTTPMethod
+        src: SrcIP
+        dst: DstIP
+        requestClientApplication: UserAgent
+        DstPort: DstPort
+        TXLen: TXLen
+        RXLen: RXLen
+        suser: User
+        app: Proto
+    '204':
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_BLOCKED
+        Status: PASSED
+      translate:
+        request: URL
+        requestMethod: HTTPMethod
+        src: SrcIP
+        dst: DstIP
+        requestClientApplication: UserAgent
+        DstPort: DstPort
+        TXLen: TXLen
+        RXLen: RXLen
+        suser: User
+        app: Proto
+    '205':
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_BLOCKED
+        Status: PASSED
+      translate:
+        request: URL
+        requestMethod: HTTPMethod
+        src: SrcIP
+        dst: DstIP
+        requestClientApplication: UserAgent
+        DstPort: DstPort
+        TXLen: TXLen
+        RXLen: RXLen
+        suser: User
+        app: Proto
+    '206':
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_BLOCKED
+        Status: PASSED
+      translate:
+        request: URL
+        requestMethod: HTTPMethod
+        src: SrcIP
+        dst: DstIP
+        requestClientApplication: UserAgent
+        DstPort: DstPort
+        TXLen: TXLen
+        RXLen: RXLen
+        suser: User
+        app: Proto
+    '300':
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_BLOCKED
+        Status: PASSED
+      translate:
+        request: URL
+        requestMethod: HTTPMethod
+        src: SrcIP
+        dst: DstIP
+        requestClientApplication: UserAgent
+        DstPort: DstPort
+        TXLen: TXLen
+        RXLen: RXLen
+        suser: User
+        app: Proto
+    '301':
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_BLOCKED
+        Status: PASSED
+      translate:
+        request: URL
+        requestMethod: HTTPMethod
+        src: SrcIP
+        dst: DstIP
+        requestClientApplication: UserAgent
+        DstPort: DstPort
+        TXLen: TXLen
+        RXLen: RXLen
+        suser: User
+        app: Proto
+    '400':
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_BLOCKED
+        Status: PASSED
+      translate:
+        request: URL
+        requestMethod: HTTPMethod
+        src: SrcIP
+        dst: DstIP
+        requestClientApplication: UserAgent
+        DstPort: DstPort
+        TXLen: TXLen
+        RXLen: RXLen
+        suser: User
+        app: Proto
+
+  fallback:
+    annotate:
+      EventName: Generic McAfee Web Gateway Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      Timestamp: SystemTstamp
