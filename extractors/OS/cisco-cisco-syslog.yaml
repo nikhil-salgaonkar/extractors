@@ -2,7 +2,7 @@ schema-version: 1.0
 #extractor-version: 1
 extractor-id: 67
 source-name: CISCO
-source-type: OS
+source-type: IOS
 source-description: Extractor for Cisco OS Events
 provides-streams:
 - AUTHENTICATION
