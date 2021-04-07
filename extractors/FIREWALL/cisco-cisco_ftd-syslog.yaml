@@ -5,63 +5,123 @@ source-name: CISCO-FTD
 source-type: FIREWALL
 source-description: Extractor for Cisco-FTD Firewall Events
 provides-streams:
+- FIREWALL
 - THREAT
 - AUTHENTICATION
 master-filters:
-- \s+\%FTD\-\d+\-\d+\:\s+
+- '(?:\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}|\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2}).*?[\w\-\.]+\s+\:\s+\%FTD\-\d+\-\d+\:'
 event-details:
-- first-match: '\%FTD\-\d+\-106021\:'
+- first-match: '\%FTD\-\d+\-\d+\:\s+Teardown'
   decoder: regex
-  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})(?:\s+.*?)?\s+(?P<hostname>.*?)\s+\:\s+\%FTD\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+(?P<msg>.*?\s+(?P<proto>.*?)\s+.*?)from\s+(?P<src>.*?)\s+to\s+(?P<dst>.*?)\s+.*'
-  event-key-format: '{eventid}'
+  decoder-regex: '(?P<datetime>(?:\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}|\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2})).*?(?P<hostname>[\w\-\.]+)\s+\:\s+\%FTD\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+(?P<action>\w+).*?(?P<proto>(?:TCP|UDP|ICMP|GRE)).*?\:(?P<src>[\d\.]+)\/(?P<sport>\d+).*?(?P<dst>[\d\.]+)\/(?P<dport>\d+).*?bytes\s+(?P<txlen>\d+)'
+  event-key-format: '{action}'
   event-key-mapping:  
-    '106021': 
+    'Teardown': 
       annotate:
-        Stream: THREAT
-        Action: THREAT_DETECTED
-        Status: PASSED
-        Vector: WEB
+        Stream: FIREWALL
+        Action: PACKET_ALLOWED
+        Status: FAILED
       translate: 
-        User: User
-        Threat: Threat
         src: SrcIP
-        dst: DstIP    
-    
+        dst: DstIP
+        proto: Proto
+        sport: SrcPort
+        dport: DstPort
+        App: App
+        txlen: TXLen
+        RXLen: RXLen
+        
   fallback:
     annotate:
-       EventName: Generic Cisco-FTD Firewall Event
-       Stream: OTHER
+      EventName: Generic Cisco-FTD Firewall Event
+      Stream: OTHER
 
   globals:
     translate:
       datetime: SystemTstamp
       hostname: System
 
-- first-match: '\%FTD\-\d+\-(?:113004|113005)\:'
+- first-match: '\%FTD\-\d+\-\d+\:\s+Dropped'
   decoder: regex
-  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>.*?)\s+\:\s+%FTD\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+(?P<msg>.*?)(?:\s+\:\s+reason\s+\=\s+(?P<reason>.*?))?\s+\:\s+server\s+\=\s+(?P<serverip>.*?)\s+\:\s+user\s+\=\s+(?P<user>\S+)(?:\s+\:\s+user\s+IP\s+\=\s+(?P<src>\S+))?'
-  event-key-format: '{eventid}'
+  decoder-regex: '(?P<datetime>(?:\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}|\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2})).*?(?P<hostname>[\w\-\.]+)\s+\:\s+\%FTD\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+(?P<action>\w+).*?(?P<proto>(?:TCP|UDP|ICMP|GRE)).*?\:(?P<src>[\d\.]+)\/(?P<sport>\d+).*?(?P<dst>[\d\.]+)\/(?P<dport>\d+).*?(?P<txlen>\d+)'
+  event-key-format: '{action}'
   event-key-mapping:  
-    '113004': 
+    'Dropped': 
+      annotate:
+        Stream: FIREWALL
+        Action: PACKET_BLOCKED
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        dst: DstIP
+        proto: Proto
+        sport: SrcPort
+        dport: DstPort
+        App: App
+        txlen: TXLen
+        RXLen: RXLen
+
+  fallback:
+    annotate:
+      EventName: Generic Cisco-FTD Firewall Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System
+
+- first-match: '\%FTD\-\d+\-\d+\:.*?Message\:\s+\\\"INDICATOR-SHELLCODE x86 NOOP\\\"\,'
+  decoder: regex
+  decoder-regex: '(?P<datetime>(?:\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}|\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2})).*?(?P<hostname>[\w\-\.]+)\s+\:\s+\%FTD\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+Protocol\:\s+(?P<proto>\w+).*?SrcIP\:\s+(?P<src>[\d\.]+).*?DstIP\:\s+(?P<dst>[\d\.]+).*?Message\:.*?\"(?P<threat>.*?)\\.*?Classification\:\s+(?P<action>.*?)\,.*?User\:\s+(?P<user>.*?)\,'
+  event-key-format: '{action}'
+  event-key-mapping:  
+    'Executable Code was Detected': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate: 
+        threat: Threat
+        src: SrcIP
+        dst: DstIP
+        user: User
+        
+  fallback:
+    annotate:
+      EventName: Generic Cisco-FTD Firewall Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System
+
+- first-match: '\%FTD\-\d+\-\d+\:.*?authentication\s+(?:Successful|Rejected)'
+  decoder: regex
+  decoder-regex: '(?P<datetime>(?:\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}|\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2})).*?(?P<hostname>[\w\-\.]+)\s+\:\s+\%FTD\-(?P<severity>\d+)\-(?P<eventid>\d+)\:.*?authentication\s+(?P<action>\w+)(?:\s+\:.*?\=\s+(?P<reason>.*?))?\s+\:.*?\=\s+(?P<server>[\d\.]+)\s+\:.*?\=\s+(?P<user>\w+)(?:\s+\:.*?\=\s+(?P<src>[\d\.]+))?'
+  event-key-format: '{action}'
+  event-key-mapping:  
+    'Successful': 
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
       translate: 
-        AuthProto: AuthProto
         user: User
         src: SrcIP
-    '113005': 
+        AuthProto: AuthProto
+    'Rejected': 
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
       translate: 
+        user: User
+        src: SrcIP
         AuthProto: AuthProto
         reason: Reason
-        user: User
-        src: SrcIP 
-           
     
   fallback:
     annotate:
