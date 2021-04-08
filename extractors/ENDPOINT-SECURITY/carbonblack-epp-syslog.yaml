@@ -77,7 +77,7 @@ event-details:
     
   fallback:
     annotate:
-      EventName: Generic Carbon Black EPP Event
+      EventName: Generic Carbon Black Endpoint Event
       Stream: OTHER
 
   globals:

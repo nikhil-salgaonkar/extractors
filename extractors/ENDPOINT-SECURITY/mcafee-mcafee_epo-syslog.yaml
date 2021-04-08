@@ -98,7 +98,7 @@ event-details:
 
   fallback:
     annotate:
-      EventName: Generic McAfee Antivirus Event
+      EventName: Generic McAfee Endpoint Event
       Stream: OTHER
 
   globals:
