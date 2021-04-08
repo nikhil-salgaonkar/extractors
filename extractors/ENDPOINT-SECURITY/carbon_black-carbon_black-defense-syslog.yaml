@@ -1,8 +1,8 @@
 schema-version: 1.0
 #extractor-version: 1
 extractor-id: 288
-source-name: CARBON-BLACK
-source-type: ENDPOINT-DEFENSE
+source-name: CARBON-BLACK-DEFENSE
+source-type: ENDPOINT-SECURITY
 source-description: Extractor for Carbon Black Defense Events
 provides-streams:
 - THREAT
