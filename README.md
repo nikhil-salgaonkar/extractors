@@ -2,39 +2,81 @@
 Plug and play extractors that convert different log events to a common DNIF Data Model (DDM)
 
 ## Extractors
-This is a live information on the exctractors that are ready.
+As of 08-04-2021
 
-|Device-Type   			                |	    Device          | Streams                         	           |
-|-----------------------------------|---------------------|----------------------------------------------|
-|OS       							            |Windows (nxlog)      | AUTHENTICATION,IAM, SYSMON         	         |
-|OS       							            |Windows(winlogbeat)  | AUTHENTICATION,IAM, SYSMON                   |
-|OS       							            |Windows(xml)         | SYSMON         	                             |      
-|OS       							            |Linux (Auditbeat)    | AUTHENTICATION,AUDITD              	     		 |
-|OS       							            |Linux (Syslog)       | AUTHENTICATION                             	 |
-|OS       							            |VMware(Syslog)       | AUTHENTICATION                          		 |
-|DHCP                               |Windows -DHCP        | DHCP
-|Firewall							              |Fortigate            | FIREWALL,THREAT,AUTHENTICATION,IAM 	 			   |
-|Firewall							              |Cisco-FMC            | FIREWALL,THREAT,AUTHENTICATION,IAM 	 		     |
-|Firewall							              |PaloAlto             | FIREWALL,THREAT,AUTHENTICATION,IAM 	 			   |
-|Firewall							              |Checkpoint           | FIREWALL,THREAT,AUTHENTICATION,IAM 	 			   |
-|Firewall                           |Sophos cyberoam      | FIREWALL,THREAT,AUTHENTICATION,IAM 					 |
-|Firewall							              |Fortinet fortimanager| AUTHENTICATION		    		                   |
-|Firewall           							  |Juniper-SRX          | FIREWALL,THREAT,AUTHENTICATION               |
-|Firewall                           |ZScaler				      | FIREWALL,THREAT,AUTHENTICATION,IAM 			  	 |
-|EmailGateway  						          |Mimecast 	          | EMAIL, THREAT, AUTHENTICATION, IAM		       |
-|Endpoint Security                  |Symantec AV		      | THREAT								              		     |
-|Endpoint Security                  |McAfee EPO   	      | THREAT								              		     |
-|Endpoint Security							    |Sophos Endpoint      | THREAT, IAM                                  |
-|Endpoint Security								  |Symantec ATP         | THREAT                         	 			       |
-|Endpoint Security							    |DELL-CYLANCE         | THREAT                                       |
-|Endpoint Security	                |Carbonblack EPP      | THREAT								                       |
-|EDR                                |Carbonblack Reponse  | THREAT								                       |
-|EDR                                |Carbonblack Defence  | THREAT								                       |
-|Webfiler							              |ZScaler			        | WEBFILTER,AUTHENTICATION, IAM		    		     |
-|Cloud							                |AWS-Cloudtrail       | CLOUDTRAIL                         	 			   |
+|Device-Type           |	    Vendor          | Product             | Integration | Streams                                                                      |
+|----------------------|----------------------|---------------------|-------------|------------------------------------------------------------------------------|
+|OS       		         |Microsoft             |Windows (nxlog)      | NXLog (JSON)|AUTHENTICATION, IAM, SYSMON-PROCESS,  SYSMON-NETWORK,  SYSMON-REGISTRY,  SYSMON-IMAGE-LOAD|
+|OS   		             |Microsoft             |Windows(winlogbeat)   |Winlogbeat (OSS)     | AUTHENTICATION, IAM, SYSMON-PROCESS,  SYSMON-NETWORK,  SYSMON-FILE,  SYSMON-IMAGE-LOAD,  SYSMON-REGISTRY,  SYSMON-WMI,  SYSMON-PIPE,  SYSMON-SERVICE,  SYSMON-DNS|                                                            |
+|DHCP      						 |  Windows             |Syslog               | DHCP         	                                                                             |      
+|OS|Linux|ALL|Auditbeat (OSS)|AUTHENTICATION, AUDITD|
+
+|OS|Linux|ALL|Rsyslog|AUTHENTICATION|
+
+|OS|VMWare|VMWare|Syslog|AUTHENTICATION|
+
+|OS|Cisco| IOS | Syslog |AUTHENTICATION , FIREWALL|
+
+|Firewall|Fortinet|Fortigate|Syslog|FIREWALL, THREAT, AUTHENTICATION|
 
 
+Firewall |PaloAlto |Palo Alto Firewall |CSV |FIREWALL,THREAT, AUTHENTICATION |
 
-<!--|GCP							                  |GCP                | AUTHENTICATION, GCP                	 			   |-->
-<!---|Firewall							        |ZScaler			      | FIREWALL,THREAT,AUTHENTICATION,IAM 	|Custom			| -->
-<!---|DNS								            |ZScaler			      | DNS, IAM								            |Custom			| -->
+Firewall |Checkpoint |Checkpoint Firewall | Syslog |FIREWALL,THREAT, AUTHENTICATION |
+
+Firewall |Cisco |Cisco-FMC |Syslog |FIREWALL,THREAT, AUTHENTICATION |
+
+Firewall |Cisco |Cisco - FTD |Syslog |FIREWALL, THREAT, AUTHENTICATION |
+
+Firewall |Sophos Cyberoam Firewall |Syslog |FIREWALL,THREAT, AUTHENTICATION, IAM |
+
+Firewall |Fortinet  |fortimanager |Syslog |AUTHENTICATION |
+
+Firewall |Juniper |Juniper |Syslog |FIREWALL,THREAT, AUTHENTICATION |
+
+Firewall |Zscaler |Zscaler-Firewall |NSS (CSV) |FIREWALL,THREAT, AUTHENTICATION, IAM |
+
+Webfilter |ZScaler |ZScaler-Web Filter |NSS (LEEF) |WEBFILTER |
+
+Webfilter |Forcepoint |Websense Webfilter |Syslog |
+
+WEBFILTER |Email Gateway|Mimecast|Mimecast-EWSA|Syslog|EMAIL- GATEWAY, THREAT, AUTHENTICATION, IAM|
+
+Endpoint Security|Broadcom |Symantec Endpoint security|Syslog|THREAT|
+
+Endpoint Security|DELL|Dell-Cylance|Syslog|THREAT|
+
+Endpoint Security|Broadcom|Symantec ATP|Syslog|THREAT|
+
+Endpoint Security |VMWare|Carbon Black Defense|Syslog|THREAT|
+
+Endpoint Security|VMWare|Carbon Black EPP|Syslog|THREAT|
+
+Endpoint Security|McAfee|McAfee - EPO|Syslog|THREAT|
+
+Endpoint Security|Sophos|Sophos Endpoint|Syslog|THREAT , IAM|
+
+Endpoint Security|Trendmicro|Trendmicro Offiscan|Syslog|THREAT|
+
+EDR|VMware|Carbonblack Response|Syslog|THREAT|
+
+Cloud|AWS|AWS-Cloudtrail|JSON|CLOUDTRAIL|Cloud|
+
+Microsoft|MS-O365|JSON|EMAIL-GATEWAY,  AUTHENTICATION, IAM, DOCUMENTS|
+
+WAF|F5 BIG-IP |F5 Big-IP|CEF| THREAT|
+
+WAF|Imperva|Imperva WAF|Syslog|THREAT|
+
+Advanced Persistent Threat(APT)|Fireeye Inc.|Fireeye APT|CEF|THREAT|
+
+DNS|ZScaler|Zscaler|Syslog|DNS|
+
+
+
+
+
+
+
+
+
