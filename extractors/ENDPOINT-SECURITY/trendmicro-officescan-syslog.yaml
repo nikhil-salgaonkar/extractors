@@ -3,7 +3,7 @@ schema-version: 1.0
 extractor-id: 198
 source-name: OFFICESCAN-XG-WINEVT
 source-type: ENDPOINT-SECURITY
-source-description: extractor for OfficeScan-XG Events
+source-description: Extractor for OfficeScan-XG Events
 provides-streams:
 - THREAT
 master-filters:
