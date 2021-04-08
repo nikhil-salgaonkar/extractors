@@ -2,8 +2,8 @@ schema-version: 1.0
 #extractor-version: 1
 extractor-id: 77
 source-name: MCAFEE-EPO
-source-type: ANTIVIRUS
-source-description: Extractor for McAfee Antivirus Events
+source-type: ENDPOINT-SECURITY
+source-description: Extractor for McAfee Endpoint Events
 provides-streams:
 - THREAT
 master-filters:

@@ -1,8 +1,8 @@
 schema-version: 1.0
 #extractor-version: 1
 extractor-id: 94
-source-name: SYMANTEC_ATP
-source-type: ENDPOINT
+source-name: SYMANTEC-ATP
+source-type: ENDPOINT-SECURITY
 source-description: Extractor for Symantec ATP Endpoint Events
 provides-streams:
 - THREAT

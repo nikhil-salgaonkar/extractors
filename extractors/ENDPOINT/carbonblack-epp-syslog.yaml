@@ -2,8 +2,8 @@ schema-version: 1.0
 #extractor-version: 1
 extractor-id: 6001
 source-name: CARBON-BLACK
-source-type: EPP
-source-description: extractor for Carbon Black EPP Events
+source-type: ENDPOINT-SECURITY
+source-description: extractor for Carbon Black Endpoint Events
 provides-streams:
 - THREAT
 master-filters:

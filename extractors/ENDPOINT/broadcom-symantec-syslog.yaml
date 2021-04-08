@@ -1,8 +1,8 @@
 schema-version: 1.0
 #extractor-version: 1
 extractor-id: 71
-source-name: SYMANTEC-ENDPOINT
-source-type: ANTIVIRUS
+source-name: SYMANTEC
+source-type: ENDPOINT-SECURITY
 source-description: extractor for Symantec Endpoint Events
 provides-streams:
 - THREAT

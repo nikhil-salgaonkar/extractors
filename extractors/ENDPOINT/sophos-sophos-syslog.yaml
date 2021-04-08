@@ -2,7 +2,7 @@ schema-version: 1.0
 #extractor-version: 1
 extractor-id: 204
 source-name: SOPHOS
-source-type: ENDPOINT
+source-type: ENDPOINT-SECURITY
 source-description: Extractor for Sophos Endpoint Event
 provides-streams:
 - THREAT
