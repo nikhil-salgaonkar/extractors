@@ -197,10 +197,10 @@ event-details:
 
   fallback:
     annotate:
-        EventName: Generic Microsoft Exchange Events
-        Stream: OTHER
+      EventName: Generic Microsoft Exchange Events
+      Stream: OTHER
 
   globals:
     translate:
-        datetime: SystemTstamp
-        hostname: System
+      datetime: SystemTstamp
+      hostname: System
