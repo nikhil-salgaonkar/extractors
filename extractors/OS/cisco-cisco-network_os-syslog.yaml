@@ -176,7 +176,31 @@ event-details:
       
   globals:
     translate:
-      datetime: SystemTstamp      
+      datetime: SystemTstamp 
+
+- first-match: '\%SSH\-\d+\-SSH2\_USERAUTH'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w+\s+\d+\s+\d+\:\d+\:\d+)[\.\w\:\s]+\%(?P<facility>\w+)\-(?P<severity>\d+)\-(?P<actiontaken>\w+)\:\s+(?P<message>User\s+(?P<user>.*?)\s+authentication\s+for\s+(?P<auth_protocol>SSH).*?from\s(?P<src>[\w\.\:]+)\s+.*)'
+  event-key-format: ''
+  event-key-mapping:
+    '':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        auth_protocol: AuthProto
+        src: SrcIP
+        user: User
+
+  fallback:
+    annotate:
+      EventName: Generic Cisco Network OS Event
+      Stream: OTHER
+      
+  globals:
+    translate:
+      datetime: SystemTstamp           
 
 - first-match: '\%SYS\-\d+\-LOGOUT\:'
   decoder: regex
@@ -202,7 +226,7 @@ event-details:
     translate:
       datetime: SystemTstamp
 
-- first-match: '\%APF\-\d+\-USER\_NAME\_DELETED\:'
+- first-match: '\-USER\_NAME\_DELETED\:'
   decoder: regex
   decoder-regex: '(?P<datetime>\w+\s+\d+\s+\d+\:\d+\:\d+)[\w\.\:\s]+\%(?P<facility>\S+)\-(?P<severity>\d+)\-(?P<actiontaken>\S+)\:\s+.*?\((?P<target_user>.*?)\).*'
   event-key-format: '{actiontaken}'
@@ -226,7 +250,7 @@ event-details:
     translate:
       datetime: SystemTstamp
 
-- first-match: '\%SYS\-\d+\-CONFIG\_I\:'
+- first-match: '\-CONFIG\_I\:'
   decoder: regex
   decoder-regex: '(?P<datetime>\w+\s+\d+\s+\d+\:\d+\:\d+)[\w\.\:\s]+\%(?P<facility>\S+)\-(?P<severity>\d+)\-(?P<actiontaken>\S+)\:\s+(?P<message>.*?by\s+(?P<user>\S+)\s+on\s+\w+\s+\((?P<src>[\w\.\:]+)\))'
   event-key-format: '{actiontaken}'
@@ -286,4 +310,4 @@ event-details:
       
   globals:
     translate:
-      datetime: SystemTstamp
+      datetime: SystemTstamp    
