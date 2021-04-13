@@ -1,0 +1,236 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 245
+source-name: WATCHGUARD
+source-type: FIREWALL
+source-description: extractor for WatchGuard Firewall Events
+provides-streams:
+- FIREWALL
+- THREAT
+master-filters:
+- '\d{4}\-\d{1,2}\-\d{2}\s+\d{2}\:\d{2}\:\d{2}.*?(?:Allow|Deny)?.*?proc\_id\=\"firewall\"'
+- '\d{4}\-\d{1,2}\-\d{2}\s+\d{2}\:\d{2}\:\d{2}.*?(?:SYN\s+flood|ICMP\s+flood|UDP\s+flood|IPSEC\s+flood|IKE\s+flood|IP\s+scan|PORT\s+scan|DDOS|ARP\s+spoofing|IP\s+spoofing)\:?'
+- '\(\d{4}\-\d{1,2}\-\d{2}\T\d{2}\:\d{2}\:\d{2}\)\s+firewall\:.*?(?:Allow|Deny)'
+event-details:  
+- first-match: 'firewall\:.*?(?:Allow|Deny).*?sent_bytes\=\"\d+\"\s+rcvd_bytes\=\"\d+\"' 
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+).*?(?P<action>\w+)\s+\S+\s+\S+\s+(?P<proto>\w+)\s+(?P<src>[\d\.]+)\s+(?P<dst>[\d\.]+)\s+(?P<sport>\d+)\s+(?P<dport>\d+).*?sent\_bytes\=\"(?P<sent_bytes>\d+)\"\s+rcvd\_bytes\=\"(?P<rcvd_bytes>\d+)\"'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'Allow':           
+      annotate:
+        Stream: FIREWALL
+        Action: PACKET_ALLOWED
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        dst: DstIP
+        proto: Proto
+        sport: SrcPort
+        dport: DstPort
+        App: App
+        sent_bytes: TXLen
+        rcvd_bytes: RXLen
+    'Deny':           
+      annotate:
+        Stream: FIREWALL
+        Action: PACKET_BLOCKED
+        Status: FAILED
+      translate: 
+        src: SrcIP
+        dst: DstIP
+        proto: Proto
+        sport: SrcPort
+        dport: DstPort
+        App: App
+        sent_bytes: TXLen
+        rcvd_bytes: RXLen
+        
+  fallback:
+    annotate:
+      EventName: Generic WatchGuard Firewall Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System
+
+- first-match: '(?:Allow|Deny).*?(?:Allowed|Denied).*?proc\_id\=\"firewall\"' 
+  decoder: regex
+  decoder-regex: '(?P<datetime>\d{4}\-\d{1,2}\-\d{1,2}\s+\d{2}\:\d{2}\:\d{2})(?:\s+(?P<hostname>\w+))?\s+(?P<action>\w+)\s+(?P<src>\S+)\s+(?P<dst>\S+).*?\/(?P<proto>\w+)\s+(?P<sport>\d+)\s+(?P<dport>\d+).*?(?P<packet_length>\d+)\s+(?P<ttl>\d+)?'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'Allow':           
+      annotate:
+        Stream: FIREWALL
+        Action: PACKET_ALLOWED
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        dst: DstIP
+        proto: Proto
+        sport: SrcPort
+        dport: DstPort
+        App: App
+        sent_bytes: TXLen
+        rcvd_bytes: RXLen
+    'Deny':           
+      annotate:
+        Stream: FIREWALL
+        Action: PACKET_BLOCKED
+        Status: FAILED
+      translate: 
+        src: SrcIP
+        dst: DstIP
+        proto: Proto
+        sport: SrcPort
+        dport: DstPort
+        App: App
+        sent_bytes: TXLen
+        rcvd_bytes: RXLen
+        
+  fallback:
+    annotate:
+      EventName: Generic WatchGuard Firewall Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System
+
+- first-match: '(?:Allow|Deny).*?ip\s+spoofing\s+sites.*?proc\_id\=\"firewall\"' 
+  decoder: regex
+  decoder-regex: '(?P<datetime>\d{4}\-\d{1,2}\-\d{1,2}\s+\d{2}\:\d{2}\:\d{2})(?:\s+(?P<hostname>\w+))?\s+(?P<action>\w+)\s+(?P<src>\S+)\s+(?P<dst>\S+).*?(?P<threat>ip\s+spoofing\s+sites)'
+  event-key-format: ''
+  event-key-mapping:
+    '':           
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate: 
+        threat: Threat
+        src: SrcIP
+        dst: DstIP
+        User: User
+        
+  fallback:
+    annotate:
+      EventName: Generic WatchGuard Firewall Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System
+
+- first-match: 'IP\s+spoofing:\s+Traffic\s+detected\s+from\s+[\d\.]+\s+to\s+[\d\.]+' 
+  decoder: regex
+  decoder-regex: '(?P<datetime>\d{4}\-\d{1,2}\-\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?:(?P<hostname>\w+))?.*?(?P<threat>IP\s+spoofing)\:.*?(?P<src>[\d\.]+).*?(?P<dst>[\d\.]+)'
+  event-key-format: ''
+  event-key-mapping:
+    '':           
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate: 
+        threat: Threat
+        src: SrcIP
+        dst: DstIP
+        User: User
+        
+  fallback:
+    annotate:
+      EventName: Generic WatchGuard Firewall Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System
+
+- first-match: '\s+(?:SYN\s+flood|ICMP\s+flood|UDP\s+flood|IPSEC\s+flood|IKE\s+flood|IP\s+scan|PORT\s+scan)\s+attack\s+against\s+[\w\.\:]+\s+from\s+[\w\.\:]+' 
+  decoder: regex
+  decoder-regex: '(?P<datetime>\d{4}\-\d{1,2}\-\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\w+)\s+(?P<threat>.*?)\s+against\s+(?P<dst>[\w\.\:]+)\s+\w+\s+(?P<src>[\w\.\:]+)'
+  event-key-format: ''
+  event-key-mapping:
+    '':           
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate: 
+        threat: Threat
+        src: SrcIP
+        dst: DstIP
+        User: User
+        
+  fallback:
+    annotate:
+      EventName: Generic WatchGuard Firewall Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System
+
+- first-match: 'DDOS\s+(?:against\s+server|from\s+client)\s+[\d\.]+' 
+  decoder: regex
+  decoder-regex: '(?P<datetime>\d{4}\-\d{1,2}\-\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\w+)\s+(?P<threat>.*?)\s+(?:against.*?(?P<dst>[\d\.]+))?(?:from.*?(?P<src>[\d\.]+))?'
+  event-key-format: ''
+  event-key-mapping:
+    '':           
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate: 
+        threat: Threat
+        src: SrcIP
+        dst: DstIP
+        User: User
+        
+  fallback:
+    annotate:
+      EventName: Generic WatchGuard Firewall Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System
+
+- first-match: 'ARP\s+spoofing\s+attack\s+detected\,\s+ip\=[\d\.]+\,\s+mac\=[\w\.\:]+\,' 
+  decoder: regex
+  decoder-regex: '(?P<datetime>\d{4}\-\d{1,2}\-\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\w+)\s+(?P<threat>.*?)\s+detected\,\s+ip\=(?P<src>[\d\.]+)'
+  event-key-format: ''
+  event-key-mapping:
+    '':           
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate: 
+        threat: Threat
+        src: SrcIP
+        dst: DstIP
+        User: User
+        
+  fallback:
+    annotate:
+      EventName: Generic WatchGuard Firewall Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System
