@@ -1,0 +1,206 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 142
+source-name: MS-EXCHANGE
+source-type: MAILSERVER
+source-description: Extractor for Microsoft Exchange Events
+provides-streams:
+- EMAIL-GATEWAY
+master-filters:
+- '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{1,2}\:\d{1,2}\:\d{1,2}\s+\S+\s+\d+\-\d+\-\d+T\d+\:\d+\:\d+.*?\,(?:AGENT|DNS|MAILBOXRULE|DSN|MEETINGMESSAGEPROCESSOR|ORAR|PICKUP|POISONMESSAGE|PUBLICFOLDER|REDUNDANCY|ROUTING|SAFETYNET|SMTP|STOREDRIVER|Transport|MAPI|MapiDelivery|MapiSubmission)\,'
+event-details:
+- first-match: '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{1,2}\:\d{1,2}\:\d{1,2}\s+\S+\s+\d+\-\d+\-\d+T\d+\:\d+\:\d+.*?\,(?:AGENT|DNS|MAILBOXRULE|DSN|MEETINGMESSAGEPROCESSOR|ORAR|PICKUP|POISONMESSAGE|PUBLICFOLDER|REDUNDANCY|ROUTING|SAFETYNET|SMTP|STOREDRIVER|Transport|MAPI|MapiDelivery|MapiSubmission)\,'
+  decoder: regex
+  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+.*?\,(?P<src>.*?)\,(?P<shost>.*?)\,(?P<serverip>.*?)\,(?P<server>.*?)\,.*?\,.*?\,(?P<src_entity>\w+)\,(?P<action>\w+)\,.*?\,(?P<message_id>.*?)(?:\,[\w\-]+)?\,(?P<recipient>[^\s\,]+\@.*?\.[^\s\,]+|.*?)\,.*?\,(?P<tlen>.*?)\,.*?\,.*?\,.*?\,\"?(?P<subject>.*?\"?)\,(?:.*?(?P<sender>[\w\@\$\-\.]+\.com))?\,?(?:.*?(?P<flow>Incoming|Outgoing))?'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'RECEIVE':
+      annotate:
+        Stream: EMAIL-GATEWAY
+        Action: EMAIL_RECEIVED
+        Status: PASSED
+      translate:
+        src: RemoteIP
+        file: File
+        recipient: Recipient
+        subject: Subject
+        sender: Sender
+        flow: Direction
+    'REDIRECT':
+      annotate:
+        Stream: EMAIL-GATEWAY
+        Action: EMAIL_REDIRECTED
+        Status: PASSED
+      translate:
+        src: RemoteIP
+        file: File
+        recipient: Recipient
+        subject: Subject
+        sender: Sender
+        flow: Direction
+    'RESOLVE':
+      annotate:
+        Stream: EMAIL-GATEWAY
+        Action: EMAIL_RESOLVED
+        Status: PASSED
+      translate:
+        src: RemoteIP
+        file: File
+        recipient: Recipient
+        subject: Subject
+        sender: Sender
+        flow: Direction
+    'RESUBMIT':
+      annotate:
+        Stream: EMAIL-GATEWAY
+        Action: EMAIL_RESUBMITTED
+        Status: PASSED
+      translate:
+        src: RemoteIP
+        file: File
+        recipient: Recipient
+        subject: Subject
+        sender: Sender
+        flow: Direction 
+    'RESUBMITFAIL':
+      annotate:
+        Stream: EMAIL-GATEWAY
+        Action: EMAIL_RESUBMIT_FAILED
+        Status: PASSED
+      translate:
+        src: RemoteIP
+        file: File
+        recipient: Recipient
+        subject: Subject
+        sender: Sender
+        flow: Direction
+    'SEND':
+      annotate:
+        Stream: EMAIL-GATEWAY
+        Action: EMAIL_SENT
+        Status: PASSED
+      translate:
+        src: RemoteIP
+        file: File
+        recipient: Recipient
+        subject: Subject
+        sender: Sender
+        flow: Direction
+    'TRANSFER':
+      annotate:
+        Stream: EMAIL-GATEWAY
+        Action: EMAIL_TRANSFERRED
+        Status: PASSED
+      translate:
+        src: RemoteIP
+        file: File
+        recipient: Recipient
+        subject: Subject
+        sender: Sender
+        flow: Direction  
+    'SUPPRESSED':
+      annotate:
+        Stream: EMAIL-GATEWAY
+        Action: EMAIL_SUPPRESSED
+        Status: PASSED
+      translate:
+        src: RemoteIP
+        file: File
+        recipient: Recipient
+        subject: Subject
+        sender: Sender
+        flow: Direction 
+    'SUBMITFAIL':
+      annotate:
+        Stream: EMAIL-GATEWAY
+        Action: EMAIL_SUBMIT_FAILED
+        Status: PASSED
+      translate:
+        src: RemoteIP
+        file: File
+        recipient: Recipient
+        subject: Subject
+        sender: Sender
+        flow: Direction
+    'SUBMIT':
+      annotate:
+        Stream: EMAIL-GATEWAY
+        Action: EMAIL_SUBMITTED
+        Status: PASSED
+      translate:
+        src: RemoteIP
+        file: File
+        recipient: Recipient
+        subject: Subject
+        sender: Sender
+        flow: Direction 
+    'DELIVER':
+      annotate:
+        Stream: EMAIL-GATEWAY
+        Action: EMAIL_DELIVERED
+        Status: PASSED
+      translate:
+        src: RemoteIP
+        file: File
+        recipient: Recipient
+        subject: Subject
+        sender: Sender
+        flow: Direction 
+    'DELIVERFAIL':
+      annotate:
+        Stream: EMAIL-GATEWAY
+        Action: EMAIL_DELIVERED_FAILED
+        Status: PASSED
+      translate:
+        src: RemoteIP
+        file: File
+        recipient: Recipient
+        subject: Subject
+        sender: Sender
+        flow: Direction
+    'DROP':
+      annotate:
+        Stream: EMAIL-GATEWAY
+        Action: EMAIL_DROPPED
+        Status: PASSED
+      translate:
+        src: RemoteIP
+        file: File
+        recipient: Recipient
+        subject: Subject
+        sender: Sender
+        flow: Direction
+    'DUPLICATEDELIVER':
+      annotate:
+        Stream: EMAIL-GATEWAY
+        Action: EMAIL_DUPLICATE_DELIVERED
+        Status: PASSED
+      translate:
+        src: RemoteIP
+        file: File
+        recipient: Recipient
+        subject: Subject
+        sender: Sender
+        flow: Direction   
+    'FAIL':
+      annotate:
+        Stream: EMAIL-GATEWAY
+        Action: EMAIL_FAILED
+        Status: PASSED
+      translate:
+        src: RemoteIP
+        file: File
+        recipient: Recipient
+        subject: Subject
+        sender: Sender
+        flow: Direction
+
+  fallback:
+    annotate:
+      EventName: Generic Microsoft Exchange Events
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System
