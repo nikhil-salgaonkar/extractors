@@ -6,8 +6,10 @@ source-type: OS
 source-description: Extractor for NIX OS Events
 provides-streams:
 - AUTHENTICATION
+- AUDITD
 master-filters:
-- '^(?:\<\d+\>)?[\w\-\:\s\+\.\d]+(?:systemd-logind|sshd|cron|internal-sftp|sftpd|syslog|sudo|su|login|saphostexec|sftp-server|sapdbctrl|pkexec|polkit-agent-helper-\d+)(?:\[\d+\]\:|\:)'
+- '^(?:\<\d+\>)?[\w\-\:\s\+\.\d]+(?:systemd-logind|sshd|cron|internal-sftp|sftpd|syslog|sudo|tsm|su|login|saphostexec|sftp-server|sapdbctrl|pkexec|polkit-agent-helper-\d+|CRON)(?:\[\d+\]\:|\:)'
+- '^(?:\<\d+\>\d+\s+)?\d{4}\-\d{1,2}\-\d{2}T\d{2}\:\d{2}\:\d+[\.\w\+\:]+\s+\S+\s+(?:CRON|audispd|sudo)\s+(?:[\d\s\-]+)'
 event-details:
 - first-match: '\[\d+\]\:\s+Accepted\s+password\s+for\s+'
   decoder: regex
@@ -21,7 +23,6 @@ event-details:
         Status: PASSED
         AuthProto: SSH
       translate:
-        reason: Reason
         src: SrcIP
         user: User 
          
@@ -96,7 +97,6 @@ event-details:
         Status: PASSED
         AuthProto: SSH
       translate:
-        reason: Reason
         user: User
         src: SrcIP 
 
@@ -121,7 +121,6 @@ event-details:
         Status: PASSED
         AuthProto: SFTP
       translate:
-        reason: Reason
         user: User
         src: SrcIP        
 
@@ -193,7 +192,6 @@ event-details:
         Status: PASSED
         AuthProto: SSH
       translate:
-        reason: Reason  
         user: User
         src: SrcIP
 
@@ -218,7 +216,6 @@ event-details:
         Status: PASSED
         AuthProto: CLI
       translate:
-        reason: Reason
         user: User
         src: SrcIP
         
@@ -243,7 +240,6 @@ event-details:
         Status: PASSED
       translate:
         AuthProto: AuthProto
-        reason: Reason
         user: User
         src: SrcIP       
 
@@ -264,7 +260,6 @@ event-details:
         Status: PASSED
       translate:
         AuthProto: AuthProto
-        reason: Reason
         user: User
         src: SrcIP 
 
@@ -380,7 +375,6 @@ event-details:
         Status: PASSED
         AuthProto: SSH
       translate:
-        reason: Reason
         src: SrcIP
         user: User
 
@@ -401,7 +395,6 @@ event-details:
         Status: PASSED
         AuthProto: SFTP
       translate:
-        reason: Reason
         src: SrcIP
         user: User
 
@@ -422,7 +415,6 @@ event-details:
         Status: PASSED
         AuthProto: SFTP
       translate:
-        reason: Reason
         src: SrcIP
         user: User
 
@@ -443,7 +435,6 @@ event-details:
         Status: PASSED
       translate:
         AuthProto: AuthProto
-        reason: Reason
         user: User
         src: SrcIP        
 
@@ -464,7 +455,6 @@ event-details:
         Status: PASSED
       translate:
         AuthProto: AuthProto
-        reason: Reason
         user: User
         src: SrcIP 
 
@@ -485,7 +475,6 @@ event-details:
         Status: PASSED
       translate:
         AuthProto: AuthProto
-        reason: Reason
         user: User
         src: SrcIP 
 
@@ -493,3 +482,103 @@ event-details:
     annotate:
       EventName: Generic NIX Event
       Stream: OTHER
+
+- first-match: '^(?:\<\d+\>\d+\s+)?\d{4}\-\d{1,2}\-\d{2}T\d{2}\:\d{2}\:\d+[\.\w\+\:]+\s+\S+\s+\w+\s+[\-\s\w\_\:\(\)]+\:\s+session\s+(?:closed|opened)\s+for\s+user\s+\S+\s+'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\d+\-\d+\-\d+T\d+\:\d+\:\d+)[\.\w\:\+]+\s+(?P<hostname>\S+)\s+(?P<daemon>\S+)[\-\s\d]+pam\_unix\(\S+\:session\)\:\s+(?P<message>(?P<action>session\s+(?:closed|opened))\s+for\s+user\s+(?P<user>\S+))'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'session opened':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        user: User
+        src: SrcIP
+        AuthProto: AuthProto  
+    'session closed':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+      translate:
+        user: User
+        src: SrcIP
+        AuthProto: AuthProto    
+
+  fallback:
+      annotate:
+        EventName: Generic NIX Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System      
+
+- first-match: 'audispd[\s\-]+node\=\S+\s+type\=\S+\s+'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\d+\-\d+\-\d+T\d+\:\d+\:\d+)[\.\w\:\+]+\s+(?P<hostname>\S+)\s+(?P<daemon>\S+)[\-\s\d]+\s+node\=\S+\s+type\=(?P<type>\S+)(?:.*?acct\=\\?\"?(?P<user>.*?)\\?\"?\s+exe\=\\?\"?(?P<process>.*?)\\?\"?\s+)?(?:.*?cmd\=\"(?P<cmd>.*?)\")?'
+  event-key-format: '{type}'
+  event-key-mapping:
+    'USER_END':
+      annotate:
+        Stream: AUDITD
+        Action: USER_TERMINATED
+        Status: PASSED
+      translate:
+        user: User
+        cmd: CommandLine
+        process: Process
+        ProcessArgs: ProcessArgs  
+    'USER_START':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: USER_STARTED
+        Status: PASSED
+      translate:
+        user: User
+        cmd: CommandLine
+        process: Process
+        ProcessArgs: ProcessArgs
+    'USER_CMD':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: USER_COMMAND_EXECUTED
+        Status: PASSED
+      translate:
+        user: User
+        cmd: CommandLine
+        process: Process
+        ProcessArgs: ProcessArgs 
+    'CRED_REFR':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: CREDENTIAL_REFRESHED
+        Status: PASSED
+      translate:
+        user: User
+        cmd: CommandLine
+        process: Process
+        ProcessArgs: ProcessArgs 
+    'CRED_DISP':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: CREDENTIAL_DISPOSED
+        Status: PASSED
+      translate:
+        user: User
+        cmd: CommandLine
+        process: Process
+        ProcessArgs: ProcessArgs               
+
+  fallback:
+      annotate:
+        EventName: Generic NIX Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System
