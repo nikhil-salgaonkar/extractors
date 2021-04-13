@@ -3,11 +3,13 @@ schema-version: 1.0
 extractor-id: 98
 source-name: VMWARE
 source-type: OS
-source-description: Extractor for VMWARE OS Events
+source-description: Extractor for VMware OS Events
 provides-streams:
 - AUTHENTICATION
+- CONFIGURATION
 master-filters:
-- '^(?:<\d+>\d*)?\s*\d{4}\-\d+\-\d+T\d+\:\d+\:\d+[\.\w\+\:]+\s+[\.\w\-]+\s+(?:smbiosDump|Hostd|vmkernel|Vpxa|vobd|lwsmd|Rhttpproxy|hostd\-probe|storageRM|cimslp|smartd|heartbeat|sdrsInjector|vmkwarning|vsantraced|vmon|vpxd|vmcad|vmdird|Fdm|localcli|root|backup\.sh\.\d+|vmauthd|sfcb-vmware_raw|slpd)'
+- '^(?:<\d+>\d*)?\s*\d{4}\-\d+\-\d+T\d+\:\d+\:\d+[\.\w\+\:]+\s+[\.\w\-]+\s+(?:smbiosDump|Hostd|vmkernel|Vpxa|vobd|lwsmd|Rhttpproxy|hostd\-probe|storageRM|cimslp|smartd|heartbeat|sdrsInjector|vmkwarning|vsantraced|vmon|vpxd|vmcad|vmdird|Fdm|localcli|root|backup\.sh\.\d+|vmauthd|sfcb-vmware_raw|slpd|VSAN\w+)'
+- '^(?:\<\d+\>\d+\s+)?\d{4}\-\d{1,2}\-\d{2}T\d{2}\:\d{2}\:\d+[\.\w\+\:]+\s+\S+\s+NSX\s+(?:[\d\s\-\[]+)'
 event-details:
 - first-match: 'Event\s+\d+\s+\:\s+User[\s\w\.\@\:]+logged\s+out\s+'
   decoder: regex
@@ -22,12 +24,11 @@ event-details:
       translate:
         user: User
         src: SrcIP
-        reason: Reason
         AuthProto: AuthProto
 
   fallback:
       annotate:
-        EventName: Generic VMWARE OS Event
+        EventName: Generic VMware OS Event
         Stream: OTHER
 
   globals:
@@ -48,12 +49,11 @@ event-details:
       translate:
         user: User
         src: SrcIP
-        reason: Reason
         AuthProto: AuthProto
 
   fallback:
       annotate:
-        EventName: Generic VMWARE OS Event
+        EventName: Generic VMware OS Event
         Stream: OTHER
 
   globals:
@@ -79,7 +79,7 @@ event-details:
 
   fallback:
       annotate:
-        EventName: Generic VMWARE OS Event
+        EventName: Generic VMware OS Event
         Stream: OTHER
 
   globals:
@@ -100,7 +100,6 @@ event-details:
       translate:
         user: User
         src: SrcIP
-        reason: Reason
         AuthProto: AuthProto
     'logged out':
       annotate:
@@ -110,15 +109,82 @@ event-details:
       translate:
         user: User
         src: SrcIP
-        reason: Reason
         AuthProto: AuthProto    
 
   fallback:
       annotate:
-        EventName: Generic VMWARE OS Event
+        EventName: Generic VMware OS Event
         Stream: OTHER
 
   globals:
     translate:
       datetime: SystemTstamp
       hostname: System
+
+- first-match: 'ModuleName\=\"ACCESS\_CONTROL\"\,\s+Operation\=\"(LOGIN|LOGOUT)\"\,'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\d+\-\d+\-\d+T\d+\:\d+\:\d+)[\.\w\:\+]+\s+(?P<hostname>\S+)\s+NSX\s+\d+\s+\w+\s+.*?subcomp\=\"(?P<auth_protocol>.*?)\"\]\s+UserName\=\"(?P<user>.*?)(?:\@(?P<src>[\w\.\:]+))?\"\,\s+ModuleName\=\"(?P<modulename>.*?)\"\,\s+Operation\=\"(?P<operation>.*?)\"\,\s+Operation\s+status\=\"(?P<status>\w+)\"'
+  event-key-format: '{operation}-{status}'
+  event-key-mapping:
+    'LOGIN-success':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        user: User
+        src: SrcIP
+        auth_protocol: AuthProto
+    'LOGIN-failure':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate:
+        user: User
+        src: SrcIP
+        reason: Reason
+        auth_protocol: AuthProto    
+    'LOGOUT-success':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+      translate:
+        user: User
+        src: SrcIP
+        auth_protocol: AuthProto    
+
+  fallback:
+      annotate:
+        EventName: Generic VMware OS Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System 
+
+- first-match: 'subcomp\=\"\S+\"(?:\s+update=\"\w+\")?\s+username="admin"\].*?ModuleName\=\"\S+\"\,\s+Operation\=\"\w+\"'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\d+\-\d+\-\d+T\d+\:\d+\:\d+)[\.\w\:\+]+\s+(?P<hostname>\S+)\s+NSX\s+\d+\s+[\w\-]+\s+.*?UserName\=\"(?P<user>\S+)\"\,\s+ModuleName\=\"(?P<modulename>.*?)\"\,\s+Operation\=\"(?P<operation>\S+)\"\,\s+Operation\s+status\=\"(?P<status>\w+)\"'
+  event-key-format: ''
+  event-key-mapping:
+    '':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        user: User
+        Config: Config
+
+  fallback:
+      annotate:
+        EventName: Generic VMware OS Event
+        Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System            
