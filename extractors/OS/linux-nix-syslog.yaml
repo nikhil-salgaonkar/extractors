@@ -7,6 +7,7 @@ source-description: Extractor for NIX OS Events
 provides-streams:
 - AUTHENTICATION
 - AUDITD
+- IAM
 master-filters:
 - '^(?:\<\d+\>)?[\w\-\:\s\+\.\d]+(?:systemd-logind|sshd|cron|internal-sftp|sftpd|syslog|sudo|tsm|su|login|saphostexec|sftp-server|sapdbctrl|pkexec|polkit-agent-helper-\d+|CRON)(?:\[\d+\]\:|\:)'
 - '^(?:\<\d+\>\d+\s+)?\d{4}\-\d{1,2}\-\d{2}T\d{2}\:\d{2}\:\d+[\.\w\+\:]+\s+\S+\s+(?:CRON|audispd|sudo)\s+(?:[\d\s\-]+)'
@@ -119,10 +120,10 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGOUT
         Status: PASSED
-        AuthProto: SFTP
       translate:
         user: User
-        src: SrcIP        
+        src: SrcIP
+        AuthProto: AuthProto        
 
   fallback:
     annotate:
@@ -214,10 +215,10 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
-        AuthProto: CLI
       translate:
         user: User
         src: SrcIP
+        AuthProto: AuthProto
         
   fallback:
     annotate:
@@ -393,10 +394,10 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
-        AuthProto: SFTP
       translate:
         src: SrcIP
         user: User
+        AuthProto: AuthProto
 
   fallback:
     annotate:
@@ -413,10 +414,10 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGOUT
         Status: PASSED
-        AuthProto: SFTP
       translate:
         src: SrcIP
         user: User
+        AuthProto: AuthProto
 
   fallback:
     annotate:
@@ -508,9 +509,9 @@ event-details:
         AuthProto: AuthProto    
 
   fallback:
-      annotate:
-        EventName: Generic NIX Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic NIX Event
+      Stream: OTHER
 
   globals:
     translate:
@@ -522,40 +523,10 @@ event-details:
   decoder-regex: '(?P<datetime>\d+\-\d+\-\d+T\d+\:\d+\:\d+)[\.\w\:\+]+\s+(?P<hostname>\S+)\s+(?P<daemon>\S+)[\-\s\d]+\s+node\=\S+\s+type\=(?P<type>\S+)(?:.*?acct\=\\?\"?(?P<user>.*?)\\?\"?\s+exe\=\\?\"?(?P<process>.*?)\\?\"?\s+)?(?:.*?cmd\=\"(?P<cmd>.*?)\")?'
   event-key-format: '{type}'
   event-key-mapping:
-    'USER_END':
-      annotate:
-        Stream: AUDITD
-        Action: USER_TERMINATED
-        Status: PASSED
-      translate:
-        user: User
-        cmd: CommandLine
-        process: Process
-        ProcessArgs: ProcessArgs  
-    'USER_START':
-      annotate:
-        Stream: AUTHENTICATION
-        Action: USER_STARTED
-        Status: PASSED
-      translate:
-        user: User
-        cmd: CommandLine
-        process: Process
-        ProcessArgs: ProcessArgs
     'USER_CMD':
       annotate:
-        Stream: AUTHENTICATION
+        Stream: AUDITD
         Action: USER_COMMAND_EXECUTED
-        Status: PASSED
-      translate:
-        user: User
-        cmd: CommandLine
-        process: Process
-        ProcessArgs: ProcessArgs 
-    'CRED_REFR':
-      annotate:
-        Stream: AUTHENTICATION
-        Action: CREDENTIAL_REFRESHED
         Status: PASSED
       translate:
         user: User
@@ -564,19 +535,18 @@ event-details:
         ProcessArgs: ProcessArgs 
     'CRED_DISP':
       annotate:
-        Stream: AUTHENTICATION
+        Stream: IAM
         Action: CREDENTIAL_DISPOSED
         Status: PASSED
       translate:
         user: User
-        cmd: CommandLine
-        process: Process
-        ProcessArgs: ProcessArgs               
+        TargetUser: TargetUser
+        Role: Role               
 
   fallback:
-      annotate:
-        EventName: Generic NIX Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic NIX Event
+      Stream: OTHER
 
   globals:
     translate:
