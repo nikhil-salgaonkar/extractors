@@ -16,7 +16,7 @@ Tell us more about the product that needs an extractor.
 **Integration details**
 Tell us how the product is going to get integrated with DNIF
 - User Manual
-- Protocol / Format being used - API / Syslog / SNMP etc.
+- Protocol / Format being used - CEF / LEEF / Syslog / Key Value pairs / JSON  etc.
 - Configuration guide
 
 **Is there a trial version / NFR version available**
@@ -28,11 +28,8 @@ Tell us about the format in which events are available
 
 **Event details**
 What kind of events are we expecting to see
-- Event source database
-- Sample event logs
-
-**Prospect streams available**
-Tell us what kind of streams can be extracted from the events
+- Reference document (Log guide/ Field description)
+- Sample log event (sanitized)
 
 **Additional details / screenshot**
 - ![Screenshot]()
