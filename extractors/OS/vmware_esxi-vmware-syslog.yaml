@@ -13,7 +13,7 @@ master-filters:
 event-details:
 - first-match: 'Event\s+\d+\s+\:\s+User[\s\w\.\@\:]+logged\s+out\s+'
   decoder: regex
-  decoder-regex: '(?P<datetime>\d+\-\d+\-\d+T\d+\:\d+\:\d+)\.\w+\s+(?P<hostname>\S+)\s+(?P<daemon>\S+)\:\s+(?P<severity>\w+)\s+(?P<appserverice>\w+).*?(?:user=|User)\s+(?P<user>.*?)\@.*?(?P<action>logged\s+out)\s+'
+  decoder-regex: '(?P<datetime>\d+\-\d+\-\d+T\d+\:\d+\:\d+)\.\w+\s+(?P<hostname>\S+)\s+(?P<daemon>\S+)\:\s+(?P<severity>\w+)\s+(?P<appserverice>\w+).*?(?:user=|User)\s+(?P<user>.*?)(?:\@(?P<src>[\w\.\:]+))?\s+(?P<action>logged\s+out)\s+'
   event-key-format: '{action}'
   event-key-mapping:
     'logged out':
@@ -27,14 +27,39 @@ event-details:
         AuthProto: AuthProto
 
   fallback:
-      annotate:
-        EventName: Generic VMware OS Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic VMware OS Event
+      Stream: OTHER
 
   globals:
     translate:
       datetime: SystemTstamp
       hostname: System
+
+- first-match: '\s+Accepted\s+password\s+for\s+user\s+'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\d+\-\d+\-\d+T\d+\:\d+\:\d+)\.\w+\s+(?P<hostname>\S+)\s+(?P<daemon>\S+)\:\s+(?P<message>(?P<action>Accepted\s+password)\s+for\s+user\s+(?P<user>\S+)\s+from\s+(?P<src>[\w\:\.]+))'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'Accepted password':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        user: User
+        src: SrcIP
+        AuthProto: AuthProto
+
+  fallback:
+    annotate:
+      EventName: Generic VMware OS Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System      
 
 - first-match: 'Event\s+\d+\s+\:\s+User[\s\w\.\@\:]+logged\s+in\s+'
   decoder: regex
@@ -52,9 +77,9 @@ event-details:
         AuthProto: AuthProto
 
   fallback:
-      annotate:
-        EventName: Generic VMware OS Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic VMware OS Event
+      Stream: OTHER
 
   globals:
     translate:
@@ -78,9 +103,9 @@ event-details:
         AuthProto: AuthProto
 
   fallback:
-      annotate:
-        EventName: Generic VMware OS Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic VMware OS Event
+      Stream: OTHER
 
   globals:
     translate:
@@ -89,7 +114,7 @@ event-details:
 
 - first-match: 'vpxd.*logged\s+(?:in|out)'
   decoder: regex
-  decoder-regex: '(?P<datetime>\d+\-\d+\-\d+T\d+\:\d+\:\d+)\..*?\s+(?P<hostname>\S+)\s+(?P<daemon>vpxd)\s+\S+\s+\S+\s+\S+\s+.*?\[(?P<severity>info)\]\s+\[.*?\]\s+\[.*?\]\s+\[\d+\]\s+\[(?P<message>User\s+(?P<user>.*?)\@.*?(?P<action>logged\s+(?:in|out)).*)\]'
+  decoder-regex: '(?P<datetime>\d+\-\d+\-\d+T\d+\:\d+\:\d+)\..*?\s+(?P<hostname>\S+)\s+(?P<daemon>vpxd)\s+\S+\s+\S+\s+\S+\s+.*?\[(?P<severity>info)\]\s+\[.*?\]\s+\[.*?\]\s+\[\d+\]\s+\[(?P<message>User\s+(?P<user>.*?)(?:\@(?P<src>[\w\.\:]+))?\s+(?P<action>logged\s+(?:in|out)).*)\]'
   event-key-format: '{action}'
   event-key-mapping:
     'logged in':
@@ -112,9 +137,9 @@ event-details:
         AuthProto: AuthProto    
 
   fallback:
-      annotate:
-        EventName: Generic VMware OS Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic VMware OS Event
+      Stream: OTHER
 
   globals:
     translate:
@@ -156,9 +181,9 @@ event-details:
         auth_protocol: AuthProto    
 
   fallback:
-      annotate:
-        EventName: Generic VMware OS Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic VMware OS Event
+      Stream: OTHER
 
   globals:
     translate:
@@ -180,11 +205,11 @@ event-details:
         Config: Config
 
   fallback:
-      annotate:
-        EventName: Generic VMware OS Event
-        Stream: OTHER
+    annotate:
+      EventName: Generic VMware OS Event
+      Stream: OTHER
 
   globals:
     translate:
       datetime: SystemTstamp
-      hostname: System            
+      hostname: System 
