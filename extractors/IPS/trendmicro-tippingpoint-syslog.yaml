@@ -1,0 +1,47 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 187
+source-name: TIPPINGPOINT
+source-type: IPS
+source-description: Extractor for TippingPoint IPS Events
+provides-streams:
+- AUTHENTICATION
+master-filters:
+- '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+\d+\s+\d+\s+[\w\-]+\s+[\d\-]+\s+\d+\:'
+- '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+\w+\s+[\d\.\s]+\w+\s+(?:Login|logout_requested)'
+event-details:  
+- first-match: '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+\w+\s+[\d\.\s]+\w+\s+(?:Login|logout_requested)' 
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+).*?(?P<user>\w+)\s+(?P<src>[\d\.]+)\s+\d+\s+\d+\s+\w+\s+(?P<action>(?:Login|logout_requested))'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'Login':           
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate: 
+        user: User
+        src: SrcIP
+        AuthProto: AuthProto
+        Reason: Reason
+    'logout_requested':           
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+      translate: 
+        user: User
+        src: SrcIP
+        AuthProto: AuthProto
+        action: Reason
+        
+  fallback:
+    annotate:
+      EventName: Generic TippingPoint IPS Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System
