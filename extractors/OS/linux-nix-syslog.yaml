@@ -6,8 +6,11 @@ source-type: OS
 source-description: Extractor for NIX OS Events
 provides-streams:
 - AUTHENTICATION
+- AUDITD
+- IAM
 master-filters:
-- '^(?:\<\d+\>)?[\w\-\:\s\+\.\d]+(?:systemd-logind|sshd|cron|internal-sftp|sftpd|syslog|sudo|su|login|saphostexec|sftp-server|sapdbctrl|pkexec|polkit-agent-helper-\d+)(?:\[\d+\]\:|\:)'
+- '^(?:\<\d+\>)?[\w\-\:\s\+\.\d]+(?:systemd-logind|sshd|cron|internal-sftp|sftpd|syslog|sudo|tsm|su|login|saphostexec|sftp-server|sapdbctrl|pkexec|polkit-agent-helper-\d+|CRON)(?:\[\d+\]\:|\:)'
+- '^(?:\<\d+\>\d+\s+)?\d{4}\-\d{1,2}\-\d{2}T\d{2}\:\d{2}\:\d+[\.\w\+\:]+\s+\S+\s+(?:CRON|audispd|sudo)\s+(?:[\d\s\-]+)'
 event-details:
 - first-match: '\[\d+\]\:\s+Accepted\s+password\s+for\s+'
   decoder: regex
@@ -21,7 +24,6 @@ event-details:
         Status: PASSED
         AuthProto: SSH
       translate:
-        reason: Reason
         src: SrcIP
         user: User 
          
@@ -61,7 +63,7 @@ event-details:
 
 - first-match: '\[\d+\]\:\s+Invalid\s+user\s+[\S]+\s+from\s+[\w\.\:]+'
   decoder: regex
-  decoder-regex: '(?:(?P<hostname>\S+)\s+)?(?P<daemon>\w+)\[(?P<pid>\d+)\]\:\s+(?P<msg>(?P<action>Invalid\s+user)\s+(?P<user>\S+)\s+from\s+(?P<src>[abcdef\d\:\.\-]+))'
+  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>.*?)\s+(?P<daemon>\w+)\[(?P<pid>\d+)\]\:\s+(?P<msg>(?P<action>Invalid\s+user)\s+(?P<user>\S+)\s+from\s+(?P<src>[abcdef\d\:\.\-]+))'
   event-key-format: '{action}'
   event-key-mapping:
     'Invalid user': 
@@ -82,7 +84,7 @@ event-details:
 
   globals:
     translate:
-      hostname: System
+      datetime: SystemTstamp
 
 - first-match: '\[\d+\]\:[\(\w\:\_\s\)]+session\s+closed\s+for\s+user\s+\S+'
   decoder: regex
@@ -96,7 +98,6 @@ event-details:
         Status: PASSED
         AuthProto: SSH
       translate:
-        reason: Reason
         user: User
         src: SrcIP 
 
@@ -106,7 +107,7 @@ event-details:
       Stream: OTHER
 
   globals:
-   translate:
+    translate:
       hostname: System
 
 - first-match: '\[\d+\]\:\s+session\s+closed\s+for\s+local\s+user\s+\S+\s+from\s+\['
@@ -119,11 +120,10 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGOUT
         Status: PASSED
-        AuthProto: SFTP
       translate:
-        reason: Reason
         user: User
-        src: SrcIP        
+        src: SrcIP
+        AuthProto: AuthProto        
 
   fallback:
     annotate:
@@ -136,7 +136,7 @@ event-details:
 
 - first-match: 'PAM\:\s+authentication\s+error\s'
   decoder: regex
-  decoder-regex: '(?P<daemon>\w+)\[(?P<pid>\d+)\]\:\s+(?P<msg>.*?(?P<action>authentication\s+error)\s+for\s+(?P<user>.*?)\s+from\s+(?P<src>\d+.\d+.\d+.\d+))'
+  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>.*?)\s+(?P<daemon>\w+)\[(?P<pid>\d+)\]\:\s+(?P<msg>.*?(?P<action>authentication\s+error)\s+for\s+(?P<user>.*?)\s+from\s+(?P<src>\d+.\d+.\d+.\d+))'
   event-key-format: '{action}'
   event-key-mapping:
     'authentication error': 
@@ -154,6 +154,10 @@ event-details:
     annotate:
       EventName: Generic NIX Event
       Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp    
 
 - first-match: 'PAM\:\s+password\s+authentication\s+failed\s+for\s+'
   decoder: regex
@@ -180,7 +184,6 @@ event-details:
     translate:
       hostname: System
 
-
 - first-match: 'PAM\:\s+password\s+authentication\s+accepted\s+for\s+'
   decoder: regex
   decoder-regex: '(?:(?P<hostname>\S+)\s)?(?P<daemon>\w+)\[(?P<pid>\d+)\]\:.*?\:\s+(?P<msg>.*?\:\spassword\s(?P<action>authentication\saccepted)\sfor\s(?P<user>.*))'
@@ -193,7 +196,6 @@ event-details:
         Status: PASSED
         AuthProto: SSH
       translate:
-        reason: Reason  
         user: User
         src: SrcIP
 
@@ -216,11 +218,10 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
-        AuthProto: CLI
       translate:
-        reason: Reason
         user: User
         src: SrcIP
+        AuthProto: AuthProto
         
   fallback:
     annotate:
@@ -233,7 +234,7 @@ event-details:
 
 - first-match: 'User.*logged\s+out'
   decoder: regex
-  decoder-regex: '(?P<daemon>\S+)(?:\[(?P<pid>\d+)\])?\:\s+(?P<msg>.*?User[\:\s]+(?P<user>\S+).*?(?P<action>logged\s+out)\.?)'
+  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w+\s+\d+\s+[\d\:]+)\s+(?P<hostname>[\w\-]+)\:?\s+(?P<daemon>[\w\-]+)(?:\[(?P<pid>\d+)\])?\:\s+(?P<msg>.*?User[\:\s]+(?P<user>\S+).*?(?:from\s+(?P<src>[\d\.]+).*?)?(?P<action>logged\s+out)\.?)'
   event-key-format: '{action}'
   event-key-mapping:
     'logged out': 
@@ -243,18 +244,22 @@ event-details:
         Status: PASSED
       translate:
         AuthProto: AuthProto
-        reason: Reason
         user: User
         src: SrcIP       
 
   fallback:
-   annotate:
+    annotate:
       EventName: Generic NIX Event
       Stream: OTHER
 
+  globals:
+    translate:
+      hostname: System
+      datetime: SystemTstamp   
+
 - first-match: 'New\s+user\s+\S+\s+logged\s+in'
   decoder: regex
-  decoder-regex: '(?P<hostname>\S+)\s+(?P<daemon>\S+)\[(?P<pid>\d+)\]\:\s+(?P<msg>.*?(?P<action>logged\s+in)\.)'
+  decoder-regex: '(?P<hostname>\S+)\s+(?P<daemon>\S+)\[(?P<pid>\d+)\]\:\s+(?P<msg>.*?user\s+(?P<user>\S+)\s+(?P<action>logged\s+in)\.)'
   event-key-format: '{action}'
   event-key-mapping:
     'logged in': 
@@ -264,7 +269,6 @@ event-details:
         Status: PASSED
       translate:
         AuthProto: AuthProto
-        reason: Reason
         user: User
         src: SrcIP 
 
@@ -279,7 +283,7 @@ event-details:
 
 - first-match: '\[\d+\]\:[\s\w\:]+(?:Authentication|authentication)\s+(?:failure|failures)\s+for\s+'
   decoder: regex
-  decoder-regex: '\s+(?P<daemon>\S+)\[(?P<pid>\d+)\]\:\s+(?P<msg>.*?(?P<action>(?:Authentication|authentication)\s+(?:failure|failures))\s+for\s+(?P<user>\S+)(?:\s+from\s+(?P<src>.*))?)'
+  decoder-regex: '(?:(?P<hostname>\S+)\s+)?(?:(?:err|info|warn)\s+)?(?P<daemon>\S+)\[(?P<pid>\d+)\]\:\s+(?P<msg>.*?(?P<action>(?:Authentication|authentication)\s+(?:failure|failures))\s+for\s+(?P<user>\S+)(?:\s+from\s+(?P<src>.*))?)'
   event-key-format: '{action}'
   event-key-mapping:
     'Authentication failure': 
@@ -308,9 +312,13 @@ event-details:
       EventName: Generic NIX Event
       Stream: OTHER
 
+  globals:
+    translate:
+      hostname: System
+
 - first-match: '\[\d+\]\:[\s\w\_\:\(\)\-]+authentication\s+(?:failure|failures)\;\s+logname\='
   decoder: regex
-  decoder-regex: '\s+(?P<hostname>\S+)\s+(?P<daemon>\S+)\[(?P<pid>\d+)\]\:\s+.*?(?P<msg>(?P<action>authentication\s+(?:failure|failures))\;.*?uid\=(?P<uid>\d+).*?ruser\=(?P<ruser>\S+|)\s+rhost\=(?P<rhost>\S+|)(?:\s+user\=(?P<user>.*))?)'
+  decoder-regex: '\s+(?P<hostname>\S+)\s+(?P<daemon>\S+)\[(?P<pid>\d+)\]\:\s+.*?(?P<msg>(?P<action>authentication\s+(?:failure|failures))\;.*?uid\=(?P<uid>\d+).*?ruser\=(?P<ruser>\S+|)\s+rhost\=(?P<src>\S+|)(?:\s+user\=(?P<user>.*))?)'
   event-key-format: '{action}'
   event-key-mapping:
     'authentication failure': 
@@ -321,7 +329,7 @@ event-details:
         AuthProto: SSH
         Reason: INVALID_PASSWORD
       translate:
-        user: User
+        ruser: User
         src: SrcIP  
     'authentication failures': 
       annotate:
@@ -331,7 +339,7 @@ event-details:
         AuthProto: SSH
         Reason: INVALID_PASSWORD
       translate:
-        user: User 
+        ruser: User 
         src: SrcIP
 
   fallback:
@@ -345,7 +353,7 @@ event-details:
 
 - first-match: '(?:su|sudo)\:.*?authentication\s+failure\;\s+logname\='
   decoder: regex
-  decoder-regex: '\s+(?P<hostname>\S+)\s+(?P<daemon>\w+)\:\s+.*?(?P<msg>(?P<action>authentication\s+failure)\;.*?uid\=(?P<uid>\d+).*?ruser\=(?P<ruser>\S+|)\s+rhost\=(?P<rhost>\S+|)(?:\s+user\=(?P<user>.*))?)'
+  decoder-regex: '\s+(?P<hostname>\S+)\s+(?P<daemon>\w+)\:\s+.*?(?P<msg>(?P<action>authentication\s+failure)\;.*?uid\=(?P<uid>\d+).*?ruser\=(?P<ruser>\S+|)\s+rhost\=(?P<src>\S+|)(?:\s+user\=(?P<user>.*))?)'
   event-key-format: '{action}'
   event-key-mapping:
     'authentication failure': 
@@ -356,7 +364,7 @@ event-details:
         AuthProto: SSH
         Reason: INVALID_PASSWORD
       translate:
-        user: User
+        ruser: User
         src: SrcIP
 
   fallback:
@@ -370,7 +378,7 @@ event-details:
 
 - first-match: '\[\d+\]\:\s+.*?Received\s+disconnect\s+from\s+'
   decoder: regex
-  decoder-regex: '\s+(?P<daemon>\S+)\[(?P<pid>\d+)\]\:.*?(?P<msg>(?P<action>Received\s+disconnect)\s+from\s+(?P<src>[\d\.]+)\:?(?:\s+port\s+(?P<sport>\d+)\:\d+)?.*)'
+  decoder-regex: '\s+(?:(?P<hostname>[\w\-]+)\:?\s+)?(?P<daemon>\S+)\[(?P<pid>\d+)\]\:.*?(?P<msg>(?P<action>Received\s+disconnect)\s+from\s+(?P<src>[\d\.]+)\:?(?:\s+port\s+(?P<sport>\d+)\:\d+)?.*)'
   event-key-format: '{action}'
   event-key-mapping:
     'Received disconnect': 
@@ -380,7 +388,6 @@ event-details:
         Status: PASSED
         AuthProto: SSH
       translate:
-        reason: Reason
         src: SrcIP
         user: User
 
@@ -389,9 +396,13 @@ event-details:
       EventName: Generic NIX Event
       Stream: OTHER
 
+  globals:
+    translate:
+      hostname: System    
+
 - first-match: '\[\d+\]\:[\s\w\_\:\(\)\-]+session\s+opened\s+for\s+'
   decoder: regex
-  decoder-regex: '\s+(?P<daemon>\S+)\[(?P<pid>\d+)\]\:.*?(?P<msg>(?P<action>session\s+opened)\s+for.*?user\s+(?P<user>\S+)\s+(?:by\s+\(uid\=(?P<uid>\d+)\))?(?:from\s+\[(?P<src>[\d\.]+)\])?)'
+  decoder-regex: '(?:(?P<hostname>\S+)\s+)?(?P<daemon>\S+)\[(?P<pid>\d+)\]\:.*?(?P<msg>(?P<action>session\s+opened)\s+for.*?user\s+(?P<user>\S+)\s+(?:by\s+\(uid\=(?P<uid>\d+)\))?(?:from\s+\[(?P<src>[\d\.]+)\])?)'
   event-key-format: '{action}'
   event-key-mapping:
     'session opened': 
@@ -399,20 +410,23 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
-        AuthProto: SFTP
       translate:
-        reason: Reason
         src: SrcIP
         user: User
+        AuthProto: AuthProto
 
   fallback:
     annotate:
       EventName: Generic NIX Event
       Stream: OTHER
 
+  globals:
+    translate:
+      hostname: System     
+
 - first-match: '\[\d+\]\:[\s\w\_\:\(\)\-]+session\s+closed\s+for\s+'
   decoder: regex
-  decoder-regex: '\s+(?P<daemon>\S+)\[(?P<pid>\d+)\]\:.*?(?P<msg>(?P<action>session\s+closed)\s+for.*?user\s+(?P<user>\S+)(?:\s+by\s+\(uid\=(?P<uid>\d+)\))?(?:\s+from\s+\[(?P<src>[\d\.]+)\])?)'
+  decoder-regex: '(?:(?P<hostname>\S+)\s+)?(?P<daemon>\S+)\[(?P<pid>\d+)\]\:.*?(?P<msg>(?P<action>session\s+closed)\s+for.*?user\s+(?P<user>\S+)(?:\s+by\s+\(uid\=(?P<uid>\d+)\))?(?:\s+from\s+\[(?P<src>[\d\.]+)\])?)'
   event-key-format: '{action}'
   event-key-mapping:
     'session closed': 
@@ -420,20 +434,23 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGOUT
         Status: PASSED
-        AuthProto: SFTP
       translate:
-        reason: Reason
         src: SrcIP
         user: User
+        AuthProto: AuthProto
 
   fallback:
     annotate:
       EventName: Generic NIX Event
       Stream: OTHER
 
+  globals:
+    translate:
+      hostname: System     
+
 - first-match: '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+\w+\:\s+.*?session\s+opened\s+for\s+'
   decoder: regex
-  decoder-regex: '(?P<daemon>\w+)\:\s+.*?(?P<msg>(?P<action>session\s+opened)\s+for.*?user\s+(?P<user>\S+).*)'
+  decoder-regex: '(?:(?P<hostname>\S+)\s+)?(?P<daemon>\w+)\:\s+.*?(?P<msg>(?P<action>session\s+opened)\s+for.*?user\s+(?P<user>\S+).*)'
   event-key-format: '{action}'
   event-key-mapping:
     'session opened': 
@@ -443,18 +460,21 @@ event-details:
         Status: PASSED
       translate:
         AuthProto: AuthProto
-        reason: Reason
         user: User
         src: SrcIP        
 
   fallback:
-   annotate:
+    annotate:
       EventName: Generic NIX Event
       Stream: OTHER
 
+  globals:
+    translate:
+      hostname: System    
+
 - first-match: '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+\w+\:[\s\w\_\:\(\)\-]+session\s+closed\s+for\s+'
   decoder: regex
-  decoder-regex: '(?P<daemon>\w+)\:\s+.*?(?P<msg>(?P<action>session\s+closed)\s+for.*?user\s+(?P<user>\S+).*)'
+  decoder-regex: '(?:(?P<hostname>\S+)\s+)?(?P<daemon>\w+)\:\s+.*?(?P<msg>(?P<action>session\s+closed)\s+for.*?user\s+(?P<user>\S+).*)'
   event-key-format: '{action}'
   event-key-mapping:
    'session closed': 
@@ -464,7 +484,6 @@ event-details:
         Status: PASSED
       translate:
         AuthProto: AuthProto
-        reason: Reason
         user: User
         src: SrcIP 
 
@@ -473,9 +492,13 @@ event-details:
       EventName: Generic NIX Event
       Stream: OTHER
 
+  globals:
+    translate:
+      hostname: System    
+
 - first-match: 'New\s+session\s+\d+\s+of\s+user\s+'
   decoder: regex
-  decoder-regex: '(?P<daemon>\S+)\:\s+.*?(?P<msg>(?P<action>New\s+session)\s+\d+\s+of\s+user\s+(?P<user>\S+).*)'
+  decoder-regex: '(?:(?P<hostname>\S+)\s+)?(?P<daemon>\S+)\:\s+.*?(?P<msg>(?P<action>New\s+session)\s+\d+\s+of\s+user\s+(?P<user>\S+).*)'
   event-key-format: '{action}'
   event-key-mapping:
     'New session': 
@@ -485,7 +508,6 @@ event-details:
         Status: PASSED
       translate:
         AuthProto: AuthProto
-        reason: Reason
         user: User
         src: SrcIP 
 
@@ -493,3 +515,76 @@ event-details:
     annotate:
       EventName: Generic NIX Event
       Stream: OTHER
+
+  globals:
+    translate:
+      hostname: System    
+
+- first-match: '^(?:\<\d+\>\d+\s+)?\d{4}\-\d{1,2}\-\d{2}T\d{2}\:\d{2}\:\d+[\.\w\+\:]+\s+\S+\s+\w+\s+[\-\s\w\_\:\(\)]+\:\s+session\s+(?:closed|opened)\s+for\s+user\s+\S+\s+'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\d+\-\d+\-\d+T\d+\:\d+\:\d+)[\.\w\:\+]+\s+(?P<hostname>\S+)\s+(?P<daemon>\S+)[\-\s\d]+pam\_unix\(\S+\:session\)\:\s+(?P<message>(?P<action>session\s+(?:closed|opened))\s+for\s+user\s+(?P<user>\S+))'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'session opened':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        user: User
+        src: SrcIP
+        AuthProto: AuthProto  
+    'session closed':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+      translate:
+        user: User
+        src: SrcIP
+        AuthProto: AuthProto    
+
+  fallback:
+    annotate:
+      EventName: Generic NIX Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System      
+
+- first-match: 'audispd[\s\-]+node\=\S+\s+type\=\S+\s+'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\d+\-\d+\-\d+T\d+\:\d+\:\d+)[\.\w\:\+]+\s+(?P<hostname>\S+)\s+(?P<daemon>\S+)[\-\s\d]+\s+node\=\S+\s+type\=(?P<type>\S+)(?:.*?acct\=\\?\"?(?P<user>.*?)\\?\"?\s+exe\=\\?\"?(?P<process>.*?)\\?\"?\s+)?(?:.*?cmd\=\"(?P<cmd>.*?)\")?'
+  event-key-format: '{type}'
+  event-key-mapping:
+    'USER_CMD':
+      annotate:
+        Stream: AUDITD
+        Action: USER_COMMAND_EXECUTED
+        Status: PASSED
+      translate:
+        user: User
+        cmd: CommandLine
+        process: Process
+        ProcessArgs: ProcessArgs 
+    'CRED_DISP':
+      annotate:
+        Stream: IAM
+        Action: CREDENTIAL_DISPOSED
+        Status: PASSED
+      translate:
+        user: User
+        TargetUser: TargetUser
+        Role: Role               
+
+  fallback:
+    annotate:
+      EventName: Generic NIX Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System
