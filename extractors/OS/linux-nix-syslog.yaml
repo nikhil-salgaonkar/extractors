@@ -63,7 +63,7 @@ event-details:
 
 - first-match: '\[\d+\]\:\s+Invalid\s+user\s+[\S]+\s+from\s+[\w\.\:]+'
   decoder: regex
-  decoder-regex: '(?:(?P<hostname>\S+)\s+)?(?P<daemon>\w+)\[(?P<pid>\d+)\]\:\s+(?P<msg>(?P<action>Invalid\s+user)\s+(?P<user>\S+)\s+from\s+(?P<src>[abcdef\d\:\.\-]+))'
+  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>.*?)\s+(?P<daemon>\w+)\[(?P<pid>\d+)\]\:\s+(?P<msg>(?P<action>Invalid\s+user)\s+(?P<user>\S+)\s+from\s+(?P<src>[abcdef\d\:\.\-]+))'
   event-key-format: '{action}'
   event-key-mapping:
     'Invalid user': 
@@ -84,7 +84,7 @@ event-details:
 
   globals:
     translate:
-      hostname: System
+      datetime: SystemTstamp
 
 - first-match: '\[\d+\]\:[\(\w\:\_\s\)]+session\s+closed\s+for\s+user\s+\S+'
   decoder: regex
@@ -136,7 +136,7 @@ event-details:
 
 - first-match: 'PAM\:\s+authentication\s+error\s'
   decoder: regex
-  decoder-regex: '(?:(?P<hostname>\S+)\s+)?(?P<daemon>\w+)\[(?P<pid>\d+)\]\:\s+(?P<msg>.*?(?P<action>authentication\s+error)\s+for\s+(?P<user>.*?)\s+from\s+(?P<src>\d+.\d+.\d+.\d+))'
+  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>.*?)\s+(?P<daemon>\w+)\[(?P<pid>\d+)\]\:\s+(?P<msg>.*?(?P<action>authentication\s+error)\s+for\s+(?P<user>.*?)\s+from\s+(?P<src>\d+.\d+.\d+.\d+))'
   event-key-format: '{action}'
   event-key-mapping:
     'authentication error': 
@@ -157,7 +157,7 @@ event-details:
 
   globals:
     translate:
-      hostname: System    
+      datetime: SystemTstamp    
 
 - first-match: 'PAM\:\s+password\s+authentication\s+failed\s+for\s+'
   decoder: regex
@@ -234,7 +234,7 @@ event-details:
 
 - first-match: 'User.*logged\s+out'
   decoder: regex
-  decoder-regex: '(?:(?P<hostname>\S+)\s+)?(?P<daemon>\S+)(?:\[(?P<pid>\d+)\])?\:\s+(?P<msg>.*?User[\:\s]+(?P<user>\S+).*?(?P<action>logged\s+out)\.?)'
+  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w+\s+\d+\s+[\d\:]+)\s+(?P<hostname>[\w\-]+)\:?\s+(?P<daemon>[\w\-]+)(?:\[(?P<pid>\d+)\])?\:\s+(?P<msg>.*?User[\:\s]+(?P<user>\S+).*?(?:from\s+(?P<src>[\d\.]+).*?)?(?P<action>logged\s+out)\.?)'
   event-key-format: '{action}'
   event-key-mapping:
     'logged out': 
@@ -254,11 +254,12 @@ event-details:
 
   globals:
     translate:
-      hostname: System    
+      hostname: System
+      datetime: SystemTstamp   
 
 - first-match: 'New\s+user\s+\S+\s+logged\s+in'
   decoder: regex
-  decoder-regex: '(?P<hostname>\S+)\s+(?P<daemon>\S+)\[(?P<pid>\d+)\]\:\s+(?P<msg>.*?(?P<action>logged\s+in)\.)'
+  decoder-regex: '(?P<hostname>\S+)\s+(?P<daemon>\S+)\[(?P<pid>\d+)\]\:\s+(?P<msg>.*?user\s+(?P<user>\S+)\s+(?P<action>logged\s+in)\.)'
   event-key-format: '{action}'
   event-key-mapping:
     'logged in': 
@@ -282,7 +283,7 @@ event-details:
 
 - first-match: '\[\d+\]\:[\s\w\:]+(?:Authentication|authentication)\s+(?:failure|failures)\s+for\s+'
   decoder: regex
-  decoder-regex: '(?:(?P<hostname>\S+)\s+)?(?P<daemon>\S+)\[(?P<pid>\d+)\]\:\s+(?P<msg>.*?(?P<action>(?:Authentication|authentication)\s+(?:failure|failures))\s+for\s+(?P<user>\S+)(?:\s+from\s+(?P<src>.*))?)'
+  decoder-regex: '(?:(?P<hostname>\S+)\s+)?(?:(?:err|info|warn)\s+)?(?P<daemon>\S+)\[(?P<pid>\d+)\]\:\s+(?P<msg>.*?(?P<action>(?:Authentication|authentication)\s+(?:failure|failures))\s+for\s+(?P<user>\S+)(?:\s+from\s+(?P<src>.*))?)'
   event-key-format: '{action}'
   event-key-mapping:
     'Authentication failure': 
@@ -313,7 +314,7 @@ event-details:
 
   globals:
     translate:
-      hostname: System    
+      hostname: System
 
 - first-match: '\[\d+\]\:[\s\w\_\:\(\)\-]+authentication\s+(?:failure|failures)\;\s+logname\='
   decoder: regex
@@ -377,7 +378,7 @@ event-details:
 
 - first-match: '\[\d+\]\:\s+.*?Received\s+disconnect\s+from\s+'
   decoder: regex
-  decoder-regex: '(?:(?P<hostname>\S+)\s+)?(?P<daemon>\S+)\[(?P<pid>\d+)\]\:.*?(?P<msg>(?P<action>Received\s+disconnect)\s+from\s+(?P<src>[\d\.]+)\:?(?:\s+port\s+(?P<sport>\d+)\:\d+)?.*)'
+  decoder-regex: '\s+(?:(?P<hostname>[\w\-]+)\:?\s+)?(?P<daemon>\S+)\[(?P<pid>\d+)\]\:.*?(?P<msg>(?P<action>Received\s+disconnect)\s+from\s+(?P<src>[\d\.]+)\:?(?:\s+port\s+(?P<sport>\d+)\:\d+)?.*)'
   event-key-format: '{action}'
   event-key-mapping:
     'Received disconnect': 
