@@ -9,7 +9,7 @@ As of 08-04-2021
 |OS       		         |Microsoft             |Windows (nxlog)      | NXLog (JSON)|AUTHENTICATION, IAM, SYSMON-PROCESS,  SYSMON-NETWORK,  SYSMON-REGISTRY,  SYSMON-IMAGE-LOAD|
 |OS   		             |Microsoft             |Windows(winlogbeat)   |Winlogbeat (OSS)     | AUTHENTICATION, IAM, SYSMON-PROCESS,  SYSMON-NETWORK,  SYSMON-FILE,  SYSMON-IMAGE-LOAD,  SYSMON-REGISTRY,  SYSMON-WMI,  SYSMON-PIPE,  SYSMON-SERVICE,  SYSMON-DNS|                                                            |
 |OS|Linux|ALL|Auditbeat (OSS)|AUTHENTICATION, AUDITD|
-|OS|Linux|ALL|Rsyslog|AUTHENTICATION|
+|OS|Linux|ALL|Rsyslog|AUTHENTICATION, AUDITD|
 |OS|VMWare|VMWare|Syslog|AUTHENTICATION, CONFIGURATION|
 |OS|Cisco| Network-OS | Syslog |AUTHENTICATION , IAM, CONFIGURATION, FIREWALL|
 |Firewall|Fortinet|Fortigate|Syslog|FIREWALL, THREAT, AUTHENTICATION|
