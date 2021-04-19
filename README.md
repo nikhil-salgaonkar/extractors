@@ -10,7 +10,7 @@ As of 08-04-2021
 |OS   		             |Microsoft             |Windows(winlogbeat)   |Winlogbeat (OSS)     | AUTHENTICATION, IAM, SYSMON-PROCESS,  SYSMON-NETWORK,  SYSMON-FILE,  SYSMON-IMAGE-LOAD,  SYSMON-REGISTRY,  SYSMON-WMI,  SYSMON-PIPE,  SYSMON-SERVICE,  SYSMON-DNS|                                                            |
 |OS|Linux|ALL|Auditbeat (OSS)|AUTHENTICATION, AUDITD|
 |OS|Linux|ALL|Rsyslog|AUTHENTICATION|
-|OS|VMWare|VMWare|Syslog|AUTHENTICATION|
+|OS|VMWare|VMWare|Syslog|AUTHENTICATION, CONFIGURATION|
 |OS|Cisco| IOS | Syslog |AUTHENTICATION , FIREWALL|
 |Firewall|Fortinet|Fortigate|Syslog|FIREWALL, THREAT, AUTHENTICATION|
 Firewall |PaloAlto |Palo Alto Firewall |CSV |FIREWALL,THREAT, AUTHENTICATION |
