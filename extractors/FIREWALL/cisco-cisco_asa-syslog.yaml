@@ -63,9 +63,9 @@ event-details:
       datetime: SystemTstamp 
       hostname: System
 
-- first-match: '\%ASA\-\d+\-713052\:'
+- first-match: '\%ASA\-\d+\-(?:713052|713259)\:'
   decoder: regex
-  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2})(?:\s+(?P<hostname>\S+))?.*?\%ASA\-(?P<severity>\d+)\-(?P<eventid>\d+)\:(?:\sGroup\s+\=\s+(?P<group>.*?)\,)?\s+Username\s+\=\s+(?P<user>.*?)\,\s+IP\s+\=\s+(?P<src>[abcdef\w\d\:\.\-]+)\,(?P<message>.*?(?P<action>authenticated))'
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2})(?:\s+(?P<hostname>\S+))?.*?\%ASA\-(?P<severity>\d+)\-(?P<eventid>\d+)\:(?:\sGroup\s+\=\s+(?P<group>.*?)\,)?\s+Username\s+\=\s+(?P<user>.*?)\,\s+IP\s+\=\s+(?P<src>[abcdef\w\d\:\.\-]+)\,(?P<message>(?:.*?(?P<action>authenticated|torn\s+down))?(?:.*?Reason\:\s+(?P<reason>.*))?.*)'
   event-key-format: '{action}'
   event-key-mapping:
     'authenticated':
@@ -77,6 +77,16 @@ event-details:
         user: User
         src: SrcIP
         auth_protocol: AuthProto
+    'torn down':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate:
+        user: User
+        src: SrcIP
+        reason: Reason
+        auth_protocol: AuthProto    
 
   fallback:
     annotate:
@@ -268,32 +278,6 @@ event-details:
     translate:
       datetime: SystemTstamp 
       hostname: System
-                
-- first-match: '\%ASA\-\d+\-\d+\:\s+Authorization\s+denied\s+'
-  decoder: regex
-  decoder-regex: (?P<datetime>\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2})(?:\s+(?P<hostname>\S+))?.*?\%ASA\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+(?P<action>.*?)\s+\(acl\=(?P<policyname>.*?)\).*?user\s+\'(?P<user>\S+)\'\s+from\s+(?P<src>\S+)\/(?P<sport>\S+)\s+to\s+(?P<dst>\S+)\/(?P<dport>\S+)\s+on\sinterface\s.*?using\s(?P<protocol>\S+)
-  event-key-format: '{action}'
-  event-key-mapping:
-    'Authorization denied':
-      annotate:
-        Stream: AUTHENTICATION
-        Action: LOGIN
-        Status: FAILED
-      translate:
-        user: User
-        src: SrcIP
-        reason: Reason
-        auth_protocol: AuthProto
-
-  fallback:
-    annotate:
-      EventName: Generic Cisco-ASA Firewall Event
-      Stream: OTHER
-
-  globals:  
-    translate:
-      datetime: SystemTstamp 
-      hostname: System
 
 - first-match: '\%ASA\-\d+\-\d+\:\s+\w+\s+user\s+authentication\s+Successful\s+'
   decoder: regex
@@ -381,9 +365,9 @@ event-details:
       datetime: SystemTstamp 
       hostname: System      
 
-- first-match: '\%ASA\-\d+\-\d+\:\s+\w+\s+user\s+authentication\s+Rejected\:'
+- first-match: '\%ASA\-\d+\-\d+\:\s+\w+\s+user\s+authentication\s+Rejected'
   decoder: regex
-  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2})(?:\s+(?P<hostname>\S+))?.*?\%ASA\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+(?P<message>(?P<auth_protocol>\w+)\s+user\s+(?P<action>authentication\s+Rejected))\:\s+reason\s+.*?\s+(?P<reason>.*?)\:\sserver\s+.*?\s+(?P<server>\S+)\s+\:\s+user\s+.*?\s+(?P<user>\S+)(?:.*?user\s+IP\s+.*?\s+(?P<src>\S+))?'
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2})(?:\s+(?P<hostname>\S+))?.*?\%ASA\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+(?P<message>(?P<auth_protocol>\w+)\s+user\s+(?P<action>authentication\s+Rejected))\s?\:\s+reason\s+.*?\s+(?P<reason>.*?)\s?\:(?:\sserver\s+.*?\s+(?P<server>\S+)\s+\:)?(?:\s+local\s+database\s\:)?\s+user\s+.*?\s+(?P<user>\S+)(?:.*?user\s+IP\s+.*?\s+(?P<src>\S+))?'
   event-key-format: '{action}'
   event-key-mapping:
     'authentication Rejected':
@@ -407,12 +391,12 @@ event-details:
       datetime: SystemTstamp 
       hostname: System    
 
-- first-match: '\%ASA\-\d+\-\d+\:\s+User\s+Authorization\s+failed\:'
+- first-match: '\%ASA\-\d+\-\d+\:\s+Group\s+\S+\s+User\s+\S+\s+File\s+Access\:\s+User\s+\S+\s+failed\s+to\s+login'
   decoder: regex
-  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2})(?:\s+(?P<hostname>\S+))?.*?\%ASA\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+(?P<message>User\s+(?P<action>Authorization\s+failed)\:\s+(?P<user>.*?)\s+.*?\.)\s+(?P<reason>.*)'
-  event-key-format: '{action}'
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2})(?:\s+(?P<hostname>\S+))?.*?\%ASA\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+(?P<message>Group\s+\S+\s+User\s+(?P<user>\S+)\s+File\s+Access\:\s+User\s+\S+\s+(?P<status>failed)\s+to\s+(?P<action>login).*)'
+  event-key-format: '{action}-{status}'
   event-key-mapping:
-    'Authorization failed':
+    'login-failed':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
@@ -458,9 +442,95 @@ event-details:
       datetime: SystemTstamp 
       hostname: System
 
-- first-match: '\%ASA\-\d+\-\d+\:.*?(?:Current\s+burst\s+rate|Land\s+Attack|Threat-detection)'
+- first-match: '\%ASA\-\d+\-\d+\:\s+\w+\:\s+Received\s+an.*?that\s+failed\s+authentication'
   decoder: regex
-  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2})(?:\s+(?P<hostname>\S+))?.*?\%ASA\-(?P<severity>\d+)\-(?P<eventid>\d+)\:?\s+(?:\[\s+(?P<object_type>.*)\]\s)?(?P<message>(?:.*?(?P<threat>Land\s+Attack))?(?:.*?(?:Host|host|from)\s+(?P<src>[\d\.\:]+))?(?:\s+to\s+(?P<dst>[\d\.\:]+))?.*)'
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2})(?:\s+(?P<hostname>\S+))?.*?\%ASA\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s(?P<message>.*?from\s+(?P<src>\S+)\s+\(user\=\s+(?P<user>\S+)\)\s+to\s+\S+\s+that\s+(?P<action>failed\s+authentication))'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'failed authentication':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate:
+        user: User
+        src: SrcIP
+        reason: Reason
+        auth_protocol: AuthProto
+       
+  fallback:
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
+
+  globals:  
+    translate:
+      datetime: SystemTstamp 
+      hostname: System  
+
+- first-match: '\%ASA\-\d+\-\d+\:\s+.*?User\s+\S+\s+IP\s+\S+\s+Authentication\:\s+rejected'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2})(?:\s+(?P<hostname>\S+))?.*?\%ASA\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+Group\s+\<(?P<group>\S+)\>\s+User\s+\<(?P<user>\S+)\>\s+IP\s+\<(?P<src>\S+)\>\s+Authentication\:\s+(?P<action>\w+)'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'rejected':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate:
+        user: User
+        src: SrcIP
+        reason: Reason
+        auth_protocol: AuthProto
+       
+  fallback:
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
+
+  globals:  
+    translate:
+      datetime: SystemTstamp 
+      hostname: System            
+
+- first-match: '\%ASA\-\d+\-\d+\:\s+Group\s+\S+\s+User\s+\S+\s+IP\s+\S+[\w\s]+session\s+(?:started|terminated)'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2})(?:\s+(?P<hostname>\S+))?.*?\%ASA\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+(?P<message>Group\s+\S+\s+User\s+\<(?P<user>\S+)\>\s+IP\s+\<(?P<src>[\w\.\:\-]+)\>\s+.*?\s+session\s+(?P<action>\w+))'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'terminated':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+      translate:
+        user: User
+        src: SrcIP
+        auth_protocol: AuthProto
+    'started':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        user: User
+        src: SrcIP
+        auth_protocol: AuthProto    
+       
+  fallback:
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
+
+  globals:  
+    translate:
+      datetime: SystemTstamp 
+      hostname: System      
+
+- first-match: '\%ASA\-\d+\-\d+\:.*?(?:Current\s+burst\s+rate|Land\s+Attack|Threat-detection|Deny\s+ICMP\s+reverse\s+path)'
+  decoder: regex
+  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2})(?:\s+(?P<hostname>\S+))?.*?\%ASA\-(?P<severity>\d+)\-(?P<eventid>\d+)\:?\s+(?:\[\s+(?P<object_type>.*)\]\s)?(?P<message>(?:.*?(?P<threat>Land\s+Attack|reverse\s+path))?(?:.*?(?:Host|host|from)\s+(?P<src>[\d\.\:]+))?(?:\s+to\s+(?P<dst>[\d\.\:]+))?.*)'
   event-key-format: ''
   event-key-mapping:
     '':
@@ -769,7 +839,7 @@ event-details:
     'User priv':
       annotate:
         Stream: IAM
-        Action: PRIVILEGED_CHANGED
+        Action: PRIVILEGE_CHANGED
         Status: PASSED
       translate:
         targer_user: TargetUser
@@ -795,9 +865,9 @@ event-details:
       datetime: SystemTstamp 
       hostname: System                          
 
-- first-match: '\%ASA\-\d+\-\d+\:\s+Group\s+\=?\s+\S+\,\sUsername\s+\=?\s+\S+\,\s+IP\s+\=\s+\S+\,\s+Session\s+disconnected'
+- first-match: '\%ASA\-\d+\-\d+\:\s+Group\s+\=?\s+\S+\,\sUsername\s+\=?\s+\S+\,\s+IP\s+\=\s+\S+\,\s+(?:Session\s+disconnected|\w+\s+session\s+establishment\s+timed\s+out)'
   decoder: regex
-  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2})(?:\s+(?P<hostname>\S+))?.*?\%ASA\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+Group\s+\=?\s+(?P<group>\S+)\,\sUsername\s+\=?\s+(?P<user>\S+)\,\s+IP\s+\=\s+(?P<src>.*?)\,\s+(?P<message>(?P<action>Session\s+disconnected).*?)\,\s+Duration\:\s+(?P<duration>.*?)\,\s+.*?xmt\:\s+(?P<sent_bytes>\d+).*?rcv\:\s+(?P<receive_bytes>\d+)\,\s+Reason\:\s+(?P<reason>.*)'
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2})(?:\s+(?P<hostname>\S+))?.*?\%ASA\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+Group\s+\=?\s+(?P<group>\S+)\,\sUsername\s+\=?\s+(?P<user>\S+)\,\s+IP\s+\=\s+(?P<src>.*?)\,\s+(?P<message>(?:(?P<action>Session\s+disconnected))?(?:.*?IKE session establishment timed out)?)(?:.*?\,\s+Duration\:\s+(?P<duration>.*?)\,\s+.*?xmt\:\s+(?P<sent_bytes>\d+).*?rcv\:\s+(?P<receive_bytes>\d+)\,\s+Reason\:\s+(?P<reason>.*))?'
   event-key-format: '{action}'
   event-key-mapping:
     'Session disconnected':
@@ -814,6 +884,20 @@ event-details:
         proto: Proto
         sent_bytes: TXLen
         receive_bytes: RXLen
+    'None':
+      annotate:
+        Stream: FIREWALL
+        Action: SESSION_DISCONNECTED
+        Status: PASSED
+      translate:
+        src: SrcIP
+        dst: DstIP
+        sport: SrcPort
+        dport: DstPort
+        App: App
+        proto: Proto
+        sent_bytes: TXLen
+        receive_bytes: RXLen    
        
   fallback:
     annotate:
@@ -824,6 +908,80 @@ event-details:
     translate:
       datetime: SystemTstamp 
       hostname: System
+
+- first-match: '\%ASA\-\d+\-\d+\:\s+IPSEC\:\s+An\s+outbound\s+LAN\-to\-LAN\s+'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2})(?:\s+(?P<hostname>\S+))?.*?\%ASA\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+(?P<message>.*?between\s+(?P<src>[\w\.\:\-]+)\s+and\s+(?P<dst>[\w\.\-\:]+).*(?:(?P<action>created|deleted)))'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'created':
+      annotate:
+        Stream: FIREWALL
+        Action: SESSION_CONNECTED
+        Status: PASSED
+      translate:
+        src: SrcIP
+        dst: DstIP
+        sport: SrcPort
+        dport: DstPort
+        App: App
+        proto: Proto
+        sent_bytes: TXLen
+        receive_bytes: RXLen
+    'deleted':
+      annotate:
+        Stream: FIREWALL
+        Action: SESSION_DISCONNECTED
+        Status: PASSED
+      translate:
+        src: SrcIP
+        dst: DstIP
+        sport: SrcPort
+        dport: DstPort
+        App: App
+        proto: Proto
+        sent_bytes: TXLen
+        receive_bytes: RXLen    
+       
+  fallback:
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
+
+  globals:  
+    translate:
+      datetime: SystemTstamp 
+      hostname: System       
+
+- first-match: '\%ASA\-\d+\-\d+\:\s+\w+\s+flow.*?inspector\s+disconnected\,\s+dropped\s+packet\.'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2})(?:\s+(?P<hostname>\S+))?.*?\%ASA\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+(?P<message>(?P<proto>\w+)\s+flow\s+from\s+Outside\:(?P<src>[\w\.\:\-]+)\/(?P<sport>\d+)\s+to\s+Inside\:(?P<dst>[\w\.\:\-]+)\/(?P<dport>\d+)\s+.*?(?P<action>dropped\s+packet)\.)'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'dropped packet':
+      annotate:
+        Stream: FIREWALL
+        Action: PACKET_BLOCKED
+        Status: PASSED
+      translate:
+        src: SrcIP
+        dst: DstIP
+        sport: SrcPort
+        dport: DstPort
+        App: App
+        proto: Proto
+        sent_bytes: TXLen
+        receive_bytes: RXLen 
+       
+  fallback:
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
+
+  globals:  
+    translate:
+      datetime: SystemTstamp 
+      hostname: System      
 
 - first-match: '\%ASA\-\d+\-\d+\:.*?(?:Built\s+(?:inbound|outbound)?\s+\w+\s+connection|Built\s+dynamic\s+\w+|Built\s+\w+\s+connection|\w+\s+access\s+permitted|\w+\s+flow\s+from\s+Outside|FTP\s+connection\s+from|Duplicate\s+\w+\s+SYN\s+from|Detected\s+ESMTP\s+size\s+violation)'
   decoder: regex
@@ -911,7 +1069,7 @@ event-details:
       datetime: SystemTstamp 
       hostname: System          
 
-- first-match: '\%ASA\-\d+\-\d+\:.*?(?:(?:Inbound|Outbound)?\s+\w+\s+connection\s+denied|Deny\s+(?:inbound|outbound)?\s+\w+|Teardown\s+\w+\s+connection|Teardown\s+dynamic\s+\w+|Denied\s+\w+|Dropped\s+\w+\s+DNS\s+reply|\w+\s+connection\s+limit\s+exceeded|Invalid\s+transport\s+field|\w+\s+request\s+discarded|Routing\s+failed\s+to\s+locate\s+next\s+hop|ESMTP\s+Classification\:\s+Dropped\s+connection\s+for\s+ESMTP\s+Request|\w+\s+access\s+denied\s+by\s+ACL)'
+- first-match: '\%ASA\-\d+\-\d+\:.*?(?:(?:Inbound|Outbound)?\s+\w+\s+connection\s+denied|Teardown\s+\w+\s+connection|Teardown\s+dynamic\s+\w+|\w+\s+connection\s+limit\s+exceeded|Invalid\s+transport\s+field|Routing\s+failed\s+to\s+locate\s+next\s+hop|ESMTP\s+Classification\:\s+Dropped\s+connection\s+for\s+ESMTP\s+Request|\w+\s+access\s+denied\s+by\s+ACL)'
   decoder: regex
   decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2})(?:\s+(?P<hostname>\S+))?.*?\%ASA\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+(?P<message>(?:.*?(?P<flow>Inbound|Outbound|inbound|outbound))?(?:.*?(?P<proto>TCP|UDP|FTP|ICMP|sctp|icmp|udp|tcp|ftp))?(?:.*?(?:outside\:|Outside\:)?(?P<ip>[\w\-\.]+)\/(?P<port>\d+))?(?:.*?to)?(?:.*?(?:inside\:|outside\:|Outside\:)?(?P<IP>[\w\-\.]+)\/(?P<Port>\w+))?(?:.*?bytes\s+(?P<sent_bytes>\d+))?.*)'
   event-key-format: '{flow}'
@@ -997,9 +1155,69 @@ event-details:
       datetime: SystemTstamp 
       hostname: System
 
+- first-match: '\%ASA\-\d+\-\d+\:\s+Denied\s+.*?type\=\d+\,.*?on\s+interface'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2})(?:\s+(?P<hostname>\S+))?.*?\%ASA\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+(?P<message>(?:.*?(?P<proto>TCP|UDP|FTP|ICMP|sctp|icmp|udp|tcp|ftp))?(?:.*?(?:from|laddr)\s+(?P<src>[\w\.]+))?.*?on\s+interface\s+\w+(?:\s+to\s+(?P<dst>[\w\.\-]+))?)'
+  event-key-format: ''
+  event-key-mapping:
+    '':
+      annotate:
+        Stream: FIREWALL
+        Action: CONNECTION_ESTABLISHED
+        Status: FAILED
+      translate:
+        src: SrcIP
+        dst: DstIP
+        sport: SrcPort
+        dport: DstPort
+        App: App
+        proto: Proto
+        sent_bytes: TXLen
+        receive_bytes: RXLen 
+
+  fallback:
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
+
+  globals:  
+    translate:
+      datetime: SystemTstamp 
+      hostname: System  
+
+- first-match: '\%ASA\-\d+\-\d+\:\s+Denied\s+invalid\s+\w+\s+code\s+\d+'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2})(?:\s+(?P<hostname>\S+))?.*?\%ASA\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+(?P<message>(?:.*?(?P<proto>TCP|UDP|FTP|ICMP|sctp|icmp|udp|tcp|ftp))?\s+code\s+\d+\,\s+for\s+\S+\:(?P<src>\S+)\/(?P<sport>\d+)\s+\S+\s+to\s+\S+\:(?P<dst>\S+)\/(?P<dport>\d+)\s+.*)'
+  event-key-format: ''
+  event-key-mapping:
+    '':
+      annotate:
+        Stream: FIREWALL
+        Action: CONNECTION_ESTABLISHED
+        Status: FAILED
+      translate:
+        src: SrcIP
+        dst: DstIP
+        sport: SrcPort
+        dport: DstPort
+        App: App
+        proto: Proto
+        sent_bytes: TXLen
+        receive_bytes: RXLen 
+
+  fallback:
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
+
+  globals:  
+    translate:
+      datetime: SystemTstamp 
+      hostname: System            
+
 - first-match: '\%ASA\-\d+\-\d+\:.*?\s+Local\:\S+\s+Remote\:\S+\s+Username\:?\s?\S+\s+'
   decoder: regex
-  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2})(?:\s+(?P<hostname>\S+))?.*?\%ASA\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+Local\:(\S+)\:(\d+)\s+Remote\:(\S+)\:(\d+)\s+Username\:?\s?(\S+)(?:.*?Reason\:\s+(.*))?'
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2})(?:\s+(?P<hostname>\S+))?.*?\%ASA\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+Local\:(?P<src>\S+)\:(?P<sport>\d+)\s+Remote\:(?P<dst>\S+)\:(?P<dport>\d+)\s+Username\:?\s?(?P<user>\S+)(?:.*?Reason\:\s+(?P<reason>.*))?'
   event-key-format: ''
   event-key-mapping:
     '':
@@ -1008,10 +1226,10 @@ event-details:
         Action: CONNECTION_ESTABLISHED
         Status: PASSED
       translate:
-        ip: SrcIP
-        IP: DstIP
-        port: SrcPort
-        Port: DstPort
+        src: SrcIP
+        dst: DstIP
+        sport: SrcPort
+        dport: DstPort
         App: App
         proto: Proto
         sent_bytes: TXLen
@@ -1130,3 +1348,149 @@ event-details:
     translate:
       datetime: SystemTstamp 
       hostname: System 
+
+- first-match: '\%ASA\-\d+\-\d+\:\s+Group\s+\S+\s+User\s+\S+.*?(?:connection\s+terminated|closing\s+connection\:\s+\w+\s+failure|connection\s+closed)'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2})(?:\s+(?P<hostname>\S+))?.*?\%ASA\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+(?P<message>Group\s+\S+\s+User\s+\<(?P<user>\S+)\>\s+IP\s+\<(?P<src>\S+)\>.*?(?:(?P<action>connection\s+terminated|connection\s+closed|closing\s+connection)).*)'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'connection terminated':
+      annotate:
+        Stream: FIREWALL
+        Action: CONNECTION_TERMINATED
+        Status: PASSED
+      translate:
+        src: SrcIP
+        dst: DstIP
+        sport: SrcPort
+        dport: DstPort
+        App: App
+        proto: Proto
+        sent_bytes: TXLen
+        receive_bytes: RXLen 
+    'connection closed':
+      annotate:
+        Stream: FIREWALL
+        Action: CONNECTION_TERMINATED
+        Status: PASSED
+      translate:
+        src: SrcIP
+        dst: DstIP
+        sport: SrcPort
+        dport: DstPort
+        App: App
+        proto: Proto
+        sent_bytes: TXLen
+        receive_bytes: RXLen  
+    'closing connection':
+      annotate:
+        Stream: FIREWALL
+        Action: CONNECTION_TERMINATED
+        Status: PASSED
+      translate:
+        src: SrcIP
+        dst: DstIP
+        sport: SrcPort
+        dport: DstPort
+        App: App
+        proto: Proto
+        sent_bytes: TXLen
+        receive_bytes: RXLen       
+
+  fallback:
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
+
+  globals:  
+    translate:
+      datetime: SystemTstamp 
+      hostname: System       
+
+- first-match: '\%ASA\-\d+\-\d+\:\s+Deny\s+(?:inbound\s+\w+|\w+\s+src|protocol\s+\d+\s+src|\w+\s+\(no\s+connection\))'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2})(?:\s+(?P<hostname>\S+))?.*?\%ASA\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+(?P<message>(?:.*?(?P<flow>Inbound|Outbound|inbound|outbound))?(?:.*?(?P<proto>TCP|UDP|FTP|ICMP|sctp|icmp|udp|tcp|ftp))?.*?\:?(?P<ip>[\w\.\-]+)(?:\/(?P<port>\d+))?\s+(?:to|dst)?\s+.*?\:?(?P<IP>[\d\.]+)(?:\/(?P<Port>\d+))?.*)'
+  event-key-format: '{flow}'
+  event-key-mapping:
+    'inbound':
+      annotate:
+        Stream: FIREWALL
+        Action: CONNECTION_ESTABLISHED
+        Status: FAILED
+      translate:
+        ip: SrcIP
+        IP: DstIP
+        port: SrcPort
+        Port: DstPort
+        App: App
+        proto: Proto
+        sent_bytes: TXLen
+        receive_bytes: RXLen 
+    'outbound':
+      annotate:
+        Stream: FIREWALL
+        Action: CONNECTION_ESTABLISHED
+        Status: FAILED
+      translate:
+        ip: DstIP
+        IP: SrcIP
+        port: DstPort
+        Port: SrcPort
+        App: App
+        proto: Proto
+        sent_bytes: TXLen
+        receive_bytes: RXLen
+    'None':
+      annotate:
+        Stream: FIREWALL
+        Action: CONNECTION_ESTABLISHED
+        Status: FAILED
+      translate:
+        ip: SrcIP
+        IP: DstIP
+        port: DstPort
+        Port: SrcPort
+        App: App
+        proto: Proto
+        sent_bytes: TXLen
+        receive_bytes: RXLen     
+
+  fallback:
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
+
+  globals:  
+    translate:
+      datetime: SystemTstamp 
+      hostname: System 
+
+- first-match: '\%ASA\-\d+\-\d+\:\s+No\s+matching\s+connection\s+for\s+\w+'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2})(?:\s+(?P<hostname>\S+))?.*?\%ASA\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+(?P<message>.*?Original\s+IP\s+payload\:\s+(?P<proto>\w+)\s+src\s+(?P<src>\S+)\/(?P<sport>\d+)\s+dst\s+(?P<dst>\S+)\/(?P<dport>\w+))'
+  event-key-format: ''
+  event-key-mapping:
+    '':
+      annotate:
+        Stream: FIREWALL
+        Action: PACKET_BLOCKED
+        Status: PASSED
+      translate:
+        src: SrcIP
+        dst: DstIP
+        sport: SrcPort
+        dport: DstPort
+        App: App
+        proto: Proto
+        sent_bytes: TXLen
+        receive_bytes: RXLen      
+
+  fallback:
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
+
+  globals:  
+    translate:
+      datetime: SystemTstamp 
+      hostname: System            
