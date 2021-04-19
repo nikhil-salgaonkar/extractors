@@ -11,7 +11,7 @@ As of 08-04-2021
 |OS|Linux|ALL|Auditbeat (OSS)|AUTHENTICATION, AUDITD|
 |OS|Linux|ALL|Rsyslog|AUTHENTICATION|
 |OS|VMWare|VMWare|Syslog|AUTHENTICATION, CONFIGURATION|
-|OS|Cisco| IOS | Syslog |AUTHENTICATION , FIREWALL|
+|OS|Cisco| Network-OS | Syslog |AUTHENTICATION , IAM, CONFIGURATION, FIREWALL|
 |Firewall|Fortinet|Fortigate|Syslog|FIREWALL, THREAT, AUTHENTICATION|
 Firewall |PaloAlto |Palo Alto Firewall |CSV |FIREWALL,THREAT, AUTHENTICATION |
 Firewall |Checkpoint |Checkpoint Firewall | Syslog |FIREWALL,THREAT, AUTHENTICATION |
