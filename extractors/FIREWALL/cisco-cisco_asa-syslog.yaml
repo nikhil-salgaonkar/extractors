@@ -983,7 +983,7 @@ event-details:
       datetime: SystemTstamp 
       hostname: System      
 
-- first-match: '\%ASA\-\d+\-\d+\:.*?(?:Built\s+(?:inbound|outbound)?\s+\w+\s+connection|Built\s+dynamic\s+\w+|Built\s+\w+\s+connection|\w+\s+access\s+permitted|\w+\s+flow\s+from\s+Outside|FTP\s+connection\s+from|Duplicate\s+\w+\s+SYN\s+from|Detected\s+ESMTP\s+size\s+violation)'
+- first-match: '\%ASA\-\d+\-\d+\:.*?(?:Built\s+(?:inbound|outbound)?\s+\w+\s+connection|Built\s+dynamic\s+\w+|Built\s+\w+\s+connection|\w+\s+access\s+permitted|FTP\s+connection\s+from|Duplicate\s+\w+\s+SYN\s+from|Detected\s+ESMTP\s+size\s+violation)'
   decoder: regex
   decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2})(?:\s+(?P<hostname>\S+))?.*?\%ASA\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+(?P<message>(?:.*?(?P<flow>Inbound|Outbound|inbound|outbound))?(?:.*?(?P<proto>TCP|UDP|FTP|ICMP|sctp|icmp|udp|tcp|ftp))?(?:.*?(?:outside\:|Outside\:)?(?P<ip>[\w\-\.]+)\/(?P<port>\d+))?(?:.*?to)?(?:.*?(?:inside\:|outside\:|Outside\:)?(?P<IP>[\w\-\.]+)\/(?P<Port>\w+))?(?:.*?bytes\s+(?P<sent_bytes>\d+))?.*)'
   event-key-format: '{flow}'
