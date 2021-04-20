@@ -1,0 +1,88 @@
+schema-version: 1.0
+#extractor-version: 1 
+extractor-id: 206
+source-name: SMOKESCREEN
+source-type: DECOY
+source-description: Extractor for Smokescreen Decoy Events
+provides-streams:
+- THREAT
+master-filters:
+- '^(?:\<\d+\>\d+\s+)?\d{4}\-\d{1,2}\-\d{1,2}T\d{2}\:\d{2}\:\d{2}[\.\+\w]+\s+smokescreen\s+\-\s+\-\s+\-\s+CEF\:\d+\|Smokescreen\s+Technologies\s+Pvt\.\s+Ltd\.\|'
+event-details:
+- first-match: cs1DecoyType\=network
+  decoder: custom
+  decoder-regex: '([\w]+)=(\"[^\"]*\"|[^\s]*)'
+  event-key-format: ''
+  event-key-mapping:
+    '':           
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED  
+        Vector: WEB  
+      translate: 
+        cs1KillChainPhase: Threat
+        src: SrcIP
+        cs1WebHost: DstIP
+        cs1FileProcessUserName: User
+        cs1AttackerProcessUserName: User
+        cs1ReconPostDataUsername: User
+        cs1CredtheftUsername: User
+        cs1FiletheftUsername: User
+        cs1CredtheftSubjectUserName: User
+        cs1LinuxUser: User
+        cs1FtpLocalUser: User
+    
+  fallback:
+    annotate:
+      EventName: Generic Smokescreen Decoy Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      rt: SystemTstamp    
+      cs1DecoyName: System
+
+- first-match: cs1DecoyType\=(?:recon|filetheft|credtheft|endpoint)
+  decoder: custom
+  decoder-regex: '([\w]+)=(\"[^\"]*\"|[^\s]*)'
+  event-key-format: ''
+  event-key-mapping:
+    '':           
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED  
+        Vector: HOST  
+      translate: 
+        cs1KillChainPhase: Threat
+        src: SrcIP
+        cs1WebHost: DstIP
+        cs1FtpFilename: File
+        cs1FiletheftFilename: File
+        cs1FileName: File
+        cs1AttackerProcessName: Process
+        cs1FileProcessImageName: Process
+        cs1FiletheftProcessName: Process
+        cs1ThreatparseUrl: URL  
+        cs1FtpCommand: CommandLine
+        cs1FileProcessCommandLine: CommandLine
+        cs1AttackerProcessCommandLine: CommandLine
+        cs1FileProcessUserName: User
+        cs1AttackerProcessUserName: User
+        cs1ReconPostDataUsername: User
+        cs1CredtheftUsername: User
+        cs1FiletheftUsername: User
+        cs1CredtheftSubjectUserName: User
+        cs1LinuxUser: User
+        cs1FtpLocalUser: User
+    
+  fallback:
+    annotate:
+      EventName: Generic Smokescreen Decoy Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      rt: SystemTstamp
+      cs1DecoyName: System
