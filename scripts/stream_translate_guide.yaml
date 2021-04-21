@@ -152,7 +152,7 @@ CONFIGURATION:
 WEBSERVER:
 - SrcIP
 - Method
-- UriQUery
+- UriQuery
 - User
 - UserAgent
 - URL
