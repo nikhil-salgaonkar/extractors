@@ -1,0 +1,509 @@
+schema-version: 1.0
+#extractor-version: 1 
+extractor-id: 230
+source-name: CISCO-FTD
+source-type: FIREWALL
+source-description: Extractor for Cisco-FTD Firewall Events
+provides-streams:
+- FIREWALL
+- THREAT
+- AUTHENTICATION
+master-filters:
+- '(?:\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}|\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2}).*?[\w\-\.]+\s+\:\s+\%FTD\-\d+\-\d+\:'
+event-details:
+- first-match: '\%FTD\-\d+\-\d+\:\s+Teardown\s+\w+\s+connection.*?bytes'
+  decoder: regex
+  decoder-regex: '(?P<datetime>(?:\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}|\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2})).*?(?P<hostname>[\w\-\.]+)\s+\:\s+\%FTD\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+(?P<action>\w+).*?(?P<proto>(?:TCP|UDP|ICMP|GRE)).*?\:(?P<src>[\d\.]+)\/(?P<sport>\d+).*?(?P<dst>[\d\.]+)\/(?P<dport>\d+).*?bytes\s+(?P<txlen>\d+)'
+  event-key-format: '{action}'
+  event-key-mapping:  
+    'Teardown': 
+      annotate:
+        Stream: FIREWALL
+        Action: PACKET_ALLOWED
+        Status: FAILED
+      translate: 
+        src: SrcIP
+        dst: DstIP
+        proto: Proto
+        sport: SrcPort
+        dport: DstPort
+        App: App
+        txlen: TXLen
+        RXLen: RXLen
+        
+  fallback:
+    annotate:
+      EventName: Generic Cisco-FTD Firewall Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System
+
+- first-match: '\%FTD\-\d+\-\d+\:\s+Dropped'
+  decoder: regex
+  decoder-regex: '(?P<datetime>(?:\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}|\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2})).*?(?P<hostname>[\w\-\.]+)\s+\:\s+\%FTD\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+(?P<action>\w+).*?(?P<proto>(?:TCP|UDP|ICMP|GRE)).*?\:(?P<src>[\d\.]+)\/(?P<sport>\d+).*?(?P<dst>[\d\.]+)\/(?P<dport>\d+).*?(?P<txlen>\d+)'
+  event-key-format: '{action}'
+  event-key-mapping:  
+    'Dropped': 
+      annotate:
+        Stream: FIREWALL
+        Action: PACKET_BLOCKED
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        dst: DstIP
+        proto: Proto
+        sport: SrcPort
+        dport: DstPort
+        App: App
+        txlen: TXLen
+        RXLen: RXLen
+
+  fallback:
+    annotate:
+      EventName: Generic Cisco-FTD Firewall Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System
+
+- first-match: '\%FTD\-\d+\-\d+\:.*?Message\:\s+\\\"INDICATOR-SHELLCODE x86 NOOP\\\"\,'
+  decoder: regex
+  decoder-regex: '(?P<datetime>(?:\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}|\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2})).*?(?P<hostname>[\w\-\.]+)\s+\:\s+\%FTD\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+Protocol\:\s+(?P<proto>\w+).*?SrcIP\:\s+(?P<src>[\d\.]+).*?DstIP\:\s+(?P<dst>[\d\.]+).*?Message\:.*?\"(?P<threat>.*?)\\.*?Classification\:\s+(?P<action>.*?)\,.*?User\:\s+(?P<user>.*?)\,'
+  event-key-format: '{action}'
+  event-key-mapping:  
+    'Executable Code was Detected': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate: 
+        threat: Threat
+        src: SrcIP
+        dst: DstIP
+        user: User
+        
+  fallback:
+    annotate:
+      EventName: Generic Cisco-FTD Firewall Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System
+
+- first-match: '\%FTD\-\d+\-\d+\:.*?(?:authentication|credentials)\s+(?:Successful|Rejected|rejected)'
+  decoder: regex
+  decoder-regex: '(?P<datetime>(?:\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}|\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2})).*?(?P<hostname>[\w\-\.]+)\s+\:\s+\%FTD\-(?P<severity>\d+)\-(?P<eventid>\d+)\:.*?(?:authentication|credentials)\s+(?P<action>\w+)(?:\s+\:.*?\=\s+(?P<reason>.*?))?\s+\:(?:\s+local\s+database\s+\:)?(?:\s+server\s+\=\s+(?P<server>[\d\.]+))?.*?user\s+\=\s+(?P<user>\w+)(?:\s+\:.*?\=\s+(?P<src>[\d\.]+))?'
+  event-key-format: '{action}'
+  event-key-mapping:  
+    'Successful': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate: 
+        user: User
+        src: SrcIP
+        AuthProto: AuthProto
+        Reason: Reason
+    'Rejected': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate: 
+        user: User
+        src: SrcIP
+        AuthProto: AuthProto
+        reason: Reason
+    'rejected': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate: 
+        user: User
+        src: SrcIP
+        AuthProto: AuthProto
+        reason: Reason
+    
+  fallback:
+    annotate:
+      EventName: Generic Cisco-FTD Firewall Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System
+
+- first-match: '\%FTD\-\d+\-\d+\:.*?Authentication:\s+(?:successful|rejected)\,.*?Session\s+Type\:'
+  decoder: regex
+  decoder-regex: '(?P<datetime>(?:\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}|\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2})).*?(?P<hostname>[\w\-\.]+)\s+\:\s+\%FTD\-(?P<severity>\d+)\-(?P<eventid>\d+)\:.*?Authentication:\s+(?P<action>\w+)\,(?:.*?user\s+\=\s+(?P<user>\w+))?'
+  event-key-format: '{action}'
+  event-key-mapping:  
+    'successful': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate: 
+        user: User
+        SrcIP: SrcIP
+        AuthProto: AuthProto
+        Reason: Reason
+    'rejected': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate: 
+        user: User
+        SrcIP: SrcIP
+        AuthProto: AuthProto
+        Reason: Reason
+
+  fallback:
+    annotate:
+      EventName: Generic Cisco-FTD Firewall Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System
+
+- first-match: '\%FTD\-\d+\-\d+\:\s+REAUTH\:\s+user.*?(?:failed|passed)\s+authentication'
+  decoder: regex
+  decoder-regex: '(?P<datetime>(?:\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}|\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2})).*?(?P<hostname>[\w\-\.]+)\s+\:\s+\%FTD\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+\w+\:\s+user\s+(?P<user>\w+)\s+(?P<action>\w+)\s+\w+'
+  event-key-format: '{action}'
+  event-key-mapping:  
+    'passed': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate: 
+        user: User
+        SrcIP: SrcIP
+        AuthProto: AuthProto
+        Reason: Reason
+    'failed': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate: 
+        user: User
+        SrcIP: SrcIP
+        AuthProto: AuthProto
+        Reason: Reason
+
+  fallback:
+    annotate:
+      EventName: Generic Cisco-FTD Firewall Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System
+
+- first-match: '\%FTD\-\d+\-\d+\:\s+User\s+authentication\s+(?:succeeded|failed)\:.*?IP.*?Uname\:'
+  decoder: regex
+  decoder-regex: '(?P<datetime>(?:\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}|\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2})).*?(?P<hostname>[\w\-\.]+)\s+\:\s+\%FTD\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+\w+\s+\w+\s+(?P<action>\w+)\:\s+IP.*?(?P<src>[\d\.]+).*?Uname\:\s+(?P<user>\w+)'
+  event-key-format: '{action}'
+  event-key-mapping:  
+    'succeeded': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate: 
+        user: User
+        src: SrcIP
+        AuthProto: AuthProto
+        Reason: Reason
+    'failed': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate: 
+        user: User
+        src: SrcIP
+        AuthProto: AuthProto
+        Reason: Reason
+
+  fallback:
+    annotate:
+      EventName: Generic Cisco-FTD Firewall Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System
+
+- first-match: '\%FTD\-\d+\-\d+\:\s+Login\s+permitted\s+from\s+[\d\.]+\/\d+.*?user\s+\"\w+\"'
+  decoder: regex
+  decoder-regex: '(?P<datetime>(?:\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}|\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2})).*?(?P<hostname>[\w\-\.]+)\s+\:\s+\%FTD\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+(?P<action>.*?)\s+from\s+(?P<src>[\d\.]+).*?user\s+\"(?P<user>\w+)\"'
+  event-key-format: '{action}'
+  event-key-mapping:  
+    'Login permitted': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate: 
+        user: User
+        src: SrcIP
+        AuthProto: AuthProto
+        Reason: Reason
+
+  fallback:
+    annotate:
+      EventName: Generic Cisco-FTD Firewall Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System
+
+- first-match: '\%FTD\-\d+\-\d+\:\s+Authentication\s+failed.*?user\s+\w+\s+from\s+[\d\.]+'
+  decoder: regex
+  decoder-regex: '(?P<datetime>(?:\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}|\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2})).*?(?P<hostname>[\w\-\.]+)\s+\:\s+\%FTD\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+\w+\s+(?P<action>\w+).*?user\s+(?P<user>\w+)\s+from\s+(?P<src>[\d\.]+).*?\.\s+(?P<reason>.*?for\s+(?P<authproto>\w+).*)'
+  event-key-format: '{action}'
+  event-key-mapping:  
+    'failed': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate: 
+        user: User
+        src: SrcIP
+        authproto: AuthProto
+        reason: Reason
+
+  fallback:
+    annotate:
+      EventName: Generic Cisco-FTD Firewall Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System
+
+- first-match: '\%FTD\-\d+\-\d+\:\s+Group.*?(?:User|Username).*?IP.*?(?:session|Session)\s+(?:started|terminated|resumed|disconnected)'
+  decoder: regex
+  decoder-regex: '(?P<datetime>(?:\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}|\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2})).*?(?P<hostname>[\w\-\.]+)\s+\:\s+\%FTD\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+Group\s+[\<\=]\s?(?P<group>\w+)\>?.*?(?:User|Username)\s+[\<\=]\s?(?P<user>\w+)\>?.*?IP\s+[\<\=]\s?(?P<src>[\d\.]+)\>?.*?(?P<action>(?:Session|session)\s+\w+)(?:.*?IP\s+\<(?P<server>[\d\.]+)\>)?'
+  event-key-format: '{action}'
+  event-key-mapping:  
+    'session started': 
+      annotate:
+        Stream: FIREWALL
+        Action: SESSION_CONNECTED
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        Dst: DstIP
+        Proto: Proto
+        SrcPort: SrcPort
+        DstPort: DstPort
+        App: App
+        TXLen: TXLen
+        RXLen: RXLen
+    'session resumed': 
+      annotate:
+        Stream: FIREWALL
+        Action: SESSION_CONNECTED
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        Dst: DstIP
+        Proto: Proto
+        SrcPort: SrcPort
+        DstPort: DstPort
+        App: App
+        TXLen: TXLen
+        RXLen: RXLen
+    'session terminated': 
+      annotate:
+        Stream: FIREWALL
+        Action: SESSION_DISCONNECTED
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        Dst: DstIP
+        Proto: Proto
+        SrcPort: SrcPort
+        DstPort: DstPort
+        App: App
+        TXLen: TXLen
+        RXLen: RXLen
+    'Session disconnected': 
+      annotate:
+        Stream: FIREWALL
+        Action: SESSION_DISCONNECTED
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        Dst: DstIP
+        Proto: Proto
+        SrcPort: SrcPort
+        DstPort: DstPort
+        App: App
+        TXLen: TXLen
+        RXLen: RXLen
+        
+  fallback:
+    annotate:
+      EventName: Generic Cisco-FTD Firewall Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System
+
+- first-match: '\%FTD\-\d+\-\d+\:\s+Built\s+inbound\s+\w+\s+connection\s+\d+\s+for'
+  decoder: regex
+  decoder-regex: '(?P<datetime>(?:\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}|\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2})).*?(?P<hostname>[\w\-\.]+)\s+\:\s+\%FTD\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+(?P<action>\w+).*?(?P<proto>(?:TCP|UDP|ICMP|GRE)).*?\:?(?P<src>[\d\.]+)\/(?P<sport>\d+).*?\:.*?(?P<dst>[\d\.]+)\/(?P<dport>\d+)'
+  event-key-format: '{action}'
+  event-key-mapping:  
+    'Built': 
+      annotate:
+        Stream: FIREWALL
+        Action: CONNECTION_ESTABLISHED
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        dst: DstIP
+        proto: Proto
+        sport: SrcPort
+        dport: DstPort
+        App: App
+        TXLen: TXLen
+        RXLen: RXLen
+
+  fallback:
+    annotate:
+      EventName: Generic Cisco-FTD Firewall Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System
+
+- first-match: '\%FTD\-\d+\-\d+\:\s+(?:Built\s+inbound\s+\w+\s+connection\s+for|Deny\s+\w+\s+\(no\s+connection\)\s+from|Teardown\s+ICMP connection)'
+  decoder: regex
+  decoder-regex: '(?P<datetime>(?:\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}|\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2})).*?(?P<hostname>[\w\-\.]+)\s+\:\s+\%FTD\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+(?P<action>\w+).*?(?P<proto>(?:TCP|UDP|ICMP|GRE)).*?\:?(?P<src>[\d\.]+)\/(?P<sport>\d+).*?(?P<dst>[\d\.]+)\/(?P<dport>\d+)'
+  event-key-format: '{action}'
+  event-key-mapping:  
+    'Built': 
+      annotate:
+        Stream: FIREWALL
+        Action: CONNECTION_ESTABLISHED
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        dst: DstIP
+        proto: Proto
+        sport: SrcPort
+        dport: DstPort
+        App: App
+        TXLen: TXLen
+        RXLen: RXLen
+    'Deny': 
+      annotate:
+        Stream: FIREWALL
+        Action: CONNECTION_TERMINATED
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        dst: DstIP
+        proto: Proto
+        sport: SrcPort
+        dport: DstPort
+        App: App
+        TXLen: TXLen
+        RXLen: RXLen
+    'Teardown': 
+      annotate:
+        Stream: FIREWALL
+        Action: CONNECTION_TERMINATED
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        dst: DstIP
+        proto: Proto
+        sport: SrcPort
+        dport: DstPort
+        App: App
+        TXLen: TXLen
+        RXLen: RXLen
+
+  fallback:
+    annotate:
+      EventName: Generic Cisco-FTD Firewall Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System
+
+- first-match: '\%FTD\-\d+\-\d+\:\s+Group.*?User\s+\<\w+\>\s+IP\s+\<[\d\.]+\>.*?\s+\w+\s+(?:connection\s+established|closing\s+connection)'
+  decoder: regex
+  decoder-regex: '(?P<datetime>(?:\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}|\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2})).*?(?P<hostname>[\w\-\.]+)\s+\:\s+\%FTD\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+Group\s+\<\s?(?P<group>\w+)\>\s+User\s+\<(?P<user>\w+)\>\s+IP\s+\<(?P<src>[\d\.]+)\>(?:.*?(?P<proto>UDP))?.*?\w+\s+(?P<action>(?:\w+\s+)?connection(?:\s+\w+)?)'
+  event-key-format: '{action}'
+  event-key-mapping:  
+    'connection established': 
+      annotate:
+        Stream: FIREWALL
+        Action: CONNECTION_ESTABLISHED
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        DstIP: DstIP
+        proto: Proto
+        SrcPort: SrcPort
+        Dstport: DstPort
+        App: App
+        TXLen: TXLen
+        RXLen: RXLen
+    'closing connection': 
+      annotate:
+        Stream: FIREWALL
+        Action: CONNECTION_TERMINATED
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        DstIP: DstIP
+        proto: Proto
+        SrcPort: SrcPort
+        Dstport: DstPort
+        App: App
+        TXLen: TXLen
+        RXLen: RXLen
+
+  fallback:
+    annotate:
+      EventName: Generic Cisco-FTD Firewall Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System
