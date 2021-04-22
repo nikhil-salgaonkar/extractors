@@ -2,7 +2,7 @@ schema-version: 1.0
 #extractor-version: 1
 extractor-id: 231
 source-name: MS-O365
-source-type: CLOUD
+source-type: OFFICE
 source-description: Extractor for Microsoft Office 365 Events
 provides-streams:
 - EMAIL-GATEWAY
