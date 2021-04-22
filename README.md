@@ -2,48 +2,46 @@
 Plug and play extractors that convert different log events to a common DNIF Data Model (DDM)
 
 ## Extractors
-As of 08-04-2021
+As of 21-04-2021
 
-|Device-Type           |	    Vendor          | Product             | Integration | Streams                                                                      |
-|----------------------|----------------------|---------------------|-------------|------------------------------------------------------------------------------|
-|OS       		         |Microsoft             |Windows (nxlog)      | NXLog (JSON)|AUTHENTICATION, IAM, SYSMON-PROCESS,  SYSMON-NETWORK,  SYSMON-REGISTRY,  SYSMON-IMAGE-LOAD|
-|OS   		             |Microsoft             |Windows(winlogbeat)   |Winlogbeat (OSS)     | AUTHENTICATION, IAM, SYSMON-PROCESS,  SYSMON-NETWORK,  SYSMON-FILE,  SYSMON-IMAGE-LOAD,  SYSMON-REGISTRY,  SYSMON-WMI,  SYSMON-PIPE,  SYSMON-SERVICE,  SYSMON-DNS|                                                            |
-|OS|Linux|ALL|Auditbeat (OSS)|AUTHENTICATION, AUDITD|
-|OS|Linux|ALL|Rsyslog|AUTHENTICATION, AUDITD|
-|OS|VMWare|VMWare|Syslog|AUTHENTICATION, CONFIGURATION|
-|OS|Cisco| Network-OS | Syslog |AUTHENTICATION , IAM, CONFIGURATION, FIREWALL|
-|Firewall|Fortinet|Fortigate|Syslog|FIREWALL, THREAT, AUTHENTICATION|
-Firewall |PaloAlto |Palo Alto Firewall |CSV |FIREWALL,THREAT, AUTHENTICATION |
-Firewall |Checkpoint |Checkpoint Firewall | Syslog |FIREWALL,THREAT, AUTHENTICATION |
-Firewall |Cisco |Cisco-FMC |Syslog |FIREWALL,THREAT, AUTHENTICATION |
-Firewall |Cisco |Cisco - FTD |Syslog |FIREWALL, THREAT, AUTHENTICATION |
-Firewall |Sophos |Cyberoam Firewall |Syslog |FIREWALL,THREAT, AUTHENTICATION, IAM |
-Firewall |Fortinet  |fortimanager |Syslog |AUTHENTICATION |
-Firewall |Juniper |Juniper |Syslog |FIREWALL,THREAT, AUTHENTICATION |
-Firewall |Zscaler |Zscaler-Firewall |NSS (CSV) |FIREWALL,THREAT, AUTHENTICATION, IAM |
-Webfilter |ZScaler |ZScaler-Web Filter |NSS (LEEF) |WEBFILTER |
-Webfilter |Forcepoint |Websense Webfilter |Syslog |WEBFILTER |
-Email Gateway|Mimecast|Mimecast-EWSA|Syslog|EMAIL- GATEWAY, THREAT, AUTHENTICATION, IAM|
-Endpoint Security|Broadcom |Symantec Endpoint security|Syslog|THREAT|
-Endpoint Security|DELL|Dell-Cylance|Syslog|THREAT|
-Endpoint Security|Broadcom|Symantec ATP|Syslog|THREAT|
-Endpoint Security |VMWare|Carbon Black Defense|Syslog|THREAT|
-Endpoint Security|VMWare|Carbon Black EPP|Syslog|THREAT|
-Endpoint Security|McAfee|McAfee - EPO|Syslog|THREAT|
-Endpoint Security|Sophos|Sophos Endpoint|Syslog|THREAT , IAM|
-Endpoint Security|Trendmicro|Trendmicro Offiscan|Syslog|THREAT|
-EDR|VMware|Carbonblack Response|Syslog|THREAT|
-Cloud|AWS|AWS-Cloudtrail|JSON|CLOUDTRAIL|
-Cloud|Microsoft|MS-O365|JSON|EMAIL-GATEWAY,  AUTHENTICATION, IAM, DOCUMENTS|
-Web Application Firewall|F5 BIG-IP |F5 Big-IP|CEF| THREAT|
-Web Application Firewall|Imperva|Imperva WAF|Syslog|THREAT|
-Advanced Persistent Threat(APT)|Fireeye Inc.|Fireeye APT|CEF|THREAT|
-DNS|ZScaler|Zscaler|Syslog|DNS|
-DHCP|Microsoft|Windows|Syslog|DHCP|
-
-
-
-
-
-
+| Device Type       | Vendor       | Product                    | Integration     | Stream                                                                                                                                                    |
+|-------------------|--------------|----------------------------|-----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
+| OS                | Microsoft    | Windows                    | syslog          | AUTHENTICATION, SYSMON-PROCESS, SYSMON-NETWORK, SYSMON-FILE, SYSMON-REGISTRY, SYSMON-IMAGE-LOAD, IAM                                                      |
+| OS                | Microsoft    | Windows                    | winlogbeat(OSS) | SYSMON-PROCESS, SYSMON-NETWORK, SYSMON-FILE, SYSMON-IMAGE-LOAD, SYSMON-REGISTRY, SYSMON-WMI, SYSMON-PIPE, SYSMON-SERVICE, SYSMON-DNS, IAM, AUTHENTICATION |
+| OS                | Linux        | ALL                        | syslog          | AUTHENTICATION, AUDITD, IAM                                                                                                                               |
+| OS                | Linux        | ALL                        | auditbeat       | AUTHENTICATION, AUDITD                                                                                                                                    |
+| OS                | VMWare       | VMWare                     | syslog          | AUTHENTICATION, CONFIGURATION                                                                                                                             |
+| OS                | Cisco        | CISCO-IOS                  | syslog          | AUTHENTICATION, CONFIGURATION, FIREWALL, IAM                                                                                                              |
+| FIREWALL          | PaloAlto     | Palo Alto Firewall         | syslog          | FIREWALL, THREAT, AUTHENTICATION                                                                                                                          |
+| FIREWALL          | Sophos       | Cyberoam Firewall          | syslog          | AUTHENTICATION, THREAT, FIREWALL, IAM                                                                                                                     |
+| FIREWALL          | Cisco        | Cisco-FMC                  | syslog          | AUTHENTICATION, FIREWALL, THREAT                                                                                                                          |
+| FIREWALL          | Watchguard   | Watchguard Firewall        | syslog          | FIREWALL, THREAT                                                                                                                                          |
+| FIREWALL          | Fortinet     | fortimanager               | syslog          | AUTHENTICATION                                                                                                                                            |
+| FIREWALL          | Juniper      | Juniper                    | syslog          | AUTHENTICATION, FIREWALL, THREAT                                                                                                                          |
+| FIREWALL          | Fortinet     | Fortigate                  | syslog          | FIREWALL, THREAT, AUTHENTICATION                                                                                                                          |
+| FIREWALL          | Checkpoint   | Checkpoint                 | syslog          | THREAT, FIREWALL, AUTHENTICATION                                                                                                                          |
+| FIREWALL          | Cisco        | Cisco-FTD                  | syslog          | FIREWALL, THREAT, AUTHENTICATION                                                                                                                          |
+| FIREWALL          | Zscaler      | Zscaler-Firewall           | CSV             | FIREWALL, AUTHENTICATION, IAM, THREAT                                                                                                                     |
+| WAF               | Imperva      | Imperva WAF                | syslog          | THREAT                                                                                                                                                    |
+| WAF               | F5 BIG-IP    | F5 BIG-IP                  | CEF             | THREAT                                                                                                                                                    |
+| ENDPOINT-SECURITY | VMWare       | Carbon Black Response      | syslog          | THREAT                                                                                                                                                    |
+| ENDPOINT-SECURITY | McAfee       | McAfee - EPO               | syslog          | THREAT                                                                                                                                                    |
+| ENDPOINT-SECURITY | Trendmicro   | Trendmicro Offiscan        | syslog          | THREAT                                                                                                                                                    |
+| ENDPOINT-SECURITY | Sophos       | Sophos Endpoint            | syslog          | THREAT, IAM                                                                                                                                               |
+| ENDPOINT-SECURITY | DELL         | DELL-CYLANCE               | syslog          | THREAT                                                                                                                                                    |
+| ENDPOINT-SECURITY | VMWare       | Carbon Black Defense       | syslog          | THREAT                                                                                                                                                    |
+| ENDPOINT-SECURITY | VMWare       | Carbon Black EPP           | syslog          | THREAT                                                                                                                                                    |
+| ENDPOINT-SECURITY | Broadcom     | Symantec Endpoint security | syslog          | THREAT                                                                                                                                                    |
+| ENDPOINT-SECURITY | Broadcom     | Symantec ATP               | syslog          | THREAT                                                                                                                                                    |
+| APT               | Fireeye Inc. | Fireeye APT                | CEF             | THREAT                                                                                                                                                    |
+| CLOUD             | AWS          | AWS-Cloudtrail             | JSON            | CLOUDTRAIL                                                                                                                                                |
+| CLOUD             | Microsoft    | MS-O365                    | JSON            | EMAIL-GATEWAY, AUTHENTICATION, IAM, DOCUMENTS                                                                                                             |
+| WEBFILTER         | Forcepoint   | Websense Webfilter         | syslog          | WEBFILTER                                                                                                                                                 |
+| WEBFILTER         | McAfee       | McAfee Web Gateway         | syslog          | AUTHENTICATION, THREAT, WEBFILTER                                                                                                                         |
+| WEBFILTER         | ZScaler      | ZScaler-Web Filter         | LEEF            | WEBFILTER                                                                                                                                                 |
+| EMAIL-GATEWAY     | Mimecast     | Mimecast-EWSA              | syslog          | EMAIL-GATEWAY, AUTHENTICATION, THREAT, IAM                                                                                                                |
+| IPS               | Trend Micro  | TippingPoint               | syslog          | AUTHENTICATION                                                                                                                                            |
+| MAILSERVER        | Microsoft    | Microsoft Exchange Server  | syslog          | EMAIL-GATEWAY                                                                                                                                             |
+| DNS               | ZScaler      | ZScaler                    | syslog          | DNS                                                                                                                                                       |
+| DHCP              | Microsoft    | Windows                    | syslog          | DHCP                                                                                                                                                      |
 
