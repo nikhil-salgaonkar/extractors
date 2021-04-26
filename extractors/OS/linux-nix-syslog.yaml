@@ -1,6 +1,9 @@
 schema-version: 1.0
 #extractor-version: 1
 extractor-id: 56
+integration: syslog
+vendor-name: Linux
+product-name: ALL
 source-name: NIX
 source-type: OS
 source-description: Extractor for NIX OS Events

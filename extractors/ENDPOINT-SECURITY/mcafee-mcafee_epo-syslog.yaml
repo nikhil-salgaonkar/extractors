@@ -1,6 +1,9 @@
 schema-version: 1.0
 #extractor-version: 1
 extractor-id: 77
+integration: syslog
+vendor-name: McAfee
+product-name: McAfee - EPO
 source-name: MCAFEE-EPO
 source-type: ENDPOINT-SECURITY
 source-description: Extractor for McAfee Endpoint Events

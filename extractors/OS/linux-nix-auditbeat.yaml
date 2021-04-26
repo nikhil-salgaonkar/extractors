@@ -1,7 +1,10 @@
 schema-version: 1.0
 #extractor-version: 1
 extractor-id: 715
-source-name: NIX
+integration: syslog
+vendor-name: Linux
+product-name: ALL
+source-name: AUDITBEAT
 source-type: OS
 source-description: Extractor for NIX Auditbeat Events
 provides-streams:

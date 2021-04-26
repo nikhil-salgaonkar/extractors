@@ -1,6 +1,9 @@
 schema-version: 1.0
 #extractor-version: 1
 extractor-id: 213
+integration: syslog
+vendor-name: McAfee
+product-name: McAfee Web Gateway
 source-name: MCAFEE-WG
 source-type: WEBFILTER
 source-description: Extractor for McAfee Web Gateway Proxy Events

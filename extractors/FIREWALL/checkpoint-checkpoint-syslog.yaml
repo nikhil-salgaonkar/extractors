@@ -1,6 +1,9 @@
 schema-version: 1.0
 #extractor-version: 1
 extractor-id: 188
+integration: syslog
+vendor-name: Checkpoint
+product-name: Checkpoint
 source-name: CHECKPOINT
 source-type: FIREWALL
 source-description: Extractor for Checkpoint Firewall Events
