@@ -1,8 +1,8 @@
 schema-version: 1.0
 #extractor-version: 1
 extractor-id: 715
-integration: syslog
-vendor-name: Linux
+integration: auditbeat(OSS)
+vendor-name: ALL
 product-name: ALL
 source-name: AUDITBEAT
 source-type: OS
