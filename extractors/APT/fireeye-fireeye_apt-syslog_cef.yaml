@@ -1,6 +1,9 @@
 schema-version: 1.0
 #extractor-version: 1
 extractor-id: 96
+integration: CEF
+vendor-name: Fireeye Inc.
+product-name: Fireeye APT
 source-name: FIREEYE
 source-type: APT
 source-description: Extractor for Fireeye APT

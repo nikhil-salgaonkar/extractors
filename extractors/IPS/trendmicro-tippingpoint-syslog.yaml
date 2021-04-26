@@ -1,6 +1,9 @@
 schema-version: 1.0
 #extractor-version: 1
 extractor-id: 187
+integration: syslog
+vendor-name: Trend Micro
+product-name: TippingPoint
 source-name: TIPPINGPOINT
 source-type: IPS
 source-description: Extractor for TippingPoint IPS Events

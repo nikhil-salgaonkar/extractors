@@ -1,6 +1,9 @@
 schema-version: 1.0
 #extractor-version: 1
 extractor-id: 79
+integration: syslog
+vendor-name: Microsoft
+product-name: Windows
 source-name: WIN-DHCP
 source-type: DHCP
 source-description: Extractor for Windows DHCP Events

@@ -1,6 +1,9 @@
 schema-version: 1.0
 #extractor-version: 1
 extractor-id: 161
+integration: syslog
+vendor-name: Mimecast
+product-name: Mimecast-EWSA
 source-name: MIMECAST
 source-type: EMAIL-GATEWAY
 source-description: extractor for Mimecast Events

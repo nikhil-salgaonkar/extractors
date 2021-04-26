@@ -1,6 +1,9 @@
 schema-version: 1.0
 #extractor-version: 1
 extractor-id: 58
+integration: syslog
+vendor-name: Juniper
+product-name: Juniper-Firewall
 source-name: JUNIPER
 source-type: FIREWALL
 source-description: Extractor for Juniper Firewall Events

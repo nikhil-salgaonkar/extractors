@@ -1,6 +1,9 @@
 schema-version: 1.0
 #extractor-version: 1
 extractor-id: 70
+integration: syslog
+vendor-name: Imperva
+product-name: Imperva WAF
 source-name: IMPERVA
 source-type: WAF
 source-description: extractor for Imperva WAF Events
