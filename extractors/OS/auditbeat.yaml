@@ -6,7 +6,7 @@ vendor-name: ALL
 product-name: ALL
 source-name: AUDITBEAT
 source-type: OS
-source-description: Extractor for NIX Auditbeat Events
+source-description: Extractor for Auditbeat Events
 provides-streams:
 - AUTHENTICATION
 - AUDITD
