@@ -1,6 +1,9 @@
 schema-version: 1.0
 #extractor-version: 1
 extractor-id: 67
+integration: syslog
+vendor-name: Cisco
+product-name: Cisco-IOS
 source-name: CISCO
 source-type: NETWORK-OS
 source-description: Extractor for Cisco Network OS Events
