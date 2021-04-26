@@ -1,6 +1,9 @@
 schema-version: 1.0
 #extractor-version: 1
 extractor-id: 163
+integration: syslog
+vendor-name: VMWare
+product-name: Carbon Black Response
 source-name: CARBON-BLACK-RESPONSE
 source-type: ENDPOINT-SECURITY
 source-description: Extractor for Carbon Black Response Events

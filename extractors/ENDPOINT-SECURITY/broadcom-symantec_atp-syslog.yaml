@@ -1,6 +1,9 @@
 schema-version: 1.0
 #extractor-version: 1
 extractor-id: 94
+integration: syslog
+vendor-name: Broadcom
+product-name: Symantec ATP
 source-name: SYMANTEC-ATP
 source-type: ENDPOINT-SECURITY
 source-description: Extractor for Symantec ATP Endpoint Events

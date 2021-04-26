@@ -1,6 +1,9 @@
 schema-version: 1.0
 #extractor-version: 1
 extractor-id: 142
+integration: syslog
+vendor-name: Microsoft
+product-name: Microsoft Exchange Server
 source-name: MS-EXCHANGE
 source-type: MAILSERVER
 source-description: Extractor for Microsoft Exchange Events

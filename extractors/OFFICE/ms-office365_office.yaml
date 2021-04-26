@@ -1,6 +1,9 @@
 schema-version: 1.0
 #extractor-version: 1
 extractor-id: 231
+integration: JSON
+vendor-name: Microsoft
+product-name: MS-O365
 source-name: MS-O365
 source-type: OFFICE
 source-description: Extractor for Microsoft Office 365 Events

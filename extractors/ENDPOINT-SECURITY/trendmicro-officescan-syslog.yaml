@@ -1,6 +1,9 @@
 schema-version: 1.0
 #extractor-version: 1
 extractor-id: 198
+integration: syslog
+vendor-name: Trendmicro
+product-name: Trendmicro Officescan
 source-name: OFFICESCAN-XG-WINEVT
 source-type: ENDPOINT-SECURITY
 source-description: Extractor for OfficeScan-XG Events

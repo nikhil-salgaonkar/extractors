@@ -1,6 +1,9 @@
 schema-version: 1.0
 #extractor-version: 1
 extractor-id: 191
+integration: syslog
+vendor-name: Dell
+product-name: Dell-Cylance
 source-name: DELL-CYLANCE
 source-type: ENDPOINT-SECURITY
 source-description: extractor for Dell-Cylance Endpoint Events

@@ -1,6 +1,9 @@
 schema-version: 1.0
 #extractor-version: 1
 extractor-id: 175
+integration: CSV
+vendor-name: Zscaler
+product-name: Zscaler-Firewall
 source-name: ZSCALER
 source-type: FIREWALL
 source-description: Extractor for Zscaler Firewall Events

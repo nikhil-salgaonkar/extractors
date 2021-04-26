@@ -1,6 +1,9 @@
 schema-version: 1.0
 #extractor-version: 1
 extractor-id: 204
+integration: syslog
+vendor-name: Sophos
+product-name: Sophos Endpoint
 source-name: SOPHOS
 source-type: ENDPOINT-SECURITY
 source-description: Extractor for Sophos Endpoint Event

@@ -1,6 +1,9 @@
 schema-version: 1.0
 #extractor-version: 1 
 extractor-id: 128
+integration: syslog
+vendor-name: Microsoft
+product-name: Windows
 source-name: WINDOWS
 source-type: OS
 source-description: Extractor for Windows Events
