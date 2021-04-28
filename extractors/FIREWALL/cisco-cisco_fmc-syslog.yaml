@@ -11,10 +11,13 @@ provides-streams:
 - AUTHENTICATION
 - FIREWALL
 - THREAT
+- CONFIGURATION
 master-filters:
-- FMC(?:\:|\])\s+\S+
+- '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+FMC\:\s+(?:Protocol|\[[\d\:]+\])'
+- '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+\S+\:\s+\w+\@[\w\.]+'
+- '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\w+\:\s+\S+\s+\S+\:\s+\w+\@[\d\.]+\,'
 event-details:
-- first-match: '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\:\s+\w+FMC\:\s+'
+- first-match: '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\:\s+\w+\:\s+\S+\@[\d\.]+\,\s+\w+\,'
   decoder: regex
   decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+\S+\:\s+(?P<hostname>\S+)\:\s+(?P<user>.*?)\@(?P<src>.*?)\,\s+(?P<event_name>.*?)\,\s+(?P<evt_desc>(?:(?P<action>(?:Logout|Login)\s+(?:Success|Failed)))?.*)'
   event-key-format: '{action}'
@@ -104,6 +107,20 @@ event-details:
         dport: DstPort
         initiator_bytes: TXLen
         responder_bytes: RXLen
+        app: App      
+    'Fastpath':
+      annotate:
+        Stream: FIREWALL
+        Action: PACKET_ALLOWED
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        protocol: Proto
+        sport: SrcPort
+        dst: DstIP
+        dport: DstPort
+        initiator_bytes: TXLen
+        responder_bytes: RXLen
         app: App          
 
   fallback:
@@ -126,12 +143,36 @@ event-details:
         Stream: THREAT
         Action: THREAT_DETECTED
         Status: PASSED
-        Vector: WEB
+        Vector: WEB  
       translate:  
         atkmsg: Threat
         src: SrcIP
         dst: DstIP
-        user: User     
+        user: User    
+
+  fallback:
+    annotate:
+      EventName: Generic Cisco-FMC Firewall Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System
+
+- first-match: '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\:\s+\w+\:\s+\S+\@[\d\.]+\,\s+\w+\s+\>\s+Configuration'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<config>\S+)\:\s+(?P<hostname>\S+)\:\s+(?P<user>.*?)\@(?P<src>.*?)\,\s+\w+\s+\>\s+(?P<action>\w+)\s+\>.*?\>\s+\/\w+\/\S+\,'
+  event-key-format: '{action}'
+  event-key-mapping:  
+    'Configuration': 
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:  
+        config : Config
+        user: User   
 
   fallback:
     annotate:
