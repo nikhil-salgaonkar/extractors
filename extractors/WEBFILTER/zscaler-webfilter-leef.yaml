@@ -1,6 +1,9 @@
 schema-version: 1.0
 #extractor-version: 1
 extractor-id: 6002
+integration: LEEF
+vendor-name: ZScaler
+product-name: ZScaler-Web Filter
 source-name: ZSCALER
 source-type: WEBFILTER
 source-description: extractor for Zscaler Proxy Events

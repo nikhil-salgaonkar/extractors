@@ -1,6 +1,9 @@
 schema-version: 1.0
 #extractor-version: 1
 extractor-id: 71
+integration: syslog
+vendor-name: Broadcom
+product-name: Symantec Endpoint Security
 source-name: SYMANTEC
 source-type: ENDPOINT-SECURITY
 source-description: extractor for Symantec Endpoint Events

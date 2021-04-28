@@ -1,6 +1,9 @@
 schema-version: 1.0
 #extractor-version: 1
 extractor-id: 59
+integration: syslog
+vendor-name: Cisco
+product-name: Cisco-ASA
 source-name: CISCO-ASA
 source-type: FIREWALL
 source-description: Extractor for Cisco-ASA Firewall

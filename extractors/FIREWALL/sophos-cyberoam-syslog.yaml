@@ -1,6 +1,9 @@
 schema-version: 1.0
 #extractor-version: 1
 extractor-id: 54
+integration: syslog
+vendor-name: Sophos
+product-name: Cyberoam Firewall
 source-name: CYBEROAM
 source-type: FIREWALL
 source-description: Extractor for Cyberoam Firewall Events

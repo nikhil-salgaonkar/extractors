@@ -1,6 +1,9 @@
 schema-version: 1.0
 #extractor-version: 1
 extractor-id: 55
+integration: syslog
+vendor-name: Apache
+product-name: Apache-Webserver
 source-name: APACHE2
 source-type: WEBSERVER
 source-description: Extractor for APACHE2 WEBSERVER Events

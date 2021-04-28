@@ -1,6 +1,9 @@
 schema-version: 1.0
 #extractor-version: 1
 extractor-id: 98
+integration: syslog
+vendor-name: VMWare
+product-name: VMWare
 source-name: VMWARE
 source-type: OS
 source-description: Extractor for VMware OS Events
