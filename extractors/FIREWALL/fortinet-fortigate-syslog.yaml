@@ -1,9 +1,6 @@
 schema-version: 1.0
 #extractor-version: 1
 extractor-id: 127
-integration: syslog
-vendor-name: Fortinet
-product-name: Fortigate
 source-name: FORTIGATE
 source-type: FIREWALL
 source-description: Extractor for Fortigate Firewall Events
@@ -11,15 +8,16 @@ provides-streams:
 - FIREWALL
 - THREAT
 - AUTHENTICATION
+- CONFIGURATION
 master-filters:
-- devname\=\S+\s+(?:device\_id|devid)\=\"?FG
+- 'devname\=\S+\s+(?:device\_id|devid)\=\"?FG'
 event-details:
-- first-match: (?:logid|log_id)\=\"?\d+\"?
+- first-match: '(?:logid|log_id)\=\"?\d+\"?'
   decoder: custom
-  decoder-regex: ([\w]+)=(\"[^\"]*\"|[^\s]*)
+  decoder-regex: '([\w]+)=(\"[^\"]*\"|[^\s]*)'
   event-key-format: '{logid}-{action}'
   event-key-mapping:
-    0001000014-deny:
+    '0001000014-deny':
       annotate:
         Stream: FIREWALL
         Action: PACKET_BLOCKED
@@ -33,8 +31,7 @@ event-details:
         rcvdbyte: RXLen
         proto: Proto
         app: App
-
-    0000000013-accept:
+    '0000000013-accept':
       annotate:
         Stream: FIREWALL
         Action: PACKET_ALLOWED
@@ -48,8 +45,7 @@ event-details:
         rcvdbyte: RXLen
         proto: Proto
         app: App
-
-    0000000013-deny:
+    '0000000013-deny':
       annotate:
         Stream: FIREWALL
         Action: PACKET_BLOCKED
@@ -63,8 +59,7 @@ event-details:
         rcvdbyte: RXLen
         proto: Proto
         app: App
-
-    0001000014-accept:
+    '0001000014-accept':
       annotate:
         Stream: FIREWALL
         Action: PACKET_ALLOWED
@@ -78,12 +73,11 @@ event-details:
         rcvdbyte: RXLen
         proto: Proto
         app: App
-
-    0001000014-server-rst:
+    '0001000014-server-rst':
       annotate:
         Stream: FIREWALL
         Action: PACKET_ALLOWED
-        Status: PASSED
+        Status: FAILED
       translate:
         srcip: SrcIP
         srcport: SrcPort
@@ -93,12 +87,39 @@ event-details:
         rcvdbyte: RXLen
         proto: Proto
         app: App 
-
-    0001000013-server-rst:
+    '0001000013-server-rst':
       annotate:
         Stream: FIREWALL
         Action: PACKET_ALLOWED
-        Status: PASSED
+        Status: FAILED
+      translate:
+        srcip: SrcIP
+        srcport: SrcPort
+        dstip: DstIP
+        dstport: DstPort
+        sentbyte: TXLen
+        rcvdbyte: RXLen
+        proto: Proto
+        app: App
+    '0000000013-server-rst':
+      annotate:
+        Stream: FIREWALL
+        Action: PACKET_ALLOWED
+        Status: FAILED
+      translate:
+        srcip: SrcIP
+        srcport: SrcPort
+        dstip: DstIP
+        dstport: DstPort
+        sentbyte: TXLen
+        rcvdbyte: RXLen
+        proto: Proto
+        app: App
+    '0000000013-client-rst':
+      annotate:
+        Stream: FIREWALL
+        Action: PACKET_ALLOWED
+        Status: FAILED
       translate:
         srcip: SrcIP
         srcport: SrcPort
@@ -108,8 +129,7 @@ event-details:
         rcvdbyte: RXLen
         proto: Proto
         app: App        
-
-    0000000010-accept:
+    '0000000010-accept':
       annotate:
         Stream: FIREWALL
         Action: PACKET_ALLOWED
@@ -123,8 +143,7 @@ event-details:
         rcvdbyte: RXLen
         proto: Proto
         app: App
-
-    0000000009-accept:
+    '0000000009-accept':
       annotate:
         Stream: FIREWALL
         Action: PACKET_ALLOWED
@@ -138,8 +157,7 @@ event-details:
         rcvdbyte: RXLen
         proto: Proto
         app: App
-
-    0000000020-accept:
+    '0000000020-accept':
       annotate:
         Stream: FIREWALL
         Action: PACKET_ALLOWED
@@ -153,8 +171,7 @@ event-details:
         rcvdbyte: RXLen
         proto: Proto
         app: App
-
-    0000000020-deny:
+    '0000000020-deny':
       annotate:
         Stream: FIREWALL
         Action: PACKET_BLOCKED
@@ -168,41 +185,34 @@ event-details:
         rcvdbyte: RXLen
         proto: Proto
         app: App
-
-    0102043014-FSSO-logon:
+    '0102043014-FSSO-logon':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
       translate:
-        reason: Reason
         srcip: SrcIP
         user: User
         method: AuthProto
-
-    0102043015-FSSO-logoff:
+    '0102043015-FSSO-logoff':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGOUT
         Status: PASSED
       translate:
-        reason: Reason
         srcip: SrcIP
         user: User
         method: AuthProto
-
-    0102043040-auth-logout:
+    '0102043040-auth-logout':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGOUT
         Status: PASSED
       translate:
-        reason: Reason
         srcip: SrcIP
         user: User
         method: AuthProto
-
-    0100032002-login:
+    '0100032002-login':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
@@ -212,52 +222,34 @@ event-details:
         srcip: SrcIP
         user: User
         method: AuthProto
-
-    0100032021-None:
-      annotate:
-        Stream: AUTHENTICATION
-        Action: LOGIN
-        Status: FAILED
-      translate:
-        reason: Reason
-        srcip: SrcIP
-        user: User
-        method: AuthProto
-
-    0102043039-auth-logon:
+    '0102043039-auth-logon':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
       translate:
-        reason: Reason
         srcip: SrcIP
         user: User
         method: AuthProto
-
-    0102038031-FSSO-polling-logon:
+    '0102038031-FSSO-polling-logon':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
       translate:
-        reason: Reason
         srcip: SrcIP
         user: User
         method: AuthProto
-
-    0102038032-FSSO-polling-logoff:
+    '0102038032-FSSO-polling-logoff':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGOUT
         Status: PASSED
       translate:
-        reason: Reason
         srcip: SrcIP
         user: User
         method: AuthProto
-
-    0317013312-passthrough:
+    '0317013312-passthrough':
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
@@ -268,8 +260,7 @@ event-details:
         srcip: SrcIP
         dstip: DstIP
         msg: Threat
-
-    0316013056-blocked:
+    '0316013056-blocked':
       annotate:
         Stream: THREAT
         Action: THREAT_BLOCKED
@@ -280,8 +271,7 @@ event-details:
         srcip: SrcIP
         dstip: DstIP
         msg: Threat
-
-    0318012800-blocked:
+    '0318012800-blocked':
       annotate:
         Stream: THREAT
         Action: THREAT_BLOCKED
@@ -292,8 +282,7 @@ event-details:
         srcip: SrcIP
         dstip: DstIP
         msg: Threat
-
-    0315012544-blocked:
+    '0315012544-blocked':
       annotate:
         Stream: THREAT
         Action: THREAT_BLOCKED
@@ -304,8 +293,7 @@ event-details:
         srcip: SrcIP
         dstip: DstIP
         msg: Threat
-
-    0315012546-passthrough:
+    '0315012546-passthrough':
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
@@ -316,8 +304,7 @@ event-details:
         srcip: SrcIP
         dstip: DstIP
         msg: Threat
-
-    0318012801-passthrough:
+    '0318012801-passthrough':
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
@@ -328,8 +315,7 @@ event-details:
         srcip: SrcIP
         dstip: DstIP
         msg: Threat
-
-    0315012545-passthrough:
+    '0315012545-passthrough':
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
@@ -340,8 +326,7 @@ event-details:
         srcip: SrcIP
         dstip: DstIP
         msg: Threat
-
-    0314012293-passthrough:
+    '0314012293-passthrough':
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
@@ -352,8 +337,7 @@ event-details:
         srcip: SrcIP
         dstip: DstIP
         msg: Threat
-
-    0314012288-blocked:
+    '0314012288-blocked':
       annotate:
         Stream: THREAT
         Action: THREAT_BLOCKED
@@ -364,8 +348,7 @@ event-details:
         srcip: SrcIP
         dstip: DstIP
         msg: Threat
-
-    0000000011-dns:
+    '0000000011-dns':
       annotate:
         Stream: FIREWALL
         Action: PACKET_ALLOWED
@@ -379,66 +362,7 @@ event-details:
         rcvdbyte: RXLen
         proto: Proto
         app: App
-
-    1501054601-block:
-      annotate:
-        Stream: THREAT
-        Action: BOTNET_BLOCKED
-        Status: PASSED
-        Vector: WEB
-      translate:
-        user: User
-        srcip: SrcIP
-        dstip: DstIP
-        msg: Threat
-
-    1501054600-block:
-      annotate:
-        Stream: THREAT
-        Action: BOTNET_BLOCKED
-        Status: PASSED
-        Vector: WEB
-      translate:
-        user: User
-        srcip: SrcIP
-        dstip: DstIP
-        msg: Threat
-
-    0100032003-logout:
-      annotate:
-        Stream: AUTHENTICATION
-        Action: LOGOUT
-        Status: PASSED
-      translate:
-        reason: Reason
-        method: AuthProto
-        user: User
-        srcip: SrcIP
-
-    0100032021-login:
-      annotate:
-        Stream: AUTHENTICATION
-        Action: LOGIN
-        Status: FAILED
-      translate:
-        user: User
-        reason: Reason
-        srcip: SrcIP
-        method: AuthProto
-
-    0315012556-passthrough:
-      annotate:
-        Stream: THREAT
-        Action: THREAT_DETECTED
-        Status: PASSED
-        Vector: WEB
-      translate:
-        user: User
-        srcip: SrcIP
-        dstip: DstIP
-        msg: Threat
-
-    0316013057-blocked:
+    '1501054601-block':
       annotate:
         Stream: THREAT
         Action: THREAT_BLOCKED
@@ -449,19 +373,37 @@ event-details:
         srcip: SrcIP
         dstip: DstIP
         msg: Threat
-
-    0100032001-login:
+    '1501054600-block':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_BLOCKED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        user: User
+        srcip: SrcIP
+        dstip: DstIP
+        msg: Threat
+    '0100032003-logout':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+      translate:
+        method: AuthProto
+        user: User
+        srcip: SrcIP
+    '0100032021-login':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
-        Status: PASSED
+        Status: FAILED
       translate:
-        srcip: SrcIP
         user: User
         reason: Reason
+        srcip: SrcIP
         method: AuthProto
-
-    0419016384-detected:
+    '0315012556-passthrough':
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
@@ -472,8 +414,93 @@ event-details:
         srcip: SrcIP
         dstip: DstIP
         msg: Threat
-
-    0419016385-detected:
+    '0316013057-blocked':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_BLOCKED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        user: User
+        srcip: SrcIP
+        dstip: DstIP
+        msg: Threat
+    '0100032001-login':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        srcip: SrcIP
+        user: User
+        method: AuthProto
+    '0419016384-detected':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        user: User
+        srcip: SrcIP
+        dstip: DstIP
+        attack: Threat
+    '0419016384-dropped':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        user: User
+        srcip: SrcIP
+        dstip: DstIP
+        attack: Threat
+    '0421016399-dropped':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        user: User
+        srcip: SrcIP
+        dstip: DstIP
+        attack: Threat
+    '0720018432-detected':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        user: User
+        srcip: SrcIP
+        dstip: DstIP
+        attack: Threat
+    '0720018433-detected':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        user: User
+        srcip: SrcIP
+        dstip: DstIP
+        attack: Threat
+    '0419016385-detected':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        user: User
+        srcip: SrcIP
+        dstip: DstIP
+        attack: Threat
+    '0419016385-detected':
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
@@ -484,41 +511,28 @@ event-details:
         srcip: SrcIP
         dstip: DstIP
         msg: Threat
-
-    0100022952-login:
+    '0100022953-None':
       annotate:
-        Stream: AUTHENTICATION
-        Action: LOGIN
-        Status: FAILED
-        Reason: INVALID_PASSWORD
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
       translate:
         user: User
         srcip: SrcIP
-        method: AuthProto
-
-    0100022113-None:
-      annotate:
-        Stream: AUTHENTICATION
-        Action: LOGIN
-        Status: FAILED
-        Reason: INVALID_PASSWORD
-      translate:
-        user: User
-        srcip: SrcIP
-        method: AuthProto
-
-    0101039426-ssl-login-fail:
+        DtsIP: DstIP
+        msg: Threat
+    '0101039426-ssl-login-fail':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
       translate:
-        srcip: SrcIP
+        remip: SrcIP
         user: User
         reason: Reason
         method: AuthProto
-
-    0002000012-accept:
+    '0002000012-accept':
       annotate:
         Stream: FIREWALL
         Action: PACKET_ALLOWED
@@ -532,6 +546,123 @@ event-details:
         sentbyte: TXLen
         rcvdbyte: RXLen
         app: App
+    '0100032400-None':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        user: User
+        logdesc: Config
+    '0100032102-None':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        user: User
+        logdesc: Config
+    '0100036882-None':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        user: User
+        logdesc: Config
+    '0100032142-backup':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        user: User
+        logdesc: Config
+    '0101039936-tunnel-stats':
+      annotate:
+        Stream: FIREWALL
+        Action: SESSION_ESTABLISHED
+        Status: PASSED
+      translate:
+        remip: SrcIP
+        SrcPort: SrcPort
+        DstIP: DstIP
+        DstPort: DstPort
+        sentbyte: TXLen
+        rcvdbyte: RXLen
+        Proto: Proto
+        App: App
+    '0101039937-tunnel-stats':
+      annotate:
+        Stream: FIREWALL
+        Action: SESSION_ESTABLISHED
+        Status: PASSED
+      translate:
+        remip: SrcIP
+        SrcPort: SrcPort
+        DstIP: DstIP
+        DstPort: DstPort
+        sentbyte: TXLen
+        rcvdbyte: RXLen
+        Proto: Proto
+        App: App
+    '0101039937-ssl-web-deny':
+      annotate:
+        Stream: FIREWALL
+        Action: SESSION_TERMINATED
+        Status: PASSED
+      translate:
+        remip: SrcIP
+        SrcPort: SrcPort
+        DstIP: DstIP
+        DstPort: DstPort
+        TXLen: TXLen
+        RXLen: RXLen
+        Proto: Proto
+        App: App
+    '0101039938-ssl-web-pass':
+      annotate:
+        Stream: FIREWALL
+        Action: SESSION_ESTABLISHED
+        Status: PASSED
+      translate:
+        remip: SrcIP
+        SrcPort: SrcPort
+        DstIP: DstIP
+        DstPort: DstPort
+        TXLen: TXLen
+        RXLen: RXLen
+        Proto: Proto
+        App: App
+    '0101039944-ssl-new-con':
+      annotate:
+        Stream: FIREWALL
+        Action: SESSION_ESTABLISHED
+        Status: PASSED
+      translate:
+        remip: SrcIP
+        SrcPort: SrcPort
+        DstIP: DstIP
+        DstPort: DstPort
+        TXLen: TXLen
+        RXLen: RXLen
+        Proto: Proto
+        App: App
+    '0101039944-ssl-alert':
+      annotate:
+        Stream: FIREWALL
+        Action: SESSION_TERMINATED
+        Status: PASSED
+      translate:
+        remip: SrcIP
+        SrcPort: SrcPort
+        DstIP: DstIP
+        DstPort: DstPort
+        TXLen: TXLen
+        RXLen: RXLen
+        Proto: Proto
+        App: App
+
 
   fallback:
     annotate:
