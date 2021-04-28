@@ -1,19 +1,19 @@
 schema-version: 1.0
 #extractor-version: 1
 extractor-id: 245
-integration: syslog
-vendor-name: Watchguard
-product-name: Watchguard Firewall
 source-name: WATCHGUARD
 source-type: FIREWALL
 source-description: extractor for WatchGuard Firewall Events
 provides-streams:
 - FIREWALL
 - THREAT
+- AUTHENTICATION
+- CONFIGURATION
 master-filters:
-- '\d{4}\-\d{1,2}\-\d{2}\s+\d{2}\:\d{2}\:\d{2}.*?(?:Allow|Deny)?.*?proc\_id\=\"firewall\"'
-- '\d{4}\-\d{1,2}\-\d{2}\s+\d{2}\:\d{2}\:\d{2}.*?(?:SYN\s+flood|ICMP\s+flood|UDP\s+flood|IPSEC\s+flood|IKE\s+flood|IP\s+scan|PORT\s+scan|DDOS|ARP\s+spoofing|IP\s+spoofing)\:?'
+- '^(?:\<\d+\>)?\d{4}\-\d{1,2}\-\d{2}\s+\d{2}\:\d{2}\:\d{2}.*?(?:Allow|Deny)?.*?proc\_id\=\"firewall\"'
+- '^(?:\<\d+\>)?\d{4}\-\d{1,2}\-\d{2}\s+\d{2}\:\d{2}\:\d{2}.*?(?:SYN\s+flood|ICMP\s+flood|UDP\s+flood|IPSEC\s+flood|IKE\s+flood|IP\s+scan|PORT\s+scan|DDOS|ARP\s+spoofing|IP\s+spoofing)\:?'
 - '\(\d{4}\-\d{1,2}\-\d{2}\T\d{2}\:\d{2}\:\d{2}\)\s+firewall\:.*?(?:Allow|Deny)'
+- '^(?:\<\d+\>)?\d{4}\-\d{1,2}\-\d{2}\s+\d{2}\:\d{2}\:\d{2}.*?(?:authentication|Authentication|established|Blocked Sites)'
 event-details:  
 - first-match: 'firewall\:.*?(?:Allow|Deny).*?sent_bytes\=\"\d+\"\s+rcvd_bytes\=\"\d+\"' 
   decoder: regex
@@ -227,6 +227,96 @@ event-details:
         src: SrcIP
         dst: DstIP
         User: User
+        
+  fallback:
+    annotate:
+      EventName: Generic WatchGuard Firewall Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System
+
+- first-match: 'Authentication\s+of.*?\[\S+\]\s+from\s+[\d\.]+\s+was\s+(?:accepted|rejected)' 
+  decoder: regex
+  decoder-regex: '(?P<datetime>\d{4}\-\d{1,2}\-\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\w+).*?\[(?P<user>\S+)\]\s+from\s+(?P<src>[\d\.]+)\s+was\s+(?P<action>\w+)\,?(?:\s+(?P<reason>.*?))?msg_id'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'accepted':           
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate: 
+        user: User
+        src: SrcIP
+        reason: Reason
+        AuthProto: AuthProto
+    'rejected':           
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate: 
+        user: User
+        src: SrcIP
+        reason: Reason
+        AuthProto: AuthProto
+        
+  fallback:
+    annotate:
+      EventName: Generic WatchGuard Firewall Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System
+
+- first-match: '\[\w+\s+\(\w+\)\]\s+\w+\s+session\s+\[\d+\]\s+\w+\s+established\,.*?[\d\.]+\,.*?[\d\.]+' 
+  decoder: regex
+  decoder-regex: '(?P<datetime>\d{4}\-\d{1,2}\-\d{1,2}\s+\d{2}\:\d{2}\:\d{2})(?:\s+(?P<hostname>\w+))?\s+\[\w+\s+\((?P<ifname>\w+)\)\].*?\[\d+\]\s+\w+\s+(?P<action>\w+).*?(?P<src>[\d\.]+)\,.*?(?P<dst>[\d\.]+)'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'established':           
+      annotate:
+        Stream: FIREWALL
+        Action: SESSION_ESTABLISHED
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        dst: DstIP
+        Proto: Proto
+        SrcPort: SrcPort
+        DstPort: DstPort
+        App: App
+        TXLen: TXLen
+        RXLen: RXLen
+        
+  fallback:
+    annotate:
+      EventName: Generic WatchGuard Firewall Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System
+
+- first-match: 'Management\s+user\s+\S+\s+from\s+[\d\.]+\s+\{.*?\}\s+Blocked\s+Sites' 
+  decoder: regex
+  decoder-regex: '(?P<datetime>\d{4}\-\d{1,2}\-\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\w+)\s+\w+\s+user\s+(?P<user>\S+)\s+from\s+[\d\.]+\s+\{.*?\}\s+(?P<config>\w+\s+\w+)'
+  event-key-format: ''
+  event-key-mapping:
+    '':           
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate: 
+        user: User
+        config: Config
         
   fallback:
     annotate:
