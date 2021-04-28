@@ -1,9 +1,6 @@
 schema-version: 1.0
 #extractor-version: 1
 extractor-id: 245
-integration: syslog
-vendor-name: Watchguard
-product-name: Watchguard Firewall
 source-name: WATCHGUARD
 source-type: FIREWALL
 source-description: extractor for WatchGuard Firewall Events
