@@ -12,31 +12,17 @@ provides-streams:
 - FIREWALL
 - AUTHENTICATION
 master-filters:
-- CheckPoint\s+\d+\s+\-\s+\[
+- '^(?:\<\d+\>)?.*?\d+\s+\w{4}\-\d{1,2}\-\d{2}\T\d{2}\:\d{2}\:\d{2}Z\s+\S+\s+CheckPoint\s+\d+\s+\-\s+\['
 event-details:
-- first-match: CheckPoint[\s\d\-]+\[
+- first-match: 'CheckPoint\s+\d+\s+\-\s+\[action\:\"[\w\s]+\"\;\s+conn_direction\:\"\w+\"\;'
   decoder: custom
-  decoder-regex: \[?([^\s]+)\:\"([^\"]*)\"
-  event-key-format: '{action}-{product}-{fw_subproduct}'
+  decoder-regex: '\[?([^\s]+)\:\"([^\"]*)\"'
+  event-key-format: '{action}-{conn_direction}'
   event-key-mapping:
-    Drop-VPN-1 & FireWall-1-None:
+    'Redirect-Outgoing':
       annotate:
         Stream: FIREWALL
-        Action: PACKET_BLOCKED
-        Status: FAILED
-      translate:
-        src: SrcIP  
-        dst: DstIP
-        s_port: SrcPort
-        service: DstPort
-        proto: Proto
-        protocol: App  
-        received_bytes: RXLen
-        sent_bytes: TXLen
-    Accept-VPN-1 & FireWall-1-None:
-      annotate:
-        Stream: FIREWALL
-        Action: PACKET_ALLOWED
+        Action: CONNECTION_ESTABLISHED
         Status: PASSED
       translate:
         src: SrcIP  
@@ -45,12 +31,12 @@ event-details:
         service: DstPort
         proto: Proto
         protocol: App  
-        received_bytes: RXLen
-        sent_bytes: TXLen    
-    Allow-MEPP-None:
+        client_inbound_bytes: RXLen
+        client_outbound_bytes: TXLen   
+    'Accept-Outgoing':
       annotate:
         Stream: FIREWALL
-        Action: PACKET_ALLOWED
+        Action: CONNECTION_ESTABLISHED
         Status: PASSED
       translate:
         src: SrcIP  
@@ -59,12 +45,12 @@ event-details:
         service: DstPort
         proto: Proto
         protocol: App  
-        received_bytes: RXLen
-        sent_bytes: TXLen 
-    Block-MEPP-None:
+        client_inbound_bytes: RXLen
+        client_outbound_bytes: TXLen    
+    'Reject-Outgoing':
       annotate:
         Stream: FIREWALL
-        Action: PACKET_BLOCKED
+        Action: CONNECTION_TERMINATED
         Status: PASSED
       translate:
         src: SrcIP  
@@ -73,116 +59,62 @@ event-details:
         service: DstPort
         proto: Proto
         protocol: App  
-        received_bytes: RXLen
-        sent_bytes: TXLen            
-    Prevent-SmartDefense-None:
+        client_inbound_bytes: RXLen
+        client_outbound_bytes: TXLen  
+    'Reject-Internal':
       annotate:
-        Stream: THREAT
-        Action: THREAT_DETECTED
+        Stream: FIREWALL
+        Action: CONNECTION_TERMINATED
         Status: PASSED
-        Vector: WEB
       translate:
         src: SrcIP  
-        dst: DstIP  
-        User: User
-        attack: Threat
-    Redirect-Anti Malware-None: 
+        dst: DstIP
+        s_port: SrcPort
+        service: DstPort
+        proto: Proto
+        protocol: App  
+        client_inbound_bytes: RXLen
+        client_outbound_bytes: TXLen  
+    'Drop-Internal':
       annotate:
-        Stream: THREAT
-        Action: THREAT_DETECTED
+        Stream: FIREWALL
+        Action: CONNECTION_TERMINATED
         Status: PASSED
-        Vector: WEB
       translate:
         src: SrcIP  
-        dst: DstIP  
-        User: User
-        attack: Threat
-    Log Out-Connectra-None:  
+        dst: DstIP
+        s_port: SrcPort
+        service: DstPort
+        proto: Proto
+        protocol: App  
+        client_inbound_bytes: RXLen
+        client_outbound_bytes: TXLen  
+    'Drop-Incoming':
       annotate:
-        Stream: AUTHENTICATION
-        Action: LOGOUT
+        Stream: FIREWALL
+        Action: CONNECTION_TERMINATED
         Status: PASSED
-      translate:
-        src: SrcIP
-        user: User
-        auth_method: AuthProto
-    Log In-Connectra-None:
-      annotate:
-        Stream: AUTHENTICATION
-        Action: LOGIN
-        Status: PASSED 
-      translate:
-        src: SrcIP
-        user: User
-        auth_method: AuthProto
-    Failed Log In-Connectra-None: 
-      annotate:
-        Stream: AUTHENTICATION
-        Action: LOGIN
-        Status: FAILED 
-        Reason: INVALID_PASSWORD  
-      translate:
-        src: SrcIP
-        user: User
-        auth_method: AuthProto
-    Detect-SmartDefense-None: 
-      annotate:
-        Stream: THREAT
-        Action: THREAT_DETECTED
-        Status: PASSED
-        Vector: WEB
       translate:
         src: SrcIP  
-        dst: DstIP  
-        User: User
-        attack: Threat
-    Decrypt-VPN-1 & FireWall-1-VPN-1: 
-      annotate:
-        Stream: AUTHENTICATION
-        Action: LOGIN 
-        Status: PASSED 
-      translate:
-        src: SrcIP
-        user: User
-        auth_method: AuthProto
-    Extract-Threat Extraction-None:
-      annotate:
-        Stream: THREAT
-        Action: THREAT_DETECTED
-        Status: PASSED
-        Vector: WEB
-      translate:
-        src: SrcIP  
-        dst: DstIP  
-        User: User
-        attack: Threat
-    Reject-SmartDefense-None:
-      annotate:
-        Stream: THREAT
-        Action: THREAT_DETECTED
-        Status: PASSED
-        Vector: WEB
-      translate:
-        src: SrcIP  
-        dst: DstIP  
-        User: User
-        attack: Threat
-    Update-Identity Awareness-None:
-      annotate:
-        Stream: AUTHENTICATION
-        Action: LOGIN
-        Status: PASSED
-      translate:
-        src: SrcIP
-        user: User
-        auth_method: AuthProto
-        
+        dst: DstIP
+        s_port: SrcPort
+        service: DstPort
+        proto: Proto
+        protocol: App  
+        client_inbound_bytes: RXLen
+        client_outbound_bytes: TXLen  
+    
   fallback:
     annotate:
       EventName: Generic Checkpoint Firewall Event
       Stream: OTHER
 
-  subs:
+  globals:
+    translate:
+      SystemTstamp: SystemTstamp
+      System: System   
+
+  subs: &id001
     Proto:
       '0': HOPOPT
       '1': ICMP
@@ -323,3 +255,301 @@ event-details:
       '141': WESP
       '142': ROHC
       '255': RESERVED
+
+- first-match: 'CheckPoint\s+\d+\s+\-\s+\[action\:\"[\w\s]+\"\;.*?app_risk\:\"\d+\"\;.*?matched_category\:\"[\w\s]+\"\;'
+  decoder: custom
+  decoder-regex: '\[?([^\s]+)\:\"([^\"]*)\"'
+  event-key-format: '{action}-{matched_category}'
+  event-key-mapping:
+    'Redirect-Phishing':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        src: SrcIP  
+        dst: DstIP
+        User: User
+        app_properties: Threat
+    'Redirect-Cloud Services':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        src: SrcIP  
+        dst: DstIP
+        user: User
+        app_properties: Threat
+    
+  fallback:
+    annotate:
+      EventName: Generic Checkpoint Firewall Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      SystemTstamp: SystemTstamp
+      System: System   
+
+- first-match: 'CheckPoint\s+\d+\s+\-\s+\[action\:\"[\w\s]+\"\;.*?malware_action:\"[\w\s]+\"\;'
+  decoder: custom
+  decoder-regex: '\[?([^\s]+)\:\"([^\"]*)\"'
+  event-key-format: '{action}-{malware_action}'
+  event-key-mapping:
+    'Redirect-Malicious network activity':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        src: SrcIP  
+        dst: DstIP
+        User: User
+        protection_name: Threat
+    
+  fallback:
+    annotate:
+      EventName: Generic Checkpoint Firewall Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      SystemTstamp: SystemTstamp
+      System: System   
+
+- first-match: 'CheckPoint\s+\d+\s+\-\s+\[action\:\"[\w\s]+\"\;.*?product\:\"Threat Extraction\"\;\s+protection_name\:'
+  decoder: custom
+  decoder-regex: '\[?([^\s]+)\:\"([^\"]*)\"'
+  event-key-format: '{action}-{product}'
+  event-key-mapping:
+    'Extract-Threat Extraction':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        src: SrcIP  
+        dst: DstIP
+        to: User
+        protection_name: Threat
+    
+  fallback:
+    annotate:
+      EventName: Generic Checkpoint Firewall Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      SystemTstamp: SystemTstamp
+      System: System   
+
+- first-match: 'CheckPoint\s+\d+\s+\-\s+\[alert\:\"\w+\".*?attack'
+  decoder: custom
+  decoder-regex: '\[?([^\s]+)\:\"([^\"]*)\"'
+  event-key-format: '{alert}'
+  event-key-mapping:
+    'alert':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        src: SrcIP  
+        dst: DstIP
+        User: User
+        attack: Threat
+    
+  fallback:
+    annotate:
+      EventName: Generic Checkpoint Firewall Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      SystemTstamp: SystemTstamp
+      System: System   
+
+- first-match: 'CheckPoint\s+\d+\s+\-\s+\[action\:\"[\w\s]+\"\;.*?layer_name\:\"Standard Threat Prevention\"\;.*?malware_rule_name\:\"[\w\s]+\"\;'
+  decoder: custom
+  decoder-regex: '\[?([^\s]+)\:\"([^\"]*)\"'
+  event-key-format: '{action}-{layer_name}'
+  event-key-mapping:
+    'Detect-Standard Threat Prevention':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        src: SrcIP  
+        dst: DstIP
+        User: User
+        malware_rule_name: Threat
+    'Prevent-Standard Threat Prevention':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        src: SrcIP  
+        dst: DstIP
+        User: User
+        malware_rule_name: Threat
+    
+  fallback:
+    annotate:
+      EventName: Generic Checkpoint Firewall Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      SystemTstamp: SystemTstamp
+      System: System   
+
+- first-match: 'CheckPoint\s+\d+\s+\-\s+\[action\:\"(?:Log\s+In|Log\s+Out|Failed\s+Log In|Update)\"'
+  decoder: custom
+  decoder-regex: '\[?([^\s]+)\:\"([^\"]*)\"'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'Log Out':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED 
+      translate:
+        src: SrcIP
+        user: User
+        AuthProto: AuthProto
+    'Failed Log In':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED 
+      translate:
+        src: SrcIP
+        user: User
+        reason: Reason
+        AuthProto: AuthProto
+    'Log In':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        src: SrcIP
+        user: User
+        AuthProto: AuthProto
+    'Update':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        src: SrcIP
+        user: User
+        AuthProto: AuthProto
+    
+  fallback:
+    annotate:
+      EventName: Generic Checkpoint Firewall Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      SystemTstamp: SystemTstamp
+      System: System 
+
+- first-match: 'CheckPoint\s+\d+\s+\-\s+\[action\:\"[\w\s]+\"\;(?!\s+conn_direction\:)'
+  decoder: custom
+  decoder-regex: '\[?([^\s]+)\:\"([^\"]*)\"'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'Drop':
+      annotate:
+        Stream: FIREWALL
+        Action: PACKET_BLOCKED
+        Status: PASSED
+      translate:
+        src: SrcIP  
+        dst: DstIP
+        s_port: SrcPort
+        service: DstPort
+        proto: Proto
+        protocol: App  
+        client_inbound_bytes: RXLen
+        client_outbound_bytes: TXLen   
+    'Reject':
+      annotate:
+        Stream: FIREWALL
+        Action: PACKET_BLOCKED
+        Status: PASSED
+      translate:
+        src: SrcIP  
+        dst: DstIP
+        s_port: SrcPort
+        service: DstPort
+        proto: Proto
+        protocol: App  
+        client_inbound_bytes: RXLen
+        client_outbound_bytes: TXLen  
+    'Accept':
+      annotate:
+        Stream: FIREWALL
+        Action: PACKET_ALLOWED
+        Status: PASSED
+      translate:
+        src: SrcIP  
+        dst: DstIP
+        s_port: SrcPort
+        service: DstPort
+        proto: Proto
+        protocol: App  
+        client_inbound_bytes: RXLen
+        client_outbound_bytes: TXLen  
+    'Redirect':
+      annotate:
+        Stream: FIREWALL
+        Action: PACKET_ALLOWED
+        Status: PASSED
+      translate:
+        src: SrcIP  
+        dst: DstIP
+        s_port: SrcPort
+        service: DstPort
+        proto: Proto
+        protocol: App  
+        client_inbound_bytes: RXLen
+        client_outbound_bytes: TXLen   
+    'Block':
+      annotate:
+        Stream: FIREWALL
+        Action: PACKET_BLOCKED
+        Status: PASSED
+      translate:
+        src: SrcIP  
+        dst: DstIP
+        s_port: SrcPort
+        service: DstPort
+        proto: Proto
+        protocol: App  
+        client_inbound_bytes: RXLen
+        client_outbound_bytes: TXLen   
+    
+  fallback:
+    annotate:
+      EventName: Generic Checkpoint Firewall Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      SystemTstamp: SystemTstamp
+      System: System    
+
+  subs: *id001
