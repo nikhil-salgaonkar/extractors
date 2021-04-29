@@ -11,13 +11,14 @@ provides-streams:
 - AUTHENTICATION
 - FIREWALL
 - THREAT
+- CONFIGURATION
 master-filters:
 - '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+(?:RT\_FLOW|kmd|RT\_IPSEC|mgd|sshd|checklogin|junos\-alg|rpd|ip\_mon\_reth\_scan|L2ALM|xntpd|PFE\_FW\_SYSLOG\_IP|RT\_IDS)\:?\[?'
 - '^(?:\<\d+\>)?\d{4}\-\d{1,2}\-\d{2}\s+\d{2}\:\d{2}\:\d{2}\s+\w+\,\s+Filter\:\s+\w+\,'
 event-details:
-- first-match: 'UI_LOGIN_EVENT\:\s+User\s+\S+\s+login\,\s+\w+\s+j\-super\-user'
+- first-match: '(?:UI_LOGIN_EVENT|UI_LOGOUT_EVENT)\:\s+User\s+\w+'
   decoder: regex
-  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>\w+)\[(?P<pid>\d+)\]\:\s+(?P<category>\S+)\:\s+.*?\s(?P<user>.*?)\slogin.*?ssh-connection\s+(?P<src>[\d\.]+)\s+(?P<sport>\d+)\s+(?P<dst>[\d\.]+)\s+(?P<dport>\d+)'
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>\w+)\[(?P<pid>\d+)\]\:\s+(?P<category>\S+)\:\s+User\s+(?P<user>\w+)\s+\w+\,?.*?\,\s+(?P<proto>\w+)[\w\-]+(?:\s+(?P<src>[\d\.]+))?'
   event-key-format: '{category}'
   event-key-mapping:
     'UI_LOGIN_EVENT': 
@@ -25,35 +26,19 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED   
-        AuthProto: SSH
       translate:
         src: SrcIP 
         user: User
-
-  fallback:
-    annotate:
-      EventName: Generic Juniper Firewall Event
-      Stream: OTHER
-
-  globals:
-    translate:
-      datetime: SystemTstamp
-      hostname: System
-
-- first-match: 'UI_LOGOUT_EVENT\:'
-  decoder: regex
-  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>.*?)\[(?P<pid>\d+)\]\:\s+(?P<category>\S+)\:\s.*?\s(?P<user>\w+)\s+'
-  event-key-format: '{category}'
-  event-key-mapping:
+        proto: AuthProto
     'UI_LOGOUT_EVENT': 
       annotate:
         Stream: AUTHENTICATION
         Action: LOGOUT
-        Status: PASSED 
+        Status: PASSED   
       translate:
-        AuthProto: AuthProto
+        src: SrcIP 
         user: User
-        src: SrcIP
+        proto: AuthProto
 
   fallback:
     annotate:
@@ -64,6 +49,7 @@ event-details:
     translate:
       datetime: SystemTstamp
       hostname: System
+
 
 - first-match: 'SSHD_LOGIN_FAILED\:'
   decoder: regex
@@ -79,83 +65,8 @@ event-details:
       translate:
         user: User
         src: SrcIP 
-        reason: Reason  
-
-  fallback:
-    annotate:
-      EventName: Generic Juniper Firewall Event
-      Stream: OTHER
-
-  globals:
-    translate:
-      datetime: SystemTstamp
-      hostname: System
-
-- first-match: 'UI_DBASE_LOGIN_EVENT\:'
-  decoder: regex
-  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>\w+)\[(?P<pid>\d+)\]\:\s+(?P<category>\S+)\:\s+User\s+(?P<user>.*?)\s+'
-  event-key-format: '{category}'
-  event-key-mapping:
-    'UI_DBASE_LOGIN_EVENT': 
-      annotate:
-        Stream: AUTHENTICATION
-        Action: LOGIN
-        Status: PASSED  
-      translate:
-        AuthProto: AuthProto
-        user: User
-        src: SrcIP
-
-  fallback:
-    annotate:
-      EventName: Generic Juniper Firewall Event
-      Stream: OTHER
-
-  globals:
-    translate:
-      datetime: SystemTstamp
-      hostname: System
-
-- first-match: 'UI_DBASE_LOGOUT_EVENT\:'
-  decoder: regex
-  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>\w+)\[(?P<pid>\d+)\]\:\s+(?P<category>\S+)\:\s+User\s+(?P<user>.*?)\s+'
-  event-key-format: '{category}'
-  event-key-mapping:
-    'UI_DBASE_LOGOUT_EVENT': 
-      annotate:
-        Stream: AUTHENTICATION
-        Action: LOGOUT
-        Status: PASSED 
-      translate:
-        AuthProto: AuthProto
-        user: User
-        src: SrcIP
-
-  fallback:
-    annotate:
-      EventName: Generic Juniper Firewall Event
-      Stream: OTHER
-
-  globals:
-    translate:
-      datetime: SystemTstamp
-      hostname: System
-  
-- first-match: 'UI_LOGIN_EVENT\:\s+User\s+\S+\s+login\,\s+class\s+super\-user'
-  decoder: regex
-  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>\w+)\[(?P<pid>\d+)\]\:\s(?P<category>\S+)\:\sUser\s(?P<user>\S+)\s+'
-  event-key-format: '{category}'
-  event-key-mapping:
-    'UI_LOGIN_EVENT': 
-      annotate:
-        Stream: AUTHENTICATION
-        Action: LOGIN
-        Status: PASSED  
-        AuthProto: SSH
-      translate:
-        user: User
-        src: SrcIP
-
+        Reason: Reason  
+      
   fallback:
     annotate:
       EventName: Generic Juniper Firewall Event
@@ -168,7 +79,7 @@ event-details:
 
 - first-match: 'PFE\_FW\_SYSLOG\_IP\:'
   decoder: regex
-  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<category>\S+)\:\s+FW\:\s+(?P<message>(?P<interface>\S+)\s+(?P<action>\w+)\s+(?P<proto>\w+)\s+(?P<src>[\d\.]+)\s+(?P<dst>[\d\.]+)\s+(?P<sport>\d+)\s+(?P<dport>\d+)\s+\((?P<packets>\w+)\s+packets\))'
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<category>\S+)\:\s+FW\:\s+\S+\s+(?P<action>\w+)\s+(?P<proto>\w+)\s+(?P<src>[\d\.]+)\s+(?P<dst>[\d\.]+)\s+(?P<sport>\d+)\s+(?P<dport>\d+)\s+\((?P<sent_bytes>\w+)\s+packets\)'
   event-key-format: '{action}'
   event-key-mapping:
     'R': 
@@ -182,8 +93,9 @@ event-details:
         dst: DstIP
         sport: SrcPort
         dport: DstPort
-        Packet Length: TXLen
-        Service Name: App
+        sent_bytes: TXLen
+        RXLen: RXLen
+        App: App
     'A': 
       annotate:
         Stream: FIREWALL
@@ -195,8 +107,9 @@ event-details:
         dst: DstIP
         sport: SrcPort
         dport: DstPort
-        Packet Length: TXLen
-        Service Name: App 
+        sent_bytes: TXLen
+        RXLen: RXLen
+        App: App 
     'D': 
       annotate:
         Stream: FIREWALL
@@ -208,8 +121,9 @@ event-details:
         dst: DstIP
         sport: SrcPort
         dport: DstPort
-        Packet Length: TXLen
-        Service Name: App  
+        sent_bytes: TXLen
+        RXLen: RXLen
+        App: App  
     'drop': 
       annotate:
         Stream: FIREWALL
@@ -221,8 +135,9 @@ event-details:
         dst: DstIP
         sport: SrcPort
         dport: DstPort
-        Packet Length: TXLen
-        Service Name: App            
+        sent_bytes: TXLen
+        RXLen: RXLen
+        App: App            
 
   fallback:
     annotate:
@@ -236,7 +151,7 @@ event-details:
 
 - first-match: 'Filter\:\s+\w+\,\s+Filter\s+action\:'
   decoder: regex
-  decoder-regex: '(?P<datetime>\d{4}\-\d{1,2}\-\d{2}\s+\d{2}\:\d{2}\:\d{2})\s+\w+\,\s+Filter\:\s+(\w+)\,\s+Filter\s+action\:\s+(?P<action>\w+)\,\s+Name\s+of\s+interface\:\s+(?P<interface>.*?)\s+Name of protocol\:\s+(?P<proto>\w+)\,\s+Packet Length\:\s+(?P<packet_length>\d+)\,\s+Source address\:\s+(?P<src>[\d\.]+)\:(?P<sport>\d+)\,\s+Destination address\:\s+(?P<dst>[\d\.]+)\:(?P<dport>\d+)'
+  decoder-regex: '(?P<datetime>\d{4}\-\d{1,2}\-\d{2}\s+\d{2}\:\d{2}\:\d{2})\s+\w+\,\s+Filter\:\s+\w+\,\s+Filter\s+action\:\s+(?P<action>\w+)\,\s+Name\s+of\s+interface\:.*?Name of protocol\:\s+(?P<proto>\w+)\,\s+Packet\s+Length\:\s+(?P<sent_bytes>\d+)\,\s+Source\s+address\:\s+(?P<src>[\d\.]+)\:(?P<sport>\d+)\,\s+Destination\s+address\:\s+(?P<dst>[\d\.]+)\:(?P<dport>\d+)'
   event-key-format: '{action}'
   event-key-mapping:
     'accept': 
@@ -250,8 +165,9 @@ event-details:
         dst: DstIP
         sport: SrcPort
         dport: DstPort
-        packet_length: TXLen
-        Service Name: App
+        sent_bytes: TXLen
+        RXLen: RXLen
+        App: App
 
   fallback:
     annotate:
@@ -265,7 +181,7 @@ event-details:
 
 - first-match: 'RT\_IDS\:\s+RT_SCREEN_\w+\:'
   decoder: regex
-  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s\S+\:\s+(?P<category>\S+)\:\s+(?P<threat>.*?)\s+source\:\s+(?P<src>[\d\.]+)(?:\:(?P<sport>\d+))?\,\s+destination\:\s+(?P<dst>[\d\.]+)(?:\:(?P<dport>\d+))?\,(?:\s+protocol\-id\:\s+(?P<protocol_id>\d+)\,)?\s+.*?interface\s+name\:\s+(?P<interface>.*?)\,\s+action\:\s+(?P<action>[\w\-]+)'
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s\S+\:\s+(?P<category>\S+)\:\s+(?P<threat>.*?)\s+source\:\s+(?P<src>[\d\.]+).*?\,\s+destination\:\s+(?P<dst>[\d\.]+).*?\,.*?action\:\s+(?P<action>[\w\-]+)'
   event-key-format: '{category}'
   event-key-mapping:
     'IDP_ATTACK_LOG_EVENT': 
@@ -278,7 +194,7 @@ event-details:
         threat: Threat
         src: SrcIP
         dst: DstIP
-        user: User
+        User: User
     'FLOW_IP_ACTION': 
       annotate:
         Stream: THREAT
@@ -289,7 +205,7 @@ event-details:
         threat: Threat
         src: SrcIP
         dst: DstIP
-        user: User
+        User: User
     'RT_SCREEN_UDP': 
       annotate:
         Stream: THREAT
@@ -300,7 +216,7 @@ event-details:
         threat: Threat
         src: SrcIP
         dst: DstIP
-        user: User
+        User: User
     'RT_SCREEN_IP': 
       annotate:
         Stream: THREAT
@@ -311,7 +227,7 @@ event-details:
         threat: Threat
         src: SrcIP
         dst: DstIP
-        user: User
+        User: User
     
   fallback:
     annotate:
@@ -322,3 +238,170 @@ event-details:
     translate:
       datetime: SystemTstamp
       hostname: System
+
+- first-match: 'RT\_FLOW:\s+(?:APPTRACK\_SESSION\_CLOSE|RT_FLOW: APPTRACK_SESSION_CREATE|RT_FLOW_SESSION_CLOSE):'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+\S+\:\s+(?P<category>\S+)\:.*?(?P<src>[\d\.]+)\/(?P<sport>\d+)\-\>(?P<dst>[\d\.]+)\/(?P<dport>\d+)\s+(?P<app>\S+).*?[\d\.]+\/\d+\-\>[\d\.]+\/\d+[\s\D]+(?P<proto>\d+).*?\((?P<sent_bytes>\d+)\)\s+\d+\((?P<rcvd_bytes>\d+)\)'
+  event-key-format: '{category}'
+  event-key-mapping:
+    'APPTRACK_SESSION_CLOSE':  
+      annotate:
+        Stream: FIREWALL
+        Action: SESSION_TERMINATED
+        Status: PASSED
+      translate:
+        proto: Proto
+        src: SrcIP
+        dst: DstIP
+        sport: SrcPort
+        dport: DstPort
+        sent_bytes: TXLen
+        rcvd_bytes: RXLen
+        app: App
+    'APPTRACK_SESSION_CREATE':  
+      annotate:
+        Stream: FIREWALL
+        Action: SESSION_ESTABLISHED
+        Status: PASSED
+      translate:
+        proto: Proto
+        src: SrcIP
+        dst: DstIP
+        sport: SrcPort
+        dport: DstPort
+        sent_bytes: TXLen
+        rcvd_bytes: RXLen
+        app: App
+    'RT_FLOW_SESSION_CLOSE':  
+      annotate:
+        Stream: FIREWALL
+        Action: SESSION_TERMINATED
+        Status: PASSED
+      translate:
+        proto: Proto
+        src: SrcIP
+        dst: DstIP
+        sport: SrcPort
+        dport: DstPort
+        sent_bytes: TXLen
+        rcvd_bytes: RXLen
+        app: App
+    
+  fallback:
+    annotate:
+      EventName: Generic Juniper Firewall Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System
+
+  subs: &id001
+    Proto:
+      '1': ICMP
+      '2': IGMP
+      '6': TCP
+      '17': UDP
+      '38': IDPR-CMTP
+      '40': IPv6
+      '46': RSVP
+      '47': GRE
+      '50': ESP
+      '51': AH
+      '54': NARP
+      '89': OSPNIGP
+      '94': IPIP
+      '99': ANY
+      '132': SCTP
+
+- first-match: 'RT\_FLOW:\s+RT\_FLOW\_SESSION\_DENY:'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+\S+\:\s+(?P<category>\S+)\:.*?(?P<src>[\d\.]+)\/(?P<sport>\d+)\-\>(?P<dst>[\d\.]+)\/(?P<dport>\d+)\s+(?P<app>\S+)\s+(?P<proto>\d+)'
+  event-key-format: '{category}'
+  event-key-mapping:
+    'RT_FLOW_SESSION_DENY':  
+      annotate:
+        Stream: FIREWALL
+        Action: SESSION_TERMINATED
+        Status: PASSED
+      translate:
+        proto: Proto
+        src: SrcIP
+        dst: DstIP
+        sport: SrcPort
+        dport: DstPort
+        TXLen: TXLen
+        RXLen: RXLen
+        app: App
+    
+  fallback:
+    annotate:
+      EventName: Generic Juniper Firewall Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System
+
+  subs: *id001
+
+- first-match: 'RT\_FLOW:\s+RT\_FLOW\_SESSION\_CREATE:'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+\S+\:\s+(?P<category>\S+)\:.*?(?P<src>[\d\.]+)\/(?P<sport>\d+)\-\>(?P<dst>[\d\.]+)\/(?P<dport>\d+)\s+(?P<app>\S+)\s+[\d\.]+\/\d+\-\>[\d\.]+\/\d+\s+\S+\s+\w+\s+(?P<proto>\d+)'
+  event-key-format: '{category}'
+  event-key-mapping:
+    'RT_FLOW_SESSION_CREATE':  
+      annotate:
+        Stream: FIREWALL
+        Action: SESSION_ESTABLISHED
+        Status: PASSED
+      translate:
+        proto: Proto
+        src: SrcIP
+        dst: DstIP
+        sport: SrcPort
+        dport: DstPort
+        TXLen: TXLen
+        RXLen: RXLen
+        app: App
+    
+  fallback:
+    annotate:
+      EventName: Generic Juniper Firewall Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System
+
+  subs: *id001
+
+- first-match: 'mgd\[\d+\]\:\s+UI\_CFG\_AUDIT\_OTHER'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>\w+)\[(?P<pid>\d+)\]\:\s+(?P<category>\S+)\:\s+User\s+(?P<user>\w+)\s+\w+\:\s+(?P<config>\S+)'
+  event-key-format: '{category}'
+  event-key-mapping:
+    'UI_CFG_AUDIT_OTHER':  
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        user: User
+        config: Config
+    
+  fallback:
+    annotate:
+      EventName: Generic Juniper Firewall Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System
+
+
+  
