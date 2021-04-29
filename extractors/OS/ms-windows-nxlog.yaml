@@ -288,7 +288,7 @@ event-details:
     '4782':
       annotate:
         Stream: IAM
-        Action: PASSWORD_HASH_ACCESSED
+        Action: ACCOUNT_PASSWORD_HASH_ACCESSED
         Status: PASSED    
       translate:  
         SubjectUserName: User  
