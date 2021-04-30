@@ -1,7 +1,7 @@
 schema-version: 1.0
 #extractor-version: 1.0
 extractor-id: 207
-integration: Syslog
+integration: Syslog(CEF)
 vendor-name: Forcepoint
 product-name: Websense Webfilter
 source-name: FORCEPOINT

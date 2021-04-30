@@ -1,7 +1,7 @@
 schema-version: 1.0
 #extractor-version: 1
 extractor-id: 70
-integration: Syslog
+integration: Syslog(CEF)
 vendor-name: Imperva
 product-name: Imperva WAF
 source-name: IMPERVA
