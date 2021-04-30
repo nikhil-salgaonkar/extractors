@@ -3,7 +3,7 @@ schema-version: 1.0
 extractor-id: 206
 integration: Syslog(CEF)
 vendor-name: Smokescreen
-product-name: Smokescreen-Decoy
+product-name: Smokescreen Decoy
 source-name: SMOKESCREEN
 source-type: DECOY
 source-description: Extractor for Smokescreen Decoy Events

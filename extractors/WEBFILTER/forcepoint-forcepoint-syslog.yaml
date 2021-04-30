@@ -3,7 +3,7 @@ schema-version: 1.0
 extractor-id: 207
 integration: Syslog(CEF)
 vendor-name: Forcepoint
-product-name: Websense Webfilter
+product-name: Websense WebFilter
 source-name: FORCEPOINT
 source-type: WEBFILTER
 source-description: extractor for Forcepoint Webfilter Events

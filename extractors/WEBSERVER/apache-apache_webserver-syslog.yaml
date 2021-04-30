@@ -3,7 +3,7 @@ schema-version: 1.0
 extractor-id: 55
 integration: Syslog
 vendor-name: Apache
-product-name: Apache-Webserver
+product-name: Apache Webserver
 source-name: APACHE2
 source-type: WEBSERVER
 source-description: Extractor for APACHE2 WEBSERVER Events
