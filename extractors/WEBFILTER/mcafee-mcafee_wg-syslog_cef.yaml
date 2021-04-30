@@ -1,7 +1,7 @@
 schema-version: 1.0
 #extractor-version: 1
 extractor-id: 213
-integration: syslog
+integration: Syslog(CEF)
 vendor-name: McAfee
 product-name: McAfee Web Gateway
 source-name: MCAFEE-WG

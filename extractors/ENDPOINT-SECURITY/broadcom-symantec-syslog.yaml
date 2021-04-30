@@ -1,7 +1,7 @@
 schema-version: 1.0
 #extractor-version: 1
 extractor-id: 71
-integration: syslog
+integration: Syslog
 vendor-name: Broadcom
 product-name: Symantec Endpoint Security
 source-name: SYMANTEC

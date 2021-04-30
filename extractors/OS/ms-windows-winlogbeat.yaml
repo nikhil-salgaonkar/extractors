@@ -1,7 +1,7 @@
 schema-version: 1.0
 #extractor-version: 1
 extractor-id: 710
-integration: winlogbeat(OSS)
+integration: Winlogbeat
 vendor-name: Microsoft
 product-name: Windows
 source-name: WINDOWS

@@ -1,9 +1,9 @@
 schema-version: 1.0
 #extractor-version: 1
 extractor-id: 127
-integration: syslog
+integration: Syslog
 vendor-name: Fortinet
-product-name: Fortigate
+product-name: FortiGate
 source-name: FORTIGATE
 source-type: FIREWALL
 source-description: Extractor for Fortigate Firewall Events

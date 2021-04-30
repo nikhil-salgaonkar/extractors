@@ -1,7 +1,7 @@
 schema-version: 1.0
 #extractor-version: 1
 extractor-id: 715
-integration: auditbeat(OSS)
+integration: Auditbeat
 vendor-name: ALL
 product-name: ALL
 source-name: AUDITBEAT

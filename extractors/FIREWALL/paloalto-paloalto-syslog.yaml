@@ -1,7 +1,7 @@
 schema-version: 1.0
 #extractor-version: 1
 extractor-id: 97
-integration: syslog
+integration: Syslog(CSV)
 vendor-name: PaloAlto
 product-name: Palo Alto Firewall
 source-name: PALOALTO

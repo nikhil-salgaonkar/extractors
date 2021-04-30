@@ -1,10 +1,10 @@
 schema-version: 1.0
 #extractor-version: 1
 extractor-id: 150
-integration: CEF
+integration: Syslog(CEF)
 vendor-name: F5 BIG-IP
 product-name: F5 BIG-IP
-source-name: F5BIGIP-CEF
+source-name: F5BIGIP
 source-type: WAF
 source-description: extractor for F5-BigIP WAF Events
 provides-streams:

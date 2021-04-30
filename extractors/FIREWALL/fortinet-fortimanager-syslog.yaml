@@ -1,9 +1,9 @@
 schema-version: 1.0
 #extractor-version: 1
 extractor-id: 242
-integration: syslog
+integration: Syslog
 vendor-name: Fortinet
-product-name: Fortimanager
+product-name: FortiManager
 source-name: FORTIMANAGER
 source-type: FIREWALL
 source-description: Extractor for FortiManager Firewall Events

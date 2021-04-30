@@ -1,9 +1,9 @@
 schema-version: 1.0
 #extractor-version: 1 
 extractor-id: 232
-integration: syslog
+integration: Syslog
 vendor-name: Cisco
-product-name: Cisco-FMC
+product-name: Cisco FMC
 source-name: CISCO-FMC
 source-type: FIREWALL
 source-description: Extractor for Cisco-FMC Firewall Events

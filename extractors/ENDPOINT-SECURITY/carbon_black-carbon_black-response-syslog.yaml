@@ -1,7 +1,7 @@
 schema-version: 1.0
 #extractor-version: 1
 extractor-id: 163
-integration: syslog
+integration: Syslog
 vendor-name: VMWare
 product-name: Carbon Black Response
 source-name: CARBON-BLACK-RESPONSE

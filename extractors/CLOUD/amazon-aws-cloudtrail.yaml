@@ -1,7 +1,7 @@
 schema-version: 1.0
 #extractor-version: 1
 extractor-id: 700
-integration: JSON
+integration: AWS S3
 vendor-name: AWS
 product-name: AWS-Cloudtrail
 source-name: AWS

@@ -1,7 +1,7 @@
 schema-version: 1.0
 #extractor-version: 1
 extractor-id: 175
-integration: CSV
+integration: Syslog(CSV)
 vendor-name: Zscaler
 product-name: Zscaler-Firewall
 source-name: ZSCALER
