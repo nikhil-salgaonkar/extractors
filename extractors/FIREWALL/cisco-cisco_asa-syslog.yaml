@@ -155,7 +155,7 @@ event-details:
 
 - first-match: '\%ASA-\d+\-716037\:'
   decoder: regex
-  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2})(?:\s+(?P<hostname>\S+))?.*?\%ASA\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+(?P<message>.*?Group\s(?P<group>.*?)\sUser\s(?P<user>.*?)\s.*?(?P<status>failed)\sto\s(?<action>login)\sinto\sthe\s(?P<sever>.*?)\s.*)'
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2})(?:\s+(?P<hostname>\S+))?.*?\%ASA\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+(?P<message>.*?Group\s(?P<group>.*?)\sUser\s(?P<user>.*?)\s.*?(?P<status>failed)\sto\s(?P<action>login)\sinto\sthe\s(?P<sever>.*?)\s.*)'
   event-key-format: '{action}-{status}'
   event-key-mapping:
     'login-failed':
