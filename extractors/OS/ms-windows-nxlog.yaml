@@ -434,6 +434,136 @@ event-details:
         SubjectUserName: User  
         TargetUserName: TargetUser
         Role: Role 
+    '4719':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED    
+      translate:  
+        SubjectUserName: User  
+        Config: Config 
+    '4715':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED    
+      translate:  
+        SubjectUserName: User  
+        Config: Config     
+    '4907':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED    
+      translate:  
+        SubjectUserName: User  
+        Config: Config 
+    '4713':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED    
+      translate:  
+        SubjectUserName: User  
+        Config: Config           
+    '4717':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED    
+      translate:  
+        SubjectUserName: User  
+        Config: Config  
+    '4718':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED    
+      translate:  
+        SubjectUserName: User  
+        Config: Config 
+    '4704':
+      annotate:
+        Stream: IAM
+        Action: USER_RIGHT_ASSIGNED
+        Status: PASSED    
+      translate:  
+        SubjectUserName: User  
+        TargetUserName: TargetUser
+        Role: Role
+    '4705':
+      annotate:
+        Stream: IAM
+        Action: USER_RIGHT_REMOVED
+        Status: PASSED    
+      translate:  
+        SubjectUserName: User  
+        TargetUserName: TargetUser
+        Role: Role         
+    '4714':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED    
+      translate:  
+        SubjectUserName: User  
+        Config: Config 
+    '4946':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED    
+      translate:  
+        SubjectUserName: User  
+        Config: Config 
+    '4947':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED    
+      translate:  
+        SubjectUserName: User  
+        Config: Config 
+    '4948':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED    
+      translate:  
+        SubjectUserName: User  
+        Config: Config 
+    '4950':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED    
+      translate:  
+        SubjectUserName: User  
+        Config: Config   
+    '4954':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED    
+      translate:  
+        SubjectUserName: User  
+        Config: Config   
+    '4956':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED    
+      translate:  
+        SubjectUserName: User  
+        Config: Config
+    '4670':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED    
+      translate:  
+        SubjectUserName: User  
+        Config: Config                                                 
     '4649':
       annotate:
         Stream: THREAT
