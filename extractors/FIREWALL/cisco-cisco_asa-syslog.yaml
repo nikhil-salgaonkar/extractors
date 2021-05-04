@@ -706,17 +706,6 @@ event-details:
         dst: DstIP
         user: User
         threat: Threat 
-    'UDP Snork attack': 
-      annotate:
-        Stream: THREAT
-        Action: THREAT_DETECTED
-        Status: PASSED
-        Vector: WEB
-      translate:
-        src: SrcIP
-        dst: DstIP
-        user: User
-        threat: Threat 
     'UDP Chargen DoS attack':
       annotate:
         Stream: THREAT
