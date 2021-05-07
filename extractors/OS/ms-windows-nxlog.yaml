@@ -1,7 +1,7 @@
 schema-version: 1.0
 #extractor-version: 1 
 extractor-id: 128
-integration: NXLog
+integration: syslog
 vendor-name: Microsoft
 product-name: Windows
 source-name: WINDOWS
@@ -14,9 +14,11 @@ provides-streams:
 - SYSMON-FILE
 - SYSMON-REGISTRY
 - SYSMON-IMAGE-LOAD
+- CONFIGURATION
+- THREAT
 - IAM
 master-filters:
-- \"SourceName\"\:\"Microsoft\-Windows
+- \"SourceName\"\:\"(?:Microsoft\-Windows|Security)
 event-details:  
 - first-match: \"SourceName\"\:\s*\"Microsoft-Windows-Security-Auditing\"
   decoder: json
@@ -30,6 +32,7 @@ event-details:
       translate: 
         SubjectUserName: User
         TargetUserName: TargetUser
+        Role: Role
     '4625': 
       annotate:
         Stream: AUTHENTICATION
@@ -49,7 +52,6 @@ event-details:
         TargetUserName: User
         IpAddress: SrcIP
         AuthenticationPackageName: AuthProto
-        SubStatus: Reason
     '4634':
       annotate:
         Stream: AUTHENTICATION
@@ -77,7 +79,6 @@ event-details:
         TargetUserName: User
         IpAddress: SrcIP
         AuthenticationPackageName: AuthProto
-        SubStatus: Reason
     '4776':         
       annotate:
         Stream: AUTHENTICATION
@@ -87,7 +88,6 @@ event-details:
         TargetUserName: User
         IpAddress: SrcIP
         AuthenticationPackageName: AuthProto
-        SubStatus: Reason
     '4778':
       annotate:
         Stream: AUTHENTICATION
@@ -97,7 +97,6 @@ event-details:
         ClientAddress: SrcIP
         AccountName: User
         AuthenticationPackageName: AuthProto
-        SubStatus: Reason
     '4741':         
       annotate:
         Stream: IAM
@@ -106,6 +105,7 @@ event-details:
       translate: 
         SubjectUserName: User
         TargetUserName: TargetUser
+        Role: Role
     '4722':          
       annotate:
         Stream: IAM
@@ -114,6 +114,7 @@ event-details:
       translate: 
         SubjectUserName: User
         TargetUserName: TargetUser
+        Role: Role
     '4723':         
       annotate:
         Stream: IAM
@@ -122,6 +123,7 @@ event-details:
       translate: 
         SubjectUserName: User
         TargetUserName: TargetUser
+        Role: Role
     '4724':         
       annotate:
         Stream: IAM
@@ -130,6 +132,7 @@ event-details:
       translate: 
         SubjectUserName: User
         TargetUserName: TargetUser
+        Role: Role
     '4725':         
       annotate:
         Stream: IAM
@@ -138,6 +141,7 @@ event-details:
       translate:  
         SubjectUserName: User
         TargetUserName: TargetUser
+        Role: Role
     '4726':         
       annotate:
         Stream: IAM
@@ -146,6 +150,7 @@ event-details:
       translate:
         SubjectUserName: User
         TargetUserName: TargetUser
+        Role: Role
     '4738':            
       annotate:
         Stream: IAM
@@ -154,6 +159,7 @@ event-details:
       translate: 
         SubjectUserName: User
         TargetUserName: TargetUser
+        Role: Role
     '4740':           
       annotate:
         Stream: IAM
@@ -162,6 +168,7 @@ event-details:
       translate:  
         SubjectUserName: User
         TargetUserName: TargetUser
+        Role: Role
     '4767':          
       annotate:
         Stream: IAM
@@ -170,6 +177,7 @@ event-details:
       translate:  
         SubjectUserName: User
         TargetUserName: TargetUser
+        Role: Role
     '4742':            
       annotate:
         Stream: IAM
@@ -178,6 +186,7 @@ event-details:
       translate: 
         SubjectUserName: User
         TargetUserName: TargetUser
+        Role: Role
     '4743':           
       annotate:
         Stream: IAM
@@ -186,6 +195,7 @@ event-details:
       translate:  
         SubjectUserName: User
         TargetUserName: TargetUser
+        Role: Role
     '4731':         
       annotate:
         Stream: IAM
@@ -194,6 +204,7 @@ event-details:
       translate: 
         SubjectUserName: User
         TargetUserName: TargetUser
+        Role: Role
     '4732':         
       annotate:
         Stream: IAM
@@ -202,6 +213,7 @@ event-details:
       translate: 
         SubjectUserName: User
         TargetUserName: TargetUser
+        Role: Role
     '4733':         
       annotate:
         Stream: IAM
@@ -210,6 +222,7 @@ event-details:
       translate: 
         SubjectUserName: User
         TargetUserName: TargetUser
+        Role: Role
     '4756':         
       annotate:
         Stream: IAM
@@ -218,6 +231,7 @@ event-details:
       translate:  
         SubjectUserName: User
         TargetUserName: TargetUser
+        Role: Role
     '4672':          
       annotate:
         Stream: IAM
@@ -225,7 +239,8 @@ event-details:
         Status: PASSED    
       translate:  
         SubjectUserName: User
-        TargetUserName: TargetUser 
+        TargetUserName: TargetUser
+        Role: Role 
     '4779':          
       annotate:
         Stream: AUTHENTICATION
@@ -243,6 +258,7 @@ event-details:
       translate:  
         SubjectUserName: User
         TargetUserName: TargetUser
+        Role: Role
     '4674': 
       annotate:
         Stream: IAM
@@ -251,6 +267,7 @@ event-details:
       translate:  
         SubjectUserName: User 
         TargetUserName: TargetUser
+        Role: Role
     '5140':    
       annotate:
         Stream: IAM
@@ -259,6 +276,309 @@ event-details:
       translate:  
         SubjectUserName: User  
         TargetUserName: TargetUser
+        Role: Role
+    '4739':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED    
+      translate:  
+        SubjectUserName: User  
+        Config: Config
+    '4782':
+      annotate:
+        Stream: IAM
+        Action: ACCOUNT_PASSWORD_HASH_ACCESSED
+        Status: PASSED    
+      translate:  
+        SubjectUserName: User  
+        TargetUserName: TargetUser
+        Role: Role
+    '4727':
+      annotate:
+        Stream: IAM
+        Action: SECURITY_GLOBAL_GROUP_CREATED
+        Status: PASSED    
+      translate:  
+        SubjectUserName: User  
+        TargetUserName: TargetUser
+        Role: Role
+    '4728':
+      annotate:
+        Stream: IAM
+        Action: SECURITY_GLOBAL_GROUP_MEMBER_ADDED
+        Status: PASSED    
+      translate:  
+        SubjectUserName: User  
+        TargetUserName: TargetUser
+        Role: Role 
+    '4729':
+      annotate:
+        Stream: IAM
+        Action: SECURITY_GLOBAL_GROUP_MEMBER_REMOVED
+        Status: PASSED    
+      translate:  
+        SubjectUserName: User  
+        TargetUserName: TargetUser
+        Role: Role   
+    '4730':
+      annotate:
+        Stream: IAM
+        Action: SECURITY_GLOBAL_GROUP_DELETED
+        Status: PASSED    
+      translate:  
+        SubjectUserName: User  
+        TargetUserName: TargetUser
+        Role: Role
+    '4731':
+      annotate:
+        Stream: IAM
+        Action: SECURITY_LOCAL_GROUP_CREATED
+        Status: PASSED    
+      translate:  
+        SubjectUserName: User  
+        TargetUserName: TargetUser    
+        Role: Role 
+    '4732':
+      annotate:
+        Stream: IAM
+        Action: SECURITY_LOCAL_GROUP_MEMBER_ADDED
+        Status: PASSED    
+      translate:  
+        SubjectUserName: User  
+        TargetUserName: TargetUser
+        Role: Role 
+    '4733':
+      annotate:
+        Stream: IAM
+        Action: SECURITY_LOCAL_GROUP_MEMBER_REMOVED
+        Status: PASSED    
+      translate:  
+        SubjectUserName: User  
+        TargetUserName: TargetUser
+        Role: Role   
+    '4734':
+      annotate:
+        Stream: IAM
+        Action: SECURITY_LOCAL_GROUP_DELETED
+        Status: PASSED    
+      translate:  
+        SubjectUserName: User  
+        TargetUserName: TargetUser
+        Role: Role
+    '4735':
+      annotate:
+        Stream: IAM
+        Action: SECURITY_LOCAL_GROUP_CHANGED
+        Status: PASSED    
+      translate:  
+        SubjectUserName: User  
+        TargetUserName: TargetUser    
+        Role: Role 
+    '4737':
+      annotate:
+        Stream: IAM
+        Action: SECURITY_GLOBAL_GROUP_CHANGED
+        Status: PASSED    
+      translate:  
+        SubjectUserName: User  
+        TargetUserName: TargetUser
+        Role: Role 
+    '4754':
+      annotate:
+        Stream: IAM
+        Action: SECURITY_UNIVERSAL_GROUP_CREATED
+        Status: PASSED    
+      translate:  
+        SubjectUserName: User  
+        TargetUserName: TargetUser
+        Role: Role   
+    '4755':
+      annotate:
+        Stream: IAM
+        Action: SECURITY_UNIVERSAL_GROUP_CHANGED
+        Status: PASSED    
+      translate:  
+        SubjectUserName: User  
+        TargetUserName: TargetUser  
+        Role: Role 
+    '4756':
+      annotate:
+        Stream: IAM
+        Action: SECURITY_UNIVERSAL_GROUP_MEMBER_ADDED
+        Status: PASSED    
+      translate:  
+        SubjectUserName: User  
+        TargetUserName: TargetUser
+        Role: Role 
+    '4757':
+      annotate:
+        Stream: IAM
+        Action: SECURITY_UNIVERSAL_GROUP_MEMBER_REMOVED
+        Status: PASSED    
+      translate:  
+        SubjectUserName: User  
+        TargetUserName: TargetUser
+        Role: Role   
+    '4758':
+      annotate:
+        Stream: IAM
+        Action: SECURITY_UNIVERSAL_GROUP_DELETED
+        Status: PASSED    
+      translate:  
+        SubjectUserName: User  
+        TargetUserName: TargetUser 
+        Role: Role        
+    '4781':
+      annotate:
+        Stream: IAM
+        Action: ACCOUNT_NAME_CHANGED
+        Status: PASSED    
+      translate:  
+        SubjectUserName: User  
+        TargetUserName: TargetUser
+        Role: Role 
+    '4719':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED    
+      translate:  
+        SubjectUserName: User  
+        Config: Config 
+    '4715':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED    
+      translate:  
+        SubjectUserName: User  
+        Config: Config     
+    '4907':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED    
+      translate:  
+        SubjectUserName: User  
+        Config: Config 
+    '4713':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED    
+      translate:  
+        SubjectUserName: User  
+        Config: Config           
+    '4717':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED    
+      translate:  
+        SubjectUserName: User  
+        Config: Config  
+    '4718':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED    
+      translate:  
+        SubjectUserName: User  
+        Config: Config 
+    '4704':
+      annotate:
+        Stream: IAM
+        Action: USER_RIGHT_ASSIGNED
+        Status: PASSED    
+      translate:  
+        SubjectUserName: User  
+        TargetUserName: TargetUser
+        Role: Role
+    '4705':
+      annotate:
+        Stream: IAM
+        Action: USER_RIGHT_REMOVED
+        Status: PASSED    
+      translate:  
+        SubjectUserName: User  
+        TargetUserName: TargetUser
+        Role: Role         
+    '4714':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED    
+      translate:  
+        SubjectUserName: User  
+        Config: Config 
+    '4946':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED    
+      translate:  
+        SubjectUserName: User  
+        Config: Config 
+    '4947':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED    
+      translate:  
+        SubjectUserName: User  
+        Config: Config 
+    '4948':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED    
+      translate:  
+        SubjectUserName: User  
+        Config: Config 
+    '4950':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED    
+      translate:  
+        SubjectUserName: User  
+        Config: Config   
+    '4954':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED    
+      translate:  
+        SubjectUserName: User  
+        Config: Config   
+    '4956':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED    
+      translate:  
+        SubjectUserName: User  
+        Config: Config
+    '4670':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED    
+      translate:  
+        SubjectUserName: User  
+        Config: Config                                                 
+    '4649':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED   
+        Vector: NETWORK
+        Threat: A replay attack was detected. 
+      translate:  
+        SubjectUserName: User  
+        SrcIP: SrcIP
+        DstIP: DstIP                               
 
   fallback:
     annotate:
@@ -411,3 +731,127 @@ event-details:
     translate:
       EventTime: SystemTstamp
       Hostname: System
+
+- first-match: \"SourceName\"\:\"Security\"
+  decoder: json
+  event-key-format: '{EventID}'
+  event-key-mapping:
+    '528': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate: 
+        AccountName: User
+        IpAddress: SrcIP
+        AuthenticationPackageName: AuthProto
+    '552': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate: 
+        AccountName: User
+        IpAddress: SrcIP
+        AuthenticationPackageName: AuthProto
+    '538': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+      translate: 
+        AccountName: User
+        IpAddress: SrcIP
+        AuthenticationPackageName: AuthProto
+    '551': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+      translate: 
+        AccountName: User
+        IpAddress: SrcIP
+        AuthenticationPackageName: AuthProto
+    '540': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate: 
+        AccountName: User
+        IpAddress: SrcIP
+        AuthenticationPackageName: AuthProto
+    '680': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate: 
+        AccountName: User
+        IpAddress: SrcIP
+        AuthenticationPackageName: AuthProto
+    '682': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate: 
+        AccountName: User
+        IpAddress: SrcIP
+        AuthenticationPackageName: AuthProto
+    '683': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate: 
+        AccountName: User
+        IpAddress: SrcIP
+        AuthenticationPackageName: AuthProto
+        SubStatus: Reason             
+    '576': 
+      annotate:
+        Stream: IAM
+        Action: PRIVILEGE_SET
+        Status: PASSED
+      translate: 
+        AccountName: User
+        TargetUser: TargetUser
+        Role: Role
+    '644':           
+      annotate:
+        Stream: IAM
+        Action: USER_ACCOUNT_LOCKOUT
+        Status: PASSED    
+      translate:  
+        AccountName: User
+        TargetUser: TargetUser
+        Role: Role 
+    '624':           
+      annotate:
+        Stream: IAM
+        Action: USER_ACCOUNT_CREATED
+        Status: PASSED    
+      translate:  
+        AccountName: User
+        TargetUser: TargetUser
+        Role: Role        
+    '646':           
+      annotate:
+        Stream: IAM
+        Action: USER_ACCOUNT_CHANGED
+        Status: PASSED    
+      translate:  
+        AccountName: User
+        TargetUser: TargetUser
+        Role: Role            
+
+  fallback:
+    annotate:
+      EventName: Generic Windows Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      EventTime: SystemTstamp
+      Hostname: System        
