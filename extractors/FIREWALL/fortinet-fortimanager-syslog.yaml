@@ -9,43 +9,107 @@ source-type: FIREWALL
 source-description: Extractor for FortiManager Firewall Events
 provides-streams:
 - AUTHENTICATION
+- CONFIGURATION
 master-filters:
-- 'device\_id\=FM[\w\-]+\s+log\_id\='
+- 'device\_id\=FM[\w\-]+\s+log\_id\=\d{2}(?:01|02|03|04|05|06|07|08|09|10|11|12|13|14|15|16|17|18|19|20|21|22|23|25|26|27)\d{6}'
 event-details:
-- first-match: 'log_id\=\"?\d+\"?'
-  decoder: regex
-  decoder-regex: '(?P<datetime>date\=\w{4}\-\w{2}\-\w{2}\s+time\=\d{2}\:\d{2}\:\d{2})\s+devname\=(?P<devname>\S+)\s+device_id\=(?P<device_id>\S+)\s+log_id\=(?P<log_id>\d+)\s+type\=(?P<type>\w+)\s+subtype\=(?P<subtype>\w+)\s+pri\=(?P<pri>\w+)\s+desc\=\"(?P<desc>.*?)\"(?:\s+user\=\"(?P<user>\S+)\")?(?:\s+userfrom\=\"(?P<authproto>\w+)\((?P<src>[\d\.]+)\)\")?(?:\s+msg\=\"(?P<msg>.*?reason:(?P<reason>.*?))\")?(?:\s+adminprof\=\"(?P<adminprof>.*?)\")?(?:.*?action\=\"(?P<action>.*?)\")?'
-  event-key-format: '{log_id}-{action}'
+- first-match: 'log_id\=\"?\d+\"?\s+type=event\s+subtype\=system'
+  decoder: custom
+  decoder-regex: '([\w]+)\=(?:\"\w+\(([\d\.]+)\)\"|\"([^\"]*)\"|([^\s]*))?'
+  event-key-format: '{desc}'
   event-key-mapping:
-    '0001010018-None':
+    'User login/logout successful':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN 
         Status: PASSED
       translate:
-        src: SrcIP
-        authproto: AuthProto
+        userfrom: SrcIP
         user: User 
-    '0028037013-fail':
-      annotate:
-        Stream: AUTHENTICATION
-        Action: LOGIN
-        Status: FAILED
-        Reason: INVALID_USER
-      translate:
-        src: SrcIP
-        authproto: AuthProto
-        user: User
-    '0001010019-None':
+        AuthProto: AuthProto
+    'User login/logout failed':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
       translate:
-        src: SrcIP
-        reason: Reason
-        authproto: AuthProto
+        userfrom: SrcIP
         user: User
+        msg: Reason
+        AuthProto: AuthProto
+
+  fallback:
+    annotate:
+      EventName: Generic FortiManager Firewall Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      devname: System
+
+
+- first-match: 'log_id\=\"?\d+\"?\s+type=event\s+subtype\=dm'
+  decoder: custom
+  decoder-regex: '([\w]+)\=(?:\"\w+\(([\d\.]+)\)\"|\"([^\"]*)\"|([^\s]*))?'
+  event-key-format: '{log_id}-{subtype}'
+  event-key-mapping:
+    '0012021009-dm':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        user: User
+        desc: Config
+    '0012021010-dm':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        user: User
+        desc: Config
+    '0012021013-dm':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        user: User
+        desc: Config
+    '0012021014-dm':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        user: User
+        desc: Config
+    '0012021016-dm':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        user: User
+        desc: Config
+    '0012021017-dm':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_DOWNLOADED
+        Status: PASSED
+      translate:
+        user: User
+        desc: Config
+    '0012021015-dm':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_INSTALLED
+        Status: PASSED
+      translate:
+        user: User
+        desc: Config
 
   fallback:
     annotate:
