@@ -32,7 +32,7 @@ event-details:
         fname: File
         dst: DstIP
         request: URL
-        cs4: Process
+        Process: Process
     'domain-match':           
       annotate:
         Stream: THREAT
@@ -47,7 +47,7 @@ event-details:
         fname: File
         dst: DstIP
         request: URL
-        cs4: Process
+        Process: Process
     'ExD Hit Found':           
       annotate:
         Stream: THREAT
@@ -77,7 +77,7 @@ event-details:
         fname: File
         dst: DstIP
         request: URL
-        cs4: Process
+        Process: Process
     'Malware Hit Found':           
       annotate:
         Stream: THREAT
@@ -107,6 +107,7 @@ event-details:
         fname: File
         dst: DstIP
         request: URL
+        Process: Process
     'malware-object':           
       annotate:
         Stream: THREAT
@@ -121,7 +122,7 @@ event-details:
         fname: File
         dst: DstIP
         request: URL
-        cs4: Process
+        Process: Process
     'malware-callback':           
       annotate:
         Stream: THREAT
@@ -136,7 +137,7 @@ event-details:
         fname: File
         dst: DstIP
         request: URL
-        cs4: Process
+        Process: Process
     'riskware-callback':           
       annotate:
         Stream: THREAT
@@ -151,7 +152,7 @@ event-details:
         fname: File
         dst: DstIP
         request: URL
-        cs4: Process
+        Process: Process
     'riskware-infection':
       annotate:
         Stream: THREAT
@@ -166,7 +167,7 @@ event-details:
         fname: File
         dst: DstIP
         request: URL
-        cs4: Process
+        Process: Process
     'riskware-object':           
       annotate:
         Stream: THREAT
@@ -181,7 +182,7 @@ event-details:
         fname: File
         dst: DstIP
         request: URL
-        cs4: Process
+        Process: Process
     'ips-event':           
       annotate:
         Stream: THREAT
@@ -196,7 +197,7 @@ event-details:
         fname: File
         dst: DstIP
         request: URL
-        cs4: Process
+        Process: Process
     'malicious email':           
       annotate:
         Stream: THREAT
@@ -211,6 +212,7 @@ event-details:
         fname: File
         dst: DstIP
         request: URL
+        Process: Process
     'FireEye Acquisition Completed':
       annotate:
         Stream: THREAT
@@ -225,6 +227,7 @@ event-details:
         fname: File
         dst: DstIP
         request: URL
+        Process: Process
     'FireEye Acquisition Queued':
       annotate:
         Stream: THREAT
@@ -239,6 +242,7 @@ event-details:
         fname: File
         dst: DstIP
         request: URL
+        Process: Process
     'IOC Hit Found':           
       annotate:
         Stream: THREAT
@@ -253,6 +257,7 @@ event-details:
         fname: File
         dst: DstIP
         request: URL
+        Process: Process
     'FireEye Acquisition Failed':
       annotate:
         Stream: THREAT
@@ -267,6 +272,7 @@ event-details:
         fname: File
         dst: DstIP
         request: URL
+        Process: Process
     'FireEye Acquisition Started':
       annotate:
         Stream: THREAT
@@ -281,6 +287,7 @@ event-details:
         fname: File
         dst: DstIP
         request: URL
+        Process: Process
     'FireEye Quarantine Completed':
       annotate:
         Stream: THREAT
@@ -295,6 +302,7 @@ event-details:
         fname: File
         dst: DstIP
         request: URL
+        Process: Process
     'FireEye Quarantine Failed':
       annotate:
         Stream: THREAT
@@ -309,6 +317,7 @@ event-details:
         fname: File
         dst: DstIP
         request: URL
+        Process: Process
 
   fallback:
     annotate:
