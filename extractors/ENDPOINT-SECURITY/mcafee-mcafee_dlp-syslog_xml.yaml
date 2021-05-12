@@ -1,0 +1,226 @@
+schema-version: 1.0
+#extractor-version: 1 
+extractor-id: 805
+integration: Syslog
+vendor-name: McAfee
+product-name: McAfee DLP
+source-name: MCAFEE-DLP
+source-type: ENDPOINT-SECURITY
+source-description: Extractor for McAfee DLP Events
+provides-streams:
+- THREAT
+- AUTHENTICATION
+master-filters:
+- '^(?:\<\d+\>)?\d?\s?\d{4}\-\d{1,2}\-\d{2}T\d{2}\:\d{2}\:\d{2}\.\w+\s+\S+\s+EPOEvents\s+\-\s+EventFwd\s+\['
+event-details:
+- first-match: '\<EventID\>\d+\<\/EventID\>'
+  decoder: regex
+  decoder-regex: '^(?:\<\d+\>)?\d?\s?(?P<datetime>\d{4}\-\d{1,2}\-\d{2}T\d{2}\:\d{2}\:\d{2})\.\w+\s+(?P<hostname>\S+)\s+EPOEvents\s+\-\s+EventFwd.*?<MachineInfo>(?:<AgentGUID>[^>]+\>)?(?:<MachineName>[^>]+\>)?(?:<RawMACAddress>[^>]+\>)?.*?<IPAddress>(?P<src>\S+)</IPAddress>(?:<AgentVersion>[^>]+\>)?<OSName>[^>]+\>(?:<TimeZoneBias>[^>]+\>)?<UserName>(?P<user>\S+|)</UserName>.*?<EventID>(?P<event_id>\d+)</EventID>(?:.*?<Type>(?P<action>User\s+(?:logon|logoff)?)\:\s+(?P<reason>.*?)</Type>)?(?:.*?<GMTTime>[^>]+\>)?(?:<OPGData>[^>]+\>)?(?:<UserInfo>[^>]+\>)?(?:<ThreatName>(?P<threat>.*?)</ThreatName>)?'
+  event-key-format: '{event_id}-{reason}'
+  event-key-mapping:  
+    '220000-User switch successful': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate: 
+        AuthProto: AuthProto
+        src: SrcIP
+        user: User
+    '220000-SSH logon successful': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+        AuthProto: SSH
+      translate: 
+        src: SrcIP
+        user: User 
+    '220000-GUI logon successful': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate: 
+        AuthProto: AuthProto
+        src: SrcIP
+        user: User     
+    '220000-Appliance console logon successful': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate: 
+        AuthProto: AuthProto
+        src: SrcIP
+        user: User             
+    '220000-User switch failed': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate: 
+        AuthProto: AuthProto
+        src: SrcIP
+        user: User 
+        reason: Reaaon
+    '220000-GUI logon failed': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate: 
+        AuthProto: AuthProto
+        src: SrcIP
+        user: User 
+        reason: Reaaon 
+    '220000-SSH logon failed': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+        AuthProto: SSH
+      translate: 
+        src: SrcIP
+        user: User 
+        reason: Reaaon        
+    '220000-Appliance console logon failed': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate: 
+        AuthProto: AuthProto
+        src: SrcIP
+        user: User 
+        reason: Reaaon 
+    '220001-GUI user logged off': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+      translate: 
+        AuthProto: AuthProto
+        src: SrcIP
+        user: User          
+    '220001-The user logged off': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+      translate: 
+        AuthProto: AuthProto
+        src: SrcIP
+        user: User
+    '220001-The session has expired': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+      translate: 
+        AuthProto: AuthProto
+        src: SrcIP
+        user: User 
+    '220001-The SSH user logged off': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED 
+        AuthProto: SSH
+      translate:
+        src: SrcIP
+        user: User 
+    '220001-The appliance console user logged off': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+      translate:
+        AuthProto: AuthProto
+        src: SrcIP
+        user: User            
+    '19114-None': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate: 
+        src: SrcIP
+        dst: DstIP
+        threat: Threat
+        File: File
+        Process: Process
+        CommmandLine: CommmandLine
+        URL: URL
+        user: User
+    '19108-None': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate: 
+        src: SrcIP
+        dst: DstIP
+        threat: Threat
+        File: File
+        Process: Process
+        CommmandLine: CommmandLine
+        URL: URL
+        user: User
+    '19111-None': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate: 
+        src: SrcIP
+        dst: DstIP
+        threat: Threat
+        File: File
+        Process: Process
+        CommmandLine: CommmandLine
+        URL: URL
+        user: User
+    '19112-None': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate: 
+        src: SrcIP
+        dst: DstIP
+        threat: Threat
+        File: File
+        Process: Process
+        CommmandLine: CommmandLine
+        URL: URL
+        user: User  
+    '19115-None': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate: 
+        src: SrcIP
+        dst: DstIP
+        threat: Threat
+        File: File
+        Process: Process
+        CommmandLine: CommmandLine
+        URL: URL
+        user: User                        
+        
+  fallback:
+    annotate:
+      EventName: Generic McAfee DLP Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System
