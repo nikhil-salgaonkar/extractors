@@ -234,13 +234,34 @@ event-details:
         Role: Role
     '4672':          
       annotate:
-        Stream: IAM
-        Action: PRIVILEGE_SET
+        Stream: WIN-AUDIT
+        Action: PRIVILEGE_ASSIGNED
         Status: PASSED    
-      translate:  
-        SubjectUserName: User
-        TargetUserName: TargetUser
-        Role: Role 
+      translate: 
+        Category: Category 
+        SubjectUserName: User 
+        Object: Object 
+        SrcIP: SrcIP
+    '4673':          
+      annotate:
+        Stream: WIN-AUDIT
+        Action: PRIVILEGED_SERVICE_CALLED
+        Status: PASSED    
+      translate: 
+        Category: Category 
+        SubjectUserName: User 
+        Object: Object 
+        SrcIP: SrcIP 
+    '4674':          
+      annotate:
+        Stream: WIN-AUDIT
+        Action: PRIVILEGE_OBJECT_ACCESSED
+        Status: PASSED    
+      translate: 
+        Category: Category 
+        SubjectUserName: User 
+        Object: Object 
+        SrcIP: SrcIP        
     '4779':          
       annotate:
         Stream: AUTHENTICATION
@@ -262,7 +283,7 @@ event-details:
     '4674': 
       annotate:
         Stream: IAM
-        Action: PRIVILEGE_OBJECT_ACCESS
+        Action: PRIVILEGE_OBJECT_ACCESSED
         Status: PASSED    
       translate:  
         SubjectUserName: User 
@@ -270,21 +291,23 @@ event-details:
         Role: Role
     '5140':    
       annotate:
+        Stream: WIN-AUDIT
+        Action: NETWORK_SHARE_OBJECT_ACCESSED
+        Status: PASSED    
+      translate: 
+        Category: Category 
+        SubjectUserName: User 
+        Object: Object 
+        SrcIP: SrcIP
+    '4739':
+      annotate:
         Stream: IAM
-        Action: NETWORK_SHARE_ACCESSED
+        Action: DOMAIN_POLICY_CHANGED
         Status: PASSED    
       translate:  
         SubjectUserName: User  
         TargetUserName: TargetUser
         Role: Role
-    '4739':
-      annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED    
-      translate:  
-        SubjectUserName: User  
-        Config: Config
     '4782':
       annotate:
         Stream: IAM
@@ -440,134 +463,254 @@ event-details:
         Role: Role 
     '4719':
       annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Stream: WIN-AUDIT
+        Action: AUDIT_POLICY_CHANGED
         Status: PASSED    
-      translate:  
-        SubjectUserName: User  
-        Config: Config 
+      translate: 
+        Category: Category 
+        SubjectUserName: User 
+        Object: Object 
+        SrcIP: SrcIP
+    '4906':
+      annotate:
+        Stream: WIN-AUDIT
+        Action: AUDIT_POLICY_CHANGED
+        Status: PASSED    
+      translate: 
+        Category: Category 
+        SubjectUserName: User 
+        Object: Object 
+        SrcIP: SrcIP     
+    '4902':
+      annotate:
+        Stream: WIN-AUDIT
+        Action: AUDIT_POLICY_TABLE_CREATED
+        Status: PASSED    
+      translate: 
+        Category: Category 
+        SubjectUserName: User 
+        Object: Object 
+        SrcIP: SrcIP     
     '4715':
       annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Stream: WIN-AUDIT
+        Action: AUDIT_POLICY_OBJECT_CHANGED
         Status: PASSED    
-      translate:  
-        SubjectUserName: User  
-        Config: Config     
+      translate: 
+        Category: Category 
+        SubjectUserName: User 
+        Object: Object 
+        SrcIP: SrcIP     
     '4907':
       annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Stream: WIN-AUDIT
+        Action: AUDIT_POLICY_OBJECT_CHANGED
         Status: PASSED    
-      translate:  
-        SubjectUserName: User  
-        Config: Config 
+      translate: 
+        Category: Category 
+        SubjectUserName: User 
+        Object: Object 
+        SrcIP: SrcIP
+    '4706':
+      annotate:
+        Stream: WIN-AUDIT
+        Action: AUDIT_POLICY_DOMAIN_CREATED
+        Status: PASSED    
+      translate: 
+        Category: Category 
+        SubjectUserName: User 
+        Object: Object 
+        SrcIP: SrcIP 
+    '4707':
+      annotate:
+        Stream: WIN-AUDIT
+        Action: AUDIT_POLICY_DOMAIN_REMOVED
+        Status: PASSED    
+      translate: 
+        Category: Category 
+        SubjectUserName: User 
+        Object: Object 
+        SrcIP: SrcIP         
     '4713':
       annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Stream: WIN-AUDIT
+        Action: KERBEROS_POLICY_CHANGED
         Status: PASSED    
-      translate:  
-        SubjectUserName: User  
-        Config: Config           
+      translate: 
+        Category: Category 
+        SubjectUserName: User 
+        Object: Object 
+        SrcIP: SrcIP  
+    '4716':
+      annotate:
+        Stream: WIN-AUDIT
+        Action: AUDIT_POLICY_CHANGED
+        Status: PASSED    
+      translate: 
+        Category: Category 
+        SubjectUserName: User 
+        Object: Object 
+        SrcIP: SrcIP                
     '4717':
       annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Stream: WIN-AUDIT
+        Action: SYSTEM_SECURITY_ACCESSED_GRANTED  
         Status: PASSED    
-      translate:  
-        SubjectUserName: User  
-        Config: Config  
+      translate: 
+        Category: Category 
+        SubjectUserName: User 
+        Object: Object 
+        SrcIP: SrcIP
     '4718':
       annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Stream: WIN-AUDIT
+        Action: SYSTEM_SECURITY_ACCESSED_REMOVED 
         Status: PASSED    
-      translate:  
-        SubjectUserName: User  
-        Config: Config 
+      translate: 
+        Category: Category 
+        SubjectUserName: User 
+        Object: Object 
+        SrcIP: SrcIP
     '4704':
       annotate:
-        Stream: IAM
+        Stream: WIN-AUDIT
         Action: USER_RIGHT_ASSIGNED
         Status: PASSED    
       translate:  
-        SubjectUserName: User  
-        TargetUserName: TargetUser
-        Role: Role
+        Category: Category 
+        SubjectUserName: User 
+        Object: Object 
+        SrcIP: SrcIP
     '4705':
       annotate:
-        Stream: IAM
+        Stream: WIN-AUDIT
         Action: USER_RIGHT_REMOVED
         Status: PASSED    
       translate:  
-        SubjectUserName: User  
-        TargetUserName: TargetUser
-        Role: Role         
+        Category: Category 
+        SubjectUserName: User 
+        Object: Object 
+        SrcIP: SrcIP        
     '4714':
       annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Stream: WIN-AUDIT
+        Action: AUDIT_POLICY_CHANGED 
         Status: PASSED    
-      translate:  
-        SubjectUserName: User  
-        Config: Config 
+      translate: 
+        Category: Category 
+        SubjectUserName: User 
+        Object: Object 
+        SrcIP: SrcIP
     '4946':
       annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Stream: WIN-AUDIT
+        Action: AUDIT_POLICY_ADDED
         Status: PASSED    
-      translate:  
-        SubjectUserName: User  
-        Config: Config 
+      translate: 
+        Category: Category 
+        SubjectUserName: User 
+        Object: Object 
+        SrcIP: SrcIP
     '4947':
       annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Stream: WIN-AUDIT
+        Action: AUDIT_POLICY_CHANGED
         Status: PASSED    
-      translate:  
-        SubjectUserName: User  
-        Config: Config 
+      translate: 
+        Category: Category 
+        SubjectUserName: User 
+        Object: Object 
+        SrcIP: SrcIP
     '4948':
       annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Stream: WIN-AUDIT
+        Action: AUDIT_POLICY_REMOVED
         Status: PASSED    
-      translate:  
-        SubjectUserName: User  
-        Config: Config 
+      translate: 
+        Category: Category 
+        SubjectUserName: User 
+        Object: Object 
+        SrcIP: SrcIP
     '4950':
       annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Stream: WIN-AUDIT
+        Action: AUDIT_POLICY_CHANGED
         Status: PASSED    
-      translate:  
-        SubjectUserName: User  
-        Config: Config   
+      translate: 
+        Category: Category 
+        SubjectUserName: User 
+        Object: Object 
+        SrcIP: SrcIP 
     '4954':
       annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Stream: WIN-AUDIT
+        Action: AUDIT_POLICY_CHANGED
         Status: PASSED    
-      translate:  
-        SubjectUserName: User  
-        Config: Config   
+      translate: 
+        Category: Category 
+        SubjectUserName: User 
+        Object: Object 
+        SrcIP: SrcIP    
     '4956':
       annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Stream: WIN-AUDIT
+        Action: AUDIT_POLICY_CHANGED
         Status: PASSED    
-      translate:  
-        SubjectUserName: User  
-        Config: Config
+      translate: 
+        Category: Category 
+        SubjectUserName: User 
+        Object: Object 
+        SrcIP: SrcIP
+    '4957':
+      annotate:
+        Stream: WIN-AUDIT
+        Action: AUDIT_POLICY_CHANGED
+        Status: PASSED    
+      translate: 
+        Category: Category 
+        SubjectUserName: User 
+        Object: Object 
+        SrcIP: SrcIP
+    '4958':
+      annotate:
+        Stream: WIN-AUDIT
+        Action: AUDIT_POLICY_CHANGED
+        Status: PASSED    
+      translate: 
+        Category: Category 
+        SubjectUserName: User 
+        Object: Object 
+        SrcIP: SrcIP    
+    '6144':
+      annotate:
+        Stream: WIN-AUDIT
+        Action: AUDIT_POLICY_OBJECT_CHANGED
+        Status: PASSED    
+      translate: 
+        Category: Category 
+        SubjectUserName: User 
+        Object: Object 
+        SrcIP: SrcIP
+    '6145':
+      annotate:
+        Stream: WIN-AUDIT
+        Action: AUDIT_POLICY_OBJECT_CHANGED
+        Status: PASSED    
+      translate: 
+        Category: Category 
+        SubjectUserName: User 
+        Object: Object 
+        SrcIP: SrcIP                
     '4670':
       annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Stream: WIN-AUDIT
+        Action: AUDIT_POLICY_CHANGED
         Status: PASSED    
-      translate:  
-        SubjectUserName: User  
-        Config: Config                                                 
+      translate: 
+        Category: Category 
+        SubjectUserName: User 
+        Object: Object 
+        SrcIP: SrcIP                                                
     '4649':
       annotate:
         Stream: THREAT
