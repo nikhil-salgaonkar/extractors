@@ -26,8 +26,7 @@ event-details:
       translate: 
         cs1KillChainPhase: Threat
         src: SrcIP
-        dvc: DstIP
-        cs1WebHost: DstIP
+        dst: DstIP
         cs1FileProcessUserName: User
         cs1AttackerProcessUserName: User
         cs1ReconPostDataUsername: User
@@ -61,8 +60,7 @@ event-details:
       translate: 
         cs1KillChainPhase: Threat
         src: SrcIP
-        dvc: DstIP
-        cs1WebHost: DstIP
+        dst: DstIP
         cs1FtpFilename: File
         cs1FiletheftFilename: File
         cs1FileName: File
