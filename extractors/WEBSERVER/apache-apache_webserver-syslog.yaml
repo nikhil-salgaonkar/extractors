@@ -6,12 +6,13 @@ vendor-name: Apache
 product-name: Apache Webserver
 source-name: APACHE2
 source-type: WEBSERVER
-source-description: Extractor for APACHE2 WEBSERVER Events
+source-description: Extractor for Apache2 Webserver Events
 provides-streams:
 - WEBSERVER
 - AUTHENTICATION
 master-filters:
-- '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{2}\:+\d{2}\:+\d{2}\s+\S+\s+[\w\-]+(?:\[\d+\])?\:?'
+- '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+(?:\w+\s+)?(?:Apache|httpd|apache2|httpd2-\w+|apache\S+)(?:\[\d+\])?\:\s?\[?'
+- '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+(?!nginx\-access\:)\S+(?:\s+[\w\-]+)?\s+[\d\.\-\s]+\[\d{1,2}\/\w{3}\/\d{4}\:\d{2}\:\d{2}\:\d{2}\s+\+\d+\]\s+\"'
 event-details:  
 - first-match: '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{2}\:+\d{2}\:+\d{2}(?:\s+\S+)?\s+[\w\-]+(?:\[\d+\])?\:?\s+[\d\.]+.*?\[.*?\]\s+\".*?\"[\d\s\-]+\".*?\"\s+\".*?\"' 
   decoder: regex
@@ -616,7 +617,7 @@ event-details:
         
   fallback:
     annotate:
-      EventName: Generic APACHE2 WEBSERVER Event
+      EventName: Generic Apache2 Webserver Event
       Stream: OTHER
 
   globals:
@@ -642,7 +643,7 @@ event-details:
         
   fallback:
     annotate:
-      EventName: Generic APACHE2 WEBSERVER Event
+      EventName: Generic Apache2 Webserver Event
       Stream: OTHER
 
   globals:
