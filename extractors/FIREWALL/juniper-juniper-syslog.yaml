@@ -1,0 +1,557 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 58
+integration: syslog
+vendor-name: Juniper
+product-name: Juniper-Firewall
+source-name: JUNIPER
+source-type: FIREWALL
+source-description: Extractor for Juniper Firewall Events
+provides-streams:
+- FIREWALL
+- THREAT
+master-filters:
+- '^(?:\<\d+\>)?(?:\d+\s+)?\d{4}\-\d{2}\-\d{2}\T(?:\d{2}\:\d{2}\:\d{2}|\d+)[\.\d\+\:\-]+\s+\S+\s+[\w\-\s]+\[\w+\@\w+[\d\.]+'
+event-details:
+- first-match: 'RT\_FLOW\_SESSION\_CREATE'
+  decoder: custom
+  decoder-regex: '([\w\-]+)\=(\"[^\"]*\"|[^\s]*)'
+  event-key-format: ''
+  event-key-mapping:
+    '':
+      annotate:
+        Stream: FIREWALL
+        Action: SESSION_ESTABLISHED
+        Status: PASSED
+      translate:
+        source-address: SrcIP
+        destination-address: DstIP
+        source-port: SrcPort
+        destination-port: DstPort
+        protocol-id: Proto
+        bytes-from-client: TXLen
+        bytes-from-server: RXLen
+        application: App
+
+  fallback:
+    annotate:
+      EventName: Generic Juniper Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      SystemTstamp: SystemTstamp
+      System: System
+
+  subs: &id001
+    Proto:
+      '1': ICMP
+      '2': IGMP
+      '6': TCP
+      '17': UDP
+      '38': IDPR-CMTP
+      '40': IPv6
+      '46': RSVP
+      '47': GRE
+      '50': ESP
+      '51': AH
+      '54': NARP
+      '89': OSPNIGP
+      '94': IPIP
+      '99': ANY
+      '132': SCTP
+
+- first-match: 'RT\_FLOW\_SESSION\_CLOSE'
+  decoder: custom
+  decoder-regex: '([\w\-]+)\=(\"[^\"]*\"|[^\s]*)'
+  event-key-format: ''
+  event-key-mapping:
+    '':
+      annotate:
+        Stream: FIREWALL
+        Action: SESSION_TERMINATED
+        Status: PASSED
+      translate:
+        source-address: SrcIP
+        destination-address: DstIP
+        source-port: SrcPort
+        destination-port: DstPort
+        protocol-id: Proto
+        bytes-from-client: TXLen
+        bytes-from-server: RXLen
+        application: App
+
+  fallback:
+    annotate:
+      EventName: Generic Juniper Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      SystemTstamp: SystemTstamp
+      System: System
+
+  subs: *id001
+
+- first-match: 'RT\_FLOW\_SESSION\_DENY'
+  decoder: custom
+  decoder-regex: '([\w\-]+)\=(\"[^\"]*\"|[^\s]*)'
+  event-key-format: ''
+  event-key-mapping:
+    '':
+      annotate:
+        Stream: FIREWALL
+        Action: SESSION_TERMINATED
+        Status: PASSED
+      translate:
+        source-address: SrcIP
+        destination-address: DstIP
+        source-port: SrcPort
+        destination-port: DstPort
+        protocol-id: Proto
+        bytes-from-client: TXLen
+        bytes-from-server: RXLen
+        application: App
+
+  fallback:
+    annotate:
+      EventName: Generic Juniper Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      SystemTstamp: SystemTstamp
+      System: System
+
+  subs: *id001
+
+- first-match: 'APPTRACK\_SESSION\_CLOSE'
+  decoder: custom
+  decoder-regex: '([\w\-]+)\=(\"[^\"]*\"|[^\s]*)'
+  event-key-format: ''
+  event-key-mapping:
+    '':
+      annotate:
+        Stream: FIREWALL
+        Action: SESSION_ESTABLISHED
+        Status: PASSED
+      translate:
+        source-address: SrcIP
+        destination-address: DstIP
+        source-port: SrcPort
+        destination-port: DstPort
+        protocol-id: Proto
+        bytes-from-client: TXLen
+        bytes-from-server: RXLen
+        application: App
+
+  fallback:
+    annotate:
+      EventName: Generic Juniper Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      SystemTstamp: SystemTstamp
+      System: System
+
+  subs: *id001
+
+- first-match: 'APPQOE\_BEST\_PATH\_SELECTED'
+  decoder: custom
+  decoder-regex: '([\w\-]+)\=(\"[^\"]*\"|[^\s]*)'
+  event-key-format: ''
+  event-key-mapping:
+    '':
+      annotate:
+        Stream: FIREWALL
+        Action: PACKET_ALLOWED
+        Status: PASSED
+      translate:
+        source-address: SrcIP
+        destination-address: DstIP
+        source-port: SrcPort
+        destination-port: DstPort
+        protocol-id: Proto
+        bytes-from-client: TXLen
+        bytes-from-server: RXLen
+        application: App
+
+  fallback:
+    annotate:
+      EventName: Generic Juniper Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      SystemTstamp: SystemTstamp
+      System: System
+
+  subs: *id001
+
+- first-match: 'RT\_FLOW\_NEXTHOP\_CHANGE'
+  decoder: custom
+  decoder-regex: '([\w\-]+)\=(\"[^\"]*\"|[^\s]*)'
+  event-key-format: ''
+  event-key-mapping:
+    '':
+      annotate:
+        Stream: FIREWALL
+        Action: SESSION_ESTABLISHED
+        Status: PASSED
+      translate:
+        source-address: SrcIP
+        destination-address: DstIP
+        source-port: SrcPort
+        destination-port: DstPort
+        protocol-id: Proto
+        bytes-from-client: TXLen
+        bytes-from-server: RXLen
+        application: App
+
+  fallback:
+    annotate:
+      EventName: Generic Juniper Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      SystemTstamp: SystemTstamp
+      System: System
+
+  subs: *id001
+
+- first-match: 'APPQOE\_APP\_BEST\_PATH\_SELECTED'
+  decoder: custom
+  decoder-regex: '([\w\-]+)\=(\"[^\"]*\"|[^\s]*)'
+  event-key-format: ''
+  event-key-mapping:
+    '':
+      annotate:
+        Stream: FIREWALL
+        Action: PACKET_ALLOWED
+        Status: PASSED
+      translate:
+        source-address: SrcIP
+        destination-address: DstIP
+        source-port: SrcPort
+        destination-port: DstPort
+        protocol-id: Proto
+        bytes-from-client: TXLen
+        bytes-from-server: RXLen
+        application: App
+
+  fallback:
+    annotate:
+      EventName: Generic Juniper Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      SystemTstamp: SystemTstamp
+      System: System
+
+  subs: *id001
+
+- first-match: 'SSL\_PROXY\_SSL\_SESSION\_DROP'
+  decoder: custom
+  decoder-regex: '([\w\-]+)\=(\"[^\"]*\"|[^\s]*)'
+  event-key-format: ''
+  event-key-mapping:
+    '':
+      annotate:
+        Stream: FIREWALL
+        Action: SESSION_TERMINATED
+        Status: PASSED
+      translate:
+        source-address: SrcIP
+        destination-address: DstIP
+        source-port: SrcPort
+        destination-port: DstPort
+        protocol-id: Proto
+        bytes-from-client: TXLen
+        bytes-from-server: RXLen
+        application: App
+
+  fallback:
+    annotate:
+      EventName: Generic Juniper Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      SystemTstamp: SystemTstamp
+      System: System
+
+  subs: *id001
+
+- first-match: 'IDP\_ATTACK\_LOG\_EVENT'
+  decoder: custom
+  decoder-regex: '([\w\-]+)\=(\"[^\"]*\"|[^\s]*)'
+  event-key-format: ''
+  event-key-mapping:
+    '':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        source-address: SrcIP
+        destination-address: DstIP
+        username: User
+        attack-name: Threat
+
+  fallback:
+    annotate:
+      EventName: Generic Juniper Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      SystemTstamp: SystemTstamp
+      System: System
+
+- first-match: 'IDP\_ATTACK\_LOG\_EVENT\_LS'
+  decoder: custom
+  decoder-regex: '([\w\-]+)\=(\"[^\"]*\"|[^\s]*)'
+  event-key-format: ''
+  event-key-mapping:
+    '':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        source-address: SrcIP
+        destination-address: DstIP
+        username: User
+        attack-name: Threat
+
+  fallback:
+    annotate:
+      EventName: Generic Juniper Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      SystemTstamp: SystemTstamp
+      System: System
+
+- first-match: 'IDP\_APPDDOS\_APP\_STATE\_EVENT'
+  decoder: custom
+  decoder-regex: '([\w\-]+)\=(\"[^\"]*\"|[^\s]*)'
+  event-key-format: ''
+  event-key-mapping:
+    '':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        source-address: SrcIP
+        destination-address: DstIP
+        username: User
+        rule-base: Threat
+
+  fallback:
+    annotate:
+      EventName: Generic Juniper Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      SystemTstamp: SystemTstamp
+      System: System
+
+- first-match: 'IDP\_APPDDOS\_APP\_STATE\_EVENT\_LS'
+  decoder: custom
+  decoder-regex: '([\w\-]+)\=(\"[^\"]*\"|[^\s]*)'
+  event-key-format: ''
+  event-key-mapping:
+    '':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        source-address: SrcIP
+        destination-address: DstIP
+        username: User
+        rule-base: Threat
+
+  fallback:
+    annotate:
+      EventName: Generic Juniper Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      SystemTstamp: SystemTstamp
+      System: System
+
+- first-match: 'IDP\_APPDDOS\_APP\_ATTACK\_EVENT'
+  decoder: custom
+  decoder-regex: '([\w\-]+)\=(\"[^\"]*\"|[^\s]*)'
+  event-key-format: ''
+  event-key-mapping:
+    '':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        source-address: SrcIP
+        destination-address: DstIP
+        username: User
+        rule-base: Threat
+
+  fallback:
+    annotate:
+      EventName: Generic Juniper Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      SystemTstamp: SystemTstamp
+      System: System
+
+- first-match: 'IDP\_APPDDOS\_APP\_ATTACK\_EVENT\_LS'
+  decoder: custom
+  decoder-regex: '([\w\-]+)\=(\"[^\"]*\"|[^\s]*)'
+  event-key-format: ''
+  event-key-mapping:
+    '':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        source-address: SrcIP
+        destination-address: DstIP
+        username: User
+        rule-base: Threat
+
+  fallback:
+    annotate:
+      EventName: Generic Juniper Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      SystemTstamp: SystemTstamp
+      System: System
+
+- first-match: 'ANTISPAM\_SPAM\_DETECTED\_MT'
+  decoder: custom
+  decoder-regex: '([\w\-]+)\=(\"[^\"]*\"|[^\s]*)'
+  event-key-format: ''
+  event-key-mapping:
+    '':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        source-address: SrcIP
+        destination-address: DstIP
+        username: User
+        attack-name: Threat
+
+  fallback:
+    annotate:
+      EventName: Generic Juniper Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      SystemTstamp: SystemTstamp
+      System: System
+
+- first-match: 'ANTISPAM\_SPAM\_DETECTED\_MT\_LS'
+  decoder: custom
+  decoder-regex: '([\w\-]+)\=(\"[^\"]*\"|[^\s]*)'
+  event-key-format: ''
+  event-key-mapping:
+    '':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        source-address: SrcIP
+        destination-address: DstIP
+        username: User
+        attack-name: Threat
+
+  fallback:
+    annotate:
+      EventName: Generic Juniper Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      SystemTstamp: SystemTstamp
+      System: System
+
+- first-match: 'AV\_VIRUS\_DETECTED\_MT'
+  decoder: custom
+  decoder-regex: '([\w\-]+)\=(\"[^\"]*\"|[^\s]*)'
+  event-key-format: ''
+  event-key-mapping:
+    '':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        source-address: SrcIP
+        destination-address: DstIP
+        username: User
+        attack-name: Threat
+
+  fallback:
+    annotate:
+      EventName: Generic Juniper Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      SystemTstamp: SystemTstamp
+      System: System
+
+- first-match: 'AV\_VIRUS\_DETECTED\_MT\_LS'
+  decoder: custom
+  decoder-regex: '([\w\-]+)\=(\"[^\"]*\"|[^\s]*)'
+  event-key-format: ''
+  event-key-mapping:
+    '':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        source-address: SrcIP
+        destination-address: DstIP
+        username: User
+        attack-name: Threat
+
+  fallback:
+    annotate:
+      EventName: Generic Juniper Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      SystemTstamp: SystemTstamp
+      System: System
+
