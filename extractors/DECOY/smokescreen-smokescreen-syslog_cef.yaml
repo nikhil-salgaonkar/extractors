@@ -12,7 +12,7 @@ provides-streams:
 master-filters:
 - '^(?:\<\d+\>\d+\s+)?\d{4}\-\d{1,2}\-\d{1,2}T\d{2}\:\d{2}\:\d{2}[\.\+\w]+\s+smokescreen\s+\-\s+\-\s+\-\s+CEF\:\d+\|Smokescreen\s+Technologies\s+Pvt\.\s+Ltd\.\|'
 event-details:
-- first-match: cs1DecoyType\=network
+- first-match: 'cs1DecoyType\=network'
   decoder: custom
   decoder-regex: '([\w]+)=(\"[^\"]*\"|[^\s]*)'
   event-key-format: ''
@@ -26,7 +26,7 @@ event-details:
       translate: 
         cs1KillChainPhase: Threat
         src: SrcIP
-        cs1WebHost: DstIP
+        dst: DstIP
         cs1FileProcessUserName: User
         cs1AttackerProcessUserName: User
         cs1ReconPostDataUsername: User
@@ -46,7 +46,7 @@ event-details:
       rt: SystemTstamp    
       cs1DecoyName: System
 
-- first-match: cs1DecoyType\=(?:recon|filetheft|credtheft|endpoint)
+- first-match: 'cs1DecoyType\=(?:recon|filetheft|credtheft|endpoint)'
   decoder: custom
   decoder-regex: '([\w]+)=(\"[^\"]*\"|[^\s]*)'
   event-key-format: ''
@@ -60,7 +60,7 @@ event-details:
       translate: 
         cs1KillChainPhase: Threat
         src: SrcIP
-        cs1WebHost: DstIP
+        dst: DstIP
         cs1FtpFilename: File
         cs1FiletheftFilename: File
         cs1FileName: File
