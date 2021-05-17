@@ -531,7 +531,7 @@ event-details:
       datetime: SystemTstamp 
       hostname: System      
 
-- first-match: '\%ASA\-\d+\-\d+\:.*?(?:Current\s+burst\s+rate|Land\s+Attack|Threat-detection|Deny\s+ICMP\s+reverse\s+path)'
+- first-match: '\%ASA\-\d+\-\d+\:.*?(?:Current\s+burst\s+rate|Land\s+Attack|Threat-detection|Deny\s+\w+\s+reverse\s+path)'
   decoder: regex
   decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2})(?:\s+(?P<hostname>\S+))?.*?\%ASA\-(?P<severity>\d+)\-(?P<eventid>\d+)\:?\s+(?:\[\s+(?P<object_type>.*)\]\s)?(?P<message>(?:.*?(?P<threat>Land\s+Attack|reverse\s+path))?(?:.*?(?:Host|host|from)\s+(?P<src>[\d\.\:]+))?(?:\s+to\s+(?P<dst>[\d\.\:]+))?.*)'
   event-key-format: ''
@@ -1486,3 +1486,63 @@ event-details:
     translate:
       datetime: SystemTstamp 
       hostname: System            
+
+- first-match: '\%ASA\-\d+\-\d+\:\s+SSL\s+session\s+with\s+client\s+'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2})(?:\s+(?P<hostname>\S+))?.*?\%ASA\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+(?P<message>SSL\s+session\s+with\s+client\s+outside\:(?P<src>.*?)\/(?P<sport>\d+)\s+to\s+(?P<dst>.*?)\/(?P<dport>\d+)\s+(?P<action>\w+))'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'terminated':
+      annotate:
+        Stream: FIREWALL
+        Action: SESSION_TERMINATED
+        Status: PASSED
+      translate:
+        src: SrcIP
+        dst: DstIP
+        sport: SrcPort
+        dport: DstPort
+        App: App
+        proto: Proto
+        sent_bytes: TXLen
+        receive_bytes: RXLen 
+
+  fallback:
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
+
+  globals:  
+    translate:
+      datetime: SystemTstamp 
+      hostname: System 
+
+- first-match: '\%ASA\-\d+\-\d+\:\s+\w+\s+requested\s+to\s+drop\s+\w+\s+packet'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2})(?:\s+(?P<hostname>\S+))?.*?\%ASA\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+(?P<message>\w+\s+requested\s+to\s+(?P<action>drop)\s+(?P<proto>\w+)\s+packet\s+from\s+outside\:(?P<src>.*?)\/(?P<sport>\d+)\s+to\s+\S+\:(?P<dst>.*?)\/(?P<dport>\d+))'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'drop':
+      annotate:
+        Stream: FIREWALL
+        Action: PACKET_BLOCKED
+        Status: PASSED
+      translate:
+        src: SrcIP
+        dst: DstIP
+        sport: SrcPort
+        dport: DstPort
+        App: App
+        proto: Proto
+        sent_bytes: TXLen
+        receive_bytes: RXLen 
+
+  fallback:
+    annotate:
+      EventName: Generic Cisco-ASA Firewall Event
+      Stream: OTHER
+
+  globals:  
+    translate:
+      datetime: SystemTstamp 
+      hostname: System          
