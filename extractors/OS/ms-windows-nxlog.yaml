@@ -53,6 +53,24 @@ event-details:
         TargetUserName: User
         IpAddress: SrcIP
         AuthenticationPackageName: AuthProto
+    '4768': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: KERBEROS_AUTHENTICATION_TICKET_REQUESTED
+        Status: PASSED
+      translate: 
+        TargetUserName: User
+        IpAddress: SrcIP
+        AuthenticationPackageName: AuthProto    
+    '4777': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate: 
+        TargetUserName: User
+        IpAddress: SrcIP
+        AuthenticationPackageName: AuthProto    
     '4770': 
       annotate:
         Stream: AUTHENTICATION
@@ -138,15 +156,6 @@ event-details:
       annotate:
         Stream: IAM
         Action: ACCOUNT_ENABLED
-        Status: PASSED    
-      translate: 
-        SubjectUserName: User
-        TargetUserName: TargetUser
-        Role: Role
-    '4723':         
-      annotate:
-        Stream: IAM
-        Action: ACCOUNT_PASSWORD_CHANGED
         Status: PASSED    
       translate: 
         SubjectUserName: User
@@ -278,15 +287,6 @@ event-details:
         SubjectUserName: User 
         TargetUserName: TargetUser
         Role: Role                                        
-    '4739':
-      annotate:
-        Stream: IAM
-        Action: DOMAIN_POLICY_CHANGED
-        Status: PASSED    
-      translate:  
-        SubjectUserName: User  
-        TargetUserName: TargetUser
-        Role: Role
     '4782':
       annotate:
         Stream: IAM
@@ -331,34 +331,7 @@ event-details:
       translate:  
         SubjectUserName: User  
         TargetUserName: TargetUser
-        Role: Role
-    '4731':
-      annotate:
-        Stream: IAM
-        Action: SECURITY_LOCAL_GROUP_CREATED
-        Status: PASSED    
-      translate:  
-        SubjectUserName: User  
-        TargetUserName: TargetUser    
         Role: Role 
-    '4732':
-      annotate:
-        Stream: IAM
-        Action: SECURITY_LOCAL_GROUP_MEMBER_ADDED
-        Status: PASSED    
-      translate:  
-        SubjectUserName: User  
-        TargetUserName: TargetUser
-        Role: Role 
-    '4733':
-      annotate:
-        Stream: IAM
-        Action: SECURITY_LOCAL_GROUP_MEMBER_REMOVED
-        Status: PASSED    
-      translate:  
-        SubjectUserName: User  
-        TargetUserName: TargetUser
-        Role: Role   
     '4734':
       annotate:
         Stream: IAM
@@ -403,16 +376,7 @@ event-details:
       translate:  
         SubjectUserName: User  
         TargetUserName: TargetUser  
-        Role: Role 
-    '4756':
-      annotate:
-        Stream: IAM
-        Action: SECURITY_UNIVERSAL_GROUP_MEMBER_ADDED
-        Status: PASSED    
-      translate:  
-        SubjectUserName: User  
-        TargetUserName: TargetUser
-        Role: Role 
+        Role: Role
     '4757':
       annotate:
         Stream: IAM
@@ -450,6 +414,16 @@ event-details:
         SubjectUserName: User 
         ObjectName: Object
         IpAddress: SrcIP
+    '4739':
+      annotate:
+        Stream: WIN-AUDIT
+        Action: DOMAIN_POLICY_CHANGED
+        Status: PASSED    
+      translate:  
+        Category: Category 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP  
     '4673':          
       annotate:
         Stream: WIN-AUDIT
@@ -519,16 +493,6 @@ event-details:
         Category: Category 
         SubjectUserName: User 
         ObjectName: Object
-        IpAddress: IpAddress                 
-    '4674':          
-      annotate:
-        Stream: WIN-AUDIT
-        Action: PRIVILEGE_OBJECT_ACCESSED
-        Status: PASSED    
-      translate: 
-        Category: Category 
-        SubjectUserName: User 
-        ObjectName: Object
         IpAddress: SrcIP
     '5140':    
       annotate:
@@ -540,16 +504,6 @@ event-details:
         SubjectUserName: User 
         ShareName: Object 
         IpAddress: SrcIP
-    '4985':    
-      annotate:
-        Stream: WIN-AUDIT
-        Action: STATE_TRANSACTION_CHANGED
-        Status: PASSED    
-      translate: 
-        Category: Category 
-        SubjectUserName: User 
-        ObjectName: Object
-        IpAddress: SrcIP 
     '5051':    
       annotate:
         Stream: WIN-AUDIT
@@ -669,17 +623,7 @@ event-details:
         Category: Category 
         SubjectUserName: User 
         ObjectName: Object
-        IpAddress: SrcIP
-    '4906':
-      annotate:
-        Stream: WIN-AUDIT
-        Action: AUDIT_POLICY_CHANGED
-        Status: PASSED    
-      translate: 
-        Category: Category 
-        SubjectUserName: User 
-        ObjectName: Object
-        IpAddress: SrcIP     
+        IpAddress: SrcIP 
     '4902':
       annotate:
         Stream: WIN-AUDIT
@@ -713,7 +657,7 @@ event-details:
     '4706':
       annotate:
         Stream: WIN-AUDIT
-        Action: AUDIT_POLICY_DOMAIN_CREATED
+        Action: DOMAIN_CREATED
         Status: PASSED    
       translate: 
         Category: Category 
@@ -723,7 +667,7 @@ event-details:
     '4707':
       annotate:
         Stream: WIN-AUDIT
-        Action: AUDIT_POLICY_DOMAIN_REMOVED
+        Action: DOMAIN_REMOVED
         Status: PASSED    
       translate: 
         Category: Category 
@@ -743,7 +687,7 @@ event-details:
     '4716':
       annotate:
         Stream: WIN-AUDIT
-        Action: AUDIT_POLICY_CHANGED
+        Action: DOMAIN_INFORMATION_MODIFIED
         Status: PASSED    
       translate: 
         Category: Category 
@@ -803,7 +747,7 @@ event-details:
     '4946':
       annotate:
         Stream: WIN-AUDIT
-        Action: AUDIT_POLICY_ADDED
+        Action: RULE_ADDED
         Status: PASSED    
       translate: 
         Category: Category 
@@ -813,7 +757,7 @@ event-details:
     '4947':
       annotate:
         Stream: WIN-AUDIT
-        Action: AUDIT_POLICY_CHANGED
+        Action: RULE_MODIFIED
         Status: PASSED    
       translate: 
         Category: Category 
@@ -823,7 +767,7 @@ event-details:
     '4948':
       annotate:
         Stream: WIN-AUDIT
-        Action: AUDIT_POLICY_REMOVED
+        Action: RULE_DELETED
         Status: PASSED    
       translate: 
         Category: Category 
@@ -833,53 +777,63 @@ event-details:
     '4950':
       annotate:
         Stream: WIN-AUDIT
-        Action: AUDIT_POLICY_CHANGED
+        Action: FIREWALL_SETTING_CHANGED
+        Status: PASSED    
+      translate: 
+        Category: Category 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP
+    '5136':
+      annotate:
+        Stream: WIN-AUDIT
+        Action: DIRECTORY_SERVICE_OBJECT_MODIFIED
+        Status: PASSED    
+      translate: 
+        Category: Category 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP
+    '5137':
+      annotate:
+        Stream: WIN-AUDIT
+        Action: DIRECTORY_SERVICE_OBJECT_CREATED
+        Status: PASSED    
+      translate: 
+        Category: Category 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP
+    '5138':
+      annotate:
+        Stream: WIN-AUDIT
+        Action: DIRECTORY_SERVICE_OBJECT_UNDELETED
         Status: PASSED    
       translate: 
         Category: Category 
         SubjectUserName: User 
         ObjectName: Object
         IpAddress: SrcIP 
-    '4954':
+    '5139':
       annotate:
         Stream: WIN-AUDIT
-        Action: AUDIT_POLICY_CHANGED
-        Status: PASSED    
-      translate: 
-        Category: Category 
-        SubjectUserName: User 
-        ObjectName: Object
-        IpAddress: SrcIP    
-    '4956':
-      annotate:
-        Stream: WIN-AUDIT
-        Action: AUDIT_POLICY_CHANGED
+        Action: DIRECTORY_SERVICE_OBJECT_MOVED
         Status: PASSED    
       translate: 
         Category: Category 
         SubjectUserName: User 
         ObjectName: Object
         IpAddress: SrcIP
-    '4957':
+    '5141':
       annotate:
         Stream: WIN-AUDIT
-        Action: AUDIT_POLICY_CHANGED
+        Action: DIRECTORY_SERVICE_OBJECT_DELETED
         Status: PASSED    
       translate: 
         Category: Category 
         SubjectUserName: User 
         ObjectName: Object
-        IpAddress: SrcIP
-    '4958':
-      annotate:
-        Stream: WIN-AUDIT
-        Action: AUDIT_POLICY_CHANGED
-        Status: PASSED    
-      translate: 
-        Category: Category 
-        SubjectUserName: User 
-        ObjectName: Object
-        IpAddress: SrcIP    
+        IpAddress: SrcIP                     
     '6144':
       annotate:
         Stream: WIN-AUDIT
@@ -899,17 +853,7 @@ event-details:
         Category: Category 
         SubjectUserName: User 
         ObjectName: Object
-        IpAddress: SrcIP                
-    '4670':
-      annotate:
-        Stream: WIN-AUDIT
-        Action: AUDIT_POLICY_CHANGED
-        Status: PASSED    
-      translate: 
-        Category: Category 
-        SubjectUserName: User 
-        ObjectName: Object
-        IpAddress: SrcIP                                                
+        IpAddress: SrcIP                                              
     '4649':
       annotate:
         Stream: THREAT
