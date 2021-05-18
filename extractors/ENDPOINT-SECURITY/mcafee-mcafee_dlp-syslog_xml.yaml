@@ -63,7 +63,7 @@ event-details:
         AuthProto: AuthProto
         src: SrcIP
         user: User 
-        reason: Reaaon
+        reason: Reason
     '220000-GUI logon failed': 
       annotate:
         Stream: AUTHENTICATION
@@ -73,7 +73,7 @@ event-details:
         AuthProto: AuthProto
         src: SrcIP
         user: User 
-        reason: Reaaon 
+        reason: Reason 
     '220000-SSH logon failed': 
       annotate:
         Stream: AUTHENTICATION
@@ -83,7 +83,7 @@ event-details:
       translate: 
         src: SrcIP
         user: User 
-        reason: Reaaon        
+        reason: Reason        
     '220000-Appliance console logon failed': 
       annotate:
         Stream: AUTHENTICATION
@@ -93,7 +93,7 @@ event-details:
         AuthProto: AuthProto
         src: SrcIP
         user: User 
-        reason: Reaaon 
+        reason: Reason 
     '220001-GUI user logged off': 
       annotate:
         Stream: AUTHENTICATION
@@ -151,7 +151,7 @@ event-details:
         threat: Threat
         File: File
         Process: Process
-        CommmandLine: CommmandLine
+        CommandLine: CommandLine
         URL: URL
         user: User
     '19108-None': 
@@ -166,7 +166,7 @@ event-details:
         threat: Threat
         File: File
         Process: Process
-        CommmandLine: CommmandLine
+        CommandLine: CommandLine
         URL: URL
         user: User
     '19111-None': 
@@ -181,7 +181,7 @@ event-details:
         threat: Threat
         File: File
         Process: Process
-        CommmandLine: CommmandLine
+        CommandLine: CommandLine
         URL: URL
         user: User
     '19112-None': 
@@ -196,7 +196,7 @@ event-details:
         threat: Threat
         File: File
         Process: Process
-        CommmandLine: CommmandLine
+        CommandLine: CommandLine
         URL: URL
         user: User  
     '19115-None': 
@@ -211,7 +211,7 @@ event-details:
         threat: Threat
         File: File
         Process: Process
-        CommmandLine: CommmandLine
+        CommandLine: CommandLine
         URL: URL
         user: User                        
         
