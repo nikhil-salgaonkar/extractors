@@ -70,7 +70,8 @@ event-details:
       translate: 
         TargetUserName: User
         IpAddress: SrcIP
-        AuthenticationPackageName: AuthProto    
+        AuthenticationPackageName: AuthProto   
+        SubStatus: Reason 
     '4770': 
       annotate:
         Stream: AUTHENTICATION
@@ -236,7 +237,7 @@ event-details:
     '4731':         
       annotate:
         Stream: IAM
-        Action: SECURITY_LGRP_CREATED
+        Action: SECURITY_LOCAL_GROUP_CREATED
         Status: PASSED    
       translate: 
         SubjectUserName: User
@@ -245,7 +246,7 @@ event-details:
     '4732':         
       annotate:
         Stream: IAM
-        Action: SECURITY_LGRP_MEMBER_ADDED
+        Action: SECURITY_LOCAL_GROUP_MEMBER_ADDED
         Status: PASSED    
       translate: 
         SubjectUserName: User
@@ -254,7 +255,7 @@ event-details:
     '4733':         
       annotate:
         Stream: IAM
-        Action: SECURITY_LGRP_MEMBER_REMOVED
+        Action: SECURITY_LOCAL_GROUP_MEMBER_REMOVED
         Status: PASSED    
       translate: 
         SubjectUserName: User
@@ -263,7 +264,7 @@ event-details:
     '4756':         
       annotate:
         Stream: IAM
-        Action: SECURITY_UGRP_MEMBER_ADDED
+        Action: SECURITY_UNIVERSAL_GROUP_MEMBER_ADDED
         Status: PASSED    
       translate:  
         SubjectUserName: User
