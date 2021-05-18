@@ -185,3 +185,8 @@ DOCUMENTS:
 - File
 - SrcIP
 - Visibility
+WIN-AUDIT:
+- User
+- Category
+- SrcIP
+- Object
