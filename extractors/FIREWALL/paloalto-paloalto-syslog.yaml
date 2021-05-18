@@ -522,7 +522,7 @@ event-details:
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
-        Status: PAASED
+        Status: PASSED
       translate:
         user: User 
         src: SrcIP
