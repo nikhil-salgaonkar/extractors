@@ -1022,7 +1022,7 @@ event-details:
       '0xc000005e': 'SERVICE_UNAVAILABLE'
       '0xc0000064': 'BAD_USER'
       '0xc000006a': 'BAD_PASSWORD'
-      '0xc000006d': 'SYS_CREDENTIALS'
+      '0xc000006d': 'BAD_USER'
       '0xc000006e': 'BAD_USER_PASSWORD' 
       '0xc000006f': 'OUT_OFF_HOURS'
       '0xc0000070': 'WRONG_WORKSTATION'
