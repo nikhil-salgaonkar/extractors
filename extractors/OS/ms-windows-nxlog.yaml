@@ -885,7 +885,7 @@ event-details:
       annotate:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
-        Status: PASSED    
+        Status: FAILED    
       translate: 
         SubjectUserName: User 
         Config: Config   
@@ -893,7 +893,7 @@ event-details:
       annotate:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
-        Status: PASSED    
+        Status: FAILED    
       translate: 
         SubjectUserName: User 
         Config: Config   
@@ -901,7 +901,7 @@ event-details:
       annotate:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
-        Status: PASSED    
+        Status: FAILED    
       translate: 
         SubjectUserName: User 
         Config: Config   
@@ -909,7 +909,7 @@ event-details:
       annotate:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
-        Status: PASSED    
+        Status: FAILED    
       translate: 
         SubjectUserName: User 
         Config: Config   
@@ -995,12 +995,15 @@ event-details:
         Config: Config   
     '4618':
       annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED    
-      translate: 
-        SubjectUserName: User 
-        Config: Config                                                                                                   
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED   
+        Vector: NETWORK
+        Threat: A monitored security event pattern has occurred. 
+      translate:  
+        SubjectUserName: User  
+        IpAddress: SrcIP
+        DstIP: DstIP                                                                                                   
 
   fallback:
     annotate:
