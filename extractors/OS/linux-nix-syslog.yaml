@@ -602,10 +602,10 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
+        AuthProto: SSH
       translate:
         src: SrcIP
-        user: User 
-        authproto: AuthProto
+        user: User
          
   fallback:
     annotate:
