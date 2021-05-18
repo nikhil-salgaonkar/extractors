@@ -4,7 +4,7 @@ extractor-id: 232
 integration: Syslog
 vendor-name: Cisco
 product-name: Cisco FMC
-source-name: Cisco FMC
+source-name: CISCO-FMC
 source-type: FIREWALL
 source-description: Extractor for Cisco FMC Firewall Events
 provides-streams:
