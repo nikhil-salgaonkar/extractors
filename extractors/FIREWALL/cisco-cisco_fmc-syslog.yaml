@@ -3,10 +3,10 @@ schema-version: 1.0
 extractor-id: 232
 integration: Syslog
 vendor-name: Cisco
-product-name: Cisco-FMC
-source-name: CISCO-FMC
+product-name: Cisco FMC
+source-name: Cisco FMC
 source-type: FIREWALL
-source-description: Extractor for Cisco-FMC Firewall Events
+source-description: Extractor for Cisco FMC Firewall Events
 provides-streams:
 - AUTHENTICATION
 - FIREWALL
@@ -54,7 +54,7 @@ event-details:
         
   fallback:
     annotate:
-      EventName: Generic Cisco-FMC Firewall Event
+      EventName: Generic Cisco FMC Firewall Event
       Stream: OTHER
 
   globals:
@@ -126,7 +126,7 @@ event-details:
 
   fallback:
     annotate:
-      EventName: Generic Cisco-FMC Firewall Event
+      EventName: Generic Cisco FMC Firewall Event
       Stream: OTHER
 
   globals:
@@ -153,7 +153,7 @@ event-details:
 
   fallback:
     annotate:
-      EventName: Generic Cisco-FMC Firewall Event
+      EventName: Generic Cisco FMC Firewall Event
       Stream: OTHER
 
   globals:
@@ -193,7 +193,7 @@ event-details:
 
   fallback:
     annotate:
-      EventName: Generic Cisco-FMC Firewall Event
+      EventName: Generic Cisco FMC Firewall Event
       Stream: OTHER
 
   globals:
