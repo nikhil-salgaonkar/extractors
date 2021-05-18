@@ -3,7 +3,7 @@ schema-version: 1.0
 extractor-id: 700
 integration: AWS S3
 vendor-name: AWS
-product-name: AWS-Cloudtrail
+product-name: AWS Cloudtrail
 source-name: AWS
 source-type: CLOUD
 source-description: Extractor for AWS Events

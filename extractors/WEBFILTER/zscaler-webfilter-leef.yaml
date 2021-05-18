@@ -3,7 +3,7 @@ schema-version: 1.0
 extractor-id: 6002
 integration: Syslog(LEEF)
 vendor-name: ZScaler
-product-name: ZScaler Web Filter
+product-name: ZScaler WebFilter
 source-name: ZSCALER
 source-type: WEBFILTER
 source-description: extractor for Zscaler Proxy Events

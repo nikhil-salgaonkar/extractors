@@ -10,15 +10,15 @@ source-description: Extractor for Fireeye APT
 provides-streams:
 - THREAT
 master-filters:
-- CEF\:0\|(?:FireEye|fireeye)\|
+- 'CEF\:0\|(?:FireEye|fireeye)\|'
 event-details:
-- first-match: CEF\:0\|(?:FireEye|fireeye)\|
+- first-match: 'CEF\:0\|(?:FireEye|fireeye)\|'
   decoder: custom
-  decoder-regex: ([\w]+)\=([^\s]+)
+  decoder-regex: '([\w]+)\=([^\s]+)'
   event-key-format: '{Header-5}'
   decoder-header: CEF
   event-key-mapping:
-    web-infection:
+    'web-infection':
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
@@ -32,8 +32,23 @@ event-details:
         fname: File
         dst: DstIP
         request: URL
-        cs4: Process
-    domain-match:           
+        Process: Process
+    'domain-match':           
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate: 
+        src: SrcIP
+        cmdline: CommandLine
+        suser: User
+        cs1: Threat
+        fname: File
+        dst: DstIP
+        request: URL
+        Process: Process
+    'ExD Hit Found':           
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
@@ -48,7 +63,22 @@ event-details:
         dst: DstIP
         request: URL
         cs4: Process
-    ExD Hit Found:           
+    'infection-match':           
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate: 
+        src: SrcIP
+        cmdline: CommandLine
+        suser: User
+        cs1: Threat
+        fname: File
+        dst: DstIP
+        request: URL
+        Process: Process
+    'Malware Hit Found':           
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
@@ -63,7 +93,7 @@ event-details:
         dst: DstIP
         request: URL
         cs4: Process
-    infection-match:           
+    'Malware Scan':           
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
@@ -77,8 +107,8 @@ event-details:
         fname: File
         dst: DstIP
         request: URL
-        cs4: Process
-    Malware Hit Found:           
+        Process: Process
+    'malware-object':           
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
@@ -92,8 +122,8 @@ event-details:
         fname: File
         dst: DstIP
         request: URL
-        cs4: Process
-    Malware Scan:           
+        Process: Process
+    'malware-callback':           
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
@@ -107,7 +137,8 @@ event-details:
         fname: File
         dst: DstIP
         request: URL
-    malware-object:           
+        Process: Process
+    'riskware-callback':           
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
@@ -121,8 +152,8 @@ event-details:
         fname: File
         dst: DstIP
         request: URL
-        cs4: Process
-    malware-callback:           
+        Process: Process
+    'riskware-infection':
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
@@ -136,8 +167,8 @@ event-details:
         fname: File
         dst: DstIP
         request: URL
-        cs4: Process
-    riskware-callback:           
+        Process: Process
+    'riskware-object':           
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
@@ -151,8 +182,8 @@ event-details:
         fname: File
         dst: DstIP
         request: URL
-        cs4: Process
-    riskware-infection:
+        Process: Process
+    'ips-event':           
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
@@ -166,8 +197,8 @@ event-details:
         fname: File
         dst: DstIP
         request: URL
-        cs4: Process
-    riskware-object:           
+        Process: Process
+    'malicious email':           
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
@@ -181,37 +212,8 @@ event-details:
         fname: File
         dst: DstIP
         request: URL
-        cs4: Process
-    ips-event:           
-      annotate:
-        Stream: THREAT
-        Action: THREAT_DETECTED
-        Status: PASSED
-        Vector: HOST
-      translate: 
-        src: SrcIP
-        cmdline: CommandLine
-        suser: User
-        cs1: Threat
-        fname: File
-        dst: DstIP
-        request: URL
-        cs4: Process
-    malicious email:           
-      annotate:
-        Stream: THREAT
-        Action: THREAT_DETECTED
-        Status: PASSED
-        Vector: HOST
-      translate: 
-        src: SrcIP
-        cmdline: CommandLine
-        suser: User
-        cs1: Threat
-        fname: File
-        dst: DstIP
-        request: URL
-    FireEye Acquisition Completed:
+        Process: Process
+    'FireEye Acquisition Completed':
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
@@ -225,7 +227,8 @@ event-details:
         fname: File
         dst: DstIP
         request: URL
-    FireEye Acquisition Queued:
+        Process: Process
+    'FireEye Acquisition Queued':
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
@@ -239,7 +242,8 @@ event-details:
         fname: File
         dst: DstIP
         request: URL
-    IOC Hit Found:           
+        Process: Process
+    'IOC Hit Found':           
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
@@ -253,7 +257,8 @@ event-details:
         fname: File
         dst: DstIP
         request: URL
-    FireEye Acquisition Queued:
+        Process: Process
+    'FireEye Acquisition Failed':
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
@@ -267,7 +272,8 @@ event-details:
         fname: File
         dst: DstIP
         request: URL
-    FireEye Acquisition Started:
+        Process: Process
+    'FireEye Acquisition Started':
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
@@ -281,6 +287,38 @@ event-details:
         fname: File
         dst: DstIP
         request: URL
+        Process: Process
+    'FireEye Quarantine Completed':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        src: SrcIP
+        cmdline: CommandLine
+        suser: User
+        cs1: Threat
+        fname: File
+        dst: DstIP
+        request: URL
+        Process: Process
+    'FireEye Quarantine Failed':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        src: SrcIP
+        cmdline: CommandLine
+        suser: User
+        cs1: Threat
+        fname: File
+        dst: DstIP
+        request: URL
+        Process: Process
+
   fallback:
     annotate:
       EventName: Generic Fireeye Event
@@ -288,5 +326,5 @@ event-details:
 
   globals:
     translate:
-      datetime: SystemTstamp
+      rt: SystemTstamp
       dvchost: System

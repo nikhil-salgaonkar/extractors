@@ -3,7 +3,7 @@ schema-version: 1.0
 extractor-id: 169
 integration: Syslog(CSV)
 vendor-name: ZScaler
-product-name: ZScaler-DNS
+product-name: ZScaler DNS
 source-name: ZSCALER
 source-type: DNS
 source-description: Extractor for Zscaler DNS
