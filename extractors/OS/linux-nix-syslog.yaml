@@ -591,3 +591,28 @@ event-details:
     translate:
       datetime: SystemTstamp
       hostname: System
+
+- first-match: 'Accepted\s+publickey\s+for\s+\S+\s+from\s+[\d\.]+\s+port\s+\d+\s+\w+'
+  decoder: regex
+  decoder-regex: '(?P<datetime>(?:\w{3}\s+\d{1,2}\s+[\d\:]+|\d{4}\-\d{1,2}\-\d{1,2}T[\d\:]+)).*?(?:(?P<hostname>\S+))?\s+(?P<daemon>\w+)\[(?P<pid>\d+)\]\:.*?(?P<action>\w+\s+\w+)\s+for\s+(?P<user>\S+)\s+from\s+(?P<src>[\d\.]+)\s+\w+\s+\d+\s+(?P<authproto>\w+)\:?'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'Accepted publickey': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+        AuthProto: SSH
+      translate:
+        src: SrcIP
+        user: User
+         
+  fallback:
+    annotate:
+      EventName: Generic NIX Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      hostname: System
+      datetime: SystemTstamp
