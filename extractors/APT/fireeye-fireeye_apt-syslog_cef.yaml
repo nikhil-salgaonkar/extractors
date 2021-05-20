@@ -28,7 +28,7 @@ event-details:
         src: SrcIP
         cmdline: CommandLine
         suser: User
-        cs1: Threat
+        'cs1': Threat
         fname: File
         dst: DstIP
         request: URL
@@ -43,7 +43,7 @@ event-details:
         src: SrcIP
         cmdline: CommandLine
         suser: User
-        cs1: Threat
+        'cs1': Threat
         fname: File
         dst: DstIP
         request: URL
@@ -58,7 +58,7 @@ event-details:
         src: SrcIP
         cmdline: CommandLine
         suser: User
-        cs1: Threat
+        'cs1': Threat
         fname: File
         dst: DstIP
         request: URL
@@ -73,7 +73,7 @@ event-details:
         src: SrcIP
         cmdline: CommandLine
         suser: User
-        cs1: Threat
+        'cs1': Threat
         fname: File
         dst: DstIP
         request: URL
@@ -88,26 +88,11 @@ event-details:
         src: SrcIP
         cmdline: CommandLine
         suser: User
-        cs1: Threat
+        'cs1': Threat
         fname: File
         dst: DstIP
         request: URL
         cs4: Process
-    'Malware Scan':           
-      annotate:
-        Stream: THREAT
-        Action: THREAT_DETECTED
-        Status: PASSED
-        Vector: HOST
-      translate: 
-        src: SrcIP
-        cmdline: CommandLine
-        suser: User
-        cs1: Threat
-        fname: File
-        dst: DstIP
-        request: URL
-        Process: Process
     'malware-object':           
       annotate:
         Stream: THREAT
@@ -118,7 +103,7 @@ event-details:
         src: SrcIP
         cmdline: CommandLine
         suser: User
-        cs1: Threat
+        'cs1': Threat
         fname: File
         dst: DstIP
         request: URL
@@ -133,7 +118,7 @@ event-details:
         src: SrcIP
         cmdline: CommandLine
         suser: User
-        cs1: Threat
+        'cs1': Threat
         fname: File
         dst: DstIP
         request: URL
@@ -148,7 +133,7 @@ event-details:
         src: SrcIP
         cmdline: CommandLine
         suser: User
-        cs1: Threat
+        'cs1': Threat
         fname: File
         dst: DstIP
         request: URL
@@ -163,7 +148,7 @@ event-details:
         src: SrcIP
         cmdline: CommandLine
         suser: User
-        cs1: Threat
+        'cs1': Threat
         fname: File
         dst: DstIP
         request: URL
@@ -178,7 +163,7 @@ event-details:
         src: SrcIP
         cmdline: CommandLine
         suser: User
-        cs1: Threat
+        'cs1': Threat
         fname: File
         dst: DstIP
         request: URL
@@ -193,7 +178,7 @@ event-details:
         src: SrcIP
         cmdline: CommandLine
         suser: User
-        cs1: Threat
+        'cs1': Threat
         fname: File
         dst: DstIP
         request: URL
@@ -208,37 +193,7 @@ event-details:
         src: SrcIP
         cmdline: CommandLine
         suser: User
-        cs1: Threat
-        fname: File
-        dst: DstIP
-        request: URL
-        Process: Process
-    'FireEye Acquisition Completed':
-      annotate:
-        Stream: THREAT
-        Action: THREAT_DETECTED
-        Status: PASSED
-        Vector: HOST
-      translate:
-        src: SrcIP
-        cmdline: CommandLine
-        suser: User
-        cs1: Threat
-        fname: File
-        dst: DstIP
-        request: URL
-        Process: Process
-    'FireEye Acquisition Queued':
-      annotate:
-        Stream: THREAT
-        Action: THREAT_DETECTED
-        Status: PASSED
-        Vector: HOST
-      translate:
-        src: SrcIP
-        cmdline: CommandLine
-        suser: User
-        cs1: Threat
+        'cs1': Threat
         fname: File
         dst: DstIP
         request: URL
@@ -253,71 +208,11 @@ event-details:
         src: SrcIP
         cmdline: CommandLine
         suser: User
-        cs4: Threat
+        'cs4': Threat
         fname: File
         dst: DstIP
         request: URL
-        Process: Process
-    'FireEye Acquisition Failed':
-      annotate:
-        Stream: THREAT
-        Action: THREAT_DETECTED
-        Status: PASSED
-        Vector: HOST
-      translate:
-        src: SrcIP
-        cmdline: CommandLine
-        suser: User
-        cs1: Threat
-        fname: File
-        dst: DstIP
-        request: URL
-        Process: Process
-    'FireEye Acquisition Started':
-      annotate:
-        Stream: THREAT
-        Action: THREAT_DETECTED
-        Status: PASSED
-        Vector: HOST
-      translate:
-        src: SrcIP
-        cmdline: CommandLine
-        suser: User
-        cs1: Threat
-        fname: File
-        dst: DstIP
-        request: URL
-        Process: Process
-    'FireEye Quarantine Completed':
-      annotate:
-        Stream: THREAT
-        Action: THREAT_DETECTED
-        Status: PASSED
-        Vector: HOST
-      translate:
-        src: SrcIP
-        cmdline: CommandLine
-        suser: User
-        cs1: Threat
-        fname: File
-        dst: DstIP
-        request: URL
-        Process: Process
-    'FireEye Quarantine Failed':
-      annotate:
-        Stream: THREAT
-        Action: THREAT_DETECTED
-        Status: PASSED
-        Vector: HOST
-      translate:
-        src: SrcIP
-        cmdline: CommandLine
-        suser: User
-        cs1: Threat
-        fname: File
-        dst: DstIP
-        request: URL
-        Process: Process
+        Process: Proces
 
   fallback:
     annotate:
