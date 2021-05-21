@@ -33,11 +33,11 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
+        Reason: BAD_USER_PASSWORD
       translate:
         User: User 
         Source_ID: SrcIP
         AuthProto: AuthProto
-        Details: Reason
     'USER_LOGOUT':
       annotate:
         Stream: AUTHENTICATION
@@ -101,7 +101,7 @@ event-details:
         dst: DstIP
         requestClientApplication: UserAgent
         DstPort: DstPort
-        TXLen: TXLen
+        out: TXLen
         RXLen: RXLen
         suser: User
         app: Proto
@@ -117,7 +117,7 @@ event-details:
         dst: DstIP
         requestClientApplication: UserAgent
         DstPort: DstPort
-        TXLen: TXLen
+        out: TXLen
         RXLen: RXLen
         suser: User
         app: Proto
@@ -133,7 +133,7 @@ event-details:
         dst: DstIP
         requestClientApplication: UserAgent
         DstPort: DstPort
-        TXLen: TXLen
+        out: TXLen
         RXLen: RXLen
         suser: User
         app: Proto
@@ -149,7 +149,7 @@ event-details:
         dst: DstIP
         requestClientApplication: UserAgent
         DstPort: DstPort
-        TXLen: TXLen
+        out: TXLen
         RXLen: RXLen
         suser: User
         app: Proto
@@ -165,7 +165,7 @@ event-details:
         dst: DstIP
         requestClientApplication: UserAgent
         DstPort: DstPort
-        TXLen: TXLen
+        out: TXLen
         RXLen: RXLen
         suser: User
         app: Proto
@@ -181,7 +181,7 @@ event-details:
         dst: DstIP
         requestClientApplication: UserAgent
         DstPort: DstPort
-        TXLen: TXLen
+        out: TXLen
         RXLen: RXLen
         suser: User
         app: Proto
@@ -197,7 +197,7 @@ event-details:
         dst: DstIP
         requestClientApplication: UserAgent
         DstPort: DstPort
-        TXLen: TXLen
+        out: TXLen
         RXLen: RXLen
         suser: User
         app: Proto
@@ -213,7 +213,7 @@ event-details:
         dst: DstIP
         requestClientApplication: UserAgent
         DstPort: DstPort
-        TXLen: TXLen
+        out: TXLen
         RXLen: RXLen
         suser: User
         app: Proto
@@ -229,7 +229,7 @@ event-details:
         dst: DstIP
         requestClientApplication: UserAgent
         DstPort: DstPort
-        TXLen: TXLen
+        out: TXLen
         RXLen: RXLen
         suser: User
         app: Proto
@@ -245,7 +245,7 @@ event-details:
         dst: DstIP
         requestClientApplication: UserAgent
         DstPort: DstPort
-        TXLen: TXLen
+        out: TXLen
         RXLen: RXLen
         suser: User
         app: Proto
@@ -261,7 +261,7 @@ event-details:
         dst: DstIP
         requestClientApplication: UserAgent
         DstPort: DstPort
-        TXLen: TXLen
+        out: TXLen
         RXLen: RXLen
         suser: User
         app: Proto
@@ -277,7 +277,7 @@ event-details:
         dst: DstIP
         requestClientApplication: UserAgent
         DstPort: DstPort
-        TXLen: TXLen
+        out: TXLen
         RXLen: RXLen
         suser: User
         app: Proto
@@ -293,7 +293,7 @@ event-details:
         dst: DstIP
         requestClientApplication: UserAgent
         DstPort: DstPort
-        TXLen: TXLen
+        out: TXLen
         RXLen: RXLen
         suser: User
         app: Proto
@@ -309,7 +309,7 @@ event-details:
         dst: DstIP
         requestClientApplication: UserAgent
         DstPort: DstPort
-        TXLen: TXLen
+        out: TXLen
         RXLen: RXLen
         suser: User
         app: Proto
@@ -325,7 +325,7 @@ event-details:
         dst: DstIP
         requestClientApplication: UserAgent
         DstPort: DstPort
-        TXLen: TXLen
+        out: TXLen
         RXLen: RXLen
         suser: User
         app: Proto
@@ -341,7 +341,7 @@ event-details:
         dst: DstIP
         requestClientApplication: UserAgent
         DstPort: DstPort
-        TXLen: TXLen
+        out: TXLen
         RXLen: RXLen
         suser: User
         app: Proto
@@ -357,7 +357,7 @@ event-details:
         dst: DstIP
         requestClientApplication: UserAgent
         DstPort: DstPort
-        TXLen: TXLen
+        out: TXLen
         RXLen: RXLen
         suser: User
         app: Proto
@@ -373,7 +373,7 @@ event-details:
         dst: DstIP
         requestClientApplication: UserAgent
         DstPort: DstPort
-        TXLen: TXLen
+        out: TXLen
         RXLen: RXLen
         suser: User
         app: Proto
@@ -389,7 +389,7 @@ event-details:
         dst: DstIP
         requestClientApplication: UserAgent
         DstPort: DstPort
-        TXLen: TXLen
+        out: TXLen
         RXLen: RXLen
         suser: User
         app: Proto
@@ -405,7 +405,7 @@ event-details:
         dst: DstIP
         requestClientApplication: UserAgent
         DstPort: DstPort
-        TXLen: TXLen
+        out: TXLen
         RXLen: RXLen
         suser: User
         app: Proto
@@ -421,7 +421,7 @@ event-details:
         dst: DstIP
         requestClientApplication: UserAgent
         DstPort: DstPort
-        TXLen: TXLen
+        out: TXLen
         RXLen: RXLen
         suser: User
         app: Proto
@@ -437,7 +437,7 @@ event-details:
         dst: DstIP
         requestClientApplication: UserAgent
         DstPort: DstPort
-        TXLen: TXLen
+        out: TXLen
         RXLen: RXLen
         suser: User
         app: Proto
@@ -453,7 +453,7 @@ event-details:
         dst: DstIP
         requestClientApplication: UserAgent
         DstPort: DstPort
-        TXLen: TXLen
+        out: TXLen
         RXLen: RXLen
         suser: User
         app: Proto
@@ -469,7 +469,7 @@ event-details:
         dst: DstIP
         requestClientApplication: UserAgent
         DstPort: DstPort
-        TXLen: TXLen
+        out: TXLen
         RXLen: RXLen
         suser: User
         app: Proto
@@ -485,7 +485,7 @@ event-details:
         dst: DstIP
         requestClientApplication: UserAgent
         DstPort: DstPort
-        TXLen: TXLen
+        out: TXLen
         RXLen: RXLen
         suser: User
         app: Proto
@@ -501,7 +501,7 @@ event-details:
         dst: DstIP
         requestClientApplication: UserAgent
         DstPort: DstPort
-        TXLen: TXLen
+        out: TXLen
         RXLen: RXLen
         suser: User
         app: Proto
@@ -517,7 +517,7 @@ event-details:
         dst: DstIP
         requestClientApplication: UserAgent
         DstPort: DstPort
-        TXLen: TXLen
+        out: TXLen
         RXLen: RXLen
         suser: User
         app: Proto
@@ -533,7 +533,7 @@ event-details:
         dst: DstIP
         requestClientApplication: UserAgent
         DstPort: DstPort
-        TXLen: TXLen
+        out: TXLen
         RXLen: RXLen
         suser: User
         app: Proto
@@ -549,7 +549,7 @@ event-details:
         dst: DstIP
         requestClientApplication: UserAgent
         DstPort: DstPort
-        TXLen: TXLen
+        out: TXLen
         RXLen: RXLen
         suser: User
         app: Proto
@@ -565,7 +565,7 @@ event-details:
         dst: DstIP
         requestClientApplication: UserAgent
         DstPort: DstPort
-        TXLen: TXLen
+        out: TXLen
         RXLen: RXLen
         suser: User
         app: Proto
@@ -581,7 +581,7 @@ event-details:
         dst: DstIP
         requestClientApplication: UserAgent
         DstPort: DstPort
-        TXLen: TXLen
+        out: TXLen
         RXLen: RXLen
         suser: User
         app: Proto
@@ -597,7 +597,7 @@ event-details:
         dst: DstIP
         requestClientApplication: UserAgent
         DstPort: DstPort
-        TXLen: TXLen
+        out: TXLen
         RXLen: RXLen
         suser: User
         app: Proto
@@ -613,7 +613,7 @@ event-details:
         dst: DstIP
         requestClientApplication: UserAgent
         DstPort: DstPort
-        TXLen: TXLen
+        out: TXLen
         RXLen: RXLen
         suser: User
         app: Proto
@@ -629,7 +629,7 @@ event-details:
         dst: DstIP
         requestClientApplication: UserAgent
         DstPort: DstPort
-        TXLen: TXLen
+        out: TXLen
         RXLen: RXLen
         suser: User
         app: Proto
@@ -645,7 +645,7 @@ event-details:
         dst: DstIP
         requestClientApplication: UserAgent
         DstPort: DstPort
-        TXLen: TXLen
+        out: TXLen
         RXLen: RXLen
         suser: User
         app: Proto
@@ -661,7 +661,7 @@ event-details:
         dst: DstIP
         requestClientApplication: UserAgent
         DstPort: DstPort
-        TXLen: TXLen
+        out: TXLen
         RXLen: RXLen
         suser: User
         app: Proto
@@ -677,7 +677,7 @@ event-details:
         dst: DstIP
         requestClientApplication: UserAgent
         DstPort: DstPort
-        TXLen: TXLen
+        out: TXLen
         RXLen: RXLen
         suser: User
         app: Proto
