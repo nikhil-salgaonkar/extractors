@@ -14,7 +14,7 @@ master-filters:
 event-details:
 - first-match: '\s+zscaler\-nss\:\s+LEEF\:\d+\.\d+\|Zscaler\|NSS\|'
   decoder: custom
-  decoder-regex: '([\w]+)\=(\"[^\"]*\"|[^\s]*)'
+  decoder-regex: '([\w]+)\=(\"[^\"]*\"|[^\t]*)'
   event-key-format: '{cat}'
   event-key-mapping:
     'Allowed':
