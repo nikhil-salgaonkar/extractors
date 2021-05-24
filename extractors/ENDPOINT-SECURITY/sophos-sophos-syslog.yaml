@@ -26,8 +26,8 @@ event-details:
         Vector: HOST
       translate:
         threat: Threat
-        ip: SrcIP
-        DstIP: DstIP
+        ip: DstIP
+        SrcIP: SrcIP
         CommandLine: CommandLine
         suser: User
         filepath: File
@@ -41,8 +41,8 @@ event-details:
         Vector: HOST
       translate:
         threat: Threat
-        ip: SrcIP
-        DstIP: DstIP
+        ip: DstIP
+        SrcIP: SrcIP
         CommandLine: CommandLine
         suser: User
         filePath: File
@@ -56,8 +56,8 @@ event-details:
         Vector: HOST
       translate:
         threat: Threat
-        ip: SrcIP
-        DstIP: DstIP
+        ip: DstIP
+        SrcIP: SrcIP
         CommandLine: CommandLine
         suser: User
         filePath: File
@@ -71,8 +71,8 @@ event-details:
         Vector: HOST
       translate:
         threat: Threat
-        ip: SrcIP
-        DstIP: DstIP
+        ip: DstIP
+        SrcIP: SrcIP
         CommandLine: CommandLine
         suser: User
         filePath: File
@@ -86,8 +86,8 @@ event-details:
         Vector: HOST
       translate:
         threat: Threat
-        ip: SrcIP
-        DstIP: DstIP
+        ip: DstIP
+        SrcIP: SrcIP
         CommandLine: CommandLine
         suser: User
         filePath: File
@@ -101,8 +101,8 @@ event-details:
         Vector: HOST
       translate:
         threat: Threat
-        ip: SrcIP
-        DstIP: DstIP
+        ip: DstIP
+        SrcIP: SrcIP
         CommandLine: CommandLine
         suser: User
         filePath: File
@@ -116,8 +116,8 @@ event-details:
         Vector: HOST
       translate:
         threat: Threat
-        ip: SrcIP
-        DstIP: DstIP
+        ip: DstIP
+        SrcIP: SrcIP
         CommandLine: CommandLine
         suser: User
         filePath: File
@@ -131,8 +131,8 @@ event-details:
         Vector: HOST
       translate:
         threat: Threat
-        ip: SrcIP
-        DstIP: DstIP
+        ip: DstIP
+        SrcIP: SrcIP
         CommandLine: CommandLine
         suser: User
         filePath: File
@@ -146,8 +146,8 @@ event-details:
         Vector: HOST
       translate:
         threat: Threat
-        ip: SrcIP
-        DstIP: DstIP
+        ip: DstIP
+        SrcIP: SrcIP
         CommandLine: CommandLine
         suser: User
         filePath: File
@@ -161,8 +161,8 @@ event-details:
         Vector: HOST
       translate:
         threat: Threat
-        ip: SrcIP
-        DstIP: DstIP
+        ip: DstIP
+        SrcIP: SrcIP
         CommandLine: CommandLine
         suser: User
         filePath: File
@@ -176,8 +176,8 @@ event-details:
         Vector: HOST
       translate:
         threat: Threat
-        ip: SrcIP
-        DstIP: DstIP
+        ip: DstIP
+        SrcIP: SrcIP
         CommandLine: CommandLine
         suser: User
         filePath: File
@@ -191,8 +191,8 @@ event-details:
         Vector: HOST
       translate:
         threat: Threat
-        ip: SrcIP
-        DstIP: DstIP
+        ip: DstIP
+        SrcIP: SrcIP
         CommandLine: CommandLine
         suser: User
         filePath: File
@@ -206,8 +206,8 @@ event-details:
         Vector: HOST
       translate:
         threat: Threat
-        ip: SrcIP
-        DstIP: DstIP
+        ip: DstIP
+        SrcIP: SrcIP
         CommandLine: CommandLine
         suser: User
         filepath: File
@@ -221,8 +221,8 @@ event-details:
         Vector: HOST
       translate:
         threat: Threat
-        ip: SrcIP
-        DstIP: DstIP
+        ip: DstIP
+        SrcIP: SrcIP
         CommandLine: CommandLine
         suser: User
         filepath: File
@@ -236,8 +236,8 @@ event-details:
         Vector: HOST
       translate:
         threat: Threat
-        ip: SrcIP
-        DstIP: DstIP
+        ip: DstIP
+        SrcIP: SrcIP
         CommandLine: CommandLine
         suser: User
         filepath: File
@@ -251,8 +251,8 @@ event-details:
         Vector: HOST
       translate:
         threat: Threat
-        ip: SrcIP
-        DstIP: DstIP
+        ip: DstIP
+        SrcIP: SrcIP
         CommandLine: CommandLine
         suser: User
         filepath: File
@@ -266,8 +266,8 @@ event-details:
         Vector: HOST
       translate:
         threat: Threat
-        ip: SrcIP
-        DstIP: DstIP
+        ip: DstIP
+        SrcIP: SrcIP
         CommandLine: CommandLine
         suser: User
         filepath: File
@@ -281,8 +281,8 @@ event-details:
         Vector: HOST
       translate:
         threat: Threat
-        ip: SrcIP
-        DstIP: DstIP
+        ip: DstIP
+        SrcIP: SrcIP
         CommandLine: CommandLine
         suser: User
         filepath: File
@@ -296,8 +296,8 @@ event-details:
         Vector: HOST
       translate:
         threat: Threat
-        ip: SrcIP
-        DstIP: DstIP
+        ip: DstIP
+        SrcIP: SrcIP
         CommandLine: CommandLine
         suser: User
         filepath: File
@@ -311,8 +311,8 @@ event-details:
         Vector: HOST
       translate:
         threat: Threat
-        ip: SrcIP
-        DstIP: DstIP
+        ip: DstIP
+        SrcIP: SrcIP
         CommandLine: CommandLine
         suser: User
         filepath: File
@@ -326,8 +326,8 @@ event-details:
         Vector: HOST
       translate:
         threat: Threat
-        ip: SrcIP
-        DstIP: DstIP
+        ip: DstIP
+        SrcIP: SrcIP
         CommandLine: CommandLine
         suser: User
         filepath: File
@@ -341,8 +341,8 @@ event-details:
         Vector: HOST
       translate:
         threat: Threat
-        ip: SrcIP
-        DstIP: DstIP
+        ip: DstIP
+        SrcIP: SrcIP
         CommandLine: CommandLine
         suser: User
         filepath: File
