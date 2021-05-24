@@ -62,7 +62,7 @@ event-details:
         fname: File
         dst: DstIP
         request: URL
-        cs4: Process
+        'cs4': Process
     'infection-match':           
       annotate:
         Stream: THREAT
@@ -92,7 +92,7 @@ event-details:
         fname: File
         dst: DstIP
         request: URL
-        cs4: Process
+        'cs4': Process
     'malware-object':           
       annotate:
         Stream: THREAT
