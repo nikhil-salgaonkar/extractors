@@ -198,22 +198,7 @@ event-details:
         Process: Process
         CommandLine: CommandLine
         URL: URL
-        user: User  
-    '19115-None': 
-      annotate:
-        Stream: THREAT
-        Action: THREAT_DETECTED
-        Status: PASSED
-        Vector: HOST
-      translate: 
-        src: SrcIP
-        dst: DstIP
-        threat: Threat
-        File: File
-        Process: Process
-        CommandLine: CommandLine
-        URL: URL
-        user: User                        
+        user: User                      
         
   fallback:
     annotate:
