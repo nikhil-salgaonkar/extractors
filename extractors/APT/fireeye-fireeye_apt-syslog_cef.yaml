@@ -212,7 +212,7 @@ event-details:
         fname: File
         dst: DstIP
         request: URL
-        Process: Proces
+        Process: Process
 
   fallback:
     annotate:
