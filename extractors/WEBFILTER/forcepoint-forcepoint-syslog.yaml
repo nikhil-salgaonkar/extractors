@@ -10,12 +10,12 @@ source-description: extractor for Forcepoint Webfilter Events
 provides-streams:
 - WEBFILTER
 master-filters:
-- CEF\:\d+\|Forcepoint\|Security\|
+- 'CEF\:\d+\|(?:Forcepoint|Websense)\|Security\|'
 event-details:
-- first-match: CEF\:\d+\|Forcepoint\|Security\|.*?act\=
+- first-match: 'CEF\:\d+\|(?:Forcepoint|Websense)\|Security\|.*?act\='
   decoder: custom
   decoder-header: CEF
-  decoder-regex: (\w+)\=([^\s]+\s\([^\)]+\)|[^\s]+)
+  decoder-regex: '(\w+)\=([^\s]+\s\([^\)]+\)|[^\s]+)'
   event-key-format: '{act}'
   event-key-mapping:
     'permitted':
@@ -34,7 +34,6 @@ event-details:
         in: RXLen
         suser: User
         app: Proto
-
     'blocked':
       annotate:
         Stream: WEBFILTER
