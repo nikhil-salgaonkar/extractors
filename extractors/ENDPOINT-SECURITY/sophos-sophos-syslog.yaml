@@ -11,14 +11,14 @@ provides-streams:
 - THREAT
 - IAM
 master-filters:
-- \"rt\"\:\s+\"\d{4}\-\d{1,2}\-\d{1,2}T\d{2}\:\d{2}\:\d{2}\.\d+Z\"\,.*\"type\"\:\s+\"Event\:\:(?:Endpoint|Smc)?
+- '\"rt\"\:\s+\"\d{4}\-\d{1,2}\-\d{1,2}T\d{2}\:\d{2}\:\d{2}\.\d+Z\"\,.*\"type\"\:\s+\"Event\:\:(?:Endpoint|Smc)?'
 event-details:
-- first-match: Event\:\:(?:Endpoint|Smc)?\:\:\S+\"\,
+- first-match: 'Event\:\:(?:Endpoint|Smc)?\:\:\S+\"\,'
   decoder: custom
-  decoder-regex: \"([\w]+)\"\:\s+\"([^\,]+)\"
+  decoder-regex: '\"([\w]+)\"\:\s+\"([^\,]+)\"'
   event-key-format: '{type}'
   event-key-mapping:
-    "Event::Endpoint::CoreClean":
+    'Event::Endpoint::CoreClean':
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
@@ -27,12 +27,13 @@ event-details:
       translate:
         threat: Threat
         ip: DstIP
+        SrcIP: SrcIP
         CommandLine: CommandLine
         suser: User
         filepath: File
         Process: Process
         URL: URL
-    "Event::Endpoint::WebControlViolation":
+    'Event::Endpoint::WebControlViolation':
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
@@ -41,12 +42,13 @@ event-details:
       translate:
         threat: Threat
         ip: DstIP
+        SrcIP: SrcIP
         CommandLine: CommandLine
         suser: User
         filePath: File
         Process: Process
         URL: URL
-    "Event::Endpoint::CorePuaDetection":
+    'Event::Endpoint::CorePuaDetection':
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
@@ -55,12 +57,13 @@ event-details:
       translate:
         threat: Threat
         ip: DstIP
+        SrcIP: SrcIP
         CommandLine: CommandLine
         suser: User
         filePath: File
         Process: Process
         URL: URL
-    "Event::Endpoint::Threat::HIPSDetected":
+    'Event::Endpoint::Threat::HIPSDetected':
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
@@ -69,12 +72,13 @@ event-details:
       translate:
         threat: Threat
         ip: DstIP
+        SrcIP: SrcIP
         CommandLine: CommandLine
         suser: User
         filePath: File
         Process: Process
         URL: URL
-    "Event::Endpoint::WebFilteringBlocked":
+    'Event::Endpoint::WebFilteringBlocked':
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
@@ -83,12 +87,13 @@ event-details:
       translate:
         threat: Threat
         ip: DstIP
+        SrcIP: SrcIP
         CommandLine: CommandLine
         suser: User
         filePath: File
         Process: Process
         URL: URL
-    "Event::Endpoint::Threat::Detected":
+    'Event::Endpoint::Threat::Detected':
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
@@ -97,12 +102,13 @@ event-details:
       translate:
         threat: Threat
         ip: DstIP
+        SrcIP: SrcIP
         CommandLine: CommandLine
         suser: User
         filePath: File
         Process: Process
         URL: URL
-    "Event::Endpoint::Threat::PuaDetected":
+    'Event::Endpoint::Threat::PuaDetected':
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
@@ -111,12 +117,13 @@ event-details:
       translate:
         threat: Threat
         ip: DstIP
+        SrcIP: SrcIP
         CommandLine: CommandLine
         suser: User
         filePath: File
         Process: Process
         URL: URL
-    "Event::Endpoint::HmpaMalwareDetected":
+    'Event::Endpoint::HmpaMalwareDetected':
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
@@ -125,12 +132,13 @@ event-details:
       translate:
         threat: Threat
         ip: DstIP
+        SrcIP: SrcIP
         CommandLine: CommandLine
         suser: User
         filePath: File
         Process: Process
         URL: URL
-    "Event::Endpoint::HomeThreatRemnantsDetected":
+    'Event::Endpoint::HomeThreatRemnantsDetected':
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
@@ -139,12 +147,13 @@ event-details:
       translate:
         threat: Threat
         ip: DstIP
+        SrcIP: SrcIP
         CommandLine: CommandLine
         suser: User
         filePath: File
         Process: Process
         URL: URL
-    "Event::Endpoint::HmpaPuaDetected":
+    'Event::Endpoint::HmpaPuaDetected':
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
@@ -153,12 +162,13 @@ event-details:
       translate:
         threat: Threat
         ip: DstIP
+        SrcIP: SrcIP
         CommandLine: CommandLine
         suser: User
         filePath: File
         Process: Process
         URL: URL
-    "Event::Endpoint::CoreDetection":
+    'Event::Endpoint::CoreDetection':
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
@@ -167,12 +177,13 @@ event-details:
       translate:
         threat: Threat
         ip: DstIP
+        SrcIP: SrcIP
         CommandLine: CommandLine
         suser: User
         filePath: File
         Process: Process
         URL: URL
-    "Event::Endpoint::CoreRemoteDetection":
+    'Event::Endpoint::CoreRemoteDetection':
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
@@ -181,12 +192,13 @@ event-details:
       translate:
         threat: Threat
         ip: DstIP
+        SrcIP: SrcIP
         CommandLine: CommandLine
         suser: User
         filePath: File
         Process: Process
         URL: URL
-    "Event::Smc::MitmAttackEvent::0":
+    'Event::Smc::MitmAttackEvent::0':
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
@@ -195,12 +207,13 @@ event-details:
       translate:
         threat: Threat
         ip: DstIP
+        SrcIP: SrcIP
         CommandLine: CommandLine
         suser: User
         filepath: File
         Process: Process
         URL: URL
-    "Event::Smc::MitmAttackEvent::1":
+    'Event::Smc::MitmAttackEvent::1':
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
@@ -209,12 +222,13 @@ event-details:
       translate:
         threat: Threat
         ip: DstIP
+        SrcIP: SrcIP
         CommandLine: CommandLine
         suser: User
         filepath: File
         Process: Process
         URL: URL
-    "Event::Smc::MitmAttackEvent::2":
+    'Event::Smc::MitmAttackEvent::2':
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
@@ -223,12 +237,13 @@ event-details:
       translate:
         threat: Threat
         ip: DstIP
+        SrcIP: SrcIP
         CommandLine: CommandLine
         suser: User
         filepath: File
         Process: Process
         URL: URL
-    "Event::Smc::MitmAttackEvent::3":
+    'Event::Smc::MitmAttackEvent::3':
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
@@ -237,12 +252,13 @@ event-details:
       translate:
         threat: Threat
         ip: DstIP
+        SrcIP: SrcIP
         CommandLine: CommandLine
         suser: User
         filepath: File
         Process: Process
         URL: URL
-    "Event::Smc::MitmAttackEvent::4":
+    'Event::Smc::MitmAttackEvent::4':
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
@@ -251,12 +267,13 @@ event-details:
       translate:
         threat: Threat
         ip: DstIP
+        SrcIP: SrcIP
         CommandLine: CommandLine
         suser: User
         filepath: File
         Process: Process
         URL: URL
-    "Event::Smc::MitmAttackEvent::5":
+    'Event::Smc::MitmAttackEvent::5':
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
@@ -265,12 +282,13 @@ event-details:
       translate:
         threat: Threat
         ip: DstIP
+        SrcIP: SrcIP
         CommandLine: CommandLine
         suser: User
         filepath: File
         Process: Process
         URL: URL
-    "Event::Smc::MitmAttackEvent::6":
+    'Event::Smc::MitmAttackEvent::6':
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
@@ -279,12 +297,58 @@ event-details:
       translate:
         threat: Threat
         ip: DstIP
+        SrcIP: SrcIP
         CommandLine: CommandLine
         suser: User
         filepath: File
         Process: Process
         URL: URL
-    "Event::Endpoint::UserAutoCreated":
+    'Event::Endpoint::CorePuaReboot':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        threat: Threat
+        ip: DstIP
+        SrcIP: SrcIP
+        CommandLine: CommandLine
+        suser: User
+        filepath: File
+        Process: Process
+        URL: URL
+    'Event::Endpoint::CorePuaClean':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        threat: Threat
+        ip: DstIP
+        SrcIP: SrcIP
+        CommandLine: CommandLine
+        suser: User
+        filepath: File
+        Process: Process
+        URL: URL
+    'Event::Endpoint::NonCompliant':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        threat: Threat
+        ip: DstIP
+        SrcIP: SrcIP
+        CommandLine: CommandLine
+        suser: User
+        filepath: File
+        Process: Process
+        URL: URL
+    'Event::Endpoint::UserAutoCreated':
       annotate:
         Stream: IAM
         Action: USER_ACCOUNT_CREATED
