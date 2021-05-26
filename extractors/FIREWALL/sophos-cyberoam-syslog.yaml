@@ -14,14 +14,23 @@ provides-streams:
 - IAM
 - CONFIGURATION
 master-filters:
-- '^(?:\<\d+\>)?date\=\d+\-\d+\-\d+\s+time\=\d+\:\d+\:\d+\s+timezone\=\"\w+\"\s+device_name\=\"\S+\"\sdevice_id\=\s?\w+\-?\w+\s+log_id\=\d+\s+'
+- '^(?:\<\d+\>)?(?:device\=\"\w+\"\s+)?date\=\d+\-\d+\-\d+\s+time\=\d+\:\d+\:\d+\s+timezone\=\"\S+\"\s+device_name\=\"\S+\"\sdevice_id\=\s?\w+\-?\w+\s+log_id\=\d+\s+'
 event-details:
-- first-match: log_subtype\=\"(?:Allowed|Denied|Drop|Clean|Admin|Authentication|System)\"
+- first-match: 'log_subtype\=\".*?\"\s+status\=\".*?\"'
   decoder: custom
   decoder-regex: '([\w]+)=(\"[^\"]*\"|[^\s]*)'
-  event-key-format: '{log_id}-{status}'
+  event-key-format: '{log_id}-{status}-{log_type}'
   event-key-mapping:
-    '062009617507-Successful':
+    '062009617507-Successful-Event':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        AuthProto: AuthProto
+        user_name: User
+        src_ip: SrcIP
+    '062910617701-Successful-Event':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
@@ -30,26 +39,17 @@ event-details:
         auth_mechanism: AuthProto
         user_name: User
         src_ip: SrcIP
-    '062910617701-Successful':
-      annotate:
-        Stream: AUTHENTICATION
-        Action: LOGIN
-        Status: PASSED
-      translate:
-        auth_mechanism: AuthProto
-        user_name: User
-        src_ip: SrcIP
-    '062109517507-Failed':
+    '062109517507-Failed-Event':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        Reason: INVALID_PASSWORD
+        Reason: BAD_USER_PASSWORD
+        AuthProto: SSH
       translate:
-        auth_mechanism: AuthProto
         user_name: User
         src_ip: SrcIP
-    '062910617703-Successful':
+    '062910617703-Successful-Event':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGOUT
@@ -58,7 +58,7 @@ event-details:
         auth_mechanism: AuthProto
         user_name: User
         src_ip: SrcIP 
-    '062910517702-Failed':
+    '062910517702-Failed-Event':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
@@ -68,7 +68,7 @@ event-details:
         reason: Reason
         user_name: User
         src_ip: SrcIP
-    '063210617706-Successful':
+    '063210617706-Successful-Event':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGOUT
@@ -77,7 +77,7 @@ event-details:
         auth_mechanism: AuthProto
         user_name: User
         src_ip: SrcIP 
-    '063210617704-Successful':
+    '063210617704-Successful-Event':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
@@ -86,16 +86,16 @@ event-details:
         auth_mechanism: AuthProto
         user_name: User
         src_ip: SrcIP 
-    '062009617501-Successful':
+    '062009617501-Successful-Event':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
       translate:
-        auth_mechanism: AuthProto
+        AuthProto: AuthProto
         user_name: User
         src_ip: SrcIP                    
-    '050901616003-':
+    '050901616003--Content Filtering':
       annotate:
         Stream: FIREWALL
         Action: PACKET_ALLOWED
@@ -109,7 +109,35 @@ event-details:
         sent_bytes: TXLen
         recv_bytes: RXLen 
         application: App  
-    '018201500005-Allow':
+    '018201500005-Allow-Firewall':
+      annotate:
+        Stream: FIREWALL
+        Action: PACKET_ALLOWED
+        Status: PASSED
+      translate:
+        src_ip: SrcIP
+        dst_ip: DstIP
+        protocol: Proto
+        src_port: SrcPort
+        dst_port: DstPort
+        sent_bytes: TXLen
+        recv_bytes: RXLen 
+        application: App   
+    '018201500004-Deny-Firewall':
+      annotate:
+        Stream: FIREWALL
+        Action: PACKET_BLOCKED
+        Status: PASSED
+      translate:
+        src_ip: SrcIP
+        dst_ip: DstIP
+        protocol: Proto
+        src_port: SrcPort
+        dst_port: DstPort
+        sent_bytes: TXLen
+        recv_bytes: RXLen 
+        application: App   
+    '010101600001-Allow-Firewall':
       annotate:
         Stream: FIREWALL
         Action: PACKET_ALLOWED
@@ -123,7 +151,21 @@ event-details:
         sent_bytes: TXLen
         recv_bytes: RXLen 
         application: App       
-    '010102600002-Deny':
+    '010102600002-Deny-Firewall':
+      annotate:
+        Stream: FIREWALL
+        Action: PACKET_BLOCKED
+        Status: PASSED
+      translate:
+        src_ip: SrcIP
+        dst_ip: DstIP
+        protocol: Proto
+        src_port: SrcPort
+        dst_port: DstPort
+        sent_bytes: TXLen
+        recv_bytes: RXLen 
+        application: App  
+    '010302602002-Deny-Firewall':
       annotate:
         Stream: FIREWALL
         Action: PACKET_BLOCKED
@@ -137,49 +179,7 @@ event-details:
         sent_bytes: TXLen
         recv_bytes: RXLen 
         application: App 
-    '054402617051-Deny':
-      annotate:
-        Stream: FIREWALL
-        Action: PACKET_BLOCKED
-        Status: PASSED
-      translate:
-        src_ip: SrcIP
-        dst_ip: DstIP
-        protocol: Proto
-        src_port: SrcPort
-        dst_port: DstPort
-        sent_bytes: TXLen
-        recv_bytes: RXLen 
-        application: App 
-    '010302602002-Deny':
-      annotate:
-        Stream: FIREWALL
-        Action: PACKET_BLOCKED
-        Status: PASSED
-      translate:
-        src_ip: SrcIP
-        dst_ip: DstIP
-        protocol: Proto
-        src_port: SrcPort
-        dst_port: DstPort
-        sent_bytes: TXLen
-        recv_bytes: RXLen 
-        application: App 
-    '011902605151-Deny':
-      annotate:
-        Stream: FIREWALL
-        Action: PACKET_BLOCKED
-        Status: PASSED
-      translate:
-        src_ip: SrcIP
-        dst_ip: DstIP
-        protocol: Proto
-        src_port: SrcPort
-        dst_port: DstPort
-        sent_bytes: TXLen
-        recv_bytes: RXLen 
-        application: App 
-    '010202601001-Deny':
+    '010202601001-Deny-Firewall':
       annotate:
         Stream: FIREWALL
         Action: PACKET_BLOCKED
@@ -193,7 +193,105 @@ event-details:
         sent_bytes: TXLen
         recv_bytes: RXLen 
         application: App     
-    '050902616002-':
+    '016602600003-Deny-Firewall':
+      annotate:
+        Stream: FIREWALL
+        Action: PACKET_BLOCKED
+        Status: PASSED
+      translate:
+        src_ip: SrcIP
+        dst_ip: DstIP
+        protocol: Proto
+        src_port: SrcPort
+        dst_port: DstPort
+        sent_bytes: TXLen
+        recv_bytes: RXLen 
+        application: App 
+    '016602600006-Deny-Firewall':
+      annotate:
+        Stream: FIREWALL
+        Action: PACKET_BLOCKED
+        Status: PASSED
+      translate:
+        src_ip: SrcIP
+        dst_ip: DstIP
+        protocol: Proto
+        src_port: SrcPort
+        dst_port: DstPort
+        sent_bytes: TXLen
+        recv_bytes: RXLen 
+        application: App      
+    '011402601301-Deny-Firewall':
+      annotate:
+        Stream: FIREWALL
+        Action: PACKET_BLOCKED
+        Status: PASSED
+      translate:
+        src_ip: SrcIP
+        dst_ip: DstIP
+        protocol: Proto
+        src_port: SrcPort
+        dst_port: DstPort
+        sent_bytes: TXLen
+        recv_bytes: RXLen 
+        application: App      
+    '010502604001-Deny-Firewall':
+      annotate:
+        Stream: FIREWALL
+        Action: PACKET_BLOCKED
+        Status: PASSED
+      translate:
+        src_ip: SrcIP
+        dst_ip: DstIP
+        protocol: Proto
+        src_port: SrcPort
+        dst_port: DstPort
+        sent_bytes: TXLen
+        recv_bytes: RXLen 
+        application: App      
+    '010602605001-Deny-Firewall':
+      annotate:
+        Stream: FIREWALL
+        Action: PACKET_BLOCKED
+        Status: PASSED
+      translate:
+        src_ip: SrcIP
+        dst_ip: DstIP
+        protocol: Proto
+        src_port: SrcPort
+        dst_port: DstPort
+        sent_bytes: TXLen
+        recv_bytes: RXLen 
+        application: App      
+    '011702605051-Deny-Firewall':
+      annotate:
+        Stream: FIREWALL
+        Action: PACKET_BLOCKED
+        Status: PASSED
+      translate:
+        src_ip: SrcIP
+        dst_ip: DstIP
+        protocol: Proto
+        src_port: SrcPort
+        dst_port: DstPort
+        sent_bytes: TXLen
+        recv_bytes: RXLen 
+        application: App      
+    '011802605101-Deny-Firewall':
+      annotate:
+        Stream: FIREWALL
+        Action: PACKET_BLOCKED
+        Status: PASSED
+      translate:
+        src_ip: SrcIP
+        dst_ip: DstIP
+        protocol: Proto
+        src_port: SrcPort
+        dst_port: DstPort
+        sent_bytes: TXLen
+        recv_bytes: RXLen 
+        application: App      
+    '050902616002--Content Filtering':
       annotate:
         Stream: FIREWALL
         Action: PACKET_BLOCKED
@@ -206,22 +304,8 @@ event-details:
         dst_port: DstPort
         sent_bytes: TXLen
         recv_bytes: RXLen
-        application: App 
-    '010101600001-Allow':
-      annotate:
-        Stream: FIREWALL
-        Action: PACKET_ALLOWED
-        Status: PASSED
-      translate:
-        src_ip: SrcIP
-        dst_ip: DstIP
-        protocol: Proto
-        src_port: SrcPort
-        dst_port: DstPort
-        sent_bytes: TXLen
-        recv_bytes: RXLen
-        application: App                 
-    '050901616001-':
+        application: App               
+    '050901616001--Content Filtering':
       annotate:
         Stream: FIREWALL
         Action: PACKET_ALLOWED
@@ -235,7 +319,7 @@ event-details:
         sent_bytes: TXLen
         recv_bytes: RXLen
         application: App   
-    '010301602001-Allow':
+    '010301602001-Allow-Firewall':
       annotate:
         Stream: FIREWALL
         Action: PACKET_ALLOWED
@@ -249,7 +333,7 @@ event-details:
         sent_bytes: TXLen
         recv_bytes: RXLen
         application: App
-    '062511617858-Failed':
+    '062511617858-Failed-Firewall':
       annotate:
         Stream: FIREWALL
         Action: CONNECTION_TERMINATED
@@ -263,7 +347,7 @@ event-details:
         sent_bytes: TXLen
         recv_bytes: RXLen
         application: App
-    '062511617886-Successful':
+    '062511617842-Successful-Event':
       annotate:
         Stream: FIREWALL
         Action: CONNECTION_ESTABLISHED
@@ -277,7 +361,7 @@ event-details:
         sent_bytes: TXLen
         recv_bytes: RXLen
         application: App
-    '062511617842-Successful':
+    '062511617846-Successful-Event':
       annotate:
         Stream: FIREWALL
         Action: CONNECTION_ESTABLISHED
@@ -291,7 +375,7 @@ event-details:
         sent_bytes: TXLen
         recv_bytes: RXLen
         application: App
-    '062511617846-Successful':
+    '062511617848-Successful-Event':
       annotate:
         Stream: FIREWALL
         Action: CONNECTION_ESTABLISHED
@@ -305,7 +389,7 @@ event-details:
         sent_bytes: TXLen
         recv_bytes: RXLen
         application: App
-    '062511617848-Successful':
+    '062511617853-Successful-Event':
       annotate:
         Stream: FIREWALL
         Action: CONNECTION_ESTABLISHED
@@ -319,7 +403,7 @@ event-details:
         sent_bytes: TXLen
         recv_bytes: RXLen
         application: App
-    '062511617853-Successful':
+    '062511617854-Successful-Event':
       annotate:
         Stream: FIREWALL
         Action: CONNECTION_ESTABLISHED
@@ -333,7 +417,7 @@ event-details:
         sent_bytes: TXLen
         recv_bytes: RXLen
         application: App
-    '062511617854-Successful':
+    '062511617858-Successful-Event':
       annotate:
         Stream: FIREWALL
         Action: CONNECTION_ESTABLISHED
@@ -347,7 +431,7 @@ event-details:
         sent_bytes: TXLen
         recv_bytes: RXLen
         application: App
-    '062511617858-Successful':
+    '062511617865-Successful-Event':
       annotate:
         Stream: FIREWALL
         Action: CONNECTION_ESTABLISHED
@@ -361,7 +445,7 @@ event-details:
         sent_bytes: TXLen
         recv_bytes: RXLen
         application: App
-    '062511617865-Successful':
+    '062511617866-Successful-Event':
       annotate:
         Stream: FIREWALL
         Action: CONNECTION_ESTABLISHED
@@ -375,7 +459,7 @@ event-details:
         sent_bytes: TXLen
         recv_bytes: RXLen
         application: App
-    '062511617866-Successful':
+    '062511617867-Successful-Event':
       annotate:
         Stream: FIREWALL
         Action: CONNECTION_ESTABLISHED
@@ -389,7 +473,7 @@ event-details:
         sent_bytes: TXLen
         recv_bytes: RXLen
         application: App
-    '062511617867-Successful':
+    '062511617874-Successful-Event':
       annotate:
         Stream: FIREWALL
         Action: CONNECTION_ESTABLISHED
@@ -403,7 +487,7 @@ event-details:
         sent_bytes: TXLen
         recv_bytes: RXLen
         application: App
-    '062511617874-Successful':
+    '062511617876-Successful-Event':
       annotate:
         Stream: FIREWALL
         Action: CONNECTION_ESTABLISHED
@@ -417,7 +501,7 @@ event-details:
         sent_bytes: TXLen
         recv_bytes: RXLen
         application: App
-    '062511617876-Successful':
+    '062511617879-Successful-Event':
       annotate:
         Stream: FIREWALL
         Action: CONNECTION_ESTABLISHED
@@ -431,7 +515,7 @@ event-details:
         sent_bytes: TXLen
         recv_bytes: RXLen
         application: App
-    '062511617879-Successful':
+    '062511617880-Successful-Event':
       annotate:
         Stream: FIREWALL
         Action: CONNECTION_ESTABLISHED
@@ -445,7 +529,7 @@ event-details:
         sent_bytes: TXLen
         recv_bytes: RXLen
         application: App
-    '062511617880-Successful':
+    '062511617881-Successful-Event':
       annotate:
         Stream: FIREWALL
         Action: CONNECTION_ESTABLISHED
@@ -459,7 +543,7 @@ event-details:
         sent_bytes: TXLen
         recv_bytes: RXLen
         application: App
-    '062511617881-Successful':
+    '062511617884-Successful-Event':
       annotate:
         Stream: FIREWALL
         Action: CONNECTION_ESTABLISHED
@@ -473,7 +557,7 @@ event-details:
         sent_bytes: TXLen
         recv_bytes: RXLen
         application: App
-    '062511617884-Successful':
+    '062511617887-Successful-Event':
       annotate:
         Stream: FIREWALL
         Action: CONNECTION_ESTABLISHED
@@ -487,7 +571,7 @@ event-details:
         sent_bytes: TXLen
         recv_bytes: RXLen
         application: App
-    '062511617887-Successful':
+    '062511617892-Successful-Event':
       annotate:
         Stream: FIREWALL
         Action: CONNECTION_ESTABLISHED
@@ -501,7 +585,7 @@ event-details:
         sent_bytes: TXLen
         recv_bytes: RXLen
         application: App
-    '062511617892-Successful':
+    '062511617878-Successful-EVent':
       annotate:
         Stream: FIREWALL
         Action: CONNECTION_ESTABLISHED
@@ -515,21 +599,7 @@ event-details:
         sent_bytes: TXLen
         recv_bytes: RXLen
         application: App
-    '062511617878-Successful':
-      annotate:
-        Stream: FIREWALL
-        Action: CONNECTION_ESTABLISHED
-        Status: PASSED
-      translate:
-        src_ip: SrcIP
-        dst_ip: DstIP
-        protocol: Proto
-        src_port: SrcPort
-        dst_port: DstPort
-        sent_bytes: TXLen
-        recv_bytes: RXLen
-        application: App
-    '062009617502-Successful':
+    '062009617502-Successful-Event':
       annotate:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
@@ -537,7 +607,7 @@ event-details:
       translate:
         User: User
         WEB_CATEGORY_NAME: Config
-    '062009517503-Successful':
+    '062009517503-Successful-Event':
       annotate:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
@@ -545,7 +615,7 @@ event-details:
       translate:
         User: User
         Config: Config       
-    '062009517504-Successful':
+    '062009517504-Successful-Event':
       annotate:
         Stream: IAM
         Action: USER_REMOVED
@@ -554,23 +624,7 @@ event-details:
         user_name: User
         USER: TargetUser
         Role: Role       
-
-  fallback:
-    annotate:
-      EventName: Generic Cyberoam Firewall Event
-      Stream: OTHER
-
-  globals:
-    translate:
-      date: SystemTstamp
-      device_name: System
-
-- first-match: log_subtype\=\"(?:Detect|Virus|Spam|Probable\s+Spam|Drop)\"
-  decoder: custom
-  decoder-regex: '([\w]+)=(\"[^\"]*\"|[^\s]*)'
-  event-key-format: '{log_subtype}'
-  event-key-mapping:  
-    'Detect':
+    '020803407001--IDP':
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
@@ -581,7 +635,7 @@ event-details:
         signature_msg: Threat
         src_ip: SrcIP
         dst_ip: DstIP 
-    'Virus':
+    '030906208001--Anti-Virus':
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
@@ -592,7 +646,7 @@ event-details:
         virus: Threat
         src_ip: SrcIP
         dst_ip: DstIP 
-    'Spam':
+    '041207414001--Anti-Spam':
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
@@ -603,7 +657,7 @@ event-details:
         reason: Threat
         src_ip: SrcIP
         dst_ip: DstIP
-    'Probable Spam':
+    '041108413002--Anti-Spam':
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
@@ -614,7 +668,29 @@ event-details:
         reason: Threat
         src_ip: SrcIP
         dst_ip: DstIP 
-    'Drop':
+    '011902605151-Deny-Firewall':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        user_name: User 
+        log_component: Threat
+        src_ip: SrcIP
+        dst_ip: DstIP 
+    '010402403001-Deny-Firewall':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        user_name: User 
+        log_component: Threat
+        src_ip: SrcIP
+        dst_ip: DstIP 
+    '020804407002--IDP':
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
@@ -634,4 +710,56 @@ event-details:
   globals:
     translate:
       date: SystemTstamp
-      device_name: System      
+      device_name: System    
+
+- first-match: 'log_subtype\=\"[\w\s\-]+\"(?!status\=\".*?\")?\s+priority\='
+  decoder: custom
+  decoder-regex: '([\w]+)=(\"[^\"]*\"|[^\s]*)'
+  event-key-format: '{log_id}-{log_type}'
+  event-key-mapping:
+    '086320518009-ATP':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        user_name: User 
+        threatname: Threat
+        sourceip: SrcIP
+        destinationip: DstIP 
+    '020804407002-IDP':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        user_name: User 
+        classification: Threat
+        src_ip: SrcIP
+        dst_ip: DstIP
+    '054402617051-Content Filtering':
+      annotate:
+        Stream: FIREWALL
+        Action: PACKET_BLOCKED
+        Status: PASSED
+      translate:
+        src_ip: SrcIP
+        dst_ip: DstIP
+        protocol: Proto
+        src_port: SrcPort
+        dst_port: DstPort
+        sent_bytes: TXLen
+        recv_bytes: RXLen 
+        application: App 
+
+  fallback:
+    annotate:
+      EventName: Generic Cyberoam Firewall Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      date: SystemTstamp
+      device_name: System  
