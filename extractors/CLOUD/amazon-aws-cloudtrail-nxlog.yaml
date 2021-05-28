@@ -197,7 +197,7 @@ event-details:
       translate:
         userIdentity[userName]: User
         requestParameters[userName]: TargetUser
-        eventName: Role
+        Role: Role
     'DeletePolicy':
       annotate:
         Stream: IAM
@@ -206,7 +206,7 @@ event-details:
       translate:
         userIdentity[userName]: User
         requestParameters[userName]: TargetUser
-        eventName: Role
+        Role: Role
     'DeleteRolePolicy':
       annotate:
         Stream: IAM
@@ -215,7 +215,7 @@ event-details:
       translate:
         userIdentity[userName]: User
         requestParameters[userName]: TargetUser
-        eventName: Role
+        Role: Role
     'DeleteUserPolicy':
       annotate:
         Stream: IAM
@@ -224,7 +224,7 @@ event-details:
       translate:
         userIdentity[userName]: User
         requestParameters[userName]: TargetUser
-        eventName: Role
+        Role: Role
     'DeleteGroupPolicy':
       annotate:
         Stream: IAM
@@ -233,7 +233,7 @@ event-details:
       translate:
         userIdentity[userName]: User
         requestParameters[userName]: TargetUser
-        eventName: Role
+        Role: Role
     'CreateUser':
       annotate:
         Stream: IAM
@@ -242,7 +242,7 @@ event-details:
       translate:
         userIdentity[userName]: User
         requestParameters[userName]: TargetUser
-        eventName: Role
+        Role: Role
     'DeleteUser':
       annotate:
         Stream: IAM
@@ -251,7 +251,7 @@ event-details:
       translate:
         userIdentity[userName]: User
         requestParameters[userName]: TargetUser
-        eventName: Role
+        Role: Role
     'AddUserToGroup':
       annotate:
         Stream: IAM
@@ -260,7 +260,7 @@ event-details:
       translate:
         userIdentity[userName]: User
         requestParameters[userName]: TargetUser
-        eventName: Role
+        Role: Role
     'DeleteUserToGroup':
       annotate:
         Stream: IAM
@@ -269,7 +269,7 @@ event-details:
       translate:
         userIdentity[userName]: User
         requestParameters[userName]: TargetUser
-        eventName: Role
+        Role: Role
     'CreateRole':
       annotate:
         Stream: IAM
@@ -278,7 +278,7 @@ event-details:
       translate:
         userIdentity[userName]: User
         requestParameters[userName]: TargetUser
-        eventName: Role
+        Role: Role
     'DeleteRole':
       annotate:
         Stream: IAM
@@ -287,7 +287,7 @@ event-details:
       translate:
         userIdentity[userName]: User
         requestParameters[userName]: TargetUser
-        eventName: Role
+        Role: Role
     'CreateTrail':
       annotate:
         Stream: CLOUDTRAIL
