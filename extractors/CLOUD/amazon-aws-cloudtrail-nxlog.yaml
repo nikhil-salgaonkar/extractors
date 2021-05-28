@@ -53,6 +53,86 @@ event-details:
   decoder: json
   event-key-format: '{eventName}'
   event-key-mapping:
+    'CreateTrail':
+      annotate:
+        Stream: CLOUDTRAIL
+      translate:
+        eventType: EventType
+        eventSource: EventSource
+        eventName: EventName
+        awsRegion: AwsRegion
+        userIdentity[accessKeyId]: AccessKey
+        userIdentity[type]: UserGroup
+        sourceIPAddress: SrcIP
+        userAgent: UserAgent
+        requestParameters: RequestParameters
+        responseElements: ResponseElements
+        errorCode: ErrorCode
+        userIdentity[arn]: UserArn
+    'DeleteTrail':
+      annotate:
+        Stream: CLOUDTRAIL
+      translate:
+        eventType: EventType
+        eventSource: EventSource
+        eventName: EventName
+        awsRegion: AwsRegion
+        userIdentity[accessKeyId]: AccessKey
+        userIdentity[type]: UserGroup
+        sourceIPAddress: SrcIP
+        userAgent: UserAgent
+        requestParameters: RequestParameters
+        responseElements: ResponseElements
+        errorCode: ErrorCode
+        userIdentity[arn]: UserArn
+    'StartLogging':
+      annotate:
+        Stream: CLOUDTRAIL
+      translate:
+        eventType: EventType
+        eventSource: EventSource
+        eventName: EventName
+        awsRegion: AwsRegion
+        userIdentity[accessKeyId]: AccessKey
+        userIdentity[type]: UserGroup
+        sourceIPAddress: SrcIP
+        userAgent: UserAgent
+        requestParameters: RequestParameters
+        responseElements: ResponseElements
+        errorCode: ErrorCode
+        userIdentity[arn]: UserArn
+    'StopLogging':
+      annotate:
+        Stream: CLOUDTRAIL
+      translate:
+        eventType: EventType
+        eventSource: EventSource
+        eventName: EventName
+        awsRegion: AwsRegion
+        userIdentity[accessKeyId]: AccessKey
+        userIdentity[type]: UserGroup
+        sourceIPAddress: SrcIP
+        userAgent: UserAgent
+        requestParameters: RequestParameters
+        responseElements: ResponseElements
+        errorCode: ErrorCode
+        userIdentity[arn]: UserArn
+    'UpdateTrail':
+      annotate:
+        Stream: CLOUDTRAIL
+      translate:
+        eventType: EventType
+        eventSource: EventSource
+        eventName: EventName
+        awsRegion: AwsRegion
+        userIdentity[accessKeyId]: AccessKey
+        userIdentity[type]: UserGroup
+        sourceIPAddress: SrcIP
+        userAgent: UserAgent
+        requestParameters: RequestParameters
+        responseElements: ResponseElements
+        errorCode: ErrorCode
+        userIdentity[arn]: UserArn
     'CreatePolicyVersion':
       annotate:
         Stream: CONFIGURATION
@@ -94,22 +174,6 @@ event-details:
         userIdentity[userName]: User
         Config: Config
     'DetachRolePolicy':
-      annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-      translate:
-        userIdentity[userName]: User
-        Config: Config
-    'AttachUserPolicy':
-      annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-      translate:
-        userIdentity[userName]: User
-        Config: Config
-    'DetachUserPolicy':
       annotate:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
@@ -173,6 +237,22 @@ event-details:
       translate:
         userIdentity[userName]: User
         Config: Config
+    'DetachUserPolicy':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        userIdentity[userName]: User
+        Config: Config
+    'AttachUserPolicy':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        userIdentity[userName]: User
+        Config: Config      
     'CreateSecurityGroup':
       annotate:
         Stream: CONFIGURATION
@@ -287,87 +367,7 @@ event-details:
       translate:
         userIdentity[userName]: User
         requestParameters[userName]: TargetUser
-        Role: Role
-    'CreateTrail':
-      annotate:
-        Stream: CLOUDTRAIL
-      translate:
-        eventType: EventType
-        eventSource: EventSource
-        eventName: EventName
-        awsRegion: AwsRegion
-        userIdentity[accessKeyId]: AccessKey
-        userIdentity[type]: UserGroup
-        sourceIPAddress: SrcIP
-        userAgent: UserAgent
-        requestParameters: RequestParameters
-        responseElements: ResponseElements
-        errorCode: ErrorCode
-        userIdentity[arn]: UserArn
-    'DeleteTrail':
-      annotate:
-        Stream: CLOUDTRAIL
-      translate:
-        eventType: EventType
-        eventSource: EventSource
-        eventName: EventName
-        awsRegion: AwsRegion
-        userIdentity[accessKeyId]: AccessKey
-        userIdentity[type]: UserGroup
-        sourceIPAddress: SrcIP
-        userAgent: UserAgent
-        requestParameters: RequestParameters
-        responseElements: ResponseElements
-        errorCode: ErrorCode
-        userIdentity[arn]: UserArn
-    'StartLogging':
-      annotate:
-        Stream: CLOUDTRAIL
-      translate:
-        eventType: EventType
-        eventSource: EventSource
-        eventName: EventName
-        awsRegion: AwsRegion
-        userIdentity[accessKeyId]: AccessKey
-        userIdentity[type]: UserGroup
-        sourceIPAddress: SrcIP
-        userAgent: UserAgent
-        requestParameters: RequestParameters
-        responseElements: ResponseElements
-        errorCode: ErrorCode
-        userIdentity[arn]: UserArn
-    'StopLogging':
-      annotate:
-        Stream: CLOUDTRAIL
-      translate:
-        eventType: EventType
-        eventSource: EventSource
-        eventName: EventName
-        awsRegion: AwsRegion
-        userIdentity[accessKeyId]: AccessKey
-        userIdentity[type]: UserGroup
-        sourceIPAddress: SrcIP
-        userAgent: UserAgent
-        requestParameters: RequestParameters
-        responseElements: ResponseElements
-        errorCode: ErrorCode
-        userIdentity[arn]: UserArn
-    'UpdateTrail':
-      annotate:
-        Stream: CLOUDTRAIL
-      translate:
-        eventType: EventType
-        eventSource: EventSource
-        eventName: EventName
-        awsRegion: AwsRegion
-        userIdentity[accessKeyId]: AccessKey
-        userIdentity[type]: UserGroup
-        sourceIPAddress: SrcIP
-        userAgent: UserAgent
-        requestParameters: RequestParameters
-        responseElements: ResponseElements
-        errorCode: ErrorCode
-        userIdentity[arn]: UserArn
+        Role: Role     
 
   fallback:
     annotate:
