@@ -1,0 +1,65 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 88
+integration: Syslog(CEF)
+vendor-name: Citrix
+product-name: NetScaler WAF
+source-name: NETSCALER
+source-type: WAF
+source-description: Extractor for NetScaler WAF Events
+provides-streams:
+- THREAT
+master-filters:
+- 'CEF\:\d+\|Citrix\|NetScaler\|'  
+event-details:
+- first-match: 'CEF\:\d+\|Citrix\|NetScaler\|[\w\.]+\|'
+  decoder: custom
+  decoder-regex: '(\w+)\=([^\s]*)'
+  event-key-format: '{act}'
+  event-key-mapping:
+    'transformed':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB 
+      translate:
+        msg: Threat
+        src: SrcIP
+        dst: DstIP
+        user: User
+
+    'blocked':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_BLOCKED
+        Status: PASSED
+        Vector: WEB 
+      translate:
+        msg: Threat
+        src: SrcIP
+        dst: DstIP
+        user: User 
+
+    'not blocked':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB 
+      translate:
+        msg: Threat
+        src: SrcIP
+        dst: DstIP
+        user: User       
+           
+  fallback:
+    annotate:
+      EventName: Generic NetScaler WAF Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      System: System
+      SystemTstamp: SystemTstamp
+
