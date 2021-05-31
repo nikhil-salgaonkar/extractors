@@ -475,7 +475,7 @@ event-details:
         sourceIPv6Address: SrcIP
         destinationIPv6Address: DstIP
         avMalwareName: Threat
-        filename: File
+        fileName: File
         Process: Process
         User: User
         CommandLine: CommandLine
@@ -536,7 +536,7 @@ event-details:
         sourceIPv6Address: SrcIP
         destinationIPv6Address: DstIP
         classMsg: Threat
-        File: File
+        fileName: File
         Process: Process
         User: User
         CommandLine: CommandLine
