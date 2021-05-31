@@ -9,119 +9,221 @@ source-type: ENDPOINT-SECURITY
 source-description: extractor for Dell-Cylance Endpoint Events
 provides-streams:
 - THREAT
+- IAM
+- AUTHENTICATION
 master-filters:
-- '^(?:\<\d+\>\d+\s+)?\d+\-\d+\-\d+T\d+\:\d+\:\d+[\d\.\+Z\:]+\s+\S+\s+CylancePROTECT\s+'
+- '^(?:\<\d+\>\d+\s+)?\d+\-\d+\-\d+T\d+\:\d+\:\d+[\d\.\+Z\:]+\s+\S+\s+CylancePROTECT\:?'
 event-details:
-- first-match: 'CylancePROTECT\s+[\-\s]+Event\s+Type\:'
+- first-match: 'CylancePROTECT(?:\:\s+|\s+[\-\s]+)Event\s+Type\:'
   decoder: custom
-  decoder-regex: '\s+([\w\s]+)\:\s+(?:(?=\()\(([^\)]+)\)\,|([^\,]+)\,)'
-  event-key-format: '{Threat Classification}'
+  decoder-regex: '\s+([\w\s]+)\:\s+(?:(?=\()\(([^\)]+)\)\,?|([^\,]+)\,?)'
+  event-key-format: '{Event Name}'
   event-key-mapping:
-    'PUP - Scripting Tool':           
+    'threat_found':           
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
         Status: PASSED
         Vector: HOST
       translate:
-        Threat Classification: Threat
+        SrcIP: SrcIP
         IP Address: DstIP
-        User Name: User
-        CommandLine: CommandLine
-        File Name: File
-        Url: URL
-        Process: Process
-    
-    'PUP - Generic':           
-      annotate:
-        Stream: THREAT
-        Action: THREAT_DETECTED
-        Status: PASSED
-        Vector: HOST
-      translate:
         Threat Classification: Threat
-        IP Address: DstIP
-        User Name: User
-        CommandLine: CommandLine
         File Name: File
-        Url: URL
-        Process: Process
-
-    'UNCLASSIFIED':           
-      annotate:
-        Stream: THREAT
-        Action: THREAT_DETECTED
-        Status: PASSED
-        Vector: HOST
-      translate:
-        Threat Classification: Threat
-        IP Address: DstIP
         User Name: User
-        CommandLine: CommandLine
-        File Name: File
-        Url: URL
         Process Name: Process
-
-    'Malware - Generic': 
+        URL: URL
+        CommandLine: CommandLine
+    'threat_cleared':           
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
         Status: PASSED
         Vector: HOST
       translate:
-        Threat Classification: Threat
+        SrcIP: SrcIP
         IP Address: DstIP
-        User Name: User
-        CommandLine: CommandLine
+        Threat Classification: Threat
         File Name: File
-        Url: URL
-        Process: Process
-
-    'File Unavailable': 
+        User Name: User
+        Process Name: Process
+        URL: URL
+        CommandLine: CommandLine
+    'threat_quarantined':           
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
         Status: PASSED
         Vector: HOST
       translate:
-        Threat Classification: Threat
+        SrcIP: SrcIP
         IP Address: DstIP
-        User Name: User
-        CommandLine: CommandLine
+        Threat Classification: Threat
         File Name: File
-        Url: URL
-        Process: Process
-
-    'Trusted': 
+        User Name: User
+        Process Name: Process
+        URL: URL
+        CommandLine: CommandLine
+    'threat_waived':           
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
         Status: PASSED
         Vector: HOST
       translate:
-        Threat Classification: Threat
+        SrcIP: SrcIP
         IP Address: DstIP
-        User Name: User
-        CommandLine: CommandLine
+        Threat Classification: Threat
         File Name: File
-        Url: URL
-        Process: Process 
-
-    'Possible PUP': 
+        User Name: User
+        Process Name: Process
+        URL: URL
+        CommandLine: CommandLine
+    'threat_changed':           
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
         Status: PASSED
         Vector: HOST
       translate:
-        Threat Classification: Threat
+        SrcIP: SrcIP
         IP Address: DstIP
-        User Name: User
-        CommandLine: CommandLine
+        Threat Classification: Threat
         File Name: File
-        Url: URL
-        Process: Process            
-     
+        User Name: User
+        Process Name: Process
+        URL: URL
+        CommandLine: CommandLine
+    'corrupt_found':           
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        SrcIP: SrcIP
+        IP Address: DstIP
+        Threat Classification: Threat
+        File Name: File
+        User Name: User
+        Process Name: Process
+        URL: URL
+        CommandLine: CommandLine  
+    'ResearchSaved':           
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        SrcIP: SrcIP
+        IP Address: DstIP
+        Threat Subclass: Threat
+        File Name: File
+        User Name: User
+        Process Name: Process
+        URL: URL
+        CommandLine: CommandLine  
+    'ThreatUpdated':           
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        SrcIP: SrcIP
+        IP Address: DstIP
+        Threat Subclass: Threat
+        File Name: File
+        User Name: User
+        Process Name: Process
+        URL: URL
+    'blocked':           
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        SrcIP: SrcIP
+        IP Address: DstIP
+        Violation Type: Threat
+        File: File
+        User Name: User
+        Process Name: Process
+        URL: URL
+        CommandLine: CommandLine 
+    'terminated':           
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        SrcIP: SrcIP
+        IP Address: DstIP
+        Violation Type: Threat
+        File: File
+        User Name: User
+        Process Name: Process
+        URL: URL
+        CommandLine: CommandLine 
+    'UserEdit':           
+      annotate:
+        Stream: IAM
+        Action: USER_UPDATED
+        Status: PASSED
+      translate:
+        user: User
+        User: TargetUser
+        Role: Role
+    'UserRemove':           
+      annotate:
+        Stream: IAM
+        Action: USER_DELETED
+        Status: PASSED
+      translate:
+        user: User
+        User: TargetUser
+        Role: Role
+    'UserAdd':           
+      annotate:
+        Stream: IAM
+        Action: USER_ADDED
+        Status: PASSED
+      translate:
+        user: User
+        User: TargetUser
+        Role: Role
+    'LoginFailure':           
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate:
+        IP Address: SrcIP
+        User: User
+        Reason: Reason
+        AuthProto: AuthProto
+    'LoginSuccess':           
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        IP Address: SrcIP
+        User: User  
+        AuthProto: AuthProto
+    'SystemSecurity':           
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        IP Address: SrcIP
+        Logged On Users: User 
+        AuthProto: AuthProto       
+
   fallback:
     annotate:
       EventName: Generic Dell-Cylance Endpoint Event
@@ -129,5 +231,5 @@ event-details:
 
   globals:
     translate:
-      'Found Date': SystemTstamp
-      'Device Name': System
+      Found Date: SystemTstamp
+      Device Name: System
