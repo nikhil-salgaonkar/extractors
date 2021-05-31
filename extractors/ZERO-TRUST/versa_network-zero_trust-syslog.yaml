@@ -94,7 +94,7 @@ event-details:
       SystemTstamp: SystemTstamp
       applianceName: System
 
-  subs: &d001
+  subs: &id001
     Proto:
       '0': HOPOPT
       '1': ICMP
@@ -300,7 +300,7 @@ event-details:
       SystemTstamp: SystemTstamp
       applianceName: System
 
-  subs: *d001      
+  subs: *id001      
 
 - first-match: '\d{4}\-\d{1,2}\-\d{2}T\d{2}\:\d{2}\:\d{2}\+\d+\s+flowMonLog\,'
   decoder: custom
@@ -334,7 +334,7 @@ event-details:
       SystemTstamp: SystemTstamp
       applianceName: System
 
-  subs: *d001
+  subs: *id001
 
 - first-match: '\d{4}\-\d{1,2}\-\d{2}T\d{2}\:\d{2}\:\d{2}\+\d+\s+flowIdLog\,'
   decoder: custom
@@ -368,7 +368,7 @@ event-details:
       SystemTstamp: SystemTstamp
       applianceName: System
 
-  subs: *d001      
+  subs: *id001      
 
 - first-match: '\d{4}\-\d{1,2}\-\d{2}T\d{2}\:\d{2}\:\d{2}\+\d+\s+dnsfLog\,'
   decoder: custom
@@ -402,7 +402,7 @@ event-details:
       SystemTstamp: SystemTstamp
       applianceName: System
 
-  subs: *d001
+  subs: *id001
 
 - first-match: '\d{4}\-\d{1,2}\-\d{2}T\d{2}\:\d{2}\:\d{2}\+\d+\s+urlfLog\,'
   decoder: custom
@@ -456,7 +456,7 @@ event-details:
       SystemTstamp: SystemTstamp
       applianceName: System
 
-  subs: *d001      
+  subs: *id001      
 
 - first-match: '\d{4}\-\d{1,2}\-\d{2}T\d{2}\:\d{2}\:\d{2}\+\d+\s+avLog\,'
   decoder: custom
