@@ -24,11 +24,11 @@ event-details:
         Status: PASSED
         Vector: HOST
       translate:
-        SrcIP: SrcIP
+        sourceIp: SrcIP
         DstIP: DstIP
         caseClassification: Threat
-        File: File
-        caseDescription: Process
+        fname: File
+        Process: Process
         URL: URL
         CommandLine: CommandLine
         User: User
@@ -41,6 +41,7 @@ event-details:
   globals:
      translate:
        caseDateAndTime: SystemTstamp
+       sourceHost: System
 
 - first-match: 'CEF\:\d+\|Forcepoint\|[\w\s\-]+\|[\d\.]+\|\d+\|DLP\s+Syslog\|\d+\|\s+act\='
   decoder: custom
@@ -58,7 +59,7 @@ event-details:
         DstIP: DstIP
         cat: Threat
         fname: File
-        sourceServiceName: Process
+        Process: Process
         URL: URL
         CommandLine: CommandLine
         suser: User
@@ -74,7 +75,7 @@ event-details:
         DstIP: DstIP
         cat: Threat
         fname: File
-        sourceServiceName: Process
+        Process: Process
         URL: URL
         CommandLine: CommandLine
         suser: User 
@@ -90,7 +91,7 @@ event-details:
         DstIP: DstIP
         cat: Threat
         fname: File
-        sourceServiceName: Process
+        Process: Process
         URL: URL
         CommandLine: CommandLine
         suser: User 
@@ -106,7 +107,7 @@ event-details:
         DstIP: DstIP
         cat: Threat
         fname: File
-        sourceServiceName: Process
+        Process: Process
         URL: URL
         CommandLine: CommandLine
         suser: User
@@ -122,7 +123,7 @@ event-details:
         DstIP: DstIP
         cat: Threat
         fname: File
-        sourceServiceName: Process
+        Process: Process
         URL: URL
         CommandLine: CommandLine
         suser: User
@@ -138,7 +139,7 @@ event-details:
         DstIP: DstIP
         cat: Threat
         fname: File
-        sourceServiceName: Process
+        Process: Process
         URL: URL
         CommandLine: CommandLine
         suser: User             
@@ -150,5 +151,5 @@ event-details:
 
   globals:
      translate:
-       timeStamp: SystemTstamp       
-
+       timeStamp: SystemTstamp
+       sourceHost: System
