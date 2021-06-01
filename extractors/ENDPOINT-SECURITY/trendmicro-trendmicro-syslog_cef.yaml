@@ -1,0 +1,1324 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 69
+integration: Syslog
+vendor-name: Trend Micro
+product-name: Trend-Micro Endpoint
+source-name: TREND-MICRO
+source-type: ENDPOINT-SECURITY
+source-description: Extractor for Trend-Micro Endpoint Events
+provides-streams:
+- THREAT
+- AUTHENTICATION
+- IAM
+master-filters:
+- CEF\:0\|Trend\s+Micro\|
+event-details:
+- first-match: CEF\:0\|Trend\s+Micro\|Deep\sDiscovery\sInspector\|.*?cn3Label\=Threat\s+Type
+  decoder: custom
+  decoder-regex: ([\w]+)\=([^\s]+)
+  event-key-format: '{cn3}'
+  decoder-header: CEF
+  event-key-mapping:
+    '0': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        cn3: Threat
+        src: SrcIP
+        dst: DstIP
+        CommandLine: CommandLine
+        duser: User
+        fname: File
+        filePath: Process
+        request: URL
+    '1': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        cn3: Threat
+        src: SrcIP
+        dst: DstIP
+        CommandLine: CommandLine
+        duser: User
+        fname: File
+        filePath: Process
+        request: URL
+    '2': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        cn3: Threat
+        src: SrcIP
+        dst: DstIP
+        CommandLine: CommandLine
+        duser: User
+        fname: File
+        filePath: Process
+        request: URL
+    '3': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        cn3: Threat
+        src: SrcIP
+        dst: DstIP
+        CommandLine: CommandLine
+        duser: User
+        fname: File
+        filePath: Process
+        request: URL
+    '4': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        cn3: Threat
+        src: SrcIP
+        dst: DstIP
+        CommandLine: CommandLine
+        duser: User
+        fname: File
+        filePath: Process
+        request: URL
+    '5':  
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        cn3: Threat
+        src: SrcIP
+        dst: DstIP
+        CommandLine: CommandLine
+        duser: User
+        fname: File
+        filePath: Process
+        request: URL 
+    
+  fallback:
+    annotate:
+      EventName: Generic Trend-Micro Endpoint Event
+      Stream: OTHER
+
+  globals:
+    translate: 
+      dvchost: System
+      rt: SystemTstamp
+
+  subs: &id001
+    Threat:
+      '0': Malicious content
+      '1': Malicious behavior
+      '2': Suspicious behavior
+      '3': Exploit
+      '4': Grayware
+      '5': Suspicious URL
+
+- first-match: CEF\:0\|Trend\s+Micro\|Deep\sDiscovery\sInspector\|.*cs1Label\=(?:SandboxImageType|malName|PolicyCategory|type)
+  decoder: custom
+  decoder-regex: ([\w]+)\=([^\s]+)
+  event-key-format: '{cs1Label}'
+  decoder-header: CEF
+  event-key-mapping:
+    'SandboxImageType': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        cs2: Threat
+        src: SrcIP
+        dst: DstIP
+        CommandLine: CommandLine
+        duser: User
+        fname: File
+        Process: Process
+        request: URL
+    
+  fallback:
+    annotate:
+      EventName: Generic Trend-Micro Endpoint Event
+      Stream: OTHER
+
+  globals:
+    translate: 
+      dvchost: System
+      rt: SystemTstamp
+
+- first-match: CEF\:0\|Trend\s+Micro\|Deep\sDiscovery\sInspector\|.*?outcome\=\w+
+  decoder: custom
+  decoder-regex: ([\w]+)\=([^\s]+)
+  event-key-format: '{Header-5}-{outcome}'
+  decoder-header: CEF
+  event-key-mapping:
+    'User logged on-Success': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        duser: User
+        src: SrcIP
+        AuthProto: AuthProto
+    'User logged off-Success': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+      translate:
+        duser: User
+        src: SrcIP
+        AuthProto: AuthProto
+    'Component: Network Content Inspection Pattern, version: 1.14155.00 on the ActiveUpdate server.-Success': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Header-5: Threat
+        src: SrcIP
+        DstIP: DstIP
+        CommandLine: CommandLine
+        duser: User
+        File: File
+        Process: Process
+        request: URL
+    'Component: Deep Discovery Malware Pattern, version: 15.853.92 on the ActiveUpdate server.-Success': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Header-5: Threat
+        src: SrcIP
+        DstIP: DstIP
+        CommandLine: CommandLine
+        duser: User
+        File: File
+        Process: Process
+        request: URL
+    'Component: C&C Identification Pattern, version: 1.01822.16 on the ActiveUpdate server.-Success': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Header-5: Threat
+        src: SrcIP
+        DstIP: DstIP
+        CommandLine: CommandLine
+        duser: User
+        File: File
+        Process: Process
+        request: URL
+    'Updated component Advanced Persistent Threat Information Pattern-Success': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Header-5: Threat
+        src: SrcIP
+        DstIP: DstIP
+        CommandLine: CommandLine
+        duser: User
+        File: File
+        Process: Process
+        request: URL
+    'Component: Advanced Persistent Threat Information Pattern, version: 1.15879.24 on the ActiveUpdate server.-Success': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Header-5: Threat
+        src: SrcIP
+        DstIP: DstIP
+        CommandLine: CommandLine
+        duser: User
+        File: File
+        Process: Process
+        request: URL
+    
+  fallback:
+    annotate:
+      EventName: Generic Trend-Micro Endpoint Event
+      Stream: OTHER
+
+  globals:
+    translate: 
+      dvchost: System
+      rt: SystemTstamp
+
+- first-match: CEF\:0\|Trend\s+Micro\|(?:Control\s+Manager|Apex\s+Central)\|
+  decoder: custom
+  decoder-regex: ([\w]+)\=([^\s]+)
+  event-key-format: '{Header-4}'
+  decoder-header: CEF
+  event-key-mapping:
+    'AV:File cleaned': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Header-5: Threat
+        src: SrcIP
+        dst: DstIP
+        CommandLine: CommandLine
+        duser: User
+        fname: File
+        filePath: Process
+        request: URL
+    'AV:File quarantined': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Header-5: Threat
+        src: SrcIP
+        dst: DstIP
+        CommandLine: CommandLine
+        duser: User
+        fname: File
+        filePath: Process
+        request: URL
+    'AV:File deleted': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Header-5: Threat
+        src: SrcIP
+        dst: DstIP
+        CommandLine: CommandLine
+        duser: User
+        fname: File
+        filePath: Process
+        request: URL
+    'AV:File renamed': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Header-5: Threat
+        src: SrcIP
+        dst: DstIP
+        CommandLine: CommandLine
+        duser: User
+        fname: File
+        filePath: Process
+        request: URL
+    'AV:File passed': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Header-5: Threat
+        src: SrcIP
+        dst: DstIP
+        CommandLine: CommandLine
+        duser: User
+        fname: File
+        filePath: Process
+        request: URL
+    'Spyware Detected': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Header-5: Threat
+        src: SrcIP
+        dst: DstIP
+        CommandLine: CommandLine
+        duser: User
+        fname: File
+        filePath: Process
+        request: URL
+    'CnC:Block': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Header-5: Threat
+        src: SrcIP
+        dst: DstIP
+        CommandLine: CommandLine
+        User: User
+        fname: File
+        deviceProcessName: Process
+        request: URL
+    'CnC:Unknown': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Header-5: Threat
+        src: SrcIP
+        dst: DstIP
+        CommandLine: CommandLine
+        User: User
+        fname: File
+        deviceProcessName: Process
+        request: URL
+    'PML:Quarantine successfully': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Header-5: Threat
+        src: SrcIP
+        dst: DstIP
+        CommandLine: CommandLine
+        User: User
+        fname: File
+        filePath: Process
+        request: URL
+    'NCIE:Block': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Header-5: Threat
+        src: SrcIP
+        dst: DstIP
+        CommandLine: CommandLine
+        User: User
+        fname: File
+        deviceProcessName: Process
+        request: URL
+    'NCIE:Pass': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Header-5: Threat
+        src: SrcIP
+        dst: DstIP
+        CommandLine: CommandLine
+        User: User
+        fname: File
+        deviceProcessName: Process
+        request: URL
+    'FH:Log': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Header-5: Threat
+        src: SrcIP
+        dst: DstIP
+        CommandLine: CommandLine
+        User: User
+        cs3: File
+        filePath: Process
+        request: URL
+    'FH:Quarantine': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Header-5: Threat
+        src: SrcIP
+        dst: DstIP
+        CommandLine: CommandLine
+        User: User
+        cs3: File
+        filePath: Process
+        request: URL
+    'VAD': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Header-5: Threat
+        src: SrcIP
+        dst: DstIP
+        CommandLine: CommandLine
+        User: User
+        fname: File
+        sproc: Process
+        request: URL
+    '700211': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Header-5: Threat
+        src: SrcIP
+        dst: DstIP
+        CommandLine: CommandLine
+        duser: User
+        fname: File
+        cs2: Process
+        request: URL
+    'PML:File cleaned': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Header-5: Threat
+        src: SrcIP
+        dst: DstIP
+        cs4: CommandLine
+        duser: User
+        fname: File
+        sproc: Process
+        request: URL
+    
+  fallback:
+    annotate:
+      EventName: Generic Trend-Micro Endpoint Event
+      Stream: OTHER
+
+  globals:
+    translate: 
+      dvchost: System
+      rt: SystemTstamp
+
+- first-match: CEF\:0\|Trend\s+Micro\|Deep\sDiscovery\sAnalyzer\|.*cs1Label\=(?:SandboxImageType|malName|PolicyCategory|type)
+  decoder: custom
+  decoder-regex: ([\w]+)\=([^\s]+)
+  event-key-format: '{cs1Label}'
+  decoder-header: CEF
+  event-key-mapping:
+    'SandboxImageType': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        cs2: Threat
+        src: SrcIP
+        Dst: DstIP
+        CommandLine: CommandLine
+        User: User
+        fname: File
+        Process: Process
+        request: URL
+    'malName': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        cs1: Threat
+        src: SrcIP
+        dst: DstIP
+        CommandLine: CommandLine
+        duser: User
+        fname: File
+        Process: Process
+        request: URL
+    'PolicyCategory':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        cs2: Threat
+        src: SrcIP
+        Dst: DstIP
+        CommandLine: CommandLine
+        duser: User
+        fname: File
+        Process: Process
+        request: URL
+    'type':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        cs1: Threat
+        src: SrcIP
+        dst: DstIP
+        CommandLine: CommandLine
+        duser: User
+        fname: File
+        Process: Process
+        request: URL
+    
+  fallback:
+    annotate:
+      EventName: Generic Trend-Micro Endpoint Event
+      Stream: OTHER
+
+  globals:
+    translate: 
+      dvchost: System
+      rt: SystemTstamp
+
+- first-match: CEF\:0\|Trend\s+Micro\|Deep\s+Security\s+(?:Agent|Manager)\|
+  decoder: custom
+  decoder-regex: ([\w]+)\=([^\s]+)
+  event-key-format: '{Header-4}'
+  decoder-header: CEF
+  event-key-mapping:
+    '9001': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Header-5: Threat
+        src: SrcIP
+        dst: DstIP
+        CommandLine: CommandLine
+        duser: User
+        fname: File
+        filePath: Process
+        request: URL
+    '9002': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Header-5: Threat
+        src: SrcIP
+        dst: DstIP
+        CommandLine: CommandLine
+        duser: User
+        fname: File
+        filePath: Process
+        request: URL
+    '9003': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Header-5: Threat
+        src: SrcIP
+        dst: DstIP
+        CommandLine: CommandLine
+        duser: User
+        fname: File
+        filePath: Process
+        request: URL
+    '9004': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Header-5: Threat
+        src: SrcIP
+        dst: DstIP
+        CommandLine: CommandLine
+        duser: User
+        fname: File
+        filePath: Process
+        request: URL
+    '9004': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Header-5: Threat
+        src: SrcIP
+        dst: DstIP
+        CommandLine: CommandLine
+        duser: User
+        fname: File
+        filePath: Process
+        request: URL
+    '9006': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Header-5: Threat
+        src: SrcIP
+        dst: DstIP
+        CommandLine: CommandLine
+        duser: User
+        fname: File
+        filePath: Process
+        request: URL
+    '9007': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Header-5: Threat
+        src: SrcIP
+        dst: DstIP
+        CommandLine: CommandLine
+        duser: User
+        fname: File
+        filePath: Process
+        request: URL
+    '9008': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Header-5: Threat
+        src: SrcIP
+        dst: DstIP
+        CommandLine: CommandLine
+        duser: User
+        fname: File
+        filePath: Process
+        request: URL
+    '9009': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Header-5: Threat
+        src: SrcIP
+        dst: DstIP
+        CommandLine: CommandLine
+        duser: User
+        fname: File
+        filePath: Process
+        request: URL
+    '9010': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Header-5: Threat
+        src: SrcIP
+        dst: DstIP
+        CommandLine: CommandLine
+        duser: User
+        fname: File
+        filePath: Process
+        request: URL
+    '9011': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Header-5: Threat
+        src: SrcIP
+        dst: DstIP
+        CommandLine: CommandLine
+        duser: User
+        fname: File
+        filePath: Process
+        request: URL
+    '9012': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Header-5: Threat
+        src: SrcIP
+        dst: DstIP
+        CommandLine: CommandLine
+        duser: User
+        fname: File
+        filePath: Process
+        request: URL
+    '9013': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Header-5: Threat
+        src: SrcIP
+        dst: DstIP
+        CommandLine: CommandLine
+        duser: User
+        fname: File
+        filePath: Process
+        request: URL
+    '9014': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Header-5: Threat
+        src: SrcIP
+        dst: DstIP
+        CommandLine: CommandLine
+        duser: User
+        fname: File
+        filePath: Process
+        request: URL
+    '9016': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Header-5: Threat
+        src: SrcIP
+        dst: DstIP
+        CommandLine: CommandLine
+        duser: User
+        fname: File
+        filePath: Process
+        request: URL
+    '9017': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Header-5: Threat
+        src: SrcIP
+        dst: DstIP
+        CommandLine: CommandLine
+        duser: User
+        fname: File
+        filePath: Process
+        request: URL
+    '9018': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Header-5: Threat
+        src: SrcIP
+        dst: DstIP
+        CommandLine: CommandLine
+        duser: User
+        fname: File
+        filePath: Process
+        request: URL
+    '9019': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Header-5: Threat
+        src: SrcIP
+        dst: DstIP
+        CommandLine: CommandLine
+        duser: User
+        fname: File
+        filePath: Process
+        request: URL
+    '4000000': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Header-5: Threat
+        src: SrcIP
+        dst: DstIP
+        CommandLine: CommandLine
+        duser: User
+        fname: File
+        filePath: Process
+        request: URL
+    '4000010': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Header-5: Threat
+        src: SrcIP
+        dst: DstIP
+        CommandLine: CommandLine
+        duser: User
+        fname: File
+        filePath: Process
+        request: URL
+    '1005936': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Header-5: Threat
+        src: SrcIP
+        dst: DstIP
+        CommandLine: CommandLine
+        duser: User
+        fname: File
+        filePath: Process
+        request: URL
+    '1000552': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Header-5: Threat
+        src: SrcIP
+        dst: DstIP
+        CommandLine: CommandLine
+        duser: User
+        fname: File
+        filePath: Process
+        request: URL
+    '600': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        src: SrcIP
+        AuthProto: AuthProto
+        suser: User
+    '601': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+      translate:
+        src: SrcIP
+        AuthProto: AuthProto
+        suser: User
+    '602': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+      translate:
+        src: SrcIP
+        AuthProto: AuthProto
+        suser: User
+    '160': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+        Reason: BAD_USER_PASSWORD
+      translate:
+        src: SrcIP
+        AuthProto: AuthProto
+        suser: User
+    '603': 
+      annotate:
+        Stream: IAM
+        Action: USER_ACCOUNT_LOCKOUT
+        Status: PASSED
+      translate:
+        suser: User
+        target: TargetUser
+        Role: Role
+    '650': 
+      annotate:
+        Stream: IAM
+        Action: USER_ADDED
+        Status: PASSED
+      translate:
+        suser: User
+        target: TargetUser
+        Role: Role
+    '651': 
+      annotate:
+        Stream: IAM
+        Action: USER_DELETED
+        Status: PASSED
+      translate:
+        suser: User
+        target: TargetUser
+        Role: Role
+    '652': 
+      annotate:
+        Stream: IAM
+        Action: USER_UPDATED
+        Status: PASSED
+      translate:
+        suser: User
+        target: TargetUser
+        Role: Role
+    '660': 
+      annotate:
+        Stream: IAM
+        Action: ROLE_ADDED
+        Status: PASSED
+      translate:
+        suser: User
+        target: TargetUser
+        Role: Role
+    '661': 
+      annotate:
+        Stream: IAM
+        Action: ROLE_DELETED
+        Status: PASSED
+      translate:
+        suser: User
+        target: TargetUser
+        Role: Role
+    '662': 
+      annotate:
+        Stream: IAM
+        Action: ROLE_UPDATED
+        Status: PASSED
+      translate:
+        suser: User
+        target: TargetUser
+        Role: Role
+    '171': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Header-5: Threat
+        src: SrcIP
+        dst: DstIP
+        CommandLine: CommandLine
+        suser: User
+        File: File
+        filePath: Process
+        request: URL
+    '850': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Header-5: Threat
+        src: SrcIP
+        dst: DstIP
+        CommandLine: CommandLine
+        suser: User
+        File: File
+        filePath: Process
+        request: URL
+    '851': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Header-5: Threat
+        src: SrcIP
+        DstIP: DstIP
+        CommandLine: CommandLine
+        suser: User
+        File: File
+        filePath: Process
+        request: URL
+    '852': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Header-5: Threat
+        src: SrcIP
+        dst: DstIP
+        CommandLine: CommandLine
+        suser: User
+        fname: File
+        filePath: Process
+        request: URL
+    '853': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Header-5: Threat
+        src: SrcIP
+        dst: DstIP
+        CommandLine: CommandLine
+        suser: User
+        fname: File
+        filePath: Process
+        request: URL
+    '854': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Header-5: Threat
+        src: SrcIP
+        dst: DstIP
+        CommandLine: CommandLine
+        suser: User
+        fname: File
+        filePath: Process
+        request: URL
+    '7000': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Header-5: Threat
+        src: SrcIP
+        dst: DstIP
+        CommandLine: CommandLine
+        suser: User
+        fname: File
+        filePath: Process
+        request: URL
+    '7001': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Header-5: Threat
+        src: SrcIP
+        dst: DstIP
+        CommandLine: CommandLine
+        suser: User
+        fname: File
+        filePath: Process
+        request: URL
+    '7002': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Header-5: Threat
+        src: SrcIP
+        dst: DstIP
+        CommandLine: CommandLine
+        suser: User
+        fname: File
+        filePath: Process
+        request: URL
+    '7003': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Header-5: Threat
+        src: SrcIP
+        dst: DstIP
+        CommandLine: CommandLine
+        suser: User
+        fname: File
+        filePath: Process
+        request: URL
+    '7004': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Header-5: Threat
+        src: SrcIP
+        dst: DstIP
+        CommandLine: CommandLine
+        suser: User
+        fname: File
+        filePath: Process
+        request: URL
+    '1004886': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Header-5: Threat
+        src: SrcIP
+        dst: DstIP
+        CommandLine: CommandLine
+        suser: User
+        fname: File
+        filePath: Process
+        request: URL
+    '2002778': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Header-5: Threat
+        src: SrcIP
+        dst: DstIP
+        CommandLine: CommandLine
+        suser: User
+        fname: File
+        filePath: Process
+        request: URL
+    '2006076': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Header-5: Threat
+        src: SrcIP
+        dst: DstIP
+        CommandLine: CommandLine
+        suser: User
+        fname: File
+        filePath: Process
+        request: URL
+    '2010389': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Header-5: Threat
+        src: SrcIP
+        dst: DstIP
+        CommandLine: CommandLine
+        suser: User
+        fname: File
+        filePath: Process
+        request: URL
+    '2010373': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Header-5: Threat
+        src: SrcIP
+        dst: DstIP
+        CommandLine: CommandLine
+        suser: User
+        fname: File
+        filePath: Process
+        request: URL
+    '2008720': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Header-5: Threat
+        src: SrcIP
+        dst: DstIP
+        CommandLine: CommandLine
+        suser: User
+        fname: File
+        filePath: Process
+        request: URL
+    '2002781': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Header-5: Threat
+        src: SrcIP
+        dst: DstIP
+        CommandLine: CommandLine
+        suser: User
+        fname: File
+        filePath: Process
+        request: URL
+    
+  fallback:
+    annotate:
+      EventName: Generic Trend-Micro Endpoint Event
+      Stream: OTHER
+
+  globals:
+    translate: 
+      dvchost: System
+      rt: SystemTstamp
