@@ -1,0 +1,155 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 208
+integration: Syslog(CEF)
+vendor-name: Forcepoint
+product-name: Forcepoint DLP
+source-name: FORCEPOINT
+source-type: DLP
+source-description: Extractor for Forcepoint DLP Events
+provides-streams:
+- THREAT
+master-filters:
+- 'CEF\:\d+\|Forcepoint\|(?:Forcepoint\s+DLP|TRITON\s+AP\-DATA)\|'
+event-details:
+- first-match: 'CEF\:\d+\|Forcepoint\|Forcepoint\s+DLP\|[\d\.]+\|\d+\|DLP\s+Syslog\|\d+\|\s+riskScore\='
+  decoder: custom
+  decoder-regex: '(\w+)\=([^\s]+)'
+  event-key-format: ''
+  event-key-mapping:
+    '':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        sourceIp: SrcIP
+        DstIP: DstIP
+        caseClassification: Threat
+        fname: File
+        Process: Process
+        URL: URL
+        CommandLine: CommandLine
+        User: User
+
+  fallback:
+    annotate:
+      EventName: Generic Forcepoint DLP Events
+      Stream: OTHER
+
+  globals:
+     translate:
+       caseDateAndTime: SystemTstamp
+       sourceHost: System
+
+- first-match: 'CEF\:\d+\|Forcepoint\|[\w\s\-]+\|[\d\.]+\|\d+\|DLP\s+Syslog\|\d+\|\s+act\='
+  decoder: custom
+  decoder-regex: '(\w+)\=([^\s]+)'
+  event-key-format: '{act}'
+  event-key-mapping:
+    'Blocked':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        sourceIp: SrcIP
+        DstIP: DstIP
+        cat: Threat
+        fname: File
+        Process: Process
+        URL: URL
+        CommandLine: CommandLine
+        suser: User
+
+    'Permitted':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        sourceIp: SrcIP
+        DstIP: DstIP
+        cat: Threat
+        fname: File
+        Process: Process
+        URL: URL
+        CommandLine: CommandLine
+        suser: User 
+
+    'Encrypted with profile key':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        sourceIp: SrcIP
+        DstIP: DstIP
+        cat: Threat
+        fname: File
+        Process: Process
+        URL: URL
+        CommandLine: CommandLine
+        suser: User 
+
+    'Continued (confirmed)':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        sourceIp: SrcIP
+        DstIP: DstIP
+        cat: Threat
+        fname: File
+        Process: Process
+        URL: URL
+        CommandLine: CommandLine
+        suser: User
+
+    'Denied (confirmed)':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        sourceIp: SrcIP
+        DstIP: DstIP
+        cat: Threat
+        fname: File
+        Process: Process
+        URL: URL
+        CommandLine: CommandLine
+        suser: User
+
+    'Quarantined':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        sourceIp: SrcIP
+        DstIP: DstIP
+        cat: Threat
+        fname: File
+        Process: Process
+        URL: URL
+        CommandLine: CommandLine
+        suser: User             
+
+  fallback:
+    annotate:
+      EventName: Generic Forcepoint DLP Events
+      Stream: OTHER
+
+  globals:
+     translate:
+       timeStamp: SystemTstamp
+       sourceHost: System
