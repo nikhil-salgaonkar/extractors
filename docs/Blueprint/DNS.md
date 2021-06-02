@@ -5,7 +5,7 @@
 | Author                  | Lenora                                                         |
 | Review Date             | Reconciled by Shweta as per Stream DDM - 18 March              |
 
-**Number of Streams - 3**
+**Number of Streams - 4**
 
 Stream 1 - DNS
 
@@ -31,7 +31,7 @@ Stream 3 - CONFIGURATION
 3. Config - Configuration name
 4. Status - status of the action taken
 
-Stream 3 - AUTHENTICATION
+Stream 4 - AUTHENTICATION
 
 1. User - Username of the user attempting to authenticate
 2. ScrIP - Client IP
