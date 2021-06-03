@@ -3,16 +3,16 @@ schema-version: 1.0
 extractor-id: 96
 integration: Syslog(CEF)
 vendor-name: Fireeye Inc.
-product-name: Fireeye APT
+product-name: Fireeye Threat
 source-name: FIREEYE
-source-type: APT
-source-description: Extractor for Fireeye APT
+source-type: THREAT
+source-description: Extractor for Fireeye Threat Events
 provides-streams:
 - THREAT
 master-filters:
 - 'CEF\:0\|(?:FireEye|fireeye)\|'
 event-details:
-- first-match: 'CEF\:0\|(?:FireEye|fireeye)\|'
+- first-match: 'CEF\:0\|(?:FireEye|fireeye)\|(?:CMS|fMPS|MAS|MPS|hx)\|'
   decoder: custom
   decoder-regex: '([\w]+)\=([^\s]+)'
   event-key-format: '{Header-5}'
@@ -23,31 +23,21 @@ event-details:
         Stream: THREAT
         Action: THREAT_DETECTED
         Status: PASSED
-        Vector: HOST
+        Vector: NETWORK
       translate:
         src: SrcIP
-        cmdline: CommandLine
-        suser: User
         'cs1': Threat
-        fname: File
         dst: DstIP
-        request: URL
-        Process: Process
     'domain-match':           
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
         Status: PASSED
-        Vector: HOST
+        Vector: NETWORK
       translate: 
         src: SrcIP
-        cmdline: CommandLine
-        suser: User
         'cs1': Threat
-        fname: File
         dst: DstIP
-        request: URL
-        Process: Process
     'ExD Hit Found':           
       annotate:
         Stream: THREAT
@@ -58,7 +48,7 @@ event-details:
         src: SrcIP
         cmdline: CommandLine
         suser: User
-        'cs1': Threat
+        Header-5: Threat
         fname: File
         dst: DstIP
         request: URL
@@ -68,16 +58,11 @@ event-details:
         Stream: THREAT
         Action: THREAT_DETECTED
         Status: PASSED
-        Vector: HOST
+        Vector: NETWORK
       translate: 
         src: SrcIP
-        cmdline: CommandLine
-        suser: User
         'cs1': Threat
-        fname: File
         dst: DstIP
-        request: URL
-        Process: Process
     'Malware Hit Found':           
       annotate:
         Stream: THREAT
@@ -88,7 +73,7 @@ event-details:
         src: SrcIP
         cmdline: CommandLine
         suser: User
-        'cs1': Threat
+        'cs8': Threat
         fname: File
         dst: DstIP
         request: URL
@@ -106,98 +91,58 @@ event-details:
         'cs1': Threat
         fname: File
         dst: DstIP
-        request: URL
+        'cs4': URL
         Process: Process
     'malware-callback':           
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
         Status: PASSED
-        Vector: HOST
+        Vector: NETWORK
       translate: 
         src: SrcIP
-        cmdline: CommandLine
-        suser: User
         'cs1': Threat
-        fname: File
         dst: DstIP
-        request: URL
-        Process: Process
     'riskware-callback':           
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
         Status: PASSED
-        Vector: HOST
+        Vector: NETWORK
       translate: 
         src: SrcIP
-        cmdline: CommandLine
-        suser: User
         'cs1': Threat
-        fname: File
         dst: DstIP
-        request: URL
-        Process: Process
     'riskware-infection':
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
         Status: PASSED
-        Vector: HOST
+        Vector: NETWORK
       translate: 
         src: SrcIP
-        cmdline: CommandLine
-        suser: User
         'cs1': Threat
-        fname: File
         dst: DstIP
-        request: URL
-        Process: Process
     'riskware-object':           
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
         Status: PASSED
-        Vector: HOST
+        Vector: NETWORK
       translate: 
         src: SrcIP
-        cmdline: CommandLine
-        suser: User
         'cs1': Threat
-        fname: File
         dst: DstIP
-        request: URL
-        Process: Process
     'ips-event':           
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
         Status: PASSED
-        Vector: HOST
+        Vector: NETWORK
       translate: 
         src: SrcIP
-        cmdline: CommandLine
-        suser: User
         'cs1': Threat
-        fname: File
         dst: DstIP
-        request: URL
-        Process: Process
-    'malicious email':           
-      annotate:
-        Stream: THREAT
-        Action: THREAT_DETECTED
-        Status: PASSED
-        Vector: HOST
-      translate: 
-        src: SrcIP
-        cmdline: CommandLine
-        suser: User
-        'cs1': Threat
-        fname: File
-        dst: DstIP
-        request: URL
-        Process: Process
     'IOC Hit Found':           
       annotate:
         Stream: THREAT
@@ -208,18 +153,104 @@ event-details:
         src: SrcIP
         cmdline: CommandLine
         suser: User
-        'cs4': Threat
+        Header-5: Threat
         fname: File
         dst: DstIP
         request: URL
         Process: Process
+    'Malware Scan':           
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate: 
+        src: SrcIP
+        cmdline: CommandLine
+        suser: User
+        Header-5: Threat
+        fname: File
+        dst: DstIP
+        request: URL
+        Process: Process  
+    'smartvision-event':           
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: NETWORK
+      translate: 
+        src: SrcIP
+        'cs1': Threat
+        dst: DstIP      
 
-  fallback:
+  fallback: 
     annotate:
-      EventName: Generic Fireeye Event
+      EventName: Generic Fireeye Threat Event
       Stream: OTHER
 
   globals:
     translate:
       rt: SystemTstamp
       dvchost: System
+
+- first-match: 'CEF\:0\|(?:FireEye|fireeye)\|(?:eMPS|ETP)\|'
+  decoder: custom
+  decoder-regex: '([\w]+)\=([^\s]+)'
+  event-key-format: '{Header-5}'
+  decoder-header: CEF
+  event-key-mapping:
+    'malware-object':           
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: EMAIL
+      translate: 
+        src: SrcIP
+        suser: Sender
+        duser: Recipient
+        'cs1': Threat    
+    'riskware-object':           
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: EMAIL
+      translate: 
+        src: SrcIP
+        suser: Sender
+        duser: Recipient
+        'cs1': Threat   
+    'malicious email':           
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: EMAIL
+      translate: 
+        src: SrcIP
+        suser: Sender
+        duser: Recipient
+        'cs1': Threat 
+    'ace alert':           
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: EMAIL
+      translate: 
+        src: SrcIP
+        suser: Sender
+        duser: Recipient
+        'cs1': Threat 
+
+  fallback: 
+    annotate:
+      EventName: Generic Fireeye Threat Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      rt: SystemTstamp
+      dvchost: System              
