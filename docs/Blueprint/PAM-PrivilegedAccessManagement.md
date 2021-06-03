@@ -1,10 +1,9 @@
 | Blueprint name          | PAM                                                            |
 | ----------------------- | -------------------------------------------------------------- |
 | Description             | Extractor for PAM will be built using this blueprint document. |
-| Blueprint creation date | 17 May 2021                                                    |
-| Author                  | Sharron, Lenora                                                |
-| Review Date             |                                                                |
-| Change Update           |                                                                |
+| Creation date | 17 May 2021                                                    |
+| Veriosn                 | 0.1                                                            |
+| Change Update           |  -                                                             |
 
 **Number of Streams - 4**
 
