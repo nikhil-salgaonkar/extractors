@@ -2,8 +2,9 @@
 | ----------------------- | ----------------------------------------------------------------- |
 | Description             | Extractor for the OS will be built using this blueprint document. |
 | Blueprint creation date | 18 Feb 2021                                                       |
-| Author                  | Sharron, Lenora                                                   |
-| Review Date             | Reconciled by Shweta as per Stream DDM - 18 March                 |
+| Version                 | 0.1                                                                                                |
+| Change Update           |                                                                              |
+
 
 **Number of Streams - 18**
 
