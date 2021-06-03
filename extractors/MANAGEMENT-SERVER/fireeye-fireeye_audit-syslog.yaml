@@ -1,0 +1,148 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 1000
+integration: Syslog
+vendor-name: Fireeye Inc.
+product-name: Fireeye 
+source-name: FIREEYE-AUDIT
+source-type: MANAGEMENT-SERVER
+source-description: Extractor for FIREEYE-AUDIT Events
+provides-streams:
+- AUTHENTICATION
+- CONFIGURATION
+master-filters:
+- '(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+(?:cli|wsmd|mgmtd|ntpd_intres|atid|dtid|watch\_watchdog|secure\_delete\_graveyard\_sweep|network\_lookup\.py|fenet\-scup|rgp|notifyd|sSMTP|OedEX|AUTO\-INIT|vxe\-1\.4\.0|silverfish|rbmd|healthmonitord|bottpilot1|bottpilot0|bott1|bott0|pm|wae|dbmgd|lmsd|vmmd|avc|wicadfish|ae\-httpd|bott\_process|fenet\-aggr|ae\-httpd|fe\-licensing)(?:\[\d+\]\:)?(?:\s+tid\s+\d+\:)?(?:\s+\[\S+\.(?:WARN|NOTICE|INFO)\]\:)?'
+event-details:
+- first-match: 'cli\[\d+\]\:\s+\[cli\.\w+\]\:\s+AUDIT\:\s+\(internal\)\s+user\s+\w+\:\s+Logged\s+in\s+with\s+session\s+ID\s+\d+'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>\w+)\[(?P<pid>\d+)\]\:\s+\[\w+\.\w+\]\:\s+\w+\:\s+\(\w+\)\s+\w+\s+(?P<user>\w+)\:\s+(?P<action>\w+\s+\w+)'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'Logged in': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        SrcIP: SrcIP
+        user: User 
+        AuthProto: AuthProto
+         
+  fallback:
+    annotate:
+      EventName: Generic FIREEYE-AUDIT Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System
+
+- first-match: 'wsmd\[\d+\]\:\s+\[wsmd\.\w+\]\:\s+User\s+\w+.*?logged\s+into\s+Web\s+UI\s+from\s+[\d\.]+'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>\w+)\[(?P<pid>\d+)\]\:\s+\[\w+\.\w+\]\:\s+User\s+(?P<user>\S+).*?\)\s+(?P<action>\w+\s+\w+).*?(?P<src>[\d\.]+)'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'logged into': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+        AuthProto: WEB
+      translate:
+        src: SrcIP
+        user: User 
+         
+  fallback:
+    annotate:
+      EventName: Generic FIREEYE-AUDIT Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System
+
+- first-match: 'wsmd\[\d+\]\:\s+AUDIT\:\s+Authentication\s+failure\;\s+username\s+not\s+recognized\s+from\s+host\:\s+[\d\.]+'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>\w+)\[(?P<pid>\d+)\]\:\s+AUDIT\:\s+(?P<action>\w+\s+\w+)\;\s+(?P<reason>.*?)\:\s+(?P<src>[\d\.]+)'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'Authentication failure': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+        AuthProto: TTY
+      translate:
+        src: SrcIP
+        User: User 
+        reason: Reason
+         
+  fallback:
+    annotate:
+      EventName: Generic FIREEYE-AUDIT Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System
+
+- first-match: 'mgmtd\[\d+\]\:\s+\[mgmtd\.\w+\]\:\s+AUDIT\:\s+User\s+(?:logout|login)\:\s+username\s+\w+\,.*?remote\s+address\s+[\d\.]+\,\s+auth\s+method\s+\w+\,'
+  decoder: regex
+  decoder-regex: 'mgmtd\[\d+\]\:\s+\[mgmtd\.\w+\]\:\s+AUDIT\:\s+(?P<action>\w+\s+\w+)\:\s+username\s+(?P<user>\w+)\,.*?remote\s+address\s+(?P<src>[\d\.]+)\,\s+auth\s+method\s+(?P<authproto>\w+)'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'User login': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+        AuthProto: LDAP 
+      translate:
+        src: SrcIP
+        user: User 
+    'User logout': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+        AuthProto: LDAP
+      translate:
+        src: SrcIP
+        user: User 
+         
+  fallback:
+    annotate:
+      EventName: Generic FIREEYE-AUDIT Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System
+
+- first-match: 'mgmtd\[\d+\]\:\s+\[mgmtd\.\w+\]\:\s+AUDIT\:\s+\(internal\)\s+Config\s+change\s+ID\s+\d+\:\s+requested\s+by\:'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>\w+)\[(?P<pid>\d+)\]\:\s+\[\w+\.\w+\]\:\s+\w+\:\s+\(\w+\)(?:.*?user\s+(?P<user>\w+))?'
+  event-key-format: ''
+  event-key-mapping:
+    '': 
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        user: User 
+        Config: Config
+         
+  fallback:
+    annotate:
+      EventName: Generic FIREEYE-AUDIT Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System
