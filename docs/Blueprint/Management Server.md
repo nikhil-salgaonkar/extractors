@@ -1,9 +1,10 @@
 | Blueprint name          | Management Server                                                                                                |
 | ----------------------- | ---------------------------------------------------------------------------------------------------------------- |
 | Description             | Extractor for Management servers(FW Management/Endpoint Management) will be built using this blueprint document. |
-| Blueprint creation date | 20 May 2021                                                                                                      |
-| Author                  | Lenora, Review by Sharron.                                                                                       |
-| Review Date             |                                                                                                                  |
+| Creation date | 20 May 2021                                                                                                      |
+| Version                 | 0.1                                                                                                |
+| Change Update           |                                                                              |
+
 
 **Number of Streams - 3**
 
