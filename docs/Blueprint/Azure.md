@@ -1,9 +1,9 @@
 | Blueprint name          | Azure                                                                        |
 | ----------------------- | ---------------------------------------------------------------------------- |
 | Description             | Extractor for Azure  will be built using this blueprint document.            |
-| Blueprint creation date | 11 Feb 2021                                                                  |
-| Author                  | Sharron                                                                      |
-| Review Date             | With Nikhil (15 Feb 2021) Reconciled by Shweta as per Stream DDM - 18 March  |
+| Creation date | 11 Feb 2021                                                                  |
+| Version                  | 0.1                                                                      |
+| Review Chanes            | -  |
 
 **Stream- AZURE**
 
