@@ -1,9 +1,9 @@
 | Blueprint name          | Network OS                                                                                        |
 | ----------------------- | ------------------------------------------------------------------------------------------------- |
 | Description             | Extractors for the Network devices using the same OS will be built using this blueprint document. |
-| Blueprint creation date | 9 April, 2021                                                                                     |
-| Author                  | Sharron, Lenora                                                                                   |
-| Review Date             | 9 April, 2021 (Content team Internal) With Nikhil (9 April 2021)                                  | 
+| Creation date | 9 April, 2021                                                                                     |
+| Version                 | 0.1                                                                                                |
+| Change Update           |                                                                              |
 
 **DEVICE Type = Network**
 
