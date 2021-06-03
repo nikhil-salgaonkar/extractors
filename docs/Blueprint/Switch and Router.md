@@ -1,9 +1,9 @@
 | Blueprint name          | Switch/Router                                                      |
 | ----------------------- | ------------------------------------------------------------------ |
 | Description             | Extractor for the IOS will be built using this blueprint document. |
-| Blueprint creation date | 18 Feb 2021                                                        |
-| Author                  | Sharron, Lenora                                                    |
-| Review Date             |                                                                    |
+| Creation date | 18 Feb 2021                                                        |
+| Veriosn                 | 0.1                                                            |
+| Change Update           |  -                                                             |
 
 **Number of Streams - 3**
 
