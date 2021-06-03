@@ -135,6 +135,7 @@ event-details:
       translate:
         user: User
         mac_address: MACAddress
+        src: SrcIP
         resultcode: ResultCode
     '25':         
       annotate:
@@ -144,6 +145,7 @@ event-details:
       translate:
         user: User
         mac_address: MACAddress
+        src: SrcIP
         resultcode: ResultCode                                  
 
   fallback:
