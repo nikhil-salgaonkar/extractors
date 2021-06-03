@@ -1,9 +1,9 @@
 | Blueprint name          | Cloud Storage                                                                    |
 | ----------------------- | -------------------------------------------------------------------------------- |
 | Description             | Extractor for Cloud storage devices will be built using this blueprint document. |
-| Blueprint creation date | 12 Mar 2021                                                                      |
-| Author                  | Sharron, Reviewed by Nikhil                                                      |
-| Review Date             | 16 March 2021                                                                    |
+| Creation date | 12 Mar 2021                                                                      |
+| Version                  | 0.1                                                      |
+| Change update             | -                                                                    |
 
 **Number of Streams - 3**
 
