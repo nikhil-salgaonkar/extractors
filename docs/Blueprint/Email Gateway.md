@@ -1,10 +1,9 @@
 | Blueprint name          | Email Gateway                                                            |
 | ----------------------- | -------------------------------------------------------------------------|
 | Description             | Extractor for Email gateway will be built using this blueprint document. |
-| Blueprint creation date | 15-Jan-21                                                                |
-| Author                  | Sharron, Lenora                                                          |
-| Review Date             | 16-Jan-21, Review with PM 1-Feb-21                                       |
+| Creation date | 15-Jan-21                                                                |
 | Version                 | 0.1                                                                      |
+| Change update            | -                                       |
 
 **Number of Streams - 4**
 
