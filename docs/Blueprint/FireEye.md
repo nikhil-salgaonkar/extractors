@@ -12,7 +12,7 @@ SourceType- Threat
 
 **Number of Streams - 1**
 
-**Stream 1- Threat**
+Stream 1- THREAT
 		
 **Vector = “NETWORK”** (This field needs to be pre-populated with the value ‘Network’)	
 1. Action - The action code indicating what action was taken for the message.	
