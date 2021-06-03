@@ -1,9 +1,9 @@
 | Blueprint name          | Office                                                                                                 |
 | ----------------------- | ------------------------------------------------------------------------------------------------------ |
 | Description             | Extractor for the Office Collaboration (such as O365, GSuite ) be built using this blueprint document. |
-| Blueprint creation date | 22 Jan 2021                                                                                            |
-| Author                  | Lenora, Sharron                                                                                        |
-| Review Date             | 1 Feb with PM Reconciled by Shweta as per Stream DDM - 18 March 
+| Creation date | 22 Jan 2021                                                                                            |
+| Version                 | 0.1                                                                                                |
+| Change Update           | -                                                                               |
 
 **Number of Streams - 5**
 
