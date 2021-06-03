@@ -10,55 +10,49 @@
 
 Stream 1 - FIREWALL
 
-
-SrcIP - Source IP address
-DstIP - Destination IP address
-Action - The action code indicating what action was taken for the message.
-Proto -The protocol used by web traffic.
-SrcPort - Port number of the traffic's origin.
-DstPort - Port number of the traffic's destination.
-App - The network application that was accessed.
-TXLen - sent bytes
-RXLen - received bytes
-
+1. SrcIP - Source IP address
+2. DstIP - Destination IP address
+3. Action - The action code indicating what action was taken for the message.
+4. Proto -The protocol used by web traffic.
+5. SrcPort - Port number of the traffic's origin.
+6. DstPort - Port number of the traffic's destination.
+7. App - The network application that was accessed.
+8. TXLen - sent bytes
+9. RXLen - received bytes
 
 Stream 2 - THREAT 
 
-Vector = “WEB” (This field needs to be pre-populated with the value ‘Network’)
-Action - The action code indicating what action was taken for the message.
-Threat - Names of threats identified
-SrcIP - The source IP address
-DstIP - The destination IP address
-User - name of the user
-
+**Vector = “WEB”** (This field needs to be pre-populated with the value ‘Network’)
+1. Action - The action code indicating what action was taken for the message.
+2. Threat - Names of threats identified
+3. SrcIP - The source IP address
+4. DstIP - The destination IP address
+5. User - name of the user
 
 Stream 3 - Authentication 
 
-
-User - User trying to login
-SrcIP - Client IP
-System- authenticating server/Host
-Action -User Logged On, Logon Authentication Failed(Events)
-AuthProto - Authentication protocol
-Reason - Reason for auth failure actions
-Status - Response of the action, passed or failed
-
+1. User - User trying to login
+2. SrcIP - Client IP
+3. System- authenticating server/Host
+4. Action -User Logged On, Logon Authentication Failed(Events)
+5. AuthProto - Authentication protocol
+6. Reason - Reason for auth failure actions
+7. Status - Response of the action, passed or failed
 
 Stream 4 - IAM
 
-User - User Name of the user
-Action - Action taken by an admin user for accounts / policies
-Role- Role details for role updation or modification events
-TargetUser - Target account on which changes are being made
-Status - status of the action taken
+1. User - User Name of the user
+2. Action - Action taken by an admin user for accounts / policies
+3. Role- Role details for role updation or modification events
+4. TargetUser - Target account on which changes are being made
+5. Status - status of the action taken
 
 Stream 5 -CONFIGURATION
 
-User - User who made changes
-Action - Action taken
-Config - Configuration name
-Status - status of the action taken
-
+1. User - User who made changes
+2. Action - Action taken
+3. Config - Configuration name
+4. Status - status of the action taken
 
 **Requirement Gathering and Analysis -**
 
