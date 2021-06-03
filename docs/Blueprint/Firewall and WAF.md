@@ -1,10 +1,10 @@
 | Blueprint name          | Firewall  & WAF                                                                  |
 | ----------------------- | --------------------------------------------------------------------------------:|
 | Description             | Extractor for the firewall  and WAF will be built using this blueprint document. |
-| Blueprint creation date | 20-Jan-21                                                                        |
-| Author                  | Lenora                                                                           |
-| Review Date             | 21 Jan 2021                                                                      |
-| Version                 | 0.1                                                                              |
+| Creation date | 20-Jan-21                                                                        |
+| Version                 | 0.1                                                                                                |
+| Change Update           |                                                                              |
+
 
 **Number of Streams - 5**
 
