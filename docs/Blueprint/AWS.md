@@ -1,9 +1,9 @@
 | Blueprint name          | AWS                                                                |
 | ----------------------- | ------------------------------------------------------------------ |
 | Description             | Extractor for the AWS will be built using this blueprint document. |
-| Blueprint creation date | 18 Feb 2021                                                        |
-| Author                  | Aman, Lenora, sharron                                              |
-| Review Date             |                                                                    |
+| Creation date | 18 Feb 2021                                                        |
+| Version                  | 0.1                                              |
+| Review Date             |  -                                                                |
 
 **Number of Streams - 4**
 
