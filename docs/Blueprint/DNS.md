@@ -1,9 +1,9 @@
 | Blueprint name          | DNS                                                            |
 | ----------------------- | -------------------------------------------------------------- |
 | Description             | Extractor for DNS will be built using this blueprint document. |
-| Blueprint creation date | 27 Jan 2021                                                    |
-| Author                  | Lenora                                                         |
-| Review Date             | Reconciled by Shweta as per Stream DDM - 18 March              |
+| Creation date | 27 Jan 2021                                                    |
+| Version                  | 0.1                                                         |
+| Change Update             | -              |
 
 **Number of Streams - 4**
 
