@@ -1,9 +1,9 @@
 | Blueprint name          | IPS/ISD                                                        |
 | ----------------------- | -------------------------------------------------------------- |
 | Description             | Extractor for IPS will be built using this blueprint document. |
-| Blueprint creation date | 25 Feb 2021                                                    |
-| Author                  | Lenora, Review by Sharron.                                     |
-| Review Date             |                                                                |
+| Creation date | 25 Feb 2021                                                    |
+| Version                 | 0.1                                                                                                |
+| Change Update           |                                                                              |
 
 **Number of Streams - 5**
 
