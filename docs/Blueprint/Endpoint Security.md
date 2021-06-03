@@ -2,10 +2,9 @@
 | Blueprint name          | Endpoint Security                                                                                  |
 | ----------------------- | --------------------------------------------------------------------------------------------------:|
 | Description             | Extractor for the endpoint security devices, DLP,EDR  will be built using this blueprint document. |
-| Blueprint creation date | 25-Jan-21                                                                                          |
-| Author                  | Lenora                                                                                             |
-| Review Date             | Sharron                                                                                            |
+| Creation date | 25-Jan-21                                                                                          |
 | Version                 | 0.1                                                                                                |
+| Change update           | -                                                                                            |
 
 **Number of Streams - 4**
 
