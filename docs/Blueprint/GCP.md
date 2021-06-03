@@ -1,9 +1,9 @@
 | Blueprint name          | GCP                                                                          |
 | ----------------------- | ---------------------------------------------------------------------------- |
 | Description             | Extractor for the GCP  will be built using this blueprint document.          |
-| Blueprint creation date | 23 Feb 2021                                                                  |
-| Author                  | Sharron                                                                      |
-| Review Date             | With Nikhil (23 Feb 2021) Reconciled by Shweta as per Stream DDM - 18 March  |
+| Creation date | 23 Feb 2021                                                                  |
+| Version                 | 0.1                                                                                                |
+| Change Update           |                                                                              |
 
 Number of Streams - 4
 
