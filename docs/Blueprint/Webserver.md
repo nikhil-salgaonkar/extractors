@@ -1,9 +1,9 @@
 | Blueprint name          | Webserver                                                                |
 | ----------------------- | ------------------------------------------------------------------------ |
 | Description             | Extractor for the Webserver will be built using this blueprint document. |
-| Blueprint creation date | 18 Feb 2021                                                              |
-| Author                  | Lenora, Sharron                                                          |
-| Review Date             |                                                                          |
+| Creation date | 18 Feb 2021                                                              |
+| Version                 | 0.1                                                            |
+| Change Update           |  -                                                             |
 
 **Number of Streams - 5**
 
