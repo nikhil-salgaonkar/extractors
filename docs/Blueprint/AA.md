@@ -1,3 +1,10 @@
+| Blueprint name          | AA Extractor Blueprint                                                                                                                    |
+| ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| Description             | Extractor for devices using AA(Authentication and Authorization) such as Okta, one login,etc will be built using this blueprint document. |
+| Creation date           | 02 June 2021                                                                                                                              |
+| Version                 | 0.1                                                                                                                                       |
+| Change Update           | -                                                                                                                                         |
+
 **Number of Streams - 3**
 
 Stream 1 - AUTHENTICATION
