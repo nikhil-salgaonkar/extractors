@@ -1,9 +1,10 @@
 | Blueprint name          | Mail Server                                                               |
 | ----------------------- | ------------------------------------------------------------------------- |
 | Description             | Extractor for the Mail server can be built using this blueprint document. |
-| Blueprint creation date | 25 March 2021                                                             |
-| Author                  | Sharron                                                                   |
-| Review Date             |                                                                           |
+| Creation date | 25 March 2021                                                             |
+| Version                 | 0.1                                                                                                |
+| Change Update           |                                                                              |
+
 
 **Number of Streams - 4**
 
