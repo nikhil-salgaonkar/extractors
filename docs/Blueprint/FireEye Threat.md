@@ -1,9 +1,9 @@
 | Blueprint name          | FireEye Extractor Blueprint                                                                                    |
 | ----------------------- | -------------------------------------------------------------------------------------------------------------- |
 | Description             | Extractor for FireEye CMS, MPS, EX, AX, NX, FX, and HX appliances will be built using this blueprint document. |
-| Blueprint creation date | 02 June 2021                                                                                                   |
-| Author                  | Sharron                                                                                                        |
-| Review Date             |                                                                                                                |
+| reation date | 02 June 2021                                                                                                   |
+| Version                 | 0.1                                                                                                |
+| Change Update           |                                                                              |
 
 **FIREEYE Data Model**
 
