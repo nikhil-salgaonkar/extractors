@@ -2,10 +2,9 @@
 | Blueprint name          | Web Filter                                                            |
 | ----------------------- | ----------------------------------------------------------------------|
 | Description             | Extractor for Web Filter will be built using this blueprint document. |
-| Blueprint creation date | 27-Jan-21                                                             |
-| Author                  | Lenora                                                                |
-| Review Date             | Sharron, With PM 1 Feb 2021                                           |
-| Version                 | 0.1                                                                   |
+| Creation date | 27-Jan-21                                                             |
+| Version                 | 0.1                                                            |
+| Change Update           |  -                                                             |
 
 **Number of Streams - 5**
 
