@@ -1,9 +1,9 @@
-| Blueprint name          | Versa Networks Zero Trust                                                             |
+| Blueprint name          | Zero Trust                                                             |
 | ----------------------- | ------------------------------------------------------------------------------------- |
-| Description             | Extractor for Versa Networks Zero Trust  will be built using this blueprint document. |
-| Blueprint creation date | 21 May 2021                                                                           |
-| Author                  | Sherin                                                                                |
-| Review Date             | Sharron 21 May 2021                                                                   |
+| Description             | Extractor for Zero Trust  will be built using this blueprint document. |
+| Creation date | 21 May 2021                                                                           |
+| Veriosn                 | 0.1                                                            |
+| Change Update           |  -                                                             |
 
 **Number of Streams - 6**
 
