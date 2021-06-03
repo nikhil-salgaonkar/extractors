@@ -1,9 +1,9 @@
 Blueprint name            | DHCP                                                            |
 | ----------------------- | --------------------------------------------------------------- |
 | Description             | Extractor for DHCP will be built using this blueprint document. |
-| Blueprint creation date | 27 Jan 2021                                                     |
-| Author                  | Sharron                                                         |
-| Review Date             |                                                                 |
+| Creation date | 27 Jan 2021                                                     |
+| Version                   | 0.1                                                         |
+| Change update             |   -                                                             |
 
 **Number of Streams - 1**
 
