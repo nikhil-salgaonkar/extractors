@@ -1,21 +1,21 @@
 schema-version: 1.0
 #extractor-version: 1
-extractor-id: 1000
+extractor-id: 276
 integration: Syslog
-vendor-name: Fireeye Inc.
-product-name: Fireeye 
-source-name: FIREEYE-AUDIT
+vendor-name: FireEye Inc.
+product-name: FireEye Audit
+source-name: FIREEYE
 source-type: MANAGEMENT-SERVER
-source-description: Extractor for FIREEYE-AUDIT Events
+source-description: Extractor for FireEye Audit Events
 provides-streams:
 - AUTHENTICATION
 - CONFIGURATION
 master-filters:
-- '(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+(?:cli|wsmd|mgmtd|ntpd_intres|atid|dtid|watch\_watchdog|secure\_delete\_graveyard\_sweep|network\_lookup\.py|fenet\-scup|rgp|notifyd|sSMTP|OedEX|AUTO\-INIT|vxe\-1\.4\.0|silverfish|rbmd|healthmonitord|bottpilot1|bottpilot0|bott1|bott0|pm|wae|dbmgd|lmsd|vmmd|avc|wicadfish|ae\-httpd|bott\_process|fenet\-aggr|ae\-httpd|fe\-licensing)(?:\[\d+\]\:)?(?:\s+tid\s+\d+\:)?(?:\s+\[\S+\.(?:WARN|NOTICE|INFO)\]\:)?'
+- '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+(?:cli|wsmd|mgmtd|ntpd_intres|atid|dtid|watch\_watchdog|secure\_delete\_graveyard\_sweep|network\_lookup\.py|fenet\-scup|rgp|notifyd|sSMTP|OedEX|AUTO\-INIT|vxe\-1\.4\.0|silverfish|rbmd|healthmonitord|bottpilot1|bottpilot0|bott1|bott0|pm|wae|dbmgd|lmsd|vmmd|avc|wicadfish|ae\-httpd|bott\_process|fenet\-aggr|ae\-httpd|fe\-licensing)(?:\[\d+\]\:)?(?:\s+tid\s+\d+\:)?(?:\s+\[\S+\.(?:WARN|NOTICE|INFO)\]\:)?'
 event-details:
-- first-match: 'cli\[\d+\]\:\s+\[cli\.\w+\]\:\s+AUDIT\:\s+\(internal\)\s+user\s+\w+\:\s+Logged\s+in\s+with\s+session\s+ID\s+\d+'
+- first-match: 'cli\[\d+\]\:\s+\[cli\.\w+\]\:\s+AUDIT\:\s+\(internal\)\s+user\s+\S+\:\s+Logged\s+in\s+with\s+session\s+ID\s+\d+'
   decoder: regex
-  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>\w+)\[(?P<pid>\d+)\]\:\s+\[\w+\.\w+\]\:\s+\w+\:\s+\(\w+\)\s+\w+\s+(?P<user>\w+)\:\s+(?P<action>\w+\s+\w+)'
+  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>\w+)\[(?P<pid>\d+)\]\:\s+\[\w+\.\w+\]\:\s+\w+\:\s+\(\w+\)\s+\w+\s+(?P<user>\S+)\:\s+(?P<action>\w+\s+\w+)'
   event-key-format: '{action}'
   event-key-mapping:
     'Logged in': 
@@ -30,7 +30,7 @@ event-details:
          
   fallback:
     annotate:
-      EventName: Generic FIREEYE-AUDIT Event
+      EventName: Generic FireEye Audit Event
       Stream: OTHER
 
   globals:
@@ -38,9 +38,9 @@ event-details:
       datetime: SystemTstamp
       hostname: System
 
-- first-match: 'wsmd\[\d+\]\:\s+\[wsmd\.\w+\]\:\s+User\s+\w+.*?logged\s+into\s+Web\s+UI\s+from\s+[\d\.]+'
+- first-match: 'wsmd\[\d+\]\:\s+\[wsmd\.\w+\]\:\s+User\s+\S+.*?logged\s+into\s+Web\s+UI\s+from\s+[\d\.]+'
   decoder: regex
-  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>\w+)\[(?P<pid>\d+)\]\:\s+\[\w+\.\w+\]\:\s+User\s+(?P<user>\S+).*?\)\s+(?P<action>\w+\s+\w+).*?(?P<src>[\d\.]+)'
+  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>\w+)\[(?P<pid>\d+)\]\:\s+\[\w+\.\w+\]\:\s+User\s+(?P<user>\S+).*?\)\s+(?P<action>\w+\s+\w+).*?(?P<src>[\d\.]+)'
   event-key-format: '{action}'
   event-key-mapping:
     'logged into': 
@@ -55,7 +55,7 @@ event-details:
          
   fallback:
     annotate:
-      EventName: Generic FIREEYE-AUDIT Event
+      EventName: Generic FireEye Audit Event
       Stream: OTHER
 
   globals:
@@ -65,7 +65,7 @@ event-details:
 
 - first-match: 'wsmd\[\d+\]\:\s+AUDIT\:\s+Authentication\s+failure\;\s+username\s+not\s+recognized\s+from\s+host\:\s+[\d\.]+'
   decoder: regex
-  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>\w+)\[(?P<pid>\d+)\]\:\s+AUDIT\:\s+(?P<action>\w+\s+\w+)\;\s+(?P<reason>.*?)\:\s+(?P<src>[\d\.]+)'
+  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>\w+)\[(?P<pid>\d+)\]\:\s+AUDIT\:\s+(?P<action>\w+\s+\w+)\;\s+(?P<reason>.*?)\:\s+(?P<src>[\d\.]+)'
   event-key-format: '{action}'
   event-key-mapping:
     'Authentication failure': 
@@ -81,7 +81,7 @@ event-details:
          
   fallback:
     annotate:
-      EventName: Generic FIREEYE-AUDIT Event
+      EventName: Generic FireEye Audit Event
       Stream: OTHER
 
   globals:
@@ -89,9 +89,9 @@ event-details:
       datetime: SystemTstamp
       hostname: System
 
-- first-match: 'mgmtd\[\d+\]\:\s+\[mgmtd\.\w+\]\:\s+AUDIT\:\s+User\s+(?:logout|login)\:\s+username\s+\w+\,.*?remote\s+address\s+[\d\.]+\,\s+auth\s+method\s+\w+\,'
+- first-match: 'mgmtd\[\d+\]\:\s+\[mgmtd\.\w+\]\:\s+AUDIT\:\s+User\s+(?:logout|login)\:\s+username\s+\S+\,'
   decoder: regex
-  decoder-regex: 'mgmtd\[\d+\]\:\s+\[mgmtd\.\w+\]\:\s+AUDIT\:\s+(?P<action>\w+\s+\w+)\:\s+username\s+(?P<user>\w+)\,.*?remote\s+address\s+(?P<src>[\d\.]+)\,\s+auth\s+method\s+(?P<authproto>\w+)'
+  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>mgmtd)\[(?P<pid>\d+)\]\:\s+\[mgmtd\.\w+\]\:\s+AUDIT\:\s+(?P<action>\w+\s+\w+)\:\s+username\s+(?P<user>\S+)\,.*?remote\s+address\s+(?P<src>[\d\.]+)\,\s+auth\s+method\s+(?P<authproto>\w+)'
   event-key-format: '{action}'
   event-key-mapping:
     'User login': 
@@ -115,7 +115,7 @@ event-details:
          
   fallback:
     annotate:
-      EventName: Generic FIREEYE-AUDIT Event
+      EventName: Generic FireEye Audit Event
       Stream: OTHER
 
   globals:
@@ -125,10 +125,10 @@ event-details:
 
 - first-match: 'mgmtd\[\d+\]\:\s+\[mgmtd\.\w+\]\:\s+AUDIT\:\s+\(internal\)\s+Config\s+change\s+ID\s+\d+\:\s+requested\s+by\:'
   decoder: regex
-  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>\w+)\[(?P<pid>\d+)\]\:\s+\[\w+\.\w+\]\:\s+\w+\:\s+\(\w+\)(?:.*?user\s+(?P<user>\w+))?'
-  event-key-format: ''
+  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>\w+)\[(?P<pid>\d+)\]\:\s+\[\w+\.\w+\]\:\s+\w+\:\s+\(\w+\)\s+(?P<action>Config\s+change)\s+ID\s+\d+\:\s+requested\s+by\:(?:\s+user)?\s+\(?(?P<user>\w+)\)?'
+  event-key-format: '{action}'
   event-key-mapping:
-    '': 
+    'Config change': 
       annotate:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
@@ -139,7 +139,7 @@ event-details:
          
   fallback:
     annotate:
-      EventName: Generic FIREEYE-AUDIT Event
+      EventName: Generic FireEye Audit Event
       Stream: OTHER
 
   globals:
