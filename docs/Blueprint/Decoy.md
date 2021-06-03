@@ -1,9 +1,9 @@
 | Blueprint name          | Decoy                                                                |
 | ----------------------- | -------------------------------------------------------------------- |
 | Description             | Extractor for the Decoy will be built using this blueprint document. |
-| Blueprint creation date | 6th April 2021                                                       |
-| Author                  | Lenora                                                               |
-| Review Date             |                                                                      |
+| Creation date | 6th April 2021                                                       |
+| Version                  | 0.1                                                               |
+| Change Update             |  -                                                                  |
 
 **Number of Streams - 2**
 
