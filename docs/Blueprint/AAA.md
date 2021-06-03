@@ -1,10 +1,10 @@
 | Blueprint name          | AAA Extractor Blueprint                                                                                                                      |
 | ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
 | Description             | Extractor for devices using AAA(Authentication, Authorization, Accounting) such as Cisco TACACS will be built using this blueprint document. |
-| Blueprint creation date | 02 June 2021                                                                                                                                 |
+| Creation date           | 02 June 2021                                                                                                                                 |
 | Author                  | Sharron                                                                                                                                      |
-| Review Date             |                                                                                                                                              |
-| Change Update           |                                                                                                                                              |
+| Version                 | 0.1                                                                                                                                          |
+| Change Update           | -                                                                                                                                            |
 
 **Number of Streams - 3**
 
