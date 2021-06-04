@@ -52,3 +52,5 @@ This is available here : https://docs.google.com/document/d/1O6ynQrvKTtw38VwyaXJ
 | DECOY             | Smokescreen    | Smokescreen Decoy          | Syslog(CEF)  | THREAT                                                                                                                                                    |
 | ZERO-TRUST        | Versa Networks | Versa Networks Zero Trust  | Syslog(KV)   | FIREWALL, WEBFILTER, THREAT                                                                                                                               |
 | CLOUD             | Amazon         | AWS CloudTrail             | NXLog        | AUTHENTICATION, CONFIGURATION, CLOUDTRAIL, IAM                                                                                                            |
+
+The DDM repository can be found here : https://github.com/dnif/extractors/tree/master/docs/Blueprint 
