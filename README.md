@@ -2,7 +2,9 @@
 Plug and play extractors that convert different log events to a common DNIF Data Model (DDM)
 
 ## Extractors
-As of 02-06-2021
+As of 31-05-2021
+
+This is available here : https://docs.google.com/document/d/1O6ynQrvKTtw38VwyaXJk-U3EqPdAeJMue4gfstBkf5Y/edit#
 
 | Type              | Vendor         | Product                    | Integration  | Stream                                                                                                                                                    |
 | ----------------- | -------------- | -------------------------- | ------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
