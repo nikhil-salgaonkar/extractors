@@ -2,7 +2,7 @@
 Plug and play extractors that convert different log events to a common DNIF Data Model (DDM)
 
 ## Extractors
-As of 31-05-2021
+As of 07-06-2021
 
 This is available here : https://docs.google.com/document/d/1O6ynQrvKTtw38VwyaXJk-U3EqPdAeJMue4gfstBkf5Y/edit#
 
@@ -35,10 +35,12 @@ This is available here : https://docs.google.com/document/d/1O6ynQrvKTtw38VwyaXJ
 | ENDPOINT-SECURITY | Dell           | Dell Cylance               | Syslog(KV)   | THREAT, IAM, AUTHENTICATION                                                                                                                               |
 | ENDPOINT-SECURITY | McAfee         | McAfee DLP                 | Syslog       | THREAT, AUTHENTICATION                                                                                                                                    |
 | ENDPOINT-SECURITY | VMWare         | Carbon Black Defense       | Syslog(KV)   | THREAT, AUTHENTICATION                                                                                                                                    |
+| ENDPOINT-SECURITY | Forcepoint     | Forcepoint DLP             | Syslog(CEF)  | THREAT                                                                                                                                                    |
+| ENDPOINT-SECURITY | Trend Micro    | Trend-Micro Endpoint       | Syslog(KV)   | THREAT, AUTHENTICATION, IAM                                                                                                                               |
 | ENDPOINT-SECURITY | VMWare         | Carbon Black EPP           | Syslog(KV)   | THREAT                                                                                                                                                    |
 | ENDPOINT-SECURITY | Broadcom       | Symantec Endpoint Security | Syslog(KV)   | THREAT                                                                                                                                                    |
 | ENDPOINT-SECURITY | Broadcom       | Symantec ATP               | Syslog(KV)   | THREAT                                                                                                                                                    |
-| APT               | Fireeye Inc.   | Fireeye APT                | Syslog(CEF)  | THREAT                                                                                                                                                    |
+| THREAT            | FireEye Inc.   | FireEye Threat             | Syslog(CEF)  | THREAT                                                                                                                                                    |
 | OFFICE            | Microsoft      | MS O365                    | Office 365   | EMAIL-GATEWAY, AUTHENTICATION, IAM, DOCUMENTS                                                                                                             |
 | WEBFILTER         | Forcepoint     | Websense WebFilter         | Syslog(CEF)  | WEBFILTER                                                                                                                                                 |
 | WEBFILTER         | McAfee         | McAfee Web Gateway         | Syslog(CEF)  | AUTHENTICATION, THREAT, WEBFILTER                                                                                                                         |
@@ -52,5 +54,6 @@ This is available here : https://docs.google.com/document/d/1O6ynQrvKTtw38VwyaXJ
 | DECOY             | Smokescreen    | Smokescreen Decoy          | Syslog(CEF)  | THREAT                                                                                                                                                    |
 | ZERO-TRUST        | Versa Networks | Versa Networks Zero Trust  | Syslog(KV)   | FIREWALL, WEBFILTER, THREAT                                                                                                                               |
 | CLOUD             | Amazon         | AWS CloudTrail             | NXLog        | AUTHENTICATION, CONFIGURATION, CLOUDTRAIL, IAM                                                                                                            |
+| MANAGEMENT-SERVER | FireEye Inc.   | FireEye Audit              | Syslog       | AUTHENTICATION, CONFIGURATION                                                                                                                             |
 
 The DDM repository can be found here : https://github.com/dnif/extractors/tree/master/docs/Blueprint 
