@@ -1,23 +1,23 @@
 schema-version: 1.0
 #extractor-version: 1
-extractor-id: 900
+extractor-id: 97
 integration: Syslog(LEEF)
 vendor-name: PaloAlto
-product-name: Palo Alto Firewall
+product-name: Palo Alto Networks
 source-name: PALOALTO
 source-type: FIREWALL
-source-description: Extractor for PaloAlto Firewall Events
+source-description: Extractor for Palo Alto Firewall Events
 provides-streams:
 - FIREWALL
 - THREAT
 - AUTHENTICATION
 - CONFIGURATION
 master-filters:
-- 'LEEF\:2\.0\|Palo\s+Alto\s+Networks\|PAN\-OS\s+Syslog\s+Integration\|'
+- 'LEEF\:[\d\.]+\|Palo\s+Alto\s+Networks\|PAN\-OS\s+Syslog\s+Integration\|'
 event-details:
 - first-match: 'cat=THREAT'
   decoder: custom
-  decoder-regex: '([\w]+)\=([^\|]+)'
+  decoder-regex: '([\w]+)\=([^\|]+|)'
   event-key-format: '{cat}-{Subtype}'
   decoder-header: CEF
   event-key-mapping:
@@ -93,8 +93,8 @@ event-details:
         Action: THREAT_DETECTED
         Status: PASSED
         Vector: WEB
+        Threat: Paloalto THREAT url event
       translate:
-        ThreatID: Threat
         src: SrcIP
         dst: DstIP
         SourceUser: User      
@@ -145,7 +145,7 @@ event-details:
 
   fallback:
     annotate:
-      EventName: Generic PaloAlto Firewall Event
+      EventName: Generic Palo Alto Firewall Event
       Stream: OTHER
 
   globals:
@@ -170,13 +170,13 @@ event-details:
         proto: Proto  
         srcPort: SrcPort
         dstPort: DstPort
-        App: App
+        Application: App
         srcBytes: TXLen
         dstBytes: RXLen
     'SCTP-deny':
       annotate:
         Stream: FIREWALL
-        Action: SESSION_TERMINATED
+        Action: SESSION_ESTABLISHED
         Status: FAILED
       translate:
         src: SrcIP
@@ -184,7 +184,7 @@ event-details:
         proto: Proto  
         srcPort: SrcPort
         dstPort: DstPort
-        App: App
+        Application: App
         srcBytes: TXLen
         dstBytes: RXLen
     'TRAFFIC-allow':
@@ -204,7 +204,7 @@ event-details:
     'TRAFFIC-deny':
       annotate:
         Stream: FIREWALL
-        Action: SESSION_TERMINATED
+        Action: SESSION_ESTABLISHED
         Status: FAILED
       translate:
         src: SrcIP
@@ -219,7 +219,7 @@ event-details:
       annotate:
         Stream: FIREWALL
         Action: SESSION_TERMINATED
-        Status: FAILED
+        Status: PASSED
       translate:
         src: SrcIP
         dst: DstIP
@@ -233,7 +233,7 @@ event-details:
       annotate:
         Stream: FIREWALL
         Action: SESSION_TERMINATED
-        Status: FAILED
+        Status: PASSED
       translate:
         src: SrcIP
         dst: DstIP
@@ -247,7 +247,7 @@ event-details:
       annotate:
         Stream: FIREWALL
         Action: SESSION_TERMINATED
-        Status: FAILED
+        Status: PASSED
       translate:
         src: SrcIP
         dst: DstIP
@@ -261,7 +261,7 @@ event-details:
       annotate:
         Stream: FIREWALL
         Action: SESSION_TERMINATED
-        Status: FAILED
+        Status: PASSED
       translate:
         src: SrcIP
         dst: DstIP
@@ -275,7 +275,7 @@ event-details:
       annotate:
         Stream: FIREWALL
         Action: SESSION_TERMINATED
-        Status: FAILED
+        Status: PASSED
       translate:
         src: SrcIP
         dst: DstIP
@@ -288,7 +288,7 @@ event-details:
 
   fallback:
     annotate:
-      EventName: Generic PaloAlto Firewall Event
+      EventName: Generic Palo Alto Firewall Event
       Stream: OTHER
 
   globals:
@@ -323,7 +323,7 @@ event-details:
   
   fallback:
     annotate:
-      EventName: Generic PaloAlto Firewall Event
+      EventName: Generic Palo Alto Firewall Event
       Stream: OTHER
 
   globals:
@@ -348,7 +348,7 @@ event-details:
   
   fallback:
     annotate:
-      EventName: Generic PaloAlto Firewall Event
+      EventName: Generic Palo Alto Firewall Event
       Stream: OTHER
 
   globals:
@@ -383,7 +383,7 @@ event-details:
 
   fallback:
     annotate:
-      EventName: Generic PaloAlto Firewall Event
+      EventName: Generic Palo Alto Firewall Event
       Stream: OTHER
 
   globals:
@@ -480,7 +480,7 @@ event-details:
 
   fallback:
     annotate:
-      EventName: Generic PaloAlto Firewall Event
+      EventName: Generic Palo Alto Firewall Event
       Stream: OTHER
 
   globals:
