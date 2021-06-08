@@ -10,6 +10,7 @@ source-description: Extractor for VMware OS Events
 provides-streams:
 - AUTHENTICATION
 - CONFIGURATION
+- AUDITD
 master-filters:
 - '^(?:<\d+>\d*)?\s*\d{4}\-\d+\-\d+T\d+\:\d+\:\d+[\.\w\+\:]+\s+[\.\w\-]+\s+(?:smbiosDump|Hostd|vmkernel|Vpxa|vobd|lwsmd|Rhttpproxy|hostd\-probe|storageRM|cimslp|smartd|heartbeat|sdrsInjector|vmkwarning|vsantraced|vmon|vpxd|vmcad|vmdird|Fdm|localcli|root|backup\.sh\.\d+|vmauthd|sfcb-vmware_raw|slpd|VSAN\w+)'
 - '^(?:\<\d+\>\d+\s+)?\d{4}\-\d{1,2}\-\d{2}T\d{2}\:\d{2}\:\d+[\.\w\+\:]+\s+\S+\s+NSX\s+(?:[\d\s\-\[]+)'
@@ -292,10 +293,10 @@ event-details:
 
 - first-match: '\d{4}\-\d+\-\d+\:\d+\:\d+[\.\w\+\:]+\s+info\s+hostd\['
   decoder: regex
-  decoder-regex: '(?P<datetime>\d+\-\d+\-\d+\:\d+\:\d+).*?(?P<daemon>hostd)\[\d+\].*?sub\=(?P<commandline>\S+).*?user\=(?P<user>\S+)\s+(?P<message>.*)'
+  decoder-regex: '(?P<datetime>\d+\-\d+\-\d+\:\d+\:\d+).*?(?P<daemon>hostd)\[\d+\].*?sub\=(?P<sub>\S+).*?user\=(?P<user>\S+)\s+(?P<message>.*?\s+(?P<action>.*)\s+called)'
   event-key-format: '{action}'
   event-key-mapping:
-    'Destroy VM called':
+    'Destroy VM':
       annotate:
         Stream: AUDITD
         Action: VIRTUAL_MACHINE_DELETED
@@ -337,4 +338,4 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
-      hostname: System 
+      hostname: System
