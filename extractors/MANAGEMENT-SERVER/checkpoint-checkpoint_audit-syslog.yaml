@@ -158,10 +158,9 @@ event-details:
     'Session had expired': 
       annotate:
         Stream: AUTHENTICATION
-        Action: LOGIN
-        Status: FAILED
+        Action: LOGOUT
+        Status: PASSED
         AuthProto: HTTP
-        Reason: BAD_USER_PASSWORD
       translate:
         user: User
         src: SrcIP
