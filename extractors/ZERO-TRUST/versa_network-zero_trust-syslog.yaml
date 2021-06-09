@@ -4,7 +4,7 @@ extractor-id: 806
 integration: Syslog
 vendor-name: Versa Networks
 product-name: Versa Networks Zero Trust
-source-name: VERSA-NETWOKRS
+source-name: VERSA-NETWORKS
 source-type: ZERO-TRUST
 source-description: Extractor for Versa Networks Events
 provides-streams:
