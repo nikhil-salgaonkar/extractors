@@ -32,6 +32,7 @@ event-details:
         dport: DstPort
         protocol: Proto
         Packet Length: TXLen
+        RXlen: RXlen
         App: App
     'permitted':
       annotate:
@@ -45,6 +46,7 @@ event-details:
         dport: DstPort
         protocol: Proto
         Packet Length: TXLen
+        RXlen: RXlen
         App: App
 
   fallback:
@@ -74,6 +76,7 @@ event-details:
         dport: DstPort
         protocol: Proto
         Packet Length: TXLen
+        RXlen: RXlen
     'permitted':
       annotate:
         Stream: FIREWALL
@@ -87,6 +90,7 @@ event-details:
         dport: DstPort
         protocol: Proto
         Packet Length: TXLen
+        RXlen: RXlen
 
   fallback:
     annotate:
@@ -96,6 +100,49 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
+
+- first-match: '\%SEC\-\d+\-IPACCESSLOGS\:'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w+\s+\d+\s+\d+\:\d+\:\d+)[\.\w\s\:]+\%(?P<facility>\S+)\-(?P<severity>\d+)\-(?P<actiontaken>\S+)\:.*?\s+(?P<message>list.*?\s+(?P<action>(?:denied|permitted))\s+(?P<src>[\w\.\:]+).*)'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'denied':
+      annotate:
+        Stream: FIREWALL
+        Action: PACKET_BLOCKED
+        Status: FAILED
+      translate:
+        src: SrcIP
+        DstIP: DstIP
+        App: App
+        SrcPort: SrcPort
+        DstPort: DstPort
+        Proto: Proto
+        TXLen: TXLen
+        RXlen: RXlen
+    'permitted':
+      annotate:
+        Stream: FIREWALL
+        Action: PACKET_ALLOWED
+        Status: PASSED
+      translate:
+        src: SrcIP
+        DstIP: DstIP
+        App: App
+        SrcPort: SrcPort
+        DstPort: DstPort
+        Proto: Proto
+        TXLen: TXLen
+        RXlen: RXlen
+
+  fallback:
+    annotate:
+      EventName: Generic Cisco Network OS Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp      
 
 - first-match: '\%SEC\_LOGIN\-'
   decoder: regex
@@ -116,12 +163,12 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
+        Reason: BAD_USER_PASSWORD
       translate:
         AuthProto: AuthProto
-        Reason: Reason
         src: SrcIP
         user: User
-
+        
   fallback:
     annotate:
       EventName: Generic Cisco Network OS Event
@@ -141,9 +188,9 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
+        Reason: BAD_USER_PASSWORD
       translate:
         auth_protocol: AuthProto
-        reason: Reason
         src: SrcIP
         user: User
 
@@ -167,8 +214,8 @@ event-details:
         Action: LOGIN
         Status: FAILED
         AuthProto: SSH
+        Reason: BAD_USER_PASSWORD
       translate:
-        reason: Reason
         src: SrcIP
         user: User
 
