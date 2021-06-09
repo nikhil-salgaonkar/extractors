@@ -40,6 +40,7 @@ event-details:
         winlog[event_data][Description]: Description
         winlog[event_data][Company]: Company
         winlog[event_data][Product]: Product
+        winlog[event_data][OriginalFileName]: OriginalFileName
 
     '2':
       annotate:
@@ -63,6 +64,8 @@ event-details:
         winlog[event_data][DestinationHostname]: DstHost
         winlog[event_data][DestinationPort]: DstPort
         winlog[event_data][Description]: Description
+        winlog[event_data][Protocol]: Proto
+        winlog[event_data][User]: User
 
     '4':
       annotate:
@@ -95,6 +98,10 @@ event-details:
         Status: PASSED
       translate:
         winlog[event_data][User]: User
+        winlog[event_data][ImageLoaded]: ImageLoaded
+        winlog[event_data][SignatureStatus]: SignatureStatus
+        winlog[event_data][Signature]: Signature
+        winlog[event_data][Signed]: Signed
 
     '7':
       annotate:
@@ -102,6 +109,8 @@ event-details:
         Action: PROCESS_ACCESSED
         Status: PASSED
       translate:
+        winlog[event_data][Image]: Image
+        winlog[event_data][ImageLoaded]: ImageLoaded
         winlog[event_data][User]: User
         winlog[event_data][Description]: Description
         winlog[event_data][Company]: Company
@@ -216,6 +225,7 @@ event-details:
         winlog[event_data][Name]: Name
         winlog[event_data][Type]: Type
         winlog[event_data][Destination]: Destination
+        winlog[event_data][Operation]: Operation
 
     '21':
       annotate:
