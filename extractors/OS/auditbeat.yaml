@@ -11,7 +11,7 @@ provides-streams:
 - AUTHENTICATION
 - AUDITD
 master-filters:
-- \"type\"\:\"auditbeat\"
+- '\"type\"\:\"auditbeat\"'
 event-details:
 - first-match: '\"category\":\[\"authentication\"'
   decoder: json
@@ -34,10 +34,71 @@ event-details:
         Action: LOGIN
         Status: FAILED
         AuthProto: '-'
-        Reason: '-'
+        Reason: BAD_USER_PASSWORD
       translate:
         user[name]: User
         source[ip]: SrcIP
+
+    'authenticated-failure':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+        AuthProto: '-'
+        Reason: '-'
+      translate:
+        user[name]: User
+        source[ip]: SrcIP 
+
+    'acquired-credentials-success':
+      annotate:
+        Stream: AUDITD
+        Action: ACQUIRED_CREDENTIALS
+        Status: PASSED
+      translate:
+        user[name]: User
+        process[executable]: Process
+        process[args]: ProcessArgs
+
+    'disposed-credentials-success':
+      annotate:
+        Stream: AUDITD
+        Action: DISPOSED_CREDENTIALS
+        Status: PASSED
+      translate:
+        user[name]: User
+        process[executable]: Process
+        process[args]: ProcessArgs 
+
+    'refreshed-credentials-success':
+      annotate:
+        Stream: AUDITD
+        Action: REFRESHED_CREDENTIALS
+        Status: PASSED
+      translate:
+        user[name]: User
+        process[executable]: Process
+        process[args]: ProcessArgs  
+
+    'started-session-success':
+      annotate:
+        Stream: AUDITD
+        Action: SESSION_START
+        Status: PASSED
+      translate:
+        user[name]: User
+        process[executable]: Process
+        process[args]: ProcessArgs   
+
+    'ended-session-success':
+      annotate:
+        Stream: AUDITD
+        Action: SESSION_END
+        Status: PASSED
+      translate:
+        user[name]: User
+        process[executable]: Process
+        process[args]: ProcessArgs       
 
   fallback:
     annotate:
@@ -138,6 +199,16 @@ event-details:
         user[name]: User
         process[executable]: Process
         process[args]: ProcessArgs
+
+    'ran-command':
+      annotate:
+        Stream: AUDITD
+        Action: USER_COMMAND_EXECUTED
+        Status: PASSED
+      translate:
+        user[name]: User
+        process[working_directory]: Process
+        process[args]: ProcessArgs    
 
   fallback:
     annotate:
