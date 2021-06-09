@@ -161,9 +161,9 @@ event-details:
       datetime: SystemTstamp
       hostname: System
 
-- first-match: 'ModuleName\=\"ACCESS\_CONTROL\"\,\s+Operation\=\"(LOGIN|LOGOUT)\"\,'
+- first-match: 'ModuleName\=\"ACCESS\_CONTROL\"\,\s+Operation\=\"(?:LOGIN|LOGOUT)\"\,'
   decoder: regex
-  decoder-regex: '(?P<datetime>\d+\-\d+\-\d+T\d+\:\d+\:\d+)[\.\w\:\+]+\s+(?P<hostname>\S+)\s+NSX\s+\d+\s+\w+\s+.*?subcomp\=\"(?P<auth_protocol>.*?)\"\]\s+UserName\=\"(?P<user>.*?)(?:\@(?P<src>[\w\.\:]+))?\"\,\s+ModuleName\=\"(?P<modulename>.*?)\"\,\s+Operation\=\"(?P<operation>.*?)\"\,\s+Operation\s+status\=\"(?P<status>\w+)\"'
+  decoder-regex: '(?P<datetime>\d+\-\d+\-\d+T\d+\:\d+\:\d+)[\.\w\:\+]+\s+(?P<hostname>\S+)\s+NSX\s+\d+\s+\w+\s+.*?subcomp\=\"(?P<auth_protocol>.*?)\"\].*?UserName\=\"(?P<user>.*?)(?:\@(?P<src>[\w\.\:]+))?\"\,\s+ModuleName\=\"(?P<modulename>.*?)\"\,\s+Operation\=\"(?P<operation>.*?)\"\,\s+Operation\s+status\=\"(?P<status>\w+)\"'
   event-key-format: '{operation}-{status}'
   event-key-mapping:
     'LOGIN-success':
