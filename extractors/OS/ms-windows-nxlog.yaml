@@ -18,6 +18,7 @@ provides-streams:
 - CONFIGURATION
 - THREAT
 - IAM
+- SYSMON-DRIVERLOAD
 master-filters:
 - \"SourceName\"\:\"(?:Microsoft\-Windows|Security)
 event-details:  
