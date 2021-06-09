@@ -52,7 +52,7 @@ event-details:
     'acquired-credentials-success':
       annotate:
         Stream: AUDITD
-        Action: ACQUIRED_CREDENTIALS
+        Action: CREDENTIALS_ACQUIRED
         Status: PASSED
       translate:
         user[name]: User
@@ -62,7 +62,7 @@ event-details:
     'disposed-credentials-success':
       annotate:
         Stream: AUDITD
-        Action: DISPOSED_CREDENTIALS
+        Action: CREDENTIALS_DISPOSED
         Status: PASSED
       translate:
         user[name]: User
@@ -72,7 +72,7 @@ event-details:
     'refreshed-credentials-success':
       annotate:
         Stream: AUDITD
-        Action: REFRESHED_CREDENTIALS
+        Action: CREDENTIALS_REFRESHED
         Status: PASSED
       translate:
         user[name]: User
