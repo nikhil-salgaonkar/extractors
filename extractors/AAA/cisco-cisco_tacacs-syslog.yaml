@@ -1,21 +1,20 @@
 schema-version: 1.0
 #extractor-version: 1
-extractor-id: 915
+extractor-id: 177
 integration: Syslog
 vendor-name: Cisco TACACS
 product-name: Cisco TACACS
 source-name: Cisco-TACACS
 source-type: AAA
-source-description: Extractor for Cisco-TACACS AAA Events
+source-description: Extractor for Cisco-TACACS Events
 provides-streams:
 - AUTHENTICATION
-- CONFIGURATION
 master-filters:
-- '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+(?:CSCOacs_Passed_Authentications|CSCOacs_Failed_Attempts)'
+- '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+(?:CSCOacs\_Passed\_Authentications|CSCOacs\_Failed\_Attempts|CSCOacs\_TACACS\_Accounting)'
 event-details:
-- first-match: 'Type=Authorization'
+- first-match: 'Device\-Administration\:\s+(?:Session|Command)\s+Authorization\s+succeeded\,.*?Type\=Authorization\, '
   decoder: custom
-  decoder-regex: '\,\s([\w\-\s]+)\=([^\,]+)'
+  decoder-regex: '\,\s([\w\-\s]+)\=([^\,\/]+)'
   event-key-format: '{Privilege-Level}-{CmdSet}'
   event-key-mapping:
     '0-[ CmdAV=logout ]':
@@ -33,34 +32,10 @@ event-details:
         Action: LOGIN
         Status: PASSED
       translate:
-        Protocol: AuthProto 
+        Protocol: AuthProto
         UserName: User
-        Device IP Address: SrcIP   
-    '15-[ CmdAV=show CmdArgAV=running-config ]':
-      annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-      translate:
-        UserName: User
-        Config : Config   
-    
-  fallback:
-    annotate:
-      EventName: Generic for Cisco-TACACS AAA Evnt
-      Stream: OTHER
-
-  globals:
-    translate:
-      hostname: System
-      datetime: SystemTstamp
-
-- first-match: 'Authentication:\s+Authentication\s+succeeded\,.*?Type\=Authentication\,'
-  decoder: custom
-  decoder-regex: '\,\s([\w\-\s]+)\=([^\,]+)'
-  event-key-format: '{Privilege-Level}'
-  event-key-mapping: 
-    '1':
+        Device IP Address: SrcIP  
+    '1-None':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
@@ -69,20 +44,29 @@ event-details:
         Protocol: AuthProto 
         UserName: User
         Device IP Address: SrcIP   
-    
+    '15-[ CmdAV=system-view CmdArgAV=<cr> ]':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        Protocol: AuthProto 
+        UserName: User
+        Device IP Address: SrcIP 
+
   fallback:
     annotate:
-      EventName: Generic for Cisco-TACACS AAA Evnt
+      EventName: Generic for Cisco-TACACS Event
       Stream: OTHER
 
   globals:
     translate:
-      hostname: System
-      datetime: SystemTstamp
+      AcsSessionID: System
+      SystemTstamp: SystemTstamp
 
-- first-match: 'Failed\-Attempt\:\s+Authentication\s+failed\,.*?Type\=Authentication\,'
+- first-match: 'Device\-Administration\:\s+Authorization\s+failed\,.*?Type\=Authorization\,'
   decoder: custom
-  decoder-regex: '\,\s([\w\-\s]+)\=([^\,]+)'
+  decoder-regex: '\,\s([\w\-\s]+)\=([^\,\/]+)'
   event-key-format: '{Privilege-Level}'
   event-key-mapping: 
     '1':
@@ -103,8 +87,59 @@ event-details:
 
   globals:
     translate:
-      hostname: System
-      datetime: SystemTstamp
+      AcsSessionID: System
+      SystemTstamp: SystemTstamp
+
+- first-match: 'Authentication:\s+Authentication\s+succeeded\,.*?Type\=Authentication\,'
+  decoder: custom
+  decoder-regex: '\,\s([\w\-\s]+)\=([^\,\/]+)'
+  event-key-format: '{Privilege-Level}'
+  event-key-mapping: 
+    '1':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        Protocol: AuthProto 
+        UserName: User
+        Device IP Address: SrcIP   
+    
+  fallback:
+    annotate:
+      EventName: Generic for Cisco-TACACS AAA Evnt
+      Stream: OTHER
+
+  globals:
+    translate:
+      AcsSessionID: System
+      SystemTstamp: SystemTstamp
+
+- first-match: 'Failed\-Attempt\:\s+Authentication\s+failed\,.*?Type\=Authentication\,'
+  decoder: custom
+  decoder-regex: '\,\s([\w\-\s]+)\=([^\,\/]+)'
+  event-key-format: '{Privilege-Level}'
+  event-key-mapping: 
+    '1':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+        Reason: INVALID_USER
+      translate:
+        Protocol: AuthProto
+        UserName: User
+        Device IP Address: SrcIP   
+    
+  fallback:
+    annotate:
+      EventName: Generic for Cisco-TACACS AAA Evnt
+      Stream: OTHER
+
+  globals:
+    translate:
+      AcsSessionID: System
+      SystemTstamp: SystemTstamp
 
 - first-match: '\{Type\=(?:Authentication|Authorization)\;\s+(?:Authen|Author)\-Reply\-Status\=(?:PassAdd|Pass)\;\s+\}'
   decoder: custom
@@ -128,8 +163,8 @@ event-details:
 
   globals:
     translate:
-      hostname: System
-      datetime: SystemTstamp
+      System: System
+      SystemTstamp: SystemTstamp
 
 - first-match: '\{AuthenticationResult\=Passed\;\s+AuthorizationFailureReason=ShellProfileDenyAuthorization;\s+Type\=Authentication;\s+Authen\-Reply\-Status\=Fail\;\s+\}'
   decoder: custom
@@ -154,8 +189,8 @@ event-details:
 
   globals:
     translate:
-      hostname: System
-      datetime: SystemTstamp
+      System: System
+      SystemTstamp: SystemTstamp
 
 - first-match: 'CSCOacs\_Passed\_Authentications\s+\d+\s+\d+\s+\d+\s+\w+\=Device\s+Type\:All\s+Device\s+Types\:\w+\,'
   decoder: custom
@@ -179,8 +214,8 @@ event-details:
 
   globals:
     translate:
-      hostname: System
-      datetime: SystemTstamp
+      System: System
+      SystemTstamp: SystemTstamp
 
 - first-match: 'CSCOacs\_Failed\_Attempts\s+\d+\s+\d+\s+\d+\s+\w+\=Device\s+Type\:All\s+Device\s+Types\:\w+\,'
   decoder: custom
@@ -205,6 +240,40 @@ event-details:
 
   globals:
     translate:
-      hostname: System
-      datetime: SystemTstamp
+      System: System
+      SystemTstamp: SystemTstamp
 
+- first-match: 'Type\=Accounting\,'
+  decoder: custom
+  decoder-regex: '\,\s([\w\-\s]+)\=([^\,\/]+)'
+  event-key-format: '{Privilege-Level}'
+  event-key-mapping: 
+    '1':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        Authen-Method: AuthProto
+        User: User
+        Device IP Address: SrcIP     
+    '15':
+      annotate:
+        annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        Authen-Method: AuthProto 
+        User: User
+        Device IP Address: SrcIP  
+    
+  fallback:
+    annotate:
+      EventName: Generic for Cisco-TACACS AAA Evnt
+      Stream: OTHER
+
+  globals:
+    translate:
+      AcsSessionID: System
+      SystemTstamp: SystemTstamp
