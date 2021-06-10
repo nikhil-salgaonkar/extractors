@@ -183,6 +183,24 @@ event-details:
         UserId: User
         Role: Role
         TargetUser: TargetUser  
+    'AccessRequestRejected':
+      annotate:
+        Stream: IAM
+        Action: ACCESS_REQUEST_REJECTED
+        Status: PASSED
+      translate:
+        UserId: User
+        Role: Role
+        TargetUserOrGroupName: TargetUser
+    'SiteCollectionAdminAdded':
+      annotate:
+        Stream: IAM
+        Action: USER_ADDED
+        Status: PASSED
+      translate:
+        UserId: User
+        Role: Role
+        TargetUserOrGroupName: TargetUser   
     'FileAccessed':
       annotate:
         Stream: DOCUMENTS
