@@ -18,7 +18,7 @@ provides-streams:
 - CONFIGURATION
 - THREAT
 - IAM
-- SYSMON-DRIVERLOAD
+- SYSMON-DRIVER-LOAD
 master-filters:
 - \"SourceName\"\:\"(?:Microsoft\-Windows|Security)
 event-details:  
@@ -1388,7 +1388,7 @@ event-details:
 
     '6':
       annotate:
-        Stream: SYSMON-DRIVERLOAD
+        Stream: SYSMON-DRIVER-LOAD
         Action: DRIVER_LOADED
         Status: PASSED
       translate:
