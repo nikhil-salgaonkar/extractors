@@ -259,7 +259,6 @@ event-details:
         Device IP Address: SrcIP     
     '15':
       annotate:
-        annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
