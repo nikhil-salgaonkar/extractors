@@ -18,7 +18,7 @@ master-filters:
 event-details:
 - first-match: 'Event\s+\d+\s+\:\s+(?:user=|User)[\s\w\.\@\:]+logged\s+(?:out|in)\s+'
   decoder: regex
-  decoder-regex: '(?P<datetime>\d+\-\d+\-\d+T\d+\:\d+\:\d+)[\w\.\+]+\s+(?P<hostname>\S+)\s+(?P<daemon>\w+)(?:\:\s+(?P<severity>\w+)\s+(?P<appserverice>\w+))?.*?(?:user=|User)\s+(?P<user>.*?)(?:\@(?P<src>[\w\.\:]+))?\s+(?P<action>logged\s+(?:out|in))\s+'
+  decoder-regex: '(?P<datetime>\d+\-\d+\-\d+T\d+\:\d+\:\d+)[\w\.+]+\s+(?P<hostname>\S+)\s+(?P<daemon>\w+)(?:\:\s+(?P<severity>\w+)\s+(?P<appserverice>\w+))?.*?(?:user=|User)\s+(?P<user>.*?)(?:\@(?P<src>[\w\.\:]+))?\s+(?P<action>logged\s+(?:out|in))\s+'
   event-key-format: '{action}'
   event-key-mapping:
     'logged out':
