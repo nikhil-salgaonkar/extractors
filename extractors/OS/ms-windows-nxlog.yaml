@@ -1262,7 +1262,7 @@ event-details:
         ParentUser: ParentUser
         SrcIP: SrcIP
         SrcPort: SrcPort
-        SrcHost: srcHost
+        SrcHost: SrcHost
         DstIP: DstIP
         DstPort: DstPort
         DstHost: DstHost
@@ -1287,7 +1287,7 @@ event-details:
         ParentUser: ParentUser
         SrcIP: SrcIP
         SrcPort: SrcPort
-        SrcHost: srcHost
+        SrcHost: SrcHost
         DstIP: DstIP
         DstPort: DstPort
         DstHost: DstHost
@@ -1331,7 +1331,7 @@ event-details:
         ParentUser: ParentUser
         SrcIP: SrcIP
         SrcPort: SrcPort
-        SrcHost: srcHost
+        SrcHost: SrcHost
         DstIP: DstIP
         DstPort: DstPort
         DstHost: DstHost
@@ -1386,7 +1386,7 @@ event-details:
         ParentUser: ParentUser
         SrcIP: SrcIP
         SrcPort: SrcPort
-        SrcHost: srcHost
+        SrcHost: SrcHost
         DstIP: DstIP
         DstPort: DstPort
         DstHost: DstHost
