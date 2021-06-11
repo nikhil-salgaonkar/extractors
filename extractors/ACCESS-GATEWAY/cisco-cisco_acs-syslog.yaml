@@ -195,7 +195,6 @@ event-details:
         Status: PASSED
       translate:
         Protocol: AuthProto
-        Authen-Method: AuthProto 
         AD-User-Candidate-Identities: User
         Device IP Address: SrcIP   
     
@@ -221,8 +220,7 @@ event-details:
         Status: FAILED
         Reason: INVALID_USER
       translate:
-        Protocol: AuthProto 
-        Authen-Method: AuthProto
+        Protocol: AuthProto
         AD-User-Candidate-Identities: User
         Device IP Address: SrcIP   
     
