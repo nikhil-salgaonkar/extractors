@@ -2,22 +2,22 @@ schema-version: 1.0
 #extractor-version: 1
 extractor-id: 177
 integration: Syslog
-vendor-name: Cisco TACACS
-product-name: Cisco TACACS
-source-name: Cisco-TACACS
-source-type: AAA
-source-description: Extractor for Cisco-TACACS Events
+vendor-name: Cisco
+product-name: Cisco ACS
+source-name: CISCO-ACS
+source-type: ACCESS-GATEWAY
+source-description: Extractor for Cisco ACS Events
 provides-streams:
 - AUTHENTICATION
 master-filters:
-- '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+(?:CSCOacs\_Passed\_Authentications|CSCOacs\_Failed\_Attempts|CSCOacs\_TACACS\_Accounting)'
+- '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+CSCOacs\_\w+\_\w+\s+\d+\s+'
 event-details:
-- first-match: 'Device\-Administration\:\s+(?:Session|Command)\s+Authorization\s+succeeded\,.*?Type\=Authorization\, '
+- first-match: 'Device\-Administration\:\s+(?:Session|Command)\s+Authorization\s+succeeded\,.*?Type\=Authorization\,'
   decoder: custom
   decoder-regex: '\,\s([\w\-\s]+)\=([^\,\/]+)'
-  event-key-format: '{Privilege-Level}-{CmdSet}'
+  event-key-format: '{Privilege-Level}'
   event-key-mapping:
-    '0-[ CmdAV=logout ]':
+    '0':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGOUT
@@ -26,7 +26,7 @@ event-details:
         Protocol: AuthProto 
         UserName: User
         Device IP Address: SrcIP   
-    '1-[ CmdAV= ]':
+    '1':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
@@ -34,17 +34,8 @@ event-details:
       translate:
         Protocol: AuthProto
         UserName: User
-        Device IP Address: SrcIP  
-    '1-None':
-      annotate:
-        Stream: AUTHENTICATION
-        Action: LOGIN
-        Status: PASSED
-      translate:
-        Protocol: AuthProto 
-        UserName: User
-        Device IP Address: SrcIP   
-    '15-[ CmdAV=system-view CmdArgAV=<cr> ]':
+        Device IP Address: SrcIP    
+    '15':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
@@ -56,7 +47,7 @@ event-details:
 
   fallback:
     annotate:
-      EventName: Generic for Cisco-TACACS Event
+      EventName: Generic for Cisco ACS Event
       Stream: OTHER
 
   globals:
@@ -82,7 +73,7 @@ event-details:
     
   fallback:
     annotate:
-      EventName: Generic for Cisco-TACACS AAA Evnt
+      EventName: Generic for Cisco ACS Event
       Stream: OTHER
 
   globals:
@@ -107,7 +98,7 @@ event-details:
     
   fallback:
     annotate:
-      EventName: Generic for Cisco-TACACS AAA Evnt
+      EventName: Generic for Cisco ACS Event
       Stream: OTHER
 
   globals:
@@ -133,7 +124,7 @@ event-details:
     
   fallback:
     annotate:
-      EventName: Generic for Cisco-TACACS AAA Evnt
+      EventName: Generic for Cisco ACS Event
       Stream: OTHER
 
   globals:
@@ -143,7 +134,7 @@ event-details:
 
 - first-match: '\{Type\=(?:Authentication|Authorization)\;\s+(?:Authen|Author)\-Reply\-Status\=(?:PassAdd|Pass)\;\s+\}'
   decoder: custom
-  decoder-regex: '\,\s([\w\-\s]+)\=([^\,]+)'
+  decoder-regex: '\,\s([\w\-\s]+)\=([^\,\/]+)'
   event-key-format: '{Privilege-Level}'
   event-key-mapping: 
     '1':
@@ -152,23 +143,23 @@ event-details:
         Action: LOGIN
         Status: PASSED
       translate:
-        AuthProto: AuthProto 
+        Protocol: AuthProto 
         AD-User-Candidate-Identities: User
-        SrcIP: SrcIP   
+        Device IP Address: SrcIP   
     
   fallback:
     annotate:
-      EventName: Generic for Cisco-TACACS AAA Evnt
+      EventName: Generic for Cisco ACS Event
       Stream: OTHER
 
   globals:
     translate:
-      System: System
+      AcsSessionID: System
       SystemTstamp: SystemTstamp
 
 - first-match: '\{AuthenticationResult\=Passed\;\s+AuthorizationFailureReason=ShellProfileDenyAuthorization;\s+Type\=Authentication;\s+Authen\-Reply\-Status\=Fail\;\s+\}'
   decoder: custom
-  decoder-regex: '\,\s([\w\-\s]+)\=([^\,]+)'
+  decoder-regex: '\,\s([\w\-\s]+)\=([^\,\/]+)'
   event-key-format: '{Privilege-Level}'
   event-key-mapping: 
     '1':
@@ -178,23 +169,23 @@ event-details:
         Status: FAILED
         Reason: INVALID_USER
       translate:
-        AuthProto: AuthProto 
+        Protocol: AuthProto 
         AD-User-Candidate-Identities: User
-        SrcIP: SrcIP   
+        Device IP Address: SrcIP   
     
   fallback:
     annotate:
-      EventName: Generic for Cisco-TACACS AAA Evnt
+      EventName: Generic for Cisco ACS Event
       Stream: OTHER
 
   globals:
     translate:
-      System: System
+      AcsSessionID: System
       SystemTstamp: SystemTstamp
 
 - first-match: 'CSCOacs\_Passed\_Authentications\s+\d+\s+\d+\s+\d+\s+\w+\=Device\s+Type\:All\s+Device\s+Types\:\w+\,'
   decoder: custom
-  decoder-regex: '\,\s([\w\-\s]+)\=([^\,]+)'
+  decoder-regex: '\,\s([\w\-\s]+)\=([^\,\/]+)'
   event-key-format: '{Privilege-Level}'
   event-key-mapping: 
     '1':
@@ -203,23 +194,24 @@ event-details:
         Action: LOGIN
         Status: PASSED
       translate:
-        AuthProto: AuthProto 
+        Protocol: AuthProto
+        Authen-Method: AuthProto 
         AD-User-Candidate-Identities: User
-        SrcIP: SrcIP   
+        Device IP Address: SrcIP   
     
   fallback:
     annotate:
-      EventName: Generic for Cisco-TACACS AAA Evnt
+      EventName: Generic for Cisco ACS Event
       Stream: OTHER
 
   globals:
     translate:
-      System: System
+      AcsSessionID: System
       SystemTstamp: SystemTstamp
 
 - first-match: 'CSCOacs\_Failed\_Attempts\s+\d+\s+\d+\s+\d+\s+\w+\=Device\s+Type\:All\s+Device\s+Types\:\w+\,'
   decoder: custom
-  decoder-regex: '\,\s([\w\-\s]+)\=([^\,]+)'
+  decoder-regex: '\,\s([\w\-\s]+)\=([^\,\/]+)'
   event-key-format: '{Privilege-Level}'
   event-key-mapping: 
     '1':
@@ -229,18 +221,19 @@ event-details:
         Status: FAILED
         Reason: INVALID_USER
       translate:
-        AuthProto: AuthProto 
+        Protocol: AuthProto 
+        Authen-Method: AuthProto
         AD-User-Candidate-Identities: User
-        SrcIP: SrcIP   
+        Device IP Address: SrcIP   
     
   fallback:
     annotate:
-      EventName: Generic for Cisco-TACACS AAA Evnt
+      EventName: Generic for Cisco ACS Event
       Stream: OTHER
 
   globals:
     translate:
-      System: System
+      AcsSessionID: System
       SystemTstamp: SystemTstamp
 
 - first-match: 'Type\=Accounting\,'
@@ -269,7 +262,7 @@ event-details:
     
   fallback:
     annotate:
-      EventName: Generic for Cisco-TACACS AAA Evnt
+      EventName: Generic for Cisco ACS Event
       Stream: OTHER
 
   globals:
