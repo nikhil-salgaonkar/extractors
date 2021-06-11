@@ -113,7 +113,7 @@ SYSMON-FILE:
 - User
 - TargetFilename
 - Image
-- CreationUtcTime
+- CreationUTCTime
 SYSMON-DRIVER-LOAD:
 - ImageLoaded
 - User
