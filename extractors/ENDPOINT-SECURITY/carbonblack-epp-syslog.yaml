@@ -92,6 +92,24 @@ event-details:
         username: User
         rolename: Role
         TargetUser: TargetUser
+    'Server Management-License added':
+      annotate:
+        Stream: IAM
+        Action: USER_LICENSE_CHANGED
+        Status: PASSED
+      translate:
+        username: User
+        rolename: Role
+        TargetUser: TargetUser
+    'Computer Management-File deleted':
+      annotate:
+        Stream: IAM
+        Action: FILE_DELETED
+        Status: PASSED
+      translate:
+        username: User
+        rolename: Role
+        TargetUser: TargetUser
     'Session Management-Console user login':
       annotate:
         Stream: AUTHENTICATION
@@ -513,6 +531,38 @@ event-details:
         username: User
         Config: Config
     'Server Management-Server config modified':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        username: User
+        Config: Config
+    'Computer Management-Agent config modified':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        username: User
+        Config: Config
+    'Computer Management-Agent Policy changed':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        username: User
+        Config: Config
+    'Computer Management-Agent Policy updated':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        username: User
+        Config: Config
+    'Computer Management-Configuration changed':
       annotate:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
