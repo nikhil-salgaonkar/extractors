@@ -26,7 +26,6 @@ event-details:
         Action: USER_CREATED
         Status: PASSED
       translate:
-        ip_address: SrcIP
         username: User
         rolename: Role
         TargetUser: TargetUser
@@ -36,7 +35,6 @@ event-details:
         Action: USER_DELETED
         Status: PASSED
       translate:
-        ip_address: SrcIP
         username: User
         rolename: Role
         TargetUser: TargetUser
@@ -46,7 +44,6 @@ event-details:
         Action: USER_UPDATED
         Status: PASSED
       translate:
-        ip_address: SrcIP
         username: User
         rolename: Role
         TargetUser: TargetUser
@@ -56,7 +53,6 @@ event-details:
         Action: USER_CREATED
         Status: PASSED
       translate:
-        ip_address: SrcIP
         username: User
         rolename: Role
         TargetUser: TargetUser
@@ -66,7 +62,6 @@ event-details:
         Action: USER_DELETED
         Status: PASSED
       translate:
-        ip_address: SrcIP
         username: User
         rolename: Role
         TargetUser: TargetUser
@@ -76,7 +71,6 @@ event-details:
         Action: USER_ROLE_CREATED
         Status: PASSED
       translate:
-        ip_address: SrcIP
         username: User
         rolename: Role
         TargetUser: TargetUser
@@ -86,7 +80,6 @@ event-details:
         Action: USER_ROLE_DELETED
         Status: PASSED
       translate:
-        ip_address: SrcIP
         username: User
         rolename: Role
         TargetUser: TargetUser
@@ -96,7 +89,6 @@ event-details:
         Action: USER_ROLE_UPADATED
         Status: PASSED
       translate:
-        ip_address: SrcIP
         username: User
         rolename: Role
         TargetUser: TargetUser
