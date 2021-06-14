@@ -2,7 +2,7 @@ schema-version: 1.0
 #extractor-version: 1
 extractor-id: 84
 integration: Syslog
-vendor-name: Apache Tomcat
+vendor-name: Apache
 product-name: Tomcat Webserver
 source-name: TOMCAT
 source-type: WEBSERVER
@@ -10,11 +10,11 @@ source-description: Extractor for Tomcat Webserver Events
 provides-streams:
 - WEBSERVER
 master-filters:
-- '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+[\d\:]+\s+\w+\s+(?:Tomcat\-access\:|Tomcat\s+logs\s+forwarded)\s+[\d\.]+'
+- '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+(?:Tomcat\-access\:|Tomcat\s+logs\s+forwarded)\s+[\d\.]+'
 event-details:  
-- first-match: '[\d\.]+\s+\-\s+[\-\w]+\s+[\d{1,2}\/\w{3}\/\d{4}[\d\:]+\s+(?:\+|\-)+\d+\]\s+\"?\w+\s+\S+\s+HTTP\/1\.1\"?\s+\d+\s+\d+' 
+- first-match: '(?:Tomcat\-access\:|Tomcat\s+logs\s+forwarded)\s+[\d\.]+'
   decoder: regex
-  decoder-regex: '(?:(?P<hostname>\w+)\s+\S+\:\s+)?(?P<src>[\d\.]+)\s+\-\s+(?P<user>[\w\-]+)\s+\[(?P<datetime>\d{1,2}\/\w{3}\/\d{4}[\d\:]+)\s+(?:\+|\-)\d+\]\s+\"?(?P<method>\w+)\s+\S+\s+HTTP\/1\.1\"?\s+(?P<responsecode>\d+)\s+(?P<responsebytes>\d+)'
+  decoder-regex: '\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+(?:(?P<hostname>\S+)\s+.*?\s+)?(?P<src>[\d\.]+)\s+\-\s+(?P<user>[\S\-]+)\s+\[(?P<datetime>\d{1,2}\/\w{3}\/\d{4}[\d\:]+)\s+(?:\+|\-)\d+\]\s+\"?(?P<method>\w+)\s+(?P<baseurl>\S+)\s+HTTP\/\d+\.\d+\"?\s+(?P<responsecode>\d+)\s+(?P<responsebytes>\d+)'
   event-key-format: '{responsecode}'
   event-key-mapping:
     '100':           
@@ -28,7 +28,7 @@ event-details:
         UriQuery: UriQuery
         user: User
         UserAgent: UserAgent
-        URL: URL
+        baseurl: URL
         responsecode: ReturnCode
     '101':           
       annotate:
@@ -41,7 +41,7 @@ event-details:
         UriQuery: UriQuery
         user: User
         UserAgent: UserAgent
-        URL: URL
+        baseurl: URL
         responsecode: ReturnCode
     '200':           
       annotate:
@@ -54,7 +54,7 @@ event-details:
         UriQuery: UriQuery
         user: User
         UserAgent: UserAgent
-        URL: URL
+        baseurl: URL
         responsecode: ReturnCode
     '201':           
       annotate:
@@ -67,7 +67,7 @@ event-details:
         UriQuery: UriQuery
         user: User
         UserAgent: UserAgent
-        URL: URL
+        baseurl: URL
         responsecode: ReturnCode
     '202':           
       annotate:
@@ -80,7 +80,7 @@ event-details:
         UriQuery: UriQuery
         user: User
         UserAgent: UserAgent
-        URL: URL
+        baseurl: URL
         responsecode: ReturnCode
     '203':           
       annotate:
@@ -93,7 +93,7 @@ event-details:
         UriQuery: UriQuery
         user: User
         UserAgent: UserAgent
-        URL: URL
+        baseurl: URL
         responsecode: ReturnCode
     '204':           
       annotate:
@@ -106,7 +106,7 @@ event-details:
         UriQuery: UriQuery
         user: User
         UserAgent: UserAgent
-        URL: URL
+        baseurl: URL
         responsecode: ReturnCode
     '205':           
       annotate:
@@ -119,7 +119,7 @@ event-details:
         UriQuery: UriQuery
         user: User
         UserAgent: UserAgent
-        URL: URL
+        baseurl: URL
         responsecode: ReturnCode
     '206':           
       annotate:
@@ -132,7 +132,7 @@ event-details:
         UriQuery: UriQuery
         user: User
         UserAgent: UserAgent
-        URL: URL
+        baseurl: URL
         responsecode: ReturnCode
     '300':           
       annotate:
@@ -145,7 +145,7 @@ event-details:
         UriQuery: UriQuery
         user: User
         UserAgent: UserAgent
-        URL: URL
+        baseurl: URL
         responsecode: ReturnCode
     '301':           
       annotate:
@@ -158,7 +158,7 @@ event-details:
         UriQuery: UriQuery
         user: User
         UserAgent: UserAgent
-        URL: URL
+        baseurl: URL
         responsecode: ReturnCode
     '302':           
       annotate:
@@ -171,7 +171,7 @@ event-details:
         UriQuery: UriQuery
         user: User
         UserAgent: UserAgent
-        URL: URL
+        baseurl: URL
         responsecode: ReturnCode
     '303':           
       annotate:
@@ -184,7 +184,7 @@ event-details:
         UriQuery: UriQuery
         user: User
         UserAgent: UserAgent
-        URL: URL
+        baseurl: URL
         responsecode: ReturnCode
     '304':           
       annotate:
@@ -197,7 +197,7 @@ event-details:
         UriQuery: UriQuery
         user: User
         UserAgent: UserAgent
-        URL: URL
+        baseurl: URL
         responsecode: ReturnCode
     '305':           
       annotate:
@@ -210,7 +210,7 @@ event-details:
         UriQuery: UriQuery
         user: User
         UserAgent: UserAgent
-        URL: URL
+        baseurl: URL
         responsecode: ReturnCode
     '307':           
       annotate:
@@ -223,7 +223,7 @@ event-details:
         UriQuery: UriQuery
         user: User
         UserAgent: UserAgent
-        URL: URL
+        baseurl: URL
         responsecode: ReturnCode
     '400':           
       annotate:
@@ -236,7 +236,7 @@ event-details:
         UriQuery: UriQuery
         user: User
         UserAgent: UserAgent
-        URL: URL
+        baseurl: URL
     '401':           
       annotate:
         Stream: WEBSERVER
@@ -248,7 +248,7 @@ event-details:
         UriQuery: UriQuery
         user: User
         UserAgent: UserAgent
-        URL: URL
+        baseurl: URL
     '402':           
       annotate:
         Stream: WEBSERVER
@@ -260,7 +260,7 @@ event-details:
         UriQuery: UriQuery
         user: User
         UserAgent: UserAgent
-        URL: URL
+        baseurl: URL
     '403':           
       annotate:
         Stream: WEBSERVER
@@ -272,7 +272,7 @@ event-details:
         UriQuery: UriQuery
         user: User
         UserAgent: UserAgent
-        URL: URL
+        baseurl: URL
     '404':           
       annotate:
         Stream: WEBSERVER
@@ -284,7 +284,7 @@ event-details:
         UriQuery: UriQuery
         user: User
         UserAgent: UserAgent
-        URL: URL
+        baseurl: URL
     '405':           
       annotate:
         Stream: WEBSERVER
@@ -296,7 +296,7 @@ event-details:
         UriQuery: UriQuery
         user: User
         UserAgent: UserAgent
-        URL: URL
+        baseurl: URL
         responsecode: ReturnCode
     '406':           
       annotate:
@@ -309,7 +309,7 @@ event-details:
         UriQuery: UriQuery
         user: User
         UserAgent: UserAgent
-        URL: URL
+        baseurl: URL
         responsecode: ReturnCode
     '407':           
       annotate:
@@ -322,7 +322,7 @@ event-details:
         UriQuery: UriQuery
         user: User
         UserAgent: UserAgent
-        URL: URL
+        baseurl: URL
         responsecode: ReturnCode
     '408':           
       annotate:
@@ -335,7 +335,7 @@ event-details:
         UriQuery: UriQuery
         user: User
         UserAgent: UserAgent
-        URL: URL
+        baseurl: URL
         responsecode: ReturnCode
     '409':           
       annotate:
@@ -348,7 +348,7 @@ event-details:
         UriQuery: UriQuery
         user: User
         UserAgent: UserAgent
-        URL: URL
+        baseurl: URL
         responsecode: ReturnCode
     '410':           
       annotate:
@@ -361,7 +361,7 @@ event-details:
         UriQuery: UriQuery
         user: User
         UserAgent: UserAgent
-        URL: URL
+        baseurl: URL
         responsecode: ReturnCode
     '411':           
       annotate:
@@ -374,7 +374,7 @@ event-details:
         UriQuery: UriQuery
         user: User
         UserAgent: UserAgent
-        URL: URL
+        baseurl: URL
         responsecode: ReturnCode
     '412':           
       annotate:
@@ -387,7 +387,7 @@ event-details:
         UriQuery: UriQuery
         user: User
         UserAgent: UserAgent
-        URL: URL
+        baseurl: URL
         responsecode: ReturnCode
     '413':           
       annotate:
@@ -400,7 +400,7 @@ event-details:
         UriQuery: UriQuery
         user: User
         UserAgent: UserAgent
-        URL: URL
+        baseurl: URL
         responsecode: ReturnCode
     '414':           
       annotate:
@@ -413,7 +413,7 @@ event-details:
         UriQuery: UriQuery
         user: User
         UserAgent: UserAgent
-        URL: URL
+        baseurl: URL
         responsecode: ReturnCode
     '415':           
       annotate:
@@ -426,7 +426,7 @@ event-details:
         UriQuery: UriQuery
         user: User
         UserAgent: UserAgent
-        URL: URL
+        baseurl: URL
         responsecode: ReturnCode
     '416':           
       annotate:
@@ -439,7 +439,7 @@ event-details:
         UriQuery: UriQuery
         user: User
         UserAgent: UserAgent
-        URL: URL
+        baseurl: URL
         responsecode: ReturnCode
     '417':           
       annotate:
@@ -452,7 +452,7 @@ event-details:
         UriQuery: UriQuery
         user: User
         UserAgent: UserAgent
-        URL: URL
+        baseurl: URL
         responsecode: ReturnCode
     '500':           
       annotate:
@@ -465,7 +465,7 @@ event-details:
         UriQuery: UriQuery
         user: User
         UserAgent: UserAgent
-        URL: URL
+        baseurl: URL
         responsecode: ReturnCode
     '501':           
       annotate:
@@ -478,7 +478,7 @@ event-details:
         UriQuery: UriQuery
         user: User
         UserAgent: UserAgent
-        URL: URL
+        baseurl: URL
         responsecode: ReturnCode
     '503':           
       annotate:
@@ -491,7 +491,7 @@ event-details:
         UriQuery: UriQuery
         user: User
         UserAgent: UserAgent
-        URL: URL
+        baseurl: URL
         responsecode: ReturnCode
     '504':           
       annotate:
@@ -504,7 +504,7 @@ event-details:
         UriQuery: UriQuery
         user: User
         UserAgent: UserAgent
-        URL: URL
+        baseurl: URL
         responsecode: ReturnCode
     '505':           
       annotate:
@@ -517,7 +517,7 @@ event-details:
         UriQuery: UriQuery
         user: User
         UserAgent: UserAgent
-        URL: URL
+        baseurl: URL
         responsecode: ReturnCode
         
   fallback:
