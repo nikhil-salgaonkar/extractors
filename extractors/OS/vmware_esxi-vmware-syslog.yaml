@@ -16,9 +16,9 @@ master-filters:
 - '^(?:\<\d+\>\d+\s+)?\d{4}\-\d{1,2}\-\d{2}T\d{2}\:\d{2}\:\d+[\.\w\+\:]+\s+\S+\s+NSX\s+(?:[\d\s\-\[]+)'
 - '\d{4}\-\d+\-\d+\:\d+\:\d+[\.\w\+\:]+\s+\w+\s+hostd\['
 event-details:
-- first-match: 'Event\s+\d+\s+\:\s+(?:user=|User)[\s\w\.\@\:]+logged\s+out\s+'
+- first-match: 'Event\s+\d+\s+\:\s+(?:user=|User)[\s\w\.\@\:]+logged\s+(?:out|in)\s+'
   decoder: regex
-  decoder-regex: '(?P<datetime>\d+\-\d+\-\d+T\d+\:\d+\:\d+)\.\w+\s+(?P<hostname>\S+)\s+(?P<daemon>\S+)\:\s+(?P<severity>\w+)\s+(?P<appserverice>\w+).*?(?:user=|User)\s+(?P<user>.*?)(?:\@(?P<src>[\w\.\:]+))?\s+(?P<action>logged\s+out)\s+'
+  decoder-regex: '(?P<datetime>\d+\-\d+\-\d+T\d+\:\d+\:\d+)[\w\.+]+\s+(?P<hostname>\S+)\s+(?P<daemon>\w+)(?:\:\s+(?P<severity>\w+)\s+(?P<appserverice>\w+))?.*?(?:user=|User)\s+(?P<user>.*?)(?:\@(?P<src>[\w\.\:]+))?\s+(?P<action>logged\s+(?:out|in))\s+'
   event-key-format: '{action}'
   event-key-mapping:
     'logged out':
@@ -30,6 +30,15 @@ event-details:
         user: User
         src: SrcIP
         AuthProto: AuthProto
+    'logged in':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        user: User
+        src: SrcIP
+        AuthProto: AuthProto    
 
   fallback:
     annotate:
@@ -43,7 +52,7 @@ event-details:
 
 - first-match: '\s+(?:Accepted|Rejected)\s+password\s+for\s+user\s+'
   decoder: regex
-  decoder-regex: '(?P<datetime>\d+\-\d+\-\d+T\d+\:\d+\:\d+)\.\w+\s+(?P<hostname>\S+)\s+(?P<daemon>\S+)\:\s+(?P<message>(?P<action>[\w\s]+)\s+for\s+user\s+(?P<user>\S+)\s+from\s+(?P<src>[\w\:\.]+))'
+  decoder-regex: '(?P<datetime>\d+\-\d+\-\d+T\d+\:\d+\:\d+)[\w\.+]+\s+(?P<hostname>\S+)\s+(?P<daemon>\w+)\:?.*?\s+(?P<message>(?P<action>[\w\s]+)\s+for\s+user\s+(?P<user>\S+)\s+from\s+(?P<src>[\w\:\.]+))'
   event-key-format: '{action}'
   event-key-mapping:
     'Accepted password':
@@ -161,9 +170,9 @@ event-details:
       datetime: SystemTstamp
       hostname: System
 
-- first-match: 'ModuleName\=\"ACCESS\_CONTROL\"\,\s+Operation\=\"(LOGIN|LOGOUT)\"\,'
+- first-match: 'ModuleName\=\"ACCESS\_CONTROL\"\,\s+Operation\=\"(?:LOGIN|LOGOUT)\"\,'
   decoder: regex
-  decoder-regex: '(?P<datetime>\d+\-\d+\-\d+T\d+\:\d+\:\d+)[\.\w\:\+]+\s+(?P<hostname>\S+)\s+NSX\s+\d+\s+\w+\s+.*?subcomp\=\"(?P<auth_protocol>.*?)\"\]\s+UserName\=\"(?P<user>.*?)(?:\@(?P<src>[\w\.\:]+))?\"\,\s+ModuleName\=\"(?P<modulename>.*?)\"\,\s+Operation\=\"(?P<operation>.*?)\"\,\s+Operation\s+status\=\"(?P<status>\w+)\"'
+  decoder-regex: '(?P<datetime>\d+\-\d+\-\d+T\d+\:\d+\:\d+)[\.\w\:\+]+\s+(?P<hostname>\S+)\s+NSX\s+\d+\s+\w+\s+.*?subcomp\=\"(?P<auth_protocol>.*?)\"\].*?UserName\=\"(?P<user>.*?)(?:\@(?P<src>[\w\.\:]+))?\"\,\s+ModuleName\=\"(?P<modulename>.*?)\"\,\s+Operation\=\"(?P<operation>.*?)\"\,\s+Operation\s+status\=\"(?P<status>\w+)\"'
   event-key-format: '{operation}-{status}'
   event-key-mapping:
     'LOGIN-success':
