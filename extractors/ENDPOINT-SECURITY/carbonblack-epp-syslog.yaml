@@ -9,15 +9,526 @@ source-type: ENDPOINT-SECURITY
 source-description: extractor for Carbon Black Endpoint Events
 provides-streams:
 - THREAT
+- IAM
+- AUTHENTICATION
+- CONFIGURATION
 master-filters:
-- '\d+\-\d+\-\d+T\d+\:\d+\:\d+Z\s+\S+\s+[\s\-]+Cb\s+Protection\s+event\:\s+'
+- '\d+\-\d+\-\d+T\d+\:\d+\:\d+.*?\S+\s+[\s\-]+(?:Cb\s+Protection\s+event|Carbon\s+Black\s+App\s+Control\s+event)\:'
 event-details:
-- first-match: 'Cb\s+Protection\s+event\:\s+'
+- first-match: '(?:Cb\s+Protection\s+event|Carbon\s+Black\s+App\s+Control\s+event)\:.*?type=\".*?\"\s+subtype\=\".*?\"'
   decoder: custom
   decoder-regex: '(\w+)\=\"([^\"]+)\"'
-  event-key-format: '{type}-{file_threat}'
+  event-key-format: '{type}-{subtype}'
   event-key-mapping:
-    'Discovery-1':
+    'Session Management-Console user created':
+      annotate:
+        Stream: IAM
+        Action: USER_CREATED
+        Status: PASSED
+      translate:
+        ip_address: SrcIP
+        username: User
+        rolename: Role
+        TargetUser: TargetUser
+    'Session Management-Console user deleted':
+      annotate:
+        Stream: IAM
+        Action: USER_DELETED
+        Status: PASSED
+      translate:
+        ip_address: SrcIP
+        username: User
+        rolename: Role
+        TargetUser: TargetUser
+    'Session Management-Console user modified':
+      annotate:
+        Stream: IAM
+        Action: USER_UPDATED
+        Status: PASSED
+      translate:
+        ip_address: SrcIP
+        username: User
+        rolename: Role
+        TargetUser: TargetUser
+    'Session Management-Trusted User added':
+      annotate:
+        Stream: IAM
+        Action: USER_CREATED
+        Status: PASSED
+      translate:
+        ip_address: SrcIP
+        username: User
+        rolename: Role
+        TargetUser: TargetUser
+    'Session Management-Trusted User deleted':
+      annotate:
+        Stream: IAM
+        Action: USER_DELETED
+        Status: PASSED
+      translate:
+        ip_address: SrcIP
+        username: User
+        rolename: Role
+        TargetUser: TargetUser
+    'Session Management-User Role created':
+      annotate:
+        Stream: IAM
+        Action: USER_ROLE_CREATED
+        Status: PASSED
+      translate:
+        ip_address: SrcIP
+        username: User
+        rolename: Role
+        TargetUser: TargetUser
+    'Session Management-User Role deleted':
+      annotate:
+        Stream: IAM
+        Action: USER_ROLE_DELETED
+        Status: PASSED
+      translate:
+        ip_address: SrcIP
+        username: User
+        rolename: Role
+        TargetUser: TargetUser
+    'Session Management-User Role modified':
+      annotate:
+        Stream: IAM
+        Action: USER_ROLE_UPADATED
+        Status: PASSED
+      translate:
+        ip_address: SrcIP
+        username: User
+        rolename: Role
+        TargetUser: TargetUser
+    'Session Management-Console user login':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        ip_address: SrcIP
+        username: User
+        AuthProto: AuthProto
+    'Session Management-Console user logout':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+      translate:
+        ip_address: SrcIP
+        username: User
+        AuthProto: AuthProto
+    'Session Management-Multiple failed logins':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+        Reason: BAD_USER_PASSWORD
+      translate:
+        ip_address: SrcIP
+        username: User
+        AuthProto: AuthProto
+    'Policy Management-Process demoted':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        username: User
+        Config: Config
+    'Policy Management-Approval Request created':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        username: User
+        Config: Config
+    'Policy Management-Approval Request modified':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        username: User
+        Config: Config
+    'Policy Management-Approval Request closed':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        username: User
+        Config: Config
+    'Policy Management-Certificate approval created':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        username: User
+        Config: Config
+    'Policy Management-Certificate approval deleted':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        username: User
+        Config: Config
+    'Policy Management-Certificate approval modified':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        username: User
+        Config: Config
+    'Policy Management-Certificate ban created':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        username: User
+        Config: Config
+    'Policy Management-Custom Rule created':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        username: User
+        Config: Config
+    'Policy Management-Custom Rule deleted':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        username: User
+        Config: Config
+    'Policy Management-Custom Rule modified':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        username: User
+        Config: Config
+    'Policy Management-Device Rule created':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        username: User
+        Config: Config
+    'Policy Management-Device Rule deleted':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        username: User
+        Config: Config
+    'Policy Management-Device Rule modified':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        username: User
+        Config: Config
+    'Policy Management-File approval created':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        username: User
+        Config: Config
+    'Policy Management-File approval deleted':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        username: User
+        Config: Config
+    'Policy Management-File approval modified':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        username: User
+        Config: Config
+    'Policy Management-File ban created':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        username: User
+        Config: Config
+    'Policy Management-File ban deleted':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        username: User
+        Config: Config
+    'Policy Management-File ban modified':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        username: User
+        Config: Config
+    'Policy Management-File properties modified':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        username: User
+        Config: Config
+    'Policy Management-Memory Rule created':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        username: User
+        Config: Config
+    'Policy Management-Memory Rule deleted':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        username: User
+        Config: Config
+    'Policy Management-Memory Rule modified':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        username: User
+        Config: Config
+    'Policy Management-Notifier created':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        username: User
+        Config: Config
+    'Policy Management-Notifier deleted':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        username: User
+        Config: Config
+    'Policy Management-Notifier modified':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        username: User
+        Config: Config
+    'Policy Management-Policy created':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        username: User
+        Config: Config
+    'Policy Management-Policy deleted':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        username: User
+        Config: Config
+    'Policy Management-Policy modified':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        username: User
+        Config: Config
+    'Policy Management-Registry Rule created':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        username: User
+        Config: Config
+    'Policy Management-Registry Rule deleted':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        username: User
+        Config: Config
+    'Policy Management-Registry Rule modified':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        username: User
+        Config: Config
+    'Policy Management-Reputation settings modified':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        username: User
+        Config: Config
+    'Policy Management-Script Rule created':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        username: User
+        Config: Config
+    'Policy Management-Script Rule deleted':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        username: User
+        Config: Config
+    'Policy Management-Script Rule modified':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        username: User
+        Config: Config
+    'Policy Management-Trusted Directory created':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        username: User
+        Config: Config
+    'Policy Management-Trusted Directory deleted':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        username: User
+        Config: Config
+    'Policy Management-Trusted Directory modified':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        username: User
+        Config: Config
+    'Policy Management-Unified rule overridden':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        username: User
+        Config: Config
+    'Policy Management-Yara rule created':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        username: User
+        Config: Config
+    'Policy Management-Yara rule modified':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        username: User
+        Config: Config
+    'Policy Management-Yara rule deleted':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        username: User
+        Config: Config
+    'Server Management-Server performance':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        username: User
+        Config: Config
+    'Server Management-Rapid Config created':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        username: User
+        Config: Config
+    'Server Management-Rapid Config deleted':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        username: User
+        Config: Config
+    'Server Management-Rapid Config modified':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        username: User
+        Config: Config
+    'Server Management-Rapid Config updated':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        username: User
+        Config: Config
+    'Server Management-Server config modified':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        username: User
+        Config: Config
+    'Discovery-Banned file written to computer':
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
@@ -31,8 +542,8 @@ event-details:
         command_line: CommandLine
         file_name: File
         process: Process
-        url: URL
-    'Discovery-2':
+        URL: URL
+    'Discovery-Potential risk file detected':
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
@@ -46,8 +557,8 @@ event-details:
         command_line: CommandLine
         file_name: File
         process: Process
-        url: URL
-    'Discovery--1':
+        URL: URL
+    'Discovery-Suspicious file found':
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
@@ -61,8 +572,8 @@ event-details:
         command_line: CommandLine
         file_name: File
         process: Process
-        url: URL
-    'Discovery--2':
+        URL: URL
+    'General Management-Alert triggered':
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
@@ -76,8 +587,38 @@ event-details:
         command_line: CommandLine
         file_name: File
         process: Process
-        url: URL        
-    
+        URL: URL
+    'Discovery-Malicious file detected':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        ip_address: SrcIP
+        username: User
+        dest_ipaddress: DstIP
+        indicator_name: Threat
+        command_line: CommandLine
+        file_name: File
+        process: Process
+        URL: URL
+    'Policy Enforcement-Banned process discovered':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        ip_address: SrcIP
+        username: User
+        dest_ipaddress: DstIP
+        indicator_name: Threat
+        command_line: CommandLine
+        file_name: File
+        process: Process
+        URL: URL
+  
   fallback:
     annotate:
       EventName: Generic Carbon Black Endpoint Event
