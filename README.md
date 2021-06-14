@@ -4,7 +4,7 @@ Plug and play extractors that convert different log events to a common DNIF Data
 ## Extractors
 As of 14-06-2021
 
-This is available here : https://docs.google.com/document/d/1O6ynQrvKTtw38VwyaXJk-U3EqPdAeJMue4gfstBkf5Y/edit#
+This is available here : [DNIF Supported Log Sources](https://docs.google.com/document/d/1O6ynQrvKTtw38VwyaXJk-U3EqPdAeJMue4gfstBkf5Y/edit#)
 
 | Type              | Vendor         | Product                           | Integration  | Stream                                                                                                                                                    |
 | ----------------- | -------------- | --------------------------------- | ------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -58,4 +58,4 @@ This is available here : https://docs.google.com/document/d/1O6ynQrvKTtw38VwyaXJ
 | MANAGEMENT-SERVER | FireEye Inc.   | FireEye Audit                     | Syslog       | AUTHENTICATION, CONFIGURATION                                                                                                                             |
 | MANAGEMENT-SERVER | Check Point    | Check Point Software Technologies | Syslog       | IAM, AUTHENTICATION                                                                                                                                       |
 
-The DDM repository can be found here : https://github.com/dnif/extractors/tree/master/docs/Blueprint 
+The DDM repository can be found here : [Blueprint](https://github.com/dnif/extractors/tree/master/docs/Blueprint )
