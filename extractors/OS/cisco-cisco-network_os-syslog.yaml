@@ -113,12 +113,12 @@ event-details:
         Status: FAILED
       translate:
         src: SrcIP
-        DstIP: DstIP
+        dst: DstIP
         App: App
-        SrcPort: SrcPort
-        DstPort: DstPort
-        Proto: Proto
-        TXLen: TXLen
+        sport: SrcPort
+        dport: DstPort
+        protocol: Proto
+        Packet Length: TXLen
         RXLen: RXLen
     'permitted':
       annotate:
@@ -127,12 +127,12 @@ event-details:
         Status: PASSED
       translate:
         src: SrcIP
-        DstIP: DstIP
+        dst: DstIP
         App: App
-        SrcPort: SrcPort
-        DstPort: DstPort
-        Proto: Proto
-        TXLen: TXLen
+        sport: SrcPort
+        dport: DstPort
+        protocol: Proto
+        Packet Length: TXLen
         RXLen: RXLen
 
   fallback:
