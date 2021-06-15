@@ -6,7 +6,7 @@ vendor-name: VMWare
 product-name: Carbon Black EPP
 source-name: CARBON-BLACK
 source-type: ENDPOINT-SECURITY
-source-description: extractor for Carbon Black Endpoint Events
+source-description: Extractor for Carbon Black Endpoint Events
 provides-streams:
 - THREAT
 - IAM
@@ -15,7 +15,7 @@ provides-streams:
 master-filters:
 - '\d+\-\d+\-\d+T\d+\:\d+\:\d+.*?\S+\s+[\s\-]+(?:Cb\s+Protection\s+event|Carbon\s+Black\s+App\s+Control\s+event)\:'
 event-details:
-- first-match: '(?:Cb\s+Protection\s+event|Carbon\s+Black\s+App\s+Control\s+event)\:.*?type=\".*?\"\s+subtype\=\".*?\"'
+- first-match: '(?:Cb\s+Protection\s+event|Carbon\s+Black\s+App\s+Control\s+event)\:'
   decoder: custom
   decoder-regex: '(\w+)\=\"([^\"]+)\"'
   event-key-format: '{type}-{subtype}'
@@ -490,14 +490,6 @@ event-details:
       translate:
         username: User
         Config: Config
-    'Server Management-Server performance':
-      annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-      translate:
-        username: User
-        Config: Config
     'Server Management-Rapid Config created':
       annotate:
         Stream: CONFIGURATION
@@ -645,6 +637,21 @@ event-details:
         file_name: File
         process: Process
         URL: URL
+    'Discovery-New unapproved file to computer':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        ip_address: SrcIP
+        username: User
+        dest_ipaddress: DstIP
+        indicator_name: Threat
+        command_line: CommandLine
+        file_name: File
+        process: Process
+        URL: URL    
     'Policy Enforcement-Banned process discovered':
       annotate:
         Stream: THREAT
