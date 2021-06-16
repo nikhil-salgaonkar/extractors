@@ -1,7 +1,7 @@
 schema-version: 1.0
 #extractor-version: 1
 extractor-id: 700
-integration: NXLog
+integration: AWS S3
 vendor-name: Amazon
 product-name: AWS CloudTrail
 source-name: AWS
