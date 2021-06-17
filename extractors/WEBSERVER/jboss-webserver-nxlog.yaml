@@ -1,18 +1,19 @@
 schema-version: 1.0
 #extractor-version: 1
 extractor-id: 114
-integration: Syslog
-vendor-name: Redhat
-product-name: Jboss 
+integration: NXLog
+vendor-name: Red Hat
+product-name: JBoss WebServer
 source-name: JBOSS
 source-type: WEBSERVER
-source-description: Extractor for Jboss Webserver events
+source-description: Extractor for JBoss WebServer events
 provides-streams:
 - WEBSERVER
 master-filters:
 - '\{\"eventSource\"\:\"web\-access\"\,\"hostName\"\:\"\S+\"'
+- '\{\"timestamp\"\:\"\d{4}\-\d{1,2}\-\d{2}T\d{2}\:\d{2}\:\d{2}[\.\:\w\-]+\"\,\"sequence\"\:\d+\,\"loggerClassName\"\:\".*\"'
 event-details:  
-- first-match: '\{\"eventSource\"\:\"web\-access\"\,\"hostName\"\:\"\S+\".*?\"responseCode\"\:\d+'
+- first-match: '\"responseCode\"\:\d+\,'
   decoder: json
   event-key-format: '{responseCode}'
   event-key-mapping:
@@ -26,8 +27,8 @@ event-details:
         requestLine: Method
         UriQuery: UriQuery
         remoteUser: User
-        UserAgent: UserAgent
-        URL: URL
+        requestHeaderUser-Agent: UserAgent
+        requestHeaderReferer: URL
         responseCode: ReturnCode
     '101':  
       annotate:
@@ -39,9 +40,9 @@ event-details:
         requestLine: Method
         UriQuery: UriQuery
         remoteUser: User
-        UserAgent: UserAgent
-        URL: URL
-        responseCode: ReturnCode    
+        requestHeaderUser-Agent: UserAgent
+        requestHeaderReferer: URL
+        responseCode: ReturnCode   
     '200':  
       annotate:
         Stream: WEBSERVER
@@ -52,9 +53,9 @@ event-details:
         requestLine: Method
         UriQuery: UriQuery
         remoteUser: User
-        UserAgent: UserAgent
-        URL: URL
-        responseCode: ReturnCode 
+        requestHeaderUser-Agent: UserAgent
+        requestHeaderReferer: URL
+        responseCode: ReturnCode
     '201':  
       annotate:
         Stream: WEBSERVER
@@ -65,9 +66,9 @@ event-details:
         requestLine: Method
         UriQuery: UriQuery
         remoteUser: User
-        UserAgent: UserAgent
-        URL: URL
-        responseCode: ReturnCode  
+        requestHeaderUser-Agent: UserAgent
+        requestHeaderReferer: URL
+        responseCode: ReturnCode 
     '202':  
       annotate:
         Stream: WEBSERVER
@@ -78,9 +79,9 @@ event-details:
         requestLine: Method
         UriQuery: UriQuery
         remoteUser: User
-        UserAgent: UserAgent
-        URL: URL
-        responseCode: ReturnCode       
+        requestHeaderUser-Agent: UserAgent
+        requestHeaderReferer: URL
+        responseCode: ReturnCode      
     '203':  
       annotate:
         Stream: WEBSERVER
@@ -91,9 +92,9 @@ event-details:
         requestLine: Method
         UriQuery: UriQuery
         remoteUser: User
-        UserAgent: UserAgent
-        URL: URL
-        responseCode: ReturnCode
+        requestHeaderUser-Agent: UserAgent
+        requestHeaderReferer: URL
+        responseCode: ReturnCode 
     '204':  
       annotate:
         Stream: WEBSERVER
@@ -104,9 +105,9 @@ event-details:
         requestLine: Method
         UriQuery: UriQuery
         remoteUser: User
-        UserAgent: UserAgent
-        URL: URL
-        responseCode: ReturnCode  
+        requestHeaderUser-Agent: UserAgent
+        requestHeaderReferer: URL
+        responseCode: ReturnCode 
     '206':  
       annotate:
         Stream: WEBSERVER
@@ -117,9 +118,9 @@ event-details:
         requestLine: Method
         UriQuery: UriQuery
         remoteUser: User
-        UserAgent: UserAgent
-        URL: URL
-        responseCode: ReturnCode   
+        requestHeaderUser-Agent: UserAgent
+        requestHeaderReferer: URL
+        responseCode: ReturnCode  
     '207':  
       annotate:
         Stream: WEBSERVER
@@ -130,9 +131,9 @@ event-details:
         requestLine: Method
         UriQuery: UriQuery
         remoteUser: User
-        UserAgent: UserAgent
-        URL: URL
-        responseCode: ReturnCode  
+        requestHeaderUser-Agent: UserAgent
+        requestHeaderReferer: URL
+        responseCode: ReturnCode 
     '208':  
       annotate:
         Stream: WEBSERVER
@@ -143,9 +144,9 @@ event-details:
         requestLine: Method
         UriQuery: UriQuery
         remoteUser: User
-        UserAgent: UserAgent
-        URL: URL
-        responseCode: ReturnCode
+        requestHeaderUser-Agent: UserAgent
+        requestHeaderReferer: URL
+        responseCode: ReturnCode 
     '226':  
       annotate:
         Stream: WEBSERVER
@@ -156,9 +157,9 @@ event-details:
         requestLine: Method
         UriQuery: UriQuery
         remoteUser: User
-        UserAgent: UserAgent
-        URL: URL
-        responseCode: ReturnCode   
+        requestHeaderUser-Agent: UserAgent
+        requestHeaderReferer: URL
+        responseCode: ReturnCode  
     '300':  
       annotate:
         Stream: WEBSERVER
@@ -169,9 +170,9 @@ event-details:
         requestLine: Method
         UriQuery: UriQuery
         remoteUser: User
-        UserAgent: UserAgent
-        URL: URL
-        responseCode: ReturnCode 
+        requestHeaderUser-Agent: UserAgent
+        requestHeaderReferer: URL
+        responseCode: ReturnCode
     '301':  
       annotate:
         Stream: WEBSERVER
@@ -182,9 +183,9 @@ event-details:
         requestLine: Method
         UriQuery: UriQuery
         remoteUser: User
-        UserAgent: UserAgent
-        URL: URL
-        responseCode: ReturnCode
+        requestHeaderUser-Agent: UserAgent
+        requestHeaderReferer: URL
+        responseCode: ReturnCode 
     '302':  
       annotate:
         Stream: WEBSERVER
@@ -195,9 +196,9 @@ event-details:
         requestLine: Method
         UriQuery: UriQuery
         remoteUser: User
-        UserAgent: UserAgent
-        URL: URL
-        responseCode: ReturnCode 
+        requestHeaderUser-Agent: UserAgent
+        requestHeaderReferer: URL
+        responseCode: ReturnCode
     '303':  
       annotate:
         Stream: WEBSERVER
@@ -208,9 +209,9 @@ event-details:
         requestLine: Method
         UriQuery: UriQuery
         remoteUser: User
-        UserAgent: UserAgent
-        URL: URL
-        responseCode: ReturnCode 
+        requestHeaderUser-Agent: UserAgent
+        requestHeaderReferer: URL
+        responseCode: ReturnCode
     '304':  
       annotate:
         Stream: WEBSERVER
@@ -221,9 +222,9 @@ event-details:
         requestLine: Method
         UriQuery: UriQuery
         remoteUser: User
-        UserAgent: UserAgent
-        URL: URL
-        responseCode: ReturnCode  
+        requestHeaderUser-Agent: UserAgent
+        requestHeaderReferer: URL
+        responseCode: ReturnCode 
     '305':  
       annotate:
         Stream: WEBSERVER
@@ -234,9 +235,9 @@ event-details:
         requestLine: Method
         UriQuery: UriQuery
         remoteUser: User
-        UserAgent: UserAgent
-        URL: URL
-        responseCode: ReturnCode   
+        requestHeaderUser-Agent: UserAgent
+        requestHeaderReferer: URL
+        responseCode: ReturnCode  
     '307':  
       annotate:
         Stream: WEBSERVER
@@ -247,9 +248,9 @@ event-details:
         requestLine: Method
         UriQuery: UriQuery
         remoteUser: User
-        UserAgent: UserAgent
-        URL: URL
-        responseCode: ReturnCode 
+        requestHeaderUser-Agent: UserAgent
+        requestHeaderReferer: URL
+        responseCode: ReturnCode
     '308':  
       annotate:
         Stream: WEBSERVER
@@ -260,9 +261,9 @@ event-details:
         requestLine: Method
         UriQuery: UriQuery
         remoteUser: User
-        UserAgent: UserAgent
-        URL: URL
-        responseCode: ReturnCode  
+        requestHeaderUser-Agent: UserAgent
+        requestHeaderReferer: URL
+        responseCode: ReturnCode 
     '400':  
       annotate:
         Stream: WEBSERVER
@@ -273,9 +274,9 @@ event-details:
         requestLine: Method
         UriQuery: UriQuery
         remoteUser: User
-        UserAgent: UserAgent
-        URL: URL
-        responseCode: ReturnCode 
+        requestHeaderUser-Agent: UserAgent
+        requestHeaderReferer: URL
+        responseCode: ReturnCode
     '401':  
       annotate:
         Stream: WEBSERVER
@@ -286,9 +287,9 @@ event-details:
         requestLine: Method
         UriQuery: UriQuery
         remoteUser: User
-        UserAgent: UserAgent
-        URL: URL
-        responseCode: ReturnCode       
+        requestHeaderUser-Agent: UserAgent
+        requestHeaderReferer: URL
+        responseCode: ReturnCode      
     '403':
       annotate:
         Stream: WEBSERVER
@@ -299,9 +300,9 @@ event-details:
         requestLine: Method
         UriQuery: UriQuery
         remoteUser: User
-        UserAgent: UserAgent
-        URL: URL
-        responseCode: ReturnCode
+        requestHeaderUser-Agent: UserAgent
+        requestHeaderReferer: URL
+        responseCode: ReturnCode 
     '404':  
       annotate:
         Stream: WEBSERVER
@@ -312,9 +313,9 @@ event-details:
         requestLine: Method
         UriQuery: UriQuery
         remoteUser: User
-        UserAgent: UserAgent
-        URL: URL
-        responseCode: ReturnCode  
+        requestHeaderUser-Agent: UserAgent
+        requestHeaderReferer: URL
+        responseCode: ReturnCode 
     '405':  
       annotate:
         Stream: WEBSERVER
@@ -325,9 +326,9 @@ event-details:
         requestLine: Method
         UriQuery: UriQuery
         remoteUser: User
-        UserAgent: UserAgent
-        URL: URL
-        responseCode: ReturnCode   
+        requestHeaderUser-Agent: UserAgent
+        requestHeaderReferer: URL
+        responseCode: ReturnCode  
     '406':  
       annotate:
         Stream: WEBSERVER
@@ -338,9 +339,9 @@ event-details:
         requestLine: Method
         UriQuery: UriQuery
         remoteUser: User
-        UserAgent: UserAgent
-        URL: URL
-        responseCode: ReturnCode   
+        requestHeaderUser-Agent: UserAgent
+        requestHeaderReferer: URL
+        responseCode: ReturnCode  
     '407':  
       annotate:
         Stream: WEBSERVER
@@ -351,9 +352,9 @@ event-details:
         requestLine: Method
         UriQuery: UriQuery
         remoteUser: User
-        UserAgent: UserAgent
-        URL: URL
-        responseCode: ReturnCode  
+        requestHeaderUser-Agent: UserAgent
+        requestHeaderReferer: URL
+        responseCode: ReturnCode 
     '408':  
       annotate:
         Stream: WEBSERVER
@@ -364,9 +365,9 @@ event-details:
         requestLine: Method
         UriQuery: UriQuery
         remoteUser: User
-        UserAgent: UserAgent
-        URL: URL
-        responseCode: ReturnCode  
+        requestHeaderUser-Agent: UserAgent
+        requestHeaderReferer: URL
+        responseCode: ReturnCode 
     '409':  
       annotate:
         Stream: WEBSERVER
@@ -377,9 +378,9 @@ event-details:
         requestLine: Method
         UriQuery: UriQuery
         remoteUser: User
-        UserAgent: UserAgent
-        URL: URL
-        responseCode: ReturnCode 
+        requestHeaderUser-Agent: UserAgent
+        requestHeaderReferer: URL
+        responseCode: ReturnCode
     '410':  
       annotate:
         Stream: WEBSERVER
@@ -390,9 +391,9 @@ event-details:
         requestLine: Method
         UriQuery: UriQuery
         remoteUser: User
-        UserAgent: UserAgent
-        URL: URL
-        responseCode: ReturnCode
+        requestHeaderUser-Agent: UserAgent
+        requestHeaderReferer: URL
+        responseCode: ReturnCode 
     '411':  
       annotate:
         Stream: WEBSERVER
@@ -403,9 +404,9 @@ event-details:
         requestLine: Method
         UriQuery: UriQuery
         remoteUser: User
-        UserAgent: UserAgent
-        URL: URL
-        responseCode: ReturnCode  
+        requestHeaderUser-Agent: UserAgent
+        requestHeaderReferer: URL
+        responseCode: ReturnCode 
     '412':  
       annotate:
         Stream: WEBSERVER
@@ -416,9 +417,9 @@ event-details:
         requestLine: Method
         UriQuery: UriQuery
         remoteUser: User
-        UserAgent: UserAgent
-        URL: URL
-        responseCode: ReturnCode 
+        requestHeaderUser-Agent: UserAgent
+        requestHeaderReferer: URL
+        responseCode: ReturnCode
     '413':  
       annotate:
         Stream: WEBSERVER
@@ -429,9 +430,9 @@ event-details:
         requestLine: Method
         UriQuery: UriQuery
         remoteUser: User
-        UserAgent: UserAgent
-        URL: URL
-        responseCode: ReturnCode
+        requestHeaderUser-Agent: UserAgent
+        requestHeaderReferer: URL
+        responseCode: ReturnCode 
     '414':  
       annotate:
         Stream: WEBSERVER
@@ -442,9 +443,9 @@ event-details:
         requestLine: Method
         UriQuery: UriQuery
         remoteUser: User
-        UserAgent: UserAgent
-        URL: URL
-        responseCode: ReturnCode 
+        requestHeaderUser-Agent: UserAgent
+        requestHeaderReferer: URL
+        responseCode: ReturnCode
     '415':  
       annotate:
         Stream: WEBSERVER
@@ -455,9 +456,9 @@ event-details:
         requestLine: Method
         UriQuery: UriQuery
         remoteUser: User
-        UserAgent: UserAgent
-        URL: URL
-        responseCode: ReturnCode  
+        requestHeaderUser-Agent: UserAgent
+        requestHeaderReferer: URL
+        responseCode: ReturnCode 
     '416':  
       annotate:
         Stream: WEBSERVER
@@ -468,9 +469,9 @@ event-details:
         requestLine: Method
         UriQuery: UriQuery
         remoteUser: User
-        UserAgent: UserAgent
-        URL: URL
-        responseCode: ReturnCode  
+        requestHeaderUser-Agent: UserAgent
+        requestHeaderReferer: URL
+        responseCode: ReturnCode 
     '422':  
       annotate:
         Stream: WEBSERVER
@@ -481,9 +482,9 @@ event-details:
         requestLine: Method
         UriQuery: UriQuery
         remoteUser: User
-        UserAgent: UserAgent
-        URL: URL
-        responseCode: ReturnCode  
+        requestHeaderUser-Agent: UserAgent
+        requestHeaderReferer: URL
+        responseCode: ReturnCode 
     '424':  
       annotate:
         Stream: WEBSERVER
@@ -494,9 +495,9 @@ event-details:
         requestLine: Method
         UriQuery: UriQuery
         remoteUser: User
-        UserAgent: UserAgent
-        URL: URL
-        responseCode: ReturnCode   
+        requestHeaderUser-Agent: UserAgent
+        requestHeaderReferer: URL
+        responseCode: ReturnCode  
     '429':  
       annotate:
         Stream: WEBSERVER
@@ -507,9 +508,9 @@ event-details:
         requestLine: Method
         UriQuery: UriQuery
         remoteUser: User
-        UserAgent: UserAgent
-        URL: URL
-        responseCode: ReturnCode  
+        requestHeaderUser-Agent: UserAgent
+        requestHeaderReferer: URL
+        responseCode: ReturnCode 
     '431':  
       annotate:
         Stream: WEBSERVER
@@ -520,9 +521,9 @@ event-details:
         requestLine: Method
         UriQuery: UriQuery
         remoteUser: User
-        UserAgent: UserAgent
-        URL: URL
-        responseCode: ReturnCode  
+        requestHeaderUser-Agent: UserAgent
+        requestHeaderReferer: URL
+        responseCode: ReturnCode 
     '500':  
       annotate:
         Stream: WEBSERVER
@@ -533,9 +534,9 @@ event-details:
         requestLine: Method
         UriQuery: UriQuery
         remoteUser: User
-        UserAgent: UserAgent
-        URL: URL
-        responseCode: ReturnCode 
+        requestHeaderUser-Agent: UserAgent
+        requestHeaderReferer: URL
+        responseCode: ReturnCode
     '501':  
       annotate:
         Stream: WEBSERVER
@@ -546,9 +547,9 @@ event-details:
         requestLine: Method
         UriQuery: UriQuery
         remoteUser: User
-        UserAgent: UserAgent
-        URL: URL
-        responseCode: ReturnCode  
+        requestHeaderUser-Agent: UserAgent
+        requestHeaderReferer: URL
+        responseCode: ReturnCode 
     '502':  
       annotate:
         Stream: WEBSERVER
@@ -559,9 +560,9 @@ event-details:
         requestLine: Method
         UriQuery: UriQuery
         remoteUser: User
-        UserAgent: UserAgent
-        URL: URL
-        responseCode: ReturnCode 
+        requestHeaderUser-Agent: UserAgent
+        requestHeaderReferer: URL
+        responseCode: ReturnCode
     '503':  
       annotate:
         Stream: WEBSERVER
@@ -572,9 +573,9 @@ event-details:
         requestLine: Method
         UriQuery: UriQuery
         remoteUser: User
-        UserAgent: UserAgent
-        URL: URL
-        responseCode: ReturnCode
+        requestHeaderUser-Agent: UserAgent
+        requestHeaderReferer: URL
+        responseCode: ReturnCode 
     '504':  
       annotate:
         Stream: WEBSERVER
@@ -585,9 +586,9 @@ event-details:
         requestLine: Method
         UriQuery: UriQuery
         remoteUser: User
-        UserAgent: UserAgent
-        URL: URL
-        responseCode: ReturnCode  
+        requestHeaderUser-Agent: UserAgent
+        requestHeaderReferer: URL
+        responseCode: ReturnCode 
     '505':  
       annotate:
         Stream: WEBSERVER
@@ -598,9 +599,9 @@ event-details:
         requestLine: Method
         UriQuery: UriQuery
         remoteUser: User
-        UserAgent: UserAgent
-        URL: URL
-        responseCode: ReturnCode
+        requestHeaderUser-Agent: UserAgent
+        requestHeaderReferer: URL
+        responseCode: ReturnCode 
     '507':  
       annotate:
         Stream: WEBSERVER
@@ -611,9 +612,9 @@ event-details:
         requestLine: Method
         UriQuery: UriQuery
         remoteUser: User
-        UserAgent: UserAgent
-        URL: URL
-        responseCode: ReturnCode
+        requestHeaderUser-Agent: UserAgent
+        requestHeaderReferer: URL
+        responseCode: ReturnCode 
     '508':  
       annotate:
         Stream: WEBSERVER
@@ -624,9 +625,9 @@ event-details:
         requestLine: Method
         UriQuery: UriQuery
         remoteUser: User
-        UserAgent: UserAgent
-        URL: URL
-        responseCode: ReturnCode 
+        requestHeaderUser-Agent: UserAgent
+        requestHeaderReferer: URL
+        responseCode: ReturnCode
     '510':  
       annotate:
         Stream: WEBSERVER
@@ -637,16 +638,17 @@ event-details:
         requestLine: Method
         UriQuery: UriQuery
         remoteUser: User
-        UserAgent: UserAgent
-        URL: URL
-        responseCode: ReturnCode                 
+        requestHeaderUser-Agent: UserAgent
+        requestHeaderReferer: URL
+        responseCode: ReturnCode                
           
   fallback:
     annotate:
-      EventName: Generic Jboss Webserver events
+      EventName: Generic JBoss WebServer events
       Stream: OTHER
 
   globals:
     translate:
       hostname: System
       '@timestamp': SystemTstamp
+      timestamp: SystemTstamp
