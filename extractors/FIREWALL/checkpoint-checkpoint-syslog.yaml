@@ -1,21 +1,21 @@
 schema-version: 1.0
 #extractor-version: 1
 extractor-id: 188
-integration: syslog
-vendor-name: Checkpoint
-product-name: Checkpoint
+integration: Syslog
+vendor-name: CheckPoint
+product-name: CheckPoint Firewall
 source-name: CHECKPOINT
 source-type: FIREWALL
-source-description: Extractor for Checkpoint Firewall Events
+source-description: Extractor for CheckPoint Firewall Events
 provides-streams:
 - THREAT
 - FIREWALL
 - AUTHENTICATION
 - CONFIGURATION
 master-filters:
-- '^(?:\<\d+\>)?.*?\d+\s+\w{4}\-\d{1,2}\-\d{2}\T\d{2}\:\d{2}\:\d{2}Z\s+\S+\s+CheckPoint\s+\d+\s+\-\s+\['
+- '^(?:\<\d+\>)?.*?\d+\s+\w{4}\-\d{1,2}\-\d{2}T\d{2}\:\d{2}\:\d{2}Z\s+\S+\s+CheckPoint\s+\d+\s+\-\s+\['
 event-details:
-- first-match: 'CheckPoint\s+\d+\s+\-\s+\[action\:\"[\w\s]+\"\;.*?app_risk\:\"\d+\"\;.*?matched_category\:\"[\w\s]+\"\;'
+- first-match: 'matched_category\:\".*?\"\;'
   decoder: custom
   decoder-regex: '\[?([^\s]+)\:\"([^\"]*)\"'
   event-key-format: '{action}-{matched_category}'
@@ -45,15 +45,10 @@ event-details:
     
   fallback:
     annotate:
-      EventName: Generic Checkpoint Firewall Event
-      Stream: OTHER
+      EventName: Generic CheckPoint Firewall Event
+      Stream: OTHER   
 
-  globals:
-    translate:
-      SystemTstamp: SystemTstamp
-      System: System   
-
-- first-match: 'CheckPoint\s+\d+\s+\-\s+\[action\:\"[\w\s]+\"\;.*?malware_action:\"[\w\s]+\"\;'
+- first-match: 'malware_action:\".*?\"\;'
   decoder: custom
   decoder-regex: '\[?([^\s]+)\:\"([^\"]*)\"'
   event-key-format: '{action}-{malware_action}'
@@ -72,15 +67,10 @@ event-details:
     
   fallback:
     annotate:
-      EventName: Generic Checkpoint Firewall Event
-      Stream: OTHER
+      EventName: Generic CheckPoint Firewall Event
+      Stream: OTHER   
 
-  globals:
-    translate:
-      SystemTstamp: SystemTstamp
-      System: System   
-
-- first-match: 'CheckPoint\s+\d+\s+\-\s+\[action\:\"[\w\s]+\"\;.*?product\:\"Threat\s+Emulation\"\;'
+- first-match: 'product\:\"Threat\s+Emulation\"\;'
   decoder: custom
   decoder-regex: '\[?([^\s]+)\:\"([^\"]*)\"'
   event-key-format: '{product}'
@@ -99,15 +89,10 @@ event-details:
     
   fallback:
     annotate:
-      EventName: Generic Checkpoint Firewall Event
-      Stream: OTHER
+      EventName: Generic CheckPoint Firewall Event
+      Stream: OTHER 
 
-  globals:
-    translate:
-      SystemTstamp: SystemTstamp
-      System: System 
-
-- first-match: 'CheckPoint\s+\d+\s+\-\s+\[action\:\".*?\"\;.*?product\:\"Threat Extraction\"\;(?:\s+protection_name\:)?'
+- first-match: 'product\:\"Threat Extraction\"\;'
   decoder: custom
   decoder-regex: '\[?([^\s]+)\:\"([^\"]*)\"'
   event-key-format: '{action}-{product}'
@@ -123,16 +108,22 @@ event-details:
         dst: DstIP
         to: User
         protection_name: Threat
+    'None-Threat Extraction':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        src: SrcIP  
+        dst: DstIP
+        to: User
+        product: Threat    
     
   fallback:
     annotate:
-      EventName: Generic Checkpoint Firewall Event
-      Stream: OTHER
-
-  globals:
-    translate:
-      SystemTstamp: SystemTstamp
-      System: System   
+      EventName: Generic CheckPoint Firewall Event
+      Stream: OTHER   
 
 - first-match: 'CheckPoint\s+\d+\s+\-\s+\[(?:action|alert)\:\"\w+\".*?attack\:'
   decoder: custom
@@ -153,15 +144,10 @@ event-details:
     
   fallback:
     annotate:
-      EventName: Generic Checkpoint Firewall Event
-      Stream: OTHER
+      EventName: Generic CheckPoint Firewall Event
+      Stream: OTHER   
 
-  globals:
-    translate:
-      SystemTstamp: SystemTstamp
-      System: System   
-
-- first-match: 'CheckPoint\s+\d+\s+\-\s+\[action\:\"[\w\s]+\"\;.*?layer_name\:\"Standard Threat Prevention\"\;.*?malware_rule_name\:\"[\w\s]+\"\;'
+- first-match: 'layer_name\:\"Standard\s+Threat\s+Prevention\"\;.*?malware_rule_name\:\".*?\"\;'
   decoder: custom
   decoder-regex: '\[?([^\s]+)\:\"([^\"]*)\"'
   event-key-format: '{action}-{layer_name}'
@@ -191,13 +177,8 @@ event-details:
     
   fallback:
     annotate:
-      EventName: Generic Checkpoint Firewall Event
-      Stream: OTHER
-
-  globals:
-    translate:
-      SystemTstamp: SystemTstamp
-      System: System   
+      EventName: Generic CheckPoint Firewall Event
+      Stream: OTHER   
 
 - first-match: 'CheckPoint\s+\d+\s+\-\s+\[action\:\"(?:Log\s+In|Log\s+Out|Failed\s+Log In|Update)\"'
   decoder: custom
@@ -244,15 +225,10 @@ event-details:
     
   fallback:
     annotate:
-      EventName: Generic Checkpoint Firewall Event
-      Stream: OTHER
+      EventName: Generic CheckPoint Firewall Event
+      Stream: OTHER 
 
-  globals:
-    translate:
-      SystemTstamp: SystemTstamp
-      System: System 
-
-- first-match: 'CheckPoint\s+\d+\s+\-\s+\[action\:\"[\w\s]+\"\;.*?operation\:'
+- first-match: 'operation\:\".*?\"\;'
   decoder: custom
   decoder-regex: '\[?([^\s]+)\:\"([^\"]*)\"'
   event-key-format: '{operation}'
@@ -268,13 +244,8 @@ event-details:
     
   fallback:
     annotate:
-      EventName: Generic Checkpoint Firewall Event
-      Stream: OTHER
-
-  globals:
-    translate:
-      SystemTstamp: SystemTstamp
-      System: System   
+      EventName: Generic CheckPoint Firewall Event
+      Stream: OTHER   
 
 - first-match: 'CheckPoint\s+\d+\s+\-\s+\[action\:\"[\w\s]+\"\;\s+conn_direction\:\"\w+\"\;'
   decoder: custom
@@ -368,13 +339,8 @@ event-details:
     
   fallback:
     annotate:
-      EventName: Generic Checkpoint Firewall Event
-      Stream: OTHER
-
-  globals:
-    translate:
-      SystemTstamp: SystemTstamp
-      System: System   
+      EventName: Generic CheckPoint Firewall Event
+      Stream: OTHER   
 
   subs: &id001
     Proto:
@@ -518,7 +484,7 @@ event-details:
       '142': ROHC
       '255': RESERVED
 
-- first-match: 'CheckPoint\s+\d+\s+\-\s+\[action\:\"[\w\s]+\"\;(?!\s+conn\_direction\:).*?product\:\"(?:Log\s+Update|VPN\-1\s+\&\s+FireWall\-1)\"\;'
+- first-match: 'CheckPoint\s+\d+\s+\-\s+\[action\:\"[\w\s]+\"\;(?!\s+conn\_direction\:).*product\:\"(?:Log\s+Update|VPN\-\d+\s+\&\s+FireWall\-\d+)\"\;'
   decoder: custom
   decoder-regex: '\[?([^\s]+)\:\"([^\"]*)\"'
   event-key-format: '{action}'
@@ -540,8 +506,8 @@ event-details:
     'Reject':
       annotate:
         Stream: FIREWALL
-        Action: PACKET_BLOCKED
-        Status: PASSED
+        Action: PACKET_ALLOWED
+        Status: FAILED
       translate:
         src: SrcIP  
         dst: DstIP
@@ -596,12 +562,7 @@ event-details:
     
   fallback:
     annotate:
-      EventName: Generic Checkpoint Firewall Event
-      Stream: OTHER
-
-  globals:
-    translate:
-      SystemTstamp: SystemTstamp
-      System: System    
+      EventName: Generic CheckPoint Firewall Event
+      Stream: OTHER    
 
   subs: *id001
