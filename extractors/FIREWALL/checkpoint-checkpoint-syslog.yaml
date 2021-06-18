@@ -30,7 +30,7 @@ event-details:
         src: SrcIP  
         dst: DstIP
         User: User
-        app_properties: Threat
+        matched_category: Threat
     'Redirect-Cloud Services':
       annotate:
         Stream: THREAT
@@ -41,7 +41,7 @@ event-details:
         src: SrcIP  
         dst: DstIP
         user: User
-        app_properties: Threat
+        matched_category: Threat
     
   fallback:
     annotate:
@@ -85,7 +85,7 @@ event-details:
         src: SrcIP  
         dst: DstIP
         User: User
-        product: Threat
+        protection_type: Threat
     
   fallback:
     annotate:
@@ -107,18 +107,7 @@ event-details:
         src: SrcIP  
         dst: DstIP
         to: User
-        protection_name: Threat
-    'None-Threat Extraction':
-      annotate:
-        Stream: THREAT
-        Action: THREAT_DETECTED
-        Status: PASSED
-        Vector: WEB
-      translate:
-        src: SrcIP  
-        dst: DstIP
-        to: User
-        product: Threat    
+        protection_name: Threat   
     
   fallback:
     annotate:
@@ -239,7 +228,7 @@ event-details:
         Action: CONFIGURATION_INSTALLED
         Status: PASSED
       translate:
-        operation: Config
+        additional_info: Config
         administrator: User
     
   fallback:
