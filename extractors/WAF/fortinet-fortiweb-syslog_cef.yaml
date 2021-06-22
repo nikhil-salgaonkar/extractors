@@ -3,24 +3,25 @@ schema-version: 1.0
 extractor-id: 115
 integration: Syslog(CEF)
 vendor-name: Fortinet
-product-name: FortiWeb
+product-name: FortiWeb WAF
 source-name: FORTIWEB
 source-type: WAF
 source-description: Extractor for FortiWeb WAF Events
 provides-streams:
 - AUTHENTICATION  
-- THREAT   
+- THREAT
+- IAM   
 - CONFIGURATION
 - FIREWALL 
 master-filters:
 - 'CEF\:\d+\|Fortinet\|FortiWeb\|'
 event-details:
-- first-match: 'CEF\:\d+\|Fortinet\|FortiWeb\|[\d\.]+\|.*?act\='
+- first-match: 'CEF\:\d+\|Fortinet\|FortiWeb\|[\d\.]+\|\d+\|\"?(?:event|attack)\"?\|'
   decoder: custom
-  decoder-regex: '(\w+)\=([^\s]*)'
-  event-key-format: '{act}'
+  decoder-regex: '(\w+)\=\"?([^\s\"]*)'
+  event-key-format: '{act}-{outcome}'
   event-key-mapping:
-    'login': 
+    'login-success': 
       annotate: 
         Stream: AUTHENTICATION
         Action: LOGIN 
@@ -30,7 +31,7 @@ event-details:
         spriv: User
         SrcIP: SrcIP
         
-    'logout': 
+    'logout-success': 
       annotate: 
         Stream: AUTHENTICATION
         Action: LOGOUT
@@ -40,19 +41,19 @@ event-details:
         spriv: User
         SrcIP: SrcIP
 
-    'Alert':
+    'Alert-None':
       annotate: 
         Stream: THREAT
         Action: THREAT_DETECTED
         Status: PASSED
         Vector: WEB
       translate:
-        cat: Threat
+        cs5: Threat
         src: SrcIP
         dst: DstIP
         cs1: User
 
-    'update': 
+    'update-success': 
       annotate: 
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED 
@@ -61,7 +62,16 @@ event-details:
         spriv: User
         Config: Config
 
-    'backup': 
+    'update-failure': 
+      annotate: 
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED 
+        Status: FAILED
+      translate:
+        spriv: User
+        Config: Config    
+
+    'backup-success': 
       annotate: 
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED 
@@ -70,14 +80,15 @@ event-details:
         spriv: User
         Config: Config
 
-    'delete': 
+    'delete-success': 
       annotate: 
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_DELETED
+        Stream: IAM
+        Action: USER_DELETED
         Status: PASSED
       translate:
         spriv: User
-        Config: Config   
+        cs1: TargetUser
+        Role: Role   
           
   fallback:
     annotate:
@@ -89,12 +100,12 @@ event-details:
       dhost: System
       deviceCustomDate1: SystemTstamp
 
-- first-match: 'CEF\:\d+\|Fortinet\|FortiWeb\|[\d\.]+.*?cat\=[\w\"]+\s+outcome\='
+- first-match: 'CEF\:\d+\|Fortinet\|FortiWeb\|[\d\.]+\|\d+\|\"?traffic\"?\|'
   decoder: custom
-  decoder-regex: '(\w+)\=([^\s]*)'
-  event-key-format: '{cat}'
+  decoder-regex: '(\w+)\=\"?([^\s\"]*)'
+  event-key-format: '{outcome}'
   event-key-mapping:  
-    'https': 
+    'success': 
       annotate: 
         Stream: FIREWALL
         Action: PACKET_ALLOWED
@@ -107,22 +118,7 @@ event-details:
         dpt: DstPort
         app: App
         out: TXLen
-        in: RXLen
-
-    'http': 
-      annotate: 
-        Stream: FIREWALL
-        Action: PACKET_ALLOWED
-        Status: PASSED
-      translate:
-        src: SrcIP
-        dst: DstIP
-        proto: Proto
-        spt: SrcPort
-        dpt: DstPort
-        app: App
-        out: TXLen
-        in: RXLen  
+        in: RXLen 
 
   fallback:
     annotate:
