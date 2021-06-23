@@ -1,0 +1,229 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 711
+integration: Box
+vendor-name: Box
+product-name: Box Cloud Storage
+source-name: BOX
+source-type: CLOUD-STORAGE
+source-description: Extractor for Box Cloud Storage Events
+provides-streams:
+- DOCUMENTS
+- AUTHENTICATION
+- CONFIGURATION
+master-filters:
+- '\{\"source\"\:\{\"item_type\"\:\"\w+\"\,\"item_id\"\:\"\d+\"\,'
+- '\{\"source\"\:\{\"file_id\"\:\"\d+\"\,\"file_name\"\:\".*?\"\,'
+- '\{\"source\"\:\{\"type\"\:\"\w+\".*?\"name\"\:\".*?\"\,'
+event-details:
+- first-match: '\"event_type\"\:\".*?\"\,'
+  decoder: json
+  event-key-format: '{event_type}'
+  event-key-mapping:
+    'CONTENT_ACCESS':
+      annotate:
+        Stream: DOCUMENTS
+        Action: ACCESSED
+        Status: PASSED
+      translate:
+        created_by[name]: User
+        ip_address: SrcIP
+        source[item_name]: File
+        Visibility: Visibility
+    'UPLOAD':
+      annotate:
+        Stream: DOCUMENTS
+        Action: UPLOADED
+        Status: PASSED
+      translate:
+        created_by[name]: User
+        ip_address: SrcIP
+        source[item_name]: File
+        Visibility: Visibility
+    'PREVIEW':
+      annotate:
+        Stream: DOCUMENTS
+        Action: PREVIEWED
+        Status: PASSED
+      translate:
+        created_by[name]: User
+        ip_address: SrcIP
+        source[item_name]: File
+        Visibility: Visibility 
+    'WATERMARK_LABEL_CREATE':
+      annotate:
+        Stream: DOCUMENTS
+        Action: CREATED
+        Status: PASSED
+      translate:
+        created_by[name]: User
+        ip_address: SrcIP
+        source[item_name]: File
+        Visibility: Visibility 
+    'RENAME':
+      annotate:
+        Stream: DOCUMENTS
+        Action: RENAMED
+        Status: PASSED
+      translate:
+        created_by[name]: User
+        ip_address: SrcIP
+        source[item_name]: File
+        Visibility: Visibility
+    'METADATA_INSTANCE_CREATE':
+      annotate:
+        Stream: DOCUMENTS
+        Action: CREATED
+        Status: PASSED
+      translate:
+        created_by[name]: User
+        ip_address: SrcIP
+        source[item_name]: File
+        Visibility: Visibility
+    'METADATA_INSTANCE_UPDATE':
+      annotate:
+        Stream: DOCUMENTS
+        Action: UPDATED
+        Status: PASSED
+      translate:
+        created_by[name]: User
+        ip_address: SrcIP
+        source[item_name]: File
+        Visibility: Visibility  
+    'DOWNLOAD':
+      annotate:
+        Stream: DOCUMENTS
+        Action: DOWNLOADED
+        Status: PASSED
+      translate:
+        created_by[name]: User
+        ip_address: SrcIP
+        source[item_name]: File
+        Visibility: Visibility  
+    'ITEM_OPEN':
+      annotate:
+        Stream: DOCUMENTS
+        Action: OPENED
+        Status: PASSED
+      translate:
+        created_by[name]: User
+        ip_address: SrcIP
+        source[item_name]: File
+        Visibility: Visibility
+    'ITEM_MODIFY':
+      annotate:
+        Stream: DOCUMENTS
+        Action: MODIFIED
+        Status: PASSED
+      translate:
+        created_by[name]: User
+        ip_address: SrcIP
+        source[item_name]: File
+        Visibility: Visibility
+    'UNLOCK':
+      annotate:
+        Stream: DOCUMENTS
+        Action: UNLOCKED
+        Status: PASSED
+      translate:
+        created_by[name]: User
+        ip_address: SrcIP
+        source[item_name]: File
+        Visibility: Visibility
+    'EDIT':
+      annotate:
+        Stream: DOCUMENTS
+        Action: EDITED
+        Status: PASSED
+      translate:
+        created_by[name]: User
+        ip_address: SrcIP
+        source[item_name]: File
+        Visibility: Visibility 
+    'APPLICATION_CREATED':
+      annotate:
+        Stream: DOCUMENTS
+        Action: CREATED
+        Status: PASSED
+      translate:
+        created_by[name]: User
+        ip_address: SrcIP
+        source[item_name]: File
+        Visibility: Visibility 
+    'COPY':
+      annotate:
+        Stream: DOCUMENTS
+        Action: COPIED
+        Status: PASSED
+      translate:
+        created_by[name]: User
+        ip_address: SrcIP
+        source[item_name]: File
+        Visibility: Visibility                                                    
+    'SHARE':
+      annotate:
+        Stream: DOCUMENTS
+        Action: SHAREED
+        Status: PASSED
+      translate:
+        created_by[name]: User
+        ip_address: SrcIP
+        source[item_name]: File
+        Visibility: Visibility
+    'COLLABORATION_INVITE':
+      annotate:
+        Stream: DOCUMENTS
+        Action: COLLABORATION_INVITED
+        Status: PASSED
+      translate:
+        source[user_name]: User
+        ip_address: SrcIP
+        source[file_name]: File
+        Visibility: Visibility    
+    'LOCK':
+      annotate:
+        Stream: DOCUMENTS
+        Action: LOCKED
+        Status: PASSED
+      translate:
+        created_by[name]: User
+        ip_address: SrcIP
+        source[item_name]: File
+        Visibility: Visibility 
+    'MOVE':
+      annotate:
+        Stream: DOCUMENTS
+        Action: MOVED
+        Status: PASSED
+      translate:
+        created_by[name]: User
+        ip_address: SrcIP
+        source[item_name]: File
+        Visibility: Visibility 
+    'APPLICATION_PUBLIC_KEY_ADDED':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        created_by[name]: User
+        Config: Config 
+    'ADD_LOGIN_ACTIVITY_DEVICE':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        created_by[name]: User
+        ip_address: SrcIP
+        AuthProto: AuthProto               
+
+  fallback:
+    annotate:
+      EventName: Generic Box Cloud Storage Events
+      Stream: OTHER
+
+  globals:
+    translate:
+      created_at: SystemTstamp
+      System: System
