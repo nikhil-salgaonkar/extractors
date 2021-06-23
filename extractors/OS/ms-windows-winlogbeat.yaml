@@ -209,7 +209,7 @@ event-details:
         winlog[event_data][User]: User
         winlog[event_data][Image]: Image
         winlog[event_data][TargetFilename]: TargetFilename
-        winlog[event_data][CreationUtcTime]: CreationUTCTime
+        winlog[event_data][CreationUtcTime]: CreationUtcTime
     '12':
       annotate:
         Stream: SYSMON-REGISTRY
@@ -241,7 +241,7 @@ event-details:
         winlog[event_data][User]: User
         winlog[event_data][Image]: Image
         winlog[event_data][TargetFilename]: TargetFilename
-        winlog[event_data][CreationUtcTime]: CreationUTCTime
+        winlog[event_data][CreationUtcTime]: CreationUtcTime
     '16':
       annotate:
         Stream: SYSMON-CONFIG
@@ -325,7 +325,7 @@ event-details:
         winlog[event_data][User]: User
         winlog[event_data][Image]: Image
         winlog[event_data][TargetFilename]: TargetFilename
-        winlog[event_data][CreationUtcTime]: CreationUTCTime
+        winlog[event_data][CreationUtcTime]: CreationUtcTime
 
   fallback:
     annotate:
