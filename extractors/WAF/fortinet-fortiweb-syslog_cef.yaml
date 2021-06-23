@@ -1,0 +1,131 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 115
+integration: Syslog(CEF)
+vendor-name: Fortinet
+product-name: FortiWeb WAF
+source-name: FORTIWEB
+source-type: WAF
+source-description: Extractor for FortiWeb WAF Events
+provides-streams:
+- AUTHENTICATION  
+- THREAT
+- IAM   
+- CONFIGURATION
+- FIREWALL 
+master-filters:
+- 'CEF\:\d+\|Fortinet\|FortiWeb\|'
+event-details:
+- first-match: 'CEF\:\d+\|Fortinet\|FortiWeb\|[\d\.]+\|\d+\|\"?(?:event|attack)\"?\|'
+  decoder: custom
+  decoder-regex: '(\w+)\=\"?([^\s\"]*)'
+  event-key-format: '{act}-{outcome}'
+  event-key-mapping:
+    'login-success': 
+      annotate: 
+        Stream: AUTHENTICATION
+        Action: LOGIN 
+        Status: PASSED
+        AuthProto: HTTPS
+      translate:
+        spriv: User
+        SrcIP: SrcIP
+        
+    'logout-success': 
+      annotate: 
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+        AuthProto: SSH
+      translate:
+        spriv: User
+        SrcIP: SrcIP
+
+    'Alert-None':
+      annotate: 
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        cs5: Threat
+        src: SrcIP
+        dst: DstIP
+        cs1: User
+
+    'update-success': 
+      annotate: 
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED 
+        Status: PASSED
+      translate:
+        spriv: User
+        Config: Config
+
+    'update-failure': 
+      annotate: 
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED 
+        Status: FAILED
+      translate:
+        spriv: User
+        Config: Config    
+
+    'backup-success': 
+      annotate: 
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED 
+        Status: PASSED
+      translate:
+        spriv: User
+        Config: Config
+
+    'delete-success': 
+      annotate: 
+        Stream: IAM
+        Action: USER_DELETED
+        Status: PASSED
+      translate:
+        spriv: User
+        cs1: TargetUser
+        Role: Role   
+          
+  fallback:
+    annotate:
+      EventName: Generic FortiWeb WAF Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      dhost: System
+      deviceCustomDate1: SystemTstamp
+
+- first-match: 'CEF\:\d+\|Fortinet\|FortiWeb\|[\d\.]+\|\d+\|\"?traffic\"?\|'
+  decoder: custom
+  decoder-regex: '(\w+)\=\"?([^\s\"]*)'
+  event-key-format: '{outcome}'
+  event-key-mapping:  
+    'success': 
+      annotate: 
+        Stream: FIREWALL
+        Action: PACKET_ALLOWED
+        Status: PASSED
+      translate:
+        src: SrcIP
+        dst: DstIP
+        proto: Proto
+        spt: SrcPort
+        dpt: DstPort
+        app: App
+        out: TXLen
+        in: RXLen 
+
+  fallback:
+    annotate:
+      EventName: Generic FortiWeb WAF Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      dhost: System
+      deviceCustomDate1: SystemTstamp
