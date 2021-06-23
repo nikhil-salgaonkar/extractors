@@ -1344,7 +1344,7 @@ event-details:
         Image: Image
         AccountName: User
         TargetFilename: TargetFilename
-        CreationUtcTime: CreationUTCTime 
+        CreationUtcTime: CreationUtcTime 
     '12':
       annotate:
         Stream: SYSMON-REGISTRY 
@@ -1423,7 +1423,7 @@ event-details:
         Image: Image
         AccountName: User
         TargetFilename: TargetFilename
-        CreationUtcTime: CreationUTCTime
+        CreationUtcTime: CreationUtcTime
     '15':
       annotate:
         Stream: SYSMON-FILE
@@ -1433,7 +1433,7 @@ event-details:
         Image: Image
         AccountName: User
         TargetFilename: TargetFilename
-        CreationUtcTime: CreationUTCTime
+        CreationUtcTime: CreationUtcTime
     '6':
       annotate:
         Stream: SYSMON-DRIVER-LOAD
