@@ -163,7 +163,7 @@ event-details:
     'SHARE':
       annotate:
         Stream: DOCUMENTS
-        Action: SHAREED
+        Action: SHARED
         Status: PASSED
       translate:
         created_by[name]: User
