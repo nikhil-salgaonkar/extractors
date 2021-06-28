@@ -57,7 +57,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        Reason: No network provider accepted the given network path.
+        Reason: CPM Verify Password Failed
       translate:
         suser: User
         src: SrcIP
