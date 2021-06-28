@@ -2,8 +2,8 @@ schema-version: 1.0
 #extractor-version: 1
 extractor-id: 279
 integration: Syslog(CEF)
-vendor-name: CYBERARK
-product-name: CYBERARK
+vendor-name: CyberArk
+product-name: CyberArk PIM
 source-name: CYBERARK
 source-type: PIM
 source-description: Extractor for CyberArk PIM Events
@@ -15,10 +15,11 @@ provides-streams:
 master-filters:
 - 'CEF\:\d+\|Cyber(?:\-)?Ark\|\w+\|[\d\.]+\|'  
 event-details:
-- first-match: 'CEF\:\d+\|Cyber\-Ark\|\w+\|[\d\.]+\|\d+\|[\w\s\:]+\|\d+\|act\='
+- first-match: 'CEF\:\d+\|Cyber(?:\-)?Ark\|\w+\|[\d\.]+\|\d+\|'
   decoder: custom
-  decoder-regex: '(\w+)\=\"?([^\s\"]*)'
+  decoder-regex: '(\w+)\=(?:\"([^\"]*)\"|([^\s]*))'
   event-key-format: '{Header-5}'
+  decoder-header: CEF
   event-key-mapping: 
     'Keystroke logging':
       annotate: 
@@ -45,10 +46,10 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        Reason: BAD_USER_PASSWORD
       translate:
         suser: User
-        shost: SrcIP
+        src: SrcIP
+        reason: Reason
         app: AuthProto
 
     'Failure: CPM Verify Password Failed':
@@ -56,7 +57,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        Reason: BAD_USER_PASSWORD
+        Reason: No network provider accepted the given network path.
       translate:
         suser: User
         src: SrcIP
@@ -66,11 +67,10 @@ event-details:
       annotate: 
         Stream: AUTHENTICATION
         Action: LOGIN
-        Status: FAILED
-        Reason: BAD_USER_PASSWORD
+        Status: PASSED
       translate:
         suser: User
-        shost: SrcIP
+        src: SrcIP
         app: AuthProto
 
     'PSM Disconnect':  
@@ -78,10 +78,10 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        Reason: BAD_USER_PASSWORD
       translate:
         suser: User
         shost: SrcIP
+        reason: Reason
         app: AuthProto
 
     'CPM Change Password':
@@ -92,17 +92,17 @@ event-details:
       translate:
         suser: User
         Role: Role
-        TargetUser: TargetUser
+        duser: TargetUser
       
     'Use Password':
       annotate: 
         Stream: IAM
-        Action: USE_PASSWORD
+        Action: PASSWORD_USED
         Status: PASSED
       translate:
         suser: User
         Role: Role
-        TargetUser: TargetUser  
+        duser: TargetUser  
         
     'Retrieve File':
       annotate: 
@@ -111,23 +111,8 @@ event-details:
         Status: PASSED
       translate:
         suser: User 
-        Config: Config   
+        Config: Config 
 
-  fallback:
-    annotate:
-      EventName: Generic CyberArk PIM Event
-      Stream: OTHER
-
-  globals:
-    translate:
-      dhost: System
-      SystemTstamp: SystemTstamp   
-
-- first-match: 'CEF\:\d+\|CyberArk\|\w+\|[\d\.]+\|\d+\|[\w\s]+\|\d+\|'
-  decoder: custom
-  decoder-regex: '(\w+)\=\"?([^\s\"]*)'
-  event-key-format: '{Header-5}'
-  event-key-mapping: 
     'Suspected credentials theft':
       annotate: 
         Stream: THREAT
@@ -142,11 +127,11 @@ event-details:
         Process: Process
         cs3: URL
         CommandLine: CommandLine       
-        suser: User 
+        suser: User      
 
   fallback:
     annotate:
-      EventName: Generic CYBERARK PIM Event
+      EventName: Generic CyberArk PIM Event
       Stream: OTHER
 
   globals:
