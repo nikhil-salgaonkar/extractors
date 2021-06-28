@@ -1,0 +1,38 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 1001
+integration: NXLog
+vendor-name: PaloAlto
+product-name: Prisma Cloud
+source-name: Prisma Cloud
+source-type: AAA
+source-description: Extractor for Prisma Cloud Events
+provides-streams:
+- CONFIGURATION
+master-filters:
+- '\{\"status\"\:\s+\"\w+\"\,\s+\"resource\"\:\s+\{\"rrn\"\:'
+event-details:
+- first-match: '\"policyType\"\:\s+\"\S+\"\,'
+  decoder: json
+  event-key-format: '{policy[policyType]}'
+  event-key-mapping:
+    'config':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        resource[name]: User
+        reason: config
+
+  fallback:
+    annotate:
+      EventName: Generic Prisma Cloud Events
+      Stream: OTHER
+
+  globals:
+    translate:
+      System: System
+      resource[data][launchTime]: SystemTstamp
+      resource[data][description][createdTime]: SystemTstamp
+      
