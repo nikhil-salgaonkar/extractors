@@ -1,0 +1,140 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 279
+integration: Syslog(CEF)
+vendor-name: CyberArk
+product-name: CyberArk PIM
+source-name: CYBERARK
+source-type: PIM
+source-description: Extractor for CyberArk PIM Events
+provides-streams:
+- AUTHENTICATION
+- THREAT
+- IAM
+- CONFIGURATION
+master-filters:
+- 'CEF\:\d+\|Cyber(?:\-)?Ark\|\w+\|[\d\.]+\|'  
+event-details:
+- first-match: 'CEF\:\d+\|Cyber(?:\-)?Ark\|\w+\|[\d\.]+\|\d+\|'
+  decoder: custom
+  decoder-regex: '(\w+)\=(?:\"([^\"]*)\"|([^\s]*))'
+  event-key-format: '{Header-5}'
+  decoder-header: CEF
+  event-key-mapping: 
+    'Keystroke logging':
+      annotate: 
+        Stream: AUTHENTICATION
+        Action: LOGIN 
+        Status: PASSED
+      translate:
+        suser: User
+        shost: SrcIP
+        app: AuthProto
+
+    'Logon':
+      annotate: 
+        Stream: AUTHENTICATION
+        Action: LOGIN 
+        Status: PASSED
+      translate:
+        suser: User
+        shost: SrcIP
+        app: AuthProto
+
+    'Failure: User Authentication':
+      annotate: 
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate:
+        suser: User
+        src: SrcIP
+        reason: Reason
+        app: AuthProto
+
+    'Failure: CPM Verify Password Failed':
+      annotate: 
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+        Reason: CPM Verify Password Failed
+      translate:
+        suser: User
+        src: SrcIP
+        app: AuthProto
+
+    'PSM Connect': 
+      annotate: 
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        suser: User
+        src: SrcIP
+        app: AuthProto
+
+    'PSM Disconnect':  
+      annotate: 
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate:
+        suser: User
+        shost: SrcIP
+        reason: Reason
+        app: AuthProto
+
+    'CPM Change Password':
+      annotate: 
+        Stream: IAM
+        Action: USER_PASSWORD_CHANGED
+        Status: PASSED
+      translate:
+        suser: User
+        Role: Role
+        duser: TargetUser
+      
+    'Use Password':
+      annotate: 
+        Stream: IAM
+        Action: PASSWORD_USED
+        Status: PASSED
+      translate:
+        suser: User
+        Role: Role
+        duser: TargetUser  
+        
+    'Retrieve File':
+      annotate: 
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        suser: User 
+        Config: Config 
+
+    'Suspected credentials theft':
+      annotate: 
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        src: SrcIP
+        dst: DstIP 
+        Header-5: Threat
+        File: File
+        Process: Process
+        cs3: URL
+        CommandLine: CommandLine       
+        suser: User      
+
+  fallback:
+    annotate:
+      EventName: Generic CyberArk PIM Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      dhost: System
+      SystemTstamp: SystemTstamp
