@@ -23,7 +23,7 @@ event-details:
         Status: PASSED
       translate:
         resource[name]: User
-        reason: config
+        reason: Config
 
   fallback:
     annotate:
