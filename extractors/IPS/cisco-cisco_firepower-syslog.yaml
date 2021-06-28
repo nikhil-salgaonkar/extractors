@@ -3,10 +3,10 @@ schema-version: 1.0
 extractor-id: 145
 integration: Syslog
 vendor-name: Cisco
-product-name: Cisco FirePower
+product-name: Cisco FirePOWER
 source-name: CISCO-FIREPOWER
 source-type: IPS
-source-description: Extractor for  Cisco FirePower Events
+source-description: Extractor for Cisco FirePOWER Events
 provides-streams:
 - THREAT
 master-filters:
@@ -37,10 +37,20 @@ event-details:
         SrcIP: SrcIP
         DstIP: DstIP
         DNSSICategory: Threat
+    'Block-Intrusion Block':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: NETWORK
+      translate:
+        SrcIP: SrcIP
+        DstIP: DstIP
+        AccessControlRuleReason: Threat    
 
   fallback:
     annotate:
-      EventName: Generic  Cisco FirePower Event
+      EventName: Generic Cisco FirePOWER Event
       Stream: OTHER
 
   globals:
@@ -48,10 +58,10 @@ event-details:
       SystemTstamp: SystemTstamp
       System: System
 
-- first-match: '^(?:\<\d+\>)?.*?\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+SFIMS\:.*?\[Impact.*?\].*?\[Classification\:.*?\]'
+- first-match: '\[Impact.*?\].*?\[Classification\:.*?\]'
   decoder: regex
-  decoder-regex: '^(?:\<\d+\>)?.*?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<systemname>\S+)\s+SFIMS\:.*?\[Impact\:\s+(?P<action>.*?)\].*?\[Classification\:\s+(?P<threat>.*?)\]\s+\[.*?\]\s+\{\w+\}\s+(?P<srcip>[\d\.]+).*?\-\>(?P<dstip>[\d\.]+)'
-  event-key-format: '{action}'
+  decoder-regex: '^(?:\<\d+\>)?.*?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+SFIMS\:.*?\[Impact\:\s+(?P<impact>.*?)\].*?\[Classification\:\s+(?P<threat>.*?)\]\s+\[.*?\]\s+\{\w+\}\s+(?P<src>[\d\.]+).*?\-\>(?P<dst>[\d\.]+)'
+  event-key-format: '{impact}'
   event-key-mapping:
     'Unknown':
       annotate:
@@ -60,8 +70,8 @@ event-details:
         Status: PASSED
         Vector: NETWORK
       translate:
-        srcip: SrcIP
-        dstip: DstIP
+        src: SrcIP
+        dst: DstIP
         threat: Threat
     'Vulnerable':
       annotate:
@@ -70,8 +80,8 @@ event-details:
         Status: PASSED
         Vector: NETWORK
       translate:
-        srcip: SrcIP
-        dstip: DstIP
+        src: SrcIP
+        dst: DstIP
         threat: Threat
     'Currently Not Vulnerable':
       annotate:
@@ -80,8 +90,8 @@ event-details:
         Status: PASSED
         Vector: NETWORK
       translate:
-        srcip: SrcIP
-        dstip: DstIP
+        src: SrcIP
+        dst: DstIP
         threat: Threat
     'Potentially Vulnerable':
       annotate:
@@ -90,24 +100,24 @@ event-details:
         Status: PASSED
         Vector: NETWORK
       translate:
-        srcip: SrcIP
-        dstip: DstIP
+        src: SrcIP
+        dst: DstIP
         threat: Threat
     
   fallback:
     annotate:
-      EventName: Generic Cisco FirePower Event
+      EventName: Generic Cisco FirePOWER Event
       Stream: OTHER
 
   globals:
     translate:
-      systemname: System
+      hostname: System
       datetime: SystemTstamp
 
-- first-match: '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+SFIMS\:\s+.*?Disposition:\s+\w+\s+Threat\s+name\:'
+- first-match: 'Disposition:\s+\w+\s+Threat\s+name\:'
   decoder: regex
-  decoder-regex: '^(?:\<\d+\>)?.*?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<systemname>\S+)\s+SFIMS\:.*?Disposition\:\s+(?P<action>\w+)\s+Threat\s+name\:\s+(?P<threat>\S+)\s+IP\s+Addresses\:\s+(?P<srcip>[\d\.]+)\-\>(?P<dstip>[\d\.]+)'
-  event-key-format: '{action}'
+  decoder-regex: '^(?:\<\d+\>)?.*?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+SFIMS\:.*?Disposition\:\s+(?P<disposition>\w+)\s+Threat\s+name\:\s+(?P<threat>\S+)\s+IP\s+Addresses\:\s+(?P<src>[\d\.]+)\-\>(?P<dst>[\d\.]+)'
+  event-key-format: '{disposition}'
   event-key-mapping:
     'Malware':
       annotate:
@@ -116,16 +126,16 @@ event-details:
         Status: PASSED
         Vector: NETWORK
       translate:
-        srcip: SrcIP
-        dstip: DstIP
+        src: SrcIP
+        dst: DstIP
         threat: Threat
     
   fallback:
     annotate:
-      EventName: Generic Cisco FirePower Event
+      EventName: Generic Cisco FirePOWER Event
       Stream: OTHER
 
   globals:
     translate:
-      systemname: System
+      hostname: System
       datetime: SystemTstamp
