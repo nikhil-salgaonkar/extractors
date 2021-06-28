@@ -2,7 +2,7 @@
 Plug and play extractors that convert different log events to a common DNIF Data Model (DDM)
 
 ## Extractors
-As of 21-06-2021
+As of 28-06-2021
 
 This is available here : [DNIF Supported Log Sources](https://docs.google.com/document/d/1O6ynQrvKTtw38VwyaXJk-U3EqPdAeJMue4gfstBkf5Y/edit#)
 
@@ -27,6 +27,7 @@ This is available here : [DNIF Supported Log Sources](https://docs.google.com/do
 | FIREWALL          | Zscaler        | Zscaler Firewall                  | Syslog       | FIREWALL, AUTHENTICATION, IAM, THREAT                                                                                                                     |
 | WAF               | Imperva        | Imperva WAF                       | Syslog(CEF)  | THREAT                                                                                                                                                    |
 | WAF               | Citrix         | NetScaler WAF                     | Syslog(CEF)  | THREAT                                                                                                                                                    |
+| WAF               | Fortinet       | FortiWeb WAF                      | Syslog(CEF)  | AUTHENTICATION, THREAT, IAM, CONFIGURATION, FIREWALL                                                                                                      |
 | WAF               | F5 BIG-IP      | F5 BIG-IP                         | Syslog(CEF)  | THREAT                                                                                                                                                    |
 | ENDPOINT-SECURITY | VMWare         | Carbon Black Response             | Syslog(KV)   | THREAT                                                                                                                                                    |
 | ENDPOINT-SECURITY | McAfee         | McAfee EPO                        | Syslog(KV)   | THREAT                                                                                                                                                    |
@@ -59,5 +60,6 @@ This is available here : [DNIF Supported Log Sources](https://docs.google.com/do
 | ACCESS-GATEWAY    | Cisco          | Cisco ACS                         | Syslog(KV)   | AUTHENTICATION                                                                                                                                            |
 | MANAGEMENT-SERVER | FireEye Inc.   | FireEye Audit                     | Syslog       | AUTHENTICATION, CONFIGURATION                                                                                                                             |
 | MANAGEMENT-SERVER | Check Point    | Check Point Software Technologies | Syslog       | IAM, AUTHENTICATION                                                                                                                                       |
+| CLOUD-STORAGE     | Box            | Box Cloud Storage                 | Box          | DOCUMENTS, AUTHENTICATION, CONFIGURATION                                                                                                                  |
 
 The DDM repository can be found here : [Blueprint](https://github.com/dnif/extractors/tree/master/docs/Blueprint )
