@@ -1,0 +1,57 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 60
+integration: Syslog
+vendor-name: Netgate
+product-name: pfSense
+source-name: PFSENSE
+source-type: FIREWALL
+source-description: Extractor for pfSense Firewall Events
+provides-streams:
+- FIREWALL
+master-filters:
+- '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}(?:\s\S+)?\s+filterlog\:'
+event-details:
+- first-match: 'filterlog\:'
+  decoder: regex
+  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})(?:(?P<system>\S+))?\sfilterlog\:\s.*?\,.*?\,.*?\,.*?\,\w+\,\w+\,(?P<action>.*?)\,\w+\,.*?\,.*?\,.*?\,.*?\,.*?\,.*?\,\w+\,.*?\,(?P<proto>\w+)\,.*?\,(?P<src>[\w\.\:]+)\,(?P<dst>[\w\.\:]+)\,(?P<srcport>\d+)\,(?P<dstport>\d+)\,'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'pass':
+      annotate:
+        Stream: FIREWALL
+        Action: PACKET_ALLOWED 
+        Status: PASSED
+      translate:
+        src: SrcIP
+        srcport: SrcPort
+        dst: DstIP
+        dstport: DstPort
+        proto: Proto
+        App: App
+        TXLen: TXLen
+        RXLen: RXLen
+    'block':
+      annotate:
+        Stream: FIREWALL
+        Action: PACKET_BLOCKED 
+        Status: PASSED
+      translate:
+        src: SrcIP
+        srcport: SrcPort
+        dst: DstIP
+        dstport: DstPort
+        proto: Proto
+        app: App
+        TXLen: TXLen
+        RXLen: RXLen
+
+  fallback:
+    annotate:
+      EventName: Generic pfSense Firewall Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      devname: System
