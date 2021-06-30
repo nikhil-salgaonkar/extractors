@@ -124,7 +124,7 @@ event-details:
     '300':           
       annotate:
         Stream: WEBSERVER
-        Action: REQUEST_ALLOWED
+        Action: REQUEST_REDIRECTED
         Status: PASSED
       translate: 
         src: SrcIP
