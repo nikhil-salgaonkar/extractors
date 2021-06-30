@@ -163,7 +163,7 @@ event-details:
         CommandLine: CommandLine
         User: User
         File: File
-        Process: Proecss 
+        Process: Process 
         darktraceUrl: URL
   
     'Anomalous File/Multiple EXE from Multiple Rare External Locations': 
