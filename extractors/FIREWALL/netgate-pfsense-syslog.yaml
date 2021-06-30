@@ -10,11 +10,11 @@ source-description: Extractor for pfSense Firewall Events
 provides-streams:
 - FIREWALL
 master-filters:
-- '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}(?:\s\S+)?\s+filterlog\:'
+- '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}(?:\s+\S+)?\s+filterlog\:'
 event-details:
 - first-match: 'filterlog\:'
   decoder: regex
-  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})(?:(?P<system>\S+))?\sfilterlog\:\s.*?\,.*?\,.*?\,.*?\,\w+\,\w+\,(?P<action>.*?)\,\w+\,.*?\,.*?\,.*?\,.*?\,.*?\,.*?\,\w+\,.*?\,(?P<proto>\w+)\,.*?\,(?P<src>[\w\.\:]+)\,(?P<dst>[\w\.\:]+)\,(?P<srcport>\d+)\,(?P<dstport>\d+)\,'
+  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})(?:\s+(?P<system>\S+))?\s+filterlog\:\s+.*?\,.*?\,.*?\,.*?\,\w+\,\w+\,(?P<action>.*?)\,\w+\,.*?\,.*?\,.*?\,.*?\,.*?\,.*?\,\w+\,.*?\,(?P<proto>\w+)\,.*?\,(?P<src>[\w\.\:]+)\,(?P<dst>[\w\.\:]+)\,(?P<srcport>\d+)\,(?P<dstport>\d+)\,'
   event-key-format: '{action}'
   event-key-mapping:
     'pass':
@@ -54,4 +54,4 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
-      devname: System
+      system: System
