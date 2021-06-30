@@ -16,7 +16,7 @@ master-filters:
 event-details:  
 - first-match: '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{2}\:+\d{2}\:+\d{2}(?:\s+\S+)?\s+[\w\-]+(?:\[\d+\])?\:?\s+[\d\.]+.*?\[.*?\]\s+\".*?\"[\d\s\-]+\".*?\"\s+\".*?\"' 
   decoder: regex
-  decoder-regex: '(?P<hostname>\S+)\s+(?:\S+|\S+\[\d+\])\:?\s+(?P<src>[\d\.]+)\s+\-\s+(?P<user>[\w\-]+)\s+\[(?P<datetime>\d{1,2}\/\w{3}\/\d{4}[\d\:]+).*?\]\s+\"(?P<method>\w+)\s+(?P<threat>\S+).*?\"\s+(?P<responsecode>\d+)\s+[\d\-]+\s+\"(?P<URL>.*?)\"\s+\"(?P<useragent>.*?)\"'
+  decoder-regex: '(?P<hostname>\S+)\s+(?:\S+|\S+\[\d+\])\:?\s+(?P<src>[\d\.]+)\s+\-\s+(?P<user>[\w\-]+)\s+\[(?P<datetime>\d{1,2}\/\w{3}\/\d{4}[\d\:]+).*?\]\s+\"(?P<method>\w+)\s+\S+.*?\"\s+(?P<responsecode>\d+)\s+[\d\-]+\s+\"(?P<URL>.*?)\"\s+\"(?P<useragent>.*?)\"'
   event-key-format: '{responsecode}'
   event-key-mapping:
     '100':           
@@ -278,6 +278,7 @@ event-details:
         user: User
         useragent: UserAgent
         URL: URL
+        responsecode: ReturnCode
     '401':           
       annotate:
         Stream: WEBSERVER
@@ -290,6 +291,7 @@ event-details:
         user: User
         useragent: UserAgent
         URL: URL
+        responsecode: ReturnCode
     '403':           
       annotate:
         Stream: WEBSERVER
@@ -302,6 +304,7 @@ event-details:
         user: User
         useragent: UserAgent
         URL: URL
+        responsecode: ReturnCode
     '404':           
       annotate:
         Stream: WEBSERVER
@@ -314,6 +317,7 @@ event-details:
         user: User
         useragent: UserAgent
         URL: URL
+        responsecode: ReturnCode
     '405':           
       annotate:
         Stream: WEBSERVER
