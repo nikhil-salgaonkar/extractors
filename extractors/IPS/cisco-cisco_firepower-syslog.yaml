@@ -1,0 +1,157 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 145
+integration: Syslog
+vendor-name: Cisco
+product-name: Cisco FirePOWER
+source-name: CISCO-FIREPOWER
+source-type: IPS
+source-description: Extractor for Cisco FirePOWER Events
+provides-streams:
+- THREAT
+master-filters:
+- '^(?:\<\d+\>)?.*?\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+(?:CISCOIPSLOG|SFIMS)\:'
+event-details:
+- first-match: '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+(?:SFIMS|CISCOIPSLOG)\:\s+Protocol\:'
+  decoder: custom
+  decoder-regex: '([\w]+)[\:\s]+([^\,]+)'
+  event-key-format: '{AccessControlRuleAction}-{AccessControlRuleReason}'
+  event-key-mapping:
+    'Block-IP Block':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: NETWORK
+      translate:
+        SrcIP: SrcIP
+        DstIP: DstIP
+        IPReputationSICategory: Threat
+    'Sinkhole-DNS Block':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: NETWORK
+      translate:
+        SrcIP: SrcIP
+        DstIP: DstIP
+        DNSSICategory: Threat
+    'Block-Intrusion Block':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: NETWORK
+      translate:
+        SrcIP: SrcIP
+        DstIP: DstIP
+        AccessControlRuleReason: Threat    
+
+  fallback:
+    annotate:
+      EventName: Generic Cisco FirePOWER Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      SystemTstamp: SystemTstamp
+      System: System
+
+- first-match: '\[Impact\:\s+(?:Currently\s+Not\s+Vulnerable|Potentially\s+Vulnerable)\].*?\[Classification\:.*?\]'
+  decoder: regex
+  decoder-regex: '^(?:\<\d+\>)?.*?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+SFIMS\:.*?\[Impact\:\s+(?P<impact>.*?)\].*?\[Classification\:\s+(?P<threat>.*?)\]\s+\[.*?\]\s+\{\w+\}\s+(?P<src>[\d\.]+).*?\-\>(?P<dst>[\d\.]+)'
+  event-key-format: '{impact}'
+  event-key-mapping:
+    'Currently Not Vulnerable':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: NETWORK
+      translate:
+        src: SrcIP
+        dst: DstIP
+        threat: Threat
+    'Potentially Vulnerable':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: NETWORK
+      translate:
+        src: SrcIP
+        dst: DstIP
+        threat: Threat
+    
+  fallback:
+    annotate:
+      EventName: Generic Cisco FirePOWER Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      hostname: System
+      datetime: SystemTstamp
+
+- first-match: '\[Impact\:\s+(?:Unknown|Vulnerable)\].*?\[Classification\:.*?\]'
+  decoder: regex
+  decoder-regex: '^(?:\<\d+\>)?.*?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+SFIMS\:.*?\"[\w\s]+\s+(?P<threat>\S+).*?\"\s+\[Impact\:\s+(?P<impact>.*?)\].*?\[Classification\:.*?\]\s+\[.*?\]\s+\{\w+\}\s+(?P<src>[\d\.]+).*?\-\>(?P<dst>[\d\.]+)'
+  event-key-format: '{impact}'
+  event-key-mapping:
+    'Unknown':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: NETWORK
+      translate:
+        src: SrcIP
+        dst: DstIP
+        threat: Threat
+    'Vulnerable':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: NETWORK
+      translate:
+        src: SrcIP
+        dst: DstIP
+        threat: Threat
+
+  fallback:
+    annotate:
+      EventName: Generic Cisco FirePOWER Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      hostname: System
+      datetime: SystemTstamp
+
+- first-match: 'Disposition:\s+\w+\s+Threat\s+name\:'
+  decoder: regex
+  decoder-regex: '^(?:\<\d+\>)?.*?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+SFIMS\:.*?Disposition\:\s+(?P<disposition>\w+)\s+Threat\s+name\:\s+(?P<threat>\S+)\s+IP\s+Addresses\:\s+(?P<src>[\d\.]+)\-\>(?P<dst>[\d\.]+)'
+  event-key-format: '{disposition}'
+  event-key-mapping:
+    'Malware':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: NETWORK
+      translate:
+        src: SrcIP
+        dst: DstIP
+        threat: Threat
+    
+  fallback:
+    annotate:
+      EventName: Generic Cisco FirePOWER Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      hostname: System
+      datetime: SystemTstamp
