@@ -1,0 +1,549 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 190
+integration: Syslog
+vendor-name: F5
+product-name: Nginx Webserver
+source-name: NGINX
+source-type: WEBSERVER
+source-description: Extractor for Nginx Webserver Events
+provides-streams:
+- WEBSERVER
+master-filters:
+- '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+nginx\-(?:error|access)\:'
+event-details:  
+- first-match: 'nginx\-access\:' 
+  decoder: regex
+  decoder-regex: '(?P<hostname>\S+)\s+[\w\-]+\:?\s+(?P<src>[\d\.]+)\s+\-\s+(?P<user>[\w\-]+)\s+\[(?P<datetime>\d{1,2}\/\w{3}\/\d{4}[\d\:]+)[\+\s\d]+\]\s+\"(?P<method>\w+)\s+\S+.*?\"\s+(?P<httpretcode>\d+)\s+[\d\-]+\s+\"(?P<URL>.*?)\"\s+\"(?P<useragent>.*?)\"'
+  event-key-format: '{httpretcode}'
+  event-key-mapping:
+    '100':           
+      annotate:
+        Stream: WEBSERVER
+        Action: REQUEST_ALLOWED
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        method: Method
+        UriQuery: UriQuery
+        user: User
+        useragent: UserAgent
+        URL: URL
+        httpretcode: ReturnCode
+    '101':           
+      annotate:
+        Stream: WEBSERVER
+        Action: REQUEST_ALLOWED
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        method: Method
+        UriQuery: UriQuery
+        user: User
+        useragent: UserAgent
+        URL: URL
+        httpretcode: ReturnCode
+    '102':           
+      annotate:
+        Stream: WEBSERVER
+        Action: REQUEST_ALLOWED
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        method: Method
+        UriQuery: UriQuery
+        user: User
+        useragent: UserAgent
+        URL: URL
+        httpretcode: ReturnCode
+    '200':           
+      annotate:
+        Stream: WEBSERVER
+        Action: REQUEST_ALLOWED
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        method: Method
+        UriQuery: UriQuery
+        user: User
+        useragent: UserAgent
+        URL: URL
+        httpretcode: ReturnCode
+    '201':           
+      annotate:
+        Stream: WEBSERVER
+        Action: REQUEST_ALLOWED
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        method: Method
+        UriQuery: UriQuery
+        user: User
+        useragent: UserAgent
+        URL: URL
+        httpretcode: ReturnCode
+    '202':           
+      annotate:
+        Stream: WEBSERVER
+        Action: REQUEST_ALLOWED
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        method: Method
+        UriQuery: UriQuery
+        user: User
+        useragent: UserAgent
+        URL: URL
+        httpretcode: ReturnCode
+    '204':           
+      annotate:
+        Stream: WEBSERVER
+        Action: REQUEST_ALLOWED
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        method: Method
+        UriQuery: UriQuery
+        user: User
+        useragent: UserAgent
+        URL: URL
+        httpretcode: ReturnCode
+    '206':           
+      annotate:
+        Stream: WEBSERVER
+        Action: REQUEST_ALLOWED
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        method: Method
+        UriQuery: UriQuery
+        user: User
+        useragent: UserAgent
+        URL: URL
+        httpretcode: ReturnCode
+    '300':           
+      annotate:
+        Stream: WEBSERVER
+        Action: REQUEST_REDIRECTED
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        method: Method
+        UriQuery: UriQuery
+        user: User
+        useragent: UserAgent
+        URL: URL
+        httpretcode: ReturnCode
+    '301':           
+      annotate:
+        Stream: WEBSERVER
+        Action: REQUEST_REDIRECTED
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        method: Method
+        UriQuery: UriQuery
+        user: User
+        useragent: UserAgent
+        URL: URL
+        httpretcode: ReturnCode
+    '302':           
+      annotate:
+        Stream: WEBSERVER
+        Action: REQUEST_REDIRECTED
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        method: Method
+        UriQuery: UriQuery
+        user: User
+        useragent: UserAgent
+        URL: URL
+        httpretcode: ReturnCode
+    '303':           
+      annotate:
+        Stream: WEBSERVER
+        Action: REQUEST_REDIRECTED
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        method: Method
+        UriQuery: UriQuery
+        user: User
+        useragent: UserAgent
+        URL: URL
+        httpretcode: ReturnCode
+    '304':           
+      annotate:
+        Stream: WEBSERVER
+        Action: REQUEST_REDIRECTED
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        method: Method
+        UriQuery: UriQuery
+        user: User
+        useragent: UserAgent
+        URL: URL
+        httpretcode: ReturnCode
+    '307':           
+      annotate:
+        Stream: WEBSERVER
+        Action: REQUEST_REDIRECTED
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        method: Method
+        UriQuery: UriQuery
+        user: User
+        useragent: UserAgent
+        URL: URL
+        httpretcode: ReturnCode
+    '400':           
+      annotate:
+        Stream: WEBSERVER
+        Action: REQUEST_DENIED
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        method: Method
+        UriQuery: UriQuery
+        user: User
+        useragent: UserAgent
+        URL: URL
+        httpretcode: ReturnCode
+    '401':           
+      annotate:
+        Stream: WEBSERVER
+        Action: REQUEST_DENIED
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        method: Method
+        UriQuery: UriQuery
+        user: User
+        useragent: UserAgent
+        URL: URL
+        httpretcode: ReturnCode
+    '403':           
+      annotate:
+        Stream: WEBSERVER
+        Action: REQUEST_DENIED
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        method: Method
+        UriQuery: UriQuery
+        user: User
+        useragent: UserAgent
+        URL: URL
+        httpretcode: ReturnCode
+    '404':           
+      annotate:
+        Stream: WEBSERVER
+        Action: REQUEST_DENIED
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        method: Method
+        UriQuery: UriQuery
+        user: User
+        useragent: UserAgent
+        URL: URL
+        httpretcode: ReturnCode
+    '405':           
+      annotate:
+        Stream: WEBSERVER
+        Action: REQUEST_DENIED
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        method: Method
+        UriQuery: UriQuery
+        user: User
+        useragent: UserAgent
+        URL: URL
+        httpretcode: ReturnCode
+    '408':           
+      annotate:
+        Stream: WEBSERVER
+        Action: REQUEST_DENIED
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        method: Method
+        UriQuery: UriQuery
+        user: User
+        useragent: UserAgent
+        URL: URL
+        httpretcode: ReturnCode
+    '409':           
+      annotate:
+        Stream: WEBSERVER
+        Action: REQUEST_DENIED
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        method: Method
+        UriQuery: UriQuery
+        user: User
+        useragent: UserAgent
+        URL: URL
+        httpretcode: ReturnCode
+    '411':           
+      annotate:
+        Stream: WEBSERVER
+        Action: REQUEST_DENIED
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        method: Method
+        UriQuery: UriQuery
+        user: User
+        useragent: UserAgent
+        URL: URL
+        httpretcode: ReturnCode
+    '412':           
+      annotate:
+        Stream: WEBSERVER
+        Action: REQUEST_DENIED
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        method: Method
+        UriQuery: UriQuery
+        user: User
+        useragent: UserAgent
+        URL: URL
+        httpretcode: ReturnCode
+    '413':           
+      annotate:
+        Stream: WEBSERVER
+        Action: REQUEST_DENIED
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        method: Method
+        UriQuery: UriQuery
+        user: User
+        useragent: UserAgent
+        URL: URL
+        httpretcode: ReturnCode
+    '414':           
+      annotate:
+        Stream: WEBSERVER
+        Action: REQUEST_DENIED
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        method: Method
+        UriQuery: UriQuery
+        user: User
+        useragent: UserAgent
+        URL: URL
+        httpretcode: ReturnCode
+    '415':           
+      annotate:
+        Stream: WEBSERVER
+        Action: REQUEST_DENIED
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        method: Method
+        UriQuery: UriQuery
+        user: User
+        useragent: UserAgent
+        URL: URL
+        httpretcode: ReturnCode
+    '416':           
+      annotate:
+        Stream: WEBSERVER
+        Action: REQUEST_DENIED
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        method: Method
+        UriQuery: UriQuery
+        user: User
+        useragent: UserAgent
+        URL: URL
+        httpretcode: ReturnCode
+    '429':           
+      annotate:
+        Stream: WEBSERVER
+        Action: REQUEST_DENIED
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        method: Method
+        UriQuery: UriQuery
+        user: User
+        useragent: UserAgent
+        URL: URL
+        httpretcode: ReturnCode
+    '444':           
+      annotate:
+        Stream: WEBSERVER
+        Action: REQUEST_DENIED
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        method: Method
+        UriQuery: UriQuery
+        user: User
+        useragent: UserAgent
+        URL: URL
+        httpretcode: ReturnCode
+    '494':           
+      annotate:
+        Stream: WEBSERVER
+        Action: REQUEST_DENIED
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        method: Method
+        UriQuery: UriQuery
+        user: User
+        useragent: UserAgent
+        URL: URL
+        httpretcode: ReturnCode
+    '495':           
+      annotate:
+        Stream: WEBSERVER
+        Action: REQUEST_DENIED
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        method: Method
+        UriQuery: UriQuery
+        user: User
+        useragent: UserAgent
+        URL: URL
+        httpretcode: ReturnCode
+    '496':           
+      annotate:
+        Stream: WEBSERVER
+        Action: REQUEST_DENIED
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        method: Method
+        UriQuery: UriQuery
+        user: User
+        useragent: UserAgent
+        URL: URL
+        httpretcode: ReturnCode
+    '497':           
+      annotate:
+        Stream: WEBSERVER
+        Action: REQUEST_DENIED
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        method: Method
+        UriQuery: UriQuery
+        user: User
+        useragent: UserAgent
+        URL: URL
+        httpretcode: ReturnCode
+    '499':           
+      annotate:
+        Stream: WEBSERVER
+        Action: REQUEST_DENIED
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        method: Method
+        UriQuery: UriQuery
+        user: User
+        useragent: UserAgent
+        URL: URL
+        httpretcode: ReturnCode
+    '500':           
+      annotate:
+        Stream: WEBSERVER
+        Action: REQUEST_DENIED
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        method: Method
+        UriQuery: UriQuery
+        user: User
+        useragent: UserAgent
+        URL: URL
+        httpretcode: ReturnCode
+    '501':           
+      annotate:
+        Stream: WEBSERVER
+        Action: REQUEST_DENIED
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        method: Method
+        UriQuery: UriQuery
+        user: User
+        useragent: UserAgent
+        URL: URL
+        httpretcode: ReturnCode
+    '502':           
+      annotate:
+        Stream: WEBSERVER
+        Action: REQUEST_DENIED
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        method: Method
+        UriQuery: UriQuery
+        user: User
+        useragent: UserAgent
+        URL: URL
+        httpretcode: ReturnCode
+    '503':           
+      annotate:
+        Stream: WEBSERVER
+        Action: REQUEST_DENIED
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        method: Method
+        UriQuery: UriQuery
+        user: User
+        useragent: UserAgent
+        URL: URL
+        httpretcode: ReturnCode
+    '504':           
+      annotate:
+        Stream: WEBSERVER
+        Action: REQUEST_DENIED
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        method: Method
+        UriQuery: UriQuery
+        user: User
+        useragent: UserAgent
+        URL: URL
+        httpretcode: ReturnCode
+    '507':           
+      annotate:
+        Stream: WEBSERVER
+        Action: REQUEST_DENIED
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        method: Method
+        UriQuery: UriQuery
+        user: User
+        useragent: UserAgent
+        URL: URL
+        httpretcode: ReturnCode
+        
+  fallback:
+    annotate:
+      EventName: Generic Nginx Webserver Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System
