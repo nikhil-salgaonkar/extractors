@@ -131,7 +131,7 @@ event-details:
     'Antigena/Network/Compliance/Antigena RDP Block':
       annotate: 
         Stream: THREAT
-        Action: THREAT_BLOCKED
+        Action: THREAT_DETECTED
         Status: PASSED
         Vector: NETWORK
       translate:  
