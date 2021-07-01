@@ -14,7 +14,7 @@ master-filters:
 event-details:  
 - first-match: 'nginx\-access\:' 
   decoder: regex
-  decoder-regex: '(?P<hostname>\S+)\s+[\w\-]+\:?\s+(?P<src>[\d\.]+)\s+\-\s+(?P<user>[\w\-]+)\s+\[(?P<datetime>\d{1,2}\/\w{3}\/\d{4}[\d\:]+).*?\]\s+\"(?P<method>\w+)\s+\S+.*?\"\s+(?P<httpretcode>\d+)\s+[\d\-]+\s+\"(?P<URL>.*?)\"\s+\"(?P<useragent>.*?)\"'
+  decoder-regex: '(?P<hostname>\S+)\s+[\w\-]+\:?\s+(?P<src>[\d\.]+)\s+\-\s+(?P<user>[\w\-]+)\s+\[(?P<datetime>\d{1,2}\/\w{3}\/\d{4}[\d\:]+)[\+\s\d]+\]\s+\"(?P<method>\w+)\s+\S+.*?\"\s+(?P<httpretcode>\d+)\s+[\d\-]+\s+\"(?P<URL>.*?)\"\s+\"(?P<useragent>.*?)\"'
   event-key-format: '{httpretcode}'
   event-key-mapping:
     '100':           
