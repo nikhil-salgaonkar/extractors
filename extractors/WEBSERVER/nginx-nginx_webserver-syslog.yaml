@@ -2,11 +2,11 @@ schema-version: 1.0
 #extractor-version: 1
 extractor-id: 190
 integration: Syslog
-vendor-name: Ngnix
-product-name: Ngnix Webserver
-source-name: NGNIX
+vendor-name: Nginx
+product-name: Nginx Webserver
+source-name: NGINX
 source-type: WEBSERVER
-source-description: Extractor for Ngnix Webserver Events
+source-description: Extractor for Nginx Webserver Events
 provides-streams:
 - WEBSERVER
 master-filters:
@@ -540,7 +540,7 @@ event-details:
         
   fallback:
     annotate:
-      EventName: Generic Ngnix Webserver Event
+      EventName: Generic Nginx Webserver Event
       Stream: OTHER
 
   globals:
