@@ -9,11 +9,12 @@ source-type: ENDPOINT-SECURITY
 source-description: Extractor for Carbon Black Defense Events
 provides-streams:
 - THREAT
+- AUTHENTICATION
 master-filters:
-- \"eventId\"\:\s+\"\w+\"\,\s+\"eventTime\"\:\s+\d+\,\s+\"loginName\"\:\s+\"\S+\"
-- \"eventTime\"\:\s+\d+\,\s+\"eventDescription\"\:\s+\"\[Syslog\]\s+\[Carbon\s+Black\s+has\s+detected\s+a\s+threat\s+against\s+your\s+company.\]
+- '\{\"eventId\"\:\s+\"\w+\"\,\s+\"eventTime\"\:\s+\d+\,\s+\"loginName\"\:\s+\"\S+\"'
+- '\{\"eventTime\"\:\s+\d+\,\s+\"eventDescription\"\:\s+\"\[Syslog\]\s+\[Carbon\s+Black\s+has\s+detected\s+a\s+threat\s+against\s+your\s+company.\]'
 event-details:
-- first-match: \"eventTime\"\:\s+\d+\,\s+
+- first-match: '\{\"eventTime\"\:\s+\d+\,\s+\"eventDescription\"\:\s+\"\[Syslog\]\s+\[Carbon\s+Black\s+has\s+detected\s+a\s+threat\s+against\s+your\s+company.\]'
   decoder: custom
   decoder-regex: '\"(\w+)\"\:\s+\"?(?:([^\"]+|[^\,]))'
   event-key-format: '{threatCategory}'
@@ -32,7 +33,6 @@ event-details:
         cmdline: CommandLine
         internalIpAddress: DstIP
         email: User
-
     'NON_MALWARE':
       annotate:
         Stream: THREAT
@@ -56,4 +56,28 @@ event-details:
   globals:
     translate:
       deviceName: System
+      eventTime: SystemTstamp
+
+- first-match: '\{\"eventId\"\:\s+\"\w+\"\,\s+\"eventTime\"\:\s+\d+\,\s+\"loginName\"\:\s+\"\S+\"'
+  decoder: custom
+  decoder-regex: '\"(\w+)\"\:\s+\"?(?:([^\"]+|[^\,]))'
+  event-key-format: '{description}'
+  event-key-mapping:
+    'Logged in successfully':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        clientIp: SrcIP
+        loginName: User
+        AuthProto: AuthProto
+
+  fallback:
+    annotate:
+      EventName: Generic Carbon Black Defense Event
+      Stream: OTHER
+
+  globals:
+    translate:
       eventTime: SystemTstamp

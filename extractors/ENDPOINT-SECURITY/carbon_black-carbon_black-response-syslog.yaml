@@ -12,7 +12,7 @@ provides-streams:
 master-filters:
 - '\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+\[\d+\]\s+\<\w+\>\s+reason\=\S+\s+'
 event-details:
-- first-match: '\s+\[\d+\]\s+\<\w+\>\s+reason\=\S+\s'
+- first-match: 'report\_title\='
   decoder: custom
   decoder-regex: '([\w]+)=(\"[^\"]*\"|[^\s]*)'
   event-key-format: '{direction}'
@@ -29,9 +29,9 @@ event-details:
         process_name: Process
         username: User
         cmdline: CommandLine
-        reason: Threat
-        App: File
-        Url: URL
+        report_title: Threat
+        observed_filename: File
+        URL: URL
     'Outbound':
       annotate:
         Stream: THREAT
@@ -44,9 +44,24 @@ event-details:
         process_name: Process
         username: User
         cmdline: CommandLine
-        reason: Threat
-        App: File
-        Url: URL             
+        report_title: Threat
+        observed_filename: File
+        URL: URL   
+    'None':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        SrcIP: SrcIP
+        DstIP: DstIP
+        process_name: Process
+        username: User
+        cmdline: CommandLine
+        report_title: Threat
+        observed_filename: File
+        URL: URL          
         
   fallback:
     annotate:

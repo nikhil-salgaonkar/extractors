@@ -10,13 +10,15 @@ source-description: Extractor for VMware OS Events
 provides-streams:
 - AUTHENTICATION
 - CONFIGURATION
+- AUDITD
 master-filters:
 - '^(?:<\d+>\d*)?\s*\d{4}\-\d+\-\d+T\d+\:\d+\:\d+[\.\w\+\:]+\s+[\.\w\-]+\s+(?:smbiosDump|Hostd|vmkernel|Vpxa|vobd|lwsmd|Rhttpproxy|hostd\-probe|storageRM|cimslp|smartd|heartbeat|sdrsInjector|vmkwarning|vsantraced|vmon|vpxd|vmcad|vmdird|Fdm|localcli|root|backup\.sh\.\d+|vmauthd|sfcb-vmware_raw|slpd|VSAN\w+)'
 - '^(?:\<\d+\>\d+\s+)?\d{4}\-\d{1,2}\-\d{2}T\d{2}\:\d{2}\:\d+[\.\w\+\:]+\s+\S+\s+NSX\s+(?:[\d\s\-\[]+)'
+- '\d{4}\-\d+\-\d+\:\d+\:\d+[\.\w\+\:]+\s+\w+\s+hostd\['
 event-details:
-- first-match: 'Event\s+\d+\s+\:\s+User[\s\w\.\@\:]+logged\s+out\s+'
+- first-match: 'Event\s+\d+\s+\:\s+(?:user=|User)[\s\w\.\@\:]+logged\s+(?:out|in)\s+'
   decoder: regex
-  decoder-regex: '(?P<datetime>\d+\-\d+\-\d+T\d+\:\d+\:\d+)\.\w+\s+(?P<hostname>\S+)\s+(?P<daemon>\S+)\:\s+(?P<severity>\w+)\s+(?P<appserverice>\w+).*?(?:user=|User)\s+(?P<user>.*?)(?:\@(?P<src>[\w\.\:]+))?\s+(?P<action>logged\s+out)\s+'
+  decoder-regex: '(?P<datetime>\d+\-\d+\-\d+T\d+\:\d+\:\d+)[\w\.+]+\s+(?P<hostname>\S+)\s+(?P<daemon>\w+)(?:\:\s+(?P<severity>\w+)\s+(?P<appserverice>\w+))?.*?(?:user=|User)\s+(?P<user>.*?)(?:\@(?P<src>[\w\.\:]+))?\s+(?P<action>logged\s+(?:out|in))\s+'
   event-key-format: '{action}'
   event-key-mapping:
     'logged out':
@@ -28,6 +30,15 @@ event-details:
         user: User
         src: SrcIP
         AuthProto: AuthProto
+    'logged in':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        user: User
+        src: SrcIP
+        AuthProto: AuthProto    
 
   fallback:
     annotate:
@@ -39,9 +50,9 @@ event-details:
       datetime: SystemTstamp
       hostname: System
 
-- first-match: '\s+Accepted\s+password\s+for\s+user\s+'
+- first-match: '\s+(?:Accepted|Rejected)\s+password\s+for\s+user\s+'
   decoder: regex
-  decoder-regex: '(?P<datetime>\d+\-\d+\-\d+T\d+\:\d+\:\d+)\.\w+\s+(?P<hostname>\S+)\s+(?P<daemon>\S+)\:\s+(?P<message>(?P<action>Accepted\s+password)\s+for\s+user\s+(?P<user>\S+)\s+from\s+(?P<src>[\w\:\.]+))'
+  decoder-regex: '(?P<datetime>\d+\-\d+\-\d+T\d+\:\d+\:\d+)[\w\.+]+\s+(?P<hostname>\S+)\s+(?P<daemon>\w+)\:?.*?\s+(?P<message>(?P<action>[\w\s]+)\s+for\s+user\s+(?P<user>\S+)\s+from\s+(?P<src>[\w\:\.]+))'
   event-key-format: '{action}'
   event-key-mapping:
     'Accepted password':
@@ -53,6 +64,16 @@ event-details:
         user: User
         src: SrcIP
         AuthProto: AuthProto
+    'Rejected password':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: FAILED
+        Reason: BAD_USER_PASSWORD
+      translate:
+        user: User
+        src: SrcIP
+        AuthProto: AuthProto    
 
   fallback:
     annotate:
@@ -149,9 +170,9 @@ event-details:
       datetime: SystemTstamp
       hostname: System
 
-- first-match: 'ModuleName\=\"ACCESS\_CONTROL\"\,\s+Operation\=\"(LOGIN|LOGOUT)\"\,'
+- first-match: 'ModuleName\=\"ACCESS\_CONTROL\"\,\s+Operation\=\"(?:LOGIN|LOGOUT)\"\,'
   decoder: regex
-  decoder-regex: '(?P<datetime>\d+\-\d+\-\d+T\d+\:\d+\:\d+)[\.\w\:\+]+\s+(?P<hostname>\S+)\s+NSX\s+\d+\s+\w+\s+.*?subcomp\=\"(?P<auth_protocol>.*?)\"\]\s+UserName\=\"(?P<user>.*?)(?:\@(?P<src>[\w\.\:]+))?\"\,\s+ModuleName\=\"(?P<modulename>.*?)\"\,\s+Operation\=\"(?P<operation>.*?)\"\,\s+Operation\s+status\=\"(?P<status>\w+)\"'
+  decoder-regex: '(?P<datetime>\d+\-\d+\-\d+T\d+\:\d+\:\d+)[\.\w\:\+]+\s+(?P<hostname>\S+)\s+NSX\s+\d+\s+\w+\s+.*?subcomp\=\"(?P<auth_protocol>.*?)\"\].*?UserName\=\"(?P<user>.*?)(?:\@(?P<src>[\w\.\:]+))?\"\,\s+ModuleName\=\"(?P<modulename>.*?)\"\,\s+Operation\=\"(?P<operation>.*?)\"\,\s+Operation\s+status\=\"(?P<status>\w+)\"'
   event-key-format: '{operation}-{status}'
   event-key-mapping:
     'LOGIN-success':
@@ -193,6 +214,117 @@ event-details:
       datetime: SystemTstamp
       hostname: System 
 
+- first-match: 'vmcad.*?Authenticated\suser'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\d+\-\d+\-\d+T\d+\:\d+\:\d+)\.[\w\:\+]+\s+(?P<hostname>\S+)\s+(?P<daemon>\S+)\s+.*?(?P<message>(?P<action>Authenticated\s+user)\s+(?P<user>(?P<src>[\d\.]+)\S+))'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'Authenticated user':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        user: User
+        src: SrcIP
+        AuthProto: AuthProto
+
+  fallback:
+    annotate:
+      EventName: Generic VMware OS Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System
+
+- first-match: 'Error\:\s+Failed\s+to\s+change\s+machine\s+password'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\d+\-\d+\-\d+T\d+\:\d+\:\d+)\w+\s+(?P<hostname>\S+)\s+(?P<daemon>\S+)\:.*?(?P<message>Error\:\s+(?P<action>Failed\s+to\s+change\s+machine\s+password)\s+for\s+(?P<user>\S+).*)'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'Failed to change machine password':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+        Reason: BAD_USER_PASSWORD
+      translate:
+        user: User
+        SrcIP: SrcIP
+        AuthProto: AuthProto 
+
+  fallback:
+    annotate:
+      EventName: Generic VMware OS Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System  
+
+- first-match: 'Hostd\:.*?pam\_(?:sm\_authenticate\:|unix)'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\d+\-\d+\-\d+T\d+\:\d+\:\d+)\.\w+\s+(?P<hostname>\S+)\s+(?P<daemon>Hostd)\:.*?(?P<message>pam\_(?:sm\_authenticate|unix).*?(?P<action>(?:failed|check\spass)).*)'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'failed':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+        Reason: BAD_USER_PASSWORD
+      translate:
+        User: User
+        SrcIP: SrcIP
+        AuthProto: AuthProto 
+    'check pass':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        User: User
+        SrcIP: SrcIP
+        AuthProto: AuthProto    
+
+  fallback:
+    annotate:
+      EventName: Generic VMware OS Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System  
+
+- first-match: '\d{4}\-\d+\-\d+\:\d+\:\d+[\.\w\+\:]+\s+info\s+hostd\['
+  decoder: regex
+  decoder-regex: '(?P<datetime>\d+\-\d+\-\d+\:\d+\:\d+).*?(?P<daemon>hostd)\[\d+\].*?sub\=(?P<sub>\S+).*?user\=(?P<user>\S+)\s+(?P<message>.*?\s+(?P<action>.*)\s+called)'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'Destroy VM':
+      annotate:
+        Stream: AUDITD
+        Action: VIRTUAL_MACHINE_DELETED
+        Status: PASSED
+      translate:
+        user: User
+        commandline: CommandLine
+        Process: Process
+        ProcessArgs: ProcessArgs 
+
+  fallback:
+    annotate:
+      EventName: Generic VMware OS Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp                      
+
 - first-match: 'subcomp\=\"\S+\"(?:\s+update=\"\w+\")?\s+username="admin"\].*?ModuleName\=\"\S+\"\,\s+Operation\=\"\w+\"'
   decoder: regex
   decoder-regex: '(?P<datetime>\d+\-\d+\-\d+T\d+\:\d+\:\d+)[\.\w\:\+]+\s+(?P<hostname>\S+)\s+NSX\s+\d+\s+[\w\-]+\s+.*?UserName\=\"(?P<user>\S+)\"\,\s+ModuleName\=\"(?P<modulename>.*?)\"\,\s+Operation\=\"(?P<operation>\S+)\"\,\s+Operation\s+status\=\"(?P<status>\w+)\"'
@@ -215,4 +347,4 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
-      hostname: System 
+      hostname: System

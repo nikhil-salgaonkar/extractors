@@ -15,7 +15,7 @@ provides-streams:
 master-filters:
 - '^(?:\<\d+\>)?\d{4}\-\d{1,2}\-\d{2}\s+\d{2}\:\d{2}\:\d{2}.*?(?:Allow|Deny)?.*?proc\_id\=\"firewall\"'
 - '^(?:\<\d+\>)?\d{4}\-\d{1,2}\-\d{2}\s+\d{2}\:\d{2}\:\d{2}.*?(?:SYN\s+flood|ICMP\s+flood|UDP\s+flood|IPSEC\s+flood|IKE\s+flood|IP\s+scan|PORT\s+scan|DDOS|ARP\s+spoofing|IP\s+spoofing)\:?'
-- '\(\d{4}\-\d{1,2}\-\d{2}\T\d{2}\:\d{2}\:\d{2}\)\s+firewall\:.*?(?:Allow|Deny)'
+- '\(\d{4}\-\d{1,2}\-\d{2}T\d{2}\:\d{2}\:\d{2}\)\s+firewall\:.*?(?:Allow|Deny)'
 - '^(?:\<\d+\>)?\d{4}\-\d{1,2}\-\d{2}\s+\d{2}\:\d{2}\:\d{2}.*?(?:authentication|Authentication|established|Blocked Sites)'
 event-details:  
 - first-match: 'firewall\:.*?(?:Allow|Deny).*?sent_bytes\=\"\d+\"\s+rcvd_bytes\=\"\d+\"' 

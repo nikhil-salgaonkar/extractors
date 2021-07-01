@@ -1,0 +1,605 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 806 
+integration: Syslog
+vendor-name: Versa Networks
+product-name: Versa Networks Zero Trust
+source-name: VERSA-NETWORKS
+source-type: ZERO-TRUST
+source-description: Extractor for Versa Networks Events
+provides-streams:
+- FIREWALL
+- WEBFILTER
+- THREAT
+master-filters:
+- '\d{4}\-\d{1,2}\-\d{2}T\d{2}\:\d{2}\:\d{2}\+\d+\s+\w+\,\s+applianceName\=\S+\,'
+event-details:
+- first-match: '\d{4}\-\d{1,2}\-\d{2}T\d{2}\:\d{2}\:\d{2}\+\d+\s+cgnatLog\,'
+  decoder: custom
+  decoder-regex: '([\w]+)\=\"?([^\,\"]+)'
+  event-key-format: '{natEvent}'
+  event-key-mapping:
+    'nat44-sess-create':
+      annotate:
+        Stream: FIREWALL
+        Action: SESSION_ESTABLISHED
+        Status: PASSED
+      translate:
+        sourceIPv4Address: SrcIP
+        destinationIPv4Address: DstIP
+        sourceIPv6Address: SrcIP
+        destinationIPv6Address: DstIP
+        protocolIdentifier: Proto
+        sourcePort: SrcPort
+        destinationPort: DstPort
+        appSubFamily: App
+        sentPackets: TXLen
+        recvdPackets: RXLen
+    'nat44-sess-delete':
+      annotate:
+        Stream: FIREWALL
+        Action: SESSION_TERMINATED
+        Status: PASSED
+      translate:
+        sourceIPv4Address: SrcIP
+        destinationIPv4Address: DstIP
+        sourceIPv6Address: SrcIP
+        destinationIPv6Address: DstIP
+        protocolIdentifier: Proto
+        sourcePort: SrcPort
+        destinationPort: DstPort
+        appSubFamily: App
+        sentPackets: TXLen
+        recvdPackets: RXLen
+    'nat66-sess-create':
+      annotate:
+        Stream: FIREWALL
+        Action: SESSION_ESTABLISHED
+        Status: PASSED
+      translate:
+        sourceIPv4Address: SrcIP
+        destinationIPv4Address: DstIP
+        sourceIPv6Address: SrcIP
+        destinationIPv6Address: DstIP
+        protocolIdentifier: Proto
+        sourcePort: SrcPort
+        destinationPort: DstPort
+        appSubFamily: App
+        sentPackets: TXLen
+        recvdPackets: RXLen
+    'nat66-sess-delete':
+      annotate:
+        Stream: FIREWALL
+        Action: SESSION_TERMINATED
+        Status: PASSED
+      translate:
+        sourceIPv4Address: SrcIP
+        destinationIPv4Address: DstIP
+        sourceIPv6Address: SrcIP
+        destinationIPv6Address: DstIP
+        protocolIdentifier: Proto
+        sourcePort: SrcPort
+        destinationPort: DstPort
+        appSubFamily: App
+        sentPackets: TXLen
+        recvdPackets: RXLen
+  
+  fallback:
+    annotate:
+      EventName: Generic Versa Networks Events
+      Stream: OTHER
+
+  globals:
+    translate:
+      SystemTstamp: SystemTstamp
+      applianceName: System
+
+  subs: &id001
+    Proto:
+      '0': HOPOPT
+      '1': ICMP
+      '2': IGMP
+      '3': GGP
+      '4': IP-IN-IP
+      '5': ST
+      '6': TCP
+      '7': CBT
+      '8': EGP
+      '9': IGP
+      '10': BBN-RCC-MON
+      '11': NVP-II
+      '12': PUP
+      '13': ARGUS
+      '14': EMCON
+      '15': XNET
+      '16': CHAOS
+      '17': UDP
+      '18': MUX
+      '19': DCN-MEAS
+      '20': HMP
+      '21': PRM
+      '22': XNS-IDP
+      '23': TRUNK-1
+      '24': TRUNK-2
+      '25': LEAF-1
+      '26': LEAF-2
+      '27': RDP
+      '28': IRTP
+      '29': ISO-TP4
+      '30': NETBLT
+      '31': MFE-NSP
+      '32': MERIT-INP
+      '33': DCCP
+      '34': 3PC
+      '35': IDPR
+      '36': XTP
+      '37': DDP
+      '38': IDPR-CMTP
+      '39': TP++
+      '40': IL
+      '41': IPV6
+      '42': SDRP
+      '43': IPV6-ROUTE
+      '44': IPV6-FRAG
+      '45': IDRP
+      '46': RSVP
+      '47': GRE
+      '48': DSR
+      '49': BNA
+      '50': ESP
+      '51': AH
+      '52': I-NLSP
+      '53': SWIPE
+      '54': NARP
+      '55': MOBILE
+      '56': TLSP
+      '57': SKIP
+      '58': IPV6-ICMP
+      '59': IPV6-NONXT
+      '60': IPV6-OPTS
+      '62': CFTP
+      '64': SAT-EXPAK
+      '65': KRYPTOLAN
+      '66': RVD
+      '67': IPPC
+      '69': SAT-MON
+      '70': VISA
+      '71': IPCU
+      '72': CPNX
+      '73': CPHB
+      '74': WSN
+      '75': PVP
+      '76': BR-SAT-MON
+      '77': SUN-ND
+      '78': WB-MON
+      '79': WB-EXPAK
+      '80': ISO-IP
+      '81': VMTP
+      '82': SECURE-VMTP
+      '83': VINES
+      '84': IPTM
+      '85': NSFNET-IGP
+      '86': DGP
+      '87': TCF
+      '88': EIGRP
+      '89': OSPF
+      '90': SPRITE-RPC
+      '91': LARP
+      '92': MTP
+      '93': AX.25
+      '94': OS
+      '95': MICP
+      '96': SCC-SP
+      '97': ETHERIP
+      '98': ENCAP
+      '100': GMTP
+      '101': IFMP
+      '102': PNNI
+      '103': PIM
+      '104': ARIS
+      '105': SCPS
+      '106': QNX
+      '107': A/N
+      '108': IPCOMP
+      '109': SNP
+      '110': COMPAQ-PEER
+      '111': IPX-IN-IP
+      '112': VRRP
+      '113': PGM
+      '115': L2TP
+      '116': DDX
+      '117': IATP
+      '118': STP
+      '119': SRP
+      '120': UTI
+      '121': SMP
+      '122': SM
+      '123': PTP
+      '124': IS-IS-OVER-IPV4
+      '125': FIRE
+      '126': CRTP
+      '127': CRUDP
+      '128': SSCOPMCE
+      '129': IPLT
+      '130': SPS
+      '131': PIPE
+      '132': SCTP
+      '133': FC
+      '134': RSVP-E2E-IGNORE
+      '135': MOBILITY-HEADER
+      '136': UDPLITE
+      '137': MPLS-IN-IP
+      '138': MANET
+      '139': HIP
+      '140': SHIM6
+      '141': WESP
+      '142': ROHC
+      '255': RESERVED            
+
+- first-match: '\d{4}\-\d{1,2}\-\d{2}T\d{2}\:\d{2}\:\d{2}\+\d+\s+accessLog\,'
+  decoder: custom
+  decoder-regex: '([\w]+)\=\"?([^\,\"]+)'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'allow':
+      annotate:
+        Stream: FIREWALL
+        Action: PACKET_ALLOWED
+        Status: PASSED
+      translate:
+        sourceIPv4Address: SrcIP
+        destinationIPv4Address: DstIP
+        sourceIPv6Address: SrcIP
+        destinationIPv6Address: DstIP
+        protocolIdentifier: Proto
+        sourceTransportPort: SrcPort
+        destinationTransportPort: DstPort
+        appSubFamily: App
+        sentPackets: TXLen
+        recvdPackets: RXLen
+    'deny':
+      annotate:
+        Stream: FIREWALL
+        Action: PACKET_BLOCKED
+        Status: PASSED
+      translate:
+        sourceIPv4Address: SrcIP
+        destinationIPv4Address: DstIP
+        sourceIPv6Address: SrcIP
+        destinationIPv6Address: DstIP
+        protocolIdentifier: Proto
+        sourceTransportPort: SrcPort
+        destinationTransportPort: DstPort
+        appSubFamily: App
+        sentPackets: TXLen
+        recvdPackets: RXLen
+    'reject':
+      annotate:
+        Stream: FIREWALL
+        Action: PACKET_BLOCKED
+        Status: PASSED
+      translate:
+        sourceIPv4Address: SrcIP
+        destinationIPv4Address: DstIP
+        sourceIPv6Address: SrcIP
+        destinationIPv6Address: DstIP
+        protocolIdentifier: Proto
+        sourceTransportPort: SrcPort
+        destinationTransportPort: DstPort
+        appSubFamily: App
+        sentPackets: TXLen
+        recvdPackets: RXLen
+  
+  fallback:
+    annotate:
+      EventName: Generic Versa Networks Events
+      Stream: OTHER
+
+  globals:
+    translate:
+      SystemTstamp: SystemTstamp
+      applianceName: System
+
+  subs: *id001      
+
+- first-match: '\d{4}\-\d{1,2}\-\d{2}T\d{2}\:\d{2}\:\d{2}\+\d+\s+flowMonLog\,'
+  decoder: custom
+  decoder-regex: '([\w]+)\=\"?([^\,\"]+)'
+  event-key-format: ''
+  event-key-mapping:
+    '':
+      annotate:
+        Stream: FIREWALL
+        Action: PACKET_ALLOWED
+        Status: PASSED
+      translate:
+        sourceIPv4Address: SrcIP
+        destinationIPv4Address: DstIP
+        sourceIPv6Address: SrcIP
+        destinationIPv6Address: DstIP
+        protocolIdentifier: Proto
+        sourceTransportPort: SrcPort
+        destinationTransportPort: DstPort
+        appSubFamily: App
+        sentPackets: TXLen
+        recvdPackets: RXLen
+  
+  fallback:
+    annotate:
+      EventName: Generic Versa Networks Events
+      Stream: OTHER
+
+  globals:
+    translate:
+      SystemTstamp: SystemTstamp
+      applianceName: System
+
+  subs: *id001
+
+- first-match: '\d{4}\-\d{1,2}\-\d{2}T\d{2}\:\d{2}\:\d{2}\+\d+\s+flowIdLog\,'
+  decoder: custom
+  decoder-regex: '([\w]+)\=\"?([^\,\"]+)'
+  event-key-format: ''
+  event-key-mapping:
+    '':
+      annotate:
+        Stream: FIREWALL
+        Action: PACKET_ALLOWED
+        Status: PASSED
+      translate:
+        sourceIPv4Address: SrcIP
+        destinationIPv4Address: DstIP
+        sourceIPv6Address: SrcIP
+        destinationIPv6Address: DstIP
+        protocolIdentifier: Proto
+        sourcePort: SrcPort
+        destinationPort: DstPort
+        appSubFamily: App
+        sentPackets: TXLen
+        recvdPackets: RXLen
+  
+  fallback:
+    annotate:
+      EventName: Generic Versa Networks Events
+      Stream: OTHER
+
+  globals:
+    translate:
+      SystemTstamp: SystemTstamp
+      applianceName: System
+
+  subs: *id001      
+
+- first-match: '\d{4}\-\d{1,2}\-\d{2}T\d{2}\:\d{2}\:\d{2}\+\d+\s+dnsfLog\,'
+  decoder: custom
+  decoder-regex: '([\w]+)\=\"?([^\,\"]+)'
+  event-key-format: ''
+  event-key-mapping:
+    '':
+      annotate:
+        Stream: FIREWALL
+        Action: PACKET_ALLOWED
+        Status: PASSED
+      translate:
+        sourceIPv4Address: SrcIP
+        destinationIPv4Address: DstIP
+        sourceIPv6Address: SrcIP
+        destinationIPv6Address: DstIP
+        protocolIdentifier: Proto
+        sourceTransportPort: SrcPort
+        destinationTransportPort: DstPort
+        appSubFamily: App
+        sentPackets: TXLen
+        recvdPackets: RXLen
+  
+  fallback:
+    annotate:
+      EventName: Generic Versa Networks Events
+      Stream: OTHER
+
+  globals:
+    translate:
+      SystemTstamp: SystemTstamp
+      applianceName: System
+
+  subs: *id001
+
+- first-match: '\d{4}\-\d{1,2}\-\d{2}T\d{2}\:\d{2}\:\d{2}\+\d+\s+urlfLog\,'
+  decoder: custom
+  decoder-regex: '([\w]+)\=\"?([^\,\"]+)'
+  event-key-format: '{urlfAction}'
+  event-key-mapping:
+    'DEFAULT_HTTPS_RESET_ACTION':
+      annotate:
+        Stream: WEBFILTER  
+        Action: URL_BLOCKED
+        Status: PASSED
+      translate:
+        httpUrl: URL
+        HTTPMethod: HTTPMethod
+        sourceIPv4Address: SrcIP
+        destinationIPv4Address: DstIP
+        sourceIPv6Address: SrcIP
+        destinationIPv6Address: DstIP
+        UserAgent: UserAgent
+        destinationTransportPort: DstPort
+        User: User
+        protocolIdentifier: Proto
+        sentPackets: TXLen
+        recvdPackets: RXLen
+    'ask':
+      annotate:
+        Stream: WEBFILTER  
+        Action: URL_ALLOWED
+        Status: PASSED
+      translate:
+        httpUrl: URL
+        HTTPMethod: HTTPMethod
+        sourceIPv4Address: SrcIP
+        destinationIPv4Address: DstIP
+        sourceIPv6Address: SrcIP
+        destinationIPv6Address: DstIP
+        UserAgent: UserAgent
+        destinationTransportPort: DstPort
+        User: User
+        protocolIdentifier: Proto
+        sentPackets: TXLen
+        recvdPackets: RXLen
+  
+  fallback:
+    annotate:
+      EventName: Generic Versa Networks Events
+      Stream: OTHER
+
+  globals:
+    translate:
+      SystemTstamp: SystemTstamp
+      applianceName: System
+
+  subs: *id001      
+
+- first-match: '\d{4}\-\d{1,2}\-\d{2}T\d{2}\:\d{2}\:\d{2}\+\d+\s+avLog\,'
+  decoder: custom
+  decoder-regex: '([\w]+)\=\"?([^\,\"]+)'
+  event-key-format: ''
+  event-key-mapping:
+    '':
+      annotate:
+        Stream: THREAT 
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        sourceIPv4Address: SrcIP
+        destinationIPv4Address: DstIP
+        sourceIPv6Address: SrcIP
+        destinationIPv6Address: DstIP
+        avMalwareName: Threat
+        fileName: File
+        Process: Process
+        User: User
+        CommandLine: CommandLine
+        URL: URL
+        
+  fallback:
+    annotate:
+      EventName: Generic Versa Networks Events
+      Stream: OTHER
+
+  globals:
+    translate:
+      SystemTstamp: SystemTstamp
+      applianceName: System
+
+- first-match: '\d{4}\-\d{1,2}\-\d{2}T\d{2}\:\d{2}\:\d{2}\+\d+\s+dosThreatLog\,'
+  decoder: custom
+  decoder-regex: '([\w]+)\=\"?([^\,\"]+)'
+  event-key-format: ''
+  event-key-mapping:
+    '':
+      annotate:
+        Stream: THREAT 
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: NETWORK
+      translate:
+        dosAttacker: SrcIP
+        dosVictim: DstIP
+        sourceIPv6Address: SrcIP
+        destinationIPv6Address: DstIP
+        threatType: Threat
+        
+  fallback:
+    annotate:
+      EventName: Generic Versa Networks Events
+      Stream: OTHER
+
+  globals:
+    translate:
+      SystemTstamp: SystemTstamp
+      applianceName: System
+
+- first-match: '\d{4}\-\d{1,2}\-\d{2}T\d{2}\:\d{2}\:\d{2}\+\d+\s+idpLog\,'
+  decoder: custom
+  decoder-regex: '([\w]+)\=\"?([^\,\"]+)'
+  event-key-format: ''
+  event-key-mapping:
+    '':
+      annotate:
+        Stream: THREAT 
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        sourceIPv4Address: SrcIP
+        destinationIPv4Address: DstIP
+        sourceIPv6Address: SrcIP
+        destinationIPv6Address: DstIP
+        classMsg: Threat
+        fileName: File
+        Process: Process
+        User: User
+        CommandLine: CommandLine
+        URL: URL
+        
+  fallback:
+    annotate:
+      EventName: Generic Versa Networks Events
+      Stream: OTHER
+
+  globals:
+    translate:
+      SystemTstamp: SystemTstamp
+      applianceName: System
+
+- first-match: '\d{4}\-\d{1,2}\-\d{2}T\d{2}\:\d{2}\:\d{2}\+\d+\s+alarmLog\,'
+  decoder: custom
+  decoder-regex: '([\w]+)\=\"?([^\,\"]+)'
+  event-key-format: '{alarmType}'
+  event-key-mapping:
+    'ddos-threshold':
+      annotate:
+        Stream: THREAT 
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: NETWORK
+      translate:
+        sourceIPv4Address: SrcIP
+        destinationIPv4Address: DstIP
+        sourceIPv6Address: SrcIP
+        destinationIPv6Address: DstIP
+        alarmText: Threat
+    'zone-protection-flood':
+      annotate:
+        Stream: THREAT 
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: NETWORK
+      translate:
+        sourceIPv4Address: SrcIP
+        destinationIPv4Address: DstIP
+        sourceIPv6Address: SrcIP
+        destinationIPv6Address: DstIP
+        alarmText: Threat
+    'port-scan-flood':
+      annotate:
+        Stream: THREAT 
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: NETWORK
+      translate:
+        sourceIPv4Address: SrcIP
+        destinationIPv4Address: DstIP
+        sourceIPv6Address: SrcIP
+        destinationIPv6Address: DstIP
+        alarmText: Threat
+        
+  fallback:
+    annotate:
+      EventName: Generic Versa Networks Events
+      Stream: OTHER
+
+  globals:
+    translate:
+      SystemTstamp: SystemTstamp
+      applianceName: System

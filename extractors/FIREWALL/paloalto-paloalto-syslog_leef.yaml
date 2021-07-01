@@ -1,0 +1,489 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 97
+integration: Syslog(LEEF)
+vendor-name: PaloAlto
+product-name: Palo Alto Networks
+source-name: PALOALTO
+source-type: FIREWALL
+source-description: Extractor for Palo Alto Firewall Events
+provides-streams:
+- FIREWALL
+- THREAT
+- AUTHENTICATION
+- CONFIGURATION
+master-filters:
+- 'LEEF\:[\d\.]+\|Palo\s+Alto\s+Networks\|PAN\-OS\s+Syslog\s+Integration\|'
+event-details:
+- first-match: 'cat=THREAT'
+  decoder: custom
+  decoder-regex: '([\w]+)\=([^\|]+|)'
+  event-key-format: '{cat}-{Subtype}'
+  decoder-header: CEF
+  event-key-mapping:
+    'THREAT-data':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        ThreatID: Threat
+        src: SrcIP
+        dst: DstIP
+        SourceUser: User    
+    'THREAT-file':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        ThreatID: Threat
+        src: SrcIP
+        dst: DstIP
+        SourceUser: User    
+    'THREAT-flood':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        ThreatID: Threat
+        src: SrcIP
+        dst: DstIP
+        SourceUser: User    
+    'THREAT-packet':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        ThreatID: Threat
+        src: SrcIP
+        dst: DstIP
+        SourceUser: User    
+    'THREAT-scan':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        ThreatID: Threat
+        src: SrcIP
+        dst: DstIP
+        SourceUser: User    
+    'THREAT-spyware':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        ThreatID: Threat
+        src: SrcIP
+        dst: DstIP
+        SourceUser: User    
+    'THREAT-url':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+        Threat: Paloalto THREAT url event
+      translate:
+        src: SrcIP
+        dst: DstIP
+        SourceUser: User      
+    'THREAT-virus':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        ThreatID: Threat
+        src: SrcIP
+        dst: DstIP
+        SourceUser: User    
+    'THREAT-vulnerability':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        ThreatID: Threat
+        src: SrcIP
+        dst: DstIP
+        SourceUser: User 
+    'THREAT-wildfire':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        ThreatID: Threat
+        src: SrcIP
+        dst: DstIP
+        SourceUser: User 
+    'THREAT-wildfire-virus':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        ThreatID: Threat
+        src: SrcIP
+        dst: DstIP
+        SourceUser: User                              
+
+  fallback:
+    annotate:
+      EventName: Generic Palo Alto Firewall Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      DeviceName: System
+      devTime: SystemTstamp
+
+- first-match: 'cat=(?:SCTP|TRAFFIC)'
+  decoder: custom
+  decoder-regex: '([\w]+)\=([^\|]+)'
+  event-key-format: '{cat}-{action}'
+  decoder-header: CEF
+  event-key-mapping:
+    'SCTP-allow':
+      annotate:
+        Stream: FIREWALL
+        Action: SESSION_ESTABLISHED
+        Status: PASSED
+      translate:
+        src: SrcIP
+        dst: DstIP
+        proto: Proto  
+        srcPort: SrcPort
+        dstPort: DstPort
+        Application: App
+        srcBytes: TXLen
+        dstBytes: RXLen
+    'SCTP-deny':
+      annotate:
+        Stream: FIREWALL
+        Action: SESSION_ESTABLISHED
+        Status: FAILED
+      translate:
+        src: SrcIP
+        dst: DstIP
+        proto: Proto  
+        srcPort: SrcPort
+        dstPort: DstPort
+        Application: App
+        srcBytes: TXLen
+        dstBytes: RXLen
+    'TRAFFIC-allow':
+      annotate:
+        Stream: FIREWALL
+        Action: SESSION_ESTABLISHED
+        Status: PASSED
+      translate:
+        src: SrcIP
+        dst: DstIP
+        proto: Proto  
+        srcPort: SrcPort
+        dstPort: DstPort
+        Application: App
+        srcBytes: TXLen
+        dstBytes: RXLen
+    'TRAFFIC-deny':
+      annotate:
+        Stream: FIREWALL
+        Action: SESSION_ESTABLISHED
+        Status: FAILED
+      translate:
+        src: SrcIP
+        dst: DstIP
+        proto: Proto  
+        srcPort: SrcPort
+        dstPort: DstPort
+        Application: App
+        srcBytes: TXLen
+        dstBytes: RXLen
+    'TRAFFIC-drop':
+      annotate:
+        Stream: FIREWALL
+        Action: SESSION_TERMINATED
+        Status: PASSED
+      translate:
+        src: SrcIP
+        dst: DstIP
+        proto: Proto  
+        srcPort: SrcPort
+        dstPort: DstPort
+        Application: App
+        srcBytes: TXLen
+        dstBytes: RXLen
+    'TRAFFIC-drop ICMP':
+      annotate:
+        Stream: FIREWALL
+        Action: SESSION_TERMINATED
+        Status: PASSED
+      translate:
+        src: SrcIP
+        dst: DstIP
+        proto: Proto  
+        srcPort: SrcPort
+        dstPort: DstPort
+        Application: App
+        srcBytes: TXLen
+        dstBytes: RXLen
+    'TRAFFIC-reset-both':
+      annotate:
+        Stream: FIREWALL
+        Action: SESSION_TERMINATED
+        Status: PASSED
+      translate:
+        src: SrcIP
+        dst: DstIP
+        proto: Proto  
+        srcPort: SrcPort
+        dstPort: DstPort
+        Application: App
+        srcBytes: TXLen
+        dstBytes: RXLen
+    'TRAFFIC-reset client':
+      annotate:
+        Stream: FIREWALL
+        Action: SESSION_TERMINATED
+        Status: PASSED
+      translate:
+        src: SrcIP
+        dst: DstIP
+        proto: Proto  
+        srcPort: SrcPort
+        dstPort: DstPort
+        Application: App
+        srcBytes: TXLen
+        dstBytes: RXLen
+    'TRAFFIC-reset server':
+      annotate:
+        Stream: FIREWALL
+        Action: SESSION_TERMINATED
+        Status: PASSED
+      translate:
+        src: SrcIP
+        dst: DstIP
+        proto: Proto  
+        srcPort: SrcPort
+        dstPort: DstPort
+        Application: App
+        srcBytes: TXLen
+        dstBytes: RXLen
+
+  fallback:
+    annotate:
+      EventName: Generic Palo Alto Firewall Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      DeviceName: System
+      devTime: SystemTstamp
+
+- first-match: 'cat=USERID'
+  decoder: custom
+  decoder-regex: '([\w]+)\=([^\|]+)'
+  event-key-format: '{cat}-{Subtype}'
+  decoder-header: CEF
+  event-key-mapping:
+    'USERID-login':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        src: SrcIP
+        usrName: User
+        AuthProto: AuthProto
+    'USERID-logout':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+      translate:
+        src: SrcIP
+        usrName: User
+        AuthProto: AuthProto
+  
+  fallback:
+    annotate:
+      EventName: Generic Palo Alto Firewall Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      DeviceName: System
+      devTime: SystemTstamp
+
+- first-match: 'cat=CONFIG'
+  decoder: custom
+  decoder-regex: '([\w]+)\=([^\|]+)'
+  event-key-format: '{cat}'
+  decoder-header: CEF
+  event-key-mapping:
+    'CONFIG':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        usrName: User
+        ConfigurationPath: Config
+  
+  fallback:
+    annotate:
+      EventName: Generic Palo Alto Firewall Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      DeviceName: System
+      devTime: SystemTstamp
+
+- first-match: 'cat\=SYSTEM\|Subtype\=auth\|'
+  decoder: regex
+  decoder-regex: ^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+LEEF\:\d+\.\d+\|.*?\|.*?\|[\d\.]+\|(?P<action>.*?)\|\w+\|.*?\|.*?\|cat=SYSTEM\|Subtype\=auth\|devTime\=(?P<devTime>.*?)\|.*?\|Filename\=(?P<authproto>\w+)\|.*?msg\=\".*?user.*?\'+(?P<user>\S+)\'(?:.*?Reason\:\s+(?P<reason>.*?)\.)?.*?From\:\s+(?P<src>[\d\.]+)\..*?DeviceName\=(?P<DeviceName>\S+)
+  event-key-format: '{action}'
+  event-key-mapping:
+    'auth-success':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        src: SrcIP
+        user: User
+        authproto: AuthProto
+    'auth-fail':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate:
+        src: SrcIP
+        user: User  
+        authproto: AuthProto
+        reason: Reason                                    
+
+  fallback:
+    annotate:
+      EventName: Generic Palo Alto Firewall Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      DeviceName: System
+      devTime: SystemTstamp
+
+- first-match: 'cat\=SYSTEM\|Subtype\=globalprotect\|'
+  decoder: regex
+  decoder-regex: ^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+LEEF\:\d+\.\d+\|.*?\|.*?\|[\d\.]+\|(?P<action>.*?)\|\w+\|.*?\|.*?\|cat=SYSTEM\|Subtype\=globalprotect\|devTime\=(?P<devTime>.*?)\|.*?\|(?:.*?Login\s+from\:\s+(?P<src>[\d\.]+)\,)?.*?User\s+name\:\s+(?P<user>\S+)\,(?:.*?Config\s+name\:\s+(?P<config>.*?)\,)?(?:.*?(?:Reason|error)\:\s+(?P<reason>.*?)(?:\.|\,))?.*?DeviceName\=(?P<DeviceName>\S+)
+  event-key-format: '{action}'
+  event-key-mapping:
+    'globalprotectgateway-auth-succ':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        src: SrcIP
+        user: User
+        AuthProto: AuthProto
+    'globalprotectgateway-regist-succ':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        src: SrcIP
+        user: User
+        AuthProto: AuthProto
+    'globalprotectgateway-agent-msg':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        src: SrcIP
+        user: User
+        AuthProto: AuthProto
+    'globalprotectportal-auth-succ':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        src: SrcIP
+        user: User
+        AuthProto: AuthProto
+    'globalprotectgateway-logout-succ':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+      translate:
+        src: SrcIP
+        user: User
+        AuthProto: AuthProto
+    'globalprotectgateway-regist-fail':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate:
+        src: SrcIP
+        user: User  
+        AuthProto: AuthProto
+        reason: Reason    
+    'globalprotectportal-auth-fail':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate:
+        src: SrcIP
+        user: User  
+        AuthProto: AuthProto
+        reason: Reason   
+    'globalprotectportal-config-succ':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        user: User
+        config: Config 
+    'globalprotectgateway-config-succ':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        user: User
+        config: Config                                 
+
+  fallback:
+    annotate:
+      EventName: Generic Palo Alto Firewall Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      DeviceName: System
+      devTime: SystemTstamp

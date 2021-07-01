@@ -1,0 +1,210 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 807
+integration: Syslog
+vendor-name: Check Point
+product-name: Check Point Software Technologies
+source-name: CHECKPOINT
+source-type: MANAGEMENT-SERVER
+source-description: Extractor for Check Point Management Server Events
+provides-streams:
+- IAM
+- AUTHENTICATION
+master-filters:
+- '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\d{4}\s+\S+\s+(?:xpand|clish|routed|pm|confd|searchd|clishd|httpd2|monitored|rconfd|cloningd|dhcpd|snmpd|syslogd|sshd|sshd\-x|DAService|AutoUpdater|PAM\_unix)(?:\[\d+\])?\:'
+event-details:
+- first-match: 'clish(?:\[\d+\])?\:\s+cmd\s+by\s+\S+\:\s+Processing\s+\:\s+(?:add|delete)\s+user\s+\S+\s+'
+  decoder: regex
+  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\d{4})\s+(?P<hostname>\S+)\s+(?P<daemon>\w+)(?:\[(?P<pid>\d+)\])?\:\s+cmd\s+by\s+(?P<user>\S+)\:\s+Processing\s+\:\s+(?P<action>(?:add|delete)?\s+user)\s+(?P<targetuser>\S+)\s+'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'add user': 
+      annotate:
+        Stream: IAM
+        Action: USER_ADDED
+        Status: PASSED
+      translate:
+        user: User 
+        targetuser: TargetUser
+        role: Role
+    'delete user': 
+      annotate:
+        Stream: IAM
+        Action: USER_DELETED
+        Status: PASSED
+      translate:
+        user: User 
+        targetuser: TargetUser
+        role: Role
+         
+  fallback:
+    annotate:
+      EventName: Generic Check Point Management Server Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      hostname: System
+      datetime: SystemTstamp
+
+- first-match: 'xpand(?:\[\d+\])?\:\s+(?:Deleting\s+User\s+entry|User\s+entry\s+created)\s+for\s+\S+'
+  decoder: regex
+  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\d{4})\s+(?P<hostname>\S+)\s+(?P<daemon>\w+)(?:\[(?P<pid>\d+)\])?\:\s+(?P<action>.*?)\s+for\s+\"?(?P<user>\w+)\"?'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'User entry created': 
+      annotate:
+        Stream: IAM
+        Action: USER_ENTRY_CREATED
+        Status: PASSED
+      translate:
+        user: User 
+        targetuser: TargetUser
+        role: Role
+    'Deleting User entry': 
+      annotate:
+        Stream: IAM
+        Action: USER_ENTRY_DELETED
+        Status: PASSED
+      translate:
+        user: User 
+        targetuser: TargetUser
+        role: Role
+         
+  fallback:
+    annotate:
+      EventName: Generic Check Point Management Server Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      hostname: System
+      datetime: SystemTstamp
+
+- first-match: 'clish(?:\[\d+\])?\:\s+cmd\s+by\s+\S+\:\s+Processing\s+\:\s+(?:add|delete)\s+group\s+\S+\s+'
+  decoder: regex
+  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\d{4})\s+(?P<hostname>\S+)\s+(?P<daemon>\w+)(?:\[(?P<pid>\d+)\])?\:\s+cmd\s+by\s+(?P<user>\S+)\:\s+Processing\s+\:\s+(?P<action>(?:add|delete)\s+group)\s+\w+(?:\s+member\s+(?P<targetuser>\S+))?'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'add group': 
+      annotate:
+        Stream: IAM
+        Action: GROUP_MEMBER_ADDED
+        Status: PASSED
+      translate:
+        user: User 
+        targetuser: TargetUser
+        role: Role
+    'delete group': 
+      annotate:
+        Stream: IAM
+        Action: GROUP_MEMBER_REMOVED
+        Status: PASSED
+      translate:
+        user: User 
+        targetuser: TargetUser
+        role: Role
+         
+  fallback:
+    annotate:
+      EventName: Generic Check Point Management Server Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      hostname: System
+      datetime: SystemTstamp
+
+- first-match: 'sshd\-x(?:\[\d+\])?\:\s+(?:Accepted\s+password|Failed\s+password)\s+for\s+\S+\s+from\s+[\d\.]+\s+port\s+\d+\s+\w+'
+  decoder: regex
+  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\d{4})\s+(?P<hostname>\S+)\s+(?P<daemon>\S+)(?:\[\d+\])?\:\s+(?P<action>\w+\s+\w+)\s+for\s+(?P<user>\S+)\s+from\s+(?P<src>[\d\.]+)\s+port\s+(?P<sport>\d+)\s+(?P<authproto>\w+)'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'Accepted password': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+        AuthProto: SSH
+      translate:
+        user: User
+        src: SrcIP
+    'Failed password': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+        AuthProto: SSH
+        Reason: INVALID_PASSWORD
+      translate:
+        user: User
+        src: SrcIP
+
+  fallback:
+    annotate:
+      EventName: Generic Check Point Management Server Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      hostname: System
+      datetime: SystemTstamp
+
+- first-match: 'httpd2(?:\[\d+\])?\:\s+Session\s+had\s+\w+\s+for\s+user\:\s+\S+'
+  decoder: regex
+  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\d{4})\s+(?P<hostname>\S+)\s+(?P<daemon>\S+)(?:\[\d+\])?\:\s+(?P<action>.*?)\s+for\s+user\:\s+(?P<user>\S+)'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'Session had expired': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+        AuthProto: HTTP
+      translate:
+        user: User
+        src: SrcIP
+    
+  fallback:
+    annotate:
+      EventName: Generic Check Point Management Server Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      hostname: System
+      datetime: SystemTstamp
+
+- first-match: 'PAM\_unix(?:\[\d+\])?\:\s+\(.*?\)\s+session\s+(?:opened|closed)\s+for\s+user\s+\S+'
+  decoder: regex
+  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\d{4})\s+(?P<hostname>\S+)\s+(?P<daemon>\S+)(?:\[\d+\])?\:\s+\(.*?\)\s+(?P<action>session\s+(?:opened|closed))\s+for\s+user\s+(?P<user>\S+)'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'session opened': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        user: User
+        src: SrcIP
+        authproto: AuthProto
+    'session closed': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+      translate:
+        user: User
+        src: SrcIP
+        authproto: AuthProto
+    
+  fallback:
+    annotate:
+      EventName: Generic Check Point Management Server Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      hostname: System
+      datetime: SystemTstamp

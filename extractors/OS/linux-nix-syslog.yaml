@@ -13,7 +13,7 @@ provides-streams:
 - IAM
 master-filters:
 - '^(?:\<\d+\>)?[\w\-\:\s\+\.\d]+(?:systemd-logind|sshd|cron|internal-sftp|sftpd|syslog|sudo|tsm|su|login|saphostexec|sftp-server|sapdbctrl|pkexec|polkit-agent-helper-\d+|CRON|LNXADM\w+)(?:\s?\[\d+\]\:|\:)'
-- '^(?:\<\d+\>\d+\s+)?\d{4}\-\d{1,2}\-\d{2}T\d{2}\:\d{2}\:\d+[\.\w\+\:]+\s+\S+\s+(?:CRON|audispd|sudo)\s+(?:[\d\s\-]+)'
+- '^(?:\<\d+\>(?:\d+\s+)?)?(?:\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}|\d{4}\-\d{1,2}\-\d{2}T\d{2}\:\d{2}\:\d+[\.\w\+\:]+)\s+\S+\s+(?:CRON|audispd|sudo)\:?\s+?(?:[\d\s\-]+)?'
 event-details:
 - first-match: '\[\d+\]\:\s+Accepted\s+password\s+for\s+'
   decoder: regex
@@ -557,9 +557,9 @@ event-details:
       datetime: SystemTstamp
       hostname: System      
 
-- first-match: 'audispd[\s\-]+node\=\S+\s+type\=\S+\s+'
+- first-match: 'audispd[\s\-\:]+node\=\S+\s+type\=\S+\s+'
   decoder: regex
-  decoder-regex: '(?P<datetime>\d+\-\d+\-\d+T\d+\:\d+\:\d+)[\.\w\:\+]+\s+(?P<hostname>\S+)\s+(?P<daemon>\S+)[\-\s\d]+\s+node\=\S+\s+type\=(?P<type>\S+)(?:.*?acct\=\\?\"?(?P<user>.*?)\\?\"?\s+exe\=\\?\"?(?P<process>.*?)\\?\"?\s+)?(?:.*?cmd\=\"(?P<cmd>.*?)\")?'
+  decoder-regex: '(?:\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}|\d{4}\-\d{1,2}\-\d{2}T\d{2}\:\d{2}\:\d+[\.\w\+\:]+)\s+(?P<hostname>\S+)\s+(?P<daemon>\S+)[\:\-\s\d]+\s+node\=\S+\s+type\=(?P<type>\S+)(?:.*?acct\=\\?\"?(?P<user>.*?)\\?\"?\s+exe\=\\?\"?(?P<process>.*?)\\?\"?\s+)?(?:.*?cmd\=\"(?P<cmd>.*?)\")?(?:.*?addr\=(?P<src>[\d\.\?]+))?(?:.*?terminal\=(?P<authproto>[\w\?]+))?'
   event-key-format: '{type}'
   event-key-mapping:
     'USER_CMD':
@@ -580,7 +580,79 @@ event-details:
       translate:
         user: User
         TargetUser: TargetUser
-        Role: Role               
+        Role: Role 
+    'CRED_ACQ':
+      annotate:
+        Stream: IAM
+        Action: CREDENTIAL_ACQUIRED
+        Status: PASSED
+      translate:
+        user: User
+        TargetUser: TargetUser
+        Role: Role 
+    'ADD_USER':
+      annotate:
+        Stream: IAM
+        Action: USER_ADDED
+        Status: PASSED
+      translate:
+        user: User
+        TargetUser: TargetUser
+        Role: Role 
+    'DEL_USER':
+      annotate:
+        Stream: IAM
+        Action: USER_DELETED
+        Status: PASSED
+      translate:
+        user: User
+        TargetUser: TargetUser
+        Role: Role 
+    'USER_ROLE_CHANGE':
+      annotate:
+        Stream: IAM
+        Action: USER_ROLE_UPDATED
+        Status: PASSED
+      translate:
+        user: User
+        TargetUser: TargetUser
+        Role: Role 
+    'USER_ACCT':
+      annotate:
+        Stream: IAM
+        Action: USER_ACCOUNT_UPDATED
+        Status: PASSED
+      translate:
+        user: User
+        TargetUser: TargetUser
+        Role: Role 
+    'USER_LOGIN':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        User: User
+        src: SrcIP
+        authproto: AuthProto
+    'USER_LOGOUT':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+      translate:
+        User: User
+        src: SrcIP
+        authproto: AuthProto
+    'LOGIN':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        User: User
+        src: SrcIP
+        authproto: AuthProto                     
 
   fallback:
     annotate:
@@ -591,3 +663,28 @@ event-details:
     translate:
       datetime: SystemTstamp
       hostname: System
+
+- first-match: 'Accepted\s+publickey\s+for\s+\S+\s+from\s+[\d\.]+\s+port\s+\d+\s+\w+'
+  decoder: regex
+  decoder-regex: '(?P<datetime>(?:\w{3}\s+\d{1,2}\s+[\d\:]+|\d{4}\-\d{1,2}\-\d{1,2}T[\d\:]+)).*?(?:(?P<hostname>\S+))?\s+(?P<daemon>\w+)\[(?P<pid>\d+)\]\:.*?(?P<action>\w+\s+\w+)\s+for\s+(?P<user>\S+)\s+from\s+(?P<src>[\d\.]+)\s+\w+\s+\d+\s+(?P<authproto>\w+)\:?'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'Accepted publickey': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+        AuthProto: SSH
+      translate:
+        src: SrcIP
+        user: User
+         
+  fallback:
+    annotate:
+      EventName: Generic NIX Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      hostname: System
+      datetime: SystemTstamp

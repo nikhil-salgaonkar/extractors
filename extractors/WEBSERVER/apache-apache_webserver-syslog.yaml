@@ -635,10 +635,10 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
+        Reason: BAD_USER_PASSWORD
       translate: 
         src: SrcIP
         user: User
-        reason: Reason
         AuthProto: AuthProto
         
   fallback:
@@ -649,3 +649,4 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
+      hostname: System
