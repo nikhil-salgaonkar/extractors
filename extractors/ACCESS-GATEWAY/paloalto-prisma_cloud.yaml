@@ -5,7 +5,7 @@ integration: Prisma Alerts
 vendor-name: PaloAlto
 product-name: Prisma Cloud
 source-name: PRISMA-CLOUD
-source-type: AAA
+source-type: ACCESS-GATEWAY
 source-description: Extractor for Prisma Cloud Events
 provides-streams:
 - CONFIGURATION
