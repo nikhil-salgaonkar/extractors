@@ -14,7 +14,7 @@ master-filters:
 event-details:
 - first-match: 'CEF\:0\|(?:FireEye|fireeye)\|(?:CMS|fMPS|MAS|MPS|hx)\|'
   decoder: custom
-  decoder-regex: '([\w]+)\=([^\s]+)'
+  decoder-regex: '([^\s\|]+)=([^=]+)(?=\s+\w+=|$)'
   event-key-format: '{Header-5}'
   decoder-header: CEF
   event-key-mapping:
@@ -196,7 +196,7 @@ event-details:
 
 - first-match: 'CEF\:0\|(?:FireEye|fireeye)\|(?:eMPS|ETP)\|'
   decoder: custom
-  decoder-regex: '([\w]+)\=([^\s]+)'
+  decoder-regex: '([^\s\|]+)=([^=]+)(?=\s+\w+=|$)'
   event-key-format: '{Header-5}'
   decoder-header: CEF
   event-key-mapping:
