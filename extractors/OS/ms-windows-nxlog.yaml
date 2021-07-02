@@ -1269,6 +1269,7 @@ event-details:
         TargetImage: TargetImage
         GrantedAccess: GrantedAccess
         CallTrace: CallTrace
+        Hashes: Hash
     '5': 
       annotate:
         Stream: SYSMON-PROCESS 
@@ -1335,6 +1336,7 @@ event-details:
         DstIP: DstIP
         DstPort: DstPort
         DstHost: DstHost
+        Hashes: Hash
     '11':
       annotate:
         Stream: SYSMON-FILE
@@ -1392,6 +1394,7 @@ event-details:
         DstHost: DstHost
         GrantedAccess: GrantedAccess
         CallTrace: CallTrace
+        Hashes: Hash
     '7':
       annotate:
         Stream: SYSMON-IMAGE-LOAD 
@@ -1579,3 +1582,70 @@ event-details:
     translate:
       EventTime: SystemTstamp
       Hostname: System        
+
+- first-match: \"SourceName\"\:\"Microsoft-Windows-PowerShell\"
+  decoder: json
+  event-key-format: '{EventID}'
+  event-key-mapping:
+    '4102': 
+      annotate:
+        Stream: SYSMON-PROCESS
+        Action: PROCESS_DENIED
+        Status: PASSED
+      translate: 
+        AccountName: User
+        ParentCommandLine: ParentCommandLine
+        OriginalFileName: OriginalFileName
+        ParentImage: ParentImage 
+        Image: Image
+        CommandLine: CommandLine
+        Description: Description
+        Company: Company
+        Product: Product
+        ParentUser: ParentUser
+        SrcIP: SrcIP
+        SrcPort: SrcPort
+        SrcHost: SrcHost
+        DstIP: DstIP
+        DstPort: DstPort
+        DstHost: DstHost
+        TargetImage: TargetImage
+        GrantedAccess: GrantedAccess
+        CallTrace: CallTrace
+        Hashes: Hash
+    '4100': 
+      annotate:
+        Stream: SYSMON-PROCESS
+        Action: PROCESS_DENIED
+        Status: PASSED
+      translate: 
+        AccountName: User
+        ParentCommandLine: ParentCommandLine
+        OriginalFileName: OriginalFileName
+        ParentImage: ParentImage 
+        Image: Image
+        CommandLine: CommandLine
+        Description: Description
+        Company: Company
+        Product: Product
+        ParentUser: ParentUser
+        SrcIP: SrcIP
+        SrcPort: SrcPort
+        SrcHost: SrcHost
+        DstIP: DstIP
+        DstPort: DstPort
+        DstHost: DstHost
+        TargetImage: TargetImage
+        GrantedAccess: GrantedAccess
+        CallTrace: CallTrace 
+        Hashes: Hash   
+
+  fallback:
+    annotate:
+      EventName: Generic Windows Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      EventTime: SystemTstamp
+      Hostname: System         
