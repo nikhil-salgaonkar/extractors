@@ -1,0 +1,76 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 153
+integration: Syslog
+vendor-name: Radware
+product-name: Radware
+source-name: RADWARE
+source-type: WAF
+source-description: Extractor for Radware WAF Events
+provides-streams:
+- THREAT
+- AUTHENTICATION
+master-filters:
+- '^(?:\<\d+\>)?.*?\d{4}\-\d{1,2}\-\d{1,2}T\d{2}\:\d{2}\:\d{2}(?:[\w\.]+)?\s+\S+\s+[\d\.]+\s+ServerName\=\".*?\"\s+Type\=\w+'
+event-details:
+- first-match: 'Type\=Security'
+  decoder: custom
+  decoder-regex: '([\w]+)\=(?:\"([^\"]*)\"|([^\s]*))?'
+  event-key-format: ''
+  event-key-mapping:
+    '':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+      translate:
+        SourceIP: SrcIP
+        SourcePort: SrcPort
+        DstIP: DstIP
+        DstPort: DstPort
+        Attackname: Threat
+        WebUser: User
+  
+  fallback:
+    annotate:
+      EventName: Generic Radware WAF Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      ServerName: System
+
+- first-match: 'Type\=Management'
+  decoder: custom
+  decoder-regex: '([\w]+)\=(?:\"([^\"]*)\"|([^\s]*))?'
+  event-key-format: '{Title}'
+  event-key-mapping:
+    'Login':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        SourceIP: SrcIP
+        Description: User
+        AuthProto: AuthProto
+    'Logout':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+      translate:
+        SourceIP: SrcIP
+        Description: User
+        AuthProto: AuthProto
+  
+  fallback:
+    annotate:
+      EventName: Generic Radware WAF Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      ServerName: System
