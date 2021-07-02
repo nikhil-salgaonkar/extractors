@@ -25,9 +25,7 @@ event-details:
         Status: PASSED
       translate:
         SourceIP: SrcIP
-        SourcePort: SrcPort
         DstIP: DstIP
-        DstPort: DstPort
         Attackname: Threat
         WebUser: User
   
