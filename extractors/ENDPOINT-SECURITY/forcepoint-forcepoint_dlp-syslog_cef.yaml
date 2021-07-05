@@ -14,7 +14,7 @@ master-filters:
 event-details:
 - first-match: 'CEF\:\d+\|Forcepoint\|Forcepoint\s+DLP\|[\d\.]+\|\d+\|DLP\s+Syslog\|\d+\|\s+riskScore\='
   decoder: custom
-  decoder-regex: '(\w+)\=([^\s]+)'
+  decoder-regex: '([^\s\|]+)=([^=]+)(?=\s+\w+=|$)'
   event-key-format: ''
   event-key-mapping:
     '':
@@ -45,7 +45,7 @@ event-details:
 
 - first-match: 'CEF\:\d+\|Forcepoint\|[\w\s\-]+\|[\d\.]+\|\d+\|DLP\s+Syslog\|\d+\|\s+act\='
   decoder: custom
-  decoder-regex: '(\w+)\=([^\s]+)'
+  decoder-regex: '([^\s\|]+)=([^=]+)(?=\s+\w+=|$)'
   event-key-format: '{act}'
   event-key-mapping:
     'Blocked':
