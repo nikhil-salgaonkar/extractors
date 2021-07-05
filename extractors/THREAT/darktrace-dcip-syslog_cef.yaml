@@ -2,11 +2,11 @@ schema-version: 1.0
 #extractor-version: 1
 extractor-id: 146
 integration: Syslog(CEF)
-vendor-name: DARKTRACE
+vendor-name: Darktrace
 product-name: DCIP
 source-name: DARKTRACE
 source-type: THREAT
-source-description: Extractor for DARKTRACE IPS Events
+source-description: Extractor for Darktrace Threat Events
 provides-streams:
 - IAM
 - AUTHENTICATION
@@ -16,7 +16,7 @@ master-filters:
 event-details:
 - first-match: 'CEF\:\d+\|Darktrace\|DCIP\|[\d\.]+\|\d+\|'
   decoder: custom
-  decoder-regex: '(\w+)\=([^\s]*)'
+  decoder-regex: '([^\s\|]+)\=([^=]+)(?=\s+\w+\=|$)'
   event-key-format: '{Header-5}'
   decoder-header: CEF
   event-key-mapping: 
@@ -26,7 +26,7 @@ event-details:
         Action: USER_ADDED
         Status: PASSED
       translate:
-        User: User
+        user: User
         Role: Role
         TargetUser: TargetUser
 
@@ -36,7 +36,7 @@ event-details:
         Action: USER_ADDED
         Status: PASSED
       translate:   
-        User: User
+        user: User
         Role: Role
         TargetUser: TargetUser 
 
@@ -45,22 +45,11 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        Reason: BAD_USER_PASSOWRD
-      translate:   
-        User: User
+        Reason: CONNECTION_FAILED
+      translate:
+        user: User
         dvc: SrcIP
         AuthProto: AuthProto 
-
-    'Device/Unauthorised Device':
-      annotate: 
-        Stream: AUTHENTICATION
-        Action: LOGIN
-        Status: FAILED
-        Reason: BAD_USER_PASSOWRD
-      translate:   
-        User: User
-        dvc: SrcIP
-        AuthProto: AuthProto
         
     'Compromise/Malware/Botnet C2':
       annotate: 
@@ -142,7 +131,7 @@ event-details:
     'Antigena/Network/Compliance/Antigena RDP Block':
       annotate: 
         Stream: THREAT
-        Action: THREAT_BLOCKED
+        Action: THREAT_DETECTED
         Status: PASSED
         Vector: NETWORK
       translate:  
@@ -161,7 +150,7 @@ event-details:
         dvc: SrcIP 
         dst: DstIP
         CommandLine: CommandLine
-        User: User
+        user: User
         File: File
         Process: Process 
         darktraceUrl: URL
@@ -177,7 +166,7 @@ event-details:
         dvc: SrcIP 
         dst: DstIP
         CommandLine: CommandLine
-        User: User
+        user: User
         File: File
         Process: Process 
         darktraceUrl: URL  
@@ -193,7 +182,7 @@ event-details:
         dvc: SrcIP 
         dst: DstIP
         CommandLine: CommandLine
-        User: User
+        user: User
         File: File
         Process: Process 
         darktraceUrl: URL 
@@ -209,7 +198,7 @@ event-details:
         dvc: SrcIP 
         dst: DstIP
         CommandLine: CommandLine
-        User: User
+        user: User
         File: File
         Process: Process 
         darktraceUrl: URL 
@@ -225,7 +214,7 @@ event-details:
         dvc: SrcIP 
         dst: DstIP
         CommandLine: CommandLine
-        User: User
+        user: User
         File: File
         Process: Process 
         darktraceUrl: URL
@@ -241,7 +230,7 @@ event-details:
         dvc: SrcIP 
         dst: DstIP
         CommandLine: CommandLine
-        User: User
+        user: User
         File: File
         Process: Process 
         darktraceUrl: URL
@@ -257,7 +246,7 @@ event-details:
         dvc: SrcIP 
         dst: DstIP
         CommandLine: CommandLine
-        User: User
+        user: User
         File: File
         Process: Process 
         darktraceUrl: URL 
@@ -273,7 +262,7 @@ event-details:
         dvc: SrcIP 
         dst: DstIP
         CommandLine: CommandLine
-        User: User
+        user: User
         File: File
         Process: Process 
         darktraceUrl: URL 
@@ -289,17 +278,17 @@ event-details:
         dvc: SrcIP 
         dst: DstIP
         CommandLine: CommandLine
-        User: User
+        user: User
         File: File
         Process: Process 
         darktraceUrl: URL     
                    
   fallback:
     annotate:
-      EventName: Generic DARKTRACE IPS Event
+      EventName: Generic Darktrace Threat Event
       Stream: OTHER
 
   globals:
     translate:
       dvchost: System
-      SystemTstamp: SystemTstamp          
+      datetime: SystemTstamp

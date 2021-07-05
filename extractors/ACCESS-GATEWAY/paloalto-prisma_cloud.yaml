@@ -1,0 +1,37 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 713
+integration: Prisma Alerts
+vendor-name: PaloAlto
+product-name: Prisma Cloud
+source-name: PRISMA-CLOUD
+source-type: ACCESS-GATEWAY
+source-description: Extractor for Prisma Cloud Events
+provides-streams:
+- CONFIGURATION
+master-filters:
+- '\{\"status\"\:\s+\"\w+\"\,\s+\"resource\"\:\s+\{\"rrn\"\:\s+\".*?\"\,\s+\"account\"\:'
+event-details:
+- first-match: '\"policyType\"\:\s+\"\S+\"\,'
+  decoder: json
+  event-key-format: '{policy[policyType]}'
+  event-key-mapping:
+    'config':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        resource[name]: User
+        reason: Config
+
+  fallback:
+    annotate:
+      EventName: Generic Prisma Cloud Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      System: System
+      resource[data][launchTime]: SystemTstamp
+      resource[data][description][createdTime]: SystemTstamp
