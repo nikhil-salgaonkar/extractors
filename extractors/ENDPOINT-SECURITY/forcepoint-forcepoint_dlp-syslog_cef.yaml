@@ -16,6 +16,7 @@ event-details:
   decoder: custom
   decoder-regex: '([^\s\|]+)=([^=]+)(?=\s+\w+=|$)'
   event-key-format: ''
+  decoder-header: CEF
   event-key-mapping:
     '':
       annotate:
