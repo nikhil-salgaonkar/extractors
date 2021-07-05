@@ -1586,7 +1586,7 @@ event-details:
         Image: Image
         AccountName: User
         TargetFilename: TargetFilename
-        CreationUtcTime: CreationUTCTime 
+        CreationUtcTime: CreationUtcTime 
     '12':
       annotate:
         Stream: SYSMON-REGISTRY 
@@ -1753,7 +1753,31 @@ event-details:
         Product: Product   
         Image: Image
         ImageLoaded: ImageLoaded
+<<<<<<< HEAD
     '26':
+=======
+    '22':
+      annotate:
+        Stream: SYSMON-DNS
+        Action: DNS_QUERY
+        Status: PASSED
+      translate:
+        Image: Image
+        QueryName: QueryName
+        QueryStatus: QueryStatus
+        QueryResults: QueryResults
+    '2':
+      annotate:
+        Stream: SYSMON-FILE
+        Action: FILE_CREATED
+        Status: PASSED
+      translate:
+        Image: Image
+        AccountName: User
+        TargetFilename: TargetFilename
+        CreationUtcTime: CreationUtcTime
+    '15':
+>>>>>>> 66f9b49e4a33267acb7b626c643d9420cc90b649
       annotate:
         Stream: SYSMON-FILE
         Action: FILE_DELETED
@@ -1762,7 +1786,22 @@ event-details:
         Image: Image
         AccountName: User
         TargetFilename: TargetFilename
+<<<<<<< HEAD
         CreationUtcTime: CreationUTCTime
+=======
+        CreationUtcTime: CreationUtcTime
+    '6':
+      annotate:
+        Stream: SYSMON-DRIVER-LOAD
+        Action: DRIVER_LOADED
+        Status: PASSED
+      translate:
+        ImageLoaded: ImageLoaded
+        SignatureStatus: SignatureStatus
+        Signature: Signature
+        Signed: Signed
+        AccountName: User                
+>>>>>>> 66f9b49e4a33267acb7b626c643d9420cc90b649
              
   fallback:
     annotate:
