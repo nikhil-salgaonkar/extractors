@@ -14,7 +14,7 @@ master-filters:
 event-details:  
 - first-match: 'cs4Label\=attack_type'
   decoder: custom
-  decoder-regex: '([\w]+)\=([^\s]*)'
+  decoder-regex: '([^\s\|]+)=([^=]+|)(?=\s+\w+=|$)'
   event-key-format: ''
   decoder-header: CEF 
   event-key-mapping:
@@ -42,7 +42,7 @@ event-details:
 
 - first-match: 'cs4Label\=attack_status'
   decoder: custom
-  decoder-regex: '([\w]+)\=([^\s]*)'
+  decoder-regex: '([^\s\|]+)=([^=]+|)(?=\s+\w+=|$)'
   event-key-format: ''
   decoder-header: CEF 
   event-key-mapping:
