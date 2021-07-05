@@ -11,7 +11,7 @@ provides-streams:
 - THREAT
 - AUTHENTICATION
 master-filters:
-- '^(?:\<\d+\>)?.*?\d{4}\-\d{1,2}\-\d{1,2}T\d{2}\:\d{2}\:\d{2}(?:[\w\.]+)?\s+\S+\s+[\d\.]+\s+ServerName\=\".*?\"\s+Type\=\w+'
+- '^(?:\<\d+\>)?.*?\d{4}\-\d{1,2}\-\d{1,2}T\d{2}\:\d{2}\:\d{2}(?:[\w\.]+)?\s+\S+\s+[\d\.]+\s+ServerName\=\"[^\"]+\"\s+Type\=\w+'
 event-details:
 - first-match: 'Type\=Security'
   decoder: custom
@@ -23,6 +23,7 @@ event-details:
         Stream: THREAT
         Action: THREAT_DETECTED
         Status: PASSED
+        Vector: WEB
       translate:
         SourceIP: SrcIP
         DstIP: DstIP
@@ -41,7 +42,7 @@ event-details:
 
 - first-match: 'Type\=Management'
   decoder: custom
-  decoder-regex: '([\w]+)\=(?:\"([^\"]*)\"|([^\s]*))?'
+  decoder-regex: '([\w]+)(?:\:|\=)(?:\"([^\s]*)\"?|([^\s]*))?'
   event-key-format: '{Title}'
   event-key-mapping:
     'Login':
@@ -51,7 +52,7 @@ event-details:
         Status: PASSED
       translate:
         SourceIP: SrcIP
-        Description: User
+        mp: User
         AuthProto: AuthProto
     'Logout':
       annotate:
@@ -60,7 +61,7 @@ event-details:
         Status: PASSED
       translate:
         SourceIP: SrcIP
-        Description: User
+        mp: User
         AuthProto: AuthProto
   
   fallback:
