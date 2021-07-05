@@ -1451,7 +1451,6 @@ event-details:
         Action: STATE_CHANGED
         Status: PASSED
       translate:
-        User: User
         SchemaVersion: SchemaVersion
         State: State
     '5': 
@@ -1646,7 +1645,6 @@ event-details:
         Status: PASSED
       translate:
         Image: Image
-        AccountName: User
         PipeName: PipeName
     '18':
       annotate:
@@ -1655,7 +1653,6 @@ event-details:
         Status: PASSED
       translate:
         Image: Image
-        AccountName: User
         PipeName: PipeName
     '19':
       annotate:
