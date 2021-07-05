@@ -1128,10 +1128,10 @@ event-details:
         Action: CONNECTION_ESTABLISHED
         Status: FAILED
       translate:
-        ip: DstIP
-        IP: SrcIP
-        port: DstPort
-        Port: SrcPort
+        ip: SrcIP
+        IP: DstIP
+        port: SrcPort
+        Port: DstPort
         App: App
         proto: Proto
         sent_bytes: TXLen
