@@ -16,7 +16,7 @@ master-filters:
 event-details:
 - first-match: 'CEF\:0\|Trend\s+Micro\|Deep\sDiscovery\sInspector\|.*?cn3Label\=Threat\s+Type'
   decoder: custom
-  decoder-regex: '([^\s\|]+)=([^=]+)(?=\s+\w+=|$)'
+  decoder-regex: '([^\s\|]+)=([^=]+|)(?=\s+\w+=|$)'
   event-key-format: '{cn3}'
   decoder-header: CEF
   event-key-mapping:
@@ -132,7 +132,7 @@ event-details:
 
 - first-match: 'CEF\:0\|Trend\s+Micro\|Deep\sDiscovery\sInspector\|.*cs1Label\=(?:SandboxImageType|malName|PolicyCategory|type)'
   decoder: custom
-  decoder-regex: '([^\s\|]+)=([^=]+)(?=\s+\w+=|$)'
+  decoder-regex: '([^\s\|]+)=([^=]+|)(?=\s+\w+=|$)'
   event-key-format: '{cs1Label}'
   decoder-header: CEF
   event-key-mapping:
@@ -164,7 +164,7 @@ event-details:
 
 - first-match: 'CEF\:0\|Trend\s+Micro\|Deep\sDiscovery\sInspector\|.*?outcome\=\w+'
   decoder: custom
-  decoder-regex: '([^\s\|]+)=([^=]+)(?=\s+\w+=|$)'
+  decoder-regex: '([^\s\|]+)=([^=]+|)(?=\s+\w+=|$)'
   event-key-format: '{Header-5}-{outcome}'
   decoder-header: CEF
   event-key-mapping:
@@ -274,7 +274,7 @@ event-details:
 
 - first-match: 'CEF\:0\|Trend\s+Micro\|(?:Control\s+Manager|Apex\s+Central)\|'
   decoder: custom
-  decoder-regex: '([^\s\|]+)=([^=]+)(?=\s+\w+=|$)'
+  decoder-regex: '([^\s\|]+)=([^=]+|)(?=\s+\w+=|$)'
   event-key-format: '{Header-4}'
   decoder-header: CEF
   event-key-mapping:
@@ -531,7 +531,7 @@ event-details:
 
 - first-match: 'CEF\:0\|Trend\s+Micro\|Deep\sDiscovery\sAnalyzer\|.*cs1Label\=(?:SandboxImageType|malName|PolicyCategory|type)'
   decoder: custom
-  decoder-regex: '([^\s\|]+)=([^=]+)(?=\s+\w+=|$)'
+  decoder-regex: '([^\s\|]+)=([^=]+|)(?=\s+\w+=|$)'
   event-key-format: '{cs1Label}'
   decoder-header: CEF
   event-key-mapping:
@@ -608,7 +608,7 @@ event-details:
 
 - first-match: 'CEF\:0\|Trend\s+Micro\|Deep\s+Security\s+(?:Agent|Manager)\|'
   decoder: custom
-  decoder-regex: '([^\s\|]+)=([^=]+)(?=\s+\w+=|$)'
+  decoder-regex: '([^\s\|]+)=([^=]+|)(?=\s+\w+=|$)'
   event-key-format: '{Header-4}'
   decoder-header: CEF
   event-key-mapping:
