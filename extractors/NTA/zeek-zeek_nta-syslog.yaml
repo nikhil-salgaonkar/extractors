@@ -1,0 +1,577 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 7007
+integration: Syslog
+vendor-name: Zeek
+product-name: Zeek NTA
+source-name: ZEEK
+source-type: NTA
+source-description: Extractor for Zeek NTA Events
+provides-streams:
+- CONNECTION
+- DHCP
+- DNS
+- DPD
+- FILES
+- FTP
+- HTTP
+- IRC
+- KERBEROS
+- MODBUS
+- MYSQL
+- AUTHENTICATION-NTLM
+- NTP
+- AUTHENTICATION-RADIUS
+- RDP
+- AUTHENTICATION-RFB
+- SIP
+- SNMP
+- SSH
+- SSL
+- TUNNEL
+- CERTIFICATE
+- SMB
+master-filters:
+- '\{\"nta_category\":\".*?\"\,'
+event-details:
+- first-match: '\{\"nta_category\":\"(?:mysql|kerberos|ntlm)\"\,'
+  decoder: json
+  event-key-format: '{nta_category}-{success}'
+  event-key-mapping:
+    'mysql-true':
+      annotate:
+        Stream: MYSQL
+        Action: 
+        Status: PASSED
+      translate:
+        cmd: Cmd
+        arg: Args
+        response: Response
+        rows: Rows
+    'mysql-false':
+      annotate:
+        Stream: MYSQL
+        Action: 
+        Status: FAILED
+      translate:
+        cmd: Cmd
+        arg: Args
+        response: Response
+        rows: Rows
+    'ntlm-true':
+      annotate:
+        Stream: AUTHENTICATION-NTLM
+        Action: 
+        Status: PASSED
+      translate:
+        domainname: Domain
+        useraname: User
+        server_dns_computer_name: ServerNameDNS
+        server_nb_computer_name: ServerNameNetbios
+        server_tree_name: ServerNameTree
+    'ntlm-false':
+      annotate:
+        Stream: AUTHENTICATION-NTLM
+        Action: 
+        Status: FAILED
+      translate:
+        domainname: Domain
+        useraname: User
+        server_dns_computer_name: ServerNameDNS
+        server_nb_computer_name: ServerNameNetbios
+        server_tree_name: ServerNameTree
+    'kerberos-true':
+      annotate:
+        Stream: KERBEROS
+        Action: 
+        Status: PASSED
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.orig_p: SrcPort
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        request_type: ReqType
+        client: Client
+        service: App
+        error_msg: ErrorMsg
+        email_from: Sender
+        till: Expiry
+        cipher: Cipher
+        forwardable: Forwardable
+        renewable: Renewable
+        client_cert_subject: ClientCertSubject
+        client_cert_fuid: ClientCertID
+        server_cert_subject: ServerCertSubject
+        server_cert_fuid: ServerCertID
+    'kerberos-false':
+      annotate:
+        Stream: KERBEROS
+        Action: 
+        Status: FAILED
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.orig_p: SrcPort
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        request_type: ReqType
+        client: Client
+        service: App
+        error_msg: ErrorMsg
+        email_from: Sender
+        till: Expiry
+        cipher: Cipher
+        forwardable: Forwardable
+        renewable: Renewable
+        client_cert_subject: ClientCertSubject
+        client_cert_fuid: ClientCertID
+        server_cert_subject: ServerCertSubject
+        server_cert_fuid: ServerCertID
+  fallback:
+    annotate:
+      EventName: Generic Zeek NTA Events
+      Stream: OTHER
+
+  globals:
+    translate:
+      eventTime: SystemTstamp
+      hostname: System
+
+- first-match: '\{\"nta_category\":\"(?:radius|rdp)\"\,'
+  decoder: json
+  event-key-format: '{nta_category}-{result}'
+  event-key-mapping:
+    'radius-true':
+      annotate:
+        Stream: AUTHENTICATION-RADIUS
+        Action: 
+        Status: PASSED
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.resp_h: DstIP
+        username: User
+        mac: MACAddress
+        connect_info: ConnectInfo
+    'radius-false':
+      annotate:
+        Stream: AUTHENTICATION-RADIUS
+        Action: 
+        Status: FAILED
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.resp_h: DstIP
+        username: User
+        mac: MACAddress
+        connect_info: ConnectInfo
+    'rdp-true':
+      annotate:
+        Stream: RDP
+        Action: 
+        Status: PASSED
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.orig_p: SrcPort
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        cookie: Cookie
+        security_protocol: SecurityProtocol 
+        client_name: Client
+        cert_type: CertType
+        cert_count: CertCount
+        encryption_level: EncryptionLevel
+        encryption_method: EncryptionMethod 
+    'rdp-false':
+      annotate:
+        Stream: RDP
+        Action: 
+        Status: FAILED
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.orig_p: SrcPort
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        cookie: Cookie
+        security_protocol: SecurityProtocol 
+        client_name: Client
+        cert_type: CertType
+        cert_count: CertCount
+        encryption_level: EncryptionLevel
+        encryption_method: EncryptionMethod 
+
+  fallback:
+    annotate:
+      EventName: Generic Zeek NTA Events
+      Stream: OTHER
+
+  globals:
+    translate:
+      eventTime: SystemTstamp
+      System: System
+
+- first-match: '\{\"nta_category\":\"ssh\"\,'
+  decoder: json
+  event-key-format: '{nta_category}-{auth_success}'
+  event-key-mapping:
+    'ssh-true':
+      annotate:
+        Stream: SSH
+        Action: 
+        Status: PASSED
+      translate:
+        client: Client
+        direction: Direction
+        host_key: HostKey
+        server: Server
+        version: Version
+    'ssh-false':
+      annotate:
+        Stream: SSH
+        Action: 
+        Status: FAILED
+      translate:
+        client: Client
+        direction: Direction
+        host_key: HostKey
+        server: Server
+        version: Version
+  
+  fallback:
+    annotate:
+      EventName: Generic Zeek NTA Events
+      Stream: OTHER
+
+  globals:
+    translate:
+      eventTime: SystemTstamp
+      System: System
+
+- first-match: '\{\"nta_category\":\"ssl\"\,'
+  decoder: json
+  event-key-format: '{nta_category}-{established}'
+  event-key-mapping:
+    'ssl-true':
+      annotate:
+        Stream: SSL
+        Action: 
+        Status: PASSED
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.orig_p: SrcPort
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        version: Version
+        cipher: Cipher
+        curve: Curve
+        server_name: ServerName
+        next_protocol: NextProtocol
+        cert_chain_fuids: CertChainFID
+        client_cert_chain_fuids: ClientCertChainFID
+        certificate_subject: Subject
+    'ssl-false':
+      annotate:
+        Stream: SSL
+        Action: 
+        Status: PASSED
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.orig_p: SrcPort
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        version: Version
+        cipher: Cipher
+        curve: Curve
+        server_name: ServerName
+        next_protocol: NextProtocol
+        cert_chain_fuids: CertChainFID
+        client_cert_chain_fuids: ClientCertChainFID
+        certificate_subject: Subject
+
+  fallback:
+    annotate:
+      EventName: Generic Zeek NTA Events
+      Stream: OTHER
+
+  globals:
+    translate:
+      eventTime: SystemTstamp
+      System: System
+
+- first-match: '\{\"nta_category\":\"(?:conn|dhcp|dns|dpd|files|ftp|http|irc|modbus|ntp|rfb|sip|snmp|tunnel|x509|smb\_files|smb\_mapping)\"\,'
+  decoder: json
+  event-key-format: '{nta_category}'
+  event-key-mapping:
+    'conn':
+      annotate:
+        Stream: CONNECTION
+        Action: 
+        Status: 
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.orig_p: SrcPort
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        proto: Proto
+        service: App
+        duration: Duration
+        orig_pkts: TXLen
+        resp_pkts: RXLen
+        conn_state: ConnState
+    'dhcp':
+      annotate:
+        Stream: DHCP
+        Action: 
+        Status: 
+      translate:
+        User: User
+        client_addr: SrcIP
+        mac: MACAddress
+        ResultCode: ResultCode
+    'dns':
+      annotate:
+        Stream: DNS
+        Action: 
+        Status: 
+      translate:
+        id.orig_h: SrcIP
+        query: Query
+        rcode_name: ResponseCode
+        qtype: QueryType
+        qtype_name: RecordType
+    'dpd':
+      annotate:
+        Stream: DPD
+        Action: 
+        Status: 
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.orig_p: SrcPort
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        proto: Proto
+        analyzer: Analyzer
+        failure_reason: Reason
+    'files':
+      annotate:
+        Stream: FILES
+        Action: 
+        Status: 
+      translate:
+        fuid: ID
+        tx_hosts: SrcIP
+        rx_hosts: DstIP
+        conn_uids: ConnID
+        source: Source
+        analyzers: Analyzer
+        mime_type: MimeType
+        File: File
+        duration: Duration
+        orig_bytes: TXLen
+        resp_bytes: RXLen
+        md5: MD5
+        sha1: SHA1
+        sha256: SHA256
+    'ftp':
+      annotate:
+        Stream: FTP
+        Action: 
+        Status: 
+      translate:
+        user: User
+        password: Password
+        command: Command
+        arg: Args
+        file_size: FileSize
+        fuid: FileID
+        reply_code: ReplyCode
+        reply_msg: ReplyMsg
+    'http':
+      annotate:
+        Stream: HTTP
+        Action: 
+        Status: 
+      translate:
+        trans_depth: TransactionDepth
+        status_msg: StatusMsg
+        status_code: InfoCode
+        Password: Password
+        orig_mime_types: OrigMimeType
+        Orig_filenames: OrigFile
+        uid: ID 
+        resp_mime_types: RespMimeType
+        resp_filenames: RespFile 
+        orig_mime_depth: OrigMimeDepth
+        resp_mime_depth: RespMimeDepth
+    'irc':
+      annotate:
+        Stream: IRC
+        Action: 
+        Status: 
+      translate:
+        nick: Nickname
+        user: User
+        command: Command
+        arg: Args
+        dcc_file_name: DccFile
+        dcc_file_size: DccFileSize
+        dcc_mime_type: DccMimeType
+        fuid: FileID
+    'modbus':
+      annotate:
+        Stream: MODBUS
+        Action: 
+        Status: 
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.orig_p: SrcPort
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        func: Function
+        exception: Exception
+    'ntp':
+      annotate:
+        Stream: NTP
+        Action: 
+        Status: 
+      translate:
+        version: Version
+        mode: Mode
+        stratum: Stratum
+        root_delay: RootDelay
+        root_disp: RootDisp
+        ref_id: RefID
+        ref_time: RefTime
+        org_time: OrgTime
+        rec_time: RecTime
+        xmt_time: XmtTime
+    'rfb':
+      annotate:
+        Stream: AUTHENTICATION-RFB
+        Action: 
+        Status: 
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.orig_p: SrcPort
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        client_major_version: ClientMajorVersion
+        client_minor_version: ClientMinorVersion
+        server_major_version: ServerMajorVersion
+        server_minor_version: ServerMinorVersion
+        authentication_method: AuthMethod
+    'sip':
+      annotate:
+        Stream: SIP
+        Action: 
+        Status: 
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.orig_p: SrcPort
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        method: Method
+        uri: URI
+        request_from: RequestSrc
+        request_to: RequestDst
+        response_from: ResponseSrc
+        response_to: ResponseDst
+        reply_to: Recipient
+        subject: Subject
+        request_path: RequestPath
+        response_path: ResponsePath
+        user_agent: UserAgent
+        status_code: StatusCode
+        request_body_len: RequestBodyLen
+        response_body_len: ResponseBodyLen
+        content_type: ContentType
+    'snmp':
+      annotate:
+        Stream: SNMP
+        Action: 
+        Status: 
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.orig_p: SrcPort
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        duration: Duration
+        get_requests: GetRequests
+        get_bulk_requests: GetBulkRequests
+        get_responses: GetResponses
+        set_requests: SetResponses
+        display_string: DisplayString
+        up_since: UpTime
+    'tunnel':
+      annotate:
+        Stream: TUNNEL
+        Action: 
+        Status: 
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.orig_p: SrcPort
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        tunnel_type: TunnelType
+    'x509':
+      annotate:
+        Stream: CERTIFICATE
+        Action: 
+        Status: 
+      translate:
+        id: ID
+        certificate.version: Version
+        certificate.serial: SerialNumber
+        certificate.subject: Subject
+        certificate.issuer: CertIssuerName
+        certificate.not_valid_before: Start
+        certificate.not_valid_after: Expiry
+        certificate.key_alg: KeyAlgorithm
+    'smb_files':
+      annotate:
+        Stream: SMB
+        Action: 
+        Status: 
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.orig_p: SrcPort
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        path: Path
+        share_type: ShareType
+    'smb_mapping':
+      annotate:
+        Stream: SMB
+        Action: 
+        Status: 
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.orig_p: SrcPort
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        path: Path
+        share_type: ShareType
+
+  fallback:
+    annotate:
+      EventName: Generic Zeek NTA Events
+      Stream: OTHER
+
+  globals:
+    translate:
+      eventTime: SystemTstamp
+      native_file_system: System
