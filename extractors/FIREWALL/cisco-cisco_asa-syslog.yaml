@@ -1410,8 +1410,8 @@ event-details:
       translate:
         ip: SrcIP
         IP: DstIP
-        port: DstPort
-        Port: SrcPort
+        port: SrcPort
+        Port: DstPort
         App: App
         proto: Proto
         sent_bytes: TXLen
