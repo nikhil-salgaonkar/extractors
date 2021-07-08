@@ -19,7 +19,6 @@ event-details:
   decoder: custom
   decoder-regex: '([\w]+)\=([^\|]+|)'
   event-key-format: '{cat}-{Subtype}'
-  decoder-header: CEF
   event-key-mapping:
     'THREAT-data':
       annotate:
@@ -157,7 +156,6 @@ event-details:
   decoder: custom
   decoder-regex: '([\w]+)\=([^\|]+)'
   event-key-format: '{cat}-{action}'
-  decoder-header: CEF
   event-key-mapping:
     'SCTP-allow':
       annotate:
@@ -300,7 +298,6 @@ event-details:
   decoder: custom
   decoder-regex: '([\w]+)\=([^\|]+)'
   event-key-format: '{cat}-{Subtype}'
-  decoder-header: CEF
   event-key-mapping:
     'USERID-login':
       annotate:
@@ -335,7 +332,6 @@ event-details:
   decoder: custom
   decoder-regex: '([\w]+)\=([^\|]+)'
   event-key-format: '{cat}'
-  decoder-header: CEF
   event-key-mapping:
     'CONFIG':
       annotate:
