@@ -3,10 +3,10 @@ schema-version: 1.0
 extractor-id: 718
 integration: Okta
 vendor-name: Okta
-product-name: Okta
+product-name: Okta 
 source-name: OKTA
-source-type: AA
-source-description: Extractor for Okta AA Events
+source-type: AUTHENTICATION
+source-description: Extractor for Okta Authentication Events
 provides-streams:
 - AUTHENTICATION
 - CONFIGURATION
@@ -466,7 +466,7 @@ event-details:
 
   fallback:
     annotate:
-      EventName: Generic Okta AA Events
+      EventName: Generic Okta Authentication Events
       Stream: OTHER
 
   globals:
@@ -620,7 +620,7 @@ event-details:
     
   fallback:
     annotate:
-      EventName: Generic Okta AA Events
+      EventName: Generic Okta Authentication Events
       Stream: OTHER
 
   globals:
