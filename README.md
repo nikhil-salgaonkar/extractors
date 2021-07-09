@@ -1,7 +1,7 @@
 # dnif-extractors
 Plug and play extractors that convert different log events to a common DNIF Data Model (DDM)
 
-## Extractors
+## Extractors (Beta)
 As of 05-07-2021
 
 This is available here : [DNIF Supported Log Sources](https://docs.google.com/document/d/1O6ynQrvKTtw38VwyaXJk-U3EqPdAeJMue4gfstBkf5Y/edit#)
@@ -69,3 +69,4 @@ This is available here : [DNIF Supported Log Sources](https://docs.google.com/do
 | PIM               | CyberArk       | CyberArk PIM                      | Syslog(CEF)   | AUTHENTICATION, THREAT, IAM, CONFIGURATION                                                                                                                |
 
 The DDM repository can be found here : [Blueprint](https://github.com/dnif/extractors/tree/master/docs/Blueprint )
+The above list of Extractors are DNIF's Supported Beta Extractors. DNIF brings improvements into these from performance and efficiency angle on continuous basis.
