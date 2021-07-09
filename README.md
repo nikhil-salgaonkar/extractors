@@ -69,4 +69,5 @@ This is available here : [DNIF Supported Log Sources](https://docs.google.com/do
 | PIM               | CyberArk       | CyberArk PIM                      | Syslog(CEF)   | AUTHENTICATION, THREAT, IAM, CONFIGURATION                                                                                                                |
 
 The DDM repository can be found here : [Blueprint](https://github.com/dnif/extractors/tree/master/docs/Blueprint )
-The above list of Extractors are DNIF's Supported Beta Extractors. DNIF brings improvements into these from performance and efficiency angle on continuous basis.
+
+Note - The above list of Extractors are DNIF's Supported Beta Extractors. DNIF brings improvements into these from performance and efficiency angle on continuous basis.
