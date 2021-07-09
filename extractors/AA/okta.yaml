@@ -1,0 +1,630 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 718
+integration: Okta
+vendor-name: Okta
+product-name: Okta
+source-name: OKTA
+source-type: AA
+source-description: Extractor for Okta AA Events
+provides-streams:
+- AUTHENTICATION
+- CONFIGURATION
+- IAM
+master-filters:
+- 'legacyEventType\":\"\S+\"'
+event-details:
+- first-match: 'eventType\":\"user\.\S+\"'
+  decoder: json
+  event-key-format: '{displayMessage}-{outcome[result]}'
+  event-key-mapping:
+    "User login to Okta-SUCCESS":
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        actor[displayName]: User
+        ipAddress: SrcIP
+        AuthProto: AuthProto
+    "User login to Okta-FAILURE":
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED 
+      translate:
+        actor[displayName]:  User
+        ipAddress: SrcIP
+        AuthProto: AuthProto
+        outcome[reason]: Reason
+    "User logout from Okta-SUCCESS":
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+      translate:
+        actor[displayName]:  User
+        ipAddress: SrcIP
+        AuthProto: AuthProto
+    "User logout from Okta-FAILURE":
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: FAILED 
+      translate:
+        actor[displayName]: User
+        ipAddress: SrcIP
+        AuthProto: AuthProto
+        outcome[reason]: Reason
+    "Authenticate user-SUCCESS":
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        actor[displayName]: User
+        ipAddress: SrcIP
+        AuthProto: AuthProto
+    "Authenticate user-FAILURE":
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED 
+      translate:
+        actor[displayName]: User
+        ipAddress: SrcIP
+        AuthProto: AuthProto
+        outcome[reason]: Reason
+    "Authentication of user via MFA-SUCCESS":
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        actor[displayName]: User
+        ipAddress: SrcIP
+        AuthProto: AuthProto
+    "Authentication of user via MFA-FAILURE":
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED 
+      translate:
+        actor[displayName]: User
+        ipAddress: SrcIP
+        AuthProto: AuthProto
+        outcome[reason]: Reason
+    "Authentication of user via Radius-SUCCESS":
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        actor[displayName]: User
+        ipAddress: SrcIP
+        AuthProto: AuthProto
+    "Authentication of user via Radius-FAILURE":
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED 
+      translate:
+        actor[displayName]: User
+        ipAddress: SrcIP
+        AuthProto: AuthProto
+        outcome[reason]: Reason
+    "Authenticate user via IDP-SUCCESS":
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        actor[displayName]: User
+        ipAddress: SrcIP
+        AuthProto: AuthProto
+    "Authenticate user via IDP-FAILURE":
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED 
+      translate:
+        actor[displayName]: User
+        ipAddress: SrcIP
+        AuthProto: AuthProto
+        outcome[reason]: Reason
+    "Authenticate user with AD agent-SUCCESS":
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        actor[displayName]: User
+        ipAddress: SrcIP
+        AuthProto: AuthProto
+        outcome[reason]: Reason
+    "Authenticate user with AD agent-FAILURE":
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED 
+      translate:
+        actor[displayName]: User
+        ipAddress: SrcIP
+        AuthProto: AuthProto
+        outcome[reason]: Reason
+    "Authenticate user via LDAP-SUCCESS":
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED 
+      translate:
+        actor[displayName]: User
+        ipAddress: SrcIP
+        AuthProto: AuthProto
+        outcome[reason]: Reason
+    "Authenticate user via LDAP-FAILURE":
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED 
+      translate:
+        actor[displayName]: User
+        ipAddress: SrcIP
+        AuthProto: AuthProto
+        outcome[reason]: Reason
+    "Authenticate user via inbound SAML-SUCCESS":
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        actor[displayName]: User
+        ipAddress: SrcIP
+        AuthProto: AuthProto
+        outcome[reason]: Reason
+    "Authenticate user via inbound SAML-FAILURE":
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED 
+      translate:
+        actor[displayName]: User
+        ipAddress: SrcIP
+        AuthProto: AuthProto
+        outcome[reason]: Reason
+    "Authenticate user via inbound delauth-SUCCESS":
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        actor[displayName]: User
+        ipAddress: SrcIP
+        AuthProto: AuthProto
+        outcome[reason]: Reason
+    "Authenticate user via inbound delauth-FAILURE":
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED 
+      translate:
+        actor[displayName]: User
+        ipAddress: SrcIP
+        AuthProto: AuthProto
+        outcome[reason]: Reason
+    "Authenticate user via IWA-SUCCESS":
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        actor[displayName]: User
+        ipAddress: SrcIP
+        AuthProto: AuthProto
+        outcome[reason]: Reason
+    "Authenticate user via IWA-FAILURE":
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED 
+      translate:
+        actor[displayName]: User
+        ipAddress: SrcIP
+        AuthProto: AuthProto
+        outcome[reason]: Reason
+    "Authentication of a user via Rich Client-SUCCESS":
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        actor[displayName]: User
+        ipAddress: SrcIP
+        AuthProto: AuthProto
+        outcome[reason]: Reason
+    "Authentication of a user via Rich Client-FAILURE":
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED 
+      translate:
+        actor[displayName]: User
+        ipAddress: SrcIP
+        AuthProto: AuthProto
+        outcome[reason]: Reason
+    "Authenticate user with social login-SUCCESS":
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        actor[displayName]: User
+        ipAddress: SrcIP
+        AuthProto: AuthProto
+        outcome[reason]: Reason
+    "Authenticate user with social login-FAILURE":
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED 
+      translate:
+        actor[displayName]: User
+        ipAddress: SrcIP
+        AuthProto: AuthProto
+        outcome[reason]: Reason
+    "User single sign on to app-SUCCESS":
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        actor[displayName]: User
+        ipAddress: SrcIP
+        AuthProto: AuthProto
+    "User single sign on to app-FAILURE":
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate:
+        actor[displayName]: User
+        ipAddress: SrcIP
+        AuthProto: AuthProto
+        outcome[reason]: Reason
+    "User single logout out (SLO) from app-SUCCESS":
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        actor[displayName]: User
+        ipAddress: SrcIP
+        AuthProto: AuthProto
+    "User single logout out (SLO) from app-FAILURE":
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate:
+        actor[displayName]: User
+        ipAddress: SrcIP
+        AuthProto: AuthProto
+        outcome[reason]: Reason
+    "Update user profile for Okta-SUCCESS":
+      annotate:
+        Stream: IAM
+        Action: USER_UPDATED
+        Status: PASSED
+      translate:
+        actor[displayName]: User
+        target[displayName]: TargetUser
+        Role: Role  
+    "User accessing Okta administrator app-SUCCESS":
+      annotate:
+        Stream: IAM
+        Action: USER_ACCESSED
+        Status: PASSED
+      translate:
+        actor[displayName]: User
+        target[displayName]: TargetUser
+        Role: Role  
+    "User reset password for Okta-SUCCESS":
+      annotate:
+        Stream: IAM
+        Action: ACCOUNT_PASSWORD_RESET
+        Status: PASSED
+      translate:
+        actor[displayName]: User
+        target[displayName]: TargetUser
+        Role: Role  
+    "Create okta user-SUCCESS":
+      annotate:
+        Stream: IAM
+        Action: USER_ACCOUNT_CREATED
+        Status: PASSED
+      translate:
+        actor[displayName]: User
+        target[displayName]: TargetUser
+        Role: Role  
+    "Delete Okta user completed-SUCCESS":
+      annotate:
+        Stream: IAM
+        Action: USER_ACCOUNT_DELETED
+        Status: PASSED
+      translate:
+        actor[displayName]: User
+        target[displayName]: TargetUser
+        Role: Role  
+    "Activate Okta user-SUCCESS":
+      annotate:
+        Stream: IAM
+        Action: USER_ACCOUNT_ENABLED
+        Status: PASSED
+      translate:
+        actor[displayName]: User
+        target[displayName]: TargetUser
+        Role: Role
+    "Deactivate Okta user-SUCCESS":
+      annotate:
+        Stream: IAM
+        Action: USER_ACCOUNT_DISABLED
+        Status: PASSED
+      translate:
+        actor[displayName]: User
+        target[displayName]: TargetUser
+        Role: Role    
+    "Reactivate Okta user-SUCCESS":
+      annotate:
+        Stream: IAM
+        Action: USER_ACCOUNT_REACTIVATED
+        Status: PASSED
+      translate:
+        actor[displayName]: User
+        target[displayName]: TargetUser
+        Role: Role    
+    "Suspend Okta user-SUCCESS":
+      annotate:
+        Stream: IAM
+        Action: USER_ACCOUNT_SUSPENDED
+        Status: PASSED
+      translate:
+        actor[displayName]: User
+        target[displayName]: TargetUser
+        Role: Role    
+    "Unsuspend Okta user-SUCCESS":
+      annotate:
+        Stream: IAM
+        Action: USER_ACCOUNT_UNSUSPENDED
+        Status: PASSED
+      translate:
+        actor[displayName]: User
+        target[displayName]: TargetUser
+        Role: Role    
+    "User update password for Okta-SUCCESS":
+      annotate:
+        Stream: IAM
+        Action: ACCOUNT_PASSWORD_CHANGED
+        Status: PASSED
+      translate:
+        actor[displayName]: User
+        target[displayName]: TargetUser
+        Role: Role  
+    "Max sign in attempts exceeded-SUCCESS":
+      annotate:
+        Stream: IAM
+        Action: SIGNIN_LIMIT_EXCEEDED
+        Status: PASSED
+      translate:
+        actor[displayName]: User
+        target[displayName]: TargetUser
+        Role: Role  
+    "Auto-lock user account for Okta-SUCCESS":
+      annotate:
+        Stream: IAM
+        Action: USER_ACCOUNT_LOCKED
+        Status: PASSED
+      translate:
+        actor[displayName]: User
+        target[displayName]: TargetUser
+        Role: Role  
+    "Auto-unlock user account for Okta-SUCCESS":
+      annotate:
+        Stream: IAM
+        Action: USER_ACCOUNT_UNLOCKED
+        Status: PASSED
+      translate:
+        actor[displayName]: User
+        target[displayName]: TargetUser
+        Role: Role  
+    "User account unlock by admin-SUCCESS":
+      annotate:
+        Stream: IAM
+        Action: USER_ACCOUNT_UNLOCKED
+        Status: PASSED
+      translate:
+        actor[displayName]: User
+        target[displayName]: TargetUser
+        Role: Role  
+    "User's admin privilege granted-SUCCESS":
+      annotate:
+        Stream: IAM
+        Action: PRIVILEGE_CHANGED
+        Status: PASSED
+      translate:
+        actor[displayName]: User
+        target[displayName]: TargetUser
+        Role: Role  
+    "User's admin privilege revoked-SUCCESS":
+      annotate:
+        Stream: IAM
+        Action: PRIVILEGE_CHANGED
+        Status: PASSED
+      translate:
+        actor[displayName]: User
+        target[displayName]: TargetUser
+        Role: Role  
+
+  fallback:
+    annotate:
+      EventName: Generic Okta AA Events
+      Stream: OTHER
+
+  globals:
+    translate:
+      published: SystemTstamp
+      device: System
+
+- first-match: 'eventType\":\"(?:app|application|system|policy|zone|workflows|security|scheduled\_action|pki|org|omm|oauth2|mim|master\_application|inline\_hook|iam|directory|device|group|credential|core)\.\S+\"'
+  decoder: json
+  event-key-format: '{displayMessage}'
+  event-key-mapping:
+    'Add user to application membership':
+      annotate:
+        Stream: IAM
+        Action: USER_ADDED
+        Status: PASSED
+      translate:
+        actor[displayName]: User
+        target[displayName]: TargetUser
+        Role: Role
+    "Remove user's application membership":
+      annotate:
+        Stream: IAM
+        Action: USER_REMOVED
+        Status: PASSED
+      translate:
+        actor[displayName]: User
+        target[displayName]: TargetUser
+        Role: Role   
+    "Successfully imported new member to an app group":
+      annotate:
+        Stream: IAM
+        Action: GROUP_MEMBER_ADDED
+        Status: PASSED
+      translate:
+        actor[displayName]: User
+        target[displayName]: TargetUser
+        Role: Role    
+    "Add user to group membership":
+      annotate:
+        Stream: IAM
+        Action: USER_ADDED
+        Status: PASSED
+      translate:
+        actor[displayName]: User
+        target[displayName]: TargetUser
+        Role: Role         
+    "Remove user from group membership":
+      annotate:
+        Stream: IAM
+        Action: USER_REMOVED
+        Status: PASSED
+      translate:
+        actor[displayName]: User
+        target[displayName]: TargetUser
+        Role: Role         
+    "Create policy":
+      annotate:
+        Stream: IAM
+        Action: POLICY_CREATED
+        Status: PASSED
+      translate:
+        actor[displayName]: User
+        target[displayName]: TargetUser
+        Role: Role     
+    "Delete policy":
+      annotate:
+        Stream: IAM
+        Action: POLICY_DELETED
+        Status: PASSED
+      translate:
+        actor[displayName]: User
+        target[displayName]: TargetUser
+        Role: Role         
+    "Activate policy":
+      annotate:
+        Stream: IAM
+        Action: POLICY_ACTIVATED
+        Status: PASSED
+      translate:
+        actor[displayName]: User
+        target[displayName]: TargetUser
+        Role: Role     
+    "Deactivate policy":
+      annotate:
+        Stream: IAM
+        Action: POLICY_DEACTIVATED
+        Status: PASSED
+      translate:
+        actor[displayName]: User
+        target[displayName]: TargetUser
+        Role: Role    
+    "Overwrite policy":
+      annotate:
+        Stream: IAM
+        Action: POLICY_CHANGED
+        Status: PASSED
+      translate:
+        actor[displayName]: User
+        target[displayName]: TargetUser
+        Role: Role     
+    "Update policy":
+      annotate:
+        Stream: IAM
+        Action: POLICY_CHANGED
+        Status: PASSED
+      translate:
+        actor[displayName]: User
+        target[displayName]: TargetUser
+        Role: Role      
+    "Add policy rule":
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_ADDED
+        Status: PASSED
+      translate:
+        actor[displayName]: User
+        displayMessage: Config
+    "Delete policy rule":
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_DELETED
+        Status: PASSED
+      translate:
+        actor[displayName]: User
+        displayMessage: Config
+    "Update policy rule":
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        actor[displayName]: User
+        displayMessage: Config
+    "Activate policy rule":
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        actor[displayName]: User
+        displayMessage: Config
+    "Deactivate policy rule":
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        actor[displayName]: User
+        displayMessage: Config
+    
+  fallback:
+    annotate:
+      EventName: Generic Okta AA Events
+      Stream: OTHER
+
+  globals:
+    translate:
+      published: SystemTstamp
+      device: System
+
