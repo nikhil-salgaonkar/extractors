@@ -467,7 +467,7 @@ event-details:
 
   fallback:
     annotate:
-      EventName: Generic Okta Authentication Events
+      EventName: Generic Okta Access-Gateway Events
       Stream: OTHER
 
   globals:
