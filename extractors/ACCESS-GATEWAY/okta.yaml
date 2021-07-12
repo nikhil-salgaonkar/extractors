@@ -5,16 +5,16 @@ integration: Okta
 vendor-name: Okta
 product-name: Okta 
 source-name: OKTA
-source-type: AUTHENTICATION
-source-description: Extractor for Okta Authentication Events
+source-type: ACCESS-GATEWAY
+source-description: Extractor for Okta Access-Gateway Events
 provides-streams:
 - AUTHENTICATION
 - CONFIGURATION
 - IAM
 master-filters:
-- 'legacyEventType\":\"\S+\"'
+- '\{\"actor\"\:\{\"id\"\:\"\w+\".*?\"displayMessage\"\:\".*?\"\,\"eventType\"\:\"[\w\.\-\_]+\"\,'
 event-details:
-- first-match: 'eventType\":\"user\.\S+\"'
+- first-match: 'eventType\":\"user\.[\w\.\-\_]+\"'
   decoder: json
   event-key-format: '{displayMessage}-{outcome[result]}'
   event-key-mapping:
@@ -310,6 +310,16 @@ event-details:
         ipAddress: SrcIP
         AuthProto: AuthProto
         outcome[reason]: Reason
+    "Max sign in attempts exceeded-SUCCESS":
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate:
+        actor[displayName]: User
+        ipAddress: SrcIP
+        AuthProto: AuthProto 
+        outcome[reason]: Reason
     "Update user profile for Okta-SUCCESS":
       annotate:
         Stream: IAM
@@ -322,7 +332,7 @@ event-details:
     "User accessing Okta administrator app-SUCCESS":
       annotate:
         Stream: IAM
-        Action: USER_ACCESSED
+        Action: USER_ACCESSED_ADMIN_APP
         Status: PASSED
       translate:
         actor[displayName]: User
@@ -409,15 +419,6 @@ event-details:
         actor[displayName]: User
         target[displayName]: TargetUser
         Role: Role  
-    "Max sign in attempts exceeded-SUCCESS":
-      annotate:
-        Stream: IAM
-        Action: SIGNIN_LIMIT_EXCEEDED
-        Status: PASSED
-      translate:
-        actor[displayName]: User
-        target[displayName]: TargetUser
-        Role: Role  
     "Auto-lock user account for Okta-SUCCESS":
       annotate:
         Stream: IAM
@@ -472,9 +473,9 @@ event-details:
   globals:
     translate:
       published: SystemTstamp
-      device: System
+      System: System
 
-- first-match: 'eventType\":\"(?:app|application|system|policy|zone|workflows|security|scheduled\_action|pki|org|omm|oauth2|mim|master\_application|inline\_hook|iam|directory|device|group|credential|core)\.\S+\"'
+- first-match: 'eventType\":\"(?:app|application|system|policy|zone|workflows|security|scheduled\_action|pki|org|omm|oauth2|mim|master\_application|inline\_hook|iam|directory|device|group|credential|core)\.[\w\.\-\_]+\"'
   decoder: json
   event-key-format: '{displayMessage}'
   event-key-mapping:
@@ -508,7 +509,7 @@ event-details:
     "Add user to group membership":
       annotate:
         Stream: IAM
-        Action: USER_ADDED
+        Action: GROUP_MEMBER_ADDED
         Status: PASSED
       translate:
         actor[displayName]: User
@@ -517,7 +518,7 @@ event-details:
     "Remove user from group membership":
       annotate:
         Stream: IAM
-        Action: USER_REMOVED
+        Action: GROUP_MEMBER_REMOVED
         Status: PASSED
       translate:
         actor[displayName]: User
@@ -525,62 +526,56 @@ event-details:
         Role: Role         
     "Create policy":
       annotate:
-        Stream: IAM
+        Stream: CONFIGURATION
         Action: POLICY_CREATED
         Status: PASSED
       translate:
         actor[displayName]: User
-        target[displayName]: TargetUser
-        Role: Role     
+        displayMessage: Config    
     "Delete policy":
       annotate:
-        Stream: IAM
+        Stream: CONFIGURATION
         Action: POLICY_DELETED
         Status: PASSED
       translate:
         actor[displayName]: User
-        target[displayName]: TargetUser
-        Role: Role         
+        displayMessage: Config   
     "Activate policy":
       annotate:
-        Stream: IAM
+        Stream: CONFIGURATION
         Action: POLICY_ACTIVATED
         Status: PASSED
       translate:
         actor[displayName]: User
-        target[displayName]: TargetUser
-        Role: Role     
+        displayMessage: Config   
     "Deactivate policy":
       annotate:
-        Stream: IAM
+        Stream: CONFIGURATION
         Action: POLICY_DEACTIVATED
         Status: PASSED
       translate:
         actor[displayName]: User
-        target[displayName]: TargetUser
-        Role: Role    
+        displayMessage: Config  
     "Overwrite policy":
       annotate:
-        Stream: IAM
+        Stream: CONFIGURATION
         Action: POLICY_CHANGED
         Status: PASSED
       translate:
         actor[displayName]: User
-        target[displayName]: TargetUser
-        Role: Role     
+        displayMessage: Config   
     "Update policy":
       annotate:
-        Stream: IAM
+        Stream: CONFIGURATION
         Action: POLICY_CHANGED
         Status: PASSED
       translate:
         actor[displayName]: User
-        target[displayName]: TargetUser
-        Role: Role      
+        displayMessage: Config    
     "Add policy rule":
       annotate:
         Stream: CONFIGURATION
-        Action: CONFIGURATION_ADDED
+        Action: POLICY_ADDED
         Status: PASSED
       translate:
         actor[displayName]: User
@@ -588,7 +583,7 @@ event-details:
     "Delete policy rule":
       annotate:
         Stream: CONFIGURATION
-        Action: CONFIGURATION_DELETED
+        Action: POLICY_DELETED
         Status: PASSED
       translate:
         actor[displayName]: User
@@ -596,7 +591,7 @@ event-details:
     "Update policy rule":
       annotate:
         Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Action: POLICY_RULE_CHANGED
         Status: PASSED
       translate:
         actor[displayName]: User
@@ -604,7 +599,7 @@ event-details:
     "Activate policy rule":
       annotate:
         Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Action: POLICY_RULE_ACTIVATED
         Status: PASSED
       translate:
         actor[displayName]: User
@@ -612,7 +607,7 @@ event-details:
     "Deactivate policy rule":
       annotate:
         Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Action: POLICY_RULE_DEACTIVATED
         Status: PASSED
       translate:
         actor[displayName]: User
@@ -620,11 +615,11 @@ event-details:
     
   fallback:
     annotate:
-      EventName: Generic Okta Authentication Events
+      EventName: Generic Okta Access-Gateway Events
       Stream: OTHER
 
   globals:
     translate:
       published: SystemTstamp
-      device: System
+      System: System
 
