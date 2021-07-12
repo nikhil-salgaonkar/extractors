@@ -17,10 +17,10 @@ provides-streams:
 - SYSMON-PIPE
 - SYSMON-SERVICE
 - SYSMON-DNS
-- IAM
-- AUTHENTICATION
 - SYSMON-DRIVER-LOAD
 - SYSMON-CONFIG
+- IAM
+- AUTHENTICATION
 master-filters:
 - \"beat\"\:\"winlogbeat\"
 event-details:
@@ -52,7 +52,8 @@ event-details:
         winlog[event_data][CallTrace]: CallTrace
         winlog[event_data][GrantedAccess]: GrantedAccess
         winlog[event_data][TargetImage]: TargetImage
-        ParentUser: ParentUser
+        winlog[event_data][ParentUser]: ParentUser
+        winlog[event_data][Hashes]: Hash
     '2':
       annotate:
         Stream: SYSMON-PROCESS
@@ -77,7 +78,8 @@ event-details:
         winlog[event_data][CallTrace]: CallTrace
         winlog[event_data][GrantedAccess]: GrantedAccess
         winlog[event_data][TargetImage]: TargetImage
-        ParentUser: ParentUser
+        winlog[event_data][ParentUser]: ParentUser
+        winlog[event_data][Hashes]: Hash
     '3':
       annotate:
         Stream: SYSMON-NETWORK
@@ -101,7 +103,8 @@ event-details:
         Status: PASSED
       translate:
         winlog[event_data][SchemaVersion]: SchemaVersion
-        winlog[event_data][State]: State 
+        winlog[event_data][State]: State
+        winlog[event_data][User]: User 
     '5':
       annotate:
         Stream: SYSMON-PROCESS
@@ -126,7 +129,8 @@ event-details:
         winlog[event_data][CallTrace]: CallTrace
         winlog[event_data][GrantedAccess]: GrantedAccess
         winlog[event_data][TargetImage]: TargetImage
-        ParentUser: ParentUser
+        winlog[event_data][ParentUser]: ParentUser
+        winlog[event_data][Hashes]: Hash
     '6':
       annotate:
         Stream: SYSMON-DRIVER-LOAD
@@ -150,6 +154,8 @@ event-details:
         winlog[event_data][Description]: Description
         winlog[event_data][Company]: Company
         winlog[event_data][Product]: Product
+        winlog[event_data][Hashes]: Hash
+        winlog[event_data][Signed]: Signed
     '8':
       annotate:
         Stream: SYSMON-PROCESS
@@ -174,7 +180,34 @@ event-details:
         winlog[event_data][CallTrace]: CallTrace
         winlog[event_data][GrantedAccess]: GrantedAccess
         winlog[event_data][TargetImage]: TargetImage
-        ParentUser: ParentUser
+        winlog[event_data][ParentUser]: ParentUser
+        winlog[event_data][Hashes]: Hash
+    '9': 
+      annotate:
+        Stream: SYSMON-PROCESS 
+        Action: PROCESS_ACCESSED
+        Status: PASSED
+      translate:
+        winlog[event_data][Image]: Image
+        winlog[event_data][User]: User
+        winlog[event_data][ParentCommandLine]: ParentCommandLine
+        winlog[event_data][ParentImage]: ParentImage
+        winlog[event_data][CommandLine]: CommandLine
+        winlog[event_data][Description]: Description
+        winlog[event_data][Company]: Company
+        winlog[event_data][Product]: Product
+        winlog[event_data][OriginalFileName]: OriginalFileName
+        winlog[event_data][SourceIp]: SrcIP
+        winlog[event_data][SourcePort]: SrcPort
+        winlog[event_data][SourceHostname]: SrcHost
+        winlog[event_data][DestinationIp]: DstIP
+        winlog[event_data][DestinationHostname]: DstHost
+        winlog[event_data][DestinationPort]: DstPort
+        winlog[event_data][CallTrace]: CallTrace
+        winlog[event_data][GrantedAccess]: GrantedAccess
+        winlog[event_data][TargetImage]: TargetImage
+        winlog[event_data][ParentUser]: ParentUser
+        winlog[event_data][Hashes]: Hash
     '10':
       annotate:
         Stream: SYSMON-PROCESS
@@ -199,7 +232,8 @@ event-details:
         winlog[event_data][CallTrace]: CallTrace
         winlog[event_data][GrantedAccess]: GrantedAccess
         winlog[event_data][TargetImage]: TargetImage
-        ParentUser: ParentUser
+        winlog[event_data][ParentUser]: ParentUser
+        winlog[event_data][Hashes]: Hash
     '11':
       annotate:
         Stream: SYSMON-FILE
@@ -232,10 +266,21 @@ event-details:
         winlog[event_data][TargetObject]: TargetObject
         winlog[event_data][Details]: Details
         winlog[event_data][Description]: Description
+    '14':
+      annotate:
+        Stream: SYSMON-REGISTRY
+        Status: PASSED
+      translate:
+        winlog[event_data][User]: User
+        winlog[event_data][EventType]: Action
+        winlog[event_data][Image]: Image
+        winlog[event_data][TargetObject]: TargetObject
+        winlog[event_data][Details]: Details
+        winlog[event_data][Description]: Description
     '15':
       annotate:
         Stream: SYSMON-FILE
-        Action: FILE_CREATED_STREAM_HASH
+        Action: FILE_CREATED
         Status: PASSED
       translate:
         winlog[event_data][User]: User
@@ -259,6 +304,7 @@ event-details:
       translate:
         winlog[event_data][PipeName]: PipeName
         winlog[event_data][Image]: Image 
+        winlog[event_data][User]: User        
     '18':
       annotate:
         Stream: SYSMON-PIPE
@@ -267,6 +313,7 @@ event-details:
       translate:
         winlog[event_data][PipeName]: PipeName
         winlog[event_data][Image]: Image 
+        winlog[event_data][User]: User
     '19':
       annotate:
         Stream: SYSMON-WMI
@@ -277,7 +324,6 @@ event-details:
         winlog[event_data][Name]: Name
         winlog[event_data][Type]: Type
         winlog[event_data][Destination]: Destination
-        winlog[event_data][Operation]: Operation
         winlog[event_data][Consumer]: Consumer
         winlog[event_data][Filter]: Filter
     '20':
@@ -290,7 +336,6 @@ event-details:
         winlog[event_data][Name]: Name
         winlog[event_data][Type]: Type
         winlog[event_data][Destination]: Destination
-        winlog[event_data][Operation]: Operation
         winlog[event_data][Consumer]: Consumer
         winlog[event_data][Filter]: Filter
     '21':
@@ -303,7 +348,6 @@ event-details:
         winlog[event_data][Name]: Name
         winlog[event_data][Type]: Type
         winlog[event_data][Destination]: Destination
-        winlog[event_data][Operation]: Operation
         winlog[event_data][Consumer]: Consumer
         winlog[event_data][Filter]: Filter
     '22':
@@ -316,16 +360,68 @@ event-details:
         winlog[event_data][QueryStatus]: QueryStatus
         winlog[event_data][QueryResults]: QueryResults
         winlog[event_data][Image]: Image
+        winlog[event_data][User]: User
     '23':
       annotate:
         Stream: SYSMON-FILE
         Action: FILE_DELETED
-        Status: DETECTED
+        Status: PASSED
       translate:
         winlog[event_data][User]: User
         winlog[event_data][Image]: Image
         winlog[event_data][TargetFilename]: TargetFilename
         winlog[event_data][CreationUtcTime]: CreationUtcTime
+    '24':
+      annotate:
+        Stream: SYSMON-PROCESS
+        Action: CLIPBOARD_CHANGED
+        Status: PASSED
+      translate:
+        winlog[event_data][Image]: Image
+        winlog[event_data][User]: User
+        winlog[event_data][ParentCommandLine]: ParentCommandLine
+        winlog[event_data][ParentImage]: ParentImage
+        winlog[event_data][CommandLine]: CommandLine
+        winlog[event_data][Description]: Description
+        winlog[event_data][Company]: Company
+        winlog[event_data][Product]: Product
+        winlog[event_data][OriginalFileName]: OriginalFileName
+        winlog[event_data][SourceIp]: SrcIP
+        winlog[event_data][SourcePort]: SrcPort
+        winlog[event_data][SourceHostname]: SrcHost
+        winlog[event_data][DestinationIp]: DstIP
+        winlog[event_data][DestinationHostname]: DstHost
+        winlog[event_data][DestinationPort]: DstPort
+        winlog[event_data][CallTrace]: CallTrace
+        winlog[event_data][GrantedAccess]: GrantedAccess
+        winlog[event_data][TargetImage]: TargetImage
+        winlog[event_data][ParentUser]: ParentUser
+        winlog[event_data][Hashes]: Hash
+    '25':
+      annotate:
+        Stream: SYSMON-IMAGE-LOAD
+        Action: PROCESS_ACCESSED
+        Status: PASSED
+      translate:
+        winlog[event_data][Image]: Image
+        winlog[event_data][ImageLoaded]: ImageLoaded
+        winlog[event_data][User]: User
+        winlog[event_data][Description]: Description
+        winlog[event_data][Company]: Company
+        winlog[event_data][Product]: Product
+        winlog[event_data][Hashes]: Hash
+        winlog[event_data][Signed]: Signed
+    '26':
+      annotate:
+        Stream: SYSMON-FILE
+        Action: FILE_DELETED
+        Status: PASSED
+      translate:
+        winlog[event_data][User]: User
+        winlog[event_data][Image]: Image
+        winlog[event_data][TargetFilename]: TargetFilename
+        winlog[event_data][CreationUtcTime]: CreationUtcTime
+    
 
   fallback:
     annotate:
@@ -428,7 +524,7 @@ event-details:
     '5145':
       annotate:
         Stream: IAM
-        Action: NET_SHR_ACCESS_CHK
+        Action: NET_SHARED_ACCESS_CHECK
         Status: PASSED
       translate:
         winlog[event_data][SubjectUserName]: User 
