@@ -575,7 +575,7 @@ event-details:
     "Add policy rule":
       annotate:
         Stream: CONFIGURATION
-        Action: POLICY_ADDED
+        Action: POLICY_RULE_ADDED
         Status: PASSED
       translate:
         actor[displayName]: User
@@ -583,7 +583,7 @@ event-details:
     "Delete policy rule":
       annotate:
         Stream: CONFIGURATION
-        Action: POLICY_DELETED
+        Action: POLICY_RULE_DELETED
         Status: PASSED
       translate:
         actor[displayName]: User
