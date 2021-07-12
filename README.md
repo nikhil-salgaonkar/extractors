@@ -2,7 +2,7 @@
 Plug and play extractors that convert different log events to a common DNIF Data Model (DDM)
 
 ## Extractors (Beta)
-As of 05-07-2021
+As of 12-07-2021
 
 This is available here : [DNIF Supported Log Sources](https://docs.google.com/document/d/1O6ynQrvKTtw38VwyaXJk-U3EqPdAeJMue4gfstBkf5Y/edit#)
 
@@ -26,6 +26,7 @@ This is available here : [DNIF Supported Log Sources](https://docs.google.com/do
 | FIREWALL          | CheckPoint     | CheckPoint Firewall               | Syslog(KV)    | THREAT, FIREWALL, AUTHENTICATION, CONFIGURATION                                                                                                           |
 | FIREWALL          | Cisco          | Cisco FTD                         | Syslog        | FIREWALL, THREAT, AUTHENTICATION                                                                                                                          |
 | FIREWALL          | Zscaler        | Zscaler Firewall                  | Syslog        | FIREWALL, AUTHENTICATION, IAM, THREAT                                                                                                                     |
+| WAF               | Radware        | Radware                           | Syslog(KV)    | THREAT, AUTHENTICATION                                                                                                                                    |
 | WAF               | Imperva        | Imperva WAF                       | Syslog(CEF)   | THREAT                                                                                                                                                    |
 | WAF               | Citrix         | NetScaler WAF                     | Syslog(CEF)   | THREAT                                                                                                                                                    |
 | WAF               | Fortinet       | FortiWeb WAF                      | Syslog(CEF)   | AUTHENTICATION, THREAT, IAM, CONFIGURATION, FIREWALL                                                                                                      |
@@ -54,7 +55,7 @@ This is available here : [DNIF Supported Log Sources](https://docs.google.com/do
 | DNS               | ZScaler        | ZScaler DNS                       | Syslog        | DNS                                                                                                                                                       |
 | DHCP              | Microsoft      | Windows                           | Syslog        | DHCP                                                                                                                                                      |
 | WEBSERVER         | Microsoft      | IIS Webserver                     | NXLog         | WEBSERVER                                                                                                                                                 |
-| WEBSERVER         | Red Hat        | JBoss Webserver                   | NXLog         | WEBSERVER                                                                                                                                                 |
+| WEBSERVER         | Red Hat        | JBoss WebServer                   | NXLog         | WEBSERVER                                                                                                                                                 |
 | WEBSERVER         | F5             | Nginx Webserver                   | Syslog        | WEBSERVER                                                                                                                                                 |
 | WEBSERVER         | Apache         | Tomcat Webserver                  | Syslog        | WEBSERVER                                                                                                                                                 |
 | WEBSERVER         | Apache         | Apache Webserver                  | Syslog        | WEBSERVER, AUTHENTICATION                                                                                                                                 |
