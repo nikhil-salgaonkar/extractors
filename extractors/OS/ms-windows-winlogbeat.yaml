@@ -466,13 +466,15 @@ event-details:
   event-key-mapping:
     '1102':
       annotate:
-        Stream: IAM
+        Stream: WIN-AUDIT
         Action: AUDIT_LOG_CLEARED
-        Status: PASSED
-      translate:
-        winlog[user_data][SubjectUserName]: User
-        winlog[event_data][TargetUserName]: TargetUser
-        Role: Role
+        Status: PASSED  
+        Event: The audit log was cleared.
+        Category: POLICY
+      translate: 
+        winlog[event_data][SubjectUserName]: User 
+        winlog[event_data][ObjectName]: Object
+        winlog[event_data][IpAddress]: SrcIP 
 
   fallback:
     annotate:
