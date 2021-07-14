@@ -1501,6 +1501,7 @@ event-details:
         TargetImage: TargetImage
         GrantedAccess: GrantedAccess
         CallTrace: CallTrace
+        Hashes: Hash
     '6':
       annotate:
         Stream: SYSMON-DRIVER-LOAD
@@ -1660,7 +1661,7 @@ event-details:
     '16':
       annotate:
         Stream: SYSMON-CONFIG
-        Action: STATE_CHANGED
+        Action: CONFIG_CHANGED
         Status: PASSED
       translate:
         AccountName: User
@@ -1694,7 +1695,6 @@ event-details:
         Name: Name
         Type: Type
         Destination: Destination
-        Operation: Operation
         Consumer: Consumer
         Filter: Filter
     '20':
@@ -1707,7 +1707,6 @@ event-details:
         Name: Name
         Type: Type
         Destination: Destination
-        Operation: Operation
         Consumer: Consumer
         Filter: Filter
     '21':
@@ -1720,7 +1719,6 @@ event-details:
         Name: Name
         Type: Type
         Destination: Destination
-        Operation: Operation
         Consumer: Consumer
         Filter: Filter
     '22':
@@ -1733,7 +1731,11 @@ event-details:
         QueryName: QueryName
         QueryStatus: QueryStatus
         QueryResults: QueryResults
+<<<<<<< HEAD
         User: User
+=======
+        AccountName: User
+>>>>>>> 55791323f6d907c53210d462e34593281facea34
     '23':
       annotate:
         Stream: SYSMON-FILE
@@ -1927,5 +1929,4 @@ event-details:
   globals:
     translate:
       EventTime: SystemTstamp
-      Hostname: System        
-
+      Hostname: System
