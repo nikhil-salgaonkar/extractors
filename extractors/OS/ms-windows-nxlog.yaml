@@ -86,7 +86,16 @@ event-details:
       translate: 
         TargetUserName: User
         IpAddress: SrcIP
-        AuthenticationPackageName: AuthProto        
+        AuthenticationPackageName: AuthProto  
+    '4611':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        SubjectUserName: User
+        IpAddress: SrcIP
+        AuthenticationPackageName: AuthProto    
     '4624':
       annotate:
         Stream: AUTHENTICATION
@@ -162,7 +171,7 @@ event-details:
     '4722':          
       annotate:
         Stream: IAM
-        Action: ACCOUNT_ENABLED
+        Action: USER_ACCOUNT_ENABLED
         Status: PASSED    
       translate: 
         SubjectUserName: User
@@ -1127,7 +1136,7 @@ event-details:
     '4688':
       annotate:
         Stream: WIN-AUDIT
-        Action: POLICY_CHANGED
+        Action: PROCESS_CREATED
         Status: PASSED  
         Event: A new process has been created.
         Category: POLICY 
@@ -1138,7 +1147,7 @@ event-details:
     '4689':
       annotate:
         Stream: WIN-AUDIT
-        Action: POLICY_CHANGED
+        Action: PROCESS_TERMINATED
         Status: PASSED  
         Event: A process has exited.
         Category: POLICY 
@@ -1163,6 +1172,17 @@ event-details:
         Action: POLICY_CHANGED
         Status: PASSED  
         Event: A token right was adjusted.
+        Category: POLICY 
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP   
+    '4826':
+      annotate:
+        Stream: WIN-AUDIT
+        Action: POLICY_CHANGED
+        Status: PASSED  
+        Event: Boot Configuration Data loaded.
         Category: POLICY 
       translate: 
         SubjectUserName: User 
@@ -1404,6 +1424,7 @@ event-details:
         TargetImage: TargetImage
         GrantedAccess: GrantedAccess
         CallTrace: CallTrace
+        Hashes: Hash
     '2':
       annotate:
         Stream: SYSMON-PROCESS
@@ -1429,6 +1450,7 @@ event-details:
         TargetImage: TargetImage
         GrantedAccess: GrantedAccess
         CallTrace: CallTrace
+        Hashes: Hash
     '3': 
       annotate:
         Stream: SYSMON-NETWORK 
@@ -1453,6 +1475,7 @@ event-details:
       translate:
         SchemaVersion: SchemaVersion
         State: State
+        User: User
     '5': 
       annotate:
         Stream: SYSMON-PROCESS 
@@ -1501,6 +1524,8 @@ event-details:
         Product: Product   
         Image: Image
         ImageLoaded: ImageLoaded
+        Hashes: Hash
+        Signed: Signed
     '8':
       annotate:
         Stream: SYSMON-PROCESS
@@ -1526,6 +1551,7 @@ event-details:
         DstHost: DstHost
         GrantedAccess: GrantedAccess
         CallTrace: CallTrace
+        Hashes: Hash
     '9': 
       annotate:
         Stream: SYSMON-PROCESS 
@@ -1551,6 +1577,7 @@ event-details:
         TargetImage: TargetImage
         GrantedAccess: GrantedAccess
         CallTrace: CallTrace
+        Hashes: Hash
     '10':
       annotate:
         Stream: SYSMON-PROCESS 
@@ -1576,6 +1603,7 @@ event-details:
         DstHost: DstHost
         GrantedAccess: GrantedAccess
         CallTrace: CallTrace
+        Hashes: Hash
     '11':
       annotate:
         Stream: SYSMON-FILE
@@ -1646,6 +1674,7 @@ event-details:
       translate:
         Image: Image
         PipeName: PipeName
+        User: User
     '18':
       annotate:
         Stream: SYSMON-PIPE
@@ -1654,6 +1683,7 @@ event-details:
       translate:
         Image: Image
         PipeName: PipeName
+        User: User
     '19':
       annotate:
         Stream: SYSMON-WMI
@@ -1703,6 +1733,7 @@ event-details:
         QueryName: QueryName
         QueryStatus: QueryStatus
         QueryResults: QueryResults
+        User: User
     '23':
       annotate:
         Stream: SYSMON-FILE
@@ -1738,6 +1769,7 @@ event-details:
         TargetImage: TargetImage
         GrantedAccess: GrantedAccess
         CallTrace: CallTrace
+        Hashes: Hash
     '25':
       annotate:
         Stream: SYSMON-IMAGE-LOAD 
@@ -1750,6 +1782,8 @@ event-details:
         Product: Product   
         Image: Image
         ImageLoaded: ImageLoaded
+        Hashes: Hash
+        Signed: Signed
     '26':
       annotate:
         Stream: SYSMON-FILE
