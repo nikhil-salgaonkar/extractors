@@ -324,7 +324,7 @@ event-details:
     "Send second factor auth SMS-SUCCESS":
       annotate:
         Stream: AUTHENTICATION
-        Action: LOGIN
+        Action: 2FA_TOKEN_SENT
         Status: PASSED
       translate:
         actor[displayName]: User
@@ -333,7 +333,7 @@ event-details:
     "Send second factor auth SMS-FAILURE":
       annotate:
         Stream: AUTHENTICATION
-        Action: LOGIN
+        Action: 2FA_TOKEN_SENT
         Status: FAILED
       translate:
         actor[displayName]: User
