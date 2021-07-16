@@ -11,10 +11,11 @@ provides-streams:
 - AUTHENTICATION
 - CONFIGURATION
 - IAM
+- THREAT
 master-filters:
-- '\{\"actor\"\:\{\"id\"\:\"\w+\".*?\"displayMessage\"\:\".*?\"\,\"eventType\"\:\"[\w\.\-\_]+\"\,'
+- '\{\"actor\"\:\{\"id\"\:\"\w+\"\,.*?\"displayMessage\"\:\".*?\"\,\"eventType\"\:\"[\w\.\-\_]+\"\,'
 event-details:
-- first-match: 'eventType\":\"user\.[\w\.\-\_]+\"'
+- first-match: 'eventType\":\"(?:user|system)\.[\w\.\-\_]+\"'
   decoder: json
   event-key-format: '{displayMessage}-{outcome[result]}'
   event-key-mapping:
@@ -25,7 +26,7 @@ event-details:
         Status: PASSED
       translate:
         actor[displayName]: User
-        ipAddress: SrcIP
+        client[ipAddress]: SrcIP
         AuthProto: AuthProto
     "User login to Okta-FAILURE":
       annotate:
@@ -34,7 +35,7 @@ event-details:
         Status: FAILED 
       translate:
         actor[displayName]:  User
-        ipAddress: SrcIP
+        client[ipAddress]: SrcIP
         AuthProto: AuthProto
         outcome[reason]: Reason
     "User logout from Okta-SUCCESS":
@@ -44,7 +45,7 @@ event-details:
         Status: PASSED
       translate:
         actor[displayName]:  User
-        ipAddress: SrcIP
+        client[ipAddress]: SrcIP
         AuthProto: AuthProto
     "User logout from Okta-FAILURE":
       annotate:
@@ -53,7 +54,7 @@ event-details:
         Status: FAILED 
       translate:
         actor[displayName]: User
-        ipAddress: SrcIP
+        client[ipAddress]: SrcIP
         AuthProto: AuthProto
         outcome[reason]: Reason
     "Authenticate user-SUCCESS":
@@ -63,7 +64,7 @@ event-details:
         Status: PASSED
       translate:
         actor[displayName]: User
-        ipAddress: SrcIP
+        client[ipAddress]: SrcIP
         AuthProto: AuthProto
     "Authenticate user-FAILURE":
       annotate:
@@ -72,7 +73,7 @@ event-details:
         Status: FAILED 
       translate:
         actor[displayName]: User
-        ipAddress: SrcIP
+        client[ipAddress]: SrcIP
         AuthProto: AuthProto
         outcome[reason]: Reason
     "Authentication of user via MFA-SUCCESS":
@@ -82,7 +83,7 @@ event-details:
         Status: PASSED
       translate:
         actor[displayName]: User
-        ipAddress: SrcIP
+        client[ipAddress]: SrcIP
         AuthProto: AuthProto
     "Authentication of user via MFA-FAILURE":
       annotate:
@@ -91,7 +92,7 @@ event-details:
         Status: FAILED 
       translate:
         actor[displayName]: User
-        ipAddress: SrcIP
+        client[ipAddress]: SrcIP
         AuthProto: AuthProto
         outcome[reason]: Reason
     "Authentication of user via Radius-SUCCESS":
@@ -101,7 +102,7 @@ event-details:
         Status: PASSED
       translate:
         actor[displayName]: User
-        ipAddress: SrcIP
+        client[ipAddress]: SrcIP
         AuthProto: AuthProto
     "Authentication of user via Radius-FAILURE":
       annotate:
@@ -110,7 +111,7 @@ event-details:
         Status: FAILED 
       translate:
         actor[displayName]: User
-        ipAddress: SrcIP
+        client[ipAddress]: SrcIP
         AuthProto: AuthProto
         outcome[reason]: Reason
     "Authenticate user via IDP-SUCCESS":
@@ -120,7 +121,7 @@ event-details:
         Status: PASSED
       translate:
         actor[displayName]: User
-        ipAddress: SrcIP
+        client[ipAddress]: SrcIP
         AuthProto: AuthProto
     "Authenticate user via IDP-FAILURE":
       annotate:
@@ -129,7 +130,7 @@ event-details:
         Status: FAILED 
       translate:
         actor[displayName]: User
-        ipAddress: SrcIP
+        client[ipAddress]: SrcIP
         AuthProto: AuthProto
         outcome[reason]: Reason
     "Authenticate user with AD agent-SUCCESS":
@@ -139,7 +140,7 @@ event-details:
         Status: PASSED
       translate:
         actor[displayName]: User
-        ipAddress: SrcIP
+        client[ipAddress]: SrcIP
         AuthProto: AuthProto
         outcome[reason]: Reason
     "Authenticate user with AD agent-FAILURE":
@@ -149,7 +150,7 @@ event-details:
         Status: FAILED 
       translate:
         actor[displayName]: User
-        ipAddress: SrcIP
+        client[ipAddress]: SrcIP
         AuthProto: AuthProto
         outcome[reason]: Reason
     "Authenticate user via LDAP-SUCCESS":
@@ -159,7 +160,7 @@ event-details:
         Status: PASSED 
       translate:
         actor[displayName]: User
-        ipAddress: SrcIP
+        client[ipAddress]: SrcIP
         AuthProto: AuthProto
         outcome[reason]: Reason
     "Authenticate user via LDAP-FAILURE":
@@ -169,7 +170,7 @@ event-details:
         Status: FAILED 
       translate:
         actor[displayName]: User
-        ipAddress: SrcIP
+        client[ipAddress]: SrcIP
         AuthProto: AuthProto
         outcome[reason]: Reason
     "Authenticate user via inbound SAML-SUCCESS":
@@ -179,7 +180,7 @@ event-details:
         Status: PASSED
       translate:
         actor[displayName]: User
-        ipAddress: SrcIP
+        client[ipAddress]: SrcIP
         AuthProto: AuthProto
         outcome[reason]: Reason
     "Authenticate user via inbound SAML-FAILURE":
@@ -189,7 +190,7 @@ event-details:
         Status: FAILED 
       translate:
         actor[displayName]: User
-        ipAddress: SrcIP
+        client[ipAddress]: SrcIP
         AuthProto: AuthProto
         outcome[reason]: Reason
     "Authenticate user via inbound delauth-SUCCESS":
@@ -199,7 +200,7 @@ event-details:
         Status: PASSED
       translate:
         actor[displayName]: User
-        ipAddress: SrcIP
+        client[ipAddress]: SrcIP
         AuthProto: AuthProto
         outcome[reason]: Reason
     "Authenticate user via inbound delauth-FAILURE":
@@ -209,7 +210,7 @@ event-details:
         Status: FAILED 
       translate:
         actor[displayName]: User
-        ipAddress: SrcIP
+        client[ipAddress]: SrcIP
         AuthProto: AuthProto
         outcome[reason]: Reason
     "Authenticate user via IWA-SUCCESS":
@@ -219,7 +220,7 @@ event-details:
         Status: PASSED
       translate:
         actor[displayName]: User
-        ipAddress: SrcIP
+        client[ipAddress]: SrcIP
         AuthProto: AuthProto
         outcome[reason]: Reason
     "Authenticate user via IWA-FAILURE":
@@ -229,7 +230,7 @@ event-details:
         Status: FAILED 
       translate:
         actor[displayName]: User
-        ipAddress: SrcIP
+        client[ipAddress]: SrcIP
         AuthProto: AuthProto
         outcome[reason]: Reason
     "Authentication of a user via Rich Client-SUCCESS":
@@ -239,7 +240,7 @@ event-details:
         Status: PASSED
       translate:
         actor[displayName]: User
-        ipAddress: SrcIP
+        client[ipAddress]: SrcIP
         AuthProto: AuthProto
         outcome[reason]: Reason
     "Authentication of a user via Rich Client-FAILURE":
@@ -249,7 +250,7 @@ event-details:
         Status: FAILED 
       translate:
         actor[displayName]: User
-        ipAddress: SrcIP
+        client[ipAddress]: SrcIP
         AuthProto: AuthProto
         outcome[reason]: Reason
     "Authenticate user with social login-SUCCESS":
@@ -259,7 +260,7 @@ event-details:
         Status: PASSED
       translate:
         actor[displayName]: User
-        ipAddress: SrcIP
+        client[ipAddress]: SrcIP
         AuthProto: AuthProto
         outcome[reason]: Reason
     "Authenticate user with social login-FAILURE":
@@ -269,7 +270,7 @@ event-details:
         Status: FAILED 
       translate:
         actor[displayName]: User
-        ipAddress: SrcIP
+        client[ipAddress]: SrcIP
         AuthProto: AuthProto
         outcome[reason]: Reason
     "User single sign on to app-SUCCESS":
@@ -279,7 +280,7 @@ event-details:
         Status: PASSED
       translate:
         actor[displayName]: User
-        ipAddress: SrcIP
+        client[ipAddress]: SrcIP
         AuthProto: AuthProto
     "User single sign on to app-FAILURE":
       annotate:
@@ -288,7 +289,7 @@ event-details:
         Status: FAILED
       translate:
         actor[displayName]: User
-        ipAddress: SrcIP
+        client[ipAddress]: SrcIP
         AuthProto: AuthProto
         outcome[reason]: Reason
     "User single logout out (SLO) from app-SUCCESS":
@@ -298,7 +299,7 @@ event-details:
         Status: PASSED
       translate:
         actor[displayName]: User
-        ipAddress: SrcIP
+        client[ipAddress]: SrcIP
         AuthProto: AuthProto
     "User single logout out (SLO) from app-FAILURE":
       annotate:
@@ -307,7 +308,7 @@ event-details:
         Status: FAILED
       translate:
         actor[displayName]: User
-        ipAddress: SrcIP
+        client[ipAddress]: SrcIP
         AuthProto: AuthProto
         outcome[reason]: Reason
     "Max sign in attempts exceeded-SUCCESS":
@@ -317,8 +318,46 @@ event-details:
         Status: FAILED
       translate:
         actor[displayName]: User
-        ipAddress: SrcIP
+        client[ipAddress]: SrcIP
         AuthProto: AuthProto 
+        outcome[reason]: Reason
+    "Send second factor auth SMS-SUCCESS":
+      annotate:
+        Stream: AUTHENTICATION
+        Action: 2FA_TOKEN_SENT
+        Status: PASSED
+      translate:
+        actor[displayName]: User
+        client[ipAddress]: SrcIP
+        AuthProto: AuthProto
+    "Send second factor auth SMS-FAILURE":
+      annotate:
+        Stream: AUTHENTICATION
+        Action: 2FA_TOKEN_SENT
+        Status: FAILED
+      translate:
+        actor[displayName]: User
+        client[ipAddress]: SrcIP
+        AuthProto: AuthProto
+        outcome[reason]: Reason
+    "Verify user identity-SUCCESS":
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        actor[displayName]: User
+        client[ipAddress]: SrcIP
+        AuthProto: AuthProto
+    "Verify user identity-FAILURE":
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate:
+        actor[displayName]: User
+        client[ipAddress]: SrcIP
+        AuthProto: AuthProto
         outcome[reason]: Reason
     "Update user profile for Okta-SUCCESS":
       annotate:
@@ -475,7 +514,7 @@ event-details:
       published: SystemTstamp
       System: System
 
-- first-match: 'eventType\":\"(?:app|application|system|policy|zone|workflows|security|scheduled\_action|pki|org|omm|oauth2|mim|master\_application|inline\_hook|iam|directory|device|group|credential|core)\.[\w\.\-\_]+\"'
+- first-match: 'eventType\":\"(?:app|application|policy|zone|workflows|security|scheduled\_action|pki|org|omm|oauth2|mim|master\_application|inline\_hook|iam|directory|device|group|credential|core)\.[\w\.\-\_]+\"'
   decoder: json
   event-key-format: '{displayMessage}'
   event-key-mapping:
@@ -612,6 +651,16 @@ event-details:
       translate:
         actor[displayName]: User
         displayMessage: Config
+    "Request from suspicious actor":
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED   
+        Vector: AUTHENTICATION
+      translate:
+        actor[displayName]: User
+        client[ipAddress]: SrcIP
+        outcome[reason]: Threat        
     
   fallback:
     annotate:
