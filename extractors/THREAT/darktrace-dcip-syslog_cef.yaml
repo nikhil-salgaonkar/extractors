@@ -1,0 +1,294 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 146
+integration: Syslog(CEF)
+vendor-name: Darktrace
+product-name: DCIP
+source-name: DARKTRACE
+source-type: THREAT
+source-description: Extractor for Darktrace Threat Events
+provides-streams:
+- IAM
+- AUTHENTICATION
+- THREAT
+master-filters:
+- 'CEF\:\d+\|Darktrace\|DCIP\|'  
+event-details:
+- first-match: 'CEF\:\d+\|Darktrace\|DCIP\|[\d\.]+\|\d+\|'
+  decoder: custom
+  decoder-regex: '([^\s\|]+)\=([^=]+)(?=\s+\w+\=|$)'
+  event-key-format: '{Header-5}'
+  decoder-header: CEF
+  event-key-mapping: 
+    'User/New Admin Credentials on Client':
+      annotate: 
+        Stream: IAM
+        Action: USER_ADDED
+        Status: PASSED
+      translate:
+        user: User
+        Role: Role
+        TargetUser: TargetUser
+
+    'User/Multiple New Credentials on Device':
+      annotate: 
+        Stream: IAM
+        Action: USER_ADDED
+        Status: PASSED
+      translate:   
+        user: User
+        Role: Role
+        TargetUser: TargetUser 
+
+    'Device/New Failed External Connections':
+      annotate: 
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+        Reason: CONNECTION_FAILED
+      translate:
+        user: User
+        dvc: SrcIP
+        AuthProto: AuthProto 
+        
+    'Compromise/Malware/Botnet C2':
+      annotate: 
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: NETWORK
+      translate:  
+        dvc: SrcIP
+        dst: DstIP 
+        Header-5: Threat 
+
+    'Anomalous Connection/Suspicious Read Write Ratio':
+      annotate: 
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: NETWORK
+      translate:
+        dvc: SrcIP
+        dst: DstIP 
+        Header-5: Threat  
+
+    'Anomalous Connection/Active RDP Tunnel':
+      annotate: 
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: NETWORK
+      translate:  
+        dvc: SrcIP
+        dst: DstIP 
+        Header-5: Threat  
+
+    'Compliance/Sensitive Terms in Unusual SMB Connection':
+      annotate: 
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: NETWORK
+      translate:  
+        dvc: SrcIP
+        dst: DstIP 
+        Header-5: Threat 
+        
+    'Device/Suspicious Domain':
+      annotate: 
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: NETWORK
+      translate:  
+        dvc: SrcIP
+        dst: DstIP 
+        Header-5: Threat 
+
+    'Compliance/Privacy VPN':
+      annotate: 
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: NETWORK
+      translate:  
+        dvc: SrcIP
+        dst: DstIP 
+        Header-5: Threat   
+
+    'Compliance/SMB Drive Write':
+      annotate: 
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: NETWORK
+      translate:  
+        dvc: SrcIP
+        dst: DstIP 
+        Header-5: Threat   
+
+    'Antigena/Network/Compliance/Antigena RDP Block':
+      annotate: 
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: NETWORK
+      translate:  
+        src: SrcIP
+        dst: DstIP 
+        Header-5: Threat
+                               
+    'Anomalous File/Multiple EXE from Single Rare External Location':
+      annotate: 
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate: 
+        Header-5: Threat
+        dvc: SrcIP 
+        dst: DstIP
+        CommandLine: CommandLine
+        user: User
+        File: File
+        Process: Process 
+        darktraceUrl: URL
+  
+    'Anomalous File/Multiple EXE from Multiple Rare External Locations': 
+      annotate: 
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate: 
+        Header-5: Threat
+        dvc: SrcIP 
+        dst: DstIP
+        CommandLine: CommandLine
+        user: User
+        File: File
+        Process: Process 
+        darktraceUrl: URL  
+         
+    'Anomalous Server Activity/Rare External from Server':
+      annotate: 
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:  
+        Header-5: Threat
+        dvc: SrcIP 
+        dst: DstIP
+        CommandLine: CommandLine
+        user: User
+        File: File
+        Process: Process 
+        darktraceUrl: URL 
+        
+    'Unusual Activity/Anomalous SMB to New or Unusual Locations':
+      annotate: 
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:  
+        Header-5: Threat
+        dvc: SrcIP 
+        dst: DstIP
+        CommandLine: CommandLine
+        user: User
+        File: File
+        Process: Process 
+        darktraceUrl: URL 
+       
+    'Anomalous File/EXE from Rare External Location':
+      annotate: 
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:   
+        Header-5: Threat
+        dvc: SrcIP 
+        dst: DstIP
+        CommandLine: CommandLine
+        user: User
+        File: File
+        Process: Process 
+        darktraceUrl: URL
+      
+    'Anomalous Connection/Repeated Rare External SSL Self-Signed IP':
+      annotate: 
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:   
+        Header-5: Threat
+        dvc: SrcIP 
+        dst: DstIP
+        CommandLine: CommandLine
+        user: User
+        File: File
+        Process: Process 
+        darktraceUrl: URL
+        
+    'Anomalous Server Activity/DC External Activity':
+      annotate: 
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:  
+        Header-5: Threat
+        dvc: SrcIP 
+        dst: DstIP
+        CommandLine: CommandLine
+        user: User
+        File: File
+        Process: Process 
+        darktraceUrl: URL 
+        
+    'Unusual Activity/Anomalous SMB to Regular Locations':  
+      annotate: 
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:  
+        Header-5: Threat
+        dvc: SrcIP 
+        dst: DstIP
+        CommandLine: CommandLine
+        user: User
+        File: File
+        Process: Process 
+        darktraceUrl: URL 
+
+    'Compliance/BitTorrent':  
+      annotate: 
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:  
+        Header-5: Threat
+        dvc: SrcIP 
+        dst: DstIP
+        CommandLine: CommandLine
+        user: User
+        File: File
+        Process: Process 
+        darktraceUrl: URL     
+                   
+  fallback:
+    annotate:
+      EventName: Generic Darktrace Threat Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      dvchost: System
+      datetime: SystemTstamp

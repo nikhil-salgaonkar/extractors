@@ -12,11 +12,11 @@ provides-streams:
 - AUTHENTICATION
 - IAM
 master-filters:
-- CEF\:0\|Trend\s+Micro\|
+- 'CEF\:0\|Trend\s+Micro\|'
 event-details:
-- first-match: CEF\:0\|Trend\s+Micro\|Deep\sDiscovery\sInspector\|.*?cn3Label\=Threat\s+Type
+- first-match: 'CEF\:0\|Trend\s+Micro\|Deep\sDiscovery\sInspector\|.*?cn3Label\=Threat\s+Type'
   decoder: custom
-  decoder-regex: ([\w]+)\=([^\s]+)
+  decoder-regex: '([^\s\|]+)=([^=]+|)(?=\s+\w+=|$)'
   event-key-format: '{cn3}'
   decoder-header: CEF
   event-key-mapping:
@@ -130,9 +130,9 @@ event-details:
       '4': Grayware
       '5': Suspicious URL
 
-- first-match: CEF\:0\|Trend\s+Micro\|Deep\sDiscovery\sInspector\|.*cs1Label\=(?:SandboxImageType|malName|PolicyCategory|type)
+- first-match: 'CEF\:0\|Trend\s+Micro\|Deep\sDiscovery\sInspector\|.*cs1Label\=(?:SandboxImageType|malName|PolicyCategory|type)'
   decoder: custom
-  decoder-regex: ([\w]+)\=([^\s]+)
+  decoder-regex: '([^\s\|]+)=([^=]+|)(?=\s+\w+=|$)'
   event-key-format: '{cs1Label}'
   decoder-header: CEF
   event-key-mapping:
@@ -162,9 +162,9 @@ event-details:
       dvchost: System
       rt: SystemTstamp
 
-- first-match: CEF\:0\|Trend\s+Micro\|Deep\sDiscovery\sInspector\|.*?outcome\=\w+
+- first-match: 'CEF\:0\|Trend\s+Micro\|Deep\sDiscovery\sInspector\|.*?outcome\=\w+'
   decoder: custom
-  decoder-regex: ([\w]+)\=([^\s]+)
+  decoder-regex: '([^\s\|]+)=([^=]+|)(?=\s+\w+=|$)'
   event-key-format: '{Header-5}-{outcome}'
   decoder-header: CEF
   event-key-mapping:
@@ -272,9 +272,9 @@ event-details:
       dvchost: System
       rt: SystemTstamp
 
-- first-match: CEF\:0\|Trend\s+Micro\|(?:Control\s+Manager|Apex\s+Central)\|
+- first-match: 'CEF\:0\|Trend\s+Micro\|(?:Control\s+Manager|Apex\s+Central)\|'
   decoder: custom
-  decoder-regex: ([\w]+)\=([^\s]+)
+  decoder-regex: '([^\s\|]+)=([^=]+|)(?=\s+\w+=|$)'
   event-key-format: '{Header-4}'
   decoder-header: CEF
   event-key-mapping:
@@ -529,9 +529,9 @@ event-details:
       dvchost: System
       rt: SystemTstamp
 
-- first-match: CEF\:0\|Trend\s+Micro\|Deep\sDiscovery\sAnalyzer\|.*cs1Label\=(?:SandboxImageType|malName|PolicyCategory|type)
+- first-match: 'CEF\:0\|Trend\s+Micro\|Deep\sDiscovery\sAnalyzer\|.*cs1Label\=(?:SandboxImageType|malName|PolicyCategory|type)'
   decoder: custom
-  decoder-regex: ([\w]+)\=([^\s]+)
+  decoder-regex: '([^\s\|]+)=([^=]+|)(?=\s+\w+=|$)'
   event-key-format: '{cs1Label}'
   decoder-header: CEF
   event-key-mapping:
@@ -606,9 +606,9 @@ event-details:
       dvchost: System
       rt: SystemTstamp
 
-- first-match: CEF\:0\|Trend\s+Micro\|Deep\s+Security\s+(?:Agent|Manager)\|
+- first-match: 'CEF\:0\|Trend\s+Micro\|Deep\s+Security\s+(?:Agent|Manager)\|'
   decoder: custom
-  decoder-regex: ([\w]+)\=([^\s]+)
+  decoder-regex: '([^\s\|]+)=([^=]+|)(?=\s+\w+=|$)'
   event-key-format: '{Header-4}'
   decoder-header: CEF
   event-key-mapping:

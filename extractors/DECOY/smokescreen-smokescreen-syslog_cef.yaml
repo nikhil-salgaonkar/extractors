@@ -14,8 +14,9 @@ master-filters:
 event-details:
 - first-match: 'cs1DecoyType\=network'
   decoder: custom
-  decoder-regex: '([\w]+)=(\"[^\"]*\"|[^\s]*)'
+  decoder-regex: '([^\s\|]+)=([^=]+|)(?=\s+\w+=|$)'
   event-key-format: ''
+  decoder-header: CEF
   event-key-mapping:
     '':           
       annotate:
@@ -48,8 +49,9 @@ event-details:
 
 - first-match: 'cs1DecoyType\=(?:recon|filetheft|credtheft|endpoint)'
   decoder: custom
-  decoder-regex: '([\w]+)=(\"[^\"]*\"|[^\s]*)'
+  decoder-regex: '([^\s\|]+)=([^=]+|)(?=\s+\w+=|$)'
   event-key-format: ''
+  decoder-header: CEF
   event-key-mapping:
     '':           
       annotate:

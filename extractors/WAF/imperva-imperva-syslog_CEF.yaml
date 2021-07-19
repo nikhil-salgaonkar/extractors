@@ -14,7 +14,7 @@ master-filters:
 event-details:  
 - first-match: 'CEF\:\s?\d+\|Imperva\s+Inc\.\|SecureSphere\|[\d\.\_]+\|'
   decoder: custom
-  decoder-regex: '([\w]+)\=([^\s\|]+)'
+  decoder-regex: '([^\s\|]+)=([^=]+|)(?=\s+\w+=|$)'
   event-key-format: '{cat}'
   decoder-header: CEF
   event-key-mapping:
@@ -51,4 +51,3 @@ event-details:
       rt: SystemTstamp
       event_date: SystemTstamp
       dhost: System
-      Host: System

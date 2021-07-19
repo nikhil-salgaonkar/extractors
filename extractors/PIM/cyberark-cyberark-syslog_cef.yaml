@@ -17,7 +17,7 @@ master-filters:
 event-details:
 - first-match: 'CEF\:\d+\|Cyber(?:\-)?Ark\|\w+\|[\d\.]+\|\d+\|'
   decoder: custom
-  decoder-regex: '(\w+)\=(?:\"([^\"]*)\"|([^\s]*))'
+  decoder-regex: '([^\s\|]+)=([^=]+|)(?=\s+\w+=|$)'
   event-key-format: '{Header-5}'
   decoder-header: CEF
   event-key-mapping: 

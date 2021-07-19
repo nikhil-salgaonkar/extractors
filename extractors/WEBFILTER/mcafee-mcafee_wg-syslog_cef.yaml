@@ -16,8 +16,9 @@ master-filters:
 event-details:
 - first-match: 'mwg\:\s+CEF\:[\w\.]+\|McAfee\|(?:WebGateway|Web\s+Gateway)\|\d+\|\w+\|'
   decoder: custom
-  decoder-regex: '([\w\-]+)\=(\"[^\"]*|[^\s]*)\"?'
+  decoder-regex: '([^\s\|]+)=([^=]+|)(?=\s+\w+=|$)'
   event-key-format: '{Action}'
+  decoder-header: CEF
   event-key-mapping:
     'USER_LOGIN':
       annotate:
@@ -60,8 +61,9 @@ event-details:
 
 - first-match: 'McAfee\|(?:WebGateway|Web\s+Gateway)\|[\d\.]+\|\d+\|.*?cs1\=\S+\s+cs1Label\=Virus\s+Name'
   decoder: custom
-  decoder-regex: '([\w\-]+)\=(\"[^\"]*|[^\s]*)\"?'
+  decoder-regex: '([^\s\|]+)=([^=]+|)(?=\s+\w+=|$)'
   event-key-format: ''
+  decoder-header: CEF
   event-key-mapping:
     '':
       annotate:
@@ -86,8 +88,9 @@ event-details:
 
 - first-match: 'McAfee\|(?:WebGateway|Web\s+Gateway)\|[\d\.]+\|\d+\|.*?cs1\=(?!\S+)\s+cs1Label\=Virus\s+Name.*?cn1Label\=Block\s+Reason'
   decoder: custom
-  decoder-regex: '([\w\-]+)\=(\"[^\"]*|[^\s]*)\"?'
+  decoder-regex: '([^\s\|]+)=([^=]+|)(?=\s+\w+=|$)'
   event-key-format: '{cn1}'
+  decoder-header: CEF
   event-key-mapping:
     '0':
       annotate:

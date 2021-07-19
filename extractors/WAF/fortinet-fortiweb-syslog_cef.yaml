@@ -18,8 +18,9 @@ master-filters:
 event-details:
 - first-match: 'CEF\:\d+\|Fortinet\|FortiWeb\|[\d\.]+\|\d+\|\"?(?:event|attack)\"?\|'
   decoder: custom
-  decoder-regex: '(\w+)\=\"?([^\s\"]*)'
+  decoder-regex: '([^\s\|]+)=\"?([^=]+|)(?=\s+\w+=|$)'
   event-key-format: '{act}-{outcome}'
+  decoder-header: CEF
   event-key-mapping:
     'login-success': 
       annotate: 
@@ -102,8 +103,9 @@ event-details:
 
 - first-match: 'CEF\:\d+\|Fortinet\|FortiWeb\|[\d\.]+\|\d+\|\"?traffic\"?\|'
   decoder: custom
-  decoder-regex: '(\w+)\=\"?([^\s\"]*)'
+  decoder-regex: '([^\s\|]+)=\"?([^=]+|)(?=\s+\w+=|$)'
   event-key-format: '{outcome}'
+  decoder-header: CEF
   event-key-mapping:  
     'success': 
       annotate: 

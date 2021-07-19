@@ -1,23 +1,21 @@
 schema-version: 1.0
 #extractor-version: 1
-extractor-id: 55
+extractor-id: 190
 integration: Syslog
-vendor-name: Apache
-product-name: Apache Webserver
-source-name: APACHE2
+vendor-name: F5
+product-name: Nginx Webserver
+source-name: NGINX
 source-type: WEBSERVER
-source-description: Extractor for Apache2 Webserver Events
+source-description: Extractor for Nginx Webserver Events
 provides-streams:
 - WEBSERVER
-- AUTHENTICATION
 master-filters:
-- '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+(?:\w+\s+)?(?:Apache|httpd|apache2|httpd2-\w+|apache\S+)(?:\[\d+\])?\:\s?\[?'
-- '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+(?!nginx\-access\:)\S+(?:\s+[\w\-]+)?\s+[\d\.\-\s]+\[\d{1,2}\/\w{3}\/\d{4}\:\d{2}\:\d{2}\:\d{2}\s+\+\d+\]\s+\"'
+- '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+nginx\-(?:error|access)\:'
 event-details:  
-- first-match: '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{2}\:+\d{2}\:+\d{2}(?:\s+\S+)?\s+[\w\-]+(?:\[\d+\])?\:?\s+[\d\.]+.*?\[.*?\]\s+\".*?\"[\d\s\-]+\".*?\"\s+\".*?\"' 
+- first-match: 'nginx\-access\:' 
   decoder: regex
-  decoder-regex: '(?P<hostname>\S+)\s+(?:\S+|\S+\[\d+\])\:?\s+(?P<src>[\d\.]+)\s+\-\s+(?P<user>[\w\-]+)\s+\[(?P<datetime>\d{1,2}\/\w{3}\/\d{4}[\d\:]+).*?\]\s+\"(?P<method>\w+)\s+\S+.*?\"\s+(?P<responsecode>\d+)\s+[\d\-]+\s+\"(?P<URL>.*?)\"\s+\"(?P<useragent>.*?)\"'
-  event-key-format: '{responsecode}'
+  decoder-regex: '(?P<hostname>\S+)\s+[\w\-]+\:?\s+(?P<src>[\d\.]+)\s+\-\s+(?P<user>[\w\-]+)\s+\[(?P<datetime>\d{1,2}\/\w{3}\/\d{4}[\d\:]+)[\+\s\d]+\]\s+\"(?P<method>\w+)\s+\S+.*?\"\s+(?P<httpretcode>\d+)\s+[\d\-]+\s+\"(?P<URL>.*?)\"\s+\"(?P<useragent>.*?)\"'
+  event-key-format: '{httpretcode}'
   event-key-mapping:
     '100':           
       annotate:
@@ -31,7 +29,7 @@ event-details:
         user: User
         useragent: UserAgent
         URL: URL
-        responsecode: ReturnCode
+        httpretcode: ReturnCode
     '101':           
       annotate:
         Stream: WEBSERVER
@@ -44,7 +42,20 @@ event-details:
         user: User
         useragent: UserAgent
         URL: URL
-        responsecode: ReturnCode
+        httpretcode: ReturnCode
+    '102':           
+      annotate:
+        Stream: WEBSERVER
+        Action: REQUEST_ALLOWED
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        method: Method
+        UriQuery: UriQuery
+        user: User
+        useragent: UserAgent
+        URL: URL
+        httpretcode: ReturnCode
     '200':           
       annotate:
         Stream: WEBSERVER
@@ -57,7 +68,7 @@ event-details:
         user: User
         useragent: UserAgent
         URL: URL
-        responsecode: ReturnCode
+        httpretcode: ReturnCode
     '201':           
       annotate:
         Stream: WEBSERVER
@@ -70,7 +81,7 @@ event-details:
         user: User
         useragent: UserAgent
         URL: URL
-        responsecode: ReturnCode
+        httpretcode: ReturnCode
     '202':           
       annotate:
         Stream: WEBSERVER
@@ -83,20 +94,7 @@ event-details:
         user: User
         useragent: UserAgent
         URL: URL
-        responsecode: ReturnCode
-    '203':           
-      annotate:
-        Stream: WEBSERVER
-        Action: REQUEST_ALLOWED
-        Status: PASSED
-      translate: 
-        src: SrcIP
-        method: Method
-        UriQuery: UriQuery
-        user: User
-        useragent: UserAgent
-        URL: URL
-        responsecode: ReturnCode
+        httpretcode: ReturnCode
     '204':           
       annotate:
         Stream: WEBSERVER
@@ -109,20 +107,7 @@ event-details:
         user: User
         useragent: UserAgent
         URL: URL
-        responsecode: ReturnCode
-    '205':           
-      annotate:
-        Stream: WEBSERVER
-        Action: REQUEST_ALLOWED
-        Status: PASSED
-      translate: 
-        src: SrcIP
-        method: Method
-        UriQuery: UriQuery
-        user: User
-        useragent: UserAgent
-        URL: URL
-        responsecode: ReturnCode
+        httpretcode: ReturnCode
     '206':           
       annotate:
         Stream: WEBSERVER
@@ -135,50 +120,11 @@ event-details:
         user: User
         useragent: UserAgent
         URL: URL
-        responsecode: ReturnCode
-    '207':           
-      annotate:
-        Stream: WEBSERVER
-        Action: REQUEST_ALLOWED
-        Status: PASSED
-      translate: 
-        src: SrcIP
-        method: Method
-        UriQuery: UriQuery
-        user: User
-        useragent: UserAgent
-        URL: URL
-        responsecode: ReturnCode
-    '208':           
-      annotate:
-        Stream: WEBSERVER
-        Action: REQUEST_ALLOWED
-        Status: PASSED
-      translate: 
-        src: SrcIP
-        method: Method
-        UriQuery: UriQuery
-        user: User
-        useragent: UserAgent
-        URL: URL
-        responsecode: ReturnCode
-    '226':           
-      annotate:
-        Stream: WEBSERVER
-        Action: REQUEST_ALLOWED
-        Status: PASSED
-      translate: 
-        src: SrcIP
-        method: Method
-        UriQuery: UriQuery
-        user: User
-        useragent: UserAgent
-        URL: URL
-        responsecode: ReturnCode
+        httpretcode: ReturnCode
     '300':           
       annotate:
         Stream: WEBSERVER
-        Action: REQUEST_ALLOWED
+        Action: REQUEST_REDIRECTED
         Status: PASSED
       translate: 
         src: SrcIP
@@ -187,7 +133,7 @@ event-details:
         user: User
         useragent: UserAgent
         URL: URL
-        responsecode: ReturnCode
+        httpretcode: ReturnCode
     '301':           
       annotate:
         Stream: WEBSERVER
@@ -200,7 +146,7 @@ event-details:
         user: User
         useragent: UserAgent
         URL: URL
-        responsecode: ReturnCode
+        httpretcode: ReturnCode
     '302':           
       annotate:
         Stream: WEBSERVER
@@ -213,7 +159,7 @@ event-details:
         user: User
         useragent: UserAgent
         URL: URL
-        responsecode: ReturnCode
+        httpretcode: ReturnCode
     '303':           
       annotate:
         Stream: WEBSERVER
@@ -226,8 +172,8 @@ event-details:
         user: User
         useragent: UserAgent
         URL: URL
-        responsecode: ReturnCode
-    '305':           
+        httpretcode: ReturnCode
+    '304':           
       annotate:
         Stream: WEBSERVER
         Action: REQUEST_REDIRECTED
@@ -239,7 +185,7 @@ event-details:
         user: User
         useragent: UserAgent
         URL: URL
-        responsecode: ReturnCode
+        httpretcode: ReturnCode
     '307':           
       annotate:
         Stream: WEBSERVER
@@ -252,20 +198,7 @@ event-details:
         user: User
         useragent: UserAgent
         URL: URL
-        responsecode: ReturnCode
-    '308':           
-      annotate:
-        Stream: WEBSERVER
-        Action: REQUEST_REDIRECTED
-        Status: PASSED
-      translate: 
-        src: SrcIP
-        method: Method
-        UriQuery: UriQuery
-        user: User
-        useragent: UserAgent
-        URL: URL
-        responsecode: ReturnCode
+        httpretcode: ReturnCode
     '400':           
       annotate:
         Stream: WEBSERVER
@@ -278,7 +211,7 @@ event-details:
         user: User
         useragent: UserAgent
         URL: URL
-        responsecode: ReturnCode
+        httpretcode: ReturnCode
     '401':           
       annotate:
         Stream: WEBSERVER
@@ -291,7 +224,7 @@ event-details:
         user: User
         useragent: UserAgent
         URL: URL
-        responsecode: ReturnCode
+        httpretcode: ReturnCode
     '403':           
       annotate:
         Stream: WEBSERVER
@@ -304,7 +237,7 @@ event-details:
         user: User
         useragent: UserAgent
         URL: URL
-        responsecode: ReturnCode
+        httpretcode: ReturnCode
     '404':           
       annotate:
         Stream: WEBSERVER
@@ -317,7 +250,7 @@ event-details:
         user: User
         useragent: UserAgent
         URL: URL
-        responsecode: ReturnCode
+        httpretcode: ReturnCode
     '405':           
       annotate:
         Stream: WEBSERVER
@@ -330,33 +263,7 @@ event-details:
         user: User
         useragent: UserAgent
         URL: URL
-        responsecode: ReturnCode
-    '406':           
-      annotate:
-        Stream: WEBSERVER
-        Action: REQUEST_DENIED
-        Status: PASSED
-      translate: 
-        src: SrcIP
-        method: Method
-        UriQuery: UriQuery
-        user: User
-        useragent: UserAgent
-        URL: URL
-        responsecode: ReturnCode
-    '407':           
-      annotate:
-        Stream: WEBSERVER
-        Action: REQUEST_DENIED
-        Status: PASSED
-      translate: 
-        src: SrcIP
-        method: Method
-        UriQuery: UriQuery
-        user: User
-        useragent: UserAgent
-        URL: URL
-        responsecode: ReturnCode
+        httpretcode: ReturnCode
     '408':           
       annotate:
         Stream: WEBSERVER
@@ -369,7 +276,7 @@ event-details:
         user: User
         useragent: UserAgent
         URL: URL
-        responsecode: ReturnCode
+        httpretcode: ReturnCode
     '409':           
       annotate:
         Stream: WEBSERVER
@@ -382,20 +289,7 @@ event-details:
         user: User
         useragent: UserAgent
         URL: URL
-        responsecode: ReturnCode
-    '410':           
-      annotate:
-        Stream: WEBSERVER
-        Action: REQUEST_DENIED
-        Status: PASSED
-      translate: 
-        src: SrcIP
-        method: Method
-        UriQuery: UriQuery
-        user: User
-        useragent: UserAgent
-        URL: URL
-        responsecode: ReturnCode
+        httpretcode: ReturnCode
     '411':           
       annotate:
         Stream: WEBSERVER
@@ -408,7 +302,7 @@ event-details:
         user: User
         useragent: UserAgent
         URL: URL
-        responsecode: ReturnCode
+        httpretcode: ReturnCode
     '412':           
       annotate:
         Stream: WEBSERVER
@@ -421,7 +315,7 @@ event-details:
         user: User
         useragent: UserAgent
         URL: URL
-        responsecode: ReturnCode
+        httpretcode: ReturnCode
     '413':           
       annotate:
         Stream: WEBSERVER
@@ -434,7 +328,7 @@ event-details:
         user: User
         useragent: UserAgent
         URL: URL
-        responsecode: ReturnCode
+        httpretcode: ReturnCode
     '414':           
       annotate:
         Stream: WEBSERVER
@@ -447,7 +341,7 @@ event-details:
         user: User
         useragent: UserAgent
         URL: URL
-        responsecode: ReturnCode
+        httpretcode: ReturnCode
     '415':           
       annotate:
         Stream: WEBSERVER
@@ -460,7 +354,7 @@ event-details:
         user: User
         useragent: UserAgent
         URL: URL
-        responsecode: ReturnCode
+        httpretcode: ReturnCode
     '416':           
       annotate:
         Stream: WEBSERVER
@@ -473,33 +367,7 @@ event-details:
         user: User
         useragent: UserAgent
         URL: URL
-        responsecode: ReturnCode
-    '422':           
-      annotate:
-        Stream: WEBSERVER
-        Action: REQUEST_DENIED
-        Status: PASSED
-      translate: 
-        src: SrcIP
-        method: Method
-        UriQuery: UriQuery
-        user: User
-        useragent: UserAgent
-        URL: URL
-        responsecode: ReturnCode
-    '424':           
-      annotate:
-        Stream: WEBSERVER
-        Action: REQUEST_DENIED
-        Status: PASSED
-      translate: 
-        src: SrcIP
-        method: Method
-        UriQuery: UriQuery
-        user: User
-        useragent: UserAgent
-        URL: URL
-        responsecode: ReturnCode
+        httpretcode: ReturnCode
     '429':           
       annotate:
         Stream: WEBSERVER
@@ -512,8 +380,8 @@ event-details:
         user: User
         useragent: UserAgent
         URL: URL
-        responsecode: ReturnCode
-    '431':           
+        httpretcode: ReturnCode
+    '444':           
       annotate:
         Stream: WEBSERVER
         Action: REQUEST_DENIED
@@ -525,7 +393,85 @@ event-details:
         user: User
         useragent: UserAgent
         URL: URL
-        responsecode: ReturnCode
+        httpretcode: ReturnCode
+    '494':           
+      annotate:
+        Stream: WEBSERVER
+        Action: REQUEST_DENIED
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        method: Method
+        UriQuery: UriQuery
+        user: User
+        useragent: UserAgent
+        URL: URL
+        httpretcode: ReturnCode
+    '495':           
+      annotate:
+        Stream: WEBSERVER
+        Action: REQUEST_DENIED
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        method: Method
+        UriQuery: UriQuery
+        user: User
+        useragent: UserAgent
+        URL: URL
+        httpretcode: ReturnCode
+    '496':           
+      annotate:
+        Stream: WEBSERVER
+        Action: REQUEST_DENIED
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        method: Method
+        UriQuery: UriQuery
+        user: User
+        useragent: UserAgent
+        URL: URL
+        httpretcode: ReturnCode
+    '497':           
+      annotate:
+        Stream: WEBSERVER
+        Action: REQUEST_DENIED
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        method: Method
+        UriQuery: UriQuery
+        user: User
+        useragent: UserAgent
+        URL: URL
+        httpretcode: ReturnCode
+    '499':           
+      annotate:
+        Stream: WEBSERVER
+        Action: REQUEST_DENIED
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        method: Method
+        UriQuery: UriQuery
+        user: User
+        useragent: UserAgent
+        URL: URL
+        httpretcode: ReturnCode
+    '500':           
+      annotate:
+        Stream: WEBSERVER
+        Action: REQUEST_DENIED
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        method: Method
+        UriQuery: UriQuery
+        user: User
+        useragent: UserAgent
+        URL: URL
+        httpretcode: ReturnCode
     '501':           
       annotate:
         Stream: WEBSERVER
@@ -538,7 +484,20 @@ event-details:
         user: User
         useragent: UserAgent
         URL: URL
-        responsecode: ReturnCode
+        httpretcode: ReturnCode
+    '502':           
+      annotate:
+        Stream: WEBSERVER
+        Action: REQUEST_DENIED
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        method: Method
+        UriQuery: UriQuery
+        user: User
+        useragent: UserAgent
+        URL: URL
+        httpretcode: ReturnCode
     '503':           
       annotate:
         Stream: WEBSERVER
@@ -551,7 +510,7 @@ event-details:
         user: User
         useragent: UserAgent
         URL: URL
-        responsecode: ReturnCode
+        httpretcode: ReturnCode
     '504':           
       annotate:
         Stream: WEBSERVER
@@ -564,20 +523,7 @@ event-details:
         user: User
         useragent: UserAgent
         URL: URL
-        responsecode: ReturnCode
-    '505':           
-      annotate:
-        Stream: WEBSERVER
-        Action: REQUEST_DENIED
-        Status: PASSED
-      translate: 
-        src: SrcIP
-        method: Method
-        UriQuery: UriQuery
-        user: User
-        useragent: UserAgent
-        URL: URL
-        responsecode: ReturnCode
+        httpretcode: ReturnCode
     '507':           
       annotate:
         Stream: WEBSERVER
@@ -590,64 +536,11 @@ event-details:
         user: User
         useragent: UserAgent
         URL: URL
-        responsecode: ReturnCode
-    '508':           
-      annotate:
-        Stream: WEBSERVER
-        Action: REQUEST_DENIED
-        Status: PASSED
-      translate: 
-        src: SrcIP
-        method: Method
-        UriQuery: UriQuery
-        user: User
-        useragent: UserAgent
-        URL: URL
-        responsecode: ReturnCode
-    '510':           
-      annotate:
-        Stream: WEBSERVER
-        Action: REQUEST_DENIED
-        Status: PASSED
-      translate: 
-        src: SrcIP
-        method: Method
-        UriQuery: UriQuery
-        user: User
-        useragent: UserAgent
-        URL: URL
-        responsecode: ReturnCode
-    
+        httpretcode: ReturnCode
         
   fallback:
     annotate:
-      EventName: Generic Apache2 Webserver Event
-      Stream: OTHER
-
-  globals:
-    translate:
-      datetime: SystemTstamp
-      hostname: System
-
-- first-match: '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{2}\:+\d{2}\:+\d{2}(?:\s+\S+)?\s+[\w\-]+(?:\[\d+\])?\:?\[.*?\]\s+\[.*?\]\s+\[.*?\]\s+\[.*?\]\s+\w+\:' 
-  decoder: regex
-  decoder-regex: '(?P<hostname>\S+)\s+\w+\[\d+\]\:\[(?P<datetime>\w{3}\s+\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}).*?\]\s+\[\S+\]\s+\[\w+\s+\d+\]\s+\[\w+\s+(?P<src>[\d\.]+).*?\]\s+\w+\:\s+user\s+(?P<user>\w+)\:\s+(?P<action>.*?)\s+for.*?\:\s+(?P<reason>.*)'
-  event-key-format: '{action}'
-  event-key-mapping:
-    'authentication failure':           
-      annotate:
-        Stream: AUTHENTICATION
-        Action: LOGIN
-        Status: FAILED
-        Reason: BAD_USER_PASSWORD
-      translate: 
-        src: SrcIP
-        user: User
-        AuthProto: AuthProto
-        
-  fallback:
-    annotate:
-      EventName: Generic Apache2 Webserver Event
+      EventName: Generic Nginx Webserver Event
       Stream: OTHER
 
   globals:
