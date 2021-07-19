@@ -29,7 +29,7 @@ Tell us about the format in which events are available
 **Event details**
 What kind of events are we expecting to see
 - Reference document (Log guide/ Field description)
-- Sample log event (sanitized)
+- All unique log events (sanitized)
 
 **Additional details / screenshot**
 - ![Screenshot]()

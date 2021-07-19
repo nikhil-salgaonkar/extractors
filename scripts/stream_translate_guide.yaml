@@ -77,6 +77,7 @@ SYSMON-PROCESS:
 - Company
 - GrantedAccess
 - CallTrace
+- Hash
 SYSMON-NETWORK:
 - SrcHost
 - SrcIP
@@ -93,11 +94,14 @@ SYSMON-IMAGE-LOAD:
 - Company
 - Description
 - User
+- Hash
+- Signed
 - Image
 - ImageLoaded
 SYSMON-DNS:
 - QueryName
 - Image
+- User
 - QueryStatus
 - QueryResults
 SYSMON-WMI:
@@ -126,6 +130,7 @@ SYSMON-CONFIG:
 - User
 SYSMON-SERVICE:
 - State
+- User
 - SchemaVersion
 SYSMON-REGISTRY:
 - Details
@@ -180,6 +185,7 @@ CLOUDTRAIL:
 SYSMON-PIPE:
 - PipeName
 - Image
+- User
 DOCUMENTS:
 - User
 - File
