@@ -13,7 +13,7 @@ provides-streams:
 - IAM
 - THREAT
 master-filters:
-- '\{\"actor\"\:\{\"id\"\:\"\w+\"\,.*?\"displayMessage\"\:\".*?\"\,\"eventType\"\:\"[\w\.\-\_]+\"\,'
+- '\{\"actor\"\:\{\"id\"\:\".*?\"\,.*?\"displayMessage\"\:\".*?\"\,\"eventType\"\:\"[\w\.\-\_]+\"\,'
 event-details:
 - first-match: 'eventType\":\"(?:user|system)\.[\w\.\-\_]+\"'
   decoder: json
