@@ -196,3 +196,8 @@ WIN-AUDIT:
 - Category
 - SrcIP
 - Object
+COMPLIANCE:
+- Event
+- Policy
+- Reason
+- User  
