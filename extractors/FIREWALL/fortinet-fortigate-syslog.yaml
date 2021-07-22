@@ -503,17 +503,6 @@ event-details:
         srcip: SrcIP
         dstip: DstIP
         attack: Threat
-    '0419016385-detected':
-      annotate:
-        Stream: THREAT
-        Action: THREAT_DETECTED
-        Status: PASSED
-        Vector: WEB
-      translate:
-        user: User
-        srcip: SrcIP
-        dstip: DstIP
-        msg: Threat
     '0100022953-None':
       annotate:
         Stream: THREAT

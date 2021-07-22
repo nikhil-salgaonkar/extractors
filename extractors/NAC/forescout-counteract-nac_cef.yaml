@@ -1,0 +1,49 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 247
+integration: Syslog(CEF)
+vendor-name: ForeScout Technologies
+product-name: CounterAct
+source-name: FORESCOUT
+source-type: NAC
+source-description: Extractor for ForeScout NAC Events
+provides-streams:
+- COMPLIANCE
+master-filters:
+- 'CEF\:[\d\.]+\|ForeScout\s+Technologies\|CounterAct\|'  
+event-details:
+- first-match: 'CEF\:[\d\.]+\|ForeScout\s+Technologies\|CounterAct\|'
+  decoder: custom
+  decoder-regex: '([^\s\|]+)=([^=]+)(?=\s+\w+=|$)'
+  event-key-format: '{Header-4}'
+  decoder-header: CEF
+  event-key-mapping: 
+    'COMPLIANCE':  
+      annotate: 
+        Stream: COMPLIANCE
+        Action: COMPLIANCE_CHECK
+        Status: PASSED
+      translate:
+        Header-5: Event
+        cs1: Policy
+        duser: User
+    'NONCOMPLIANCE':  
+      annotate: 
+        Stream: COMPLIANCE
+        Action: COMPLIANCE_CHECK
+        Status: FAILED
+      translate:
+        Header-5: Event
+        cs1: Policy
+        cs2: Reason
+        duser: User
+
+  fallback:
+    annotate:
+      EventName: Generic ForeScout NAC Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      dvchost: System
+      rt: SystemTstamp
