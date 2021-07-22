@@ -160,7 +160,7 @@ event-details:
         Status: PASSED
         Vector: HOST
       translate:
-        Header-5: Threat
+        cs2: Threat
         src: SrcIP
         dst: DstIP
         CommandLine: CommandLine
