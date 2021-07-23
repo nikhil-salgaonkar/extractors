@@ -76,6 +76,7 @@ Stream 5 - SYSMON-PROCESS
 19. Comapany
 20. GrantedAccess
 21. CallTrace
+22. Hash
 
 Stream 6 - SYSMON-IMG-LOAD
 
@@ -87,6 +88,8 @@ Stream 6 - SYSMON-IMG-LOAD
 6. Description
 7. Product
 8. Company
+9. Hash
+10. Signed
 
 Stream 7 - SYSMON-DNS
 
@@ -96,6 +99,7 @@ Stream 7 - SYSMON-DNS
 4. QueryName
 5. QueryStatus
 6. QueryResults
+7. User
 
 Stream 8 - SYSMON-WMI
 
@@ -142,6 +146,7 @@ Stream 12 - SYSMON-SERVICE
 2. System
 3. State
 4. SchemaVersion
+5. User
 
 Stream 13 - SYSMON-REGISTRY
 
@@ -169,6 +174,7 @@ Stream 15 - SYSMON-PIPE
 2. PipeName
 3. Image
 4. System
+5. User
 
 Stream 16 -CONFIGURATION
 
