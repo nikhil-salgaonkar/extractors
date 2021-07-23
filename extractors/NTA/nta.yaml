@@ -1158,7 +1158,7 @@ event-details:
         id: ID
         certificate.version: Version
         certificate.serial: SerialNumber
-        certificate.subject: Subject
+        certificate.subject: CertificateSubject
         certificate.issuer: CertIssuerName
         certificate.not_valid_before: Start
         certificate.not_valid_after: Expiry
@@ -1243,7 +1243,6 @@ event-details:
       translate:
         uid: ID
         id.orig_h: SrcIP
-        id.orig_p: SrcPort
         id.resp_h: DstIP
         id.resp_p: DstPort
         path: Path
@@ -1256,7 +1255,6 @@ event-details:
       translate:
         uid: ID
         id.orig_h: SrcIP
-        id.orig_p: SrcPort
         id.resp_h: DstIP
         id.resp_p: DstPort
         path: Path
