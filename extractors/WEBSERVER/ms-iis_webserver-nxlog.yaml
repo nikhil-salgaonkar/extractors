@@ -1,7 +1,7 @@
 schema-version: 1.0
 #extractor-version: 1
 extractor-id: 68
-integration: Nxlog
+integration: NXLog
 vendor-name: Microsoft 
 product-name: IIS Webserver
 source-name: IIS
