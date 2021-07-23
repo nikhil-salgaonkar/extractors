@@ -219,7 +219,7 @@ NTA-DHCP:
 - MACAddress
 - ResultCode
 NTA-DNS:
-- ScrIP
+- SrcIP
 - Query
 - ResponseCode
 - QueryType
@@ -231,6 +231,7 @@ NTA-DPD:
 - DstIP
 - DstPort
 - DstPort
+- Proto
 - Analyzer
 - Reason
 NTA-FILES:
@@ -381,6 +382,7 @@ NTA-CERTIFICATE:
 - Version
 - SerialNumber
 - CertificateSubject
+- CertIssuerName
 - Issuer
 - Start
 - Expiry
@@ -409,7 +411,7 @@ NTA-SSL:
 NTA-SSH:
 - Client
 - Direction
-- Hostkey
+- HostKey
 - Server
 - Version
 NTA-SNMP:
