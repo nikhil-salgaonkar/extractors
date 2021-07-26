@@ -1,0 +1,210 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 719
+integration: Orca
+vendor-name: Orca
+product-name: Orca Security
+source-name: ORCA 
+source-type: THREAT
+source-description: Extractor for Orca Threat Events
+provides-streams:
+- THREAT
+master-filters:
+- '\{\"type\"\:\"\w+\".*?\"type\_string\"\:.*?\"category\"\:'
+event-details:
+- first-match: '\"category\"\:\"[\w\s]+\"'
+  decoder: json
+  event-key-format: '{category}-{asset_category}'
+  event-key-mapping:
+    'Neglected assets-Encryption and Secrets':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST  
+      translate:
+        description: Threat
+        SrcIP: SrcIP
+        DstIP: DstIP
+        CommandLine: CommandLine
+        model[data][AwsCertificate][SubjectName]: User
+        File: File
+        Process: Process 
+        URL: URL
+
+    'Neglected assets-VM':  
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST  
+      translate:
+        description: Threat
+        asset_first_private_ips[0]: SrcIP
+        asset_first_public_ips[0]: DstIP
+        CommandLine: CommandLine
+        User: User
+        File: File
+        Process: Process 
+        URL: URL
+
+    'Vulnerabilities-VM':  
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST  
+      translate:
+        description: Threat
+        asset_first_private_ips[0]: SrcIP
+        asset_first_public_ips[0]: DstIP
+        CommandLine: CommandLine
+        User: User
+        findings[cve][0][marker_files][0][file_name]: File
+        Process: Process 
+        findings[cve][25][exploits][0][url]: URL 
+
+    'Vendor services misconfigurations-VM':  
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST  
+      translate:
+        description: Threat
+        model[data][AwsEc2Instance][PrivateIpAddress]: SrcIP
+        model[data][AwsEc2Instance][PublicIpAddress]: DstIP
+        CommandLine: CommandLine
+        User: User
+        File: File
+        Process: Process 
+        URL: URL 
+
+    'Malware-VM':  
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST  
+      translate:
+        description: Threat
+        asset_first_private_ips[0]: SrcIP
+        asset_first_public_ips[0]: DstIP
+        CommandLine: CommandLine
+        model[data][InfectedFile][User]: User
+        File: File
+        model[data][InfectedFile][Path]: Process 
+        URL: URL
+
+    'Lateral movement-VM':  
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST  
+      translate:
+        description: Threat
+        asset_first_private_ips[0]: SrcIP
+        asset_first_public_ips[0]: DstIP
+        findings[aws_key][0][simulation_commands][0][cmd_input]: CommandLine
+        User: User
+        findings[aws_key][0][path]: File
+        Process: Process 
+        URL: URL                    
+
+    'Neglected assets-Network':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: NETWORK
+      translate:
+        description: Threat
+        SrcIP: SrcIP
+        DstIP: DstIP
+
+    'Network misconfigurations-Network':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: NETWORK
+      translate:
+        description: Threat
+        SrcIP: SrcIP
+        DstIP: DstIP    
+
+    'Data at risk-Kubernetes':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: AUTHENTICATION
+      translate:
+        description: Threat
+        SrcIP: SrcIP
+        User: User
+
+    'Lateral movement-Container': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: AUTHENTICATION
+      translate:
+        description: Threat
+        asset_first_private_ips[0]: SrcIP
+        User: User    
+
+    'Authentication-Users and Access': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: AUTHENTICATION
+      translate:
+        description: Threat
+        SrcIP: SrcIP
+        User: User        
+
+    'Data at risk-Storage':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        description: Threat
+        SrcIP: SrcIP
+        DstIP: DstIP
+        User: User   
+
+    'Lateral movement-Users and Access':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: IAM
+      translate:
+        description: Threat
+        model[data][User][Name]: User
+
+    'IAM misconfigurations-Users and Access':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: IAM
+      translate:
+        description: Threat
+        model[data][User][Name]: User 
+
+  fallback:
+    annotate:
+      EventName: Generic Orca Threat Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      organization_name: System
+      state[created_at]: SystemTstamp
