@@ -1,6 +1,6 @@
 schema-version: 1.0
 #extractor-version: 1 
-extractor-id: 716
+extractor-id: 720
 integration: G-Suite
 vendor-name: Google Workspace
 product-name: G Suite
