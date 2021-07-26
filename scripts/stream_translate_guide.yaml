@@ -201,10 +201,6 @@ COMPLIANCE:
 - Policy
 - Reason
 - User 
-MEETING:
-- User
-- SrcIP
-- MeetingID
 CALENDAR:
 - CalenderID
 - Event

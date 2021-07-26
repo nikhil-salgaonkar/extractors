@@ -11,7 +11,6 @@ provides-streams:
 - AUTHENTICATION
 - IAM
 - CALENDAR
-- MEETING
 - THREAT
 master-filters:
 - '\{\"kind\":\s*\"admin#reports#activity\"'
@@ -389,16 +388,7 @@ event-details:
         events[0][parameters][1][value]: CalenderID
         Event: Event
         actor[email]: User
-        Notification: Notification 
-    'call-call_ended': 
-      annotate:
-        Stream: MEETING  
-        Action: CALL_ENDED
-        Status: PASSED
-      translate: 
-        actor[email]: User
-        events[0][parameters][20][value]: SrcIP
-        events[0][parameters][28][value]: MeetingID                                                                                                        
+        Notification: Notification                                                                                                      
     
   fallback:
     annotate:
