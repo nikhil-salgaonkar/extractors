@@ -40,8 +40,8 @@ event-details:
         Vector: HOST  
       translate:
         description: Threat
-        SrcIP: SrcIP
-        DstIP: DstIP
+        asset_first_private_ips[0]: SrcIP
+        asset_first_public_ips[0]: DstIP
         CommandLine: CommandLine
         User: User
         File: File
@@ -56,8 +56,8 @@ event-details:
         Vector: HOST  
       translate:
         description: Threat
-        SrcIP: SrcIP
-        DstIP: DstIP
+        asset_first_private_ips[0]: SrcIP
+        asset_first_public_ips[0]: DstIP
         CommandLine: CommandLine
         User: User
         findings[cve][0][marker_files][0][file_name]: File
@@ -88,12 +88,12 @@ event-details:
         Vector: HOST  
       translate:
         description: Threat
-        SrcIP: SrcIP
-        DstIP: DstIP
+        asset_first_private_ips[0]: SrcIP
+        asset_first_public_ips[0]: DstIP
         CommandLine: CommandLine
         model[data][InfectedFile][User]: User
-        model[data][InfectedFile][Path]: File
-        Process: Process 
+        File: File
+        model[data][InfectedFile][Path]: Process 
         URL: URL
 
     'Lateral movement-VM':  
@@ -104,8 +104,8 @@ event-details:
         Vector: HOST  
       translate:
         description: Threat
-        SrcIP: SrcIP
-        DstIP: DstIP
+        asset_first_private_ips[0]: SrcIP
+        asset_first_public_ips[0]: DstIP
         findings[aws_key][0][simulation_commands][0][cmd_input]: CommandLine
         User: User
         findings[aws_key][0][path]: File
@@ -153,7 +153,7 @@ event-details:
         Vector: AUTHENTICATION
       translate:
         description: Threat
-        SrcIP: SrcIP
+        asset_first_private_ips[0]: SrcIP
         User: User    
 
     'Authentication-Users and Access': 
