@@ -1,0 +1,401 @@
+schema-version: 1.0
+#extractor-version: 1 
+extractor-id: 720
+integration: G-Suite
+vendor-name: Google Workspace
+product-name: G Suite
+source-name: G-SUITE
+source-type: OFFICE
+source-description: Extractor for G Suite Office Events
+provides-streams:
+- AUTHENTICATION
+- IAM
+- CALENDAR
+- THREAT
+master-filters:
+- '\{\"kind\":\s*\"admin#reports#activity\"'
+event-details:  
+- first-match: '\"kind\":\s*\"admin#reports#activity\"'
+  decoder: json
+  event-key-format: '{events[0][type]}-{events[0][name]}'         
+  event-key-mapping:
+    'login-login_success': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate: 
+        actor[email]: User
+        ipAddress: SrcIP
+        AuthProto: AuthProto
+    'login-logout': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+      translate: 
+        actor[email]: User
+        ipAddress: SrcIP
+        AuthProto: AuthProto
+    'login-login_challenge': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate: 
+        actor[email]: User
+        ipAddress: SrcIP
+        AuthProto: AuthProto    
+    'login-login_verification': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+        Reason: INCORRECT_ANSWER_ENTERED
+      translate: 
+        actor[email]: User
+        ipAddress: SrcIP
+        AuthProto: AuthProto     
+    'login-login_failure': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+        Reason: BAD_USER_PASSWORD
+      translate: 
+        actor[email]: User
+        ipAddress: SrcIP
+        AuthProto: AuthProto    
+    'account_warning-suspicious_login': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: AUTHENTICATION
+      translate: 
+        events[0][parameters][0][value]: User
+        ipAddress: SrcIP
+        events[0][name]: Threat 
+    'password_change-password_edit': 
+      annotate:
+        Stream: IAM
+        Action: USER_PASSWORD_CHANGED
+        Status: PASSED
+      translate: 
+        actor[email]: User
+        TargetUser: TargetUser
+        Role: Role     
+    'USER_SETTINGS-CHANGE_PASSWORD': 
+      annotate:
+        Stream: IAM
+        Action: USER_PASSWORD_CHANGED
+        Status: PASSED
+      translate: 
+        actor[email]: User
+        events[0][parameters][0][value]: TargetUser
+        Role: Role  
+    'USER_SETTINGS-CREATE_USER': 
+      annotate:
+        Stream: IAM
+        Action: USER_ADDED
+        Status: PASSED
+      translate: 
+        actor[email]: User
+        events[0][parameters][0][value]: TargetUser
+        Role: Role   
+    'USER_SETTINGS-DELETE_USER': 
+      annotate:
+        Stream: IAM
+        Action: USER_REMOVED
+        Status: PASSED
+      translate: 
+        actor[email]: User
+        events[0][parameters][0][value]: TargetUser
+        Role: Role       
+    'USER_SETTINGS-REMOVE_RECOVERY_PHONE': 
+      annotate:
+        Stream: IAM
+        Action: RECOVERY_PHONE_REMOVED
+        Status: PASSED
+      translate: 
+        actor[email]: User
+        events[0][parameters][0][value]: TargetUser
+        Role: Role           
+    'USER_SETTINGS-UNENROLL_USER_FROM_STRONG_AUTH': 
+      annotate:
+        Stream: IAM
+        Action: UNENROLL_USER_FROM_STRONG_AUTH
+        Status: PASSED
+      translate: 
+        actor[email]: User
+        events[0][parameters][0][value]: TargetUser
+        Role: Role       
+    'USER_SETTINGS-CHANGE_FIRST_NAME': 
+      annotate:
+        Stream: IAM
+        Action: FIRST_NAME_CHANGED
+        Status: PASSED
+      translate: 
+        actor[email]: User
+        events[0][parameters][0][value]: TargetUser
+        Role: Role                   
+    'GROUP_SETTINGS-ADD_GROUP_MEMBER': 
+      annotate:
+        Stream: IAM
+        Action: GROUP_MEMBER_ADDED
+        Status: PASSED
+      translate: 
+        actor[email]: User
+        events[0][parameters][0][value]: TargetUser
+        Role: Role  
+    'GROUP_SETTINGS-REMOVE_GROUP_MEMBER': 
+      annotate:
+        Stream: IAM
+        Action: GROUP_MEMBER_REMOVED
+        Status: PASSED
+      translate: 
+        actor[email]: User
+        events[0][parameters][0][value]: TargetUser
+        Role: Role      
+    'LICENSES_SETTINGS-USER_LICENSE_ASSIGNMENT': 
+      annotate:
+        Stream: IAM
+        Action: USER_LICENSE_ASSIGNMENT
+        Status: PASSED
+      translate: 
+        actor[email]: User
+        events[0][parameters][0][value]: TargetUser
+        Role: Role 
+    'LICENSES_SETTINGS-USER_LICENSE_REVOKE': 
+      annotate:
+        Stream: IAM
+        Action: USER_LICENSE_REVOKED
+        Status: PASSED
+      translate: 
+        actor[email]: User
+        events[0][parameters][0][value]: TargetUser
+        Role: Role 
+    'USER_SETTINGS-SUSPEND_USER': 
+      annotate:
+        Stream: IAM
+        Action: USER_SUSPENDED
+        Status: PASSED
+      translate: 
+        actor[email]: User
+        events[0][parameters][0][value]: TargetUser
+        Role: Role   
+    'USER_SETTINGS-CREATE_DATA_TRANSFER_REQUEST': 
+      annotate:
+        Stream: IAM
+        Action: DATA_TRANSFER_REQUEST_CREATED
+        Status: PASSED
+      translate: 
+        actor[email]: User
+        events[0][parameters][0][value]: TargetUser
+        Role: Role
+    'USER_SETTINGS-REVOKE_3LO_TOKEN': 
+      annotate:
+        Stream: IAM
+        Action: 3LO_TOKEN_REVOKED
+        Status: PASSED
+      translate: 
+        actor[email]: User
+        events[0][parameters][0][value]: TargetUser
+        Role: Role 
+    'MOBILE_SETTINGS-CUSTOMER_USER_DEVICE_DELETION_EVENT': 
+      annotate:
+        Stream: IAM
+        Action: CUSTOMER_USER_DEVICE_DELETION_EVENT
+        Status: PASSED
+      translate: 
+        actor[email]: User
+        TargetUser: TargetUser
+        Role: Role  
+    'DOMAIN_SETTINGS-AUTHORIZE_API_CLIENT_ACCESS': 
+      annotate:
+        Stream: IAM
+        Action: AUTHORIZE_API_CLIENT_ACCESSED
+        Status: PASSED
+      translate: 
+        actor[email]: User
+        events[0][parameters][0][value]: TargetUser
+        Role: Role 
+    'DOMAIN_SETTINGS-ADD_APPLICATION': 
+      annotate:
+        Stream: IAM
+        Action: APPLICATION_ADDED
+        Status: PASSED
+      translate: 
+        actor[email]: User
+        TargetUser: TargetUser
+        Role: Role     
+    'event_change-delete_event': 
+      annotate:
+        Stream: CALENDAR  
+        Action: EVENT_DELETED
+        Status: PASSED
+      translate: 
+        events[0][parameters][2][value]: CalenderID
+        events[0][parameters][4][value]: Event
+        actor[email]: User  
+        Notification: Notification
+    'event_change-create_event': 
+      annotate:
+        Stream: CALENDAR  
+        Action: EVENT_CREATED
+        Status: PASSED
+      translate: 
+        events[0][parameters][2][value]: CalenderID
+        events[0][parameters][4][value]: Event
+        actor[email]: User  
+        Notification: Notification
+    'event_change-add_event_guest': 
+      annotate:
+        Stream: CALENDAR  
+        Action: EVENT_GUEST_ADDED
+        Status: PASSED
+      translate: 
+        events[0][parameters][2][value]: CalenderID
+        events[0][parameters][4][value]: Event
+        actor[email]: User  
+        Notification: Notification  
+    'event_change-change_event_guest_response': 
+      annotate:
+        Stream: CALENDAR  
+        Action: EVENT_GUEST_RESPONSE_CHANGED
+        Status: PASSED
+      translate: 
+        events[0][parameters][2][value]: CalenderID
+        events[0][parameters][4][value]: Event
+        actor[email]: User  
+        Notification: Notification  
+    'event_change-change_event_start_time': 
+      annotate:
+        Stream: CALENDAR  
+        Action: EVENT_START_TIME_CHANGED
+        Status: PASSED
+      translate: 
+        events[0][parameters][2][value]: CalenderID
+        events[0][parameters][4][value]: Event
+        actor[email]: User  
+        Notification: Notification  
+    'event_change-change_event_title': 
+      annotate:
+        Stream: CALENDAR  
+        Action: EVENT_TITLE_CHANGED
+        Status: PASSED
+      translate: 
+        events[0][parameters][2][value]: CalenderID
+        events[0][parameters][4][value]: Event
+        actor[email]: User  
+        Notification: Notification 
+    'event_change-restore_event': 
+      annotate:
+        Stream: CALENDAR  
+        Action: EVENT_RESTORED
+        Status: PASSED
+      translate: 
+        events[0][parameters][2][value]: CalenderID
+        events[0][parameters][4][value]: Event
+        actor[email]: User  
+        Notification: Notification    
+    'event_change-remove_event_guest': 
+      annotate:
+        Stream: CALENDAR  
+        Action: EVENT_GUEST_REMOVED
+        Status: PASSED
+      translate: 
+        events[0][parameters][2][value]: CalenderID
+        events[0][parameters][4][value]: Event
+        actor[email]: User  
+        Notification: Notification                        
+    'notification-notification_triggered': 
+      annotate:
+        Stream: CALENDAR  
+        Action: NOTIFICATION_TRIGGERED
+        Status: PASSED
+      translate: 
+        events[0][parameters][2][value]: CalenderID
+        Event: Event
+        actor[email]: User
+        events[0][parameters][3][value]: Notification  
+    'subscription_change-add_subscription': 
+      annotate:
+        Stream: CALENDAR  
+        Action: SUBSCRIPTION_ADDED
+        Status: PASSED
+      translate: 
+        events[0][parameters][1][value]: CalenderID
+        Event: Event
+        actor[email]: User
+        events[0][parameters][3][value]: Notification      
+    'subscription_change-delete_subscription': 
+      annotate:
+        Stream: CALENDAR  
+        Action: SUBSCRIPTION_DELETED
+        Status: PASSED
+      translate: 
+        events[0][parameters][1][value]: CalenderID
+        Event: Event
+        actor[email]: User
+        events[0][parameters][3][value]: Notification 
+    'calendar_change-change_calendar_acls': 
+      annotate:
+        Stream: CALENDAR  
+        Action: CALENDAR_ACLS_CHANGED
+        Status: PASSED
+      translate: 
+        events[0][parameters][1][value]: CalenderID
+        Event: Event
+        actor[email]: User
+        Notification: Notification 
+    'calendar_change-change_calendar_timezone': 
+      annotate:
+        Stream: CALENDAR  
+        Action: CALENDAR_TIMEZONE_CHANGED
+        Status: PASSED
+      translate: 
+        events[0][parameters][1][value]: CalenderID
+        Event: Event
+        actor[email]: User
+        Notification: Notification 
+    'calendar_change-create_calendar': 
+      annotate:
+        Stream: CALENDAR  
+        Action: CALENDAR_CREATED
+        Status: PASSED
+      translate: 
+        events[0][parameters][1][value]: CalenderID
+        Event: Event
+        actor[email]: User
+        Notification: Notification     
+    'calendar_change-change_calendar_title': 
+      annotate:
+        Stream: CALENDAR  
+        Action: CALENDAR_TITLE_CHANGED
+        Status: PASSED
+      translate: 
+        events[0][parameters][1][value]: CalenderID
+        Event: Event
+        actor[email]: User
+        Notification: Notification  
+    'calendar_change-change_calendar_description': 
+      annotate:
+        Stream: CALENDAR  
+        Action: CALENDAR_DESCRIPTION_CHANGED
+        Status: PASSED
+      translate: 
+        events[0][parameters][1][value]: CalenderID
+        Event: Event
+        actor[email]: User
+        Notification: Notification                                                                                                      
+    
+  fallback:
+    annotate:
+      EventName: Generic G Suite Office Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      time: SystemTstamp
+      System: System 
