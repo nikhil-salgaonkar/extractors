@@ -1,0 +1,255 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 722
+integration: Azure 
+vendor-name: Microsoft Azure
+product-name: Azure Event Hubs
+source-name:  AZURE-EVENT-HUBS
+source-type: AZURE
+source-description: Extractor for Azure Event Hubs Events
+provides-streams:
+- AZURE
+master-filters:
+- '\"resourceId\"\:.*?\"operationName\"\:\S+\"\,\"category\"\:\"\w+\"'
+- '\"(?:TaskName|EventName)\"\:.*?resourceId\"\:.*?\"category\"\:\"\w+\"'
+- '\"resourceId\".*?\"metricName\"\:\"\w+\"\,\"timeGrain\"\:'
+event-details:
+- first-match: '\"category\"\:\"\w+\"\,\"resultType\"\:\"\w+\"'
+  decoder: json
+  event-key-format: '{category}-{resultType}'
+  event-key-mapping: 
+    'Action-Failure':
+      annotate:
+        Stream: AZURE
+        Action: AZURE_ACTIVITY
+        Status: FAILED
+      translate:  
+        category: Category
+        User: User
+        ResourceGroup: ResourceGroup
+        operationName: OperationName
+
+    'Action-Start':
+      annotate:
+        Stream: AZURE
+        Action: AZURE_ACTIVITY
+        Status: PASSED
+      translate:  
+        category: Category
+        User: User
+        ResourceGroup: ResourceGroup
+        operationName: OperationName    
+
+    'Action-Success':
+      annotate:
+        Stream: AZURE
+        Action: AZURE_ACTIVITY
+        Status: PASSED
+      translate:  
+        category: Category
+        User: User
+        ResourceGroup: ResourceGroup
+        operationName: OperationName  
+
+    'Action-Accept': 
+      annotate:
+        Stream: AZURE
+        Action: AZURE_ACTIVITY
+        Status: PASSED
+      translate:  
+        category: Category
+        User: User
+        ResourceGroup: ResourceGroup
+        operationName: OperationName        
+
+    'Write-Failure':   
+      annotate:
+        Stream: AZURE
+        Action: AZURE_WRITE
+        Status: FAILED
+      translate:  
+        category: Category
+        User: User
+        ResourceGroup: ResourceGroup
+        operationName: OperationName
+
+    'Write-Start':   
+      annotate:
+        Stream: AZURE
+        Action: AZURE_WRITE
+        Status: PASSED
+      translate:  
+        category: Category
+        User: User
+        ResourceGroup: ResourceGroup
+        operationName: OperationName
+
+    'Write-Success':
+      annotate:
+        Stream: AZURE
+        Action: AZURE_WRITE
+        Status: PASSED
+      translate:  
+        category: Category
+        User: User
+        ResourceGroup: ResourceGroup
+        operationName: OperationName    
+
+    'Write-Accept':
+      annotate:
+        Stream: AZURE
+        Action: AZURE_WRITE
+        Status: PASSED
+      translate:  
+        category: Category
+        User: User
+        ResourceGroup: ResourceGroup
+        operationName: OperationName    
+
+    'Read-Failure':   
+      annotate:
+        Stream: AZURE
+        Action: AZURE_READ
+        Status: FAILED
+      translate:  
+        category: Category
+        User: User
+        ResourceGroup: ResourceGroup
+        operationName: OperationName
+
+    'Read-Start':   
+      annotate:
+        Stream: AZURE
+        Action: AZURE_READ
+        Status: PASSED
+      translate:  
+        category: Category
+        User: User
+        ResourceGroup: ResourceGroup
+        operationName: OperationName
+
+    'Read-Success':
+      annotate:
+        Stream: AZURE
+        Action: AZURE_READ
+        Status: PASSED
+      translate:  
+        category: Category
+        User: User
+        ResourceGroup: ResourceGroup
+        operationName: OperationName    
+
+    'Read-Accept':
+      annotate:
+        Stream: AZURE
+        Action: AZURE_READ
+        Status: PASSED
+      translate:  
+        category: Category
+        User: User
+        ResourceGroup: ResourceGroup
+        operationName: OperationName 
+
+    'Delete-Failure':
+      annotate:
+        Stream: AZURE
+        Action: AZURE_DELETE
+        Status: FAILED
+      translate:  
+        category: Category
+        User: User
+        ResourceGroup: ResourceGroup
+        operationName: OperationName        
+
+    'Delete-Start':
+      annotate:
+        Stream: AZURE
+        Action: AZURE_DELETE
+        Status: PASSED
+      translate:  
+        category: Category
+        User: User
+        ResourceGroup: ResourceGroup
+        operationName: OperationName         
+
+    'Delete-Success':
+      annotate:
+        Stream: AZURE
+        Action: AZURE_DELETE
+        Status: PASSED
+      translate:  
+        category: Category
+        User: User
+        ResourceGroup: ResourceGroup
+        operationName: OperationName      
+
+    'Delete-Accept':
+      annotate:
+        Stream: AZURE
+        Action: AZURE_DELETE
+        Status: PASSED
+      translate:  
+        category: Category
+        User: User
+        ResourceGroup: ResourceGroup
+        operationName: OperationName  
+
+  fallback:
+    annotate:
+      EventName: Generic Azure Event Hubs Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      System: System
+      time: SystemTstamp        
+
+- first-match: 'Status\"\:\"\w+\".*?\"category\"\:\"OperationalLogs\"'
+  decoder: json
+  event-key-format: '{category}-{Status}'
+  event-key-mapping: 
+    'OperationalLogs-Succeeded':
+      annotate:
+        Stream: AZURE
+        Action: AZURE_OPERATION
+        Status: PASSED
+      translate:  
+        category: Category
+        Caller: User
+        ResourceGroup: ResourceGroup
+        EventName: OperationName  
+
+  fallback:
+    annotate:
+      EventName: Generic Azure Event Hubs Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      System: System
+      EventTimeString: SystemTstamp       
+
+- first-match: '\"failures\"\:\d+\,.*?\"category\"\:\"ArchiveLogs\"'
+  decoder: json
+  event-key-format: '{category}'
+  event-key-mapping: 
+    'ArchiveLogs':
+      annotate:
+        Stream: AZURE
+        Action: AZURE_ARCHIVE
+        Status: FAILED
+      translate:  
+        category: Category
+        User: User
+        ResourceGroup: ResourceGroup
+        OperationName: OperationName
+
+  fallback:
+    annotate:
+      EventName: Generic Azure Event Hubs Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      System: System
+      startTime: SystemTstamp
