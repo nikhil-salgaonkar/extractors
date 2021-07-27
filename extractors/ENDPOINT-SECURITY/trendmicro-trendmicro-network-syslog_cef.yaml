@@ -156,7 +156,7 @@ event-details:
         CommandLine: CommandLine
         duser: User
         fname: File
-        filePath: Process
+        Process: Process
         request: URL
     '1': 
       annotate:
@@ -171,7 +171,7 @@ event-details:
         CommandLine: CommandLine
         duser: User
         fname: File
-        filePath: Process
+        Process: Process
         request: URL
     '2': 
       annotate:
@@ -186,7 +186,7 @@ event-details:
         CommandLine: CommandLine
         duser: User
         fname: File
-        filePath: Process
+        Process: Process
         request: URL
     '3': 
       annotate:
@@ -201,7 +201,7 @@ event-details:
         CommandLine: CommandLine
         duser: User
         fname: File
-        filePath: Process
+        Process: Process
         request: URL
     '4': 
       annotate:
@@ -216,7 +216,7 @@ event-details:
         CommandLine: CommandLine
         duser: User
         fname: File
-        filePath: Process
+        Process: Process
         request: URL
     '5':  
       annotate:
@@ -231,7 +231,7 @@ event-details:
         CommandLine: CommandLine
         duser: User
         fname: File
-        filePath: Process
+        Process: Process
         request: URL 
     
   fallback:
@@ -252,38 +252,6 @@ event-details:
       '3': Exploit
       '4': Grayware
       '5': Suspicious URL
-
-- first-match: 'CEF\:0\|Trend\s+Micro\|Deep\sDiscovery\sInspector\|.*cs1Label\=(?:SandboxImageType|malName|PolicyCategory|type)'
-  decoder: custom
-  decoder-regex: '([^\s\|]+)=([^=]+|)(?=\s+\w+=|$)'
-  event-key-format: '{cs1Label}'
-  decoder-header: CEF
-  event-key-mapping:
-    'SandboxImageType': 
-      annotate:
-        Stream: THREAT
-        Action: THREAT_DETECTED
-        Status: PASSED
-        Vector: HOST
-      translate:
-        cs2: Threat
-        src: SrcIP
-        dst: DstIP
-        CommandLine: CommandLine
-        duser: User
-        fname: File
-        Process: Process
-        request: URL
-    
-  fallback:
-    annotate:
-      EventName: Generic Trend-Micro Network Event
-      Stream: OTHER
-
-  globals:
-    translate: 
-      dvchost: System
-      rt: SystemTstamp
 
 - first-match: 'CEF\:0\|Trend\s+Micro\|Deep\sDiscovery\sInspector\|.*?outcome\=\w+'
   decoder: custom
@@ -395,7 +363,7 @@ event-details:
       dvchost: System
       rt: SystemTstamp
 
-- first-match: 'CEF\:0\|Trend\s+Micro\|Deep\sDiscovery\sAnalyzer\|.*cs1Label\=(?:SandboxImageType|malName|PolicyCategory|type)'
+- first-match: 'CEF\:0\|Trend\s+Micro\|Deep\sDiscovery\s(?:Analyzer|Inspector)\|.*cs1Label\=(?:SandboxImageType|malName|PolicyCategory|type)'
   decoder: custom
   decoder-regex: '([^\s\|]+)=([^=]+|)(?=\s+\w+=|$)'
   event-key-format: '{cs1Label}'
