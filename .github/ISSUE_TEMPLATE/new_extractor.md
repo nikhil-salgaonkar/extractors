@@ -34,3 +34,6 @@ What kind of events are we expecting to see
 **Additional details / screenshot**
 - ![Screenshot]()
 -
+
+**Note**
+DNIF Extractor Support team shall evaluate this creation request. The submission of this Git issue is only a request to add new extractor on the Extractor roadmap.
