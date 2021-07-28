@@ -125,7 +125,7 @@ event-details:
         Header-5: Threat
         File: File
         Process: Process
-        cs3: URL
+        url: URL
         CommandLine: CommandLine       
         suser: User      
 
