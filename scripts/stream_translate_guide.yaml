@@ -200,7 +200,12 @@ COMPLIANCE:
 - Event
 - Policy
 - Reason
+- User 
+CALENDAR:
+- CalenderID
+- Event
 - User
+- Notification 
 NTA-CONNECTION:
 - ID
 - SrcIP
@@ -219,7 +224,7 @@ NTA-DHCP:
 - MACAddress
 - ResultCode
 NTA-DNS:
-- SrcIP
+- ScrIP
 - Query
 - ResponseCode
 - QueryType
@@ -231,7 +236,6 @@ NTA-DPD:
 - DstIP
 - DstPort
 - DstPort
-- Proto
 - Analyzer
 - Reason
 NTA-FILES:
@@ -382,7 +386,6 @@ NTA-CERTIFICATE:
 - Version
 - SerialNumber
 - CertificateSubject
-- CertIssuerName
 - Issuer
 - Start
 - Expiry
@@ -411,7 +414,7 @@ NTA-SSL:
 NTA-SSH:
 - Client
 - Direction
-- HostKey
+- Hostkey
 - Server
 - Version
 NTA-SNMP:
