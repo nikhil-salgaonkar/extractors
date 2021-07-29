@@ -32,7 +32,7 @@ provides-streams:
 - NTA-CERTIFICATE
 - NTA-SMB
 master-filters:
-- '\{\"nta_category\":\".*?\"\,'
+- '\{\"nta\_category\"\:\"[^\"]+\"'
 event-details:
 - first-match: '\{\"nta_category\":\"conn"\,'
   decoder: json
@@ -502,7 +502,7 @@ event-details:
       annotate:
         Stream: NTA-DNS
         Action: REQUEST_DENIED
-        Status: FAILED
+        Status: PASSED
       translate:
         id.orig_h: SrcIP
         query: Query
@@ -703,7 +703,7 @@ event-details:
     'True-AS':
       annotate:
         Stream: NTA-KERBEROS
-        Action: KERBEROS_AUTHENTICATION_TICKET_REQUESTED
+        Action: KERBEROS_AUTHENTICATION_SERVICE_USED
         Status: PASSED
       translate:
         uid: ID
@@ -711,7 +711,7 @@ event-details:
         id.orig_p: SrcPort
         id.resp_h: DstIP
         id.resp_p: DstPort
-        request_type: ReqType
+        request_type: RequestType
         client: Client
         service: App
         error_msg: ErrorMsg
@@ -727,7 +727,7 @@ event-details:
     'False-AS':
       annotate:
         Stream: NTA-KERBEROS
-        Action: KERBEROS_AUTHENTICATION_TICKET_REQUESTED
+        Action: KERBEROS_AUTHENTICATION_SERVICE_USED
         Status: FAILED
       translate:
         uid: ID
@@ -735,7 +735,7 @@ event-details:
         id.orig_p: SrcPort
         id.resp_h: DstIP
         id.resp_p: DstPort
-        request_type: ReqType
+        request_type: RequestType
         client: Client
         service: App
         error_msg: ErrorMsg
@@ -759,7 +759,7 @@ event-details:
         id.orig_p: SrcPort
         id.resp_h: DstIP
         id.resp_p: DstPort
-        request_type: ReqType
+        request_type: RequestType
         client: Client
         service: App
         error_msg: ErrorMsg
@@ -783,7 +783,7 @@ event-details:
         id.orig_p: SrcPort
         id.resp_h: DstIP
         id.resp_p: DstPort
-        request_type: ReqType
+        request_type: RequestType
         client: Client
         service: App
         error_msg: ErrorMsg
@@ -875,10 +875,10 @@ event-details:
         Action: REQUEST_ALLOWED
         Status: PASSED
       translate:
-        uid: ID
+        resp_fuids: ID
         trans_depth: TransactionDepth
         status_msg: StatusMsg
-        status_code: InfoCode
+        info_code: InfoCode
         password: Password
         orig_mime_types: OrigMimeType
         orig_filenames: OrigFile 
@@ -907,13 +907,13 @@ event-details:
         Action: REQUEST_REDIRECTED
         Status: PASSED
       translate:
+        resp_fuids: ID 
         trans_depth: TransactionDepth
         status_msg: StatusMsg
-        status_code: InfoCode
+        info_code: InfoCode
         password: Password
         orig_mime_types: OrigMimeType
         orig_filenames: OrigFile
-        uid: ID 
         resp_mime_types: RespMimeType
         resp_filenames: RespFile 
         orig_mime_depth: OrigMimeDepth
@@ -939,13 +939,13 @@ event-details:
         Action: REQUEST_DENIED
         Status: PASSED
       translate:
+        resp_fuids: ID 
         trans_depth: TransactionDepth
         status_msg: StatusMsg
-        status_code: InfoCode
+        info_code: InfoCode
         password: Password
         orig_mime_types: OrigMimeType
         orig_filenames: OrigFile
-        uid: ID 
         resp_mime_types: RespMimeType
         resp_filenames: RespFile 
         orig_mime_depth: OrigMimeDepth
@@ -1146,7 +1146,7 @@ event-details:
         get_requests: GetRequests
         get_bulk_requests: GetBulkRequests
         get_responses: GetResponses
-        set_requests: SetResponses
+        set_requests: SetRequests
         display_string: DisplayString
         up_since: UpTime
     'x509':
@@ -1172,7 +1172,7 @@ event-details:
         nick: Nickname
         user: User
         command: Command
-        arg: Args
+        value: Args
         dcc_file_name: DccFile
         dcc_file_size: DccFileSize
         dcc_mime_type: DccMimeType
@@ -1238,7 +1238,19 @@ event-details:
     'SMB::FILE_OPEN':
       annotate:
         Stream: NTA-SMB
-        Action: SMB_FILE_OPENED
+        Action: SMB_FILE_OPEN
+        Status: PASSED
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        path: Path
+        share_type: ShareType
+    'SMB::FILE_CLOSE':
+      annotate:
+        Stream: NTA-SMB
+        Action: SMB_FILE_CLOSE
         Status: PASSED
       translate:
         uid: ID
@@ -1250,7 +1262,151 @@ event-details:
     'SMB::FILE_DELETE':
       annotate:
         Stream: NTA-SMB
-        Action: SMB_FILE_DELETED
+        Action: SMB_FILE_DELETE
+        Status: PASSED
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        path: Path
+        share_type: ShareType
+    'SMB::FILE_RENAME':
+      annotate:
+        Stream: NTA-SMB
+        Action: SMB_FILE_RENAME
+        Status: PASSED
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        path: Path
+        share_type: ShareType
+    'SMB::FILE_SET_ATTRIBUTE':
+      annotate:
+        Stream: NTA-SMB
+        Action: SMB_FILE_SET_ATTRIBUTE
+        Status: PASSED
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        path: Path
+        share_type: ShareType
+    'SMB::FILE_READ':
+      annotate:
+        Stream: NTA-SMB
+        Action: SMB_FILE_READ
+        Status: PASSED
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        path: Path
+        share_type: ShareType
+    'SMB::FILE_WRITE':
+      annotate:
+        Stream: NTA-SMB
+        Action: SMB_FILE_WRITE
+        Status: PASSED
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        path: Path
+        share_type: ShareType
+    'SMB::PIPE_READ':
+      annotate:
+        Stream: NTA-SMB
+        Action: SMB_PIPE_READ
+        Status: PASSED
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        path: Path
+        share_type: ShareType
+    'SMB::PIPE_WRITE':
+      annotate:
+        Stream: NTA-SMB
+        Action: SMB_PIPE_WRITE
+        Status: PASSED
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        path: Path
+        share_type: ShareType
+    'SMB::PIPE_OPEN':
+      annotate:
+        Stream: NTA-SMB
+        Action: SMB_PIPE_OPEN
+        Status: PASSED
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        path: Path
+        share_type: ShareType
+    'SMB::PIPE_CLOSE':
+      annotate:
+        Stream: NTA-SMB
+        Action: SMB_PIPE_CLOSE
+        Status: PASSED
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        path: Path
+        share_type: ShareType
+    'SMB::PRINT_READ':
+      annotate:
+        Stream: NTA-SMB
+        Action: SMB_PRINT_READ
+        Status: PASSED
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        path: Path
+        share_type: ShareType
+    'SMB::PRINT_WRITE':
+      annotate:
+        Stream: NTA-SMB
+        Action: SMB_PRINT_WRITE
+        Status: PASSED
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        path: Path
+        share_type: ShareType
+    'SMB::PRINT_OPEN':
+      annotate:
+        Stream: NTA-SMB
+        Action: SMB_PRINT_OPEN
+        Status: PASSED
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        path: Path
+        share_type: ShareType
+    'SMB::PRINT_CLOSE':
+      annotate:
+        Stream: NTA-SMB
+        Action: SMB_PRINT_CLOSE
         Status: PASSED
       translate:
         uid: ID
@@ -1403,7 +1559,7 @@ event-details:
       annotate:
         Stream: NTA-DHCP
         Action: DHCP_NEGATIVE_ACKNOWLEDGMENT
-        Status: FAILED
+        Status: PASSED
       translate:
         User: User
         client_addr: SrcIP
