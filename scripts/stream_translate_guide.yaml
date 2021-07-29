@@ -285,7 +285,7 @@ NTA-KERBEROS:
 - SrcPort
 - DstIP
 - DstPort
-- ReqType
+- RequestType
 - Client
 - App
 - ErrorMsg
