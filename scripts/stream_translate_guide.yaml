@@ -206,3 +206,266 @@ CALENDAR:
 - Event
 - User
 - Notification 
+NTA-CONNECTION:
+- ID
+- SrcIP
+- SrcPort
+- DstIP
+- DstPort
+- Proto
+- App
+- Duration
+- TXLen
+- RXLen
+- ConnState
+NTA-DHCP:
+- User
+- SrcIP
+- MACAddress
+- ResultCode
+NTA-DNS:
+- ScrIP
+- Query
+- ResponseCode
+- QueryType
+- RecordType
+NTA-DPD:
+- ID
+- SrcIP
+- SrcPort
+- DstIP
+- DstPort
+- DstPort
+- Analyzer
+- Reason
+NTA-FILES:
+- ID
+- SrcIP
+- DstIP
+- ConnID
+- Source
+- Analyzer
+- MimeType
+- File
+- Duration
+- TXLen
+- RXLen
+- MD5
+- SHA1
+- SHA256
+NTA-FTP:
+- User
+- Password
+- Command
+- Args
+- FileSize
+- FileID
+- ReplyCode
+- ReplyMsg
+NTA-HTTP:
+- TransactionDepth
+- StatusMsg
+- InfoCode
+- Password
+- OrigMimeType
+- OrigFile
+- ID
+- RespMimeType
+- RespFile
+- OrigMimeDepth
+- RespMimeDepth
+NTA-IRC:
+- Nickname
+- User
+- Command
+- Args
+- DccFile
+- DccFileSize
+- DccMimeType
+- FileID
+NTA-KERBEROS:
+- ID
+- SrcIP
+- SrcPort
+- DstIP
+- DstPort
+- RequestType
+- Client
+- App
+- ErrorMsg
+- Sender
+- Expiry
+- Cipher
+- Forwardable
+- Renewable
+- ClientCertSubject
+- ClientCertID
+- ServerCertSubject
+- ServerCertID
+NTA-MODBUS:
+- ID
+- SrcIP
+- SrcPort
+- DstIP
+- DstPort
+- Function
+- Exception
+NTA-MYSQL:
+- Cmd
+- Args
+- Rows
+- Response
+NTA-NOTICE:
+- ConnID
+- FileID
+- ParentFileID
+- FileSource
+- MimeType
+- Type
+- RXLen
+- TXLen
+- FID
+- Message
+- PeerName
+- NoticeIdentifier
+- SuppressDuration
+NTA-AUTHENTICATION-NTLM:
+- Domain
+- User
+- ServerNameDNS
+- ServerNameNetbios
+- ServerNameTree
+NTA-NTP:
+- Version
+- Mode
+- Stratum
+- RootDelay
+- RootDisp 
+- RefID
+- RefTime
+- OrgTime
+- RecTime
+- XmtTime
+NTA-OCSP:
+- FileID
+- HashAlgorithm
+- HashIssuerName
+- HashIssuerKey
+- SerialNumber
+- RevokeTime
+- RevokeReason
+NTA-AUTHENTICATION-RADIUS:
+- ID
+- SrcIP
+- DstIP
+- User
+- MACAddress
+- ConnectInfo
+NTA-RDP:
+- ID
+- SrcIP
+- SrcPort
+- DstIP
+- DstPort
+- Cookie
+- SecurityProtocol
+- Client
+- CertType
+- CertCount
+- EncryptionLevel
+- EncryptionMethod
+NTA-SMB:
+- ID
+- SrcIP
+- DstIP
+- DstPort
+- Path
+- ShareType
+NTA-CERTIFICATE:
+- ID
+- Version
+- SerialNumber
+- CertificateSubject
+- Issuer
+- Start
+- Expiry
+- KeyAlgorithm
+NTA-TUNNEL:
+- ID
+- SrcIP
+- SrcPort
+- DstIP
+- DstPort
+- TunnelType
+NTA-SSL:
+- ID
+- SrcIP
+- SrcPort
+- DstIP
+- DstPort
+- Version
+- Cipher
+- Curve
+- ServerName
+- NextProtocol
+- CertChainFID
+- ClientCertChainFID
+- Subject
+NTA-SSH:
+- Client
+- Direction
+- Hostkey
+- Server
+- Version
+NTA-SNMP:
+- ID
+- SrcIP
+- SrcPort
+- DstIP
+- DstPort
+- Duration
+- GetRequests
+- GetBulkRequests
+- GetResponses
+- SetResponses
+- DisplayString
+- UpTime
+NTA-EMAIL GATEWAY:
+- Sender
+- Recipient
+- Subject
+- RemoteIP
+- File
+- Direction
+NTA-SIP:
+- ID
+- SrcIP
+- SrcPort
+- DstIP
+- DstPort
+- Method
+- URI
+- RequestSrc
+- RequestDst
+- ResponseSrc
+- ResponseDst
+- Recipient
+- Subject
+- RequestPath
+- ResponsePath
+- UserAgent
+- StatusCode
+- RequestBodyLen
+- ResponseBodyLen
+- ContentType
+NTA-AUTHENTICATION-RFB:
+- ID
+- SrcIP
+- SrcPort
+- DstIP
+- DstPort
+- ClientMajorVersion
+- ClientMinorVersion
+- ServerMajorVersion
+- ServerMinorVersion
+- AuthMethod
