@@ -1,0 +1,1627 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 717
+integration: Network Traffic Analysis
+vendor-name: Network Traffic Analysis (NTA)
+product-name: NTA
+source-name: NTA
+source-type: NTA
+source-description: Extractor for NTA Events
+provides-streams:
+- NTA-CONNECTION
+- NTA-DHCP
+- NTA-DNS
+- NTA-DPD
+- NTA-FILES
+- NTA-FTP
+- NTA-HTTP
+- NTA-IRC
+- NTA-KERBEROS
+- NTA-MODBUS
+- NTA-MYSQL
+- NTA-AUTHENTICATION-NTLM
+- NTA-NTP
+- NTA-AUTHENTICATION-RADIUS
+- NTA-RDP
+- NTA-AUTHENTICATION-RFB
+- NTA-SIP
+- NTA-SNMP
+- NTA-SSH
+- NTA-SSL
+- NTA-TUNNEL
+- NTA-CERTIFICATE
+- NTA-SMB
+master-filters:
+- '\{\"nta\_category\"\:\"[^\"]+\"'
+event-details:
+- first-match: '\{\"nta_category\":\"conn"\,'
+  decoder: json
+  event-key-format: '{conn_state}'
+  event-key-mapping:
+    'S0':
+      annotate:
+        Stream: NTA-CONNECTION
+        Action: CONNECTION_ESTABLISHED
+        Status: FAILED
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.orig_p: SrcPort
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        proto: Proto
+        service: App
+        duration: Duration
+        orig_pkts: TXLen
+        resp_pkts: RXLen
+        conn_state: ConnState
+    'S1':
+      annotate:
+        Stream: NTA-CONNECTION
+        Action: CONNECTION_ESTABLISHED
+        Status: PASSED
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.orig_p: SrcPort
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        proto: Proto
+        service: App
+        duration: Duration
+        orig_pkts: TXLen
+        resp_pkts: RXLen
+        conn_state: ConnState
+    'SF':
+      annotate:
+        Stream: NTA-CONNECTION
+        Action: CONNECTION_TERMINATED
+        Status: PASSED
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.orig_p: SrcPort
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        proto: Proto
+        service: App
+        duration: Duration
+        orig_pkts: TXLen
+        resp_pkts: RXLen
+        conn_state: ConnState
+    'REJ':
+      annotate:
+        Stream: NTA-CONNECTION
+        Action: CONNECTION_ESTABLISHED
+        Status: FAILED
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.orig_p: SrcPort
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        proto: Proto
+        service: App
+        duration: Duration
+        orig_pkts: TXLen
+        resp_pkts: RXLen
+        conn_state: ConnState
+    'S2':
+      annotate:
+        Stream: NTA-CONNECTION
+        Action: CONNECTION_ESTABLISHED
+        Status: PASSED
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.orig_p: SrcPort
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        proto: Proto
+        service: App
+        duration: Duration
+        orig_pkts: TXLen
+        resp_pkts: RXLen
+        conn_state: ConnState
+    'S3':
+      annotate:
+        Stream: NTA-CONNECTION
+        Action: CONNECTION_ESTABLISHED
+        Status: PASSED
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.orig_p: SrcPort
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        proto: Proto
+        service: App
+        duration: Duration
+        orig_pkts: TXLen
+        resp_pkts: RXLen
+        conn_state: ConnState
+    'RSTO':
+      annotate:
+        Stream: NTA-CONNECTION
+        Action: CONNECTION_ESTABLISHED
+        Status: FAILED
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.orig_p: SrcPort
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        proto: Proto
+        service: App
+        duration: Duration
+        orig_pkts: TXLen
+        resp_pkts: RXLen
+        conn_state: ConnState
+    'RSTR':
+      annotate:
+        Stream: NTA-CONNECTION
+        Action: CONNECTION_ESTABLISHED
+        Status: PASSED
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.orig_p: SrcPort
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        proto: Proto
+        service: App
+        duration: Duration
+        orig_pkts: TXLen
+        resp_pkts: RXLen
+        conn_state: ConnState
+    'RSTOS0':
+      annotate:
+        Stream: NTA-CONNECTION
+        Action: CONNECTION_ESTABLISHED
+        Status: PASSED
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.orig_p: SrcPort
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        proto: Proto
+        service: App
+        duration: Duration
+        orig_pkts: TXLen
+        resp_pkts: RXLen
+        conn_state: ConnState
+    'RSTRH':
+      annotate:
+        Stream: NTA-CONNECTION
+        Action: CONNECTION_ESTABLISHED
+        Status: PASSED
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.orig_p: SrcPort
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        proto: Proto
+        service: App
+        duration: Duration
+        orig_pkts: TXLen
+        resp_pkts: RXLen
+        conn_state: ConnState
+    'SH':
+      annotate:
+        Stream: NTA-CONNECTION
+        Action: CONNECTION_ESTABLISHED
+        Status: PASSED
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.orig_p: SrcPort
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        proto: Proto
+        service: App
+        duration: Duration
+        orig_pkts: TXLen
+        resp_pkts: RXLen
+        conn_state: ConnState
+    'SHR':
+      annotate:
+        Stream: NTA-CONNECTION
+        Action: CONNECTION_ESTABLISHED
+        Status: PASSED
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.orig_p: SrcPort
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        proto: Proto
+        service: App
+        duration: Duration
+        orig_pkts: TXLen
+        resp_pkts: RXLen
+        conn_state: ConnState
+    'OTH':
+      annotate:
+        Stream: NTA-CONNECTION
+        Action: CONNECTION_ESTABLISHED
+        Status: FAILED
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.orig_p: SrcPort
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        proto: Proto
+        service: App
+        duration: Duration
+        orig_pkts: TXLen
+        resp_pkts: RXLen
+        conn_state: ConnState
+    
+  fallback:
+    annotate:
+      EventName: Generic NTA Events
+      Stream: OTHER
+
+  globals:
+    translate:
+      eventTime: SystemTstamp
+      System: System
+
+- first-match: '\{\"nta_category\":\"radius\"\,'
+  decoder: json
+  event-key-format: '{result}'
+  event-key-mapping:
+    'success':
+      annotate:
+        Stream: NTA-AUTHENTICATION-RADIUS
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.resp_h: DstIP
+        username: User
+        mac: MACAddress
+        connect_info: ConnectInfo
+    'failed':
+      annotate:
+        Stream: NTA-AUTHENTICATION-RADIUS
+        Action: LOGIN
+        Status: FAILED
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.resp_h: DstIP
+        username: User
+        mac: MACAddress
+        connect_info: ConnectInfo
+    
+  fallback:
+    annotate:
+      EventName: Generic NTA Events
+      Stream: OTHER
+
+  globals:
+    translate:
+      eventTime: SystemTstamp
+      System: System
+
+- first-match: '\{\"nta_category\":\"rfb\"\,'
+  decoder: json
+  event-key-format: '{auth}'
+  event-key-mapping:
+    'True':
+      annotate:
+        Stream: NTA-AUTHENTICATION-RFB
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.orig_p: SrcPort
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        client_major_version: ClientMajorVersion
+        client_minor_version: ClientMinorVersion
+        server_major_version: ServerMajorVersion
+        server_minor_version: ServerMinorVersion
+        authentication_method: AuthMethod
+    'False':
+      annotate:
+        Stream: NTA-AUTHENTICATION-RFB
+        Action: LOGIN
+        Status: FAILED
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.orig_p: SrcPort
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        client_major_version: ClientMajorVersion
+        client_minor_version: ClientMinorVersion
+        server_major_version: ServerMajorVersion
+        server_minor_version: ServerMinorVersion
+        authentication_method: AuthMethod
+
+  fallback:
+    annotate:
+      EventName: Generic NTA Events
+      Stream: OTHER
+
+  globals:
+    translate:
+      eventTime: SystemTstamp
+      System: System
+
+- first-match: '\{\"nta_category\":\"ntlm\"\,'
+  decoder: json
+  event-key-format: '{success}'
+  event-key-mapping:
+    'True':
+      annotate:
+        Stream: NTA-AUTHENTICATION-NTLM
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        domainname: Domain
+        username: User
+        server_dns_computer_name: ServerNameDNS
+        server_nb_computer_name: ServerNameNetbios
+        server_tree_name: ServerNameTree
+    'False':
+      annotate:
+        Stream: NTA-AUTHENTICATION-NTLM
+        Action: LOGIN
+        Status: FAILED
+      translate:
+        domainname: Domain
+        username: User
+        server_dns_computer_name: ServerNameDNS
+        server_nb_computer_name: ServerNameNetbios
+        server_tree_name: ServerNameTree
+    
+  fallback:
+    annotate:
+      EventName: Generic NTA Events
+      Stream: OTHER
+
+  globals:
+    translate:
+      eventTime: SystemTstamp
+      hostname: System
+
+- first-match: '\{\"nta_category\":\"ssh\"\,'
+  decoder: json
+  event-key-format: '{auth_success}'
+  event-key-mapping:
+    'True':
+      annotate:
+        Stream: NTA-SSH
+        Action: CONNECTION_ESTABLISHED
+        Status: PASSED
+      translate:
+        client: Client
+        direction: Direction
+        host_key: HostKey
+        server: Server
+        version: Version
+    'False':
+      annotate:
+        Stream: NTA-SSH
+        Action: CONNECTION_ESTABLISHED
+        Status: FAILED
+      translate:
+        client: Client
+        direction: Direction
+        host_key: HostKey
+        server: Server
+        version: Version
+  
+  fallback:
+    annotate:
+      EventName: Generic NTA Events
+      Stream: OTHER
+
+  globals:
+    translate:
+      eventTime: SystemTstamp
+      System: System
+
+- first-match: '\{\"nta_category\":\"ssl\"\,'
+  decoder: json
+  event-key-format: '{established}'
+  event-key-mapping:
+    'True':
+      annotate:
+        Stream: NTA-SSL
+        Action: CONNECTION_ESTABLISHED
+        Status: PASSED
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.orig_p: SrcPort
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        version: Version
+        cipher: Cipher
+        curve: Curve
+        server_name: ServerName
+        next_protocol: NextProtocol
+        cert_chain_fuids: CertChainFID
+        client_cert_chain_fuids: ClientCertChainFID
+        subject: Subject
+    'False':
+      annotate:
+        Stream: NTA-SSL
+        Action: CONNECTION_ESTABLISHED
+        Status: FAILED
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.orig_p: SrcPort
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        version: Version
+        cipher: Cipher
+        curve: Curve
+        server_name: ServerName
+        next_protocol: NextProtocol
+        cert_chain_fuids: CertChainFID
+        client_cert_chain_fuids: ClientCertChainFID
+        subject: Subject
+
+  fallback:
+    annotate:
+      EventName: Generic NTA Events
+      Stream: OTHER
+
+  globals:
+    translate:
+      eventTime: SystemTstamp
+      System: System
+
+- first-match: '\{\"nta_category\":\"dns\"\,'
+  decoder: json
+  event-key-format: '{rejected}'
+  event-key-mapping:
+    'False':
+      annotate:
+        Stream: NTA-DNS
+        Action: REQUEST_ALLOWED
+        Status: PASSED
+      translate:
+        id.orig_h: SrcIP
+        query: Query
+        rcode_name: ResponseCode
+        qtype: QueryType
+        qtype_name: RecordType
+    'True':
+      annotate:
+        Stream: NTA-DNS
+        Action: REQUEST_DENIED
+        Status: PASSED
+      translate:
+        id.orig_h: SrcIP
+        query: Query
+        rcode_name: ResponseCode
+        qtype: QueryType
+        qtype_name: RecordType
+
+  fallback:
+    annotate:
+      EventName: Generic NTA Events
+      Stream: OTHER
+
+  globals:
+    translate:
+      eventTime: SystemTstamp
+      System: System
+
+- first-match: '\{\"nta_category\":\"rdp\"\,'
+  decoder: json
+  event-key-format: '{result}'
+  event-key-mapping:
+    'Success':
+      annotate:
+        Stream: NTA-RDP
+        Action: CONNECTION_ESTABLISHED
+        Status: PASSED
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.orig_p: SrcPort
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        cookie: Cookie
+        security_protocol: SecurityProtocol 
+        client_name: Client
+        cert_type: CertType
+        cert_count: CertCount
+        encryption_level: EncryptionLevel
+        encryption_method: EncryptionMethod
+    'encrypted':
+      annotate:
+        Stream: NTA-RDP
+        Action: CONNECTION_ESTABLISHED
+        Status: PASSED
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.orig_p: SrcPort
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        cookie: Cookie
+        security_protocol: SecurityProtocol 
+        client_name: Client
+        cert_type: CertType
+        cert_count: CertCount
+        encryption_level: EncryptionLevel
+        encryption_method: EncryptionMethod  
+    'SSL_NOT_ALLOWED_BY_SERVER':
+      annotate:
+        Stream: NTA-RDP
+        Action: CONNECTION_ESTABLISHED
+        Status: FAILED
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.orig_p: SrcPort
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        cookie: Cookie
+        security_protocol: SecurityProtocol 
+        client_name: Client
+        cert_type: CertType
+        cert_count: CertCount
+        encryption_level: EncryptionLevel
+        encryption_method: EncryptionMethod 
+
+  fallback:
+    annotate:
+      EventName: Generic NTA Events
+      Stream: OTHER
+
+  globals:
+    translate:
+      eventTime: SystemTstamp
+      System: System
+
+- first-match: '\{\"nta_category\":\"tunnel\"\,'
+  decoder: json
+  event-key-format: '{action}'
+  event-key-mapping:
+    'Tunnel::DISCOVER':
+      annotate:
+        Stream: NTA-TUNNEL
+        Action: CONNECTION_ESTABLISHED
+        Status: PASSED
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.orig_p: SrcPort
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        tunnel_type: TunnelType
+    'Tunnel::CLOSE':
+      annotate:
+        Stream: NTA-TUNNEL
+        Action: CONNECTION_TERMINATED
+        Status: PASSED
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.orig_p: SrcPort
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        tunnel_type: TunnelType
+    'Tunnel::EXPIRE':
+      annotate:
+        Stream: NTA-TUNNEL
+        Action: CONNECTION_TERMINATED
+        Status: PASSED
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.orig_p: SrcPort
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        tunnel_type: TunnelType
+
+  fallback:
+    annotate:
+      EventName: Generic NTA Events
+      Stream: OTHER
+
+  globals:
+    translate:
+      eventTime: SystemTstamp
+      System: System
+
+
+- first-match: '\{\"nta_category\":\"mysql\"\,'
+  decoder: json
+  event-key-format: '{success}-{cmd}'
+  event-key-mapping:
+    'True-login':
+      annotate:
+        Stream: NTA-MYSQL
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        cmd: Cmd
+        arg: Args
+        response: Response
+        rows: Rows
+    'False-login':
+      annotate:
+        Stream: NTA-MYSQL
+        Action: LOGIN
+        Status: FAILED
+      translate:
+        cmd: Cmd
+        arg: Args
+        response: Response
+        rows: Rows
+    'True-query':
+      annotate:
+        Stream: NTA-MYSQL
+        Action: QUERY_EXECUTED
+        Status: PASSED
+      translate:
+        cmd: Cmd
+        arg: Args
+        response: Response
+        rows: Rows
+    'False-query':
+      annotate:
+        Stream: NTA-MYSQL
+        Action: QUERY_EXECUTED
+        Status: FAILED
+      translate:
+        cmd: Cmd
+        arg: Args
+        response: Response
+        rows: Rows
+    
+  fallback:
+    annotate:
+      EventName: Generic NTA Events
+      Stream: OTHER
+
+  globals:
+    translate:
+      eventTime: SystemTstamp
+      System: System
+
+- first-match: '\{\"nta_category\":\"kerberos\"\,'
+  decoder: json
+  event-key-format: '{success}-{request_type}'
+  event-key-mapping:
+    'True-AS':
+      annotate:
+        Stream: NTA-KERBEROS
+        Action: KERBEROS_AUTHENTICATION_SERVICE_USED
+        Status: PASSED
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.orig_p: SrcPort
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        request_type: RequestType
+        client: Client
+        service: App
+        error_msg: ErrorMsg
+        from: Sender
+        till: Expiry
+        cipher: Cipher
+        forwardable: Forwardable
+        renewable: Renewable
+        client_cert_subject: ClientCertSubject
+        client_cert_fuid: ClientCertID
+        server_cert_subject: ServerCertSubject
+        server_cert_fuid: ServerCertID
+    'False-AS':
+      annotate:
+        Stream: NTA-KERBEROS
+        Action: KERBEROS_AUTHENTICATION_SERVICE_USED
+        Status: FAILED
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.orig_p: SrcPort
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        request_type: RequestType
+        client: Client
+        service: App
+        error_msg: ErrorMsg
+        from: Sender
+        till: Expiry
+        cipher: Cipher
+        forwardable: Forwardable
+        renewable: Renewable
+        client_cert_subject: ClientCertSubject
+        client_cert_fuid: ClientCertID
+        server_cert_subject: ServerCertSubject
+        server_cert_fuid: ServerCertID
+    'True-TGS':
+      annotate:
+        Stream: NTA-KERBEROS
+        Action: KERBEROS_SERVICE_TICKET_REQUESTED
+        Status: PASSED
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.orig_p: SrcPort
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        request_type: RequestType
+        client: Client
+        service: App
+        error_msg: ErrorMsg
+        from: Sender
+        till: Expiry
+        cipher: Cipher
+        forwardable: Forwardable
+        renewable: Renewable
+        client_cert_subject: ClientCertSubject
+        client_cert_fuid: ClientCertID
+        server_cert_subject: ServerCertSubject
+        server_cert_fuid: ServerCertID
+    'False-TGS':
+      annotate:
+        Stream: NTA-KERBEROS
+        Action: KERBEROS_SERVICE_TICKET_REQUESTED
+        Status: FAILED
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.orig_p: SrcPort
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        request_type: RequestType
+        client: Client
+        service: App
+        error_msg: ErrorMsg
+        from: Sender
+        till: Expiry
+        cipher: Cipher
+        forwardable: Forwardable
+        renewable: Renewable
+        client_cert_subject: ClientCertSubject
+        client_cert_fuid: ClientCertID
+        server_cert_subject: ServerCertSubject
+        server_cert_fuid: ServerCertID
+    
+  fallback:
+    annotate:
+      EventName: Generic NTA Events
+      Stream: OTHER
+
+  globals:
+    translate:
+      eventTime: SystemTstamp
+      System: System
+
+- first-match: '\{\"nta\_category\"\:\"ftp\"\,.*?\"reply\_code\"\:(?:1|2|3)\d{2}\,'
+  decoder: json
+  event-key-format: ''
+  event-key-mapping:
+    '':
+      annotate:
+        Stream: NTA-FTP
+        Action: ACCESS_ALLOWED
+        Status: PASSED
+      translate:
+        user: User
+        password: Password
+        command: Command
+        arg: Args
+        file_size: FileSize
+        fuid: FileID
+        reply_code: ReplyCode
+        reply_msg: ReplyMsg
+    
+  fallback:
+    annotate:
+      EventName: Generic NTA Events
+      Stream: OTHER
+
+  globals:
+    translate:
+      eventTime: SystemTstamp
+      System: System
+
+- first-match: '\{\"nta\_category\"\:\"ftp\"\,.*?\"reply\_code\"\:(?:4|5)\d{2}\,'
+  decoder: json
+  event-key-format: ''
+  event-key-mapping:
+    '':
+      annotate:
+        Stream: NTA-FTP
+        Action: ACCESS_DENIED
+        Status: PASSED
+      translate:
+        user: User
+        password: Password
+        command: Command
+        arg: Args
+        file_size: FileSize
+        fuid: FileID
+        reply_code: ReplyCode
+        reply_msg: ReplyMsg
+    
+  fallback:
+    annotate:
+      EventName: Generic NTA Events
+      Stream: OTHER
+
+  globals:
+    translate:
+      eventTime: SystemTstamp
+      System: System
+
+- first-match: '\{\"nta\_category\"\:\"http\"\,.*?\"status\_code\"\:(?:1|2)\d{2}\,'
+  decoder: json
+  event-key-format: ''
+  event-key-mapping:
+    '':
+      annotate:
+        Stream: NTA-HTTP
+        Action: REQUEST_ALLOWED
+        Status: PASSED
+      translate:
+        resp_fuids: ID
+        trans_depth: TransactionDepth
+        status_msg: StatusMsg
+        info_code: InfoCode
+        password: Password
+        orig_mime_types: OrigMimeType
+        orig_filenames: OrigFile 
+        resp_mime_types: RespMimeType
+        resp_filenames: RespFile 
+        orig_mime_depth: OrigMimeDepth
+        resp_mime_depth: RespMimeDepth
+    
+  fallback:
+    annotate:
+      EventName: Generic NTA Events
+      Stream: OTHER
+
+  globals:
+    translate:
+      eventTime: SystemTstamp
+      System: System
+
+- first-match: '\{\"nta\_category\"\:\"http\"\,.*?\"status\_code\"\:3\d{2}\,'
+  decoder: json
+  event-key-format: ''
+  event-key-mapping:
+    '':
+      annotate:
+        Stream: NTA-HTTP
+        Action: REQUEST_REDIRECTED
+        Status: PASSED
+      translate:
+        resp_fuids: ID 
+        trans_depth: TransactionDepth
+        status_msg: StatusMsg
+        info_code: InfoCode
+        password: Password
+        orig_mime_types: OrigMimeType
+        orig_filenames: OrigFile
+        resp_mime_types: RespMimeType
+        resp_filenames: RespFile 
+        orig_mime_depth: OrigMimeDepth
+        resp_mime_depth: RespMimeDepth
+    
+  fallback:
+    annotate:
+      EventName: Generic NTA Events
+      Stream: OTHER
+
+  globals:
+    translate:
+      eventTime: SystemTstamp
+      System: System
+
+- first-match: '\{\"nta\_category\"\:\"http\"\,.*?\"status\_code\"\:(?:4|5)\d{2}\,'
+  decoder: json
+  event-key-format: ''
+  event-key-mapping:
+    '':
+      annotate:
+        Stream: NTA-HTTP
+        Action: REQUEST_DENIED
+        Status: PASSED
+      translate:
+        resp_fuids: ID 
+        trans_depth: TransactionDepth
+        status_msg: StatusMsg
+        info_code: InfoCode
+        password: Password
+        orig_mime_types: OrigMimeType
+        orig_filenames: OrigFile
+        resp_mime_types: RespMimeType
+        resp_filenames: RespFile 
+        orig_mime_depth: OrigMimeDepth
+        resp_mime_depth: RespMimeDepth
+    
+  fallback:
+    annotate:
+      EventName: Generic NTA Events
+      Stream: OTHER
+
+  globals:
+    translate:
+      eventTime: SystemTstamp
+      System: System
+
+- first-match: '\{\"nta\_category\"\:\"sip\"\,.*?\"status\_code\"\:(?:1|2)\d{2}\,'
+  decoder: json
+  event-key-format: ''
+  event-key-mapping:
+    '':
+      annotate:
+        Stream: NTA-SIP
+        Action: RESPONSE_ALLOWED
+        Status: PASSED
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.orig_p: SrcPort
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        method: Method
+        uri: URI
+        request_from: RequestSrc
+        request_to: RequestDst
+        response_from: ResponseSrc
+        response_to: ResponseDst
+        reply_to: Recipient
+        subject: Subject
+        request_path: RequestPath
+        response_path: ResponsePath
+        user_agent: UserAgent
+        status_code: StatusCode
+        request_body_len: RequestBodyLen
+        response_body_len: ResponseBodyLen
+        content_type: ContentType
+    
+  fallback:
+    annotate:
+      EventName: Generic NTA Events
+      Stream: OTHER
+
+  globals:
+    translate:
+      eventTime: SystemTstamp
+      System: System
+
+- first-match: '\{\"nta\_category\"\:\"sip\"\,.*?\"status\_code\"\:3\d{2}\,'
+  decoder: json
+  event-key-format: ''
+  event-key-mapping:
+    '':
+      annotate:
+        Stream: NTA-SIP
+        Action: RESPONSE_REDIRECTED
+        Status: PASSED
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.orig_p: SrcPort
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        method: Method
+        uri: URI
+        request_from: RequestSrc
+        request_to: RequestDst
+        response_from: ResponseSrc
+        response_to: ResponseDst
+        reply_to: Recipient
+        subject: Subject
+        request_path: RequestPath
+        response_path: ResponsePath
+        user_agent: UserAgent
+        status_code: StatusCode
+        request_body_len: RequestBodyLen
+        response_body_len: ResponseBodyLen
+        content_type: ContentType
+    
+  fallback:
+    annotate:
+      EventName: Generic NTA Events
+      Stream: OTHER
+
+  globals:
+    translate:
+      eventTime: SystemTstamp
+      System: System
+
+- first-match: '\{\"nta\_category\"\:\"sip\"\,.*?\"status\_code\"\:(?:4|5|6)\d{2}\,'
+  decoder: json
+  event-key-format: ''
+  event-key-mapping:
+    '':
+      annotate:
+        Stream: NTA-SIP
+        Action: RESPONSE_DENIED
+        Status: PASSED
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.orig_p: SrcPort
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        method: Method
+        uri: URI
+        request_from: RequestSrc
+        request_to: RequestDst
+        response_from: ResponseSrc
+        response_to: ResponseDst
+        reply_to: Recipient
+        subject: Subject
+        request_path: RequestPath
+        response_path: ResponsePath
+        user_agent: UserAgent
+        status_code: StatusCode
+        request_body_len: RequestBodyLen
+        response_body_len: ResponseBodyLen
+        content_type: ContentType
+    
+  fallback:
+    annotate:
+      EventName: Generic NTA Events
+      Stream: OTHER
+
+  globals:
+    translate:
+      eventTime: SystemTstamp
+      System: System
+
+- first-match: '\{\"nta_category\":\"(?:dpd|modbus|ntp|snmp|x509|smb_mapping|smb_cmd|irc|files)"\,'
+  decoder: json
+  event-key-format: '{nta_category}'
+  event-key-mapping:
+    'dpd':
+      annotate:
+        Stream: NTA-DPD
+        Action: PROTOCOL_DETECTED
+        Status: PASSED
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.orig_p: SrcPort
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        proto: Proto
+        analyzer: Analyzer
+        failure_reason: Reason
+    'modbus':
+      annotate:
+        Stream: NTA-MODBUS
+        Action: MODBUS_RECORD_ACCESSED
+        Status: PASSED
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.orig_p: SrcPort
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        func: Function
+        exception: Exception
+    'ntp':
+      annotate:
+        Stream: NTA-NTP
+        Action: NTP_RECORD_ACCESSED
+        Status: PASSED
+      translate:
+        version: Version
+        mode: Mode
+        stratum: Stratum
+        root_delay: RootDelay
+        root_disp: RootDisp
+        ref_id: RefID
+        ref_time: RefTime
+        org_time: OrgTime
+        rec_time: RecTime
+        xmt_time: XmtTime
+    'snmp':
+      annotate:
+        Stream: NTA-SNMP
+        Action: SNMP_RECORD_ACCESSED
+        Status: PASSED
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.orig_p: SrcPort
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        duration: Duration
+        get_requests: GetRequests
+        get_bulk_requests: GetBulkRequests
+        get_responses: GetResponses
+        set_requests: SetRequests
+        display_string: DisplayString
+        up_since: UpTime
+    'x509':
+      annotate:
+        Stream: NTA-CERTIFICATE
+        Action: CERTIFICATE_RECORD_ACCESSED
+        Status: PASSED
+      translate:
+        id: ID
+        certificate.version: Version
+        certificate.serial: SerialNumber
+        certificate.subject: CertificateSubject
+        certificate.issuer: CertIssuerName
+        certificate.not_valid_before: Start
+        certificate.not_valid_after: Expiry
+        certificate.key_alg: KeyAlgorithm
+    'irc':
+      annotate:
+        Stream: NTA-IRC
+        Action: IRC_RECORD_ACCESSED
+        Status: PASSED
+      translate:
+        nick: Nickname
+        user: User
+        command: Command
+        value: Args
+        dcc_file_name: DccFile
+        dcc_file_size: DccFileSize
+        dcc_mime_type: DccMimeType
+        fuid: FileID
+    'files':
+      annotate:
+        Stream: NTA-FILES
+        Action: FILE_RECORD_ACCESSED
+        Status: PASSED
+      translate:
+        fuid: ID
+        tx_hosts: SrcIP
+        rx_hosts: DstIP
+        conn_uids: ConnID
+        source: Source
+        analyzers: Analyzer
+        mime_type: MimeType
+        filename: File
+        duration: Duration
+        total_bytes: TXLen
+        seen_bytes: RXLen
+        md5: MD5
+        sha1: SHA1
+        sha256: SHA256
+    'smb_mapping':
+      annotate:
+        Stream: NTA-SMB
+        Action: SMB_MAPPED
+        Status: PASSED
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        path: Path
+        share_type: ShareType
+    'smb_cmd':
+      annotate:
+        Stream: NTA-SMB
+        Action: SMB_COMMAND_EXECUTED
+        Status: PASSED 
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        path: Path
+        share_type: ShareType
+  fallback:
+    annotate:
+      EventName: Generic NTA Events
+      Stream: OTHER
+
+  globals:
+    translate:
+      eventTime: SystemTstamp
+      System: System
+
+- first-match: '\{\"nta_category\":\"smb_files\"\,'
+  decoder: json
+  event-key-format: '{action}'
+  event-key-mapping:
+    'SMB::FILE_OPEN':
+      annotate:
+        Stream: NTA-SMB
+        Action: SMB_FILE_OPEN
+        Status: PASSED
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        path: Path
+        share_type: ShareType
+    'SMB::FILE_CLOSE':
+      annotate:
+        Stream: NTA-SMB
+        Action: SMB_FILE_CLOSE
+        Status: PASSED
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        path: Path
+        share_type: ShareType
+    'SMB::FILE_DELETE':
+      annotate:
+        Stream: NTA-SMB
+        Action: SMB_FILE_DELETE
+        Status: PASSED
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        path: Path
+        share_type: ShareType
+    'SMB::FILE_RENAME':
+      annotate:
+        Stream: NTA-SMB
+        Action: SMB_FILE_RENAME
+        Status: PASSED
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        path: Path
+        share_type: ShareType
+    'SMB::FILE_SET_ATTRIBUTE':
+      annotate:
+        Stream: NTA-SMB
+        Action: SMB_FILE_SET_ATTRIBUTE
+        Status: PASSED
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        path: Path
+        share_type: ShareType
+    'SMB::FILE_READ':
+      annotate:
+        Stream: NTA-SMB
+        Action: SMB_FILE_READ
+        Status: PASSED
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        path: Path
+        share_type: ShareType
+    'SMB::FILE_WRITE':
+      annotate:
+        Stream: NTA-SMB
+        Action: SMB_FILE_WRITE
+        Status: PASSED
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        path: Path
+        share_type: ShareType
+    'SMB::PIPE_READ':
+      annotate:
+        Stream: NTA-SMB
+        Action: SMB_PIPE_READ
+        Status: PASSED
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        path: Path
+        share_type: ShareType
+    'SMB::PIPE_WRITE':
+      annotate:
+        Stream: NTA-SMB
+        Action: SMB_PIPE_WRITE
+        Status: PASSED
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        path: Path
+        share_type: ShareType
+    'SMB::PIPE_OPEN':
+      annotate:
+        Stream: NTA-SMB
+        Action: SMB_PIPE_OPEN
+        Status: PASSED
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        path: Path
+        share_type: ShareType
+    'SMB::PIPE_CLOSE':
+      annotate:
+        Stream: NTA-SMB
+        Action: SMB_PIPE_CLOSE
+        Status: PASSED
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        path: Path
+        share_type: ShareType
+    'SMB::PRINT_READ':
+      annotate:
+        Stream: NTA-SMB
+        Action: SMB_PRINT_READ
+        Status: PASSED
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        path: Path
+        share_type: ShareType
+    'SMB::PRINT_WRITE':
+      annotate:
+        Stream: NTA-SMB
+        Action: SMB_PRINT_WRITE
+        Status: PASSED
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        path: Path
+        share_type: ShareType
+    'SMB::PRINT_OPEN':
+      annotate:
+        Stream: NTA-SMB
+        Action: SMB_PRINT_OPEN
+        Status: PASSED
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        path: Path
+        share_type: ShareType
+    'SMB::PRINT_CLOSE':
+      annotate:
+        Stream: NTA-SMB
+        Action: SMB_PRINT_CLOSE
+        Status: PASSED
+      translate:
+        uid: ID
+        id.orig_h: SrcIP
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        path: Path
+        share_type: ShareType
+      
+  fallback:
+    annotate:
+      EventName: Generic NTA Events
+      Stream: OTHER
+
+  globals:
+    translate:
+      eventTime: SystemTstamp
+      System: System
+
+- first-match: '\{\"nta\_category\"\:\"dhcp\"\,.*?\"msg\_types\"\:\[\"INFORM\"\]\,'
+  decoder: json
+  event-key-format: ''
+  event-key-mapping:
+    '':
+      annotate:
+        Stream: NTA-DHCP
+        Action: DHCP_INFORM
+        Status: PASSED
+      translate:
+        User: User
+        client_addr: SrcIP
+        mac: MACAddress
+        ResultCode: ResultCode
+      
+  fallback:
+    annotate:
+      EventName: Generic NTA Events
+      Stream: OTHER
+
+  globals:
+    translate:
+      eventTime: SystemTstamp
+      host_name: System
+
+- first-match: '\{\"nta\_category\"\:\"dhcp\"\,.*?\"msg\_types\"\:\[\"ACK\"\]\,'
+  decoder: json
+  event-key-format: ''
+  event-key-mapping:
+    '':
+      annotate:
+        Stream: NTA-DHCP
+        Action: DHCP_ACKNOWLEDGMENT
+        Status: PASSED
+      translate:
+        User: User
+        client_addr: SrcIP
+        mac: MACAddress
+        ResultCode: ResultCode
+      
+  fallback:
+    annotate:
+      EventName: Generic NTA Events
+      Stream: OTHER
+
+  globals:
+    translate:
+      eventTime: SystemTstamp
+      host_name: System
+
+- first-match: '\{\"nta\_category\"\:\"dhcp\"\,.*?\"msg\_types\"\:\[\"DISCOVER\"\]\,'
+  decoder: json
+  event-key-format: ''
+  event-key-mapping:
+    '':
+      annotate:
+        Stream: NTA-DHCP
+        Action: DHCP_DISCOVER
+        Status: PASSED
+      translate:
+        User: User
+        client_addr: SrcIP
+        mac: MACAddress
+        ResultCode: ResultCode
+      
+  fallback:
+    annotate:
+      EventName: Generic NTA Events
+      Stream: OTHER
+
+  globals:
+    translate:
+      eventTime: SystemTstamp
+      host_name: System
+
+- first-match: '\{\"nta\_category\"\:\"dhcp\"\,.*?\"msg\_types\"\:\[\"REQUEST\"\]\,'
+  decoder: json
+  event-key-format: ''
+  event-key-mapping:
+    '':
+      annotate:
+        Stream: NTA-DHCP
+        Action: DHCP_REQUEST
+        Status: PASSED
+      translate:
+        User: User
+        client_addr: SrcIP
+        mac: MACAddress
+        ResultCode: ResultCode
+      
+  fallback:
+    annotate:
+      EventName: Generic NTA Events
+      Stream: OTHER
+
+  globals:
+    translate:
+      eventTime: SystemTstamp
+      host_name: System
+
+- first-match: '\{\"nta\_category\"\:\"dhcp\"\,.*?\"msg\_types\"\:\[\"RELEASE\"\]\,'
+  decoder: json
+  event-key-format: ''
+  event-key-mapping:
+    '':
+      annotate:
+        Stream: NTA-DHCP
+        Action: DHCP_RELEASE
+        Status: PASSED
+      translate:
+        User: User
+        client_addr: SrcIP
+        mac: MACAddress
+        ResultCode: ResultCode
+      
+  fallback:
+    annotate:
+      EventName: Generic NTA Events
+      Stream: OTHER
+
+  globals:
+    translate:
+      eventTime: SystemTstamp
+      host_name: System
+
+- first-match: '\{\"nta\_category\"\:\"dhcp\"\,.*?\"msg\_types\"\:\[\"NAK\"\]\,'
+  decoder: json
+  event-key-format: ''
+  event-key-mapping:
+    '':
+      annotate:
+        Stream: NTA-DHCP
+        Action: DHCP_NEGATIVE_ACKNOWLEDGMENT
+        Status: PASSED
+      translate:
+        User: User
+        client_addr: SrcIP
+        mac: MACAddress
+        ResultCode: ResultCode
+      
+  fallback:
+    annotate:
+      EventName: Generic NTA Events
+      Stream: OTHER
+
+  globals:
+    translate:
+      eventTime: SystemTstamp
+      host_name: System
+
+- first-match: '\{\"nta\_category\"\:\"dhcp\"\,.*?\"msg\_types\"\:\[\"DECLINE\"\]\,'
+  decoder: json
+  event-key-format: ''
+  event-key-mapping:
+    '':
+      annotate:
+        Stream: NTA-DHCP
+        Action: DHCP_DECLINE
+        Status: PASSED
+      translate:
+        User: User
+        client_addr: SrcIP
+        mac: MACAddress
+        ResultCode: ResultCode
+      
+  fallback:
+    annotate:
+      EventName: Generic NTA Events
+      Stream: OTHER
+
+  globals:
+    translate:
+      eventTime: SystemTstamp
+      host_name: System
+
+- first-match: '\{\"nta\_category\"\:\"dhcp\"\,.*?\"msg\_types\"\:\[\"OFFER\"\]\,'
+  decoder: json
+  event-key-format: ''
+  event-key-mapping:
+    '':
+      annotate:
+        Stream: NTA-DHCP
+        Action: DHCP_OFFER
+        Status: PASSED
+      translate:
+        User: User
+        client_addr: SrcIP
+        mac: MACAddress
+        ResultCode: ResultCode
+      
+  fallback:
+    annotate:
+      EventName: Generic NTA Events
+      Stream: OTHER
+
+  globals:
+    translate:
+      eventTime: SystemTstamp
+      host_name: System
