@@ -1,7 +1,7 @@
 schema-version: 1.0
 #extractor-version: 1
 extractor-id: 722
-integration: Azure 
+integration: Azure Event Hub
 vendor-name: Microsoft Azure
 product-name: Azure Event Hubs
 source-name:  AZURE-EVENT-HUBS
@@ -16,180 +16,208 @@ master-filters:
 event-details:
 - first-match: '\"category\"\:\"\w+\"\,\"resultType\"\:\"\w+\"'
   decoder: json
-  event-key-format: '{category}-{resultType}'
+  event-key-format: '{category}-{resultType}-{properties[eventCategory]}'
   event-key-mapping: 
-    'Action-Failure':
+    'Action-Failure-Administrative':
       annotate:
         Stream: AZURE
         Action: AZURE_ACTIVITY
         Status: FAILED
+        EventName: ADMINISTRATIVE
       translate:  
-        category: Category
+        properties[eventCategory]: Category
         User: User
         ResourceGroup: ResourceGroup
         operationName: OperationName
 
-    'Action-Start':
+    'Action-Start-Administrative':
       annotate:
         Stream: AZURE
         Action: AZURE_ACTIVITY
         Status: PASSED
+        EventName: ADMINISTRATIVE
       translate:  
-        category: Category
+        properties[eventCategory]: Category
         User: User
         ResourceGroup: ResourceGroup
         operationName: OperationName    
 
-    'Action-Success':
+    'Action-Success-Administrative':
       annotate:
         Stream: AZURE
         Action: AZURE_ACTIVITY
         Status: PASSED
+        EventName: ADMINISTRATIVE
       translate:  
-        category: Category
-        User: User
-        ResourceGroup: ResourceGroup
-        operationName: OperationName  
-
-    'Action-Accept': 
-      annotate:
-        Stream: AZURE
-        Action: AZURE_ACTIVITY
-        Status: PASSED
-      translate:  
-        category: Category
-        User: User
-        ResourceGroup: ResourceGroup
-        operationName: OperationName        
-
-    'Write-Failure':   
-      annotate:
-        Stream: AZURE
-        Action: AZURE_WRITE
-        Status: FAILED
-      translate:  
-        category: Category
-        User: User
-        ResourceGroup: ResourceGroup
-        operationName: OperationName
-
-    'Write-Start':   
-      annotate:
-        Stream: AZURE
-        Action: AZURE_WRITE
-        Status: PASSED
-      translate:  
-        category: Category
-        User: User
-        ResourceGroup: ResourceGroup
-        operationName: OperationName
-
-    'Write-Success':
-      annotate:
-        Stream: AZURE
-        Action: AZURE_WRITE
-        Status: PASSED
-      translate:  
-        category: Category
-        User: User
-        ResourceGroup: ResourceGroup
-        operationName: OperationName    
-
-    'Write-Accept':
-      annotate:
-        Stream: AZURE
-        Action: AZURE_WRITE
-        Status: PASSED
-      translate:  
-        category: Category
-        User: User
-        ResourceGroup: ResourceGroup
-        operationName: OperationName    
-
-    'Read-Failure':   
-      annotate:
-        Stream: AZURE
-        Action: AZURE_READ
-        Status: FAILED
-      translate:  
-        category: Category
-        User: User
-        ResourceGroup: ResourceGroup
-        operationName: OperationName
-
-    'Read-Start':   
-      annotate:
-        Stream: AZURE
-        Action: AZURE_READ
-        Status: PASSED
-      translate:  
-        category: Category
-        User: User
-        ResourceGroup: ResourceGroup
-        operationName: OperationName
-
-    'Read-Success':
-      annotate:
-        Stream: AZURE
-        Action: AZURE_READ
-        Status: PASSED
-      translate:  
-        category: Category
-        User: User
-        ResourceGroup: ResourceGroup
-        operationName: OperationName    
-
-    'Read-Accept':
-      annotate:
-        Stream: AZURE
-        Action: AZURE_READ
-        Status: PASSED
-      translate:  
-        category: Category
+        properties[eventCategory]: Category
         User: User
         ResourceGroup: ResourceGroup
         operationName: OperationName 
 
-    'Delete-Failure':
+    'Action-Success-Policy':
       annotate:
         Stream: AZURE
-        Action: AZURE_DELETE
-        Status: FAILED
-      translate:  
-        category: Category
-        User: User
-        ResourceGroup: ResourceGroup
-        operationName: OperationName        
-
-    'Delete-Start':
-      annotate:
-        Stream: AZURE
-        Action: AZURE_DELETE
+        Action: AZURE_ACTIVITY
         Status: PASSED
+        EventName: POLICY
       translate:  
-        category: Category
-        User: User
-        ResourceGroup: ResourceGroup
-        operationName: OperationName         
-
-    'Delete-Success':
-      annotate:
-        Stream: AZURE
-        Action: AZURE_DELETE
-        Status: PASSED
-      translate:  
-        category: Category
+        properties[eventCategory]: Category
         User: User
         ResourceGroup: ResourceGroup
         operationName: OperationName      
 
-    'Delete-Accept':
+    'Action-Accept-Administrative': 
+      annotate:
+        Stream: AZURE
+        Action: AZURE_ACTIVITY
+        Status: PASSED
+        EventName: ADMINISTRATIVE
+      translate:  
+        properties[eventCategory]: Category
+        User: User
+        ResourceGroup: ResourceGroup
+        operationName: OperationName        
+
+    'Write-Failure-Administrative':   
+      annotate:
+        Stream: AZURE
+        Action: AZURE_WRITE
+        Status: FAILED
+        EventName: ADMINISTRATIVE
+      translate:  
+        properties[eventCategory]: Category
+        User: User
+        ResourceGroup: ResourceGroup
+        operationName: OperationName
+
+    'Write-Start-Administrative':   
+      annotate:
+        Stream: AZURE
+        Action: AZURE_WRITE
+        Status: PASSED
+        EventName: ADMINISTRATIVE
+      translate:  
+        properties[eventCategory]: Category
+        User: User
+        ResourceGroup: ResourceGroup
+        operationName: OperationName
+
+    'Write-Success-Administrative':
+      annotate:
+        Stream: AZURE
+        Action: AZURE_WRITE
+        Status: PASSED
+        EventName: ADMINISTRATIVE
+      translate:  
+        properties[eventCategory]: Category
+        User: User
+        ResourceGroup: ResourceGroup
+        operationName: OperationName    
+
+    'Write-Accept-Administrative':
+      annotate:
+        Stream: AZURE
+        Action: AZURE_WRITE
+        Status: PASSED
+        EventName: ADMINISTRATIVE
+      translate:  
+        properties[eventCategory]: Category
+        User: User
+        ResourceGroup: ResourceGroup
+        operationName: OperationName    
+
+    'Read-Failure-Administrative':   
+      annotate:
+        Stream: AZURE
+        Action: AZURE_READ
+        Status: FAILED
+        EventName: ADMINISTRATIVE
+      translate:  
+        properties[eventCategory]: Category
+        User: User
+        ResourceGroup: ResourceGroup
+        operationName: OperationName
+
+    'Read-Start-Administrative':   
+      annotate:
+        Stream: AZURE
+        Action: AZURE_READ
+        Status: PASSED
+        EventName: ADMINISTRATIVE
+      translate:  
+        properties[eventCategory]: Category
+        User: User
+        ResourceGroup: ResourceGroup
+        operationName: OperationName
+
+    'Read-Success-Administrative':
+      annotate:
+        Stream: AZURE
+        Action: AZURE_READ
+        Status: PASSED
+        EventName: ADMINISTRATIVE
+      translate:  
+        properties[eventCategory]: Category
+        User: User
+        ResourceGroup: ResourceGroup
+        operationName: OperationName    
+
+    'Read-Accept-Administrative':
+      annotate:
+        Stream: AZURE
+        Action: AZURE_READ
+        Status: PASSED
+        EventName: ADMINISTRATIVE
+      translate:  
+        properties[eventCategory]: Category
+        User: User
+        ResourceGroup: ResourceGroup
+        operationName: OperationName 
+
+    'Delete-Failure-Administrative':
+      annotate:
+        Stream: AZURE
+        Action: AZURE_DELETE
+        Status: FAILED
+        EventName: ADMINISTRATIVE
+      translate:  
+        properties[eventCategory]: Category
+        User: User
+        ResourceGroup: ResourceGroup
+        operationName: OperationName        
+
+    'Delete-Start-Administrative':
       annotate:
         Stream: AZURE
         Action: AZURE_DELETE
         Status: PASSED
+        EventName: ADMINISTRATIVE
       translate:  
-        category: Category
+        properties[eventCategory]: Category
+        User: User
+        ResourceGroup: ResourceGroup
+        operationName: OperationName         
+
+    'Delete-Success-Administrative':
+      annotate:
+        Stream: AZURE
+        Action: AZURE_DELETE
+        Status: PASSED
+        EventName: ADMINISTRATIVE
+      translate:  
+        properties[eventCategory]: Category
+        User: User
+        ResourceGroup: ResourceGroup
+        operationName: OperationName      
+
+    'Delete-Accept-Administrative':
+      annotate:
+        Stream: AZURE
+        Action: AZURE_DELETE
+        Status: PASSED
+        EventName: ADMINISTRATIVE
+      translate:  
+        properties[eventCategory]: Category
         User: User
         ResourceGroup: ResourceGroup
         operationName: OperationName  
@@ -217,7 +245,8 @@ event-details:
         category: Category
         Caller: User
         ResourceGroup: ResourceGroup
-        EventName: OperationName  
+        EventName: EventName
+        OperationName: OperationName  
 
   fallback:
     annotate:
@@ -238,6 +267,7 @@ event-details:
         Stream: AZURE
         Action: AZURE_ARCHIVE
         Status: FAILED
+        EventName: ArchiveLogs
       translate:  
         category: Category
         User: User
