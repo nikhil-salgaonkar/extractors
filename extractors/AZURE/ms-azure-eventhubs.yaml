@@ -249,7 +249,7 @@ event-details:
         Stream: AZURE
         Action: AZURE_ARCHIVE
         Status: FAILED
-        EventName: ArchiveLogs
+        EventName: ARCHIVELOGS
       translate:  
         category: Category
         User: User
