@@ -26,8 +26,7 @@ event-details:
         EventName: ADMINISTRATIVE
       translate:  
         properties[eventCategory]: Category
-        User: User
-        ResourceGroup: ResourceGroup
+        identity[claims][name]: User
         operationName: OperationName
 
     'Action-Start-Administrative':
@@ -38,8 +37,7 @@ event-details:
         EventName: ADMINISTRATIVE
       translate:  
         properties[eventCategory]: Category
-        User: User
-        ResourceGroup: ResourceGroup
+        identity[claims][name]: User
         operationName: OperationName    
 
     'Action-Success-Administrative':
@@ -50,8 +48,7 @@ event-details:
         EventName: ADMINISTRATIVE
       translate:  
         properties[eventCategory]: Category
-        User: User
-        ResourceGroup: ResourceGroup
+        identity[claims][name]: User
         operationName: OperationName 
 
     'Action-Success-Policy':
@@ -62,8 +59,7 @@ event-details:
         EventName: POLICY
       translate:  
         properties[eventCategory]: Category
-        User: User
-        ResourceGroup: ResourceGroup
+        identity[claims][name]: User
         operationName: OperationName      
 
     'Action-Accept-Administrative': 
@@ -74,8 +70,7 @@ event-details:
         EventName: ADMINISTRATIVE
       translate:  
         properties[eventCategory]: Category
-        User: User
-        ResourceGroup: ResourceGroup
+        identity[claims][name]: User
         operationName: OperationName        
 
     'Write-Failure-Administrative':   
@@ -86,8 +81,7 @@ event-details:
         EventName: ADMINISTRATIVE
       translate:  
         properties[eventCategory]: Category
-        User: User
-        ResourceGroup: ResourceGroup
+        identity[claims][name]: User
         operationName: OperationName
 
     'Write-Start-Administrative':   
@@ -98,8 +92,7 @@ event-details:
         EventName: ADMINISTRATIVE
       translate:  
         properties[eventCategory]: Category
-        User: User
-        ResourceGroup: ResourceGroup
+        identity[claims][name]: User
         operationName: OperationName
 
     'Write-Success-Administrative':
@@ -110,8 +103,7 @@ event-details:
         EventName: ADMINISTRATIVE
       translate:  
         properties[eventCategory]: Category
-        User: User
-        ResourceGroup: ResourceGroup
+        identity[claims][name]: User
         operationName: OperationName    
 
     'Write-Accept-Administrative':
@@ -122,8 +114,7 @@ event-details:
         EventName: ADMINISTRATIVE
       translate:  
         properties[eventCategory]: Category
-        User: User
-        ResourceGroup: ResourceGroup
+        identity[claims][name]: User
         operationName: OperationName    
 
     'Read-Failure-Administrative':   
@@ -134,8 +125,7 @@ event-details:
         EventName: ADMINISTRATIVE
       translate:  
         properties[eventCategory]: Category
-        User: User
-        ResourceGroup: ResourceGroup
+        identity[claims][name]: User
         operationName: OperationName
 
     'Read-Start-Administrative':   
@@ -146,8 +136,7 @@ event-details:
         EventName: ADMINISTRATIVE
       translate:  
         properties[eventCategory]: Category
-        User: User
-        ResourceGroup: ResourceGroup
+        identity[claims][name]: User
         operationName: OperationName
 
     'Read-Success-Administrative':
@@ -158,8 +147,7 @@ event-details:
         EventName: ADMINISTRATIVE
       translate:  
         properties[eventCategory]: Category
-        User: User
-        ResourceGroup: ResourceGroup
+        identity[claims][name]: User
         operationName: OperationName    
 
     'Read-Accept-Administrative':
@@ -170,8 +158,7 @@ event-details:
         EventName: ADMINISTRATIVE
       translate:  
         properties[eventCategory]: Category
-        User: User
-        ResourceGroup: ResourceGroup
+        identity[claims][name]: User
         operationName: OperationName 
 
     'Delete-Failure-Administrative':
@@ -182,8 +169,7 @@ event-details:
         EventName: ADMINISTRATIVE
       translate:  
         properties[eventCategory]: Category
-        User: User
-        ResourceGroup: ResourceGroup
+        identity[claims][name]: User
         operationName: OperationName        
 
     'Delete-Start-Administrative':
@@ -194,8 +180,7 @@ event-details:
         EventName: ADMINISTRATIVE
       translate:  
         properties[eventCategory]: Category
-        User: User
-        ResourceGroup: ResourceGroup
+        identity[claims][name]: User
         operationName: OperationName         
 
     'Delete-Success-Administrative':
@@ -206,8 +191,7 @@ event-details:
         EventName: ADMINISTRATIVE
       translate:  
         properties[eventCategory]: Category
-        User: User
-        ResourceGroup: ResourceGroup
+        identity[claims][name]: User
         operationName: OperationName      
 
     'Delete-Accept-Administrative':
@@ -218,8 +202,7 @@ event-details:
         EventName: ADMINISTRATIVE
       translate:  
         properties[eventCategory]: Category
-        User: User
-        ResourceGroup: ResourceGroup
+        identity[claims][name]: User
         operationName: OperationName  
 
   fallback:
@@ -244,7 +227,6 @@ event-details:
       translate:  
         category: Category
         Caller: User
-        ResourceGroup: ResourceGroup
         EventName: EventName
         OperationName: OperationName  
 
@@ -271,7 +253,6 @@ event-details:
       translate:  
         category: Category
         User: User
-        ResourceGroup: ResourceGroup
         OperationName: OperationName
 
   fallback:
