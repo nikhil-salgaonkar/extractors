@@ -165,9 +165,9 @@ event-details:
 
 - first-match: '\"category\":\[\"process\"'
   decoder: json
-  event-key-format: '{event[action]}'
+  event-key-format: '{event[action]}-{event[outcome]}'
   event-key-mapping:
-    'started-service':
+    'started-service-success':
       annotate:
         Stream: AUDITD
         Action: SERVICE_STARTED
@@ -177,7 +177,7 @@ event-details:
         process[executable]: Process
         process[args]: ProcessArgs
 
-    'stopped-service':
+    'stopped-service-success':
       annotate:
         Stream: AUDITD
         Action: SERVICE_STOPPED
@@ -187,17 +187,27 @@ event-details:
         process[executable]: Process
         process[args]: ProcessArgs
 
-    'executed':
+    'executed-failure':
+      annotate:
+        Stream: AUDITD
+        Action: PROCESS_ADDED
+        Status: FAILED
+      translate:
+        user[name]: User
+        process[working_directory]: Process
+        process[args]: ProcessArgs
+
+    'executed-success':
       annotate:
         Stream: AUDITD
         Action: PROCESS_ADDED
         Status: PASSED
       translate:
         user[name]: User
-        process[executable]: Process
-        process[args]: ProcessArgs
+        process[working_directory]: Process
+        process[args]: ProcessArgs    
 
-    'ran-command':
+    'ran-command-success':
       annotate:
         Stream: AUDITD
         Action: USER_COMMAND_EXECUTED
