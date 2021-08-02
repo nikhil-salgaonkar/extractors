@@ -275,6 +275,7 @@ NTA-HTTP:
 - RespFile
 - OrigMimeDepth
 - RespMimeDepth
+- UserAgent
 NTA-IRC:
 - Nickname
 - User
