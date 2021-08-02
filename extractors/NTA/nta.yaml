@@ -886,6 +886,7 @@ event-details:
         resp_filenames: RespFile 
         orig_mime_depth: OrigMimeDepth
         resp_mime_depth: RespMimeDepth
+        user_agent: UserAgent
     
   fallback:
     annotate:
@@ -918,6 +919,7 @@ event-details:
         resp_filenames: RespFile 
         orig_mime_depth: OrigMimeDepth
         resp_mime_depth: RespMimeDepth
+        user_agent: UserAgent
     
   fallback:
     annotate:
@@ -950,6 +952,7 @@ event-details:
         resp_filenames: RespFile 
         orig_mime_depth: OrigMimeDepth
         resp_mime_depth: RespMimeDepth
+        user_agent: UserAgent
     
   fallback:
     annotate:
