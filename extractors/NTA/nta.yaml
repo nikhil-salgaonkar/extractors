@@ -875,18 +875,19 @@ event-details:
         Action: REQUEST_ALLOWED
         Status: PASSED
       translate:
-        resp_fuids: ID
-        trans_depth: TransactionDepth
-        status_msg: StatusMsg
-        info_code: InfoCode
-        password: Password
-        orig_mime_types: OrigMimeType
-        orig_filenames: OrigFile 
-        resp_mime_types: RespMimeType
-        resp_filenames: RespFile 
-        orig_mime_depth: OrigMimeDepth
-        resp_mime_depth: RespMimeDepth
+        uid: ID
+        id.orig_h: SrcIP
+        id.orig_p: SrcPort
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        method: Method
+        host: Host
+        uri: URI
         user_agent: UserAgent
+        request_body_len: RXLen
+        response_body_len: TXLen
+        status_code: StatusCode
+        resp_mime_types: MimeType
     
   fallback:
     annotate:
@@ -908,18 +909,19 @@ event-details:
         Action: REQUEST_REDIRECTED
         Status: PASSED
       translate:
-        resp_fuids: ID 
-        trans_depth: TransactionDepth
-        status_msg: StatusMsg
-        info_code: InfoCode
-        password: Password
-        orig_mime_types: OrigMimeType
-        orig_filenames: OrigFile
-        resp_mime_types: RespMimeType
-        resp_filenames: RespFile 
-        orig_mime_depth: OrigMimeDepth
-        resp_mime_depth: RespMimeDepth
+        uid: ID
+        id.orig_h: SrcIP
+        id.orig_p: SrcPort
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        method: Method
+        host: Host
+        uri: URI
         user_agent: UserAgent
+        request_body_len: RXLen
+        response_body_len: TXLen
+        status_code: StatusCode
+        resp_mime_types: MimeType
     
   fallback:
     annotate:
@@ -941,18 +943,19 @@ event-details:
         Action: REQUEST_DENIED
         Status: PASSED
       translate:
-        resp_fuids: ID 
-        trans_depth: TransactionDepth
-        status_msg: StatusMsg
-        info_code: InfoCode
-        password: Password
-        orig_mime_types: OrigMimeType
-        orig_filenames: OrigFile
-        resp_mime_types: RespMimeType
-        resp_filenames: RespFile 
-        orig_mime_depth: OrigMimeDepth
-        resp_mime_depth: RespMimeDepth
+        uid: ID
+        id.orig_h: SrcIP
+        id.orig_p: SrcPort
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        method: Method
+        host: Host
+        uri: URI
         user_agent: UserAgent
+        request_body_len: RXLen
+        response_body_len: TXLen
+        status_code: StatusCode
+        resp_mime_types: MimeType
     
   fallback:
     annotate:

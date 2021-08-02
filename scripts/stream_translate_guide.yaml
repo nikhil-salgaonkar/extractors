@@ -264,18 +264,19 @@ NTA-FTP:
 - ReplyCode
 - ReplyMsg
 NTA-HTTP:
-- TransactionDepth
-- StatusMsg
-- InfoCode
-- Password
-- OrigMimeType
-- OrigFile
 - ID
-- RespMimeType
-- RespFile
-- OrigMimeDepth
-- RespMimeDepth
+- SrcIP
+- SrcPort
+- DstIP
+- DstPort
+- Method
+- Host
+- URI
 - UserAgent
+- RXLen
+- TXLen
+- StatusCode
+- MimeType
 NTA-IRC:
 - Nickname
 - User
