@@ -50,7 +50,7 @@ event-details:
     'Session Management-Trusted User added':
       annotate:
         Stream: IAM
-        Action: USER_CREATED
+        Action: USER_ADDED
         Status: PASSED
       translate:
         username: User
@@ -95,7 +95,7 @@ event-details:
     'Server Management-License added':
       annotate:
         Stream: IAM
-        Action: USER_LICENSE_CHANGED
+        Action: USER_LICENSE_ADDED
         Status: PASSED
       translate:
         username: User
@@ -149,7 +149,7 @@ event-details:
     'Policy Management-Approval Request created':
       annotate:
         Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Action: REQUEST_CREATED
         Status: PASSED
       translate:
         username: User
@@ -157,7 +157,7 @@ event-details:
     'Policy Management-Approval Request modified':
       annotate:
         Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Action: REQUEST_MODIFIED
         Status: PASSED
       translate:
         username: User
@@ -165,7 +165,7 @@ event-details:
     'Policy Management-Approval Request closed':
       annotate:
         Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Action: REQUEST_CLOSED
         Status: PASSED
       translate:
         username: User
@@ -173,7 +173,7 @@ event-details:
     'Policy Management-Certificate approval created':
       annotate:
         Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Action: CERTIFICATE_APPROVAL_CREATED
         Status: PASSED
       translate:
         username: User
@@ -181,7 +181,7 @@ event-details:
     'Policy Management-Certificate approval deleted':
       annotate:
         Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Action: CERTIFICATE_APPROVAL_DELETED
         Status: PASSED
       translate:
         username: User
@@ -189,7 +189,7 @@ event-details:
     'Policy Management-Certificate approval modified':
       annotate:
         Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Action: CERTIFICATE_APPROVAL_MODIFIED
         Status: PASSED
       translate:
         username: User
@@ -197,7 +197,7 @@ event-details:
     'Policy Management-Certificate ban created':
       annotate:
         Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Action: CERTIFICATE_BAN_CREATED
         Status: PASSED
       translate:
         username: User
@@ -205,7 +205,7 @@ event-details:
     'Policy Management-Custom Rule created':
       annotate:
         Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Action: RULE_CREATED
         Status: PASSED
       translate:
         username: User
@@ -213,7 +213,7 @@ event-details:
     'Policy Management-Custom Rule deleted':
       annotate:
         Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Action: RULE_DELETED
         Status: PASSED
       translate:
         username: User
@@ -221,7 +221,7 @@ event-details:
     'Policy Management-Custom Rule modified':
       annotate:
         Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Action: RULE_MODIFIED
         Status: PASSED
       translate:
         username: User
@@ -229,7 +229,7 @@ event-details:
     'Policy Management-Device Rule created':
       annotate:
         Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Action: RULE_CREATED
         Status: PASSED
       translate:
         username: User
@@ -237,7 +237,7 @@ event-details:
     'Policy Management-Device Rule deleted':
       annotate:
         Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Action: RULE_DELETED
         Status: PASSED
       translate:
         username: User
@@ -245,7 +245,7 @@ event-details:
     'Policy Management-Device Rule modified':
       annotate:
         Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Action: RULE_MODIFIED
         Status: PASSED
       translate:
         username: User
@@ -253,7 +253,7 @@ event-details:
     'Policy Management-File approval created':
       annotate:
         Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Action: FILE_APPROVAL_CREATED
         Status: PASSED
       translate:
         username: User
@@ -261,7 +261,7 @@ event-details:
     'Policy Management-File approval deleted':
       annotate:
         Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Action: FILE_APPROVAL_DELETED
         Status: PASSED
       translate:
         username: User
@@ -269,7 +269,7 @@ event-details:
     'Policy Management-File approval modified':
       annotate:
         Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Action: FILE_APPROVAL_MODIFIED
         Status: PASSED
       translate:
         username: User
@@ -277,7 +277,7 @@ event-details:
     'Policy Management-File ban created':
       annotate:
         Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Action: FILE_BAN_CREATED
         Status: PASSED
       translate:
         username: User
@@ -285,7 +285,7 @@ event-details:
     'Policy Management-File ban deleted':
       annotate:
         Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Action: FILE_BAN_DELETED
         Status: PASSED
       translate:
         username: User
@@ -293,7 +293,7 @@ event-details:
     'Policy Management-File ban modified':
       annotate:
         Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Action: FILE_BAN_MODIFIED
         Status: PASSED
       translate:
         username: User
@@ -301,7 +301,7 @@ event-details:
     'Policy Management-File properties modified':
       annotate:
         Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Action: FILE_PROPERTIES_MODIFIED
         Status: PASSED
       translate:
         username: User
@@ -309,7 +309,7 @@ event-details:
     'Policy Management-Memory Rule created':
       annotate:
         Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Action: RULE_CREATED
         Status: PASSED
       translate:
         username: User
@@ -317,7 +317,7 @@ event-details:
     'Policy Management-Memory Rule deleted':
       annotate:
         Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Action: RULE_DELETED
         Status: PASSED
       translate:
         username: User
@@ -325,7 +325,7 @@ event-details:
     'Policy Management-Memory Rule modified':
       annotate:
         Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Action: RULE_MODIFIED
         Status: PASSED
       translate:
         username: User
@@ -333,7 +333,7 @@ event-details:
     'Policy Management-Notifier created':
       annotate:
         Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Action: NOTIFIER_CREATED
         Status: PASSED
       translate:
         username: User
@@ -341,7 +341,7 @@ event-details:
     'Policy Management-Notifier deleted':
       annotate:
         Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Action: NOTIFIER_DELETED
         Status: PASSED
       translate:
         username: User
@@ -349,7 +349,7 @@ event-details:
     'Policy Management-Notifier modified':
       annotate:
         Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Action: NOTIFIER_MODIFIED
         Status: PASSED
       translate:
         username: User
@@ -357,7 +357,7 @@ event-details:
     'Policy Management-Policy created':
       annotate:
         Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Action: POLICY_CREATED
         Status: PASSED
       translate:
         username: User
@@ -365,7 +365,7 @@ event-details:
     'Policy Management-Policy deleted':
       annotate:
         Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Action: POLICY_DELETED
         Status: PASSED
       translate:
         username: User
@@ -373,7 +373,7 @@ event-details:
     'Policy Management-Policy modified':
       annotate:
         Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Action: POLICY_MODIFIED
         Status: PASSED
       translate:
         username: User
@@ -381,7 +381,7 @@ event-details:
     'Policy Management-Registry Rule created':
       annotate:
         Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Action: RULE_CREATED
         Status: PASSED
       translate:
         username: User
@@ -389,7 +389,7 @@ event-details:
     'Policy Management-Registry Rule deleted':
       annotate:
         Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Action: RULE_DELETED
         Status: PASSED
       translate:
         username: User
@@ -397,7 +397,7 @@ event-details:
     'Policy Management-Registry Rule modified':
       annotate:
         Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Action: RULE_MODIFIED
         Status: PASSED
       translate:
         username: User
@@ -413,7 +413,7 @@ event-details:
     'Policy Management-Script Rule created':
       annotate:
         Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Action: RULE_CREATED
         Status: PASSED
       translate:
         username: User
@@ -421,7 +421,7 @@ event-details:
     'Policy Management-Script Rule deleted':
       annotate:
         Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Action: RULE_DELETED
         Status: PASSED
       translate:
         username: User
@@ -429,7 +429,7 @@ event-details:
     'Policy Management-Script Rule modified':
       annotate:
         Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Action: RULE_MODIFIED
         Status: PASSED
       translate:
         username: User
@@ -437,7 +437,7 @@ event-details:
     'Policy Management-Trusted Directory created':
       annotate:
         Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Action: DIRECTORY_CREATED
         Status: PASSED
       translate:
         username: User
@@ -445,7 +445,7 @@ event-details:
     'Policy Management-Trusted Directory deleted':
       annotate:
         Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Action: DIRECTORY_DELETED
         Status: PASSED
       translate:
         username: User
@@ -453,7 +453,7 @@ event-details:
     'Policy Management-Trusted Directory modified':
       annotate:
         Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Action: DIRECTORY_MODIFIED
         Status: PASSED
       translate:
         username: User
@@ -461,7 +461,7 @@ event-details:
     'Policy Management-Unified rule overridden':
       annotate:
         Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Action: RULE_OVERRIDDEN
         Status: PASSED
       translate:
         username: User
@@ -469,7 +469,7 @@ event-details:
     'Policy Management-Yara rule created':
       annotate:
         Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Action: RULE_CREATED
         Status: PASSED
       translate:
         username: User
@@ -477,7 +477,7 @@ event-details:
     'Policy Management-Yara rule modified':
       annotate:
         Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Action: RULE_MODIFIED
         Status: PASSED
       translate:
         username: User
@@ -485,7 +485,7 @@ event-details:
     'Policy Management-Yara rule deleted':
       annotate:
         Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Action: RULE_DELETED
         Status: PASSED
       translate:
         username: User
@@ -493,7 +493,7 @@ event-details:
     'Server Management-Rapid Config created':
       annotate:
         Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Action: CONFIGURATION_CREATED
         Status: PASSED
       translate:
         username: User
@@ -501,7 +501,7 @@ event-details:
     'Server Management-Rapid Config deleted':
       annotate:
         Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Action: CONFIGURATION_DELETED
         Status: PASSED
       translate:
         username: User
@@ -509,7 +509,7 @@ event-details:
     'Server Management-Rapid Config modified':
       annotate:
         Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Action: CONFIGURATION_MODIFIED
         Status: PASSED
       translate:
         username: User
@@ -517,7 +517,7 @@ event-details:
     'Server Management-Rapid Config updated':
       annotate:
         Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Action: CONFIGURATION_UPDATED
         Status: PASSED
       translate:
         username: User
@@ -525,7 +525,7 @@ event-details:
     'Server Management-Server config modified':
       annotate:
         Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Action: CONFIGURATION_MODIFIED
         Status: PASSED
       translate:
         username: User
@@ -533,7 +533,7 @@ event-details:
     'Computer Management-Agent config modified':
       annotate:
         Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Action: CONFIGURATION_MODIFIED
         Status: PASSED
       translate:
         username: User
@@ -541,7 +541,7 @@ event-details:
     'Computer Management-Agent Policy changed':
       annotate:
         Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Action: POLICY_CHANGED
         Status: PASSED
       translate:
         username: User
@@ -549,7 +549,7 @@ event-details:
     'Computer Management-Agent Policy updated':
       annotate:
         Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Action: POLICY_UPDATED
         Status: PASSED
       translate:
         username: User
