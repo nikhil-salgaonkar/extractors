@@ -610,7 +610,7 @@ event-details:
     '062009517503-Successful-Event':
       annotate:
         Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Action: RULE_DELETED
         Status: PASSED
       translate:
         User: User
