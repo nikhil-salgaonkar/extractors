@@ -86,7 +86,7 @@ event-details:
     'Session Management-User Role modified':
       annotate:
         Stream: IAM
-        Action: USER_ROLE_UPADATED
+        Action: USER_ROLE_UPDATED
         Status: PASSED
       translate:
         username: User
