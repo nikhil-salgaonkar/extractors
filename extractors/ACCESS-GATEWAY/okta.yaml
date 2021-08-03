@@ -606,7 +606,7 @@ event-details:
     "Update policy":
       annotate:
         Stream: CONFIGURATION
-        Action: POLICY_CHANGED
+        Action: POLICY_UPDATED
         Status: PASSED
       translate:
         actor[displayName]: User
@@ -614,7 +614,7 @@ event-details:
     "Add policy rule":
       annotate:
         Stream: CONFIGURATION
-        Action: POLICY_RULE_ADDED
+        Action: RULE_ADDED
         Status: PASSED
       translate:
         actor[displayName]: User
@@ -622,7 +622,7 @@ event-details:
     "Delete policy rule":
       annotate:
         Stream: CONFIGURATION
-        Action: POLICY_RULE_DELETED
+        Action: RULE_DELETED
         Status: PASSED
       translate:
         actor[displayName]: User
@@ -630,7 +630,7 @@ event-details:
     "Update policy rule":
       annotate:
         Stream: CONFIGURATION
-        Action: POLICY_RULE_CHANGED
+        Action: RULE_UPDATED
         Status: PASSED
       translate:
         actor[displayName]: User
@@ -638,7 +638,7 @@ event-details:
     "Activate policy rule":
       annotate:
         Stream: CONFIGURATION
-        Action: POLICY_RULE_ACTIVATED
+        Action: RULE_ACTIVATED
         Status: PASSED
       translate:
         actor[displayName]: User
@@ -646,7 +646,7 @@ event-details:
     "Deactivate policy rule":
       annotate:
         Stream: CONFIGURATION
-        Action: POLICY_RULE_DEACTIVATED
+        Action: RULE_DEACTIVATED
         Status: PASSED
       translate:
         actor[displayName]: User
