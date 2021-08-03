@@ -24,3 +24,6 @@ Tell us more about what you'd like to be changed
 **Additional details / screenshot**
 - ![Screenshot]()
 -
+
+**Note**
+DNIF Extractor Support team shall evaluate this modification request. The submission of this Git issue is only a request to modify existing extractor.
