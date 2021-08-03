@@ -136,7 +136,7 @@ event-details:
     'CreatePolicyVersion':
       annotate:
         Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Action: POLICY_CREATED
         Status: PASSED
       translate:
         userIdentity[userName]: User
@@ -144,7 +144,7 @@ event-details:
     'DeletePolicyVersion':
       annotate:
         Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Action: POLICY_DELETED
         Status: PASSED
       translate:
         userIdentity[userName]: User
@@ -152,7 +152,7 @@ event-details:
     'AttachGroupPolicy':
       annotate:
         Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Action: POLICY_GROUP_ATTACHED
         Status: PASSED
       translate:
         userIdentity[userName]: User
@@ -160,7 +160,7 @@ event-details:
     'DetachGroupPolicy':
       annotate:
         Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Action: POLICY_GROUP_DETACHED
         Status: PASSED
       translate:
         userIdentity[userName]: User
@@ -168,7 +168,7 @@ event-details:
     'AttachRolePolicy':
       annotate:
         Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Action: POLICY_ROLE_ATTACHED
         Status: PASSED
       translate:
         userIdentity[userName]: User
@@ -176,7 +176,7 @@ event-details:
     'DetachRolePolicy':
       annotate:
         Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Action: POLICY_ROLE_DETACHED
         Status: PASSED
       translate:
         userIdentity[userName]: User
@@ -240,7 +240,7 @@ event-details:
     'DetachUserPolicy':
       annotate:
         Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Action: USER_POLICY_DETACHED
         Status: PASSED
       translate:
         userIdentity[userName]: User
@@ -248,7 +248,7 @@ event-details:
     'AttachUserPolicy':
       annotate:
         Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Action: USER_POLICY_ATTACHED
         Status: PASSED
       translate:
         userIdentity[userName]: User
@@ -256,7 +256,7 @@ event-details:
     'CreateSecurityGroup':
       annotate:
         Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Action: SECURITY_GROUP_CREATED
         Status: PASSED
       translate:
         userIdentity[userName]: User
@@ -264,33 +264,31 @@ event-details:
     'DeleteSecurityGroup':
       annotate:
         Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Action: SECURITY_GROUP_DELETED
         Status: PASSED
       translate:
         userIdentity[userName]: User
         eventName: Config     
     'CreatePolicy':
       annotate:
-        Stream: IAM
+        Stream: CONFIGURATION
         Action: POLICY_CREATED
         Status: PASSED
       translate:
         userIdentity[userName]: User
-        requestParameters[userName]: TargetUser
-        Role: Role
+        eventName: Config
     'DeletePolicy':
       annotate:
-        Stream: IAM
+        Stream: CONFIGURATION
         Action: POLICY_DELETED
         Status: PASSED
       translate:
         userIdentity[userName]: User
-        requestParameters[userName]: TargetUser
-        Role: Role
+        eventName: Config
     'DeleteRolePolicy':
       annotate:
         Stream: IAM
-        Action: ROLE_POLICY_DELETED
+        Action: POLICY_ROLE_DELETED
         Status: PASSED
       translate:
         userIdentity[userName]: User
@@ -353,7 +351,7 @@ event-details:
     'CreateRole':
       annotate:
         Stream: IAM
-        Action: USER_ROLE_UPDATED
+        Action: USER_ROLE_CREATED
         Status: PASSED
       translate:
         userIdentity[userName]: User
