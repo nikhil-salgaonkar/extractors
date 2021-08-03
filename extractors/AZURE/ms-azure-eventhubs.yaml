@@ -1,0 +1,266 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 722
+integration: Azure Event Hub
+vendor-name: Microsoft Azure
+product-name: Azure Event Hubs
+source-name:  AZURE-EVENT-HUBS
+source-type: AZURE
+source-description: Extractor for Azure Event Hubs Events
+provides-streams:
+- AZURE
+master-filters:
+- '\"resourceId\"\:.*?\"operationName\"\:\S+\"\,\"category\"\:\"\w+\"'
+- '\"(?:TaskName|EventName)\"\:.*?resourceId\"\:.*?\"category\"\:\"\w+\"'
+- '\"resourceId\".*?\"metricName\"\:\"\w+\"\,\"timeGrain\"\:'
+event-details:
+- first-match: '\"category\"\:\"\w+\"\,\"resultType\"\:\"\w+\"'
+  decoder: json
+  event-key-format: '{category}-{resultType}-{properties[eventCategory]}'
+  event-key-mapping: 
+    'Action-Failure-Administrative':
+      annotate:
+        Stream: AZURE
+        Action: AZURE_ACTIVITY
+        Status: FAILED
+        EventName: ADMINISTRATIVE
+      translate:  
+        properties[eventCategory]: Category
+        identity[claims][name]: User
+        operationName: OperationName
+
+    'Action-Start-Administrative':
+      annotate:
+        Stream: AZURE
+        Action: AZURE_ACTIVITY
+        Status: PASSED
+        EventName: ADMINISTRATIVE
+      translate:  
+        properties[eventCategory]: Category
+        identity[claims][name]: User
+        operationName: OperationName    
+
+    'Action-Success-Administrative':
+      annotate:
+        Stream: AZURE
+        Action: AZURE_ACTIVITY
+        Status: PASSED
+        EventName: ADMINISTRATIVE
+      translate:  
+        properties[eventCategory]: Category
+        identity[claims][name]: User
+        operationName: OperationName 
+
+    'Action-Success-Policy':
+      annotate:
+        Stream: AZURE
+        Action: AZURE_ACTIVITY
+        Status: PASSED
+        EventName: POLICY
+      translate:  
+        properties[eventCategory]: Category
+        identity[claims][name]: User
+        operationName: OperationName      
+
+    'Action-Accept-Administrative': 
+      annotate:
+        Stream: AZURE
+        Action: AZURE_ACTIVITY
+        Status: PASSED
+        EventName: ADMINISTRATIVE
+      translate:  
+        properties[eventCategory]: Category
+        identity[claims][name]: User
+        operationName: OperationName        
+
+    'Write-Failure-Administrative':   
+      annotate:
+        Stream: AZURE
+        Action: AZURE_WRITE
+        Status: FAILED
+        EventName: ADMINISTRATIVE
+      translate:  
+        properties[eventCategory]: Category
+        identity[claims][name]: User
+        operationName: OperationName
+
+    'Write-Start-Administrative':   
+      annotate:
+        Stream: AZURE
+        Action: AZURE_WRITE
+        Status: PASSED
+        EventName: ADMINISTRATIVE
+      translate:  
+        properties[eventCategory]: Category
+        identity[claims][name]: User
+        operationName: OperationName
+
+    'Write-Success-Administrative':
+      annotate:
+        Stream: AZURE
+        Action: AZURE_WRITE
+        Status: PASSED
+        EventName: ADMINISTRATIVE
+      translate:  
+        properties[eventCategory]: Category
+        identity[claims][name]: User
+        operationName: OperationName    
+
+    'Write-Accept-Administrative':
+      annotate:
+        Stream: AZURE
+        Action: AZURE_WRITE
+        Status: PASSED
+        EventName: ADMINISTRATIVE
+      translate:  
+        properties[eventCategory]: Category
+        identity[claims][name]: User
+        operationName: OperationName    
+
+    'Read-Failure-Administrative':   
+      annotate:
+        Stream: AZURE
+        Action: AZURE_READ
+        Status: FAILED
+        EventName: ADMINISTRATIVE
+      translate:  
+        properties[eventCategory]: Category
+        identity[claims][name]: User
+        operationName: OperationName
+
+    'Read-Start-Administrative':   
+      annotate:
+        Stream: AZURE
+        Action: AZURE_READ
+        Status: PASSED
+        EventName: ADMINISTRATIVE
+      translate:  
+        properties[eventCategory]: Category
+        identity[claims][name]: User
+        operationName: OperationName
+
+    'Read-Success-Administrative':
+      annotate:
+        Stream: AZURE
+        Action: AZURE_READ
+        Status: PASSED
+        EventName: ADMINISTRATIVE
+      translate:  
+        properties[eventCategory]: Category
+        identity[claims][name]: User
+        operationName: OperationName    
+
+    'Read-Accept-Administrative':
+      annotate:
+        Stream: AZURE
+        Action: AZURE_READ
+        Status: PASSED
+        EventName: ADMINISTRATIVE
+      translate:  
+        properties[eventCategory]: Category
+        identity[claims][name]: User
+        operationName: OperationName 
+
+    'Delete-Failure-Administrative':
+      annotate:
+        Stream: AZURE
+        Action: AZURE_DELETE
+        Status: FAILED
+        EventName: ADMINISTRATIVE
+      translate:  
+        properties[eventCategory]: Category
+        identity[claims][name]: User
+        operationName: OperationName        
+
+    'Delete-Start-Administrative':
+      annotate:
+        Stream: AZURE
+        Action: AZURE_DELETE
+        Status: PASSED
+        EventName: ADMINISTRATIVE
+      translate:  
+        properties[eventCategory]: Category
+        identity[claims][name]: User
+        operationName: OperationName         
+
+    'Delete-Success-Administrative':
+      annotate:
+        Stream: AZURE
+        Action: AZURE_DELETE
+        Status: PASSED
+        EventName: ADMINISTRATIVE
+      translate:  
+        properties[eventCategory]: Category
+        identity[claims][name]: User
+        operationName: OperationName      
+
+    'Delete-Accept-Administrative':
+      annotate:
+        Stream: AZURE
+        Action: AZURE_DELETE
+        Status: PASSED
+        EventName: ADMINISTRATIVE
+      translate:  
+        properties[eventCategory]: Category
+        identity[claims][name]: User
+        operationName: OperationName  
+
+  fallback:
+    annotate:
+      EventName: Generic Azure Event Hubs Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      System: System
+      time: SystemTstamp        
+
+- first-match: 'Status\"\:\"\w+\".*?\"category\"\:\"OperationalLogs\"'
+  decoder: json
+  event-key-format: '{category}-{Status}'
+  event-key-mapping: 
+    'OperationalLogs-Succeeded':
+      annotate:
+        Stream: AZURE
+        Action: AZURE_OPERATION
+        Status: PASSED
+      translate:  
+        category: Category
+        Caller: User
+        EventName: EventName
+        OperationName: OperationName  
+
+  fallback:
+    annotate:
+      EventName: Generic Azure Event Hubs Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      System: System
+      EventTimeString: SystemTstamp       
+
+- first-match: '\"failures\"\:\d+\,.*?\"category\"\:\"ArchiveLogs\"'
+  decoder: json
+  event-key-format: '{category}'
+  event-key-mapping: 
+    'ArchiveLogs':
+      annotate:
+        Stream: AZURE
+        Action: AZURE_ARCHIVE
+        Status: FAILED
+        EventName: ARCHIVELOGS
+      translate:  
+        category: Category
+        User: User
+        OperationName: OperationName
+
+  fallback:
+    annotate:
+      EventName: Generic Azure Event Hubs Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      System: System
+      startTime: SystemTstamp
