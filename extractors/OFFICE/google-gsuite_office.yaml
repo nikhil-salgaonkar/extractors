@@ -97,7 +97,7 @@ event-details:
     'USER_SETTINGS-CREATE_USER': 
       annotate:
         Stream: IAM
-        Action: USER_ADDED
+        Action: USER_CREATED
         Status: PASSED
       translate: 
         actor[email]: User
@@ -106,7 +106,7 @@ event-details:
     'USER_SETTINGS-DELETE_USER': 
       annotate:
         Stream: IAM
-        Action: USER_REMOVED
+        Action: USER_DELETED
         Status: PASSED
       translate: 
         actor[email]: User
