@@ -629,7 +629,7 @@ event-details:
     '0101039944-ssl-new-con':
       annotate:
         Stream: FIREWALL
-        Action: SESSION_ESTABLISHED
+        Action: CONNECTION_ESTABLISHED
         Status: PASSED
       translate:
         remip: SrcIP
