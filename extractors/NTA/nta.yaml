@@ -31,6 +31,8 @@ provides-streams:
 - NTA-TUNNEL
 - NTA-CERTIFICATE
 - NTA-SMB
+- NTA-DCE-RPC
+- NTA-DNP3
 master-filters:
 - '\{\"nta\_category\"\:\"[^\"]+\"'
 event-details:
@@ -1090,7 +1092,7 @@ event-details:
       eventTime: SystemTstamp
       System: System
 
-- first-match: '\{\"nta_category\":\"(?:dpd|modbus|ntp|snmp|x509|smb_mapping|smb_cmd|irc|files)"\,'
+- first-match: '\{\"nta_category\":\"(?:dpd|modbus|ntp|snmp|x509|dnp3|dce\_rpc|smb_mapping|smb_cmd|irc|files)\"\,'
   decoder: json
   event-key-format: '{nta_category}'
   event-key-mapping:
@@ -1227,6 +1229,34 @@ event-details:
         id.resp_p: DstPort
         path: Path
         share_type: ShareType
+    'dce_rpc':
+      annotate:
+        Stream: NTA-DCE-RPC
+        Action: DCE_RPC_CONNECTION_DETECTED
+        Status: PASSED 
+      translate:
+        id.orig_h: SrcIP 
+        id.orig_p: SrcPort
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        rtt: RoundTripTime
+        named_pipe: Pipe
+        endpoint: Endpoint
+        operation: Operation
+    'dnp3':
+      annotate:
+        Stream: NTA-DNP3
+        Action: DNP3_CONNECTION_DETECTED
+        Status: PASSED 
+      translate:
+        iin: ID
+        id.orig_h: SrcIP 
+        id.orig_p: SrcPort
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        fc_request: FunctionRequest
+        fc_reply: FunctionReply
+        
   fallback:
     annotate:
       EventName: Generic NTA Events
