@@ -30,7 +30,6 @@ event-details:
         suser: User
         shost: SrcIP
         app: AuthProto
-
     'Logon':
       annotate: 
         Stream: AUTHENTICATION
@@ -40,7 +39,6 @@ event-details:
         suser: User
         shost: SrcIP
         app: AuthProto
-
     'Failure: User Authentication':
       annotate: 
         Stream: AUTHENTICATION
@@ -51,7 +49,6 @@ event-details:
         src: SrcIP
         reason: Reason
         app: AuthProto
-
     'Failure: CPM Verify Password Failed':
       annotate: 
         Stream: AUTHENTICATION
@@ -62,7 +59,6 @@ event-details:
         suser: User
         src: SrcIP
         app: AuthProto
-
     'PSM Connect': 
       annotate: 
         Stream: AUTHENTICATION
@@ -72,18 +68,15 @@ event-details:
         suser: User
         src: SrcIP
         app: AuthProto
-
     'PSM Disconnect':  
       annotate: 
         Stream: AUTHENTICATION
-        Action: LOGIN
-        Status: FAILED
+        Action: LOGOUT
+        Status: PASSED
       translate:
         suser: User
         shost: SrcIP
-        reason: Reason
         app: AuthProto
-
     'CPM Change Password':
       annotate: 
         Stream: IAM
@@ -93,7 +86,6 @@ event-details:
         suser: User
         Role: Role
         duser: TargetUser
-      
     'Use Password':
       annotate: 
         Stream: IAM
@@ -103,16 +95,14 @@ event-details:
         suser: User
         Role: Role
         duser: TargetUser  
-        
     'Retrieve File':
       annotate: 
         Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Action: FILE_RETRIEVED
         Status: PASSED
       translate:
         suser: User 
         Config: Config 
-
     'Suspected credentials theft':
       annotate: 
         Stream: THREAT
@@ -136,5 +126,5 @@ event-details:
 
   globals:
     translate:
-      dhost: System
+      System: System
       SystemTstamp: SystemTstamp
