@@ -175,7 +175,7 @@ event-details:
       translate:
         user[name]: User
         process[executable]: Process
-        process[args]: ProcessArgs
+        auditd[data][unit]: ProcessArgs
 
     'stopped-service-success':
       annotate:
@@ -185,7 +185,7 @@ event-details:
       translate:
         user[name]: User
         process[executable]: Process
-        process[args]: ProcessArgs
+        auditd[data][unit]: ProcessArgs
 
     'executed-failure':
       annotate:
