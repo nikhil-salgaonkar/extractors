@@ -889,7 +889,7 @@ event-details:
         request_body_len: RXLen
         response_body_len: TXLen
         status_code: StatusCode
-        resp_mime_types: MimeType
+        resp_mime_types[0]: MimeType
     
   fallback:
     annotate:
@@ -923,7 +923,7 @@ event-details:
         request_body_len: RXLen
         response_body_len: TXLen
         status_code: StatusCode
-        resp_mime_types: MimeType
+        resp_mime_types[0]: MimeType
     
   fallback:
     annotate:
@@ -957,7 +957,7 @@ event-details:
         request_body_len: RXLen
         response_body_len: TXLen
         status_code: StatusCode
-        resp_mime_types: MimeType
+        resp_mime_types[0]: MimeType
     
   fallback:
     annotate:
@@ -1192,9 +1192,9 @@ event-details:
         Status: PASSED
       translate:
         fuid: ID
-        tx_hosts: SrcIP
-        rx_hosts: DstIP
-        conn_uids: ConnID
+        tx_hosts[0]: SrcIP
+        rx_hosts[0]: DstIP
+        conn_uids[0]: ConnID
         source: Source
         analyzers: Analyzer
         mime_type: MimeType
