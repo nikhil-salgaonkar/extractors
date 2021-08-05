@@ -108,6 +108,7 @@ event-details:
         RXLen: RXLen
         suser: User
         app: Proto
+        dhost: Domain
     '10':
       annotate:
         Stream: WEBFILTER
@@ -124,6 +125,7 @@ event-details:
         RXLen: RXLen
         suser: User
         app: Proto
+        dhost: Domain
     '14':
       annotate:
         Stream: WEBFILTER
@@ -140,6 +142,7 @@ event-details:
         RXLen: RXLen
         suser: User
         app: Proto
+        dhost: Domain
     '15':
       annotate:
         Stream: WEBFILTER
@@ -156,6 +159,7 @@ event-details:
         RXLen: RXLen
         suser: User
         app: Proto
+        dhost: Domain
     '20':
       annotate:
         Stream: WEBFILTER
@@ -172,6 +176,7 @@ event-details:
         RXLen: RXLen
         suser: User
         app: Proto
+        dhost: Domain
     '22':
       annotate:
         Stream: WEBFILTER
@@ -188,6 +193,7 @@ event-details:
         RXLen: RXLen
         suser: User
         app: Proto
+        dhost: Domain
     '30':
       annotate:
         Stream: WEBFILTER
@@ -204,6 +210,7 @@ event-details:
         RXLen: RXLen
         suser: User
         app: Proto
+        dhost: Domain
     '35':
       annotate:
         Stream: WEBFILTER
@@ -220,6 +227,7 @@ event-details:
         RXLen: RXLen
         suser: User
         app: Proto
+        dhost: Domain
     '80':
       annotate:
         Stream: WEBFILTER
@@ -236,6 +244,7 @@ event-details:
         RXLen: RXLen
         suser: User
         app: Proto
+        dhost: Domain
     '81':
       annotate:
         Stream: WEBFILTER
@@ -252,6 +261,7 @@ event-details:
         RXLen: RXLen
         suser: User
         app: Proto
+        dhost: Domain
     '82':
       annotate:
         Stream: WEBFILTER
@@ -268,6 +278,7 @@ event-details:
         RXLen: RXLen
         suser: User
         app: Proto
+        dhost: Domain
     '85':
       annotate:
         Stream: WEBFILTER
@@ -284,6 +295,7 @@ event-details:
         RXLen: RXLen
         suser: User
         app: Proto
+        dhost: Domain
     '92':
       annotate:
         Stream: WEBFILTER
@@ -300,6 +312,7 @@ event-details:
         RXLen: RXLen
         suser: User
         app: Proto
+        dhost: Domain
     '93':
       annotate:
         Stream: WEBFILTER
@@ -316,6 +329,7 @@ event-details:
         RXLen: RXLen
         suser: User
         app: Proto
+        dhost: Domain
     '94':
       annotate:
         Stream: WEBFILTER
@@ -332,6 +346,7 @@ event-details:
         RXLen: RXLen
         suser: User
         app: Proto
+        dhost: Domain
     '95':
       annotate:
         Stream: WEBFILTER
@@ -348,6 +363,7 @@ event-details:
         RXLen: RXLen
         suser: User
         app: Proto
+        dhost: Domain
     '97':
       annotate:
         Stream: WEBFILTER
@@ -364,6 +380,7 @@ event-details:
         RXLen: RXLen
         suser: User
         app: Proto
+        dhost: Domain
     '98':
       annotate:
         Stream: WEBFILTER
@@ -380,6 +397,7 @@ event-details:
         RXLen: RXLen
         suser: User
         app: Proto
+        dhost: Domain
     '102':
       annotate:
         Stream: WEBFILTER
@@ -396,6 +414,7 @@ event-details:
         RXLen: RXLen
         suser: User
         app: Proto
+        dhost: Domain
     '103':
       annotate:
         Stream: WEBFILTER
@@ -412,6 +431,7 @@ event-details:
         RXLen: RXLen
         suser: User
         app: Proto
+        dhost: Domain
     '104':
       annotate:
         Stream: WEBFILTER
@@ -428,6 +448,7 @@ event-details:
         RXLen: RXLen
         suser: User
         app: Proto
+        dhost: Domain
     '140':
       annotate:
         Stream: WEBFILTER
@@ -444,6 +465,7 @@ event-details:
         RXLen: RXLen
         suser: User
         app: Proto
+        dhost: Domain
     '150':
       annotate:
         Stream: WEBFILTER
@@ -460,6 +482,7 @@ event-details:
         RXLen: RXLen
         suser: User
         app: Proto
+        dhost: Domain
     '151':
       annotate:
         Stream: WEBFILTER
@@ -476,6 +499,7 @@ event-details:
         RXLen: RXLen
         suser: User
         app: Proto
+        dhost: Domain
     '160':
       annotate:
         Stream: WEBFILTER
@@ -492,6 +516,7 @@ event-details:
         RXLen: RXLen
         suser: User
         app: Proto
+        dhost: Domain
     '161':
       annotate:
         Stream: WEBFILTER
@@ -508,6 +533,7 @@ event-details:
         RXLen: RXLen
         suser: User
         app: Proto
+        dhost: Domain
     '162':
       annotate:
         Stream: WEBFILTER
@@ -524,6 +550,7 @@ event-details:
         RXLen: RXLen
         suser: User
         app: Proto
+        dhost: Domain
     '200':
       annotate:
         Stream: WEBFILTER
@@ -540,6 +567,7 @@ event-details:
         RXLen: RXLen
         suser: User
         app: Proto
+        dhost: Domain
     '201':
       annotate:
         Stream: WEBFILTER
@@ -556,6 +584,7 @@ event-details:
         RXLen: RXLen
         suser: User
         app: Proto
+        dhost: Domain
     '202':
       annotate:
         Stream: WEBFILTER
@@ -572,6 +601,7 @@ event-details:
         RXLen: RXLen
         suser: User
         app: Proto
+        dhost: Domain
     '203':
       annotate:
         Stream: WEBFILTER
@@ -588,6 +618,7 @@ event-details:
         RXLen: RXLen
         suser: User
         app: Proto
+        dhost: Domain
     '204':
       annotate:
         Stream: WEBFILTER
@@ -604,6 +635,7 @@ event-details:
         RXLen: RXLen
         suser: User
         app: Proto
+        dhost: Domain
     '205':
       annotate:
         Stream: WEBFILTER
@@ -620,6 +652,7 @@ event-details:
         RXLen: RXLen
         suser: User
         app: Proto
+        dhost: Domain
     '206':
       annotate:
         Stream: WEBFILTER
@@ -636,6 +669,7 @@ event-details:
         RXLen: RXLen
         suser: User
         app: Proto
+        dhost: Domain
     '300':
       annotate:
         Stream: WEBFILTER
@@ -652,6 +686,7 @@ event-details:
         RXLen: RXLen
         suser: User
         app: Proto
+        dhost: Domain
     '301':
       annotate:
         Stream: WEBFILTER
@@ -668,6 +703,7 @@ event-details:
         RXLen: RXLen
         suser: User
         app: Proto
+        dhost: Domain
     '400':
       annotate:
         Stream: WEBFILTER
@@ -684,6 +720,7 @@ event-details:
         RXLen: RXLen
         suser: User
         app: Proto
+        dhost: Domain
 
   fallback:
     annotate:
