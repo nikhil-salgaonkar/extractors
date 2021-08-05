@@ -33,6 +33,7 @@ event-details:
         dst: DstIP
         reqmethod: HTTPMethod 
         useragent: UserAgent
+        Domain: Domain
     'Blocked': 
       annotate:
         Stream: WEBFILTER
@@ -49,6 +50,7 @@ event-details:
         dst: DstIP
         reqmethod: HTTPMethod 
         useragent: UserAgent
+        Domain: Domain
 
   fallback:
     annotate:
