@@ -1,7 +1,7 @@
 schema-version: 1.0
 #extractor-version: 1
 extractor-id: 188
-integration: Syslog
+integration: Syslog(KV)
 vendor-name: CheckPoint
 product-name: CheckPoint Firewall
 source-name: CHECKPOINT
