@@ -85,10 +85,10 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
+        Reason: INVALID_CREDENTIALS
       translate:
         user: User
         src: SrcIP
-        reason: Reason
         auth_protocol: AuthProto    
 
   fallback:
@@ -111,10 +111,10 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
+        Reason: INVALID_CREDENTIALS
       translate:
         user: User
         src: SrcIP
-        reason: Reason
         auth_protocol: AuthProto
 
   fallback:
@@ -138,10 +138,10 @@ event-details:
         Action: LOGIN
         Status: FAILED
         AuthProto: SSH
+        Reason: INVALID_CREDENTIALS
       translate:
         user: User
         src: SrcIP
-        reason: Reason
 
   fallback:
     annotate:
@@ -189,10 +189,10 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
+        Reason: INVALID_CREDENTIALS
       translate:
         user: User
         src: SrcIP
-        reason: Reason
         auth_protocol: AuthProto
 
   fallback:
@@ -215,10 +215,10 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
+        Reason: INVALID_CREDENTIALS
       translate:
         user: User
         src: SrcIP
-        reason: Reason
         auth_protocol: AuthProto
 
   fallback:
@@ -302,11 +302,11 @@ event-details:
         Action: LOGIN
         Status: FAILED
         AuthProto: SSH
+        Reason: INVALID_CREDENTIALS
       translate:
         user: User
         src: SrcIP
-        reason: Reason
-
+        
   fallback:
     annotate:
       EventName: Generic Cisco-ASA Firewall Event
@@ -327,10 +327,10 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
+        Reason: INVALID_CREDENTIALS
       translate:
         user: User
         src: SrcIP
-        reason: Reason
         auth_protocol: AuthProto
 
   fallback:
@@ -404,10 +404,10 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
+        Reason: INVALID_CREDENTIALS
       translate:
         user: User
         src: SrcIP
-        reason: Reason
         auth_protocol: AuthProto
        
   fallback:
@@ -430,10 +430,10 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
+        Reason: INVALID_CREDENTIALS
       translate:
         user: User
         src: SrcIP
-        reason: Reason
         auth_protocol: AuthProto
        
   fallback:
