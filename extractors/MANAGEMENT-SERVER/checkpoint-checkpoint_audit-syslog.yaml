@@ -135,7 +135,7 @@ event-details:
         Action: LOGIN
         Status: FAILED
         AuthProto: SSH
-        Reason: INVALID_PASSWORD
+        Reason: INVALID_CREDENTIALS
       translate:
         user: User
         src: SrcIP

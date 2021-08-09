@@ -33,7 +33,7 @@ event-details:
         Action: LOGIN
         Status: FAILED
         AuthProto: '-'
-        Reason: BAD_USER_PASSWORD
+        Reason: INVALID_CREDENTIALS
       translate:
         user[name]: User
         source[ip]: SrcIP
@@ -44,7 +44,7 @@ event-details:
         Action: LOGIN
         Status: FAILED
         AuthProto: '-'
-        Reason: BAD_USER_PASSWORD
+        Reason: INVALID_CREDENTIALS
       translate:
         user[name]: User
         source[ip]: SrcIP 

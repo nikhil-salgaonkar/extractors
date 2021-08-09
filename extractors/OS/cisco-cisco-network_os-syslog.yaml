@@ -163,7 +163,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        Reason: BAD_USER_PASSWORD
+        Reason: INVALID_CREDENTIALS
       translate:
         AuthProto: AuthProto
         src: SrcIP
@@ -188,7 +188,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        Reason: BAD_USER_PASSWORD
+        Reason: INVALID_CREDENTIALS
       translate:
         auth_protocol: AuthProto
         src: SrcIP
@@ -214,7 +214,7 @@ event-details:
         Action: LOGIN
         Status: FAILED
         AuthProto: SSH
-        Reason: BAD_USER_PASSWORD
+        Reason: INVALID_CREDENTIALS
       translate:
         src: SrcIP
         user: User
