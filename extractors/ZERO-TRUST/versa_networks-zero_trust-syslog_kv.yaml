@@ -1,7 +1,7 @@
 schema-version: 1.0
 #extractor-version: 1
 extractor-id: 806 
-integration: Syslog
+integration: Syslog(KV)
 vendor-name: Versa Networks
 product-name: Versa Networks Zero Trust
 source-name: VERSA-NETWORKS

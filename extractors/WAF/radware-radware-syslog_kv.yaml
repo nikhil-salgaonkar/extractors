@@ -1,7 +1,7 @@
 schema-version: 1.0
 #extractor-version: 1
 extractor-id: 153
-integration: Syslog
+integration: Syslog(KV)
 vendor-name: Radware
 product-name: Radware
 source-name: RADWARE
