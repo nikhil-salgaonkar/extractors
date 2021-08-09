@@ -382,7 +382,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        Reason: BAD_USER_PASSWORD
+        Reason: INVALID_CREDENTIALS
       translate:
         src: SrcIP
         AuthProto: AuthProto

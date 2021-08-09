@@ -1,7 +1,7 @@
 schema-version: 1.0
 #extractor-version: 1
 extractor-id: 177
-integration: Syslog
+integration: Syslog(KV)
 vendor-name: Cisco
 product-name: Cisco ACS
 source-name: CISCO-ACS
@@ -65,7 +65,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        Reason: INVALID_USER
+        Reason: INVALID_CREDENTIALS
       translate:
         Protocol: AuthProto 
         UserName: User
@@ -116,7 +116,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        Reason: INVALID_USER
+        Reason: INVALID_CREDENTIALS
       translate:
         Protocol: AuthProto
         UserName: User
@@ -167,7 +167,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        Reason: INVALID_USER
+        Reason: INVALID_CREDENTIALS
       translate:
         Protocol: AuthProto 
         AD-User-Candidate-Identities: User
@@ -218,7 +218,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        Reason: INVALID_USER
+        Reason: INVALID_CREDENTIALS
       translate:
         Protocol: AuthProto
         AD-User-Candidate-Identities: User

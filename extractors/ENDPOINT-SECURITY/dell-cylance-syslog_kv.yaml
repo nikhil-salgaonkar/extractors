@@ -1,7 +1,7 @@
 schema-version: 1.0
 #extractor-version: 1
 extractor-id: 191
-integration: Syslog
+integration: Syslog(KV)
 vendor-name: Dell
 product-name: Dell Cylance
 source-name: DELL-CYLANCE

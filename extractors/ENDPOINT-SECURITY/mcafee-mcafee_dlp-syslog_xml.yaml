@@ -1,7 +1,7 @@
 schema-version: 1.0
 #extractor-version: 1 
 extractor-id: 805
-integration: Syslog
+integration: Syslog(XML)
 vendor-name: McAfee
 product-name: McAfee DLP
 source-name: MCAFEE-DLP
