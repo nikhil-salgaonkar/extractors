@@ -44,17 +44,17 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
+        Reason: INVALID_CREDENTIALS 
       translate:
         suser: User
         src: SrcIP
-        reason: Reason
         app: AuthProto
     'Failure: CPM Verify Password Failed':
       annotate: 
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        Reason: CPM Verify Password Failed
+        Reason: INVALID_CREDENTIALS
       translate:
         suser: User
         src: SrcIP
@@ -76,6 +76,7 @@ event-details:
       translate:
         suser: User
         shost: SrcIP
+        reason: Reason
         app: AuthProto
     'CPM Change Password':
       annotate: 
