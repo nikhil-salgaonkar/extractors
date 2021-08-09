@@ -63,9 +63,9 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
+        Reason: LOGIN_LIMIT_EXCEEDED
       translate:
         auth_mechanism: AuthProto
-        reason: Reason
         user_name: User
         src_ip: SrcIP
     '063210617706-Successful-Event':
