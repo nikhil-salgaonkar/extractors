@@ -32,10 +32,10 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
+        Reason: INVALID_CREDENTIALS
       translate:
         userfrom: SrcIP
         user: User
-        msg: Reason
         AuthProto: AuthProto
 
   fallback:
