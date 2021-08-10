@@ -24,10 +24,10 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
+        Reason: INVALID_CREDENTIALS
       translate:
         userIdentity[userName]: User
         sourceIPAddress: SrcIP
-        errorMessage: Reason
         AuthProto: AuthProto
     'ConsoleLogin-Success':
       annotate:

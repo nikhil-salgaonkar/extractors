@@ -200,10 +200,10 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
+        Reason: INVALID_CREDENTIALS
       translate:
         IP Address: SrcIP
         User: User
-        Reason: Reason
         AuthProto: AuthProto
     'LoginSuccess':           
       annotate:

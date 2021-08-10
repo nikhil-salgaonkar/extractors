@@ -59,41 +59,41 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
+        Reason: INVALID_CREDENTIALS
       translate: 
         AuthProto: AuthProto
         src: SrcIP
         user: User 
-        reason: Reason
     '220000-GUI logon failed': 
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
+        Reason: INVALID_CREDENTIALS
       translate: 
         AuthProto: AuthProto
         src: SrcIP
         user: User 
-        reason: Reason 
     '220000-SSH logon failed': 
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
         AuthProto: SSH
+        Reason: INVALID_CREDENTIALS
       translate: 
         src: SrcIP
-        user: User 
-        reason: Reason        
+        user: User        
     '220000-Appliance console logon failed': 
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
+        Reason: INVALID_CREDENTIALS
       translate: 
         AuthProto: AuthProto
         src: SrcIP
-        user: User 
-        reason: Reason 
+        user: User
     '220001-GUI user logged off': 
       annotate:
         Stream: AUTHENTICATION
