@@ -11,7 +11,6 @@ provides-streams:
 - AUTHENTICATION
 - THREAT
 - IAM
-- CONFIGURATION
 master-filters:
 - 'CEF\:\d+\|Cyber(?:\-)?Ark\|\w+\|[\d\.]+\|'  
 event-details:
@@ -96,14 +95,6 @@ event-details:
         suser: User
         Role: Role
         duser: TargetUser  
-    'Retrieve File':
-      annotate: 
-        Stream: CONFIGURATION
-        Action: FILE_RETRIEVED
-        Status: PASSED
-      translate:
-        suser: User 
-        Config: Config 
     'Suspected credentials theft':
       annotate: 
         Stream: THREAT
