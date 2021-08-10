@@ -220,8 +220,8 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
+        Reason: INVALID_CREDENTIALS
       translate:
-        reason: Reason
         srcip: SrcIP
         user: User
         method: AuthProto
@@ -401,9 +401,9 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
+        Reason: LOGIN_LIMIT_EXCEEDED
       translate:
         user: User
-        reason: Reason
         srcip: SrcIP
         method: AuthProto
     '0315012556-passthrough':
@@ -519,10 +519,10 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
+        Reason: INVALID_CREDENTIALS
       translate:
         remip: SrcIP
         user: User
-        reason: Reason
         method: AuthProto
     '0002000012-accept':
       annotate:
