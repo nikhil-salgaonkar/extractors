@@ -606,7 +606,7 @@ event-details:
         Status: PASSED
       translate:
         User: User
-        WEB_CATEGORY_NAME: Config
+        Config: Config
     '062009517503-Successful-Event':
       annotate:
         Stream: CONFIGURATION
