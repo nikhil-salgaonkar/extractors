@@ -390,7 +390,7 @@ event-details:
     '603': 
       annotate:
         Stream: IAM
-        Action: USER_ACCOUNT_LOCKOUT
+        Action: USER_LOCKOUT
         Status: PASSED
       translate:
         suser: User

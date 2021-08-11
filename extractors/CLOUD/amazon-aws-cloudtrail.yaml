@@ -140,7 +140,7 @@ event-details:
         Status: PASSED
       translate:
         userIdentity[userName]: User
-        eventName: Config 
+        Config: Config 
     'DeletePolicyVersion':
       annotate:
         Stream: CONFIGURATION
@@ -148,7 +148,7 @@ event-details:
         Status: PASSED
       translate:
         userIdentity[userName]: User
-        eventName: Config 
+        Config: Config 
     'AttachGroupPolicy':
       annotate:
         Stream: CONFIGURATION
@@ -156,7 +156,7 @@ event-details:
         Status: PASSED
       translate:
         userIdentity[userName]: User
-        eventName: Config 
+        Config: Config 
     'DetachGroupPolicy':
       annotate:
         Stream: CONFIGURATION
@@ -164,7 +164,7 @@ event-details:
         Status: PASSED
       translate:
         userIdentity[userName]: User
-        eventName: Config 
+        Config: Config 
     'AttachRolePolicy':
       annotate:
         Stream: CONFIGURATION
@@ -172,7 +172,7 @@ event-details:
         Status: PASSED
       translate:
         userIdentity[userName]: User
-        eventName: Config 
+        Config: Config 
     'DetachRolePolicy':
       annotate:
         Stream: CONFIGURATION
@@ -180,7 +180,7 @@ event-details:
         Status: PASSED
       translate:
         userIdentity[userName]: User
-        eventName: Config 
+        Config: Config 
     'PutRolePolicy':
       annotate:
         Stream: CONFIGURATION
@@ -188,7 +188,7 @@ event-details:
         Status: PASSED
       translate:
         userIdentity[userName]: User
-        eventName: Config 
+        Config: Config 
     'PutUserPolicy':
       annotate:
         Stream: CONFIGURATION
@@ -196,7 +196,7 @@ event-details:
         Status: PASSED
       translate:
         userIdentity[userName]: User
-        eventName: Config 
+        Config: Config 
     'PutGroupPolicy':
       annotate:
         Stream: CONFIGURATION
@@ -204,7 +204,7 @@ event-details:
         Status: PASSED
       translate:
         userIdentity[userName]: User
-        eventName: Config 
+        Config: Config 
     'AuthorizeSecurityGroupIngress':
       annotate:
         Stream: CONFIGURATION
@@ -212,7 +212,7 @@ event-details:
         Status: PASSED
       translate:
         userIdentity[userName]: User
-        eventName: Config 
+        Config: Config 
     'AuthorizeSecurityGroupEgress':
       annotate:
         Stream: CONFIGURATION
@@ -220,7 +220,7 @@ event-details:
         Status: PASSED
       translate:
         userIdentity[userName]: User
-        eventName: Config 
+        Config: Config 
     'RevokeSecurityGroupIngress':
       annotate:
         Stream: CONFIGURATION
@@ -228,7 +228,7 @@ event-details:
         Status: PASSED
       translate:
         userIdentity[userName]: User
-        eventName: Config 
+        Config: Config 
     'RevokeSecurityGroupEgress':
       annotate:
         Stream: CONFIGURATION
@@ -236,7 +236,7 @@ event-details:
         Status: PASSED
       translate:
         userIdentity[userName]: User
-        eventName: Config 
+        Config: Config 
     'DetachUserPolicy':
       annotate:
         Stream: CONFIGURATION
@@ -244,7 +244,7 @@ event-details:
         Status: PASSED
       translate:
         userIdentity[userName]: User
-        eventName: Config 
+        Config: Config 
     'AttachUserPolicy':
       annotate:
         Stream: CONFIGURATION
@@ -252,7 +252,7 @@ event-details:
         Status: PASSED
       translate:
         userIdentity[userName]: User
-        eventName: Config       
+        Config: Config       
     'CreateSecurityGroup':
       annotate:
         Stream: CONFIGURATION
@@ -260,7 +260,7 @@ event-details:
         Status: PASSED
       translate:
         userIdentity[userName]: User
-        eventName: Config 
+        Config: Config 
     'DeleteSecurityGroup':
       annotate:
         Stream: CONFIGURATION
@@ -268,7 +268,7 @@ event-details:
         Status: PASSED
       translate:
         userIdentity[userName]: User
-        eventName: Config     
+        Config: Config     
     'CreatePolicy':
       annotate:
         Stream: CONFIGURATION
@@ -276,7 +276,7 @@ event-details:
         Status: PASSED
       translate:
         userIdentity[userName]: User
-        eventName: Config
+        Config: Config
     'DeletePolicy':
       annotate:
         Stream: CONFIGURATION
@@ -284,7 +284,7 @@ event-details:
         Status: PASSED
       translate:
         userIdentity[userName]: User
-        eventName: Config
+        Config: Config
     'DeleteRolePolicy':
       annotate:
         Stream: IAM
@@ -333,7 +333,7 @@ event-details:
     'AddUserToGroup':
       annotate:
         Stream: IAM
-        Action: GROUP_MEMBER_ADDED
+        Action: USER_ADDED
         Status: PASSED
       translate:
         userIdentity[userName]: User
@@ -342,7 +342,7 @@ event-details:
     'DeleteUserToGroup':
       annotate:
         Stream: IAM
-        Action: GROUP_MEMBER_REMOVED
+        Action: USER_DELETED
         Status: PASSED
       translate:
         userIdentity[userName]: User
@@ -351,7 +351,7 @@ event-details:
     'CreateRole':
       annotate:
         Stream: IAM
-        Action: USER_ROLE_CREATED
+        Action: ROLE_CREATED
         Status: PASSED
       translate:
         userIdentity[userName]: User
@@ -360,7 +360,7 @@ event-details:
     'DeleteRole':
       annotate:
         Stream: IAM
-        Action: USER_ROLE_DELETED
+        Action: ROLE_DELETED
         Status: PASSED
       translate:
         userIdentity[userName]: User

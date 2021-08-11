@@ -180,7 +180,7 @@ event-details:
     'UserRemove':           
       annotate:
         Stream: IAM
-        Action: USER_DELETED
+        Action: USER_REMOVED
         Status: PASSED
       translate:
         user: User

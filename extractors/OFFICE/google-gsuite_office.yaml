@@ -79,7 +79,7 @@ event-details:
     'password_change-password_edit': 
       annotate:
         Stream: IAM
-        Action: USER_PASSWORD_CHANGED
+        Action: PASSWORD_CHANGED
         Status: PASSED
       translate: 
         actor[email]: User
@@ -88,7 +88,7 @@ event-details:
     'USER_SETTINGS-CHANGE_PASSWORD': 
       annotate:
         Stream: IAM
-        Action: USER_PASSWORD_CHANGED
+        Action: PASSWORD_CHANGED
         Status: PASSED
       translate: 
         actor[email]: User
@@ -133,7 +133,7 @@ event-details:
     'USER_SETTINGS-CHANGE_FIRST_NAME': 
       annotate:
         Stream: IAM
-        Action: FIRST_NAME_CHANGED
+        Action: USER_UPDATED
         Status: PASSED
       translate: 
         actor[email]: User
@@ -142,7 +142,7 @@ event-details:
     'GROUP_SETTINGS-ADD_GROUP_MEMBER': 
       annotate:
         Stream: IAM
-        Action: GROUP_MEMBER_ADDED
+        Action: USER_ADDED
         Status: PASSED
       translate: 
         actor[email]: User
@@ -151,7 +151,7 @@ event-details:
     'GROUP_SETTINGS-REMOVE_GROUP_MEMBER': 
       annotate:
         Stream: IAM
-        Action: GROUP_MEMBER_REMOVED
+        Action: USER_REMOVED
         Status: PASSED
       translate: 
         actor[email]: User
@@ -184,15 +184,6 @@ event-details:
         actor[email]: User
         events[0][parameters][0][value]: TargetUser
         Role: Role   
-    'USER_SETTINGS-CREATE_DATA_TRANSFER_REQUEST': 
-      annotate:
-        Stream: IAM
-        Action: DATA_TRANSFER_REQUEST_CREATED
-        Status: PASSED
-      translate: 
-        actor[email]: User
-        events[0][parameters][0][value]: TargetUser
-        Role: Role
     'USER_SETTINGS-REVOKE_3LO_TOKEN': 
       annotate:
         Stream: IAM
@@ -220,15 +211,6 @@ event-details:
         actor[email]: User
         events[0][parameters][0][value]: TargetUser
         Role: Role 
-    'DOMAIN_SETTINGS-ADD_APPLICATION': 
-      annotate:
-        Stream: IAM
-        Action: APPLICATION_ADDED
-        Status: PASSED
-      translate: 
-        actor[email]: User
-        TargetUser: TargetUser
-        Role: Role     
     'event_change-delete_event': 
       annotate:
         Stream: CALENDAR  

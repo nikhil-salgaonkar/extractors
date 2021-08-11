@@ -55,7 +55,7 @@ event-details:
     'User entry created': 
       annotate:
         Stream: IAM
-        Action: USER_ENTRY_CREATED
+        Action: USER_CREATED
         Status: PASSED
       translate:
         user: User 
@@ -64,7 +64,7 @@ event-details:
     'Deleting User entry': 
       annotate:
         Stream: IAM
-        Action: USER_ENTRY_DELETED
+        Action: USER_DELETED
         Status: PASSED
       translate:
         user: User 
@@ -89,7 +89,7 @@ event-details:
     'add group': 
       annotate:
         Stream: IAM
-        Action: GROUP_MEMBER_ADDED
+        Action: USER_ADDED
         Status: PASSED
       translate:
         user: User 
@@ -98,7 +98,7 @@ event-details:
     'delete group': 
       annotate:
         Stream: IAM
-        Action: GROUP_MEMBER_REMOVED
+        Action: USER_DELETED
         Status: PASSED
       translate:
         user: User 

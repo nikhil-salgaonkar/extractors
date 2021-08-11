@@ -380,7 +380,7 @@ event-details:
     "User reset password for Okta-SUCCESS":
       annotate:
         Stream: IAM
-        Action: ACCOUNT_PASSWORD_RESET
+        Action: PASSWORD_CHANGED
         Status: PASSED
       translate:
         actor[displayName]: User
@@ -389,7 +389,7 @@ event-details:
     "Create okta user-SUCCESS":
       annotate:
         Stream: IAM
-        Action: USER_ACCOUNT_CREATED
+        Action: USER_CREATED
         Status: PASSED
       translate:
         actor[displayName]: User
@@ -398,7 +398,7 @@ event-details:
     "Delete Okta user completed-SUCCESS":
       annotate:
         Stream: IAM
-        Action: USER_ACCOUNT_DELETED
+        Action: USER_DELETED
         Status: PASSED
       translate:
         actor[displayName]: User
@@ -407,7 +407,7 @@ event-details:
     "Activate Okta user-SUCCESS":
       annotate:
         Stream: IAM
-        Action: USER_ACCOUNT_ENABLED
+        Action: USER_ACTIVATED
         Status: PASSED
       translate:
         actor[displayName]: User
@@ -416,7 +416,7 @@ event-details:
     "Deactivate Okta user-SUCCESS":
       annotate:
         Stream: IAM
-        Action: USER_ACCOUNT_DISABLED
+        Action: USER_DEACTIVATED
         Status: PASSED
       translate:
         actor[displayName]: User
@@ -425,7 +425,7 @@ event-details:
     "Reactivate Okta user-SUCCESS":
       annotate:
         Stream: IAM
-        Action: USER_ACCOUNT_REACTIVATED
+        Action: USER_REACTIVATED
         Status: PASSED
       translate:
         actor[displayName]: User
@@ -434,7 +434,7 @@ event-details:
     "Suspend Okta user-SUCCESS":
       annotate:
         Stream: IAM
-        Action: USER_ACCOUNT_SUSPENDED
+        Action: USER_SUSPENDED
         Status: PASSED
       translate:
         actor[displayName]: User
@@ -443,7 +443,7 @@ event-details:
     "Unsuspend Okta user-SUCCESS":
       annotate:
         Stream: IAM
-        Action: USER_ACCOUNT_UNSUSPENDED
+        Action: USER_UNSUSPENDED
         Status: PASSED
       translate:
         actor[displayName]: User
@@ -452,7 +452,7 @@ event-details:
     "User update password for Okta-SUCCESS":
       annotate:
         Stream: IAM
-        Action: ACCOUNT_PASSWORD_CHANGED
+        Action: PASSWORD_CHANGED
         Status: PASSED
       translate:
         actor[displayName]: User
@@ -461,7 +461,7 @@ event-details:
     "Auto-lock user account for Okta-SUCCESS":
       annotate:
         Stream: IAM
-        Action: USER_ACCOUNT_LOCKED
+        Action: USER_LOCKED
         Status: PASSED
       translate:
         actor[displayName]: User
@@ -470,7 +470,7 @@ event-details:
     "Auto-unlock user account for Okta-SUCCESS":
       annotate:
         Stream: IAM
-        Action: USER_ACCOUNT_UNLOCKED
+        Action: USER_UNLOCKED
         Status: PASSED
       translate:
         actor[displayName]: User
@@ -479,7 +479,7 @@ event-details:
     "User account unlock by admin-SUCCESS":
       annotate:
         Stream: IAM
-        Action: USER_ACCOUNT_UNLOCKED
+        Action: USER_UNLOCKED
         Status: PASSED
       translate:
         actor[displayName]: User
@@ -539,7 +539,7 @@ event-details:
     "Successfully imported new member to an app group":
       annotate:
         Stream: IAM
-        Action: GROUP_MEMBER_ADDED
+        Action: USER_ADDED
         Status: PASSED
       translate:
         actor[displayName]: User
@@ -548,7 +548,7 @@ event-details:
     "Add user to group membership":
       annotate:
         Stream: IAM
-        Action: GROUP_MEMBER_ADDED
+        Action: USER_ADDED
         Status: PASSED
       translate:
         actor[displayName]: User
@@ -557,7 +557,7 @@ event-details:
     "Remove user from group membership":
       annotate:
         Stream: IAM
-        Action: GROUP_MEMBER_REMOVED
+        Action: USER_REMOVED
         Status: PASSED
       translate:
         actor[displayName]: User

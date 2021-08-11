@@ -68,7 +68,7 @@ event-details:
     'Session Management-User Role created':
       annotate:
         Stream: IAM
-        Action: USER_ROLE_CREATED
+        Action: ROLE_CREATED
         Status: PASSED
       translate:
         username: User
@@ -77,7 +77,7 @@ event-details:
     'Session Management-User Role deleted':
       annotate:
         Stream: IAM
-        Action: USER_ROLE_DELETED
+        Action: ROLE_DELETED
         Status: PASSED
       translate:
         username: User
@@ -86,7 +86,7 @@ event-details:
     'Session Management-User Role modified':
       annotate:
         Stream: IAM
-        Action: USER_ROLE_UPDATED
+        Action: ROLE_UPDATED
         Status: PASSED
       translate:
         username: User
@@ -96,15 +96,6 @@ event-details:
       annotate:
         Stream: IAM
         Action: USER_LICENSE_ADDED
-        Status: PASSED
-      translate:
-        username: User
-        rolename: Role
-        TargetUser: TargetUser
-    'Computer Management-File deleted':
-      annotate:
-        Stream: IAM
-        Action: FILE_DELETED
         Status: PASSED
       translate:
         username: User
