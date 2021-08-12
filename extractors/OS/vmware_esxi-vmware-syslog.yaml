@@ -69,7 +69,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGOUT
         Status: FAILED
-        Reason: BAD_USER_PASSWORD
+        Reason: INVALID_CREDENTIALS
       translate:
         user: User
         src: SrcIP
@@ -120,7 +120,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        Reason: INVALID_PASSWORD
+        Reason: INVALID_CREDENTIALS
       translate:
         user: User
         src: SrcIP
@@ -189,10 +189,10 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
+        Reason: INVALID_CREDENTIALS
       translate:
         user: User
         src: SrcIP
-        reason: Reason
         auth_protocol: AuthProto    
     'LOGOUT-success':
       annotate:
@@ -249,7 +249,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        Reason: BAD_USER_PASSWORD
+        Reason: INVALID_CREDENTIALS
       translate:
         user: User
         SrcIP: SrcIP
@@ -275,7 +275,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        Reason: BAD_USER_PASSWORD
+        Reason: INVALID_CREDENTIALS
       translate:
         User: User
         SrcIP: SrcIP

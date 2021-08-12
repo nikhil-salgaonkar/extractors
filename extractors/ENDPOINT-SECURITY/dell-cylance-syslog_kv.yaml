@@ -1,7 +1,7 @@
 schema-version: 1.0
 #extractor-version: 1
 extractor-id: 191
-integration: Syslog
+integration: Syslog(KV)
 vendor-name: Dell
 product-name: Dell Cylance
 source-name: DELL-CYLANCE
@@ -180,7 +180,7 @@ event-details:
     'UserRemove':           
       annotate:
         Stream: IAM
-        Action: USER_DELETED
+        Action: USER_REMOVED
         Status: PASSED
       translate:
         user: User
@@ -200,10 +200,10 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
+        Reason: INVALID_CREDENTIALS
       translate:
         IP Address: SrcIP
         User: User
-        Reason: Reason
         AuthProto: AuthProto
     'LoginSuccess':           
       annotate:
