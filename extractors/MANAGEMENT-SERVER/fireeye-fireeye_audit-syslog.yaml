@@ -74,10 +74,10 @@ event-details:
         Action: LOGIN
         Status: FAILED
         AuthProto: TTY
+        Reason: INVALID_CREDENTIALS
       translate:
         src: SrcIP
         User: User 
-        reason: Reason
          
   fallback:
     annotate:

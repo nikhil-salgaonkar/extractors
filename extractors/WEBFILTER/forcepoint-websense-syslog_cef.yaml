@@ -34,6 +34,7 @@ event-details:
         in: RXLen
         suser: User
         app: Proto
+        dhost: Domain
     'blocked':
       annotate:
         Stream: WEBFILTER
@@ -50,6 +51,7 @@ event-details:
         in: RXLen
         suser: User
         app: Proto  
+        dhost: Domain
 
   fallback:
     annotate:

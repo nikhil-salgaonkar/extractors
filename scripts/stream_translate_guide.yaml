@@ -37,6 +37,7 @@ WEBFILTER:
 - TXLen
 - HTTPMethod
 - DstPort
+- Domain
 DNS:
 - Query
 - ResponseCode

@@ -50,7 +50,7 @@ event-details:
         Action: LOGIN
         Status: FAILED
         AuthProto: SSH
-        Reason: INVALID_USER 
+        Reason: INVALID_CREDENTIALS 
       translate:
         user: User
         src: SrcIP
@@ -75,7 +75,7 @@ event-details:
         Action: LOGIN
         Status: FAILED
         AuthProto: SSH
-        Reason: INVALID_USER
+        Reason: INVALID_CREDENTIALS
       translate:
         user: User
         src: SrcIP       
@@ -148,8 +148,8 @@ event-details:
         Action: LOGIN
         Status: FAILED
         AuthProto: SSH
+        Reason: INVALID_CREDENTIALS
       translate:
-        reason: Reason
         user: User
         src: SrcIP 
         
@@ -173,7 +173,7 @@ event-details:
         Action: LOGIN
         Status: FAILED
         AuthProto: SSH
-        Reason: INVALID_PASSWORD 
+        Reason: INVALID_CREDENTIALS 
       translate:
         user: User
         src: SrcIP
@@ -295,7 +295,7 @@ event-details:
         Action: LOGIN
         Status: FAILED
         AuthProto: SSH
-        Reason: INVALID_PASSWORD
+        Reason: INVALID_CREDENTIALS
       translate:
         user: User
         src: SrcIP 
@@ -305,7 +305,7 @@ event-details:
         Action: LOGIN
         Status: FAILED
         AuthProto: SSH
-        Reason: INVALID_PASSWORD
+        Reason: INVALID_CREDENTIALS
       translate:
         user: User
         src: SrcIP
@@ -330,7 +330,7 @@ event-details:
         Action: LOGIN
         Status: FAILED
         AuthProto: SSH
-        Reason: INVALID_PASSWORD
+        Reason: INVALID_CREDENTIALS
       translate:
         ruser: User
         src: SrcIP  
@@ -340,7 +340,7 @@ event-details:
         Action: LOGIN
         Status: FAILED
         AuthProto: SSH
-        Reason: INVALID_PASSWORD
+        Reason: INVALID_CREDENTIALS
       translate:
         ruser: User 
         src: SrcIP
@@ -365,7 +365,7 @@ event-details:
         Action: LOGIN
         Status: FAILED
         AuthProto: SSH
-        Reason: INVALID_PASSWORD
+        Reason: INVALID_CREDENTIALS
       translate:
         ruser: User
         src: SrcIP
@@ -585,7 +585,7 @@ event-details:
       annotate:
         Stream: IAM
         Action: CREDENTIAL_ACQUIRED
-        Status: PASSED
+        Status: PASSEDAUDITD
       translate:
         user: User
         TargetUser: TargetUser
@@ -611,7 +611,7 @@ event-details:
     'USER_ROLE_CHANGE':
       annotate:
         Stream: IAM
-        Action: USER_ROLE_UPDATED
+        Action: ROLE_UPDATED
         Status: PASSED
       translate:
         user: User
@@ -620,7 +620,7 @@ event-details:
     'USER_ACCT':
       annotate:
         Stream: IAM
-        Action: USER_ACCOUNT_UPDATED
+        Action: USER_UPDATED
         Status: PASSED
       translate:
         user: User

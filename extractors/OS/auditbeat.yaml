@@ -33,7 +33,7 @@ event-details:
         Action: LOGIN
         Status: FAILED
         AuthProto: '-'
-        Reason: BAD_USER_PASSWORD
+        Reason: INVALID_CREDENTIALS
       translate:
         user[name]: User
         source[ip]: SrcIP
@@ -44,7 +44,7 @@ event-details:
         Action: LOGIN
         Status: FAILED
         AuthProto: '-'
-        Reason: BAD_USER_PASSWORD
+        Reason: INVALID_CREDENTIALS
       translate:
         user[name]: User
         source[ip]: SrcIP 
@@ -175,7 +175,7 @@ event-details:
       translate:
         user[name]: User
         process[executable]: Process
-        process[args]: ProcessArgs
+        auditd[data][unit]: ProcessArgs
 
     'stopped-service-success':
       annotate:
@@ -185,7 +185,7 @@ event-details:
       translate:
         user[name]: User
         process[executable]: Process
-        process[args]: ProcessArgs
+        auditd[data][unit]: ProcessArgs
 
     'executed-failure':
       annotate:
