@@ -1,7 +1,7 @@
 schema-version: 1.0
 #extractor-version: 1
 extractor-id: 188
-integration: Syslog
+integration: Syslog(KV)
 vendor-name: CheckPoint
 product-name: CheckPoint Firewall
 source-name: CHECKPOINT
@@ -92,7 +92,7 @@ event-details:
       EventName: Generic CheckPoint Firewall Event
       Stream: OTHER 
 
-- first-match: 'product\:\"Threat Extraction\"\;'
+- first-match: 'product\:\"Threat\s+Extraction\"\;'
   decoder: custom
   decoder-regex: '\[?([^\s]+)\:\"([^\"]*)\"'
   event-key-format: '{action}-{product}'
@@ -169,7 +169,7 @@ event-details:
       EventName: Generic CheckPoint Firewall Event
       Stream: OTHER   
 
-- first-match: 'CheckPoint\s+\d+\s+\-\s+\[action\:\"(?:Log\s+In|Log\s+Out|Failed\s+Log In|Update)\"'
+- first-match: 'CheckPoint\s+\d+\s+\-\s+\[action\:\"(?:Log\s+In|Log\s+Out|Failed\s+Log\s+In|Update)\"'
   decoder: custom
   decoder-regex: '\[?([^\s]+)\:\"([^\"]*)\"'
   event-key-format: '{action}'
@@ -188,7 +188,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED 
-        Reason: BAD_USER_PASSWORD
+        Reason: INVALID_CREDENTIALS
       translate:
         src: SrcIP
         user: User
@@ -225,7 +225,7 @@ event-details:
     'Install Policy':
       annotate:
         Stream: CONFIGURATION
-        Action: CONFIGURATION_INSTALLED
+        Action: POLICY_INSTALLED
         Status: PASSED
       translate:
         additional_info: Config
@@ -325,6 +325,20 @@ event-details:
         protocol: App  
         client_inbound_bytes: RXLen
         client_outbound_bytes: TXLen  
+    'Accept-Internal':
+      annotate:
+        Stream: FIREWALL
+        Action: CONNECTION_ESTABLISHED
+        Status: PASSED
+      translate:
+        src: SrcIP  
+        dst: DstIP
+        s_port: SrcPort
+        service: DstPort
+        proto: Proto
+        protocol: App  
+        client_inbound_bytes: RXLen
+        client_outbound_bytes: TXLen    
     
   fallback:
     annotate:

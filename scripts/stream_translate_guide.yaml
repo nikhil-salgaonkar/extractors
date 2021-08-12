@@ -472,3 +472,20 @@ NTA-AUTHENTICATION-RFB:
 - ServerMajorVersion
 - ServerMinorVersion
 - AuthMethod
+NTA-DCE-RPC:
+- SrcIP
+- SrcPort
+- DstIP
+- DstPort
+- RoundTripTime
+- Pipe
+- Endpoint
+- Operation
+NTA-DNP3:
+- ID
+- SrcIP
+- SrcPort
+- DstIP
+- DstPort
+- FunctionRequest
+- FunctionReply

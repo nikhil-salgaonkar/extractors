@@ -1,7 +1,7 @@
 schema-version: 1.0
 #extractor-version: 1
 extractor-id: 169
-integration: Syslog(CSV)
+integration: Syslog
 vendor-name: ZScaler
 product-name: ZScaler DNS
 source-name: ZSCALER

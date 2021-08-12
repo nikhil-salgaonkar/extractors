@@ -371,11 +371,11 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
+        Reason: INVALID_CREDENTIALS
       translate:
         src: SrcIP
         user: User  
-        authproto: AuthProto
-        reason: Reason                                    
+        authproto: AuthProto                                   
 
   fallback:
     annotate:
@@ -442,21 +442,21 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
+        Reason: INVALID_CREDENTIALS
       translate:
         src: SrcIP
         user: User  
-        AuthProto: AuthProto
-        reason: Reason    
+        AuthProto: AuthProto 
     'globalprotectportal-auth-fail':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
+        Reason: INVALID_CREDENTIALS
       translate:
         src: SrcIP
         user: User  
-        AuthProto: AuthProto
-        reason: Reason   
+        AuthProto: AuthProto  
     'globalprotectportal-config-succ':
       annotate:
         Stream: CONFIGURATION

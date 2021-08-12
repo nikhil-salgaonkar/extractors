@@ -243,7 +243,7 @@ event-details:
 
 - first-match: 'Authentication\s+of.*?\[\S+\]\s+from\s+[\d\.]+\s+was\s+(?:accepted|rejected)' 
   decoder: regex
-  decoder-regex: '(?P<datetime>\d{4}\-\d{1,2}\-\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\w+).*?\[(?P<user>\S+)\]\s+from\s+(?P<src>[\d\.]+)\s+was\s+(?P<action>\w+)\,?(?:\s+(?P<reason>.*?))?msg_id'
+  decoder-regex: '(?P<datetime>\d{4}\-\d{1,2}\-\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\w+).*?\[(?P<user>\S+)\]\s+from\s+(?P<src>[\d\.]+)\s+was\s+(?P<action>\w+)\,?(?:\s+(?P<reason>.*?))?\s+msg_id'
   event-key-format: '{action}'
   event-key-mapping:
     'accepted':           
@@ -254,17 +254,16 @@ event-details:
       translate: 
         user: User
         src: SrcIP
-        reason: Reason
         AuthProto: AuthProto
     'rejected':           
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
+        Reason: INVALID_CREDENTIALS
       translate: 
         user: User
         src: SrcIP
-        reason: Reason
         AuthProto: AuthProto
         
   fallback:

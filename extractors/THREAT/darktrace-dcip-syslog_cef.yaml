@@ -45,7 +45,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        Reason: CONNECTION_FAILED
+        Reason: INVALID_CREDENTIALS
       translate:
         user: User
         dvc: SrcIP
