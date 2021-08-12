@@ -1927,8 +1927,4 @@ event-details:
   globals:
     translate:
       EventTime: SystemTstamp
-<<<<<<< HEAD
       Hostname: System
-=======
-      Hostname: System        
->>>>>>> master
