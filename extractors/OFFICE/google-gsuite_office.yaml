@@ -133,7 +133,7 @@ event-details:
     'USER_SETTINGS-CHANGE_FIRST_NAME': 
       annotate:
         Stream: IAM
-        Action: USER_UPDATED
+        Action: USER_CREDENTIALS_UPDATED
         Status: PASSED
       translate: 
         actor[email]: User
