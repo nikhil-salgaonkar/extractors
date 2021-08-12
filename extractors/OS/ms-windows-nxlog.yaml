@@ -153,57 +153,57 @@ event-details:
     '4741':         
       annotate:
         Stream: IAM
-        Action: SYSTEM_USER_ACCOUNT_CREATED
-        Status: PASSED    
+        Action: COMPUTER_ACCOUNT_CREATED
+        Status: PASSED  
       translate: 
         SubjectUserName: User
         TargetUserName: TargetUser
-        Role: Role
+        Category: Role
     '4720':           
       annotate:
         Stream: IAM
-        Action: USER_ACCOUNT_CREATED
-        Status: PASSED    
+        Action: USER_CREATED
+        Status: PASSED  
       translate: 
         SubjectUserName: User
         TargetUserName: TargetUser
-        Role: Role    
+        Category: Role    
     '4722':          
       annotate:
         Stream: IAM
-        Action: USER_ACCOUNT_ENABLED
-        Status: PASSED    
+        Action: USER_ENABLED
+        Status: PASSED  
       translate: 
         SubjectUserName: User
         TargetUserName: TargetUser
-        Role: Role
+        Category: Role
     '4724':         
       annotate:
         Stream: IAM
-        Action: ACCOUNT_PASSWORD_RESET
+        Action: PASSWORD_CHANGED
         Status: PASSED    
       translate: 
         SubjectUserName: User
         TargetUserName: TargetUser
-        Role: Role
+        Category: Role
     '4725':         
       annotate:
         Stream: IAM
-        Action: USER_ACCOUNT_DISABLED
-        Status: PASSED    
+        Action: USER_DISABLED
+        Status: PASSED  
       translate:  
         SubjectUserName: User
         TargetUserName: TargetUser
-        Role: Role
+        Category: Role
     '4726':         
       annotate:
         Stream: IAM
-        Action: USER_ACCOUNT_DELETED
-        Status: PASSED    
+        Action: USER_DELETED
+        Status: PASSED   
       translate:
         SubjectUserName: User
         TargetUserName: TargetUser
-        Role: Role
+        Category: Role
     '4738':            
       annotate:
         Stream: IAM
@@ -212,223 +212,223 @@ event-details:
       translate: 
         SubjectUserName: User
         TargetUserName: TargetUser
-        Role: Role
+        Category: Role
     '4740':           
       annotate:
         Stream: IAM
-        Action: USER_ACCOUNT_LOCKOUT
+        Action: USER_LOCKOUT
         Status: PASSED    
       translate:  
         SubjectUserName: User
         TargetUserName: TargetUser
-        Role: Role
+        Category: Role
     '4767':          
       annotate:
         Stream: IAM
-        Action: USER_ACCOUNT_UNLOCKED
-        Status: PASSED    
+        Action: USER_UNLOCKED
+        Status: PASSED  
       translate:  
         SubjectUserName: User
         TargetUserName: TargetUser
-        Role: Role
+        Category: Role
     '4742':            
       annotate:
         Stream: IAM
-        Action: SYSTEM_USER_ACCOUNT_CHANGED
-        Status: PASSED    
+        Action: COMPUTER_ACCOUNT_CHANGED
+        Status: PASSED     
       translate: 
         SubjectUserName: User
         TargetUserName: TargetUser
-        Role: Role
+        Category: Role
     '4743':           
       annotate:
         Stream: IAM
-        Action: SYSTEM_USER_ACCOUNT_DELETED
-        Status: PASSED    
+        Action: COMPUTER_ACCOUNT_DELETED
+        Status: PASSED   
       translate:  
         SubjectUserName: User
         TargetUserName: TargetUser
-        Role: Role
+        Category: Role
     '4731':         
       annotate:
         Stream: IAM
-        Action: SECURITY_LOCAL_GROUP_CREATED
-        Status: PASSED    
+        Action: USER_REMOVED
+        Status: PASSED   
       translate: 
         SubjectUserName: User
         TargetUserName: TargetUser
-        Role: Role
+        Category: Role
     '4732':         
       annotate:
         Stream: IAM
-        Action: SECURITY_LOCAL_GROUP_MEMBER_ADDED
-        Status: PASSED    
+        Action: USER_ADDED
+        Status: PASSED  
       translate: 
         SubjectUserName: User
         TargetUserName: TargetUser
-        Role: Role
+        Category: Role
     '4733':         
       annotate:
         Stream: IAM
-        Action: SECURITY_LOCAL_GROUP_MEMBER_REMOVED
-        Status: PASSED    
+        Action: USER_REMOVED
+        Status: PASSED  
       translate: 
         SubjectUserName: User
         TargetUserName: TargetUser
-        Role: Role
+        Category: Role
     '4756':         
       annotate:
         Stream: IAM
-        Action: SECURITY_UNIVERSAL_GROUP_MEMBER_ADDED
-        Status: PASSED    
+        Action: USER_ADDED
+        Status: PASSED   
       translate:  
         SubjectUserName: User
         TargetUserName: TargetUser
-        Role: Role        
+        Category: Role       
     '4670':          
       annotate:
         Stream: IAM
         Action: PRIVILEGE_CHANGED
-        Status: PASSED    
+        Status: PASSED  
       translate:  
         SubjectUserName: User
         TargetUserName: TargetUser
-        Role: Role
+        Category: Role
     '4674': 
       annotate:
         Stream: IAM
         Action: PRIVILEGE_OBJECT_ACCESSED
-        Status: PASSED    
+        Status: PASSED  
       translate:  
         SubjectUserName: User 
-        TargetUserName: TargetUser
-        Role: Role                                        
+        TargetUserName: TargetUser  
+        Category: Role                                      
     '4782':
       annotate:
         Stream: IAM
         Action: ACCOUNT_PASSWORD_HASH_ACCESSED
-        Status: PASSED    
+        Status: PASSED 
       translate:  
         SubjectUserName: User  
         TargetUserName: TargetUser
-        Role: Role
+        Category: Role
     '4727':
       annotate:
         Stream: IAM
-        Action: SECURITY_GLOBAL_GROUP_CREATED
-        Status: PASSED    
+        Action: GROUP_CREATED
+        Status: PASSED  
       translate:  
         SubjectUserName: User  
         TargetUserName: TargetUser
-        Role: Role
+        Category: Role
     '4728':
       annotate:
         Stream: IAM
-        Action: SECURITY_GLOBAL_GROUP_MEMBER_ADDED
-        Status: PASSED    
+        Action: USER_ADDED
+        Status: PASSED 
       translate:  
         SubjectUserName: User  
         TargetUserName: TargetUser
-        Role: Role 
+        Category: Role
     '4729':
       annotate:
         Stream: IAM
-        Action: SECURITY_GLOBAL_GROUP_MEMBER_REMOVED
-        Status: PASSED    
+        Action: USER_REMOVED
+        Status: PASSED 
       translate:  
         SubjectUserName: User  
         TargetUserName: TargetUser
-        Role: Role   
+        Category: Role
     '4730':
       annotate:
         Stream: IAM
-        Action: SECURITY_GLOBAL_GROUP_DELETED
-        Status: PASSED    
+        Action: GROUP_DELETED
+        Status: PASSED  
       translate:  
         SubjectUserName: User  
         TargetUserName: TargetUser
-        Role: Role 
+        Category: Role
     '4734':
       annotate:
         Stream: IAM
-        Action: SECURITY_LOCAL_GROUP_DELETED
-        Status: PASSED    
+        Action: GROUP_DELETED
+        Status: PASSED   
       translate:  
         SubjectUserName: User  
         TargetUserName: TargetUser
-        Role: Role
+        Category: Role
     '4735':
       annotate:
         Stream: IAM
-        Action: SECURITY_LOCAL_GROUP_CHANGED
-        Status: PASSED    
+        Action: GROUP_CHANGED
+        Status: PASSED  
       translate:  
         SubjectUserName: User  
-        TargetUserName: TargetUser    
-        Role: Role 
+        TargetUserName: TargetUser 
+        Category: Role    
     '4737':
       annotate:
         Stream: IAM
-        Action: SECURITY_GLOBAL_GROUP_CHANGED
+        Action: GROUP_CHANGED
         Status: PASSED    
       translate:  
         SubjectUserName: User  
         TargetUserName: TargetUser
-        Role: Role 
+        Category: Role
     '4754':
       annotate:
         Stream: IAM
-        Action: SECURITY_UNIVERSAL_GROUP_CREATED
-        Status: PASSED    
-      translate:  
-        SubjectUserName: User  
-        TargetUserName: TargetUser
-        Role: Role   
-    '4755':
-      annotate:
-        Stream: IAM
-        Action: SECURITY_UNIVERSAL_GROUP_CHANGED
+        Action: GROUP_CREATED
         Status: PASSED    
       translate:  
         SubjectUserName: User  
         TargetUserName: TargetUser  
-        Role: Role
-    '4757':
+        Category: Role
+    '4755':
       annotate:
         Stream: IAM
-        Action: SECURITY_UNIVERSAL_GROUP_MEMBER_REMOVED
-        Status: PASSED    
-      translate:  
-        SubjectUserName: User  
-        TargetUserName: TargetUser
-        Role: Role   
-    '4758':
-      annotate:
-        Stream: IAM
-        Action: SECURITY_UNIVERSAL_GROUP_DELETED
-        Status: PASSED    
+        Action: GROUP_CHANGED
+        Status: PASSED   
       translate:  
         SubjectUserName: User  
         TargetUserName: TargetUser 
-        Role: Role        
+        Category: Role 
+    '4757':
+      annotate:
+        Stream: IAM
+        Action: USER_REMOVED
+        Status: PASSED    
+      translate:  
+        SubjectUserName: User  
+        TargetUserName: TargetUser
+        Category: Role   
+    '4758':
+      annotate:
+        Stream: IAM
+        Action: GROUP_DELETED
+        Status: PASSED  
+      translate:  
+        SubjectUserName: User  
+        TargetUserName: TargetUser  
+        Category: Role    
     '4781':
       annotate:
         Stream: IAM
-        Action: ACCOUNT_NAME_CHANGED
-        Status: PASSED    
+        Action: USER_CREDENTIALS_UPDATED
+        Status: PASSED 
       translate:  
         SubjectUserName: User  
         TargetUserName: TargetUser
-        Role: Role 
+        Category: Role
     '4672':          
       annotate:
         Stream: IAM
-        Action: PRIVILEGE_SET
-        Status: PASSED    
+        Action: PRIVILEGE_CHANGED
+        Status: PASSED 
       translate:  
         SubjectUserName: User  
         TargetUserName: TargetUser
-        Role: Role 
+        Category: Role
     '4739':
       annotate:
         Stream: WIN-AUDIT
@@ -1226,17 +1226,17 @@ event-details:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
         Status: PASSED    
+        Config: FIREWALL_SERVICE_START
       translate: 
-        SubjectUserName: User 
-        Config: Config   
+        SubjectUserName: User  
     '5025':
       annotate:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
-        Status: PASSED    
+        Status: PASSED  
+        Config: FIREWALL_SERVICE_STOP  
       translate: 
-        SubjectUserName: User 
-        Config: Config   
+        SubjectUserName: User  
     '5027':
       annotate:
         Stream: CONFIGURATION
@@ -1265,10 +1265,10 @@ event-details:
       annotate:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
-        Status: FAILED    
+        Status: FAILED
+        Config: FIREWALL_SERVICE_START    
       translate: 
-        SubjectUserName: User 
-        Config: Config   
+        SubjectUserName: User
     '5032':
       annotate:
         Stream: CONFIGURATION
@@ -1282,25 +1282,25 @@ event-details:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
         Status: PASSED    
+        Config: FIREWALL_DRIVER_START
       translate: 
         SubjectUserName: User 
-        Config: Config   
     '5034':
       annotate:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
         Status: PASSED    
+        Config: FIREWALL_DRIVER_STOP
       translate: 
-        SubjectUserName: User 
-        Config: Config   
+        SubjectUserName: User    
     '5035':
       annotate:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
-        Status: PASSED    
+        Status: FAILED
+        Config: FIREWALL_DRIVER_START 
       translate: 
-        SubjectUserName: User 
-        Config: Config   
+        SubjectUserName: User   
     '5037':
       annotate:
         Stream: CONFIGURATION
@@ -1313,18 +1313,18 @@ event-details:
       annotate:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
-        Status: PASSED    
+        Status: PASSED   
+        Config: SYSTEM_START
       translate: 
-        SubjectUserName: User 
-        Config: Config   
+        SubjectUserName: User    
     '4609':
       annotate:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
         Status: PASSED    
+        Config: SYSTEM_SHUT_DOWN
       translate: 
-        SubjectUserName: User 
-        Config: Config   
+        SubjectUserName: User    
     '4616':
       annotate:
         Stream: CONFIGURATION
@@ -1885,39 +1885,39 @@ event-details:
     '576': 
       annotate:
         Stream: IAM
-        Action: PRIVILEGE_SET
+        Action: PRIVILEGE_CHANGED
         Status: PASSED
       translate: 
         AccountName: User
         TargetUser: TargetUser
-        Role: Role
+        Category: Role
     '644':           
       annotate:
         Stream: IAM
-        Action: USER_ACCOUNT_LOCKOUT
-        Status: PASSED    
+        Action: USER_LOCKOUT
+        Status: PASSED
       translate:  
         AccountName: User
         TargetUser: TargetUser
-        Role: Role 
+        Category: Role
     '624':           
       annotate:
         Stream: IAM
-        Action: USER_ACCOUNT_CREATED
-        Status: PASSED    
+        Action: USER_CREATED
+        Status: PASSED  
       translate:  
         AccountName: User
-        TargetUser: TargetUser
-        Role: Role        
+        TargetUser: TargetUser 
+        Category: Role    
     '646':           
       annotate:
         Stream: IAM
-        Action: USER_ACCOUNT_CHANGED
-        Status: PASSED    
+        Action: COMPUTER_ACCOUNT_CHANGED
+        Status: PASSED  
       translate:  
         AccountName: User
         TargetUser: TargetUser
-        Role: Role      
+        Category: Role
   
   fallback:
     annotate:
@@ -1928,4 +1928,3 @@ event-details:
     translate:
       EventTime: SystemTstamp
       Hostname: System        
-
