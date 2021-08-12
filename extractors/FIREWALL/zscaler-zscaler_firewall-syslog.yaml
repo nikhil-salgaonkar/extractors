@@ -10,7 +10,6 @@ source-description: Extractor for Zscaler Firewall Events
 provides-streams:
 - FIREWALL
 - AUTHENTICATION
-- IAM
 - THREAT
 master-filters:
 - '\"\w+\s+\w+\s+\d+\s+\d+\:\d+\:\d+\s+\d+\"\,.*?\"\,.*?\"\d+\"\,\"(?:DNS\s+Blocks\s+From\s+URL\s+Cat|gras\s+reset\s+rule|Blocks\-reduce\-logs|Skype\s+Block|Blocked\s+ports|Default\s+Firewall\s+Filtering\s+Rule|Zoom\-ZS\-Defined|ICMP|Zoom\.us|Dialpad-DNS-NTP)'
@@ -66,33 +65,6 @@ event-details:
       translate:
         src_ip: SrcIP
         proto: AuthProto
-        user: User
-    None-Firewall Access Control-Update:
-      annotate:
-        Stream: IAM
-        Action: ACCESS_CONTROL_UPDATED
-        Status: PASSED
-      translate:
-        targetuser: TargetUser
-        role: Role
-        user: User
-    None-Firewall Access Control-Delete:
-      annotate:
-        Stream: IAM
-        Action: ACCESS_CONTROL_DELETED
-        Status: PASSED
-      translate:
-        targetuser: TargetUser
-        role: Role
-        user: User
-    None-Firewall Access Control-Create:
-      annotate:
-        Stream: IAM
-        Action: ACCESS_CONTROL_CREATED
-        Status: PASSED
-      translate:
-        targetuser: TargetUser
-        role: Role
         user: User
     None-Suspicious Destinations-None:
       annotate:
