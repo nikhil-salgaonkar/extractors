@@ -1,7 +1,7 @@
 schema-version: 1.0
 #extractor-version: 1
 extractor-id: 54
-integration: Syslog
+integration: Syslog(KV)
 vendor-name: Sophos
 product-name: Cyberoam Firewall
 source-name: CYBEROAM
@@ -44,7 +44,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        Reason: BAD_USER_PASSWORD
+        Reason: INVALID_CREDENTIALS
         AuthProto: SSH
       translate:
         user_name: User
@@ -63,9 +63,9 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
+        Reason: LOGIN_LIMIT_EXCEEDED
       translate:
         auth_mechanism: AuthProto
-        reason: Reason
         user_name: User
         src_ip: SrcIP
     '063210617706-Successful-Event':
@@ -606,11 +606,11 @@ event-details:
         Status: PASSED
       translate:
         User: User
-        WEB_CATEGORY_NAME: Config
+        Config: Config
     '062009517503-Successful-Event':
       annotate:
         Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Action: RULE_DELETED
         Status: PASSED
       translate:
         User: User

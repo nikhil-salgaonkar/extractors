@@ -40,7 +40,7 @@ event-details:
     '30':
       annotate:
         Stream: DHCP
-        Action: DNS_UPDATED_REQUEST
+        Action: DNS_UPDATE_REQUEST
         Status: PASSED
       translate:
         user: User
