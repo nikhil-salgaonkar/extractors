@@ -85,10 +85,10 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
+        Reason: INVALID_CREDENTIALS
       translate:
         user: User
         src: SrcIP
-        reason: Reason
         auth_protocol: AuthProto    
 
   fallback:
@@ -111,10 +111,10 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
+        Reason: INVALID_CREDENTIALS
       translate:
         user: User
         src: SrcIP
-        reason: Reason
         auth_protocol: AuthProto
 
   fallback:
@@ -138,10 +138,10 @@ event-details:
         Action: LOGIN
         Status: FAILED
         AuthProto: SSH
+        Reason: INVALID_CREDENTIALS
       translate:
         user: User
         src: SrcIP
-        reason: Reason
 
   fallback:
     annotate:
@@ -153,32 +153,6 @@ event-details:
       datetime: SystemTstamp 
       hostname: System       
 
-- first-match: '\%ASA-\d+\-716037\:'
-  decoder: regex
-  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2})(?:\s+(?P<hostname>\S+))?.*?\%ASA\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+(?P<message>.*?Group\s(?P<group>.*?)\sUser\s(?P<user>.*?)\s.*?(?P<status>failed)\sto\s(?P<action>login)\sinto\sthe\s(?P<sever>.*?)\s.*)'
-  event-key-format: '{action}-{status}'
-  event-key-mapping:
-    'login-failed':
-      annotate:
-        Stream: AUTHENTICATION
-        Action: LOGIN
-        Status: FAILED
-        Reason: BAD_USER_PASSWORD
-      translate:
-        src: SrcIP
-        user: User 
-        auth_protocol: AuthProto 
-
-  fallback:
-    annotate:
-      EventName: Generic Cisco-ASA Firewall Event
-      Stream: OTHER
-
-  globals:  
-    translate:
-      datetime: SystemTstamp 
-      hostname: System
-
 - first-match: '\%ASA\-\d+\-\d+\:\s+Remote\s+peer\s+has\s+failed\s+\S+\s+authentication'
   decoder: regex
   decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2})(?:\s+(?P<hostname>\S+))?.*?\%ASA\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+(?P<message>.*?(?P<status>failed)\s(?P<user>\S+)\s+(?P<action>authentication)\s+\-.*)'
@@ -189,7 +163,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        Reason: BAD_USER_PASSWORD
+        Reason: INVALID_CREDENTIALS
       translate:
         user: User
         src: SrcIP
@@ -215,10 +189,10 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
+        Reason: INVALID_CREDENTIALS
       translate:
         user: User
         src: SrcIP
-        reason: Reason
         auth_protocol: AuthProto
 
   fallback:
@@ -241,10 +215,10 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
+        Reason: INVALID_CREDENTIALS
       translate:
         user: User
         src: SrcIP
-        reason: Reason
         auth_protocol: AuthProto
 
   fallback:
@@ -280,32 +254,7 @@ event-details:
   globals:  
     translate:
       datetime: SystemTstamp 
-      hostname: System
-
-- first-match: '\%ASA\-\d+\-\d+\:\s+\w+\s+user\s+authentication\s+Successful\s+'
-  decoder: regex
-  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2})(?:\s+(?P<hostname>\S+))?.*?\%ASA\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+(?P<message>(?P<auth_protocol>\w+)\s+user\s+(?P<action>authentication\s+Successful))\s+\:\s+.*?\s+\:\s+user\s+\=\s+(?P<user>.*)'
-  event-key-format: '{action}'
-  event-key-mapping:
-    'authentication Successful':
-      annotate:
-        Stream: AUTHENTICATION
-        Action: LOGIN
-        Status: PASSED
-      translate:
-        user: User
-        src: SrcIP
-        auth_protocol: AuthProto
-
-  fallback:
-    annotate:
-      EventName: Generic Cisco-ASA Firewall Event
-      Stream: OTHER
-
-  globals:  
-    translate:
-      datetime: SystemTstamp 
-      hostname: System   
+      hostname: System 
 
 - first-match: '\%ASA\-\d+\-\d+\:\s+User\s+authentication\s+(?:succeeded|failed)\:'
   decoder: regex
@@ -325,11 +274,11 @@ event-details:
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
-        Status: PASSED
+        Status: FAILED
+        Reason: INVALID_CREDENTIALS
       translate:
         user: User
         src: SrcIP
-        reason: Reason
         auth_protocol: AuthProto    
 
   fallback:
@@ -353,11 +302,11 @@ event-details:
         Action: LOGIN
         Status: FAILED
         AuthProto: SSH
+        Reason: INVALID_CREDENTIALS
       translate:
         user: User
         src: SrcIP
-        reason: Reason
-
+        
   fallback:
     annotate:
       EventName: Generic Cisco-ASA Firewall Event
@@ -378,10 +327,10 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
+        Reason: INVALID_CREDENTIALS
       translate:
         user: User
         src: SrcIP
-        reason: Reason
         auth_protocol: AuthProto
 
   fallback:
@@ -404,10 +353,10 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
+        Reason: INVALID_CREDENTIALS
       translate:
         user: User
         src: SrcIP
-        reason: Reason
         auth_protocol: AuthProto
 
   fallback:
@@ -455,10 +404,10 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
+        Reason: INVALID_CREDENTIALS
       translate:
         user: User
         src: SrcIP
-        reason: Reason
         auth_protocol: AuthProto
        
   fallback:
@@ -481,10 +430,10 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
+        Reason: INVALID_CREDENTIALS
       translate:
         user: User
         src: SrcIP
-        reason: Reason
         auth_protocol: AuthProto
        
   fallback:
@@ -798,7 +747,7 @@ event-details:
     '713273':
       annotate:
         Stream: CONFIGURATION
-        Action: CONFIGURATION_ERASED
+        Action: CONFIGURATION_CHANGED
         Status: PASSED
       translate:
         user: User
@@ -822,7 +771,7 @@ event-details:
     'User deleted':
       annotate:
         Stream: IAM
-        Action: USER_ACCOUNT_DELETED
+        Action: USER_DELETED
         Status: PASSED
       translate:
         targer_user: TargetUser
@@ -840,7 +789,7 @@ event-details:
     'user added':
       annotate:
         Stream: IAM
-        Action: NEW_USER_ADDED
+        Action: USER_ADDED
         Status: PASSED
       translate:
         targer_user: TargetUser

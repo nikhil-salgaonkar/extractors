@@ -115,27 +115,26 @@ event-details:
         user: User
         src: SrcIP
         AuthProto: AuthProto
-        Reason: Reason
     'Rejected': 
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
+        Reason: INVALID_CREDENTIALS
       translate: 
         user: User
         src: SrcIP
         AuthProto: AuthProto
-        reason: Reason
     'rejected': 
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
+        Reason: INVALID_CREDENTIALS
       translate: 
         user: User
         src: SrcIP
         AuthProto: AuthProto
-        reason: Reason
     
   fallback:
     annotate:
@@ -161,17 +160,16 @@ event-details:
         user: User
         SrcIP: SrcIP
         AuthProto: AuthProto
-        Reason: Reason
     'rejected': 
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
+        Reason: INVALID_CREDENTIALS
       translate: 
         user: User
         SrcIP: SrcIP
         AuthProto: AuthProto
-        Reason: Reason
 
   fallback:
     annotate:
@@ -197,8 +195,7 @@ event-details:
         user: User
         src: SrcIP
         AuthProto: AuthProto
-        Reason: Reason
-
+       
   fallback:
     annotate:
       EventName: Generic Cisco-FTD Firewall Event
@@ -223,17 +220,16 @@ event-details:
         user: User
         SrcIP: SrcIP
         AuthProto: AuthProto
-        Reason: Reason
     'failed': 
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
+        Reason: INVALID_CREDENTIALS
       translate: 
         user: User
         SrcIP: SrcIP
         AuthProto: AuthProto
-        Reason: Reason
 
   fallback:
     annotate:
@@ -259,17 +255,16 @@ event-details:
         user: User
         src: SrcIP
         AuthProto: AuthProto
-        Reason: Reason
     'failed': 
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
+        Reason: INVALID_CREDENTIALS
       translate: 
         user: User
         src: SrcIP
         AuthProto: AuthProto
-        Reason: Reason
 
   fallback:
     annotate:
@@ -295,7 +290,6 @@ event-details:
         user: User
         src: SrcIP
         AuthProto: AuthProto
-        Reason: Reason
 
   fallback:
     annotate:
@@ -317,11 +311,11 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
+        Reason: INVALID_CREDENTIALS
       translate: 
         user: User
         src: SrcIP
         authproto: AuthProto
-        reason: Reason
 
   fallback:
     annotate:

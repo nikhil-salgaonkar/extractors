@@ -28,7 +28,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        Reason: INVALID_PASSWORD
+        Reason: INVALID_CREDENTIALS
       translate: 
         src: SrcIP    
         user: User
@@ -177,7 +177,7 @@ event-details:
     'AGS IPS Policy': 
       annotate:
         Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Action: RULE_ADDED
         Status: PASSED
       translate:  
         config : Config
@@ -185,7 +185,7 @@ event-details:
     'Policy Deployment': 
       annotate:
         Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
+        Action: POLICY_DEPLOYED
         Status: PASSED
       translate:  
         config : Config
