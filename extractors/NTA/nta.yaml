@@ -54,8 +54,8 @@ event-details:
         proto: Proto
         service: App
         duration: Duration
-        orig_pkts: TXLen
-        resp_pkts: RXLen
+        orig_bytes: TXLen
+        resp_bytes: RXLen
         conn_state: ConnState
     'S1':
       annotate:
@@ -71,8 +71,8 @@ event-details:
         proto: Proto
         service: App
         duration: Duration
-        orig_pkts: TXLen
-        resp_pkts: RXLen
+        orig_bytes: TXLen
+        resp_bytes: RXLen
         conn_state: ConnState
     'SF':
       annotate:
@@ -88,8 +88,8 @@ event-details:
         proto: Proto
         service: App
         duration: Duration
-        orig_pkts: TXLen
-        resp_pkts: RXLen
+        orig_bytes: TXLen
+        resp_bytes: RXLen
         conn_state: ConnState
     'REJ':
       annotate:
@@ -105,8 +105,8 @@ event-details:
         proto: Proto
         service: App
         duration: Duration
-        orig_pkts: TXLen
-        resp_pkts: RXLen
+        orig_bytes: TXLen
+        resp_bytes: RXLen
         conn_state: ConnState
     'S2':
       annotate:
@@ -122,8 +122,8 @@ event-details:
         proto: Proto
         service: App
         duration: Duration
-        orig_pkts: TXLen
-        resp_pkts: RXLen
+        orig_bytes: TXLen
+        resp_bytes: RXLen
         conn_state: ConnState
     'S3':
       annotate:
@@ -139,8 +139,8 @@ event-details:
         proto: Proto
         service: App
         duration: Duration
-        orig_pkts: TXLen
-        resp_pkts: RXLen
+        orig_bytes: TXLen
+        resp_bytes: RXLen
         conn_state: ConnState
     'RSTO':
       annotate:
@@ -156,8 +156,8 @@ event-details:
         proto: Proto
         service: App
         duration: Duration
-        orig_pkts: TXLen
-        resp_pkts: RXLen
+        orig_bytes: TXLen
+        resp_bytes: RXLen
         conn_state: ConnState
     'RSTR':
       annotate:
@@ -173,8 +173,8 @@ event-details:
         proto: Proto
         service: App
         duration: Duration
-        orig_pkts: TXLen
-        resp_pkts: RXLen
+        orig_bytes: TXLen
+        resp_bytes: RXLen
         conn_state: ConnState
     'RSTOS0':
       annotate:
@@ -190,8 +190,8 @@ event-details:
         proto: Proto
         service: App
         duration: Duration
-        orig_pkts: TXLen
-        resp_pkts: RXLen
+        orig_bytes: TXLen
+        resp_bytes: RXLen
         conn_state: ConnState
     'RSTRH':
       annotate:
@@ -207,8 +207,8 @@ event-details:
         proto: Proto
         service: App
         duration: Duration
-        orig_pkts: TXLen
-        resp_pkts: RXLen
+        orig_bytes: TXLen
+        resp_bytes: RXLen
         conn_state: ConnState
     'SH':
       annotate:
@@ -224,8 +224,8 @@ event-details:
         proto: Proto
         service: App
         duration: Duration
-        orig_pkts: TXLen
-        resp_pkts: RXLen
+        orig_bytes: TXLen
+        resp_bytes: RXLen
         conn_state: ConnState
     'SHR':
       annotate:
@@ -241,8 +241,8 @@ event-details:
         proto: Proto
         service: App
         duration: Duration
-        orig_pkts: TXLen
-        resp_pkts: RXLen
+        orig_bytes: TXLen
+        resp_bytes: RXLen
         conn_state: ConnState
     'OTH':
       annotate:
@@ -258,8 +258,8 @@ event-details:
         proto: Proto
         service: App
         duration: Duration
-        orig_pkts: TXLen
-        resp_pkts: RXLen
+        orig_bytes: TXLen
+        resp_bytes: RXLen
         conn_state: ConnState
     
   fallback:
