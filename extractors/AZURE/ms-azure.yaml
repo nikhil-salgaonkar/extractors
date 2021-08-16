@@ -1,18 +1,20 @@
 schema-version: 1.0
 #extractor-version: 1
 extractor-id: 722
-integration: Azure Event Hub
+integration: Azure 
 vendor-name: Microsoft Azure
-product-name: Azure Event Hubs
-source-name:  AZURE-EVENT-HUBS
+product-name: Azure 
+source-name:  AZURE 
 source-type: AZURE
-source-description: Extractor for Azure Event Hubs Events
+source-description: Extractor for Azure Events
 provides-streams:
 - AZURE
+- FIREWALL
 master-filters:
 - '\"resourceId\"\:.*?\"operationName\"\:\S+\"\,\"category\"\:\"\w+\"'
 - '\"(?:TaskName|EventName)\"\:.*?resourceId\"\:.*?\"category\"\:\"\w+\"'
 - '\"resourceId\".*?\"metricName\"\:\"\w+\"\,\"timeGrain\"\:'
+- '\"operationName\":\"NetworkSecurityGroupFlowEvents\"'
 event-details:
 - first-match: '\"category\"\:\"\w+\"\,\"resultType\"\:\"\w+\"'
   decoder: json
@@ -207,7 +209,7 @@ event-details:
 
   fallback:
     annotate:
-      EventName: Generic Azure Event Hubs Event
+      EventName: Generic Azure Event 
       Stream: OTHER
 
   globals:
@@ -232,7 +234,7 @@ event-details:
 
   fallback:
     annotate:
-      EventName: Generic Azure Event Hubs Event
+      EventName: Generic Azure Event
       Stream: OTHER
 
   globals:
@@ -257,10 +259,86 @@ event-details:
 
   fallback:
     annotate:
-      EventName: Generic Azure Event Hubs Event
+      EventName: Generic Azure Event
       Stream: OTHER
 
   globals:
     translate:
       System: System
       startTime: SystemTstamp
+
+- first-match: '\"operationName\":\"NetworkSecurityGroupFlowEvents\"'
+  decoder: json
+  event-key-format: '{Version}-{flowPacket}'
+  event-key-mapping: 
+    '1-A':
+      annotate:
+        Stream: FIREWALL
+        Action: CONNECTION_ESTABLISHED
+        Status: PASSED
+      translate:  
+        flowSrc: SrcIP
+        flowSPort: SrcPort
+        flowDst: DstIP
+        flowDPort: DstPort
+        flowProto: Proto
+        App: App
+        flowBytesSentSrcToDst: TXLen
+        flowBytesSentDstToSrc: RXLen
+    '1-D':
+      annotate:
+        Stream: FIREWALL
+        Action: CONNECTION_ESTABLISHED
+        Status: FAILED
+      translate:  
+        flowSrc: SrcIP
+        flowSPort: SrcPort
+        flowDst: DstIP
+        flowDPort: DstPort
+        flowProto: Proto
+        App: App
+        flowBytesSentSrcToDst: TXLen
+        flowBytesSentDstToSrc: RXLen
+    '2-A':
+      annotate:
+        Stream: FIREWALL
+        Action: PACKET_ALLOWED
+        Status: PASSED
+      translate:  
+        flowSrc: SrcIP
+        flowSPort: SrcPort
+        flowDst: DstIP
+        flowDPort: DstPort
+        flowProto: Proto
+        App: App
+        flowBytesSentSrcToDst: TXLen
+        flowBytesSentDstToSrc: RXLen
+    '2-D':
+      annotate:
+        Stream: FIREWALL
+        Action: PACKET_BLOCKED
+        Status: PASSED
+      translate:  
+        flowSrc: SrcIP
+        flowSPort: SrcPort
+        flowDst: DstIP
+        flowDPort: DstPort
+        flowProto: Proto
+        App: App
+        flowBytesSentSrcToDst: TXLen
+        flowBytesSentDstToSrc: RXLen
+
+  fallback:
+    annotate:
+      EventName: Generic Azure Event 
+      Stream: OTHER
+
+  globals:
+    translate:
+      System: System
+      time: SystemTstamp
+
+  subs:
+    Proto: 
+      'T': 'TCP'
+      'U': 'UDP'
