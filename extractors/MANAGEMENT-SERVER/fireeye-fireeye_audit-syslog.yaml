@@ -135,7 +135,7 @@ event-details:
         Status: PASSED
       translate:
         user: User 
-        Config: Config
+        action: Config
          
   fallback:
     annotate:
