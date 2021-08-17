@@ -1226,7 +1226,7 @@ event-details:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
         Status: PASSED    
-        Config: FIREWALL_SERVICE_START
+        Config: Firewall Service Start
       translate: 
         SubjectUserName: User  
     '5025':
@@ -1234,7 +1234,7 @@ event-details:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
         Status: PASSED  
-        Config: FIREWALL_SERVICE_STOP  
+        Config: Firewall Service Stop  
       translate: 
         SubjectUserName: User  
     '5027':
@@ -1266,7 +1266,7 @@ event-details:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
         Status: FAILED
-        Config: FIREWALL_SERVICE_START    
+        Config: Firewall Service Start  
       translate: 
         SubjectUserName: User
     '5032':
@@ -1282,7 +1282,7 @@ event-details:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
         Status: PASSED    
-        Config: FIREWALL_DRIVER_START
+        Config: Firewall Driver Start
       translate: 
         SubjectUserName: User 
     '5034':
@@ -1290,7 +1290,7 @@ event-details:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
         Status: PASSED    
-        Config: FIREWALL_DRIVER_STOP
+        Config: Firewall Driver Stop
       translate: 
         SubjectUserName: User    
     '5035':
@@ -1298,7 +1298,7 @@ event-details:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
         Status: FAILED
-        Config: FIREWALL_DRIVER_START 
+        Config: Firewall Driver Start
       translate: 
         SubjectUserName: User   
     '5037':
@@ -1314,7 +1314,7 @@ event-details:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
         Status: PASSED   
-        Config: SYSTEM_START
+        Config: System Start
       translate: 
         SubjectUserName: User    
     '4609':
@@ -1322,7 +1322,7 @@ event-details:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
         Status: PASSED    
-        Config: SYSTEM_SHUT_DOWN
+        Config: System Shut Down
       translate: 
         SubjectUserName: User    
     '4616':
