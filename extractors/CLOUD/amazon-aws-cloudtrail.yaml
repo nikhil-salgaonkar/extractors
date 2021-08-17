@@ -15,7 +15,7 @@ provides-streams:
 master-filters:
 - '\"awsRegion\"'
 event-details:
-- first-match: '\"eventSource\":\s*\"signin\.amazonaws\.com\"'
+- first-match: '\"eventSource\":\s*\"(?:signin|signout)\.amazonaws\.com\"'
   decoder: json
   event-key-format: '{eventName}-{responseElements[ConsoleLogin]}'
   event-key-mapping:
@@ -451,7 +451,7 @@ event-details:
       eventTime: SystemTstamp
       System: System
 
-- first-match: '\"eventSource\":(?:\s+)?(?!\"iam\.amazonaws\.com\"|\"config\.amazonaws\.com\"|\"signin\.amazonaws\.com\")'
+- first-match: '\"eventSource\":(?:\s+)?\"(?!signin\.amazonaws\.com|signout\.amazonaws\.com|iam\.amazonaws\.com|config\.amazonaws\.com).*?\"\,'
   decoder: json
   event-key-format: ''
   event-key-mapping:
