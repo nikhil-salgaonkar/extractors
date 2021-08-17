@@ -86,10 +86,10 @@ event-details:
         Stream: IAM
         Action: USER_DELETED
         Status: PASSED
-        Role: User Admin Delete
       translate:
         spriv: User
         cs1: TargetUser
+        spriv: Role
           
   fallback:
     annotate:
