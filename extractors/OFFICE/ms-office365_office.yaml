@@ -124,7 +124,7 @@ event-details:
       translate:
         UserId: User
         Role: Role
-        Target[3]: TargetUser
+        Target[1][ID]: TargetUser
     'Update user.-Failure':
       annotate:
         Stream: IAM
@@ -133,7 +133,7 @@ event-details:
       translate:
         UserId: User
         Role: Role
-        TargetUser: TargetUser    
+        Target[1][ID]: TargetUser   
     'Delete user.-Success':
       annotate:
         Stream: IAM
@@ -142,7 +142,7 @@ event-details:
       translate:
         UserId: User
         Role: Role
-        TargetUser: TargetUser 
+        Target[1][ID]: TargetUser
     'Delete user.-Failure':
       annotate:
         Stream: IAM
@@ -151,7 +151,7 @@ event-details:
       translate:
         UserId: User
         Role: Role
-        TargetUser: TargetUser            
+        Target[1][ID]: TargetUser            
     'Change user license.-Success':
       annotate:
         Stream: IAM
@@ -160,7 +160,7 @@ event-details:
       translate:
         UserId: User
         Role: Role
-        TargetUser: TargetUser
+        Target[1][ID]: TargetUser
     'Change user license.-Failure':
       annotate:
         Stream: IAM
@@ -169,7 +169,7 @@ event-details:
       translate:
         UserId: User
         Role: Role
-        TargetUser: TargetUser    
+        Target[1][ID]: TargetUser    
     'Disable account.-Success':
       annotate:
         Stream: IAM
@@ -178,7 +178,7 @@ event-details:
       translate:
         UserId: User
         Role: Role
-        TargetUser: TargetUser
+        Target[1][ID]: TargetUser
     'Disable account.-Failure':
       annotate:
         Stream: IAM
@@ -187,7 +187,7 @@ event-details:
       translate:
         UserId: User
         Role: Role
-        TargetUser: TargetUser    
+        Target[1][ID]: TargetUser    
     'Change user password.-Success':
       annotate:
         Stream: IAM
@@ -196,7 +196,7 @@ event-details:
       translate:
         UserId: User
         Role: Role
-        TargetUser: TargetUser
+        Target[3][ID]: TargetUser
     'Change user password.-Failure':
       annotate:
         Stream: IAM
@@ -205,7 +205,7 @@ event-details:
       translate:
         UserId: User
         Role: Role
-        TargetUser: TargetUser    
+        Target[3][ID]: TargetUser    
     'Reset user password.-Success':
       annotate:
         Stream: IAM
@@ -214,7 +214,7 @@ event-details:
       translate:
         UserId: User
         Role: Role
-        TargetUser: TargetUser
+        Target[1][ID]: TargetUser
     'Reset user password.-Failure':
       annotate:
         Stream: IAM
@@ -223,7 +223,7 @@ event-details:
       translate:
         UserId: User
         Role: Role
-        TargetUser: TargetUser      
+        Target[1][ID]: TargetUser      
     'Remove member from group.-Success':
       annotate:
         Stream: IAM
@@ -232,7 +232,7 @@ event-details:
       translate:
         UserId: User
         Role: Role
-        TargetUser: TargetUser
+        Target[3][ID]: TargetUser
     'Remove member from group.-Failure':
       annotate:
         Stream: IAM
@@ -241,7 +241,7 @@ event-details:
       translate:
         UserId: User
         Role: Role
-        TargetUser: TargetUser    
+        Target[3][ID]: TargetUser    
     'Add member to group.-Success':
       annotate:
         Stream: IAM
@@ -250,7 +250,7 @@ event-details:
       translate:
         UserId: User
         Role: Role  
-        TargetUser: TargetUser
+        Target[3][ID]: TargetUser
     'Add member to group.-Failure':
       annotate:
         Stream: IAM
@@ -259,7 +259,7 @@ event-details:
       translate:
         UserId: User
         Role: Role  
-        TargetUser: TargetUser  
+        Target[3][ID]: TargetUser  
     'Add delegated permission grant.-Success':
       annotate:
         Stream: IAM
@@ -268,7 +268,7 @@ event-details:
       translate:
         UserId: User
         Role: Role  
-        TargetUser: TargetUser
+        Target[2][ID]: TargetUser
     'Add delegated permission grant.-Failure':
       annotate:
         Stream: IAM
@@ -277,7 +277,7 @@ event-details:
       translate:
         UserId: User
         Role: Role  
-        TargetUser: TargetUser
+        Target[2][ID]: TargetUser
     'Remove delegated permission grant.-Success':
       annotate:
         Stream: IAM
@@ -286,7 +286,7 @@ event-details:
       translate:
         UserId: User
         Role: Role  
-        TargetUser: TargetUser       
+        Target[2][ID]: TargetUser       
     'Remove delegated permission grant.-Failure':
       annotate:
         Stream: IAM
@@ -295,7 +295,7 @@ event-details:
       translate:
         UserId: User
         Role: Role  
-        TargetUser: TargetUser             
+        Target[2][ID]: TargetUser             
     'MemberRemoved-None':
       annotate:
         Stream: IAM
@@ -304,7 +304,7 @@ event-details:
       translate:
         UserId: User
         Members[0][Role]: Role
-        TargetUser: TargetUser
+        Target[1][ID]: TargetUser
     'MemberAdded-None':
       annotate:
         Stream: IAM
@@ -313,7 +313,7 @@ event-details:
       translate:
         UserId: User
         Role: Role
-        TargetUser: TargetUser  
+        Target[1][ID]: TargetUser  
     'AccessRequestRejected-None':
       annotate:
         Stream: IAM
@@ -653,7 +653,23 @@ event-details:
         Status: FAILED
       translate:
         UserId: User
-        Operation: Config                                                         
+        Operation: Config 
+    'Delete device.-Success':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        UserId: User
+        Operation: Config        
+    'Delete device.-Failure':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: FAILED
+      translate:
+        UserId: User
+        Operation: Config                                                             
     
   fallback:
     annotate:
