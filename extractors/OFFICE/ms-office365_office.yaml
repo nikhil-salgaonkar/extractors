@@ -12,14 +12,15 @@ provides-streams:
 - AUTHENTICATION
 - IAM
 - DOCUMENTS
+- CONFIGURATION
 master-filters:
 - \{\"CreationTime\"\:\"\d{4}\-\d{1,2}\-\d{2}T\d{2}\:\d{2}\:\d{2}\"\,\"Id\"\:\"[\w\-]+\"\,\"Operation\"\:\"
 event-details:
 - first-match: \"UserType\"\:\d+\,
   decoder: json
-  event-key-format: '{Operation}'
+  event-key-format: '{Operation}-{ResultStatus}'
   event-key-mapping:
-    'Set-Mailbox':
+    'Set-Mailbox-True':
       annotate:
         Stream: EMAIL-GATEWAY
         Action: EMAIL_ACCEPTED
@@ -30,18 +31,7 @@ event-details:
         Attachments: File
         Directionality: Direction
         ClientIP: RemoteIP
-    'Create':
-      annotate:
-        Stream: EMAIL-GATEWAY
-        Action: EMAIL_ACCEPTED
-      translate:
-        MailboxOwnerUPN: Sender
-        To: Recipient
-        Item[Subject]: Subject
-        Item[Attachments]: File
-        Directionality: Direction
-        ClientIPAddress: RemoteIP
-    'Update':
+    'Remove-Mailbox-True':
       annotate:
         Stream: EMAIL-GATEWAY
         Action: EMAIL_ACCEPTED
@@ -52,7 +42,40 @@ event-details:
         Attachments: File
         Directionality: Direction
         ClientIP: RemoteIP 
-    'Move':
+    'Remove-MailboxPermission-True':
+      annotate:
+        Stream: EMAIL-GATEWAY
+        Action: EMAIL_ACCEPTED
+      translate:
+        MailboxOwnerUPN: Sender
+        To: Recipient
+        Subject: Subject
+        Attachments: File
+        Directionality: Direction
+        ClientIP: RemoteIP        
+    'Create-Succeeded':
+      annotate:
+        Stream: EMAIL-GATEWAY
+        Action: EMAIL_ACCEPTED
+      translate:
+        MailboxOwnerUPN: Sender
+        To: Recipient
+        Item[Subject]: Subject
+        Item[Attachments]: File
+        Directionality: Direction
+        ClientIPAddress: RemoteIP
+    'Update-Succeeded':
+      annotate:
+        Stream: EMAIL-GATEWAY
+        Action: EMAIL_ACCEPTED
+      translate:
+        MailboxOwnerUPN: Sender
+        To: Recipient
+        Subject: Subject
+        Attachments: File
+        Directionality: Direction
+        ClientIP: RemoteIP 
+    'Move-Succeeded':
       annotate:
         Stream: EMAIL-GATEWAY
         Action: EMAIL_ACCEPTED
@@ -74,7 +97,7 @@ event-details:
         Attachments: File
         Directionality: Direction
         ClientIP: RemoteIP
-    'UserLoggedIn':
+    'UserLoggedIn-Succeeded':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
@@ -83,7 +106,7 @@ event-details:
         protocol: AuthProto
         ClientIP: SrcIP
         UserId: User
-    'UserLoginFailed':
+    'UserLoginFailed-Failed':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
@@ -93,7 +116,7 @@ event-details:
         LogonError: Reason
         ClientIP: SrcIP 
         UserId: User   
-    'Update user.':
+    'Update user.-Success':
       annotate:
         Stream: IAM
         Action: USER_UPDATED
@@ -101,8 +124,17 @@ event-details:
       translate:
         UserId: User
         Role: Role
-        TargetUser: TargetUser
-    'Delete user.':
+        Target[3]: TargetUser
+    'Update user.-Failure':
+      annotate:
+        Stream: IAM
+        Action: USER_UPDATED
+        Status: FAILED
+      translate:
+        UserId: User
+        Role: Role
+        TargetUser: TargetUser    
+    'Delete user.-Success':
       annotate:
         Stream: IAM
         Action: USER_DELETED
@@ -110,8 +142,17 @@ event-details:
       translate:
         UserId: User
         Role: Role
-        TargetUser: TargetUser        
-    'Change user license.':
+        TargetUser: TargetUser 
+    'Delete user.-Failure':
+      annotate:
+        Stream: IAM
+        Action: USER_DELETED
+        Status: FAILED
+      translate:
+        UserId: User
+        Role: Role
+        TargetUser: TargetUser            
+    'Change user license.-Success':
       annotate:
         Stream: IAM
         Action: USER_LICENSE_CHANGED
@@ -120,7 +161,16 @@ event-details:
         UserId: User
         Role: Role
         TargetUser: TargetUser
-    'Disable account.':
+    'Change user license.-Failure':
+      annotate:
+        Stream: IAM
+        Action: USER_LICENSE_CHANGED
+        Status: FAILED
+      translate:
+        UserId: User
+        Role: Role
+        TargetUser: TargetUser    
+    'Disable account.-Success':
       annotate:
         Stream: IAM
         Action: ACCOUNT_DISABLED
@@ -129,7 +179,16 @@ event-details:
         UserId: User
         Role: Role
         TargetUser: TargetUser
-    'Change user password.':
+    'Disable account.-Failure':
+      annotate:
+        Stream: IAM
+        Action: ACCOUNT_DISABLED
+        Status: FAILED
+      translate:
+        UserId: User
+        Role: Role
+        TargetUser: TargetUser    
+    'Change user password.-Success':
       annotate:
         Stream: IAM
         Action: PASSWORD_CHANGED
@@ -138,7 +197,16 @@ event-details:
         UserId: User
         Role: Role
         TargetUser: TargetUser
-    'Reset user password.':
+    'Change user password.-Failure':
+      annotate:
+        Stream: IAM
+        Action: PASSWORD_CHANGED
+        Status: FAILED
+      translate:
+        UserId: User
+        Role: Role
+        TargetUser: TargetUser    
+    'Reset user password.-Success':
       annotate:
         Stream: IAM
         Action: PASSWORD_CHANGED
@@ -146,8 +214,17 @@ event-details:
       translate:
         UserId: User
         Role: Role
-        TargetUser: TargetUser  
-    'Remove member from group.':
+        TargetUser: TargetUser
+    'Reset user password.-Failure':
+      annotate:
+        Stream: IAM
+        Action: PASSWORD_CHANGED
+        Status: FAILED
+      translate:
+        UserId: User
+        Role: Role
+        TargetUser: TargetUser      
+    'Remove member from group.-Success':
       annotate:
         Stream: IAM
         Action: USER_REMOVED
@@ -156,7 +233,16 @@ event-details:
         UserId: User
         Role: Role
         TargetUser: TargetUser
-    'Add member to group.':
+    'Remove member from group.-Failure':
+      annotate:
+        Stream: IAM
+        Action: USER_REMOVED
+        Status: FAILED
+      translate:
+        UserId: User
+        Role: Role
+        TargetUser: TargetUser    
+    'Add member to group.-Success':
       annotate:
         Stream: IAM
         Action: USER_ADDED
@@ -165,7 +251,52 @@ event-details:
         UserId: User
         Role: Role  
         TargetUser: TargetUser
-    'MemberRemoved':
+    'Add member to group.-Failure':
+      annotate:
+        Stream: IAM
+        Action: USER_ADDED
+        Status: FAILED
+      translate:
+        UserId: User
+        Role: Role  
+        TargetUser: TargetUser  
+    'Add delegated permission grant.-Success':
+      annotate:
+        Stream: IAM
+        Action: USER_ADDED
+        Status: PASSED
+      translate:
+        UserId: User
+        Role: Role  
+        TargetUser: TargetUser
+    'Add delegated permission grant.-Failure':
+      annotate:
+        Stream: IAM
+        Action: USER_ADDED
+        Status: FAILED
+      translate:
+        UserId: User
+        Role: Role  
+        TargetUser: TargetUser
+    'Remove delegated permission grant.-Success':
+      annotate:
+        Stream: IAM
+        Action: USER_REMOVED
+        Status: PASSED
+      translate:
+        UserId: User
+        Role: Role  
+        TargetUser: TargetUser       
+    'Remove delegated permission grant.-Failure':
+      annotate:
+        Stream: IAM
+        Action: USER_REMOVED
+        Status: FAILED
+      translate:
+        UserId: User
+        Role: Role  
+        TargetUser: TargetUser             
+    'MemberRemoved-None':
       annotate:
         Stream: IAM
         Action: USER_REMOVED
@@ -174,7 +305,7 @@ event-details:
         UserId: User
         Members[0][Role]: Role
         TargetUser: TargetUser
-    'MemberAdded':
+    'MemberAdded-None':
       annotate:
         Stream: IAM
         Action: USER_ADDED
@@ -183,7 +314,7 @@ event-details:
         UserId: User
         Role: Role
         TargetUser: TargetUser  
-    'AccessRequestRejected':
+    'AccessRequestRejected-None':
       annotate:
         Stream: IAM
         Action: ACCESS_REQUEST_REJECTED
@@ -192,7 +323,7 @@ event-details:
         UserId: User
         Role: Role
         TargetUserOrGroupName: TargetUser
-    'SiteCollectionAdminAdded':
+    'SiteCollectionAdminAdded-None':
       annotate:
         Stream: IAM
         Action: USER_ADDED
@@ -201,7 +332,7 @@ event-details:
         UserId: User
         Role: Role
         TargetUserOrGroupName: TargetUser   
-    'FileAccessed':
+    'FileAccessed-None':
       annotate:
         Stream: DOCUMENTS
         Action: ACCESSED
@@ -211,7 +342,7 @@ event-details:
         SourceFileName: File
         ClientIP: SrcIP
         SharingType: Visibility
-    'FileAccessedExtended':
+    'FileAccessedExtended-None':
       annotate:
         Stream: DOCUMENTS
         Action: ACCESSED
@@ -221,7 +352,7 @@ event-details:
         SourceFileName: File
         ClientIP: SrcIP
         SharingType: Visibility 
-    'FileCopied':
+    'FileCopied-None':
       annotate:
         Stream: DOCUMENTS
         Action: COPIED
@@ -231,7 +362,7 @@ event-details:
         SourceFileName: File
         ClientIP: SrcIP
         SharingType: Visibility
-    'FileCheckedIn':
+    'FileCheckedIn-None':
       annotate:
         Stream: DOCUMENTS
         Action: MODIFIED
@@ -241,7 +372,7 @@ event-details:
         SourceFileName: File
         ClientIP: SrcIP
         SharingType: Visibility
-    'FileCheckedOut':
+    'FileCheckedOut-None':
       annotate:
         Stream: DOCUMENTS
         Action: MODIFIED
@@ -251,7 +382,7 @@ event-details:
         SourceFileName: File
         ClientIP: SrcIP
         SharingType: Visibility
-    'FileDeleted':
+    'FileDeleted-None':
       annotate:
         Stream: DOCUMENTS
         Action: DELETED
@@ -261,7 +392,7 @@ event-details:
         SourceFileName: File
         ClientIP: SrcIP
         SharingType: Visibility
-    'FileDeletedFirstStageRecycleBin':
+    'FileDeletedFirstStageRecycleBin-None':
       annotate:
         Stream: DOCUMENTS
         Action: DELETED
@@ -271,7 +402,7 @@ event-details:
         SourceFileName: File
         ClientIP: SrcIP
         SharingType: Visibility
-    'FileDeletedSecondStageRecycleBin':
+    'FileDeletedSecondStageRecycleBin-None':
       annotate:
         Stream: DOCUMENTS
         Action: DELETED
@@ -281,7 +412,7 @@ event-details:
         SourceFileName: File
         ClientIP: SrcIP
         SharingType: Visibility
-    'FileCheckOutDiscarded':
+    'FileCheckOutDiscarded-None':
       annotate:
         Stream: DOCUMENTS
         Action: MODIFIED
@@ -291,7 +422,7 @@ event-details:
         SourceFileName: File
         ClientIP: SrcIP
         SharingType: Visibility
-    'FileDownloaded':
+    'FileDownloaded-None':
       annotate:
         Stream: DOCUMENTS
         Action: DOWNLOADED
@@ -301,7 +432,7 @@ event-details:
         SourceFileName: File
         ClientIP: SrcIP
         SharingType: Visibility
-    'FileModified':
+    'FileModified-None':
       annotate:
         Stream: DOCUMENTS
         Action: MODIFIED
@@ -311,7 +442,7 @@ event-details:
         SourceFileName: File
         ClientIP: SrcIP
         SharingType: Visibility
-    'FileModifiedExtended':
+    'FileModifiedExtended-None':
       annotate:
         Stream: DOCUMENTS
         Action: MODIFIED
@@ -321,7 +452,7 @@ event-details:
         SourceFileName: File
         ClientIP: SrcIP
         SharingType: Visibility 
-    'FileMoved':
+    'FileMoved-None':
       annotate:
         Stream: DOCUMENTS
         Action: MOVED
@@ -331,7 +462,7 @@ event-details:
         SourceFileName: File
         ClientIP: SrcIP
         SharingType: Visibility
-    'FilePreviewed':
+    'FilePreviewed-None':
       annotate:
         Stream: DOCUMENTS
         Action: PREVIEWED
@@ -341,7 +472,7 @@ event-details:
         SourceFileName: File
         ClientIP: SrcIP
         SharingType: Visibility
-    'FileVersionsAllMinorsRecycled':
+    'FileVersionsAllMinorsRecycled-None':
       annotate:
         Stream: DOCUMENTS
         Action: VERSIONS_RECYCLED
@@ -351,7 +482,7 @@ event-details:
         SourceFileName: File
         ClientIP: SrcIP
         SharingType: Visibility
-    'FileVersionsAllRecycled':
+    'FileVersionsAllRecycled-None':
       annotate:
         Stream: DOCUMENTS
         Action: VERSIONS_RECYCLED
@@ -361,7 +492,7 @@ event-details:
         SourceFileName: File
         ClientIP: SrcIP
         SharingType: Visibility
-    'FileVersionRecycled':
+    'FileVersionRecycled-None':
       annotate:
         Stream: DOCUMENTS
         Action: VERSIONS_RECYCLED
@@ -371,7 +502,7 @@ event-details:
         SourceFileName: File
         ClientIP: SrcIP
         SharingType: Visibility
-    'FileRenamed':
+    'FileRenamed-None':
       annotate:
         Stream: DOCUMENTS
         Action: RENAMED
@@ -381,7 +512,7 @@ event-details:
         SourceFileName: File
         ClientIP: SrcIP
         SharingType: Visibility
-    'FileRestored':
+    'FileRestored-None':
       annotate:
         Stream: DOCUMENTS
         Action: RESTORED
@@ -391,7 +522,7 @@ event-details:
         SourceFileName: File
         ClientIP: SrcIP
         SharingType: Visibility
-    'FileUploaded':
+    'FileUploaded-None':
       annotate:
         Stream: DOCUMENTS
         Action: UPLOADED
@@ -401,7 +532,7 @@ event-details:
         SourceFileName: File
         ClientIP: SrcIP
         SharingType: Visibility
-    'FolderCopied':
+    'FolderCopied-None':
       annotate:
         Stream: DOCUMENTS
         Action: COPIED
@@ -411,7 +542,7 @@ event-details:
         SourceFileName: File
         ClientIP: SrcIP
         SharingType: Visibility
-    'FolderCreated':
+    'FolderCreated-None':
       annotate:
         Stream: DOCUMENTS
         Action: CREATED
@@ -421,7 +552,7 @@ event-details:
         SourceFileName: File
         ClientIP: SrcIP
         SharingType: Visibility
-    'FolderDeleted':
+    'FolderDeleted-None':
       annotate:
         Stream: DOCUMENTS
         Action: DELETED
@@ -431,7 +562,7 @@ event-details:
         SourceFileName: File
         ClientIP: SrcIP
         SharingType: Visibility 
-    'FolderDeletedFirstStageRecycleBin':
+    'FolderDeletedFirstStageRecycleBin-None':
       annotate:
         Stream: DOCUMENTS
         Action: DELETED
@@ -441,7 +572,7 @@ event-details:
         SourceFileName: File
         ClientIP: SrcIP
         SharingType: Visibility
-    'FolderDeletedSecondStageRecycleBin':
+    'FolderDeletedSecondStageRecycleBin-None':
       annotate:
         Stream: DOCUMENTS
         Action: DELETED
@@ -451,7 +582,7 @@ event-details:
         SourceFileName: File
         ClientIP: SrcIP
         SharingType: Visibility
-    'FolderModified':
+    'FolderModified-None':
       annotate:
         Stream: DOCUMENTS
         Action: MODIFIED
@@ -461,7 +592,7 @@ event-details:
         SourceFileName: File
         ClientIP: SrcIP
         SharingType: Visibility
-    'FolderMoved':
+    'FolderMoved-None':
       annotate:
         Stream: DOCUMENTS
         Action: MOVED
@@ -471,7 +602,7 @@ event-details:
         SourceFileName: File
         ClientIP: SrcIP
         SharingType: Visibility
-    'FolderRenamed':
+    'FolderRenamed-None':
       annotate:
         Stream: DOCUMENTS
         Action: RENAMED
@@ -481,7 +612,7 @@ event-details:
         SourceFileName: File
         ClientIP: SrcIP
         SharingType: Visibility
-    'FolderRestored':
+    'FolderRestored-None':
       annotate:
         Stream: DOCUMENTS
         Action: RESTORED
@@ -490,7 +621,39 @@ event-details:
         UserId: User
         SourceFileName: File
         ClientIP: SrcIP
-        SharingType: Visibility                                                
+        SharingType: Visibility  
+    'Add policy.-Success':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        UserId: User
+        Operation: Config
+    'Add policy.-Failure':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: FAILED
+      translate:
+        UserId: User
+        Operation: Config 
+    'Delete policy.-Success':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        UserId: User
+        Operation: Config    
+    'Delete policy.-Failure':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: FAILED
+      translate:
+        UserId: User
+        Operation: Config                                                         
     
   fallback:
     annotate:
