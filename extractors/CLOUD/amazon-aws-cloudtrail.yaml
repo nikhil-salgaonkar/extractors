@@ -15,7 +15,7 @@ provides-streams:
 master-filters:
 - '\"awsRegion\"'
 event-details:
-- first-match: '\"eventSource\":\s*\"(?:signin|signout)\.amazonaws\.com\"'
+- first-match: '\"eventSource\":\s*\"signin\.amazonaws\.com\"'
   decoder: json
   event-key-format: '{eventName}-{responseElements[ConsoleLogin]}'
   event-key-mapping:
