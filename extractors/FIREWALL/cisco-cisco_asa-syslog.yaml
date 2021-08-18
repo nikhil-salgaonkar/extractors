@@ -739,7 +739,7 @@ event-details:
     '111003':
       annotate:
         Stream: CONFIGURATION
-        Action: CONFIGURATION_ERASED
+        Action: CONFIGURATION_CHANGED
         Status: PASSED
       translate:
         user: User
