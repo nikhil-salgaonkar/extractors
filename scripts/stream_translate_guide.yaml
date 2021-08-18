@@ -226,6 +226,9 @@ NTA-DHCP:
 - ResultCode
 NTA-DNS:
 - SrcIP
+- SrcPort
+- DstIP
+- DstPort
 - Query
 - ResponseCode
 - QueryType
@@ -385,6 +388,7 @@ NTA-SMB:
 - DstPort
 - Path
 - ShareType
+- Name
 NTA-CERTIFICATE:
 - ID
 - Version

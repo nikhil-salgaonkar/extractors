@@ -54,8 +54,8 @@ event-details:
         proto: Proto
         service: App
         duration: Duration
-        orig_pkts: TXLen
-        resp_pkts: RXLen
+        orig_bytes: TXLen
+        resp_bytes: RXLen
         conn_state: ConnState
     'S1':
       annotate:
@@ -71,8 +71,8 @@ event-details:
         proto: Proto
         service: App
         duration: Duration
-        orig_pkts: TXLen
-        resp_pkts: RXLen
+        orig_bytes: TXLen
+        resp_bytes: RXLen
         conn_state: ConnState
     'SF':
       annotate:
@@ -88,8 +88,8 @@ event-details:
         proto: Proto
         service: App
         duration: Duration
-        orig_pkts: TXLen
-        resp_pkts: RXLen
+        orig_bytes: TXLen
+        resp_bytes: RXLen
         conn_state: ConnState
     'REJ':
       annotate:
@@ -105,8 +105,8 @@ event-details:
         proto: Proto
         service: App
         duration: Duration
-        orig_pkts: TXLen
-        resp_pkts: RXLen
+        orig_bytes: TXLen
+        resp_bytes: RXLen
         conn_state: ConnState
     'S2':
       annotate:
@@ -122,8 +122,8 @@ event-details:
         proto: Proto
         service: App
         duration: Duration
-        orig_pkts: TXLen
-        resp_pkts: RXLen
+        orig_bytes: TXLen
+        resp_bytes: RXLen
         conn_state: ConnState
     'S3':
       annotate:
@@ -139,8 +139,8 @@ event-details:
         proto: Proto
         service: App
         duration: Duration
-        orig_pkts: TXLen
-        resp_pkts: RXLen
+        orig_bytes: TXLen
+        resp_bytes: RXLen
         conn_state: ConnState
     'RSTO':
       annotate:
@@ -156,8 +156,8 @@ event-details:
         proto: Proto
         service: App
         duration: Duration
-        orig_pkts: TXLen
-        resp_pkts: RXLen
+        orig_bytes: TXLen
+        resp_bytes: RXLen
         conn_state: ConnState
     'RSTR':
       annotate:
@@ -173,8 +173,8 @@ event-details:
         proto: Proto
         service: App
         duration: Duration
-        orig_pkts: TXLen
-        resp_pkts: RXLen
+        orig_bytes: TXLen
+        resp_bytes: RXLen
         conn_state: ConnState
     'RSTOS0':
       annotate:
@@ -190,8 +190,8 @@ event-details:
         proto: Proto
         service: App
         duration: Duration
-        orig_pkts: TXLen
-        resp_pkts: RXLen
+        orig_bytes: TXLen
+        resp_bytes: RXLen
         conn_state: ConnState
     'RSTRH':
       annotate:
@@ -207,8 +207,8 @@ event-details:
         proto: Proto
         service: App
         duration: Duration
-        orig_pkts: TXLen
-        resp_pkts: RXLen
+        orig_bytes: TXLen
+        resp_bytes: RXLen
         conn_state: ConnState
     'SH':
       annotate:
@@ -224,8 +224,8 @@ event-details:
         proto: Proto
         service: App
         duration: Duration
-        orig_pkts: TXLen
-        resp_pkts: RXLen
+        orig_bytes: TXLen
+        resp_bytes: RXLen
         conn_state: ConnState
     'SHR':
       annotate:
@@ -241,8 +241,8 @@ event-details:
         proto: Proto
         service: App
         duration: Duration
-        orig_pkts: TXLen
-        resp_pkts: RXLen
+        orig_bytes: TXLen
+        resp_bytes: RXLen
         conn_state: ConnState
     'OTH':
       annotate:
@@ -258,8 +258,8 @@ event-details:
         proto: Proto
         service: App
         duration: Duration
-        orig_pkts: TXLen
-        resp_pkts: RXLen
+        orig_bytes: TXLen
+        resp_bytes: RXLen
         conn_state: ConnState
     
   fallback:
@@ -496,6 +496,9 @@ event-details:
         Status: PASSED
       translate:
         id.orig_h: SrcIP
+        id.orig_p: SrcPort
+        id.resp_h: DstIP
+        id.resp_p: DstPort
         query: Query
         rcode_name: ResponseCode
         qtype: QueryType
@@ -507,6 +510,9 @@ event-details:
         Status: PASSED
       translate:
         id.orig_h: SrcIP
+        id.orig_p: SrcPort
+        id.resp_h: DstIP
+        id.resp_p: DstPort
         query: Query
         rcode_name: ResponseCode
         qtype: QueryType
@@ -1217,6 +1223,7 @@ event-details:
         id.resp_p: DstPort
         path: Path
         share_type: ShareType
+        name: Name
     'smb_cmd':
       annotate:
         Stream: NTA-SMB
@@ -1229,6 +1236,7 @@ event-details:
         id.resp_p: DstPort
         path: Path
         share_type: ShareType
+        name: Name
     'dce_rpc':
       annotate:
         Stream: NTA-DCE-RPC
@@ -1283,6 +1291,7 @@ event-details:
         id.resp_p: DstPort
         path: Path
         share_type: ShareType
+        name: Name
     'SMB::FILE_CLOSE':
       annotate:
         Stream: NTA-SMB
@@ -1295,6 +1304,7 @@ event-details:
         id.resp_p: DstPort
         path: Path
         share_type: ShareType
+        name: Name
     'SMB::FILE_DELETE':
       annotate:
         Stream: NTA-SMB
@@ -1307,6 +1317,7 @@ event-details:
         id.resp_p: DstPort
         path: Path
         share_type: ShareType
+        name: Name
     'SMB::FILE_RENAME':
       annotate:
         Stream: NTA-SMB
@@ -1319,6 +1330,7 @@ event-details:
         id.resp_p: DstPort
         path: Path
         share_type: ShareType
+        name: Name
     'SMB::FILE_SET_ATTRIBUTE':
       annotate:
         Stream: NTA-SMB
@@ -1331,6 +1343,7 @@ event-details:
         id.resp_p: DstPort
         path: Path
         share_type: ShareType
+        name: Name
     'SMB::FILE_READ':
       annotate:
         Stream: NTA-SMB
@@ -1343,6 +1356,7 @@ event-details:
         id.resp_p: DstPort
         path: Path
         share_type: ShareType
+        name: Name
     'SMB::FILE_WRITE':
       annotate:
         Stream: NTA-SMB
@@ -1355,6 +1369,7 @@ event-details:
         id.resp_p: DstPort
         path: Path
         share_type: ShareType
+        name: Name
     'SMB::PIPE_READ':
       annotate:
         Stream: NTA-SMB
@@ -1367,6 +1382,7 @@ event-details:
         id.resp_p: DstPort
         path: Path
         share_type: ShareType
+        name: Name
     'SMB::PIPE_WRITE':
       annotate:
         Stream: NTA-SMB
@@ -1379,6 +1395,7 @@ event-details:
         id.resp_p: DstPort
         path: Path
         share_type: ShareType
+        name: Name
     'SMB::PIPE_OPEN':
       annotate:
         Stream: NTA-SMB
@@ -1391,6 +1408,7 @@ event-details:
         id.resp_p: DstPort
         path: Path
         share_type: ShareType
+        name: Name
     'SMB::PIPE_CLOSE':
       annotate:
         Stream: NTA-SMB
@@ -1403,6 +1421,7 @@ event-details:
         id.resp_p: DstPort
         path: Path
         share_type: ShareType
+        name: Name
     'SMB::PRINT_READ':
       annotate:
         Stream: NTA-SMB
@@ -1415,6 +1434,7 @@ event-details:
         id.resp_p: DstPort
         path: Path
         share_type: ShareType
+        name: Name
     'SMB::PRINT_WRITE':
       annotate:
         Stream: NTA-SMB
@@ -1427,6 +1447,7 @@ event-details:
         id.resp_p: DstPort
         path: Path
         share_type: ShareType
+        name: Name
     'SMB::PRINT_OPEN':
       annotate:
         Stream: NTA-SMB
@@ -1439,6 +1460,7 @@ event-details:
         id.resp_p: DstPort
         path: Path
         share_type: ShareType
+        name: Name
     'SMB::PRINT_CLOSE':
       annotate:
         Stream: NTA-SMB
@@ -1451,6 +1473,7 @@ event-details:
         id.resp_p: DstPort
         path: Path
         share_type: ShareType
+        name: Name
       
   fallback:
     annotate:
