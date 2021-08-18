@@ -176,7 +176,7 @@ event-details:
       translate:
         user: User
         User: TargetUser
-        Event Name: Role
+        Role: Role
     'UserRemove':           
       annotate:
         Stream: IAM
@@ -185,7 +185,7 @@ event-details:
       translate:
         user: User
         User: TargetUser
-        Event Name: Role
+        Role: Role
     'UserAdd':           
       annotate:
         Stream: IAM
@@ -194,7 +194,7 @@ event-details:
       translate:
         user: User
         User: TargetUser
-        Event Name: Role
+        Role: Role
     'LoginFailure':           
       annotate:
         Stream: AUTHENTICATION
