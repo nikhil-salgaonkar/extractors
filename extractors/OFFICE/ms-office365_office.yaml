@@ -669,7 +669,23 @@ event-details:
         Status: FAILED
       translate:
         UserId: User
-        Operation: Config                                                             
+        Operation: Config 
+    'Remove-InboxRule-True'
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: FAILED
+      translate:
+        UserId: User
+        Operation: Config 
+    'Disable-InboxRule-True'
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: FAILED
+      translate:
+        UserId: User
+        Operation: Config                                                                    
     
   fallback:
     annotate:
