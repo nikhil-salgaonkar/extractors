@@ -41,18 +41,7 @@ event-details:
         Subject: Subject
         Attachments: File
         Directionality: Direction
-        ClientIP: RemoteIP 
-    'Remove-MailboxPermission-True':
-      annotate:
-        Stream: EMAIL-GATEWAY
-        Action: EMAIL_ACCEPTED
-      translate:
-        MailboxOwnerUPN: Sender
-        To: Recipient
-        Subject: Subject
-        Attachments: File
-        Directionality: Direction
-        ClientIP: RemoteIP        
+        ClientIP: RemoteIP            
     'Create-Succeeded':
       annotate:
         Stream: EMAIL-GATEWAY
@@ -330,8 +319,26 @@ event-details:
         Status: PASSED
       translate:
         UserId: User
+        Operation: Role 
+        TargetUserOrGroupName: TargetUser
+    'Add-MailboxPermission-True':
+      annotate:
+        Stream: IAM
+        Action: MAILBOX_PERMISSION_ADDED
+        Status: PASSED
+      translate:
+        UserId: User
+        Role: Role    
+        Target[1][ID]: TargetUser   
+    'Remove-MailboxPermission-True':
+      annotate:
+        Stream: IAM
+        Action: MAILBOX_PERMISSION_REMOVED
+        Status: PASSED
+      translate:
+        UserId: User
         Role: Role
-        TargetUserOrGroupName: TargetUser   
+        Target[1][ID]: TargetUser        
     'FileAccessed-None':
       annotate:
         Stream: DOCUMENTS
@@ -670,7 +677,7 @@ event-details:
       translate:
         UserId: User
         Operation: Config 
-    'Remove-InboxRule-True'
+    'Remove-InboxRule-True':
       annotate:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
@@ -678,14 +685,38 @@ event-details:
       translate:
         UserId: User
         Operation: Config 
-    'Disable-InboxRule-True'
+    'Disable-InboxRule-True':
       annotate:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
         Status: FAILED
       translate:
         UserId: User
-        Operation: Config                                                                    
+        Operation: Config 
+    'Enable-InboxRule-True':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: FAILED
+      translate:
+        UserId: User
+        Operation: Config
+    'Set-InboxRule-True':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: FAILED
+      translate:
+        UserId: User
+        Operation: Config 
+    'New-InboxRule-True':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: FAILED
+      translate:
+        UserId: User
+        Operation: Config                                                                                
     
   fallback:
     annotate:
