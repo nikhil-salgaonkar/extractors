@@ -254,36 +254,36 @@ event-details:
         Stream: IAM
         Action: USER_ADDED
         Status: PASSED
+        Role: Delegated Permission Grant
       translate:
-        UserId: User
-        Role: Role  
+        UserId: User 
         Target[2][ID]: TargetUser
     'Add delegated permission grant.-Failure':
       annotate:
         Stream: IAM
         Action: USER_ADDED
         Status: FAILED
+        Role: Delegated Permission Grant
       translate:
         UserId: User
-        Role: Role  
         Target[2][ID]: TargetUser
     'Remove delegated permission grant.-Success':
       annotate:
         Stream: IAM
         Action: USER_REMOVED
         Status: PASSED
+        Role: Delegated Permission Grant
       translate:
         UserId: User
-        Role: Role  
         Target[2][ID]: TargetUser       
     'Remove delegated permission grant.-Failure':
       annotate:
         Stream: IAM
         Action: USER_REMOVED
         Status: FAILED
+        Role: Delegated Permission Grant
       translate:
         UserId: User
-        Role: Role  
         Target[2][ID]: TargetUser             
     'MemberRemoved-None':
       annotate:
@@ -303,15 +303,6 @@ event-details:
         UserId: User
         Role: Role
         Target[1][ID]: TargetUser  
-    'AccessRequestRejected-None':
-      annotate:
-        Stream: IAM
-        Action: ACCESS_REQUEST_REJECTED
-        Status: PASSED
-      translate:
-        UserId: User
-        Role: Role
-        TargetUserOrGroupName: TargetUser
     'SiteCollectionAdminAdded-None':
       annotate:
         Stream: IAM
@@ -326,18 +317,18 @@ event-details:
         Stream: IAM
         Action: MAILBOX_PERMISSION_ADDED
         Status: PASSED
+        Role: Mailbox Permission
       translate:
-        UserId: User
-        Role: Role    
+        UserId: User 
         Target[1][ID]: TargetUser   
     'Remove-MailboxPermission-True':
       annotate:
         Stream: IAM
         Action: MAILBOX_PERMISSION_REMOVED
         Status: PASSED
+        Role: Mailbox Permission
       translate:
         UserId: User
-        Role: Role
         Target[1][ID]: TargetUser        
     'FileAccessed-None':
       annotate:
@@ -628,7 +619,17 @@ event-details:
         UserId: User
         SourceFileName: File
         ClientIP: SrcIP
-        SharingType: Visibility  
+        SharingType: Visibility 
+    'AccessRequestRejected-None':
+      annotate:
+        Stream: DOCUMENTS
+        Action: RESTORED
+        Status: PASSED
+      translate:
+        UserId: User
+        SourceFileName: File
+        ClientIP: SrcIP
+        SharingType: Visibility      
     'Add policy.-Success':
       annotate:
         Stream: CONFIGURATION
