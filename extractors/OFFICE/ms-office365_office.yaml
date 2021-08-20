@@ -623,7 +623,7 @@ event-details:
     'AccessRequestRejected-None':
       annotate:
         Stream: DOCUMENTS
-        Action: RESTORED
+        Action: REJECTED
         Status: PASSED
       translate:
         UserId: User
