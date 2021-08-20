@@ -222,6 +222,9 @@ NTA-CONNECTION:
 NTA-DHCP:
 - User
 - SrcIP
+- SrcPort
+- DstIP
+- DstPort
 - MACAddress
 - ResultCode
 NTA-DNS:
@@ -238,7 +241,6 @@ NTA-DPD:
 - SrcIP
 - SrcPort
 - DstIP
-- DstPort
 - DstPort
 - Proto
 - Analyzer
@@ -259,6 +261,10 @@ NTA-FILES:
 - SHA1
 - SHA256
 NTA-FTP:
+- SrcIP
+- SrcPort
+- DstIP
+- DstPort
 - User
 - Password
 - Command
@@ -282,6 +288,10 @@ NTA-HTTP:
 - StatusCode
 - MimeType
 NTA-IRC:
+- SrcIP
+- SrcPort
+- DstIP
+- DstPort
 - Nickname
 - User
 - Command
@@ -318,11 +328,19 @@ NTA-MODBUS:
 - Function
 - Exception
 NTA-MYSQL:
+- SrcIP
+- SrcPort
+- DstIP
+- DstPort
 - Cmd
 - Args
 - Rows
 - Response
 NTA-NOTICE:
+- SrcIP
+- SrcPort
+- DstIP
+- DstPort
 - ConnID
 - FileID
 - ParentFileID
@@ -337,12 +355,20 @@ NTA-NOTICE:
 - NoticeIdentifier
 - SuppressDuration
 NTA-AUTHENTICATION-NTLM:
+- SrcIP
+- SrcPort
+- DstIP
+- DstPort
 - Domain
 - User
 - ServerNameDNS
 - ServerNameNetbios
 - ServerNameTree
 NTA-NTP:
+- SrcIP
+- SrcPort
+- DstIP
+- DstPort
 - Version
 - Mode
 - Stratum
@@ -354,6 +380,10 @@ NTA-NTP:
 - RecTime
 - XmtTime
 NTA-OCSP:
+- SrcIP
+- SrcPort
+- DstIP
+- DstPort
 - FileID
 - HashAlgorithm
 - HashIssuerName
@@ -364,7 +394,9 @@ NTA-OCSP:
 NTA-AUTHENTICATION-RADIUS:
 - ID
 - SrcIP
+- SrcPort
 - DstIP
+- DstPort
 - User
 - MACAddress
 - ConnectInfo
@@ -384,6 +416,7 @@ NTA-RDP:
 NTA-SMB:
 - ID
 - SrcIP
+- SrcPort
 - DstIP
 - DstPort
 - Path
@@ -420,6 +453,10 @@ NTA-SSL:
 - ClientCertChainFID
 - Subject
 NTA-SSH:
+- SrcIP
+- SrcPort
+- DstIP
+- DstPort
 - Client
 - Direction
 - HostKey
@@ -439,6 +476,10 @@ NTA-SNMP:
 - DisplayString
 - UpTime
 NTA-EMAIL GATEWAY:
+- SrcIP
+- SrcPort
+- DstIP
+- DstPort
 - Sender
 - Recipient
 - Subject
