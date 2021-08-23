@@ -1328,7 +1328,8 @@ event-details:
       Computer: System         
 
 - first-match: 'Source\=Security'
-  decoder: json
+  decoder: custom
+  decoder-regex: '(?:([^\s]+)|\s\s(\w+\s\w+))(?:\=|\:\s\s|\:\s|\:\s\s\s)(?:([\\\w]+\s\w+\s[\(\w\)\\\.]+|[\w\.\-\\]+|))'
   event-key-format: '{EventID}'
   event-key-mapping:        
     '528': 
