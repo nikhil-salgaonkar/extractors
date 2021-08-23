@@ -6,16 +6,16 @@ vendor-name: Microsoft
 product-name: Windows
 source-name: WINDOWS
 source-type: OS
-source-description: Extractor for Windows Wincollect Events
+source-description: Extractor for Windows Events
 provides-streams:
 - WIN-AUDIT
 - AUTHENTICATION
 - CONFIGURATION
 - IAM
 master-filters:
-- Source\=Microsoft\-Windows\-Security\-Auditing
+- 'AgentDevice\=WindowsLog\s+AgentLogFile.*?Source\='
 event-details:  
-- first-match: Microsoft\-Windows\-Security\-Auditing
+- first-match: 'Microsoft\-Windows\-Security\-Auditing'
   decoder: custom
   decoder-regex: '(?:([^\s]+)|\s\s(\w+\s\w+))(?:\=|\:\s\s|\:\s|\:\s\s\s)(?:([\\\w]+\s\w+\s[\(\w\)\\\.]+|[\w\.\-\\]+|))'
   event-key-format: '{EventID}'         
@@ -40,8 +40,8 @@ event-details:
         Category: POLICY 
       translate: 
         User: User 
-        Object: Object
-        SrcIP: SrcIP
+        Object Name: Object
+        Source Address: SrcIP
     '4689':
       annotate:
         Stream: WIN-AUDIT
@@ -51,8 +51,8 @@ event-details:
         Category: POLICY 
       translate: 
         User: User 
-        Object: Object
-        SrcIP: SrcIP
+        Object Name: Object
+        Source Address: SrcIP
     '5158':
       annotate:
         Stream: WIN-AUDIT
@@ -74,7 +74,7 @@ event-details:
       translate: 
         User: User 
         Object Name: Object
-        SrcIP: SrcIP
+        Source Address: SrcIP
     '4663':    
       annotate:
         Stream: WIN-AUDIT
@@ -85,7 +85,7 @@ event-details:
       translate: 
         User: User 
         Object Name: Object
-        SrcIP: SrcIP
+        Source Address: SrcIP
     '4690':
       annotate:
         Stream: WIN-AUDIT
@@ -95,8 +95,8 @@ event-details:
         Category: NETWORK  
       translate: 
         User: User 
-        Object: Object
-        SrcIP: SrcIP
+        Object Name: Object
+        Source Address: SrcIP
     '5145':          
       annotate:
         Stream: WIN-AUDIT
@@ -106,7 +106,7 @@ event-details:
         Category: NETWORK   
       translate: 
         User: User 
-        Object: Object
+        Object Name: Object
         Source Address: SrcIP
     '4658':    
       annotate:
@@ -118,7 +118,7 @@ event-details:
       translate: 
         User: User 
         Object Name: Object
-        SrcIP: SrcIP
+        Source Address: SrcIP
     '4739':
       annotate:
         Stream: WIN-AUDIT
@@ -128,8 +128,8 @@ event-details:
         Category: POLICY
       translate: 
         User: User 
-        Object: Object
-        SrcIP: SrcIP
+        Object Name: Object
+        Source Address: SrcIP
     '4673':          
       annotate:
         Stream: WIN-AUDIT
@@ -139,8 +139,8 @@ event-details:
         Category: NETWORK
       translate: 
         User: User 
-        Object: Object
-        SrcIP: SrcIP
+        Object Name: Object
+        Source Address: SrcIP
     '5142':          
       annotate:
         Stream: WIN-AUDIT
@@ -150,8 +150,8 @@ event-details:
         Category: NETWORK   
       translate: 
         User: User 
-        Object: Object
-        SrcIP: SrcIP
+        Object Name: Object
+        Source Address: SrcIP
     '5143':          
       annotate:
         Stream: WIN-AUDIT
@@ -161,8 +161,8 @@ event-details:
         Category: NETWORK   
       translate: 
         User: User 
-        Object: Object
-        SrcIP: SrcIP        
+        Object Name: Object
+        Source Address: SrcIP        
     '5144':          
       annotate:
         Stream: WIN-AUDIT
@@ -172,8 +172,8 @@ event-details:
         Category: NETWORK   
       translate: 
         User: User 
-        Object: Object
-        SrcIP: SrcIP   
+        Object Name: Object
+        Source Address: SrcIP   
     '4661':          
       annotate:
         Stream: WIN-AUDIT
@@ -183,8 +183,8 @@ event-details:
         Category: NETWORK   
       translate: 
         User: User 
-        Object: Object
-        SrcIP: SrcIP
+        Object Name: Object
+        Source Address: SrcIP
     '5140':    
       annotate:
         Stream: WIN-AUDIT
@@ -194,8 +194,8 @@ event-details:
         Category: NETWORK   
       translate: 
         User: User 
-        Object: Object
-        SrcIP: SrcIP
+        Object Name: Object
+        Source Address: SrcIP
     '4664':    
       annotate:
         Stream: WIN-AUDIT
@@ -205,8 +205,8 @@ event-details:
         Category: NETWORK   
       translate: 
         User: User 
-        Object: Object
-        SrcIP: SrcIP   
+        Object Name: Object
+        Source Address: SrcIP   
     '4985':    
       annotate:
         Stream: WIN-AUDIT
@@ -216,8 +216,8 @@ event-details:
         Category: NETWORK   
       translate: 
         User: User 
-        Object: Object
-        SrcIP: SrcIP    
+        Object Name: Object
+        Source Address: SrcIP    
     '5051':    
       annotate:
         Stream: WIN-AUDIT
@@ -227,8 +227,8 @@ event-details:
         Category: NETWORK   
       translate: 
         User: User 
-        Object: Object
-        SrcIP: SrcIP
+        Object Name: Object
+        Source Address: SrcIP
     '5031':    
       annotate:
         Stream: WIN-AUDIT
@@ -238,8 +238,8 @@ event-details:
         Category: NETWORK   
       translate: 
         User: User 
-        Object: Object
-        SrcIP: SrcIP
+        Object Name: Object
+        Source Address: SrcIP
     '4698':    
       annotate:
         Stream: WIN-AUDIT
@@ -249,8 +249,8 @@ event-details:
         Category: NETWORK   
       translate: 
         User: User 
-        Object: Object
-        SrcIP: SrcIP
+        Object Name: Object
+        Source Address: SrcIP
     '4699':    
       annotate:
         Stream: WIN-AUDIT
@@ -260,8 +260,8 @@ event-details:
         Category: NETWORK   
       translate: 
         User: User 
-        Object: Object
-        SrcIP: SrcIP
+        Object Name: Object
+        Source Address: SrcIP
     '4700':    
       annotate:
         Stream: WIN-AUDIT
@@ -271,8 +271,8 @@ event-details:
         Category: NETWORK   
       translate: 
         User: User 
-        Object: Object
-        SrcIP: SrcIP
+        Object Name: Object
+        Source Address: SrcIP
     '4701':    
       annotate:
         Stream: WIN-AUDIT
@@ -282,8 +282,8 @@ event-details:
         Category: NETWORK   
       translate: 
         User: User 
-        Object: Object
-        SrcIP: SrcIP
+        Object Name: Object
+        Source Address: SrcIP
     '4702':    
       annotate:
         Stream: WIN-AUDIT
@@ -293,8 +293,8 @@ event-details:
         Category: NETWORK   
       translate: 
         User: User 
-        Object: Object
-        SrcIP: SrcIP
+        Object Name: Object
+        Source Address: SrcIP
     '4657':    
       annotate:
         Stream: WIN-AUDIT
@@ -304,8 +304,8 @@ event-details:
         Category: NETWORK   
       translate: 
         User: User 
-        Object: Object
-        SrcIP: SrcIP
+        Object Name: Object
+        Source Address: SrcIP
     '4660':    
       annotate:
         Stream: WIN-AUDIT
@@ -315,8 +315,8 @@ event-details:
         Category: NETWORK   
       translate: 
         User: User 
-        Object: Object
-        SrcIP: SrcIP
+        Object Name: Object
+        Source Address: SrcIP
     '5039':    
       annotate:
         Stream: WIN-AUDIT
@@ -326,8 +326,8 @@ event-details:
         Category: NETWORK   
       translate: 
         User: User 
-        Object: Object
-        SrcIP: SrcIP
+        Object Name: Object
+        Source Address: SrcIP
     '4719':
       annotate:
         Stream: WIN-AUDIT
@@ -337,8 +337,8 @@ event-details:
         Category: POLICY   
       translate: 
         User: User 
-        Object: Object
-        SrcIP: SrcIP 
+        Object Name: Object
+        Source Address: SrcIP 
     '4902':
       annotate:
         Stream: WIN-AUDIT
@@ -348,8 +348,8 @@ event-details:
         Category: POLICY   
       translate: 
         User: User 
-        Object: Object
-        SrcIP: SrcIP   
+        Object Name: Object
+        Source Address: SrcIP   
     '4715':
       annotate:
         Stream: WIN-AUDIT
@@ -359,8 +359,8 @@ event-details:
         Category: POLICY   
       translate: 
         User: User 
-        Object: Object
-        SrcIP: SrcIP
+        Object Name: Object
+        Source Address: SrcIP
     '4906':
       annotate:
         Stream: WIN-AUDIT
@@ -370,8 +370,8 @@ event-details:
         Category: POLICY   
       translate: 
         User: User 
-        Object: Object
-        SrcIP: SrcIP              
+        Object Name: Object
+        Source Address: SrcIP              
     '4907':
       annotate:
         Stream: WIN-AUDIT
@@ -381,8 +381,8 @@ event-details:
         Category: POLICY   
       translate: 
         User: User 
-        Object: Object
-        SrcIP: SrcIP 
+        Object Name: Object
+        Source Address: SrcIP 
     '4706':
       annotate:
         Stream: WIN-AUDIT
@@ -392,8 +392,8 @@ event-details:
         Category: POLICY   
       translate: 
         User: User 
-        Object: Object
-        SrcIP: SrcIP
+        Object Name: Object
+        Source Address: SrcIP
     '4707':
       annotate:
         Stream: WIN-AUDIT
@@ -403,8 +403,8 @@ event-details:
         Category: POLICY   
       translate: 
         User: User 
-        Object: Object
-        SrcIP: SrcIP          
+        Object Name: Object
+        Source Address: SrcIP          
     '4713':
       annotate:
         Stream: WIN-AUDIT
@@ -414,8 +414,8 @@ event-details:
         Category: POLICY   
       translate: 
         User: User 
-        Object: Object
-        SrcIP: SrcIP
+        Object Name: Object
+        Source Address: SrcIP
     '4716':
       annotate:
         Stream: WIN-AUDIT
@@ -425,8 +425,8 @@ event-details:
         Category: POLICY   
       translate: 
         User: User 
-        Object: Object
-        SrcIP: SrcIP             
+        Object Name: Object
+        Source Address: SrcIP             
     '4717':
       annotate:
         Stream: WIN-AUDIT
@@ -436,8 +436,8 @@ event-details:
         Category: POLICY   
       translate: 
         User: User 
-        Object: Object
-        SrcIP: SrcIP
+        Object Name: Object
+        Source Address: SrcIP
     '4718':
       annotate:
         Stream: WIN-AUDIT
@@ -447,8 +447,8 @@ event-details:
         Category: POLICY   
       translate: 
         User: User 
-        Object: Object
-        SrcIP: SrcIP
+        Object Name: Object
+        Source Address: SrcIP
     '4864':
       annotate:
         Stream: WIN-AUDIT
@@ -458,8 +458,8 @@ event-details:
         Category: POLICY   
       translate: 
         User: User 
-        Object: Object
-        SrcIP: SrcIP
+        Object Name: Object
+        Source Address: SrcIP
     '4865':
       annotate:
         Stream: WIN-AUDIT
@@ -469,8 +469,8 @@ event-details:
         Category: POLICY   
       translate: 
         User: User 
-        Object: Object
-        SrcIP: SrcIP
+        Object Name: Object
+        Source Address: SrcIP
     '4866':
       annotate:
         Stream: WIN-AUDIT
@@ -480,8 +480,8 @@ event-details:
         Category: POLICY   
       translate: 
         User: User 
-        Object: Object
-        SrcIP: SrcIP
+        Object Name: Object
+        Source Address: SrcIP
     '4867':
       annotate:
         Stream: WIN-AUDIT
@@ -491,8 +491,8 @@ event-details:
         Category: POLICY   
       translate: 
         User: User 
-        Object: Object
-        SrcIP: SrcIP                 
+        Object Name: Object
+        Source Address: SrcIP                 
     '4704':
       annotate:
         Stream: WIN-AUDIT
@@ -502,8 +502,8 @@ event-details:
         Category: POLICY   
       translate: 
         User: User 
-        Object: Object
-        SrcIP: SrcIP 
+        Object Name: Object
+        Source Address: SrcIP 
     '4705':
       annotate:
         Stream: WIN-AUDIT
@@ -513,8 +513,8 @@ event-details:
         Category: POLICY   
       translate: 
         User: User 
-        Object: Object
-        SrcIP: SrcIP     
+        Object Name: Object
+        Source Address: SrcIP     
     '4714':
       annotate:
         Stream: WIN-AUDIT
@@ -524,8 +524,8 @@ event-details:
         Category: POLICY   
       translate: 
         User: User 
-        Object: Object
-        SrcIP: SrcIP
+        Object Name: Object
+        Source Address: SrcIP
     '4944':
       annotate:
         Stream: WIN-AUDIT
@@ -535,8 +535,8 @@ event-details:
         Category: POLICY   
       translate: 
         User: User 
-        Object: Object
-        SrcIP: SrcIP 
+        Object Name: Object
+        Source Address: SrcIP 
     '4945':
       annotate:
         Stream: WIN-AUDIT
@@ -546,8 +546,8 @@ event-details:
         Category: POLICY   
       translate: 
         User: User 
-        Object: Object
-        SrcIP: SrcIP        
+        Object Name: Object
+        Source Address: SrcIP        
     '4946':
       annotate:
         Stream: WIN-AUDIT
@@ -557,8 +557,8 @@ event-details:
         Category: POLICY   
       translate: 
         User: User 
-        Object: Object
-        SrcIP: SrcIP
+        Object Name: Object
+        Source Address: SrcIP
     '4949':
       annotate:
         Stream: WIN-AUDIT
@@ -568,8 +568,8 @@ event-details:
         Category: POLICY   
       translate: 
         User: User 
-        Object: Object
-        SrcIP: SrcIP    
+        Object Name: Object
+        Source Address: SrcIP    
     '4947':
       annotate:
         Stream: WIN-AUDIT
@@ -579,8 +579,8 @@ event-details:
         Category: POLICY   
       translate: 
         User: User 
-        Object: Object
-        SrcIP: SrcIP
+        Object Name: Object
+        Source Address: SrcIP
     '4948':
       annotate:
         Stream: WIN-AUDIT
@@ -590,8 +590,8 @@ event-details:
         Category: POLICY   
       translate: 
         User: User 
-        Object: Object
-        SrcIP: SrcIP
+        Object Name: Object
+        Source Address: SrcIP
     '4950':
       annotate:
         Stream: WIN-AUDIT
@@ -601,8 +601,8 @@ event-details:
         Category: POLICY   
       translate: 
         User: User 
-        Object: Object
-        SrcIP: SrcIP
+        Object Name: Object
+        Source Address: SrcIP
     '4951':
       annotate:
         Stream: WIN-AUDIT
@@ -612,8 +612,8 @@ event-details:
         Category: POLICY   
       translate: 
         User: User 
-        Object: Object
-        SrcIP: SrcIP
+        Object Name: Object
+        Source Address: SrcIP
     '4952':
       annotate:
         Stream: WIN-AUDIT
@@ -623,8 +623,8 @@ event-details:
         Category: POLICY   
       translate: 
         User: User 
-        Object: Object
-        SrcIP: SrcIP
+        Object Name: Object
+        Source Address: SrcIP
     '4953':
       annotate:
         Stream: WIN-AUDIT
@@ -634,8 +634,8 @@ event-details:
         Category: POLICY   
       translate: 
         User: User 
-        Object: Object
-        SrcIP: SrcIP
+        Object Name: Object
+        Source Address: SrcIP
     '4954':
       annotate:
         Stream: WIN-AUDIT
@@ -645,8 +645,8 @@ event-details:
         Category: POLICY   
       translate: 
         User: User 
-        Object: Object
-        SrcIP: SrcIP  
+        Object Name: Object
+        Source Address: SrcIP  
     '4956':
       annotate:
         Stream: WIN-AUDIT
@@ -656,8 +656,8 @@ event-details:
         Category: POLICY   
       translate: 
         User: User 
-        Object: Object
-        SrcIP: SrcIP                       
+        Object Name: Object
+        Source Address: SrcIP                       
     '5136':
       annotate:
         Stream: WIN-AUDIT
@@ -667,8 +667,8 @@ event-details:
         Category: DIRECTORY   
       translate: 
         User: User 
-        Object: Object
-        SrcIP: SrcIP
+        Object Name: Object
+        Source Address: SrcIP
     '5137':
       annotate:
         Stream: WIN-AUDIT
@@ -678,8 +678,8 @@ event-details:
         Category: DIRECTORY   
       translate: 
         User: User 
-        Object: Object
-        SrcIP: SrcIP
+        Object Name: Object
+        Source Address: SrcIP
     '5138':
       annotate:
         Stream: WIN-AUDIT
@@ -689,8 +689,8 @@ event-details:
         Category: DIRECTORY   
       translate: 
         User: User 
-        Object: Object
-        SrcIP: SrcIP
+        Object Name: Object
+        Source Address: SrcIP
     '5139':
       annotate:
         Stream: WIN-AUDIT
@@ -700,8 +700,8 @@ event-details:
         Category: DIRECTORY   
       translate: 
         User: User 
-        Object: Object
-        SrcIP: SrcIP
+        Object Name: Object
+        Source Address: SrcIP
     '5141':
       annotate:
         Stream: WIN-AUDIT
@@ -711,8 +711,8 @@ event-details:
         Category: DIRECTORY   
       translate: 
         User: User 
-        Object: Object
-        SrcIP: SrcIP                  
+        Object Name: Object
+        Source Address: SrcIP                  
     '6144':
       annotate:
         Stream: WIN-AUDIT
@@ -722,8 +722,8 @@ event-details:
         Category: POLICY   
       translate: 
         User: User 
-        Object: Object
-        SrcIP: SrcIP
+        Object Name: Object
+        Source Address: SrcIP
     '6145':
       annotate:
         Stream: WIN-AUDIT
@@ -733,8 +733,8 @@ event-details:
         Category: POLICY 
       translate: 
         User: User 
-        Object: Object
-        SrcIP: SrcIP
+        Object Name: Object
+        Source Address: SrcIP
     '4627':
       annotate:
         Stream: WIN-AUDIT
@@ -744,8 +744,8 @@ event-details:
         Category: POLICY 
       translate: 
         User: User 
-        Object: Object
-        SrcIP: SrcIP
+        Object Name: Object
+        Source Address: SrcIP
     '4662':
       annotate:
         Stream: WIN-AUDIT
@@ -755,8 +755,8 @@ event-details:
         Category: DIRECTORY   
       translate: 
         User: User 
-        Object: Object
-        SrcIP: SrcIP      
+        Object Name: Object
+        Source Address: SrcIP      
     '4703':
       annotate:
         Stream: WIN-AUDIT
@@ -766,8 +766,8 @@ event-details:
         Category: POLICY 
       translate: 
         User: User 
-        Object: Object
-        SrcIP: SrcIP  
+        Object Name: Object
+        Source Address: SrcIP  
     '4826':
       annotate:
         Stream: WIN-AUDIT
@@ -777,8 +777,8 @@ event-details:
         Category: POLICY 
       translate: 
         User: User 
-        Object: Object
-        SrcIP: SrcIP  
+        Object Name: Object
+        Source Address: SrcIP  
     '5058':    
       annotate:
         Stream: WIN-AUDIT
@@ -788,8 +788,8 @@ event-details:
         Category: NETWORK   
       translate: 
         User: User 
-        Object: Object
-        SrcIP: SrcIP   
+        Object Name: Object
+        Source Address: SrcIP   
     '4624':
       annotate:
         Stream: AUTHENTICATION
@@ -806,7 +806,7 @@ event-details:
         Status: PASSED
       translate:
         User: User
-        SrcIP: SrcIP
+        Source Address: SrcIP
         AuthProto: AuthProto 
     '4776':         
       annotate:
@@ -815,7 +815,7 @@ event-details:
         Status: PASSED   
       translate: 
         User: User
-        SrcIP: SrcIP
+        Source Address: SrcIP
         AuthProto: AuthProto 
     '4768': 
       annotate:
@@ -824,7 +824,7 @@ event-details:
         Status: PASSED
       translate: 
         User: User
-        SrcIP: SrcIP
+        Source Address: SrcIP
         AuthProto: AuthProto 
     '4625': 
       annotate:
@@ -833,7 +833,7 @@ event-details:
         Status: FAILED
       translate: 
         User: User
-        SrcIP: SrcIP
+        Source Address: SrcIP
         AuthProto: AuthProto
         Reason: Reason
     '4779':          
@@ -843,7 +843,7 @@ event-details:
         Status: PASSED
       translate:
         User: User
-        SrcIP: SrcIP
+        Source Address: SrcIP
         AuthProto: AuthProto
     '4769': 
       annotate:
@@ -852,7 +852,7 @@ event-details:
         Status: PASSED
       translate: 
         User: User
-        SrcIP: SrcIP
+        Source Address: SrcIP
         AuthProto: AuthProto
     '4777': 
       annotate:
@@ -861,7 +861,7 @@ event-details:
         Status: FAILED
       translate: 
         User: User
-        SrcIP: SrcIP
+        Source Address: SrcIP
         AuthProto: AuthProto
         Reason: Reason
     '4770': 
@@ -871,7 +871,7 @@ event-details:
         Status: PASSED
       translate: 
         User: User
-        SrcIP: SrcIP
+        Source Address: SrcIP
         AuthProto: AuthProto
     '4611':
       annotate:
@@ -880,7 +880,7 @@ event-details:
         Status: PASSED
       translate:
         User: User
-        SrcIP: SrcIP
+        Source Address: SrcIP
         AuthProto: AuthProto
     '4647':
       annotate:
@@ -889,7 +889,7 @@ event-details:
         Status: PASSED
       translate:
         User: User
-        SrcIP: SrcIP
+        Source Address: SrcIP
         AuthProto: AuthProto
     '4648':
       annotate:
@@ -898,7 +898,7 @@ event-details:
         Status: PASSED   
       translate: 
         User: User
-        SrcIP: SrcIP
+        Source Address: SrcIP
         AuthProto: AuthProto
     '4778':
       annotate:
@@ -907,81 +907,8 @@ event-details:
         Status: PASSED
       translate:
         User: User
-        SrcIP: SrcIP
+        Source Address: SrcIP
         AuthProto: AuthProto
-    '528': 
-      annotate:
-        Stream: AUTHENTICATION
-        Action: LOGIN
-        Status: PASSED
-      translate: 
-        User: User
-        SrcIP: SrcIP
-        AuthProto: AuthProto
-    '552': 
-      annotate:
-        Stream: AUTHENTICATION
-        Action: LOGIN
-        Status: PASSED
-      translate: 
-        User: User
-        SrcIP: SrcIP
-        AuthProto: AuthProto
-    '538': 
-      annotate:
-        Stream: AUTHENTICATION
-        Action: LOGOUT
-        Status: PASSED
-      translate: 
-        User: User
-        SrcIP: SrcIP
-        AuthProto: AuthProto
-    '551': 
-      annotate:
-        Stream: AUTHENTICATION
-        Action: LOGOUT
-        Status: PASSED
-      translate: 
-        User: User
-        SrcIP: SrcIP
-        AuthProto: AuthProto
-    '540': 
-      annotate:
-        Stream: AUTHENTICATION
-        Action: LOGIN
-        Status: PASSED
-      translate: 
-        User: User
-        SrcIP: SrcIP
-        AuthProto: AuthProto
-    '680': 
-      annotate:
-        Stream: AUTHENTICATION
-        Action: LOGIN
-        Status: PASSED
-      translate: 
-        User: User
-        SrcIP: SrcIP
-        AuthProto: AuthProto
-    '682': 
-      annotate:
-        Stream: AUTHENTICATION
-        Action: LOGIN
-        Status: PASSED
-      translate: 
-        User: User
-        SrcIP: SrcIP
-        AuthProto: AuthProto
-    '683': 
-      annotate:
-        Stream: AUTHENTICATION
-        Action: LOGIN
-        Status: FAILED
-      translate: 
-        User: User
-        SrcIP: SrcIP
-        AuthProto: AuthProto
-        Reason: Reason  
     '5024':
       annotate:
         Stream: CONFIGURATION
@@ -1389,6 +1316,94 @@ event-details:
         User: User  
         TargetUser: TargetUser
         Role: Role  
+          
+  fallback:
+    annotate:
+      EventName: Generic Windows Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      SystemTstamp: SystemTstamp
+      Computer: System         
+
+- first-match: 'Source\=Security'
+  decoder: json
+  event-key-format: '{EventID}'
+  event-key-mapping:        
+    '528': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate: 
+        User: User
+        Source Address: SrcIP
+        AuthProto: AuthProto
+    '552': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate: 
+        User: User
+        Source Address: SrcIP
+        AuthProto: AuthProto
+    '538': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+      translate: 
+        User: User
+        Source Address: SrcIP
+        AuthProto: AuthProto
+    '551': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+      translate: 
+        User: User
+        Source Address: SrcIP
+        AuthProto: AuthProto
+    '540': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate: 
+        User: User
+        Source Address: SrcIP
+        AuthProto: AuthProto
+    '680': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate: 
+        User: User
+        Source Address: SrcIP
+        AuthProto: AuthProto
+    '682': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate: 
+        User: User
+        Source Address: SrcIP
+        AuthProto: AuthProto
+    '683': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate: 
+        User: User
+        Source Address: SrcIP
+        AuthProto: AuthProto
+        Reason: Reason  
     '576': 
       annotate:
         Stream: IAM
@@ -1428,7 +1443,7 @@ event-details:
 
   fallback:
     annotate:
-      EventName: Generic Windows Wincollect Event
+      EventName: Generic Windows Event
       Stream: OTHER
 
   globals:
