@@ -15,7 +15,7 @@ provides-streams:
 master-filters:
 - 'AgentDevice\=WindowsLog\s+AgentLogFile.*?Source\='
 event-details:  
-- first-match: 'Microsoft\-Windows\-Security\-Auditing'
+- first-match: 'Source\=Microsoft\-Windows\-Security\-Auditing'
   decoder: custom
   decoder-regex: '(?:([^\s]+)|\s\s(\w+\s\w+))(?:\=|\:\s\s|\:\s|\:\s\s\s)(?:([\\\w]+\s\w+\s[\(\w\)\\\.]+|[\w\.\-\\]+|))'
   event-key-format: '{EventID}'         
