@@ -929,26 +929,26 @@ event-details:
       annotate:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
-        Status: FAILED    
+        Status: FAILED
+        Config: Firewall Service Unable    
       translate: 
-        User: User 
-        Config: Config   
+        User: User       
     '5028':
       annotate:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
-        Status: FAILED    
+        Status: FAILED  
+        Config: Firewall Service Unable   
       translate: 
         User: User 
-        Config: Config   
     '5029':
       annotate:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
-        Status: FAILED    
+        Status: FAILED   
+        Config: Firewall Service Failed 
       translate: 
         User: User 
-        Config: Config   
     '5030':
       annotate:
         Stream: CONFIGURATION
@@ -961,10 +961,10 @@ event-details:
       annotate:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
-        Status: PASSED    
+        Status: PASSED 
+        Config: Firewall Service Unable      
       translate: 
         User: User 
-        Config: Config   
     '5033':
       annotate:
         Stream: CONFIGURATION
@@ -993,10 +993,10 @@ event-details:
       annotate:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
-        Status: PASSED    
+        Status: PASSED
+        Config: Firewall Driver Detected Critical Runtime Error    
       translate: 
-        User: User 
-        Config: Config   
+        User: User  
     '4608':
       annotate:
         Stream: CONFIGURATION
@@ -1017,26 +1017,26 @@ event-details:
       annotate:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
-        Status: PASSED    
+        Status: PASSED   
+        Config: System Time Changed
       translate: 
-        User: User 
-        Config: Config   
+        User: User   
     '4621':
       annotate:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
-        Status: PASSED    
+        Status: PASSED  
+        Config: Administrator Recovered  
       translate: 
-        User: User 
-        Config: Config   
+        User: User       
     '4697':
       annotate:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
-        Status: PASSED    
+        Status: PASSED 
+        Config: Service Installed   
       translate: 
         User: User 
-        Config: Config  
     '4741':         
       annotate:
         Stream: IAM
