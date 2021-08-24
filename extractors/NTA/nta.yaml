@@ -269,7 +269,7 @@ event-details:
 
   globals:
     translate:
-      SystemTstamp: SystemTstamp
+      ts: SystemTstamp
       System: System
 
 - first-match: '\{\"nta_category\":\"radius\"\,'
@@ -312,7 +312,7 @@ event-details:
 
   globals:
     translate:
-      SystemTstamp: SystemTstamp
+      ts: SystemTstamp
       System: System
 
 - first-match: '\{\"nta_category\":\"rfb\"\,'
@@ -359,7 +359,7 @@ event-details:
 
   globals:
     translate:
-      SystemTstamp: SystemTstamp
+      ts: SystemTstamp
       System: System
 
 - first-match: '\{\"nta_category\":\"ntlm\"\,'
@@ -404,7 +404,7 @@ event-details:
 
   globals:
     translate:
-      SystemTstamp: SystemTstamp
+      ts: SystemTstamp
       hostname: System
 
 - first-match: '\{\"nta_category\":\"ssh\"\,'
@@ -449,7 +449,7 @@ event-details:
 
   globals:
     translate:
-      SystemTstamp: SystemTstamp
+      ts: SystemTstamp
       System: System
 
 - first-match: '\{\"nta_category\":\"ssl\"\,'
@@ -502,7 +502,7 @@ event-details:
 
   globals:
     translate:
-      SystemTstamp: SystemTstamp
+      ts: SystemTstamp
       System: System
 
 - first-match: '\{\"nta_category\":\"dns\"\,'
@@ -545,7 +545,7 @@ event-details:
 
   globals:
     translate:
-      SystemTstamp: SystemTstamp
+      ts: SystemTstamp
       System: System
 
 - first-match: '\{\"nta_category\":\"rdp\"\,'
@@ -614,7 +614,7 @@ event-details:
 
   globals:
     translate:
-      SystemTstamp: SystemTstamp
+      ts: SystemTstamp
       System: System
 
 - first-match: '\{\"nta_category\":\"tunnel\"\,'
@@ -665,7 +665,7 @@ event-details:
 
   globals:
     translate:
-      SystemTstamp: SystemTstamp
+      ts: SystemTstamp
       System: System
 
 
@@ -737,7 +737,7 @@ event-details:
 
   globals:
     translate:
-      SystemTstamp: SystemTstamp
+      ts: SystemTstamp
       System: System
 
 - first-match: '\{\"nta_category\":\"kerberos\"\,'
@@ -848,7 +848,7 @@ event-details:
 
   globals:
     translate:
-      SystemTstamp: SystemTstamp
+      ts: SystemTstamp
       System: System
 
 - first-match: '\{\"nta\_category\"\:\"ftp\"\,.*?\"reply\_code\"\:(?:1|2|3)\d{2}\,'
@@ -881,7 +881,7 @@ event-details:
 
   globals:
     translate:
-      SystemTstamp: SystemTstamp
+      ts: SystemTstamp
       System: System
 
 - first-match: '\{\"nta\_category\"\:\"ftp\"\,.*?\"reply\_code\"\:(?:4|5)\d{2}\,'
@@ -914,7 +914,7 @@ event-details:
 
   globals:
     translate:
-      SystemTstamp: SystemTstamp
+      ts: SystemTstamp
       System: System
 
 - first-match: '\{\"nta\_category\"\:\"http\"\,.*?\"status\_code\"\:(?:1|2)\d{2}\,'
@@ -948,7 +948,7 @@ event-details:
 
   globals:
     translate:
-      SystemTstamp: SystemTstamp
+      ts: SystemTstamp
       System: System
 
 - first-match: '\{\"nta\_category\"\:\"http\"\,.*?\"status\_code\"\:3\d{2}\,'
@@ -982,7 +982,7 @@ event-details:
 
   globals:
     translate:
-      SystemTstamp: SystemTstamp
+      ts: SystemTstamp
       System: System
 
 - first-match: '\{\"nta\_category\"\:\"http\"\,.*?\"status\_code\"\:(?:4|5)\d{2}\,'
@@ -1016,7 +1016,7 @@ event-details:
 
   globals:
     translate:
-      SystemTstamp: SystemTstamp
+      ts: SystemTstamp
       System: System
 
 - first-match: '\{\"nta\_category\"\:\"sip\"\,.*?\"status\_code\"\:(?:1|2)\d{2}\,'
@@ -1057,7 +1057,7 @@ event-details:
 
   globals:
     translate:
-      SystemTstamp: SystemTstamp
+      ts: SystemTstamp
       System: System
 
 - first-match: '\{\"nta\_category\"\:\"sip\"\,.*?\"status\_code\"\:3\d{2}\,'
@@ -1098,7 +1098,7 @@ event-details:
 
   globals:
     translate:
-      SystemTstamp: SystemTstamp
+      ts: SystemTstamp
       System: System
 
 - first-match: '\{\"nta\_category\"\:\"sip\"\,.*?\"status\_code\"\:(?:4|5|6)\d{2}\,'
@@ -1139,7 +1139,7 @@ event-details:
 
   globals:
     translate:
-      SystemTstamp: SystemTstamp
+      ts: SystemTstamp
       System: System
 
 - first-match: '\{\"nta_category\":\"(?:dpd|modbus|ntp|snmp|x509|dnp3|dce\_rpc|smb_mapping|smb_cmd|irc|files)\"\,'
@@ -1326,7 +1326,7 @@ event-details:
 
   globals:
     translate:
-      SystemTstamp: SystemTstamp
+      ts: SystemTstamp
       System: System
 
 - first-match: '\{\"nta_category\":\"smb_files\"\,'
@@ -1551,7 +1551,7 @@ event-details:
 
   globals:
     translate:
-      SystemTstamp: SystemTstamp
+      ts: SystemTstamp
       System: System
 
 - first-match: '\{\"nta\_category\"\:\"dhcp\"\,.*?\"msg\_types\"\:\[\"INFORM\"\]\,'
@@ -1579,7 +1579,7 @@ event-details:
 
   globals:
     translate:
-      SystemTstamp: SystemTstamp
+      ts: SystemTstamp
       host_name: System
 
 - first-match: '\{\"nta\_category\"\:\"dhcp\"\,.*?\"msg\_types\"\:\[\"ACK\"\]\,'
@@ -1607,7 +1607,7 @@ event-details:
 
   globals:
     translate:
-      SystemTstamp: SystemTstamp
+      ts: SystemTstamp
       host_name: System
 
 - first-match: '\{\"nta\_category\"\:\"dhcp\"\,.*?\"msg\_types\"\:\[\"DISCOVER\"\]\,'
@@ -1635,7 +1635,7 @@ event-details:
 
   globals:
     translate:
-      SystemTstamp: SystemTstamp
+      ts: SystemTstamp
       host_name: System
 
 - first-match: '\{\"nta\_category\"\:\"dhcp\"\,.*?\"msg\_types\"\:\[\"REQUEST\"\]\,'
@@ -1663,7 +1663,7 @@ event-details:
 
   globals:
     translate:
-      SystemTstamp: SystemTstamp
+      ts: SystemTstamp
       host_name: System
 
 - first-match: '\{\"nta\_category\"\:\"dhcp\"\,.*?\"msg\_types\"\:\[\"RELEASE\"\]\,'
@@ -1691,7 +1691,7 @@ event-details:
 
   globals:
     translate:
-      SystemTstamp: SystemTstamp
+      ts: SystemTstamp
       host_name: System
 
 - first-match: '\{\"nta\_category\"\:\"dhcp\"\,.*?\"msg\_types\"\:\[\"NAK\"\]\,'
@@ -1719,7 +1719,7 @@ event-details:
 
   globals:
     translate:
-      SystemTstamp: SystemTstamp
+      ts: SystemTstamp
       host_name: System
 
 - first-match: '\{\"nta\_category\"\:\"dhcp\"\,.*?\"msg\_types\"\:\[\"DECLINE\"\]\,'
@@ -1747,7 +1747,7 @@ event-details:
 
   globals:
     translate:
-      SystemTstamp: SystemTstamp
+      ts: SystemTstamp
       host_name: System
 
 - first-match: '\{\"nta\_category\"\:\"dhcp\"\,.*?\"msg\_types\"\:\[\"OFFER\"\]\,'
@@ -1775,5 +1775,5 @@ event-details:
 
   globals:
     translate:
-      SystemTstamp: SystemTstamp
+      ts: SystemTstamp
       host_name: System
