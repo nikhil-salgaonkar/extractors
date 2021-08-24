@@ -269,7 +269,7 @@ event-details:
 
   globals:
     translate:
-      eventTime: SystemTstamp
+      ts: SystemTstamp
       System: System
 
 - first-match: '\{\"nta_category\":\"radius\"\,'
@@ -284,7 +284,9 @@ event-details:
       translate:
         uid: ID
         id.orig_h: SrcIP
+        id.orig_p: SrcPort
         id.resp_h: DstIP
+        id.resp_p: DstPort
         username: User
         mac: MACAddress
         connect_info: ConnectInfo
@@ -296,7 +298,9 @@ event-details:
       translate:
         uid: ID
         id.orig_h: SrcIP
+        id.orig_p: SrcPort
         id.resp_h: DstIP
+        id.resp_p: DstPort
         username: User
         mac: MACAddress
         connect_info: ConnectInfo
@@ -308,7 +312,7 @@ event-details:
 
   globals:
     translate:
-      eventTime: SystemTstamp
+      ts: SystemTstamp
       System: System
 
 - first-match: '\{\"nta_category\":\"rfb\"\,'
@@ -355,7 +359,7 @@ event-details:
 
   globals:
     translate:
-      eventTime: SystemTstamp
+      ts: SystemTstamp
       System: System
 
 - first-match: '\{\"nta_category\":\"ntlm\"\,'
@@ -368,6 +372,10 @@ event-details:
         Action: LOGIN
         Status: PASSED
       translate:
+        id.orig_h: SrcIP
+        id.orig_p: SrcPort
+        id.resp_h: DstIP
+        id.resp_p: DstPort
         domainname: Domain
         username: User
         server_dns_computer_name: ServerNameDNS
@@ -379,6 +387,10 @@ event-details:
         Action: LOGIN
         Status: FAILED
       translate:
+        id.orig_h: SrcIP
+        id.orig_p: SrcPort
+        id.resp_h: DstIP
+        id.resp_p: DstPort
         domainname: Domain
         username: User
         server_dns_computer_name: ServerNameDNS
@@ -392,7 +404,7 @@ event-details:
 
   globals:
     translate:
-      eventTime: SystemTstamp
+      ts: SystemTstamp
       hostname: System
 
 - first-match: '\{\"nta_category\":\"ssh\"\,'
@@ -405,6 +417,10 @@ event-details:
         Action: CONNECTION_ESTABLISHED
         Status: PASSED
       translate:
+        id.orig_h: SrcIP
+        id.orig_p: SrcPort
+        id.resp_h: DstIP
+        id.resp_p: DstPort
         client: Client
         direction: Direction
         host_key: HostKey
@@ -416,6 +432,10 @@ event-details:
         Action: CONNECTION_ESTABLISHED
         Status: FAILED
       translate:
+        id.orig_h: SrcIP
+        id.orig_p: SrcPort
+        id.resp_h: DstIP
+        id.resp_p: DstPort
         client: Client
         direction: Direction
         host_key: HostKey
@@ -429,7 +449,7 @@ event-details:
 
   globals:
     translate:
-      eventTime: SystemTstamp
+      ts: SystemTstamp
       System: System
 
 - first-match: '\{\"nta_category\":\"ssl\"\,'
@@ -482,7 +502,7 @@ event-details:
 
   globals:
     translate:
-      eventTime: SystemTstamp
+      ts: SystemTstamp
       System: System
 
 - first-match: '\{\"nta_category\":\"dns\"\,'
@@ -525,7 +545,7 @@ event-details:
 
   globals:
     translate:
-      eventTime: SystemTstamp
+      ts: SystemTstamp
       System: System
 
 - first-match: '\{\"nta_category\":\"rdp\"\,'
@@ -594,7 +614,7 @@ event-details:
 
   globals:
     translate:
-      eventTime: SystemTstamp
+      ts: SystemTstamp
       System: System
 
 - first-match: '\{\"nta_category\":\"tunnel\"\,'
@@ -645,7 +665,7 @@ event-details:
 
   globals:
     translate:
-      eventTime: SystemTstamp
+      ts: SystemTstamp
       System: System
 
 
@@ -659,6 +679,10 @@ event-details:
         Action: LOGIN
         Status: PASSED
       translate:
+        id.orig_h: SrcIP
+        id.orig_p: SrcPort
+        id.resp_h: DstIP
+        id.resp_p: DstPort
         cmd: Cmd
         arg: Args
         response: Response
@@ -669,6 +693,10 @@ event-details:
         Action: LOGIN
         Status: FAILED
       translate:
+        id.orig_h: SrcIP
+        id.orig_p: SrcPort
+        id.resp_h: DstIP
+        id.resp_p: DstPort
         cmd: Cmd
         arg: Args
         response: Response
@@ -679,6 +707,10 @@ event-details:
         Action: QUERY_EXECUTED
         Status: PASSED
       translate:
+        id.orig_h: SrcIP
+        id.orig_p: SrcPort
+        id.resp_h: DstIP
+        id.resp_p: DstPort
         cmd: Cmd
         arg: Args
         response: Response
@@ -689,6 +721,10 @@ event-details:
         Action: QUERY_EXECUTED
         Status: FAILED
       translate:
+        id.orig_h: SrcIP
+        id.orig_p: SrcPort
+        id.resp_h: DstIP
+        id.resp_p: DstPort
         cmd: Cmd
         arg: Args
         response: Response
@@ -701,7 +737,7 @@ event-details:
 
   globals:
     translate:
-      eventTime: SystemTstamp
+      ts: SystemTstamp
       System: System
 
 - first-match: '\{\"nta_category\":\"kerberos\"\,'
@@ -812,7 +848,7 @@ event-details:
 
   globals:
     translate:
-      eventTime: SystemTstamp
+      ts: SystemTstamp
       System: System
 
 - first-match: '\{\"nta\_category\"\:\"ftp\"\,.*?\"reply\_code\"\:(?:1|2|3)\d{2}\,'
@@ -825,6 +861,10 @@ event-details:
         Action: ACCESS_ALLOWED
         Status: PASSED
       translate:
+        id.orig_h: SrcIP
+        id.orig_p: SrcPort
+        id.resp_h: DstIP
+        id.resp_p: DstPort
         user: User
         password: Password
         command: Command
@@ -841,7 +881,7 @@ event-details:
 
   globals:
     translate:
-      eventTime: SystemTstamp
+      ts: SystemTstamp
       System: System
 
 - first-match: '\{\"nta\_category\"\:\"ftp\"\,.*?\"reply\_code\"\:(?:4|5)\d{2}\,'
@@ -854,6 +894,10 @@ event-details:
         Action: ACCESS_DENIED
         Status: PASSED
       translate:
+        id.orig_h: SrcIP
+        id.orig_p: SrcPort
+        id.resp_h: DstIP
+        id.resp_p: DstPort
         user: User
         password: Password
         command: Command
@@ -870,7 +914,7 @@ event-details:
 
   globals:
     translate:
-      eventTime: SystemTstamp
+      ts: SystemTstamp
       System: System
 
 - first-match: '\{\"nta\_category\"\:\"http\"\,.*?\"status\_code\"\:(?:1|2)\d{2}\,'
@@ -904,7 +948,7 @@ event-details:
 
   globals:
     translate:
-      eventTime: SystemTstamp
+      ts: SystemTstamp
       System: System
 
 - first-match: '\{\"nta\_category\"\:\"http\"\,.*?\"status\_code\"\:3\d{2}\,'
@@ -938,7 +982,7 @@ event-details:
 
   globals:
     translate:
-      eventTime: SystemTstamp
+      ts: SystemTstamp
       System: System
 
 - first-match: '\{\"nta\_category\"\:\"http\"\,.*?\"status\_code\"\:(?:4|5)\d{2}\,'
@@ -972,7 +1016,7 @@ event-details:
 
   globals:
     translate:
-      eventTime: SystemTstamp
+      ts: SystemTstamp
       System: System
 
 - first-match: '\{\"nta\_category\"\:\"sip\"\,.*?\"status\_code\"\:(?:1|2)\d{2}\,'
@@ -1013,7 +1057,7 @@ event-details:
 
   globals:
     translate:
-      eventTime: SystemTstamp
+      ts: SystemTstamp
       System: System
 
 - first-match: '\{\"nta\_category\"\:\"sip\"\,.*?\"status\_code\"\:3\d{2}\,'
@@ -1054,7 +1098,7 @@ event-details:
 
   globals:
     translate:
-      eventTime: SystemTstamp
+      ts: SystemTstamp
       System: System
 
 - first-match: '\{\"nta\_category\"\:\"sip\"\,.*?\"status\_code\"\:(?:4|5|6)\d{2}\,'
@@ -1095,7 +1139,7 @@ event-details:
 
   globals:
     translate:
-      eventTime: SystemTstamp
+      ts: SystemTstamp
       System: System
 
 - first-match: '\{\"nta_category\":\"(?:dpd|modbus|ntp|snmp|x509|dnp3|dce\_rpc|smb_mapping|smb_cmd|irc|files)\"\,'
@@ -1135,6 +1179,10 @@ event-details:
         Action: NTP_RECORD_ACCESSED
         Status: PASSED
       translate:
+        id.orig_h: SrcIP
+        id.orig_p: SrcPort
+        id.resp_h: DstIP
+        id.resp_p: DstPort
         version: Version
         mode: Mode
         stratum: Stratum
@@ -1183,6 +1231,10 @@ event-details:
         Action: IRC_RECORD_ACCESSED
         Status: PASSED
       translate:
+        id.orig_h: SrcIP
+        id.orig_p: SrcPort
+        id.resp_h: DstIP
+        id.resp_p: DstPort
         nick: Nickname
         user: User
         command: Command
@@ -1219,6 +1271,7 @@ event-details:
       translate:
         uid: ID
         id.orig_h: SrcIP
+        id.orig_p: SrcPort
         id.resp_h: DstIP
         id.resp_p: DstPort
         path: Path
@@ -1232,6 +1285,7 @@ event-details:
       translate:
         uid: ID
         id.orig_h: SrcIP
+        id.orig_p: SrcPort
         id.resp_h: DstIP
         id.resp_p: DstPort
         path: Path
@@ -1272,7 +1326,7 @@ event-details:
 
   globals:
     translate:
-      eventTime: SystemTstamp
+      ts: SystemTstamp
       System: System
 
 - first-match: '\{\"nta_category\":\"smb_files\"\,'
@@ -1287,6 +1341,7 @@ event-details:
       translate:
         uid: ID
         id.orig_h: SrcIP
+        id.orig_p: SrcPort
         id.resp_h: DstIP
         id.resp_p: DstPort
         path: Path
@@ -1300,6 +1355,7 @@ event-details:
       translate:
         uid: ID
         id.orig_h: SrcIP
+        id.orig_p: SrcPort
         id.resp_h: DstIP
         id.resp_p: DstPort
         path: Path
@@ -1313,6 +1369,7 @@ event-details:
       translate:
         uid: ID
         id.orig_h: SrcIP
+        id.orig_p: SrcPort
         id.resp_h: DstIP
         id.resp_p: DstPort
         path: Path
@@ -1326,6 +1383,7 @@ event-details:
       translate:
         uid: ID
         id.orig_h: SrcIP
+        id.orig_p: SrcPort
         id.resp_h: DstIP
         id.resp_p: DstPort
         path: Path
@@ -1339,6 +1397,7 @@ event-details:
       translate:
         uid: ID
         id.orig_h: SrcIP
+        id.orig_p: SrcPort
         id.resp_h: DstIP
         id.resp_p: DstPort
         path: Path
@@ -1352,6 +1411,7 @@ event-details:
       translate:
         uid: ID
         id.orig_h: SrcIP
+        id.orig_p: SrcPort
         id.resp_h: DstIP
         id.resp_p: DstPort
         path: Path
@@ -1365,6 +1425,7 @@ event-details:
       translate:
         uid: ID
         id.orig_h: SrcIP
+        id.orig_p: SrcPort
         id.resp_h: DstIP
         id.resp_p: DstPort
         path: Path
@@ -1378,6 +1439,7 @@ event-details:
       translate:
         uid: ID
         id.orig_h: SrcIP
+        id.orig_p: SrcPort
         id.resp_h: DstIP
         id.resp_p: DstPort
         path: Path
@@ -1391,6 +1453,7 @@ event-details:
       translate:
         uid: ID
         id.orig_h: SrcIP
+        id.orig_p: SrcPort
         id.resp_h: DstIP
         id.resp_p: DstPort
         path: Path
@@ -1404,6 +1467,7 @@ event-details:
       translate:
         uid: ID
         id.orig_h: SrcIP
+        id.orig_p: SrcPort
         id.resp_h: DstIP
         id.resp_p: DstPort
         path: Path
@@ -1417,6 +1481,7 @@ event-details:
       translate:
         uid: ID
         id.orig_h: SrcIP
+        id.orig_p: SrcPort
         id.resp_h: DstIP
         id.resp_p: DstPort
         path: Path
@@ -1430,6 +1495,7 @@ event-details:
       translate:
         uid: ID
         id.orig_h: SrcIP
+        id.orig_p: SrcPort
         id.resp_h: DstIP
         id.resp_p: DstPort
         path: Path
@@ -1443,6 +1509,7 @@ event-details:
       translate:
         uid: ID
         id.orig_h: SrcIP
+        id.orig_p: SrcPort
         id.resp_h: DstIP
         id.resp_p: DstPort
         path: Path
@@ -1456,6 +1523,7 @@ event-details:
       translate:
         uid: ID
         id.orig_h: SrcIP
+        id.orig_p: SrcPort
         id.resp_h: DstIP
         id.resp_p: DstPort
         path: Path
@@ -1469,6 +1537,7 @@ event-details:
       translate:
         uid: ID
         id.orig_h: SrcIP
+        id.orig_p: SrcPort
         id.resp_h: DstIP
         id.resp_p: DstPort
         path: Path
@@ -1482,7 +1551,7 @@ event-details:
 
   globals:
     translate:
-      eventTime: SystemTstamp
+      ts: SystemTstamp
       System: System
 
 - first-match: '\{\"nta\_category\"\:\"dhcp\"\,.*?\"msg\_types\"\:\[\"INFORM\"\]\,'
@@ -1497,6 +1566,9 @@ event-details:
       translate:
         User: User
         client_addr: SrcIP
+        client_port: SrcPort
+        server_addr: DstIP
+        server_port: DstPort
         mac: MACAddress
         ResultCode: ResultCode
       
@@ -1507,7 +1579,7 @@ event-details:
 
   globals:
     translate:
-      eventTime: SystemTstamp
+      ts: SystemTstamp
       host_name: System
 
 - first-match: '\{\"nta\_category\"\:\"dhcp\"\,.*?\"msg\_types\"\:\[\"ACK\"\]\,'
@@ -1522,6 +1594,9 @@ event-details:
       translate:
         User: User
         client_addr: SrcIP
+        client_port: SrcPort
+        server_addr: DstIP
+        server_port: DstPort
         mac: MACAddress
         ResultCode: ResultCode
       
@@ -1532,7 +1607,7 @@ event-details:
 
   globals:
     translate:
-      eventTime: SystemTstamp
+      ts: SystemTstamp
       host_name: System
 
 - first-match: '\{\"nta\_category\"\:\"dhcp\"\,.*?\"msg\_types\"\:\[\"DISCOVER\"\]\,'
@@ -1547,6 +1622,9 @@ event-details:
       translate:
         User: User
         client_addr: SrcIP
+        client_port: SrcPort
+        server_addr: DstIP
+        server_port: DstPort
         mac: MACAddress
         ResultCode: ResultCode
       
@@ -1557,7 +1635,7 @@ event-details:
 
   globals:
     translate:
-      eventTime: SystemTstamp
+      ts: SystemTstamp
       host_name: System
 
 - first-match: '\{\"nta\_category\"\:\"dhcp\"\,.*?\"msg\_types\"\:\[\"REQUEST\"\]\,'
@@ -1572,6 +1650,9 @@ event-details:
       translate:
         User: User
         client_addr: SrcIP
+        client_port: SrcPort
+        server_addr: DstIP
+        server_port: DstPort
         mac: MACAddress
         ResultCode: ResultCode
       
@@ -1582,7 +1663,7 @@ event-details:
 
   globals:
     translate:
-      eventTime: SystemTstamp
+      ts: SystemTstamp
       host_name: System
 
 - first-match: '\{\"nta\_category\"\:\"dhcp\"\,.*?\"msg\_types\"\:\[\"RELEASE\"\]\,'
@@ -1597,6 +1678,9 @@ event-details:
       translate:
         User: User
         client_addr: SrcIP
+        client_port: SrcPort
+        server_addr: DstIP
+        server_port: DstPort
         mac: MACAddress
         ResultCode: ResultCode
       
@@ -1607,7 +1691,7 @@ event-details:
 
   globals:
     translate:
-      eventTime: SystemTstamp
+      ts: SystemTstamp
       host_name: System
 
 - first-match: '\{\"nta\_category\"\:\"dhcp\"\,.*?\"msg\_types\"\:\[\"NAK\"\]\,'
@@ -1622,6 +1706,9 @@ event-details:
       translate:
         User: User
         client_addr: SrcIP
+        client_port: SrcPort
+        server_addr: DstIP
+        server_port: DstPort
         mac: MACAddress
         ResultCode: ResultCode
       
@@ -1632,7 +1719,7 @@ event-details:
 
   globals:
     translate:
-      eventTime: SystemTstamp
+      ts: SystemTstamp
       host_name: System
 
 - first-match: '\{\"nta\_category\"\:\"dhcp\"\,.*?\"msg\_types\"\:\[\"DECLINE\"\]\,'
@@ -1647,6 +1734,9 @@ event-details:
       translate:
         User: User
         client_addr: SrcIP
+        client_port: SrcPort
+        server_addr: DstIP
+        server_port: DstPort
         mac: MACAddress
         ResultCode: ResultCode
       
@@ -1657,7 +1747,7 @@ event-details:
 
   globals:
     translate:
-      eventTime: SystemTstamp
+      ts: SystemTstamp
       host_name: System
 
 - first-match: '\{\"nta\_category\"\:\"dhcp\"\,.*?\"msg\_types\"\:\[\"OFFER\"\]\,'
@@ -1672,6 +1762,9 @@ event-details:
       translate:
         User: User
         client_addr: SrcIP
+        client_port: SrcPort
+        server_addr: DstIP
+        server_port: DstPort
         mac: MACAddress
         ResultCode: ResultCode
       
@@ -1682,5 +1775,5 @@ event-details:
 
   globals:
     translate:
-      eventTime: SystemTstamp
+      ts: SystemTstamp
       host_name: System
