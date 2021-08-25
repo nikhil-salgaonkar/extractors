@@ -1,0 +1,1647 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 809
+integration: Syslog(CEF)
+vendor-name: SentinelOne
+product-name: SentinelOne Management
+source-name: SENTINELONE
+source-type: ENDPOINT-SECURITY
+source-description: Extractor for SentinelOne Events
+provides-streams:
+- AUTHENTICATION
+- CONFIGURATION
+- THREAT
+- IAM
+master-filters:
+- 'CEF\:\d+\|SentinelOne\|'
+event-details:
+- first-match: '\|cat\=(?:MALWARE|MITIGATION|THREATMANAGEMENT)\|'
+  decoder: custom
+  decoder-regex: '([\w]+)\=\[?([^\|\]?]+|)'
+  event-key-format: ''
+  decoder-header: CEF
+  event-key-mapping:
+    '':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        sourceAddress: SrcIP
+        DstIP: DstIP
+        threatClassification: Threat
+        fileName: File
+        filePath: Process
+        url: URL
+        threatCommandLineArguments: CommandLine
+        threatProcessUser: User
+
+  fallback: 
+    annotate:
+      EventName: Generic SentinelOne Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      rt: SystemTstamp
+      deviceHostName: System
+
+- first-match: '\|cat\=WHITELISTBLACKLIST\|'
+  decoder: custom
+  decoder-regex: '([\w]+)\=\[?([^\|\]?]+|)'
+  event-key-format: '{eventID}'
+  decoder-header: CEF
+  event-key-mapping:
+    '2':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: New Immune
+      translate:
+        suser: User
+    '3001':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: User Added White Hash
+      translate:
+        suser: User
+    '3002':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: User Added Black Hash
+      translate:
+        suser: User
+    '3003':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: User Modified Black Hash
+      translate:
+        suser: User
+    '3004':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: User Deleted Hash
+      translate:
+        suser: User
+    '3005':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Cloud Added White Hash
+      translate:
+        suser: User
+    '3006':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Cloud Added Black Hash
+      translate:
+        suser: User
+    '3007':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Cloud Modified Hash
+      translate:
+        suser: User
+    '3022':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Cloud Deleted White Hash
+      translate:
+        suser: User
+    '3023':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Cloud Deleted Black Hash
+      translate:
+        suser: User
+
+  fallback: 
+    annotate:
+      EventName: Generic SentinelOne Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      rt: SystemTstamp
+      deviceHostName: System
+
+- first-match: '\|cat\=EXCLUSIONS\|'
+  decoder: custom
+  decoder-regex: '([\w]+)\=\[?([^\|\]?]+|)'
+  event-key-format: '{eventID}'
+  decoder-header: CEF
+  event-key-mapping:
+    '3010':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: New File Type Exclusion
+      translate:
+        sourceUserName: User
+    '3011':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: New Browser Type Exclusion
+      translate:
+        sourceUserName: User
+    '3012':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Path Exclusion Modified
+      translate:
+        sourceUserName: User
+    '3013':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Signer Identity Exclusion Modified
+      translate:
+        sourceUserName: User
+    '3014':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: File Type Exclusion Modified
+      translate:
+        sourceUserName: User
+    '3015':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Browser Type Exclusion Modified
+      translate:
+        sourceUserName: User
+    '3016':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Path Exclusion Deleted
+      translate:
+        sourceUserName: User
+    '3017':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Signer Identity Exclusion Deleted
+      translate:
+        sourceUserName: User
+    
+  fallback: 
+    annotate:
+      EventName: Generic SentinelOne Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      rt: SystemTstamp
+      deviceHostName: System
+
+- first-match: '\|cat\=DEVICECONTROL\|'
+  decoder: custom
+  decoder-regex: '([\w]+)\=\[?([^\|\]?]+|)'
+  event-key-format: '{eventID}'
+  decoder-header: CEF
+  event-key-mapping:
+    '5120':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Device Rule created
+      translate:
+        sourceUserName: User
+    '5121':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Device Rule Modified
+      translate:
+        sourceUserName: User
+    '5122':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Device Rule Deleted
+      translate:
+        sourceUserName: User
+    '5123':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Device Rules Reordered
+      translate:
+        sourceUserName: User
+    '5124':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Device Settings Modified
+      translate:
+        sourceUserName: User
+    '5125':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Device Control Blocked 
+      translate:
+        sourceUserName: User
+    '5126':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Device Control Approved 
+      translate:
+        sourceUserName: User
+    '5127':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Device Rule Moved
+      translate:
+        sourceUserName: User
+    '5128':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Device Rule Moved
+      translate:
+        sourceUserName: User
+    '5129':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Device Rule Copied
+      translate:
+        sourceUserName: User
+
+  fallback: 
+    annotate:
+      EventName: Generic SentinelOne Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      rt: SystemTstamp
+      deviceHostName: System                 
+
+- first-match: '\|cat\=FIREWALLCONTROL\|'
+  decoder: custom
+  decoder-regex: '([\w]+)\=\[?([^\|\]?]+|)'
+  event-key-format: '{eventID}'
+  decoder-header: CEF
+  event-key-mapping:
+    '5220':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Firewall Rule Created
+      translate:
+        sourceUserName: User
+    '5221':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Firewall Rule Modified
+      translate:
+        sourceUserName: User
+    '5222':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Firewall Rule Deleted
+      translate:
+        sourceUserName: User
+    '5225':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Firewall Settings Modified
+      translate:
+        sourceUserName: User
+    '5226':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Firewall Rules Reordered
+      translate:
+        sourceUserName: User
+    '5227':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Firewall Rules Fetch
+      translate:
+        sourceUserName: User
+    '5228':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Firewall Rule Uploaded
+      translate:
+        sourceUserName: User
+    '5229':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Firewall Rule Moved
+      translate:
+        sourceUserName: User
+    '5230':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Firewall Rule Moved
+      translate:
+        sourceUserName: User
+    '5231':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Firewall Rule Copied
+      translate:
+        sourceUserName: User
+    '5232':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Firewall Traffic Blocked
+      translate:
+        sourceUserName: User
+    '5233':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        deviceAddress: SrcIP
+        AuthProto: AuthProto   
+        sourceUserName: User 
+
+  fallback: 
+    annotate:
+      EventName: Generic SentinelOne Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      rt: SystemTstamp
+      deviceHostName: System  
+
+- first-match: '\|cat\=OPERATIONS\|'
+  decoder: custom
+  decoder-regex: '([\w]+)\=\[?([^\|\]?]+|)'
+  event-key-format: '{eventID}'
+  decoder-header: CEF
+  event-key-mapping:
+    '27':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        deviceAddress: SrcIP
+        suser: User
+        AuthProto: AuthProto   
+    '33':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+      translate:
+        deviceAddress: SrcIP
+        suser: User
+        AuthProto: AuthProto   
+    '42':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: 2FA_TOKEN_MODIFIED
+        Status: PASSED
+      translate:
+        deviceAddress: SrcIP
+        suser: User
+        AuthProto: AuthProto   
+    '67':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: 2FA_TOKEN_MODIFIED
+        Status: PASSED
+      translate:
+        deviceAddress: SrcIP
+        suser: User
+        AuthProto: AuthProto   
+    '133':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+        Reason: INVALID_CREDENTIALS
+      translate:
+        deviceAddress: SrcIP
+        suser: User
+        AuthProto: AuthProto 
+    '15':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Agent as Up To Date
+      translate:
+        sourceUserName: User
+    '16':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Agent Software Updated
+      translate:
+        sourceUserName: User
+    '17':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Agent Subscribed
+      translate:
+        sourceUserName: User
+    '38':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Immune Settings Modified
+      translate:
+        sourceUserName: User
+    '39':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Research Settings Modified 
+      translate:
+        sourceUserName: User
+    '40':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Cloud Intelligence Settings Modified
+      translate:
+        sourceUserName: User
+    '41':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Learning Mode Settings Modified
+      translate:
+        sourceUserName: User
+    '43':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Agent Updated
+      translate:
+        sourceUserName: User
+    '44':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Auto Decommission On
+      translate:
+        sourceUserName: User
+    '45':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Auto Decommission Off
+      translate:
+        sourceUserName: User
+    '46':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Auto Decommission Period Modified
+      translate:
+        sourceUserName: User
+    '47':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Agent Decommissioned
+      translate:
+        sourceUserName: User
+    '48':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Agent Recommissioned
+      translate:
+        sourceUserName: User
+    '49':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Agent Request Uninstall
+      translate:
+        sourceUserName: User
+    '51':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Agent Uninstalled
+      translate:
+        sourceUserName: User
+    '52':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Approved Agent Uninstall Request
+      translate:
+        sourceUserName: User
+    '53':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Rejected Agent Uninstall Request
+      translate:
+        sourceUserName: User
+    '54':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Agent Decommissioned
+      translate:
+        sourceUserName: User
+    '55':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Agent Recommissioned
+      translate:
+        sourceUserName: User
+    '56':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Auto Mitigation Actions Modified
+      translate:
+        sourceUserName: User
+    '57':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Quarantine Network Settings Modified
+      translate:
+        sourceUserName: User
+    '58':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Notification Option Level Modified
+      translate:
+        sourceUserName: User
+    '59':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Event Severity Level Modified 
+      translate:
+        sourceUserName: User
+    '60':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Recipients Configuration Modified 
+      translate:
+        sourceUserName: User
+    '61':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Agent Network Quarantined
+      translate:
+        sourceUserName: User
+    '62':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Agent Network Unquarantined 
+      translate:
+        sourceUserName: User
+    '63':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Agent Shutdown
+      translate:
+        sourceUserName: User
+    '68':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Engine modified
+      translate:
+        sourceUserName: User
+    '69':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Mitigation Policy modified 
+      translate:
+        sourceUserName: User
+    '70':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Agent Notification on Suspicious Modified
+      translate:
+        sourceUserName: User
+    '71':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Agent Scan Started
+      translate:
+        sourceUserName: User
+    '72':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Agent Scan Aborted
+      translate:
+        sourceUserName: User
+    '73':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Scan New Agents Changed
+      translate:
+        sourceUserName: User
+    '74':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Machine Restart
+      translate:
+        sourceUserName: User
+    '75':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: On Access Modified 
+      translate:
+        sourceUserName: User
+    '76':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Anti Tampering Modified
+      translate:
+        sourceUserName: User
+    '77':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Agent UI Settings Modified
+      translate:
+        sourceUserName: User
+    '78':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Snapshots Settings Modified 
+      translate:
+        sourceUserName: User
+    '79':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Agent Logging Modified
+      translate:
+        sourceUserName: User
+    '82':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Monitor on execute Modified 
+      translate:
+        sourceUserName: User
+    '83':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Monitor on write Modified 
+      translate:
+        sourceUserName: User
+    '84':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: IOC modified 
+      translate:
+        sourceUserName: User
+    '87':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Remote Shell Settings Modified 
+      translate:
+        sourceUserName: User
+    '88':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: User Remote Shell Modified
+      translate:
+        sourceUserName: User
+    '90':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Agent Scan started 
+      translate:
+        sourceUserName: User
+    '91':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Agent Scan Aborted 
+      translate:
+        sourceUserName: User
+    '92':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Agent Scan Completed
+      translate:
+        sourceUserName: User
+    '93':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Agent's Local Reset
+      translate:
+        sourceUserName: User
+    '94':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Agent Moved to Site
+      translate:
+        sourceUserName: User
+    '95':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Agent Moved to Group
+      translate:
+        sourceUserName: User
+    '96':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Agent Moved from Site
+      translate:
+        sourceUserName: User
+    '97':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Agent Move to Another Console
+      translate:
+        sourceUserName: User
+    '98':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Agent Not Moved to Another Console
+      translate:
+        sourceUserName: User
+    '99':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Agent Moved to Another Console
+      translate:
+        sourceUserName: User
+    '105':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Deep Visibility settings
+      translate:
+        sourceUserName: User
+    '116':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Policy Settings
+      translate:
+        sourceUserName: User
+    '117':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Agent Disabled
+      translate:
+        sourceUserName: User
+    '118':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Agent Enabled
+      translate:
+        sourceUserName: User
+    '119':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Agent Disabled
+      translate:
+        sourceUserName: User
+    '120':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Agent Enabled
+      translate:
+        sourceUserName: User
+    '125':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Disable Agent Error
+      translate:
+        sourceUserName: User
+    '126':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Agent Disabled
+      translate:
+        sourceUserName: User
+    '127':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Agent Disabled
+      translate:
+        sourceUserName: User
+    '128':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Agent Disabled
+      translate:
+        sourceUserName: User
+    '132':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: EA Platform Settings Change
+      translate:
+        sourceUserName: User
+    '200':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: File Upload Modified
+      translate:
+        sourceUserName: User
+    '201':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: File Upload Enabled/Disabled
+      translate:
+        sourceUserName: User
+    '203':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: User Downloaded File
+      translate:
+        sourceUserName: User
+    '204':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Scheduled Report Removed
+      translate:
+        sourceUserName: User
+    '1001':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Agent Network Quarantined
+      translate:
+        sourceUserName: User
+    '1002':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Agent Network Unqarantined
+      translate:
+        sourceUserName: User
+    '2110':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Maintenance Window Time Changed
+      translate:
+        sourceUserName: User
+    '2111':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Maintenance Time Window Changed
+      translate:
+        sourceUserName: User
+    '3501':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Ranger Settings Modified
+      translate:
+        sourceUserName: User
+    '3502':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Ranger Network Settings Modified
+      translate:
+        sourceUserName: User
+    '3506':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Device review modified
+      translate:
+        sourceUserName: User
+    '3507':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Device tags modified
+      translate:
+        sourceUserName: User
+    '3600':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: New Rule
+      translate:
+        sourceUserName: User
+    '3601':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Edit Rule
+      translate:
+        sourceUserName: User
+    '3602':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Delete Rule
+      translate:
+        sourceUserName: User
+    '3603':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Rule Status Change
+      translate:
+        sourceUserName: User
+    '3604':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Rule Status Change
+      translate:
+        sourceUserName: User
+    '3605':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Rules Limitations
+      translate:
+        sourceUserName: User
+    '3606':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Rules Limitations
+      translate:
+        sourceUserName: User
+    '3607':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Rules Limitations
+      translate:
+        sourceUserName: User
+    '3608':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: New Alert
+      translate:
+        sourceUserName: User
+    '3614':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Agent Scan Started
+      translate:
+        sourceUserName: User
+    '3615':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Agent Scan Aborted
+      translate:
+        sourceUserName: User
+    '3617':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Agent Scan Completed
+      translate:
+        sourceUserName: User
+    '4004':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Show Suspicious On
+      translate:
+        sourceUserName: User
+    '4005':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Show Suspicious Off
+      translate:
+        sourceUserName: User
+    '4006':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Remember Me Length Modified
+      translate:
+        sourceUserName: User
+    '4020':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: New Note Added
+      translate:
+        sourceUserName: User
+    '4021':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Note Deleted
+      translate:
+        sourceUserName: User
+    '4022':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Note Updated
+      translate:
+        sourceUserName: User
+    '5000':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: AD Sync Started 
+      translate:
+        sourceUserName: User
+    '5001':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: AD Sync Finished
+      translate:
+        sourceUserName: User
+    '23':
+      annotate:
+        Stream: IAM
+        Action: USER_ADDED
+        Status: PASSED
+      translate:
+        originatorName: TargetUser
+        sourceUserName: User
+        Role: Role 
+    '24':
+      annotate:
+        Stream: IAM
+        Action: USER_UPDATED
+        Status: PASSED
+      translate:
+        originatorName: TargetUser
+        sourceUserName: User
+        Role: Role   
+    '25':
+      annotate:
+        Stream: IAM
+        Action: USER_DELETED
+        Status: PASSED
+      translate:
+        originatorName: TargetUser
+        sourceUserName: User
+        Role: Role  
+    '26':
+      annotate:
+        Stream: IAM
+        Action: USER_UPDATED
+        Status: PASSED
+      translate:
+        originatorName: TargetUser
+        sourceUserName: User
+        Role: Role  
+    '36':
+      annotate:
+        Stream: IAM
+        Action: USER_VERIFIED
+        Status: PASSED
+      translate:
+        originatorName: TargetUser
+        sourceUserName: User
+        Role: Role
+    '37':
+      annotate:
+        Stream: IAM
+        Action: USER_UPDATED
+        Status: PASSED
+      translate:
+        originatorName: TargetUser
+        sourceUserName: User
+        Role: Role      
+    '102':
+      annotate:
+        Stream: IAM
+        Action: USER_DELETED
+        Status: PASSED
+      translate:
+        originatorName: TargetUser
+        sourceUserName: User
+        Role: Role  
+    '103':
+      annotate:
+        Stream: IAM
+        Action: USER_DELETED
+        Status: PASSED
+      translate:
+        originatorName: TargetUser
+        sourceUserName: User
+        Role: Role   
+    '107':
+      annotate:
+        Stream: IAM
+        Action: ROLE_CREATED
+        Status: PASSED
+      translate:
+        originatorName: TargetUser
+        sourceUserName: User
+        Role: Role 
+    '108':
+      annotate:
+        Stream: IAM
+        Action: ROLE_UPDATED
+        Status: PASSED
+      translate:
+        originatorName: TargetUser
+        sourceUserName: User
+        Role: Role    
+    '109':
+      annotate:
+        Stream: IAM
+        Action: ROLE_DELETED
+        Status: PASSED
+      translate:
+        originatorName: TargetUser
+        sourceUserName: User
+        Role: Role 
+    '1023':
+      annotate:
+        Stream: IAM
+        Action: USER_ADDED
+        Status: PASSED
+      translate:
+        originatorName: TargetUser
+        sourceUserName: User
+        Role: Role  
+    '1024':
+      annotate:
+        Stream: IAM
+        Action: USER_UPDATED
+        Status: PASSED
+      translate:
+        originatorName: TargetUser
+        sourceUserName: User
+        Role: Role 
+    '3522':
+      annotate:
+        Stream: IAM
+        Action: GROUP_CREATED
+        Status: PASSED
+      translate:
+        originatorName: TargetUser
+        sourceUserName: User
+        Role: Role  
+    '3523':
+      annotate:
+        Stream: IAM
+        Action: GROUP_UPDATED
+        Status: PASSED
+      translate:
+        originatorName: TargetUser
+        sourceUserName: User
+        Role: Role  
+    '3524':
+      annotate:
+        Stream: IAM
+        Action: GROUP_DELETED
+        Status: PASSED
+      translate:
+        originatorName: TargetUser
+        sourceUserName: User
+        Role: Role  
+    '3525':
+      annotate:
+        Stream: IAM
+        Action: USER_CREATED
+        Status: PASSED
+      translate:
+        originatorName: TargetUser
+        sourceUserName: User
+        Role: Role  
+    '3526':
+      annotate:
+        Stream: IAM
+        Action: USER_DELETED
+        Status: PASSED
+      translate:
+        originatorName: TargetUser
+        sourceUserName: User
+        Role: Role  
+    '3527':
+      annotate:
+        Stream: IAM
+        Action: USER_UPDATED
+        Status: PASSED
+      translate:
+        originatorName: TargetUser
+        sourceUserName: User
+        Role: Role  
+    '3610':
+      annotate:
+        Stream: IAM
+        Action: PASSWORD_CHANGED
+        Status: PASSED
+      translate:
+        originatorName: TargetUser
+        sourceUserName: User
+        Role: Role 
+    '3611':
+      annotate:
+        Stream: IAM
+        Action: PASSWORD_CHANGED
+        Status: PASSED
+      translate:
+        originatorName: TargetUser
+        sourceUserName: User
+        Role: Role 
+    '3612':
+      annotate:
+        Stream: IAM
+        Action: PASSWORD_CHANGED
+        Status: PASSED
+      translate:
+        originatorName: TargetUser
+        sourceUserName: User
+        Role: Role 
+    '3613':
+      annotate:
+        Stream: IAM
+        Action: PASSWORD_CHANGED
+        Status: PASSED
+      translate:
+        originatorName: TargetUser
+        sourceUserName: User
+        Role: Role 
+    '5002':
+      annotate:
+        Stream: IAM
+        Action: GROUP_CREATED
+        Status: PASSED
+      translate:
+        originatorName: TargetUser
+        sourceUserName: User
+        Role: Role 
+    '5003':
+      annotate:
+        Stream: IAM
+        Action: GROUP_CREATED
+        Status: PASSED
+      translate:
+        originatorName: TargetUser
+        sourceUserName: User
+        Role: Role 
+    '5004':
+      annotate:
+        Stream: IAM
+        Action: GROUP_UPDATED
+        Status: PASSED
+      translate:
+        originatorName: TargetUser
+        sourceUserName: User
+        Role: Role 
+    '5005':
+      annotate:
+        Stream: IAM
+        Action: GROUP_UPDATED
+        Status: PASSED
+      translate:
+        originatorName: TargetUser
+        sourceUserName: User
+        Role: Role 
+    '5006':
+      annotate:
+        Stream: IAM
+        Action: GROUP_DELETED
+        Status: PASSED
+      translate:
+        originatorName: TargetUser
+        sourceUserName: User
+        Role: Role 
+    '5007':
+      annotate:
+        Stream: IAM
+        Action: GROUP_UPDATED
+        Status: PASSED
+      translate:
+        originatorName: TargetUser
+        sourceUserName: User
+        Role: Role  
+    '5008':
+      annotate:
+        Stream: IAM
+        Action: GROUP_CREATED
+        Status: PASSED
+      translate:
+        originatorName: TargetUser
+        sourceUserName: User
+        Role: Role  
+    '5009':
+      annotate:
+        Stream: IAM
+        Action: GROUP_UPDATED
+        Status: PASSED
+      translate:
+        originatorName: TargetUser
+        sourceUserName: User
+        Role: Role  
+    '5010':
+      annotate:
+        Stream: IAM
+        Action: GROUP_UPDATED
+        Status: PASSED
+      translate:
+        originatorName: TargetUser
+        sourceUserName: User
+        Role: Role  
+    '5011':
+      annotate:
+        Stream: IAM
+        Action: GROUP_UPDATED
+        Status: PASSED
+      translate:
+        originatorName: TargetUser
+        sourceUserName: User
+        Role: Role  
+    '5012':
+      annotate:
+        Stream: IAM
+        Action: GROUP_UPDATED
+        Status: PASSED
+      translate:
+        originatorName: TargetUser
+        sourceUserName: User
+        Role: Role  
+    '5013':
+      annotate:
+        Stream: IAM
+        Action: GROUP_DELETED
+        Status: PASSED
+      translate:
+        originatorName: TargetUser
+        sourceUserName: User
+        Role: Role  
+    '5040':
+      annotate:
+        Stream: IAM
+        Action: USER_CREATED
+        Status: PASSED
+      translate:
+        originatorName: TargetUser
+        sourceUserName: User
+        Role: Role  
+    '5041':
+      annotate:
+        Stream: IAM
+        Action: USER_UPDATED
+        Status: PASSED
+      translate:
+        originatorName: TargetUser
+        sourceUserName: User
+        Role: Role  
+    '5042':
+      annotate:
+        Stream: IAM
+        Action: USER_DELETED
+        Status: PASSED
+      translate:
+        originatorName: TargetUser
+        sourceUserName: User
+        Role: Role  
+    '5043':
+      annotate:
+        Stream: IAM
+        Action: USER_EXPIRED
+        Status: PASSED
+      translate:
+        originatorName: TargetUser
+        sourceUserName: User
+        Role: Role  
+    '5044':
+      annotate:
+        Stream: IAM
+        Action: USER_UPDATED
+        Status: PASSED
+      translate:
+        originatorName: TargetUser
+        sourceUserName: User
+        Role: Role  
+    '5045':
+      annotate:
+        Stream: IAM
+        Action: USER_EXPIRED
+        Status: PASSED
+      translate:
+        originatorName: TargetUser
+        sourceUserName: User
+        Role: Role  
+
+  fallback: 
+    annotate:
+      EventName: Generic SentinelOne Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      rt: SystemTstamp
+      deviceHostName: System                            
+
+                                     
