@@ -414,7 +414,7 @@ event-details:
     '4781':
       annotate:
         Stream: IAM
-        Action: USER_CREDENTIALS_UPDATED
+        Action: USER_UPDATED
         Status: PASSED 
       translate:  
         SubjectUserName: User  
