@@ -417,7 +417,6 @@ event-details:
         requestParameters[userName]: TargetUser
         userIdentity[type]: Role     
     
-
   fallback:
     annotate:
       EventName: Generic AWS CloudTrail Events
