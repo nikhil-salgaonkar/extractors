@@ -392,7 +392,7 @@ event-details:
     'CreateLoginProfile':
       annotate:
         Stream: IAM
-        Action: PASSWORD_CHANGED
+        Action: PASSOWRD_CREATED
         Status: PASSED
       translate:
         userIdentity[userName]: User
@@ -410,13 +410,14 @@ event-details:
     'DeleteLoginProfile':
       annotate:
         Stream: IAM
-        Action: PASSWORD_CHANGED
+        Action: PASSWORD_DELETED
         Status: PASSED
       translate:
         userIdentity[userName]: User
         requestParameters[userName]: TargetUser
         userIdentity[type]: Role     
     
+
   fallback:
     annotate:
       EventName: Generic AWS CloudTrail Events
