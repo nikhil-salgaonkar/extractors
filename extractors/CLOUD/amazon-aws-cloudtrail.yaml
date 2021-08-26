@@ -392,7 +392,7 @@ event-details:
     'CreateLoginProfile':
       annotate:
         Stream: IAM
-        Action: PASSOWRD_CREATED
+        Action: PASSWORD_CHANGED
         Status: PASSED
       translate:
         userIdentity[userName]: User
@@ -410,7 +410,7 @@ event-details:
     'DeleteLoginProfile':
       annotate:
         Stream: IAM
-        Action: PASSWORD_DELETED
+        Action: PASSWORD_CHANGED
         Status: PASSED
       translate:
         userIdentity[userName]: User
