@@ -15,7 +15,7 @@ provides-streams:
 master-filters:
 - '\"awsRegion\"'
 event-details:
-- first-match: '\"eventSource\":\s*\"signin\.amazonaws\.com\"'
+- first-match: '\"eventType\":\s*\"AwsConsoleSignIn\"'
   decoder: json
   event-key-format: '{eventName}-{responseElements[ConsoleLogin]}'
   event-key-mapping:
@@ -49,413 +49,11 @@ event-details:
       eventTime: SystemTstamp
       System: System
 
-- first-match: '\"eventSource\":\s*\"iam\.amazonaws\.com\"'
+- first-match: '\"eventType\":\s*\"(?:AwsApiCall|AwsCloudTrailInsight|AwsServiceEvent|AwsConsoleAction)\"'
   decoder: json
   event-key-format: '{eventName}'
   event-key-mapping:
-    'CreatePolicyVersion':
-      annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-      translate:
-        userIdentity[userName]: User
-        eventName: Config 
-    'DeletePolicyVersion':
-      annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-      translate:
-        userIdentity[userName]: User
-        eventName: Config 
-    'AttachGroupPolicy':
-      annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-      translate:
-        userIdentity[userName]: User
-        eventName: Config 
-    'DetachGroupPolicy':
-      annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-      translate:
-        userIdentity[userName]: User
-        eventName: Config 
-    'AttachRolePolicy':
-      annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-      translate:
-        userIdentity[userName]: User
-        eventName: Config 
-    'DetachRolePolicy':
-      annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-      translate:
-        userIdentity[userName]: User
-        eventName: Config 
-    'PutRolePolicy':
-      annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-      translate:
-        userIdentity[userName]: User
-        eventName: Config 
-    'GetRolePolicy':
-      annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-      translate:
-        userIdentity[userName]: User
-        eventName: Config 
-    'PutUserPolicy':
-      annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-      translate:
-        userIdentity[userName]: User
-        eventName: Config 
-    'PutGroupPolicy':
-      annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-      translate:
-        userIdentity[userName]: User
-        eventName: Config 
-    'GetUserPolicy':
-      annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-      translate:
-        userIdentity[userName]: User
-        eventName: Config 
-    'GetGroupPolicy':
-      annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-      translate:
-        userIdentity[userName]: User
-        eventName: Config 
-    'AuthorizeSecurityGroupIngress':
-      annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-      translate:
-        userIdentity[userName]: User
-        eventName: Config 
-    'AuthorizeSecurityGroupEgress':
-      annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-      translate:
-        userIdentity[userName]: User
-        eventName: Config 
-    'RevokeSecurityGroupIngress':
-      annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-      translate:
-        userIdentity[userName]: User
-        eventName: Config 
-    'RevokeSecurityGroupEgress':
-      annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-      translate:
-        userIdentity[userName]: User
-        eventName: Config 
-    'DetachUserPolicy':
-      annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-      translate:
-        userIdentity[userName]: User
-        eventName: Config 
-    'DetachPolicy':
-      annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-      translate:
-        userIdentity[userName]: User
-        eventName: Config      
-    'AttachPolicy':
-      annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-      translate:
-        userIdentity[userName]: User
-        eventName: Config      
-    'AttachUserPolicy':
-      annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-      translate:
-        userIdentity[userName]: User
-        eventName: Config       
-    'CreateSecurityGroup':
-      annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-      translate:
-        userIdentity[userName]: User
-        eventName: Config 
-    'DeleteSecurityGroup':
-      annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-      translate:
-        userIdentity[userName]: User
-        eventName: Config     
-    'CreatePolicy':
-      annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-      translate:
-        userIdentity[userName]: User
-        eventName: Config
-    'DeletePolicy':
-      annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-      translate:
-        userIdentity[userName]: User
-        eventName: Config
-    'DeleteRolePolicy':
-      annotate:
-        Stream: IAM
-        Action: POLICY_ROLE_DELETED
-        Status: PASSED
-      translate:
-        userIdentity[userName]: User
-        requestParameters[userName]: TargetUser
-        userIdentity[type]: Role
-    'DeleteUserPolicy':
-      annotate:
-        Stream: IAM
-        Action: USER_POLICY_DELETED
-        Status: PASSED
-      translate:
-        userIdentity[userName]: User
-        requestParameters[userName]: TargetUser
-        userIdentity[type]: Role
-    'DeleteGroupPolicy':
-      annotate:
-        Stream: IAM
-        Action: GROUP_POLICY_DELETED
-        Status: PASSED
-      translate:
-        userIdentity[userName]: User
-        requestParameters[userName]: TargetUser
-        userIdentity[type]: Role
-    'CreateUser':
-      annotate:
-        Stream: IAM
-        Action: USER_CREATED
-        Status: PASSED
-      translate:
-        userIdentity[userName]: User
-        requestParameters[userName]: TargetUser
-        userIdentity[type]: Role
-    'DeleteUser':
-      annotate:
-        Stream: IAM
-        Action: USER_DELETED
-        Status: PASSED
-      translate:
-        userIdentity[userName]: User
-        requestParameters[userName]: TargetUser
-        userIdentity[type]: Role
-    'UpdateUser':
-      annotate:
-        Stream: IAM
-        Action: USER_UPDATED
-        Status: PASSED
-      translate:
-        userIdentity[userName]: User
-        requestParameters[userName]: TargetUser
-        userIdentity[type]: Role
-    'AddUserToGroup':
-      annotate:
-        Stream: IAM
-        Action: USER_ADDED
-        Status: PASSED
-      translate:
-        userIdentity[userName]: User
-        requestParameters[userName]: TargetUser
-        userIdentity[type]: Role
-    'AddUsersToGroup':
-      annotate:
-        Stream: IAM
-        Action: USER_ADDED
-        Status: PASSED
-      translate:
-        userIdentity[userName]: User
-        requestParameters[userName]: TargetUser
-        userIdentity[type]: Role
-    'DeleteUserToGroup':
-      annotate:
-        Stream: IAM
-        Action: USER_DELETED
-        Status: PASSED
-      translate:
-        userIdentity[userName]: User
-        requestParameters[userName]: TargetUser
-        userIdentity[type]: Role
-    'CreateRole':
-      annotate:
-        Stream: IAM
-        Action: USER_ADDED
-        Status: PASSED
-      translate:
-        userIdentity[userName]: User
-        requestParameters[userName]: TargetUser
-        userIdentity[type]: Role
-    'DeleteRole':
-      annotate:
-        Stream: IAM
-        Action: USER_REMOVED
-        Status: PASSED
-      translate:
-        userIdentity[userName]: User
-        requestParameters[userName]: TargetUser
-        userIdentity[type]: Role   
-    'UpdateRole':
-      annotate:
-        Stream: IAM
-        Action: USER_ADDED
-        Status: PASSED
-      translate:
-        userIdentity[userName]: User
-        requestParameters[userName]: TargetUser
-        userIdentity[type]: Role     
-    'ExitRole':
-      annotate:
-        Stream: IAM
-        Action: USER_REMOVED
-        Status: PASSED
-      translate:
-        userIdentity[userName]: User
-        requestParameters[userName]: TargetUser
-        userIdentity[type]: Role     
-    'CreateGroup':
-      annotate:
-        Stream: IAM
-        Action: GROUP_CREATED
-        Status: PASSED
-      translate:
-        userIdentity[userName]: User
-        requestParameters[userName]: TargetUser
-        userIdentity[type]: Role     
-    'DeleteGroup':
-      annotate:
-        Stream: IAM
-        Action: GROUP_DELETED
-        Status: PASSED
-      translate:
-        userIdentity[userName]: User
-        requestParameters[userName]: TargetUser
-        userIdentity[type]: Role 
-    'UpdateGroup':
-      annotate:
-        Stream: IAM
-        Action: GROUP_UPDATED
-        Status: PASSED
-      translate:
-        userIdentity[userName]: User
-        requestParameters[userName]: TargetUser
-        userIdentity[type]: Role    
-    'CreateLoginProfile':
-      annotate:
-        Stream: IAM
-        Action: PASSWORD_CREATED
-        Status: PASSED
-      translate:
-        userIdentity[userName]: User
-        requestParameters[userName]: TargetUser
-        userIdentity[type]: Role    
-    'UpdateLoginProfile':
-      annotate:
-        Stream: IAM
-        Action: PASSWORD_CHANGED
-        Status: PASSED
-      translate:
-        userIdentity[userName]: User
-        requestParameters[userName]: TargetUser
-        userIdentity[type]: Role    
-    'DeleteLoginProfile':
-      annotate:
-        Stream: IAM
-        Action: PASSWORD_DELETED
-        Status: PASSED
-      translate:
-        userIdentity[userName]: User
-        requestParameters[userName]: TargetUser
-        userIdentity[type]: Role     
-    
-
-  fallback:
-    annotate:
-      EventName: Generic AWS CloudTrail Events
-      Stream: OTHER
-
-  globals:
-    translate:
-      eventTime: SystemTstamp
-      System: System
-
-- first-match: '\"eventSource\":\s*\"config\.amazonaws\.com\"'
-  decoder: json
-  event-key-format: ''
-  event-key-mapping:
-    '':
-      annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-      translate:
-        userIdentity[userName]: User
-        eventName: Config 
-    
-  fallback:
-    annotate:
-      EventName: Generic AWS CloudTrail Events
-      Stream: OTHER
-
-  globals:
-    translate:
-      eventTime: SystemTstamp
-      System: System
-
-- first-match: '\"eventSource\":(?:\s+)?\"(?!signin\.amazonaws\.com|iam\.amazonaws\.com|config\.amazonaws\.com).*?\"\,'
-  decoder: json
-  event-key-format: ''
-  event-key-mapping:
-    '':
+    'CreateTrail':
       annotate:
         Stream: CLOUDTRAIL
       translate:
@@ -471,7 +69,304 @@ event-details:
         responseElements: ResponseElements
         errorCode: ErrorCode
         userIdentity[arn]: UserArn
-    
+    'DeleteTrail':
+      annotate:
+        Stream: CLOUDTRAIL
+      translate:
+        eventType: EventType
+        eventSource: EventSource
+        eventName: EventName
+        awsRegion: AwsRegion
+        userIdentity[accessKeyId]: AccessKey
+        userIdentity[type]: UserGroup
+        sourceIPAddress: SrcIP
+        userAgent: UserAgent
+        requestParameters: RequestParameters
+        responseElements: ResponseElements
+        errorCode: ErrorCode
+        userIdentity[arn]: UserArn
+    'StartLogging':
+      annotate:
+        Stream: CLOUDTRAIL
+      translate:
+        eventType: EventType
+        eventSource: EventSource
+        eventName: EventName
+        awsRegion: AwsRegion
+        userIdentity[accessKeyId]: AccessKey
+        userIdentity[type]: UserGroup
+        sourceIPAddress: SrcIP
+        userAgent: UserAgent
+        requestParameters: RequestParameters
+        responseElements: ResponseElements
+        errorCode: ErrorCode
+        userIdentity[arn]: UserArn
+    'StopLogging':
+      annotate:
+        Stream: CLOUDTRAIL
+      translate:
+        eventType: EventType
+        eventSource: EventSource
+        eventName: EventName
+        awsRegion: AwsRegion
+        userIdentity[accessKeyId]: AccessKey
+        userIdentity[type]: UserGroup
+        sourceIPAddress: SrcIP
+        userAgent: UserAgent
+        requestParameters: RequestParameters
+        responseElements: ResponseElements
+        errorCode: ErrorCode
+        userIdentity[arn]: UserArn
+    'UpdateTrail':
+      annotate:
+        Stream: CLOUDTRAIL
+      translate:
+        eventType: EventType
+        eventSource: EventSource
+        eventName: EventName
+        awsRegion: AwsRegion
+        userIdentity[accessKeyId]: AccessKey
+        userIdentity[type]: UserGroup
+        sourceIPAddress: SrcIP
+        userAgent: UserAgent
+        requestParameters: RequestParameters
+        responseElements: ResponseElements
+        errorCode: ErrorCode
+        userIdentity[arn]: UserArn
+    'CreatePolicyVersion':
+      annotate:
+        Stream: CONFIGURATION
+        Action: POLICY_CREATED
+        Status: PASSED
+      translate:
+        userIdentity[userName]: User
+        Config: Config 
+    'DeletePolicyVersion':
+      annotate:
+        Stream: CONFIGURATION
+        Action: POLICY_DELETED
+        Status: PASSED
+      translate:
+        userIdentity[userName]: User
+        Config: Config 
+    'AttachGroupPolicy':
+      annotate:
+        Stream: CONFIGURATION
+        Action: POLICY_GROUP_ATTACHED
+        Status: PASSED
+      translate:
+        userIdentity[userName]: User
+        Config: Config 
+    'DetachGroupPolicy':
+      annotate:
+        Stream: CONFIGURATION
+        Action: POLICY_GROUP_DETACHED
+        Status: PASSED
+      translate:
+        userIdentity[userName]: User
+        Config: Config 
+    'AttachRolePolicy':
+      annotate:
+        Stream: CONFIGURATION
+        Action: POLICY_ROLE_ATTACHED
+        Status: PASSED
+      translate:
+        userIdentity[userName]: User
+        Config: Config 
+    'DetachRolePolicy':
+      annotate:
+        Stream: CONFIGURATION
+        Action: POLICY_ROLE_DETACHED
+        Status: PASSED
+      translate:
+        userIdentity[userName]: User
+        Config: Config 
+    'PutRolePolicy':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        userIdentity[userName]: User
+        Config: Config 
+    'PutUserPolicy':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        userIdentity[userName]: User
+        Config: Config 
+    'PutGroupPolicy':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        userIdentity[userName]: User
+        Config: Config 
+    'AuthorizeSecurityGroupIngress':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        userIdentity[userName]: User
+        Config: Config 
+    'AuthorizeSecurityGroupEgress':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        userIdentity[userName]: User
+        Config: Config 
+    'RevokeSecurityGroupIngress':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        userIdentity[userName]: User
+        Config: Config 
+    'RevokeSecurityGroupEgress':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        userIdentity[userName]: User
+        Config: Config 
+    'DetachUserPolicy':
+      annotate:
+        Stream: CONFIGURATION
+        Action: USER_POLICY_DETACHED
+        Status: PASSED
+      translate:
+        userIdentity[userName]: User
+        Config: Config 
+    'AttachUserPolicy':
+      annotate:
+        Stream: CONFIGURATION
+        Action: USER_POLICY_ATTACHED
+        Status: PASSED
+      translate:
+        userIdentity[userName]: User
+        Config: Config       
+    'CreateSecurityGroup':
+      annotate:
+        Stream: CONFIGURATION
+        Action: SECURITY_GROUP_CREATED
+        Status: PASSED
+      translate:
+        userIdentity[userName]: User
+        Config: Config 
+    'DeleteSecurityGroup':
+      annotate:
+        Stream: CONFIGURATION
+        Action: SECURITY_GROUP_DELETED
+        Status: PASSED
+      translate:
+        userIdentity[userName]: User
+        Config: Config     
+    'CreatePolicy':
+      annotate:
+        Stream: CONFIGURATION
+        Action: POLICY_CREATED
+        Status: PASSED
+      translate:
+        userIdentity[userName]: User
+        Config: Config
+    'DeletePolicy':
+      annotate:
+        Stream: CONFIGURATION
+        Action: POLICY_DELETED
+        Status: PASSED
+      translate:
+        userIdentity[userName]: User
+        Config: Config
+    'DeleteRolePolicy':
+      annotate:
+        Stream: IAM
+        Action: POLICY_ROLE_DELETED
+        Status: PASSED
+      translate:
+        userIdentity[userName]: User
+        requestParameters[userName]: TargetUser
+        Role: Role
+    'DeleteUserPolicy':
+      annotate:
+        Stream: IAM
+        Action: USER_POLICY_DELETED
+        Status: PASSED
+      translate:
+        userIdentity[userName]: User
+        requestParameters[userName]: TargetUser
+        Role: Role
+    'DeleteGroupPolicy':
+      annotate:
+        Stream: IAM
+        Action: GROUP_POLICY_DELETED
+        Status: PASSED
+      translate:
+        userIdentity[userName]: User
+        requestParameters[userName]: TargetUser
+        Role: Role
+    'CreateUser':
+      annotate:
+        Stream: IAM
+        Action: USER_ADDED
+        Status: PASSED
+      translate:
+        userIdentity[userName]: User
+        requestParameters[userName]: TargetUser
+        Role: Role
+    'DeleteUser':
+      annotate:
+        Stream: IAM
+        Action: USER_DELETED
+        Status: PASSED
+      translate:
+        userIdentity[userName]: User
+        requestParameters[userName]: TargetUser
+        Role: Role
+    'AddUserToGroup':
+      annotate:
+        Stream: IAM
+        Action: USER_ADDED
+        Status: PASSED
+      translate:
+        userIdentity[userName]: User
+        requestParameters[userName]: TargetUser
+        Role: Role
+    'DeleteUserToGroup':
+      annotate:
+        Stream: IAM
+        Action: USER_DELETED
+        Status: PASSED
+      translate:
+        userIdentity[userName]: User
+        requestParameters[userName]: TargetUser
+        Role: Role
+    'CreateRole':
+      annotate:
+        Stream: IAM
+        Action: ROLE_CREATED
+        Status: PASSED
+      translate:
+        userIdentity[userName]: User
+        requestParameters[userName]: TargetUser
+        Role: Role
+    'DeleteRole':
+      annotate:
+        Stream: IAM
+        Action: ROLE_DELETED
+        Status: PASSED
+      translate:
+        userIdentity[userName]: User
+        requestParameters[userName]: TargetUser
+        Role: Role     
+
   fallback:
     annotate:
       EventName: Generic AWS CloudTrail Events
