@@ -3,7 +3,7 @@ schema-version: 1.0
 extractor-id: 809
 integration: Syslog(CEF)
 vendor-name: SentinelOne
-product-name: SentinelOne Management
+product-name: SentinelOne Endpoint Protection
 source-name: SENTINELONE
 source-type: ENDPOINT-SECURITY
 source-description: Extractor for SentinelOne Events
