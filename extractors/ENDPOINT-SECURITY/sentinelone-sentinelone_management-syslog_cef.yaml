@@ -53,14 +53,6 @@ event-details:
   event-key-format: '{eventID}'
   decoder-header: CEF
   event-key-mapping:
-    '2':
-      annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-        Config: New Immune
-      translate:
-        suser: User
     '3001':
       annotate:
         Stream: CONFIGURATION
@@ -150,22 +142,6 @@ event-details:
   event-key-format: '{eventID}'
   decoder-header: CEF
   event-key-mapping:
-    '3010':
-      annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-        Config: New File Type Exclusion
-      translate:
-        sourceUserName: User
-    '3011':
-      annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-        Config: New Browser Type Exclusion
-      translate:
-        sourceUserName: User
     '3012':
       annotate:
         Stream: CONFIGURATION
@@ -408,23 +384,6 @@ event-details:
         Config: Firewall Rule Copied
       translate:
         sourceUserName: User
-    '5232':
-      annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-        Config: Firewall Traffic Blocked
-      translate:
-        sourceUserName: User
-    '5233':
-      annotate:
-        Stream: AUTHENTICATION
-        Action: LOGIN
-        Status: PASSED
-      translate:
-        deviceAddress: SrcIP
-        AuthProto: AuthProto   
-        sourceUserName: User 
 
   fallback: 
     annotate:
@@ -510,14 +469,6 @@ event-details:
         Action: CONFIGURATION_CHANGED
         Status: PASSED
         Config: Agent Subscribed
-      translate:
-        sourceUserName: User
-    '38':
-      annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-        Config: Immune Settings Modified
       translate:
         sourceUserName: User
     '39':
@@ -613,7 +564,7 @@ event-details:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
         Status: PASSED
-        Config: Approved Agent Uninstall Request
+        Config: Agent Uninstall Request Approved 
       translate:
         sourceUserName: User
     '53':
@@ -621,7 +572,7 @@ event-details:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
         Status: PASSED
-        Config: Rejected Agent Uninstall Request
+        Config: Agent Uninstall Request Rejected 
       translate:
         sourceUserName: User
     '54':
@@ -662,14 +613,6 @@ event-details:
         Action: CONFIGURATION_CHANGED
         Status: PASSED
         Config: Notification Option Level Modified
-      translate:
-        sourceUserName: User
-    '59':
-      annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-        Config: Event Severity Level Modified 
       translate:
         sourceUserName: User
     '60':
@@ -760,14 +703,6 @@ event-details:
         Config: Machine Restart
       translate:
         sourceUserName: User
-    '75':
-      annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-        Config: On Access Modified 
-      translate:
-        sourceUserName: User
     '76':
       annotate:
         Stream: CONFIGURATION
@@ -816,14 +751,6 @@ event-details:
         Config: Monitor on write Modified 
       translate:
         sourceUserName: User
-    '84':
-      annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-        Config: IOC modified 
-      translate:
-        sourceUserName: User
     '87':
       annotate:
         Stream: CONFIGURATION
@@ -869,7 +796,7 @@ event-details:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
         Status: PASSED
-        Config: Agent's Local Reset
+        Config: Agent Local Reset
       translate:
         sourceUserName: User
     '94':
@@ -896,14 +823,6 @@ event-details:
         Config: Agent Moved from Site
       translate:
         sourceUserName: User
-    '97':
-      annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-        Config: Agent Move to Another Console
-      translate:
-        sourceUserName: User
     '98':
       annotate:
         Stream: CONFIGURATION
@@ -918,22 +837,6 @@ event-details:
         Action: CONFIGURATION_CHANGED
         Status: PASSED
         Config: Agent Moved to Another Console
-      translate:
-        sourceUserName: User
-    '105':
-      annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-        Config: Deep Visibility settings
-      translate:
-        sourceUserName: User
-    '116':
-      annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-        Config: Policy Settings
       translate:
         sourceUserName: User
     '117':
@@ -1144,38 +1047,6 @@ event-details:
         Config: Rule Status Change
       translate:
         sourceUserName: User
-    '3605':
-      annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-        Config: Rules Limitations
-      translate:
-        sourceUserName: User
-    '3606':
-      annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-        Config: Rules Limitations
-      translate:
-        sourceUserName: User
-    '3607':
-      annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-        Config: Rules Limitations
-      translate:
-        sourceUserName: User
-    '3608':
-      annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-        Config: New Alert
-      translate:
-        sourceUserName: User
     '3614':
       annotate:
         Stream: CONFIGURATION
@@ -1222,30 +1093,6 @@ event-details:
         Action: CONFIGURATION_CHANGED
         Status: PASSED
         Config: Remember Me Length Modified
-      translate:
-        sourceUserName: User
-    '4020':
-      annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-        Config: New Note Added
-      translate:
-        sourceUserName: User
-    '4021':
-      annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-        Config: Note Deleted
-      translate:
-        sourceUserName: User
-    '4022':
-      annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-        Config: Note Updated
       translate:
         sourceUserName: User
     '5000':
@@ -1606,28 +1453,10 @@ event-details:
         originatorName: TargetUser
         sourceUserName: User
         Role: Role  
-    '5043':
-      annotate:
-        Stream: IAM
-        Action: USER_EXPIRED
-        Status: PASSED
-      translate:
-        originatorName: TargetUser
-        sourceUserName: User
-        Role: Role  
     '5044':
       annotate:
         Stream: IAM
         Action: USER_UPDATED
-        Status: PASSED
-      translate:
-        originatorName: TargetUser
-        sourceUserName: User
-        Role: Role  
-    '5045':
-      annotate:
-        Stream: IAM
-        Action: USER_EXPIRED
         Status: PASSED
       translate:
         originatorName: TargetUser
