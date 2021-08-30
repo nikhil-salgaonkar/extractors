@@ -97,7 +97,7 @@ event-details:
         AffectedItems[0][Attachments]: File
         Directionality: Direction
         ClientIP: RemoteIP            
-    'DlpRuleMatch':
+    'DlpRuleMatch-None':
       annotate:
         Stream: EMAIL-GATEWAY
         Action: EMAIL_ACCEPTED
