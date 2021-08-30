@@ -53,6 +53,28 @@ event-details:
         Item[Attachments]: File
         Directionality: Direction
         ClientIPAddress: RemoteIP
+    'MoveToDeletedItems-Succeeded':
+      annotate:
+        Stream: EMAIL-GATEWAY
+        Action: EMAIL_ACCEPTED
+      translate:
+        MailboxOwnerUPN: Sender
+        To: Recipient
+        Item[Subject]: Subject
+        Item[Attachments]: File
+        Directionality: Direction
+        ClientIPAddress: RemoteIP
+    'SendAs-Succeeded':
+      annotate:
+        Stream: EMAIL-GATEWAY
+        Action: EMAIL_ACCEPTED
+      translate:
+        MailboxOwnerUPN: Sender
+        To: Recipient
+        Item[Subject]: Subject
+        Item[Attachments]: File
+        Directionality: Direction
+        ClientIPAddress: RemoteIP         
     'Update-Succeeded':
       annotate:
         Stream: EMAIL-GATEWAY
@@ -113,7 +135,7 @@ event-details:
       translate:
         UserId: User
         Role: Role
-        Target[1][ID]: TargetUser
+        Target[3][ID]: TargetUser
     'Update user.-Failure':
       annotate:
         Stream: IAM
@@ -122,7 +144,7 @@ event-details:
       translate:
         UserId: User
         Role: Role
-        Target[1][ID]: TargetUser   
+        Target[3][ID]: TargetUser   
     'Delete user.-Success':
       annotate:
         Stream: IAM
@@ -131,7 +153,7 @@ event-details:
       translate:
         UserId: User
         Role: Role
-        Target[1][ID]: TargetUser
+        Target[3][ID]: TargetUser
     'Delete user.-Failure':
       annotate:
         Stream: IAM
@@ -140,7 +162,7 @@ event-details:
       translate:
         UserId: User
         Role: Role
-        Target[1][ID]: TargetUser            
+        Target[3][ID]: TargetUser            
     'Change user license.-Success':
       annotate:
         Stream: IAM
@@ -149,7 +171,7 @@ event-details:
       translate:
         UserId: User
         Role: Role
-        Target[1][ID]: TargetUser
+        Target[3][ID]: TargetUser
     'Change user license.-Failure':
       annotate:
         Stream: IAM
@@ -158,7 +180,7 @@ event-details:
       translate:
         UserId: User
         Role: Role
-        Target[1][ID]: TargetUser    
+        Target[3][ID]: TargetUser    
     'Disable account.-Success':
       annotate:
         Stream: IAM
@@ -167,7 +189,16 @@ event-details:
       translate:
         UserId: User
         Role: Role
-        Target[1][ID]: TargetUser
+        Target[3][ID]: TargetUser
+    'Enable account.-Success':
+      annotate:
+        Stream: IAM
+        Action: ACCOUNT_ENABLED
+        Status: PASSED
+      translate:
+        UserId: User
+        Role: Role
+        Target[3][ID]: TargetUser    
     'Disable account.-Failure':
       annotate:
         Stream: IAM
@@ -176,7 +207,16 @@ event-details:
       translate:
         UserId: User
         Role: Role
-        Target[1][ID]: TargetUser    
+        Target[3][ID]: TargetUser   
+    'Enable account.-Failure':
+      annotate:
+        Stream: IAM
+        Action: ACCOUNT_ENABLED
+        Status: FAILED
+      translate:
+        UserId: User
+        Role: Role
+        Target[3][ID]: TargetUser     
     'Change user password.-Success':
       annotate:
         Stream: IAM
@@ -203,7 +243,7 @@ event-details:
       translate:
         UserId: User
         Role: Role
-        Target[1][ID]: TargetUser
+        Target[3][ID]: TargetUser
     'Reset user password.-Failure':
       annotate:
         Stream: IAM
@@ -212,7 +252,7 @@ event-details:
       translate:
         UserId: User
         Role: Role
-        Target[1][ID]: TargetUser      
+        Target[3][ID]: TargetUser      
     'Remove member from group.-Success':
       annotate:
         Stream: IAM
@@ -257,7 +297,7 @@ event-details:
         Role: Delegated Permission Grant
       translate:
         UserId: User 
-        Target[2][ID]: TargetUser
+        Target[0][ID]: TargetUser
     'Add delegated permission grant.-Failure':
       annotate:
         Stream: IAM
@@ -266,7 +306,7 @@ event-details:
         Role: Delegated Permission Grant
       translate:
         UserId: User
-        Target[2][ID]: TargetUser
+        Target[0][ID]: TargetUser
     'Remove delegated permission grant.-Success':
       annotate:
         Stream: IAM
@@ -275,7 +315,7 @@ event-details:
         Role: Delegated Permission Grant
       translate:
         UserId: User
-        Target[2][ID]: TargetUser       
+        Target[0][ID]: TargetUser       
     'Remove delegated permission grant.-Failure':
       annotate:
         Stream: IAM
@@ -284,7 +324,7 @@ event-details:
         Role: Delegated Permission Grant
       translate:
         UserId: User
-        Target[2][ID]: TargetUser             
+        Target[0][ID]: TargetUser             
     'MemberRemoved-None':
       annotate:
         Stream: IAM
@@ -293,7 +333,7 @@ event-details:
       translate:
         UserId: User
         Members[0][Role]: Role
-        Target[1][ID]: TargetUser
+        Target[3][ID]: TargetUser
     'MemberAdded-None':
       annotate:
         Stream: IAM
@@ -302,7 +342,7 @@ event-details:
       translate:
         UserId: User
         Role: Role
-        Target[1][ID]: TargetUser  
+        Target[3][ID]: TargetUser  
     'SiteCollectionAdminAdded-None':
       annotate:
         Stream: IAM
@@ -320,7 +360,7 @@ event-details:
         Role: Mailbox Permission
       translate:
         UserId: User 
-        Target[1][ID]: TargetUser   
+        Target[3][ID]: TargetUser   
     'Remove-MailboxPermission-True':
       annotate:
         Stream: IAM
@@ -329,7 +369,7 @@ event-details:
         Role: Mailbox Permission
       translate:
         UserId: User
-        Target[1][ID]: TargetUser        
+        Target[3][ID]: TargetUser        
     'FileAccessed-None':
       annotate:
         Stream: DOCUMENTS
@@ -629,7 +669,37 @@ event-details:
         UserId: User
         SourceFileName: File
         ClientIP: SrcIP
-        SharingType: Visibility      
+        SharingType: Visibility 
+    'AccessRequestCreated-None':
+      annotate:
+        Stream: DOCUMENTS
+        Action: CREATED 
+        Status: PASSED
+      translate:
+        UserId: User
+        SourceFileName: File
+        ClientIP: SrcIP
+        SharingType: Visibility
+    'AccessRequestApproved-None':
+      annotate:
+        Stream: DOCUMENTS
+        Action: APPROVED 
+        Status: PASSED
+      translate:
+        UserId: User
+        SourceFileName: File
+        ClientIP: SrcIP
+        SharingType: Visibility
+    'AccessRequestUpdated-None':
+      annotate:
+        Stream: DOCUMENTS
+        Action: UPDATED 
+        Status: PASSED
+      translate:
+        UserId: User
+        SourceFileName: File
+        ClientIP: SrcIP
+        SharingType: Visibility                     
     'Add policy.-Success':
       annotate:
         Stream: CONFIGURATION
