@@ -149,38 +149,6 @@ event-details:
       translate:
         userIdentity[userName]: User
         eventName: Config 
-    'AuthorizeSecurityGroupIngress':
-      annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-      translate:
-        userIdentity[userName]: User
-        eventName: Config 
-    'AuthorizeSecurityGroupEgress':
-      annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-      translate:
-        userIdentity[userName]: User
-        eventName: Config 
-    'RevokeSecurityGroupIngress':
-      annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-      translate:
-        userIdentity[userName]: User
-        eventName: Config 
-    'RevokeSecurityGroupEgress':
-      annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-      translate:
-        userIdentity[userName]: User
-        eventName: Config 
     'DetachUserPolicy':
       annotate:
         Stream: CONFIGURATION
@@ -188,23 +156,7 @@ event-details:
         Status: PASSED
       translate:
         userIdentity[userName]: User
-        eventName: Config 
-    'DetachPolicy':
-      annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-      translate:
-        userIdentity[userName]: User
-        eventName: Config      
-    'AttachPolicy':
-      annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-      translate:
-        userIdentity[userName]: User
-        eventName: Config      
+        eventName: Config     
     'AttachUserPolicy':
       annotate:
         Stream: CONFIGURATION
@@ -212,23 +164,7 @@ event-details:
         Status: PASSED
       translate:
         userIdentity[userName]: User
-        eventName: Config       
-    'CreateSecurityGroup':
-      annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-      translate:
-        userIdentity[userName]: User
-        eventName: Config 
-    'DeleteSecurityGroup':
-      annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-      translate:
-        userIdentity[userName]: User
-        eventName: Config     
+        eventName: Config           
     'CreatePolicy':
       annotate:
         Stream: CONFIGURATION
@@ -416,7 +352,6 @@ event-details:
         userIdentity[userName]: User
         requestParameters[userName]: TargetUser
         userIdentity[type]: Role     
-    
 
   fallback:
     annotate:
