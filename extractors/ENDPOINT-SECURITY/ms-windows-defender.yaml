@@ -12,6 +12,7 @@ provides-streams:
 - THREAT
 - CONFIGURATION
 - IAM
+- EMAIL-GATEWAY
 master-filters:
 - \"operationName\":\"\w+\"
 event-details:  
