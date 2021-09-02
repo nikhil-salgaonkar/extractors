@@ -1,0 +1,259 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 811
+integration: Syslog(CEF)
+vendor-name: Juniper 
+product-name: Cortex
+source-name: JUNIPER-ATP
+source-type: THREAT
+source-description: Extractor for Juniper ATP Events
+provides-streams:
+- AUTHENTICATION
+- CONFIGURATION
+- THREAT
+- IAM
+master-filters:
+- 'CEF\:\d+\|JATP\|Cortex\|'  
+event-details:
+- first-match: 'CEF\:\d+\|JATP\|Cortex\|[\d\.]+\|(?:http|email|cnc|submission|exploit|datatheft)\|'
+  decoder: custom
+  decoder-regex: '([^\s\|]+)\=(?:\{([^=]+)\}|([^=]+))(?=\s+\w+\=|$)'
+  event-key-format: '{Header-4}'
+  decoder-header: CEF
+  event-key-mapping: 
+    'submission':           
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        src: SrcIP
+        dst: DstIP
+        Header-5: Threat
+        fileName: File
+        src_username: User
+        Process: Process
+        url: URL
+        CommandLine: CommandLine
+    'datatheft':           
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: NETWORK
+      translate:
+        src: SrcIP
+        dst: DstIP
+        Header-5: Threat
+    'cnc':           
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: NETWORK
+      translate:
+        src: SrcIP
+        dst: DstIP
+        Header-5: Threat
+    'exploit':           
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: NETWORK
+      translate:
+        src: SrcIP
+        dst: DstIP
+        Header-5: Threat
+    'email':           
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: EMAIL
+      translate:
+        src: SrcIP
+        Header-5: Threat
+        src_email_id: Sender
+        dst_email_id: Recipient
+    'http':           
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        src: SrcIP
+        dst: DstIP
+        Header-5: Threat
+        src_username: User
+                   
+  fallback:
+    annotate:
+      EventName: Generic Juniper ATP Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      System: System
+      startTime: SystemTstamp
+
+- first-match: 'json\=\{'
+  decoder: custom
+  decoder-regex: '\{?\"?([^\s\|\"]+)\"?\s?(?:\=|:)\s?\"?([\w\-\.]+)'
+  event-key-format: '{Header-5}'
+  decoder-header: CEF
+  event-key-mapping: 
+    'login':           
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        ip: SrcIP
+        user_name: User
+        AuthProto: AuthProto
+    'loginfail':           
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+        Reason: INVALID CREDENTIALS
+      translate:
+        ip: SrcIP
+        user_name: User
+        AuthProto: AuthProto
+    'logout':           
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+      translate:
+        ip: SrcIP
+        user_name: User
+        AuthProto: AuthProto
+    'add-user':           
+      annotate:
+        Stream: IAM
+        Action: USER_ADDED
+        Status: PASSED
+      translate:
+        username: User
+        user_name: TargetUser
+        Role: Role
+    'update-user':           
+      annotate:
+        Stream: IAM
+        Action: USER_UPDATED
+        Status: PASSED
+      translate:
+        username: User
+        user_name: TargetUser
+        Role: Role
+    'update-system-config':           
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        username: User
+        Header-5: Config
+    'update-smtp':           
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        username: User
+        Header-5: Config
+    'reboot':           
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        username: User
+        Header-5: Config
+    'restart-services':           
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        username: User
+        Header-5: Config
+    'add-report':           
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        username: User
+        Header-5: Config
+    'delete-report':           
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        username: User
+        Header-5: Config
+    'add-notification':           
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        username: User
+        Header-5: Config
+    'delete-notification':           
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        username: User
+        Header-5: Config
+    'add-siem':           
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        username: User
+        Header-5: Config
+    'delete-siem':           
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        username: User
+        Header-5: Config
+    'add-email-collector':           
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        username: User
+        Header-5: Config
+    'delete-email-collector':           
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        username: User
+        Header-5: Config
+                   
+  fallback:
+    annotate:
+      EventName: Generic Juniper ATP Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      host_name: System
+      SystemTstamp: SystemTstamp
