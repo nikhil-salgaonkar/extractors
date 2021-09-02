@@ -1,0 +1,832 @@
+schema-version: 1.0
+#extractor-version: 1 
+extractor-id: 810
+integration: NXLog
+vendor-name: Microsoft
+product-name: Windows
+source-name: Microsoft Defender
+source-type: Endpoint-Security
+source-description: Extractor for Microsoft Defender Events
+provides-streams:
+- AUTHENTICATION
+- THREAT
+- CONFIGURATION
+- IAM
+master-filters:
+- \"operationName\":\"\w+\"
+event-details:  
+- first-match: \"category\"\:\"[\w\-]+\"\,
+  decoder: json
+  event-key-format: '{category}-{properties[ActionType]}'         
+  event-key-mapping:
+    'AdvancedHunting-DeviceLogonEvents-LogonSuccess':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:    
+        properties[AccountName]: User
+        properties[RemoteIP]: SrcIP
+        properties[Protocol]: AuthProto
+
+    'AdvancedHunting-DeviceLogonEvents-LogonAttempted':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:    
+        properties[AccountName]: User
+        properties[RemoteIP]: SrcIP
+        properties[Protocol]: AuthProto
+      
+    'AdvancedHunting-DeviceLogonEvents-LogonFailed':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+        Reason: INAVLID_CREDENTIALS
+      translate:    
+        properties[AccountName]: User
+        properties[RemoteIP]: SrcIP
+        properties[Protocol]: AuthProto
+
+    'AdvancedHunting-IdentityLogonEvents-LogonSuccess':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:    
+        properties[AccountName]: User
+        properties[IPAddress]: SrcIP
+        properties[Protocol]: AuthProto
+
+    'AdvancedHunting-IdentityLogonEvents-LogonFailed':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+        Reason: INAVLID_CREDENTIALS
+      translate:    
+        properties[AccountName]: User
+        properties[IPAddress]: SrcIP
+        properties[Protocol]: AuthProto
+
+    'AdvancedHunting-AADSpnSignInEventsBeta-None':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:    
+        User: User
+        properties[IPAddress]: SrcIP
+        AuthProto: AuthProto  
+
+    'AdvancedHunting-AADSignInEventsBeta-None':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:    
+        User: User
+        properties[IPAddress]: SrcIP
+        AuthProto: AuthProto            
+    
+    'AdvancedHunting-DeviceFileEvents-FileModified':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        User: User
+        Config: Config
+
+    'AdvancedHunting-DeviceFileEvents-FileCreated':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        User: User
+        Config: Config 
+
+    'AdvancedHunting-DeviceFileEvents-FileRenamed':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        User: User
+        Config: Config
+
+    'AdvancedHunting-DeviceFileEvents-FileDeleted':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        User: User
+        Config: Config
+
+    'AdvancedHunting-AppFileEventss-FileUploaded':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        User: User
+        Config: Config    
+
+    'AdvancedHunting-AppFileEventss-FileDownloaded':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        User: User
+        Config: Config
+
+    'AdvancedHunting-AppFileEventss-FileAccessed':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        User: User
+        Config: Config
+
+    'AdvancedHunting-AppFileEventss-FileMoved':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        User: User
+        Config: Config   
+
+    'AdvancedHunting-AppFileEventss-FileDeleted':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        User: User
+        Config: Config
+
+    'AdvancedHunting-AppFileEventss-FileRenamed':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        User: User
+        Config: Config 
+
+    'AdvancedHunting-AppFileEventss-FileCopied':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        User: User
+        Config: Config 
+
+    'AdvancedHunting-AppFileEventss-FileCheckedOut':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        User: User
+        Config: Config 
+
+    'AdvancedHunting-AppFileEventss-FileCheckedIn':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        User: User
+        Config: Config
+
+    'AdvancedHunting-AppFileEventss-FolderCreated':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        User: User
+        Config: Config 
+
+    'AdvancedHunting-AppFileEventss-FolderDeleted':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        User: User
+        Config: Config  
+
+    'AdvancedHunting-DeviceEvents-FilePrinted':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        User: User
+        Config: Config
+    
+    'AdvancedHunting-DeviceEvents-ServiceInstalled':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        User: User
+        Config: Config
+
+    'AdvancedHunting-CloudAppEvents-FileAccessed': 
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        User: User
+        Config: Config
+
+    'AdvancedHunting-CloudAppEvents-FilePreviewed': 
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        User: User
+        Config: Config 
+
+    'AdvancedHunting-CloudAppEvents-FileModified': 
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        User: User
+        Config: Config   
+
+    'AdvancedHunting-CloudAppEvents-FileDeleted':  
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        User: User
+        Config: Config 
+
+    'AdvancedHunting-CloudAppEvents-FolderCreated':  
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        User: User
+        Config: Config 
+
+    'AdvancedHunting-CloudAppEvents-FileDownloaded': 
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        User: User
+        Config: Config 
+
+    'AdvancedHunting-CloudAppEvents-FileMoved':  
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        User: User
+        Config: Config  
+
+    'AdvancedHunting-CloudAppEvents-FileUploaded': 
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        User: User
+        Config: Config
+
+    'AdvancedHunting-CloudAppEvents-FolderDeleted':  
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        User: User
+        Config: Config                          
+        
+    'AdvancedHunting-DeviceEvents-LogonRightsSettingEnabled':
+      annotate:
+        Stream: IAM
+        Action: PRIVILEGE_CHANGED
+        Status: PASSED
+      translate:
+        User: User
+        Role: Role 
+        TargetUser: TargetUser
+
+    'AdvancedHunting-DeviceEvents-PasswordChangeAttempt':
+      annotate:
+        Stream: IAM
+        Action: PASSWORD_CHANGED
+        Status: PASSED
+      translate:
+        User: User
+        Role: Role 
+        TargetUser: TargetUser
+
+    'AdvancedHunting-DeviceEvents-SecurityGroupCreated':
+      annotate:
+        Stream: IAM
+        Action: GROUP_CREATED
+        Status: PASSED
+      translate:
+        User: User
+        Role: Role 
+        TargetUser: TargetUser
+
+    'AdvancedHunting-DeviceEvents-SecurityGroupDeleted':
+      annotate:
+        Stream: IAM
+        Action: GROUP_DELETED
+        Status: PASSED
+      translate:
+        User: User
+        Role: Role 
+        TargetUser: TargetUser 
+
+    'AdvancedHunting-DeviceEvents-UserAccountAddedToLocalGroup':
+      annotate:
+        Stream: IAM
+        Action: USER_ADDED
+        Status: PASSED
+      translate:
+        User: User
+        Role: Role 
+        TargetUser: TargetUser 
+
+    'AdvancedHunting-DeviceEvents-UserAccountCreated':
+      annotate:
+        Stream: IAM
+        Action: USER_CREATED
+        Status: PASSED
+      translate:
+        User: User
+        Role: Role 
+        TargetUser: TargetUser
+
+    'AdvancedHunting-DeviceEvents-UserAccountDeleted':
+      annotate:
+        Stream: IAM
+        Action: USER_DELETED
+        Status: PASSED
+      translate:
+        User: User
+        Role: Role 
+        TargetUser: TargetUser
+
+    'AdvancedHunting-DeviceEvents-UserAccountModified':
+      annotate:
+        Stream: IAM
+        Action: USER_UPDATED
+        Status: PASSED
+      translate:
+        User: User
+        Role: Role 
+        TargetUser: TargetUser 
+
+    'AdvancedHunting-DeviceEvents-UserAccountRemovedFromLocalGroup':
+      annotate:
+        Stream: IAM
+        Action: USER_REMOVED
+        Status: PASSED
+      translate:
+        User: User
+        Role: Role 
+        TargetUser: TargetUser
+
+    'AdvancedHunting-DeviceEvents-CredentialsBackup':
+      annotate:
+        Stream: IAM
+        Action: USER_UPDATED
+        Status: PASSED
+      translate:
+        User: User
+        Role: Role 
+        TargetUser: TargetUser 
+
+    'AdvancedHunting-CloudAppEvents-Change user password':
+      annotate:
+        Stream: IAM
+        Action: PASSWORD_CHANGED
+        Status: PASSED
+      translate:
+        User: User
+        Role: Role 
+        TargetUser: TargetUser 
+
+    'AdvancedHunting-CloudAppEvents-Add registered users to device':
+      annotate:
+        Stream: IAM
+        Action: USER_ADDED
+        Status: PASSED
+      translate:
+        User: User
+        Role: Role 
+        TargetUser: TargetUser
+
+    'AdvancedHunting-CloudAppEvents-Add registered owner to device':
+      annotate:
+        Stream: IAM
+        Action: USER_ADDED
+        Status: PASSED
+      translate:
+        User: User
+        Role: Role 
+        TargetUser: TargetUser  
+
+    'AdvancedHunting-CloudAppEvents-ModifyFolderPermissions':
+      annotate:
+        Stream: IAM
+        Action: PRIVILEGE_CHANGD
+        Status: PASSED
+      translate:
+        User: User
+        Role: Role 
+        TargetUser: TargetUser
+
+    'AdvancedHunting-CloudAppEvents-Remove member from group':
+      annotate:
+        Stream: IAM
+        Action: USER_REMOVED
+        Status: PASSED
+      translate:
+        User: User
+        Role: Role 
+        TargetUser: TargetUser
+
+    'AdvancedHunting-CloudAppEvents-Add owner to group':
+      annotate:
+        Stream: IAM
+        Action: USER_ADDED
+        Status: PASSED
+      translate:
+        User: User
+        Role: Role 
+        TargetUser: TargetUser
+        
+    'AdvancedHunting-CloudAppEvents-Add delegated permission grant':
+      annotate:
+        Stream: IAM
+        Action: PRIVILEGE_CHANGD
+        Status: PASSED
+      translate:
+        User: User
+        Role: Role 
+        TargetUser: TargetUser  
+
+    'AdvancedHunting-EmailEvents-None': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: EMAIL
+      translate:
+        properties[ThreatNames]: Threat
+        properties[SenderIPv4]: SrcIP
+        properties[SenderDisplayName]: Sender
+        properties[RecipientEmailAddress]: Recipient
+
+    'AdvancedHunting-DeviceEvents-AntivirusDetection':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Threat: Threat
+        SrcIP: SrcIP
+        DstIP: DstIP
+        User: User
+        FileName: File
+        Process: Process
+        RemoteUrl: URL
+        ProcessCommandLine: CommandLine   
+
+    'AdvancedHunting-DeviceEvents-AntivirusError':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Threat: Threat
+        SrcIP: SrcIP
+        DstIP: DstIP
+        User: User
+        FileName: File
+        Process: Process
+        RemoteUrl: URL
+        ProcessCommandLine: CommandLine    
+
+    'AdvancedHunting-DeviceEvents-AntivirusMalwareActionFailed':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: FAILED
+        Vector: HOST
+      translate:
+        Threat: Threat
+        SrcIP: SrcIP
+        DstIP: DstIP
+        User: User
+        FileName: File
+        Process: Process
+        RemoteUrl: URL
+        ProcessCommandLine: CommandLine 
+
+    'AdvancedHunting-DeviceEvents-AntivirusMalwareBlocked':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_BLOCKED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Threat: Threat
+        SrcIP: SrcIP
+        DstIP: DstIP
+        User: User
+        FileName: File
+        Process: Process
+        RemoteUrl: URL
+        ProcessCommandLine: CommandLine
+
+    'AdvancedHunting-DeviceEvents-AntivirusScanFailed':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: FAILED
+        Vector: HOST
+      translate:
+        Threat: Threat
+        SrcIP: SrcIP
+        DstIP: DstIP
+        User: User
+        FileName: File
+        Process: Process
+        RemoteUrl: URL
+        ProcessCommandLine: CommandLine   
+
+    'AdvancedHunting-DeviceEvents-AntivirusScanCompleted':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Threat: Threat
+        SrcIP: SrcIP
+        DstIP: DstIP
+        User: User
+        FileName: File
+        Process: Process
+        RemoteUrl: URL
+        ProcessCommandLine: CommandLine 
+
+    'AdvancedHunting-DeviceEvents-AntivirusScanCancelled':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Threat: Threat
+        SrcIP: SrcIP
+        DstIP: DstIP
+        User: User
+        FileName: File
+        Process: Process
+        RemoteUrl: URL
+        ProcessCommandLine: CommandLine 
+
+    'AdvancedHunting-DeviceAlertEvents-None':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Threat: Threat
+        SrcIP: SrcIP
+        DstIP: DstIP
+        User: User
+        FileName: File
+        Process: Process
+        RemoteUrl: URL
+        ProcessCommandLine: CommandLine  
+
+    'AdvancedHunting-DeviceNetworkInfo-None': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: NETWORK
+      translate:
+        properties[ThreatNames]: Threat
+        properties[SenderIPv4]: SrcIP
+        DstIP: DstIP
+        properties[SenderDisplayName]: User  
+
+    'AdvancedHunting-DeviceInfo-None':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Threat: Threat
+        SrcIP: SrcIP
+        DstIP: DstIP
+        User: User
+        FileName: File
+        Process: Process
+        RemoteUrl: URL
+        ProcessCommandLine: CommandLine    
+
+    'AdvancedHunting-DeviceFileCertificateInfo-None':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Threat: Threat
+        SrcIP: SrcIP
+        DstIP: DstIP
+        User: User
+        FileName: File
+        Process: Process
+        RemoteUrl: URL
+        ProcessCommandLine: CommandLine  
+
+    'AdvancedHunting-DeviceTvmSecureConfigurationAssessmentKB-None':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Threat: Threat
+        SrcIP: SrcIP
+        DstIP: DstIP
+        User: User
+        FileName: File
+        Process: Process
+        RemoteUrl: URL
+        ProcessCommandLine: CommandLine
+
+    'AdvancedHunting-DeviceTvmSecureConfigurationAssessment-None':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Threat: Threat
+        SrcIP: SrcIP
+        DstIP: DstIP
+        User: User
+        FileName: File
+        Process: Process
+        RemoteUrl: URL
+        ProcessCommandLine: CommandLine
+
+    'AdvancedHunting-DeviceTvmSoftwareVulnerabilitiesKB-None':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Threat: Threat
+        SrcIP: SrcIP
+        DstIP: DstIP
+        User: User
+        FileName: File
+        Process: Process
+        RemoteUrl: URL
+        ProcessCommandLine: CommandLine
+
+    'AdvancedHunting-DeviceTvmSoftwareVulnerabilities-None':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Threat: Threat
+        SrcIP: SrcIP
+        DstIP: DstIP
+        User: User
+        FileName: File
+        Process: Process
+        RemoteUrl: URL
+        ProcessCommandLine: CommandLine
+
+    'AdvancedHunting-DeviceTvmSoftwareInventory-None':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Threat: Threat
+        SrcIP: SrcIP
+        DstIP: DstIP
+        User: User
+        FileName: File
+        Process: Process
+        RemoteUrl: URL
+        ProcessCommandLine: CommandLine 
+
+    'AdvancedHunting-EmailAttachmentInfo-None': 
+      annotate:
+        Stream: EMAIL-GATEWAY
+        Action: EMAIL_INFO
+        Status: PASSED
+      translate:   
+        SenderDisplayName: Sender
+        RecipientEmailAddress: Recipient
+        Subject: Subject
+        Direction: Direction
+        Remote IP: Remote IP
+        FileName: File
+
+    'AdvancedHunting-EmailUrlInfo-None': 
+      annotate:
+        Stream: EMAIL-GATEWAY
+        Action: EMAIL_INFO
+        Status: PASSED
+      translate:
+        Sender: Sender
+        Recipient: Recipient
+        Subject: Subject
+        Direction: Direction
+        Remote IP: Remote IP
+        File: File
+
+    'AdvancedHunting-EmailPostDeliveryEvents-Manual remediation': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: EMAIL
+      translate:
+        properties[ThreatTypes]: Threat
+        SrcIP: SrcIP
+        Sender: Sender
+        properties[RecipientEmailAddress]: Recipient
+
+    'AdvancedHunting-EmailPostDeliveryEvents-Phish ZAP': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: EMAIL
+      translate:
+        properties[ThreatTypes]: Threat
+        SrcIP: SrcIP
+        Sender: Sender
+        properties[RecipientEmailAddress]: Recipient
+
+    'AdvancedHunting-EmailPostDeliveryEvents-Malware ZAP': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: EMAIL
+      translate:
+        properties[ThreatTypes]: Threat
+        SrcIP: SrcIP
+        Sender: Sender
+        properties[RecipientEmailAddress]: Recipient                                                                             
+                
+  fallback:
+    annotate:
+      EventName: Generic Microsoft Defender Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      System: System
+      properties[Timestamp]: SystemTstamp
