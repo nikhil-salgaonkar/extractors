@@ -770,7 +770,7 @@ event-details:
         RecipientEmailAddress: Recipient
         Subject: Subject
         Direction: Direction
-        Remote IP: Remote IP
+        RemoteIP: RemoteIP
         FileName: File
 
     'AdvancedHunting-EmailUrlInfo-None': 
@@ -783,7 +783,7 @@ event-details:
         Recipient: Recipient
         Subject: Subject
         Direction: Direction
-        Remote IP: Remote IP
+        RemoteIP: RemoteIP
         File: File
 
     'AdvancedHunting-EmailPostDeliveryEvents-Manual remediation': 
