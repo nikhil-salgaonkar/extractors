@@ -24,7 +24,7 @@ event-details:
       annotate:
         Stream: FIREWALL
         Action: PACKET_BLOCKED
-        Status: FAILED
+        Status: PASSED
       translate:
         srcip: SrcIP
         srcport: SrcPort
@@ -52,7 +52,7 @@ event-details:
       annotate:
         Stream: FIREWALL
         Action: PACKET_BLOCKED
-        Status: FAILED
+        Status: PASSED
       translate:
         srcip: SrcIP
         srcport: SrcPort
@@ -79,8 +79,8 @@ event-details:
     '0001000014-server-rst':
       annotate:
         Stream: FIREWALL
-        Action: PACKET_ALLOWED
-        Status: FAILED
+        Action: SESSION_TERMINATED
+        Status: PASSED
       translate:
         srcip: SrcIP
         srcport: SrcPort
@@ -93,8 +93,8 @@ event-details:
     '0001000013-server-rst':
       annotate:
         Stream: FIREWALL
-        Action: PACKET_ALLOWED
-        Status: FAILED
+        Action: SESSION_TERMINATED
+        Status: PASSED
       translate:
         srcip: SrcIP
         srcport: SrcPort
@@ -107,8 +107,8 @@ event-details:
     '0000000013-server-rst':
       annotate:
         Stream: FIREWALL
-        Action: PACKET_ALLOWED
-        Status: FAILED
+        Action: SESSION_TERMINATED
+        Status: PASSED
       translate:
         srcip: SrcIP
         srcport: SrcPort
@@ -121,8 +121,8 @@ event-details:
     '0000000013-client-rst':
       annotate:
         Stream: FIREWALL
-        Action: PACKET_ALLOWED
-        Status: FAILED
+        Action: SESSION_ESTABLISHED
+        Status: PASSED
       translate:
         srcip: SrcIP
         srcport: SrcPort
@@ -178,7 +178,7 @@ event-details:
       annotate:
         Stream: FIREWALL
         Action: PACKET_BLOCKED
-        Status: FAILED
+        Status: PASSED
       translate:
         srcip: SrcIP
         srcport: SrcPort
@@ -354,7 +354,7 @@ event-details:
     '0000000011-dns':
       annotate:
         Stream: FIREWALL
-        Action: PACKET_ALLOWED
+        Action: CONNECTION_ESTABLISHED
         Status: PASSED
       translate:
         srcip: SrcIP
