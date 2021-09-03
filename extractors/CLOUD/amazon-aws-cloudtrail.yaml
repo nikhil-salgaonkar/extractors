@@ -406,6 +406,7 @@ event-details:
         responseElements: ResponseElements
         errorCode: ErrorCode
         userIdentity[arn]: UserArn
+        userIdentity[userName]: User
     
   fallback:
     annotate:
