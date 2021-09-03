@@ -344,7 +344,7 @@ event-details:
     '':
       annotate:
         Stream: FIREWALL
-        Action: PACKET_ALLOWED
+        Action: CONNECTION_ESTABLISHED
         Status: PASSED
       translate:
         sourceIPv4Address: SrcIP
@@ -378,7 +378,7 @@ event-details:
     '':
       annotate:
         Stream: FIREWALL
-        Action: PACKET_ALLOWED
+        Action: CONNECTION_ESTABLISHED
         Status: PASSED
       translate:
         sourceIPv4Address: SrcIP
