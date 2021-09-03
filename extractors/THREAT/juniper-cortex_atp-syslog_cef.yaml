@@ -4,7 +4,7 @@ extractor-id: 811
 integration: Syslog(CEF)
 vendor-name: Juniper 
 product-name: Cortex
-source-name: JUNIPER-ATP
+source-name: JUNIPER-CORTEX-ATP
 source-type: THREAT
 source-description: Extractor for Juniper ATP Events
 provides-streams:
