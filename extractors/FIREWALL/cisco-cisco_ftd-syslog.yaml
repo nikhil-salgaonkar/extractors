@@ -22,7 +22,7 @@ event-details:
     'Teardown': 
       annotate:
         Stream: FIREWALL
-        Action: PACKET_ALLOWED
+        Action: CONNECTION_ESTABLISHED
         Status: FAILED
       translate: 
         src: SrcIP
@@ -465,8 +465,8 @@ event-details:
     'Teardown': 
       annotate:
         Stream: FIREWALL
-        Action: CONNECTION_TERMINATED
-        Status: PASSED
+        Action: CONNECTION_ESTABLISHED
+        Status: FAILED
       translate: 
         src: SrcIP
         dst: DstIP
