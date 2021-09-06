@@ -509,8 +509,8 @@ event-details:
     'Reject':
       annotate:
         Stream: FIREWALL
-        Action: PACKET_ALLOWED
-        Status: FAILED
+        Action: CONNECTION_TERMINATED
+        Status: PASSED
       translate:
         src: SrcIP  
         dst: DstIP
@@ -537,7 +537,7 @@ event-details:
     'Redirect':
       annotate:
         Stream: FIREWALL
-        Action: PACKET_ALLOWED
+        Action: CONNECTION_ESTABLISHED
         Status: PASSED
       translate:
         src: SrcIP  
