@@ -24,7 +24,7 @@ event-details:
       annotate:
         Stream: FIREWALL
         Action: PACKET_BLOCKED
-        Status: FAILED
+        Status: PASSED
       translate:
         src: SrcIP
         dst: DstIP
@@ -67,7 +67,7 @@ event-details:
       annotate:
         Stream: FIREWALL
         Action: PACKET_BLOCKED
-        Status: FAILED
+        Status: PASSED
       translate:
         src: SrcIP
         dst: DstIP
@@ -110,7 +110,7 @@ event-details:
       annotate:
         Stream: FIREWALL
         Action: PACKET_BLOCKED
-        Status: FAILED
+        Status: PASSED
       translate:
         src: SrcIP
         dst: DstIP

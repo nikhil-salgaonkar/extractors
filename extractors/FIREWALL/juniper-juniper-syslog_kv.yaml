@@ -133,7 +133,7 @@ event-details:
     '':
       annotate:
         Stream: FIREWALL
-        Action: SESSION_ESTABLISHED
+        Action: SESSION_TERMINATED
         Status: PASSED
       translate:
         source-address: SrcIP

@@ -1384,8 +1384,8 @@ event-details:
     '':
       annotate:
         Stream: FIREWALL
-        Action: PACKET_BLOCKED
-        Status: PASSED
+        Action: CONNECTION_ESTABLISHED
+        Status: FAILED
       translate:
         src: SrcIP
         dst: DstIP
