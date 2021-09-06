@@ -363,7 +363,7 @@ event-details:
     'session terminated': 
       annotate:
         Stream: FIREWALL
-        Action: SESSION_DISCONNECTED
+        Action: SESSION_TERMINATED
         Status: PASSED
       translate: 
         src: SrcIP
