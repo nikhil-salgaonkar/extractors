@@ -160,7 +160,7 @@ event-details:
     'SCTP-allow':
       annotate:
         Stream: FIREWALL
-        Action: SESSION_ESTABLISHED
+        Action: PACKET_ALLOWED
         Status: PASSED
       translate:
         src: SrcIP
@@ -174,8 +174,8 @@ event-details:
     'SCTP-deny':
       annotate:
         Stream: FIREWALL
-        Action: SESSION_ESTABLISHED
-        Status: FAILED
+        Action: PACKET_BLOCKED
+        Status: PASSED
       translate:
         src: SrcIP
         dst: DstIP
@@ -188,7 +188,7 @@ event-details:
     'TRAFFIC-allow':
       annotate:
         Stream: FIREWALL
-        Action: SESSION_ESTABLISHED
+        Action: PACKET_ALLOWED
         Status: PASSED
       translate:
         src: SrcIP
@@ -202,8 +202,8 @@ event-details:
     'TRAFFIC-deny':
       annotate:
         Stream: FIREWALL
-        Action: SESSION_ESTABLISHED
-        Status: FAILED
+        Action: PACKET_BLOCKED
+        Status: PASSED
       translate:
         src: SrcIP
         dst: DstIP
