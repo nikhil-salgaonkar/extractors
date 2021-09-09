@@ -1928,3 +1928,29 @@ event-details:
     translate:
       EventTime: SystemTstamp
       Hostname: System
+
+- first-match: \"Microsoft\-Windows\-Eventlog\"
+  decoder: json
+  event-key-format: '{EventID}'
+  event-key-mapping:
+    '1102':
+      annotate:
+        Stream: WIN-AUDIT
+        Action: AUDIT_LOG_CLEARED
+        Status: PASSED  
+        Event: The audit log was cleared.
+        Category: POLICY
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP
+
+  fallback:
+    annotate:
+      EventName: Generic Windows Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      EventTime: SystemTstamp
+      Hostname: System
