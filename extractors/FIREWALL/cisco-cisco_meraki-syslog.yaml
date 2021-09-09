@@ -1,0 +1,256 @@
+schema-version: 1.0
+#extractor-version: 1 
+extractor-id: 300
+integration: Syslog
+vendor-name: Cisco
+product-name: Cisco Meraki
+source-name: CISCO-MERAKI
+source-type: FIREWALL
+source-description: Extractor for Cisco Meraki Firewall Events
+provides-streams:
+- FIREWALL
+- THREAT
+master-filters:
+- '^(?:\<\d+\>\d+\s+)?\d+\.\d+(?:\s+\S+)?(?:\s+\S+)?(?:\s+allow|deny)?\s+src=\S+\s+dst\=\S+(?:\s+mac=[\w\:]+)?'
+- '\d+\.\d+(?:\s+\S+)\s+(?:security_event|airmarshal_events)\s+'
+event-details:
+- first-match: 'src=\S+\s+dst\=\S+(?:\s+mac=[\w\:]+)?\s+protocol=\w+(?:\s+sport\=\d+\s+dport=\d+)?(?:\s+translated_src_ip=\S+\s+translated_port\=\d+)?(?:\s+type\=\d+)?\s+pattern:\s+(?:allow|1|deny|2)'
+  decoder: regex
+  decoder-regex: '^(?:\<\d+\>\d+\s+)?(?P<datetime>\d+\.\d+)(?:\s+(?P<hostname>\S+))?(?:\s+(\S+))?\s+src=(?P<src>\S+)\s+dst\=(?P<dst>\S+)(?:\s+mac=(?P<mac>[\w\:]+))?\s+protocol=(?P<protocol>\w+)(?:\s+sport\=(?P<sport>\d+)\s+dport=(?P<dport>\d+))?(?:\s+translated_src_ip=(\S+)\s+translated_port\=(\d+))?(?:\s+type\=(?P<type>\d+))?\s+pattern:\s+(?:(?P<action>allow|1|deny|2))'
+  event-key-format: '{action}'
+  event-key-mapping:  
+    'allow': 
+      annotate:
+        Stream: FIREWALL
+        Action: SESSION_ESTABLISHED
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        sport: SrcPort
+        dst: DstIP
+        dport: DstPort
+        protocol: Proto
+        TXLen: TXLen
+        RXLen: RXLen
+        App: App
+    '1': 
+      annotate:
+        Stream: FIREWALL
+        Action: SESSION_ESTABLISHED
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        sport: SrcPort
+        dst: DstIP
+        dport: DstPort
+        protocol: Proto
+        TXLen: TXLen
+        RXLen: RXLen
+        App: App
+    'deny': 
+      annotate:
+        Stream: FIREWALL
+        Action: SESSION_ESTABLISHED
+        Status: FAILED
+      translate: 
+        src: SrcIP
+        sport: SrcPort
+        dst: DstIP
+        dport: DstPort
+        protocol: Proto
+        TXLen: TXLen
+        RXLen: RXLen
+        App: App  
+    '2': 
+      annotate:
+        Stream: FIREWALL
+        Action: SESSION_ESTABLISHED
+        Status: FAILED
+      translate: 
+        src: SrcIP
+        sport: SrcPort
+        dst: DstIP
+        dport: DstPort
+        protocol: Proto
+        TXLen: TXLen
+        RXLen: RXLen
+        App: App                     
+
+  fallback:
+    annotate:
+      EventName: Generic Cisco Meraki Firewall Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System
+
+- first-match: '(?:allow|deny)\s+src=\S+\s+dst\=\S+(?:\s+mac=[\w\:]+)?\s+protocol=\w+\s+sport\=\d+\s+dport=\d+(?:\s+translated_src_ip=\S+\s+translated_port\=\d+)?'
+  decoder: regex
+  decoder-regex: '^(?:\<\d+\>\d+\s+)?(?P<datetime>\d+\.\d+)(?:\s+(?P<hostname>\S+))?(?:\s+(\S+))?\s+(?P<action>allow|deny)\s+src=(?P<src>\S+)\s+dst\=(?P<dst>\S+)(?:\s+mac=(?P<mac>[\w\:]+))?\s+protocol=(?P<protocol>\w+)\s+sport\=(?P<sport>\d+)\s+dport=(?P<dport>\d+)(?:\s+translated_src_ip=(\S+)\s+translated_port\=(\d+))?'
+  event-key-format: '{action}'
+  event-key-mapping:  
+    'allow':
+      annotate:
+        Stream: FIREWALL
+        Action: SESSION_ESTABLISHED
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        sport: SrcPort
+        dst: DstIP
+        dport: DstPort
+        protocol: Proto
+        TXLen: TXLen
+        RXLen: RXLen
+        App: App 
+    'deny':
+      annotate:
+        Stream: FIREWALL
+        Action: SESSION_ESTABLISHED
+        Status: FAILED
+      translate: 
+        src: SrcIP
+        sport: SrcPort
+        dst: DstIP
+        dport: DstPort
+        protocol: Proto
+        TXLen: TXLen
+        RXLen: RXLen
+        App: App                  
+
+  fallback:
+    annotate:
+      EventName: Generic Cisco Meraki Firewall Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System
+
+- first-match: '(?:ip_flow_start|ip_flow_end)\s+src=\S+\s+dst\=\S+(?:\s+mac=[\w\:]+)?\s+protocol=\w+\s+sport\=\d+\s+dport=\d+(?:\s+translated_src_ip=\S+\s+translated_port\=\d+)?(?:\s+translated_dst_ip\=\S+\s+translated_port\=\d+)?'
+  decoder: regex
+  decoder-regex: '^(?:\<\d+\>\d+\s+)?(?P<datetime>\d+\.\d+)(?:\s+(?P<hostname>\S+))?(?:\s+(?P<flow>\S+))?\s+src=(?P<src>\S+)\s+dst\=(?P<dst>\S+)(?:\s+mac=(?P<mac>[\w\:]+))?\s+protocol=(?P<protocol>\w+)\s+sport\=(?P<sport>\d+)\s+dport=(?P<dport>\d+)(?:\s+translated_src_ip=(\S+)\s+translated_port\=(\d+))?(?:\s+translated_dst_ip\=(\S+)\s+translated_port\=(\d+))?'
+  event-key-format: '{flow}'
+  event-key-mapping:  
+    'ip_flow_start':
+      annotate:
+        Stream: FIREWALL
+        Action: SESSION_ESTABLISHED
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        sport: SrcPort
+        dst: DstIP
+        dport: DstPort
+        protocol: Proto
+        TXLen: TXLen
+        RXLen: RXLen
+        App: App 
+    'ip_flow_end':
+      annotate:
+        Stream: FIREWALL
+        Action: SESSION_TERMINATED
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        sport: SrcPort
+        dst: DstIP
+        dport: DstPort
+        protocol: Proto
+        TXLen: TXLen
+        RXLen: RXLen
+        App: App                  
+
+  fallback:
+    annotate:
+      EventName: Generic Cisco Meraki Firewall Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System  
+
+- first-match: '\d+\.\d+\s+\S+\s+security_event\s+ids_alerted'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\d+\.\d+)\s+(?P<hostname>\S+)\s+(security_event)\s+(?P<alert>\S+)\s+signature=(?P<signature>.*?)\s+priority=(?P<priority>\d+)\s+timestamp\=(?P<timestamp>.*?)\s+dhost\=(?P<dhost>\S+)\s+direction\=(?P<direction>\w+)\s+protocol\=(?P<protocol>\w+\/\w+)\s+src\=(?P<src>\S+)\:(?P<sport>\d+)\s+dst\=(?P<dst>\S+)\:(?P<dport>\d+)\s+message\:\s+(?P<message>.*)'
+  event-key-format: ''
+  event-key-mapping:  
+    '':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate: 
+        message: Threat
+        src: SrcIP
+        dst: DstIP
+        User: User                   
+
+  fallback:
+    annotate:
+      EventName: Generic Cisco Meraki Firewall Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      timestamp: SystemTstamp
+      hostname: System                        
+
+- first-match: '\d+\.\d+\s+\S+\s+security_event\s+security_filtering_file_scanned'
+  decoder: regex
+  decoder-regex: (?P<datetime>\d+\.\d+)\s+(?P<hostname>\S+)\s+(security_event)\s+(?P<alert>\S+)\s+url\=(?P<url>.*\s+.*)\s+src\=(?P<src>\S+)\:(?P<sport>\d+)\s+dst\=(?P<dst>\S+)\:(?P<dport>\d+)\s+mac\=(?P<mac>[\w\:]+)\s+name\=\'?(?P<name>.*?)\'?\s+sha256\=(?P<sha256>\S+)\s+disposition\=(?P<disposition>.*?)\s+action\=(?P<action>\w+)
+  event-key-format: '{action}'
+  event-key-mapping:  
+    'block':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_BLOCKED
+        Status: PASSED
+        Vector: WEB
+      translate: 
+        disposition: Threat
+        src: SrcIP
+        dst: DstIP
+        User: User                   
+
+  fallback:
+    annotate:
+      EventName: Generic Cisco Meraki Firewall Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System  
+
+- first-match: '\d+\.\d+\s+\S+\s+airmarshal_events\s+type\='
+  decoder: regex
+  decoder-regex: (?P<datetime>\d+\.\d+)\s+(?P<hostname>\S+)\s+(airmarshal_events)\s+type\=(?P<type>\S+)\s+ssid\=\'(?P<ssid>\S+)\'(?:\s+vap\=\'(\d+)\')?\s+bssid\=\'(?P<bssid>\S+)\'\s+src\=\'(?P<src>[\w\:\.]+)\'\s+dst\=\'(?P<dst>[\w\:\.]+)\'\s+
+  event-key-format: ''
+  event-key-mapping:  
+    '':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate: 
+        type: Threat
+        src: SrcIP
+        dst: DstIP
+        User: User                   
+
+  fallback:
+    annotate:
+      EventName: Generic Cisco Meraki Firewall Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System                                    
