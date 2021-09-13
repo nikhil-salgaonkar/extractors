@@ -270,7 +270,6 @@ event-details:
         url: URL
         method: HTTPMethod
         src: SrcIP
-        sport: SrcPort
         dst: DstIP
         dport: DstPort
         Proto: Proto
