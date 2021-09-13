@@ -10,9 +10,11 @@ source-description: Extractor for Cisco Meraki Firewall Events
 provides-streams:
 - FIREWALL
 - THREAT
+- WEBFILTER
 master-filters:
-- '^(?:\<\d+\>\d+\s+)?\d+\.\d+(?:\s+\S+)?(?:\s+\S+)?(?:\s+allow|deny)?\s+src=\S+\s+dst\=\S+(?:\s+mac=[\w\:]+)?'
+- '^(?:\<\d+\>\d+\s+)?\d+\.\d+(?:\s+\S+)?(?:\s+\S+)?(?:\sallow|\sdeny)?\s+src=\S+\s+dst\=\S+(?:\s+mac=[\w\:]+)?'
 - '\d+\.\d+(?:\s+\S+)\s+(?:security_event|airmarshal_events)\s+'
+- '^(?:\<\d+\>\d+\s+)?\w+\s+\d+\s\d+\:\d+\:\d+\s[\w\.\s]+urls\s+src\=[\d\.]+\:\d+\sdst\=\S+(?:\s+mac=[\w\:]+)?'
 event-details:
 - first-match: 'src=\S+\s+dst\=\S+(?:\s+mac=[\w\:]+)?\s+protocol=\w+(?:\s+sport\=\d+\s+dport=\d+)?(?:\s+translated_src_ip=\S+\s+translated_port\=\d+)?(?:\s+type\=\d+)?\s+pattern:\s+(?:allow|1|deny|2)'
   decoder: regex
@@ -94,7 +96,7 @@ event-details:
     'allow':
       annotate:
         Stream: FIREWALL
-        Action: SESSION_ESTABLISHED
+        Action: PACKET_ALLOWED
         Status: PASSED
       translate: 
         src: SrcIP
@@ -108,8 +110,8 @@ event-details:
     'deny':
       annotate:
         Stream: FIREWALL
-        Action: SESSION_ESTABLISHED
-        Status: FAILED
+        Action: PACKET_BLOCKED
+        Status: PASSED
       translate: 
         src: SrcIP
         sport: SrcPort
@@ -253,4 +255,37 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
-      hostname: System                                    
+      hostname: System
+
+- first-match: '\S+\s+urls\s+src\=.*?request\:\s+'
+  decoder: regex
+  decoder-regex: (?P<datetime>\d+\.\d+)\s+(?P<hostname>\S+)\s+urls\s+src\=(?P<src>[\d\.]+)\:(?P<sport>\d+)\s+dst\=(?P<dst>[\d\.]+)\:(?P<dport>\d+)\s+mac\=\S+\s+request\:\s+(?P<method>\w+)\s+(?P<url>\S+)
+  event-key-format: ''
+  event-key-mapping:  
+    '':
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_ACCESSED
+      translate: 
+        url: URL
+        method: HTTPMethod
+        src: SrcIP
+        sport: SrcPort
+        dst: DstIP
+        dport: DstPort
+        Proto: Proto
+        UserAgent: UserAgent
+        User: User
+        Domain: Domain
+        TXLen: TXLen
+        RXLen: RXLen               
+
+  fallback:
+    annotate:
+      EventName: Generic Cisco Meraki Firewall Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System
