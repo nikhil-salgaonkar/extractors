@@ -888,6 +888,15 @@ event-details:
         winlog[event_data][SubjectUserName]: User
         winlog[event_data][TargetUserName]: TargetUser
         event[action]: Role  
+    '4799':   
+      annotate:
+        Stream: IAM
+        Action: GROUP_ENUMERATED
+        Status: PASSED 
+      translate: 
+        winlog[event_data][SubjectUserName]: User
+        winlog[event_data][TargetUserName]: TargetUser
+        event[action]: Role     
     '4739':
       annotate:
         Stream: WIN-AUDIT
@@ -1846,6 +1855,29 @@ event-details:
   fallback:
     annotate:
       EventName: Generic WinlogBeat Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      winlog[computer_name]: System
+      '@timestamp': SystemTstamp 
+
+- first-match: \"Service\s+Control\s+Manager\"
+  decoder: json
+  event-key-format: '{EventID}'
+  event-key-mapping:
+    '7040':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED    
+        Config: Service Changed
+      translate: 
+        winlog[event_data][SubjectUserName]: User
+
+  fallback:
+    annotate:
+      EventName: Generic Windows Event
       Stream: OTHER
 
   globals:
