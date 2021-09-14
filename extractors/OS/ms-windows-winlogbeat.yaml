@@ -1871,7 +1871,7 @@ event-details:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
         Status: PASSED    
-        Config: Background Intelligent Transfer Service Changed
+        Config: Service Changed
       translate: 
         winlog[event_data][SubjectUserName]: User
 
