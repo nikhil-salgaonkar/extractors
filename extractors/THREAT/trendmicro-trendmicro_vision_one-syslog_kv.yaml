@@ -1,0 +1,208 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 813
+integration: Syslog(KV)
+vendor-name: Trend Micro
+product-name: Trend Micro Vision One
+source-name: TREND MICRO VISION ONE AUDIT
+source-type: THREAT
+source-description: Extractor for Trend Micro Vision One Events
+provides-streams:
+- AUTHENTICATION
+- IAM
+- CONFIGURATION
+master-filters:
+- '\"category\"\:\"\w+\"\,\"activity\"\:\"?\w+\"?\,'
+event-details:
+- first-match: '\"role\"\:.*?\"category\"\:\"\w+\"\,\"activity\"\:\"?\w+\"?\,'
+  decoder: json
+  event-key-format: '{category}-{activity}'
+  event-key-mapping:
+    '01-01':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        user: User
+        details[ipAddr]: SrcIP
+        AuthProto: AuthProto
+    '01-02':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+      translate:
+        user: User
+        details[ipAddr]: SrcIP
+        AuthProto: AuthProto 
+    '03-01': 
+      annotate:
+        Stream: IAM
+        Action: USER_ADDED
+        Status: PASSED
+      translate:
+        user: User
+        role: Role
+        details[user]: TargetUser 
+    '03-02':
+      annotate:
+        Stream: IAM
+        Action: USER_DELETED
+        Status: PASSED
+      translate:
+        user: User
+        role: Role
+        details[user]: TargetUser
+    '03-03':
+      annotate:
+        Stream: IAM
+        Action: USER_ENABLED
+        Status: PASSED
+      translate:
+        user: User
+        role: Role
+        details[user]: TargetUser 
+    '03-04':
+      annotate:
+        Stream: IAM
+        Action: USER_DISABLE
+        Status: PASSED
+      translate:
+        user: User
+        role: Role
+        details[user]: TargetUser
+    '03-05':
+      annotate:
+        Stream: IAM
+        Action: PASSWORD_CHANGED
+        Status: PASSED
+      translate:
+        user: User
+        role: Role
+        details[user]: TargetUser
+    '03-06':
+      annotate:
+        Stream: IAM
+        Action: ROLE_UPDATED
+        Status: PASSED
+      translate:
+        user: User
+        role: Role
+        details[user]: TargetUser
+    '03-07':
+      annotate:
+        Stream: IAM
+        Action: PRIVILEGE_CHANGED
+        Status: PASSED
+      translate:
+        user: User
+        role: Role
+        details[user]: TargetUser
+    '06-01':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        user: User 
+        details[modelName]: Config  
+    '06-02':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        user: User 
+        details[modelName]: Config  
+    '07-01': 
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED  
+        Config: Modify Alert Details
+      translate:
+        user: User 
+    '0c-04':
+      annotate:
+        Stream: IAM
+        Action: GROUP_DELETED
+        Status: PASSED
+      translate:
+        user: User
+        role: Role
+        details[user]: TargetUser
+    '0c-05':   
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED  
+        Config: Device Enroll
+      translate:
+        user: User
+    '0c-06':   
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED  
+        Config: Device Unenroll
+      translate:
+        user: User   
+    '0c-07':   
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED  
+        Config: Policy Created
+      translate:
+        user: User
+    '0c-08':   
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED  
+        Config: Policy Updated
+      translate:
+        user: User    
+    '0c-09':   
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED  
+        Config: Policy Deleted
+      translate:
+        user: User     
+    '0d-01':   
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED  
+        Config: Disconnect Network Sensor
+      translate:
+        user: User  
+    '11-02':   
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED  
+        Config: Modify Intelligence Feed
+      translate:
+        user: User
+    '11-03':   
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED  
+        Config: Delete Intelligence Feed
+      translate:
+        user: User              
+
+  fallback:
+    annotate:
+      EventName: Generic Trend Micro Vision One Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      loggedTime: SystemTstamp
+      System: System
