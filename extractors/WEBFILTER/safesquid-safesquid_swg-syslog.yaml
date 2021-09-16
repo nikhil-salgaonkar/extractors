@@ -3,10 +3,10 @@ schema-version: 1.0
 extractor-id: 812
 integration: Syslog
 vendor-name: SafeSquid
-product-name: SafeSquid Secure Web Gateway #(HTTPS proxy server)
+product-name: SafeSquid Secure Web Gateway 
 source-name: SAFESQUID-SWG
 source-type: WEBFILTER
-source-description: Extractor for SafeSquid Secure Web Gateway Proxy Events
+source-description: Extractor for SafeSquid Secure Web Gateway Events
 provides-streams:
 - WEBFILTER
 - CONFIGURATION
@@ -58,7 +58,7 @@ event-details:
 
   fallback:
     annotate:
-      EventName: Generic SafeSquid Secure Web Gateway Proxy Event
+      EventName: Generic SafeSquid Secure Web Gateway Event
       Stream: OTHER
 
   globals:  
@@ -91,7 +91,7 @@ event-details:
 
   fallback:
     annotate:
-      EventName: Generic SafeSquid Secure Web Gateway Proxy Event
+      EventName: Generic SafeSquid Secure Web Gateway Event
       Stream: OTHER
 
   globals:  
@@ -124,7 +124,7 @@ event-details:
 
   fallback:
     annotate:
-      EventName: Generic SafeSquid Secure Web Gateway Proxy Event
+      EventName: Generic SafeSquid Secure Web Gateway Event
       Stream: OTHER
 
   globals:  
@@ -157,7 +157,7 @@ event-details:
 
   fallback:
     annotate:
-      EventName: Generic SafeSquid Secure Web Gateway Proxy Event
+      EventName: Generic SafeSquid Secure Web Gateway Event
       Stream: OTHER
 
   globals:  
@@ -205,7 +205,7 @@ event-details:
 
   fallback:
     annotate:
-      EventName: Generic SafeSquid Secure Web Gateway Proxy Event
+      EventName: Generic SafeSquid Secure Web Gateway Event
       Stream: OTHER
 
   globals:  
