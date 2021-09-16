@@ -1,0 +1,215 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 812
+integration: Syslog
+vendor-name: SafeSquid
+product-name: SafeSquid Secure Web Gateway 
+source-name: SAFESQUID-SWG
+source-type: WEBFILTER
+source-description: Extractor for SafeSquid Secure Web Gateway Events
+provides-streams:
+- WEBFILTER
+- CONFIGURATION
+master-filters:
+- '\"\d{4}\.\d{2}\.\d{2}\:\d{2}\:\d{2}\:\d{2}\"\s+\"(?:NOT\s+BYPASSED|BYPASSED|HOST\s+ADDED)\"'
+- '\"\w+\"\s+\"\d+\"\s+\"\d+\"\s+\"\d{2}\/\w{3}\/\d{4}\:\d{2}\:\d{2}\:\d{2}\"\s+\"\d+\"\s+\"(?:1|2|3|4|5)\d{2}\"'
+- '\"\d{2}\/\w{3}\/\d{4}\:\d{2}\:\d{2}\:\d{2}\"\s+\"[\d\.\:]+\"\s+\"\w+\@[\d\.]+\"\s+\".*?\"\s+\".*?\"\s+\".*?\"\s+\"\w+\"'
+- '\d{4}\s+\d{2}\s+\d{2}\s+\d{2}\:\d{2}\:\d{2}\.\d+\s+\[[\w\s]+\]\s+\w+\:'
+event-details:
+- first-match: '\"\d{4}\.\d{2}\.\d{2}\:\d{2}\:\d{2}\:\d{2}\"\s+\"(?:NOT\s+BYPASSED|BYPASSED|HOST\s+ADDED)\"'
+  decoder: regex
+  decoder-regex: '\"(?P<datetime>\d{4}\.\d{2}\.\d{2}\:\d{2}\:\d{2}\:\d{2})\"\s+\"(?P<action>[\w\s]+)\"\s+\"(?P<user>\w+)\@(?P<srcip>[\d\.]+)\"\s+\".*?\"\s+\"(?P<domain>.*?)\"\s+\".*?\"\s+\"(?P<method>\w+)\"\s+\"(?P<url>.*?)\"'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'BYPASSED':
+      annotate:
+        Stream: WEBFILTER
+        Action: BYPASSED
+        Status: PASSED
+      translate:
+        url: URL
+        method: HTTPMethod
+        srcip: SrcIP
+        user: User
+        domain: Domain
+        DstIP: DstIP
+        DstPort: DstPort
+        UserAgent: UserAgent
+        TXLen: TXLen
+        RXLen: RXLen
+        Proto: Proto
+    'NOT BYPASSED':
+      annotate:
+        Stream: WEBFILTER
+        Action: BYPASSED
+        Status: FAILED
+      translate:
+        url: URL
+        method: HTTPMethod
+        srcip: SrcIP
+        user: User
+        domain: Domain
+        DstIP: DstIP
+        DstPort: DstPort
+        UserAgent: UserAgent
+        TXLen: TXLen
+        RXLen: RXLen
+        Proto: Proto
+
+  fallback:
+    annotate:
+      EventName: Generic SafeSquid Secure Web Gateway Event
+      Stream: OTHER
+
+  globals:  
+    translate:
+      datetime: SystemTstamp 
+      System: System
+
+- first-match: '\"\w+\"\s+\"\d+\"\s+\"\d+\"\s+\"\d{2}\/\w{3}\/\d{4}\:\d{2}\:\d{2}\:\d{2}\"\s+\"\d+\"\s+\"(?:1|2)\d{2}\"'
+  decoder: regex
+  decoder-regex: '\"(?P<datetime>\d{2}\/\w{3}\/\d{4}\:\d{2}\:\d{2}\:\d{2})\"\s+\"\d+\"\s+\"\d{3}\"\s+\"\d+\"\s+\"(?P<rxlen>\d+)\"\s+\"(?P<txlen>\d+)\"\s+\"\w+\"\s+\"(?P<srcip>[\d\.]+)\"\s+\"(?P<user>.*?)(?:\@.*?)?\"\s+\"(?P<method>\w+)\"\s+\"(?P<url>.*?)\"\s+\".*?\"\s+\"(?P<useragent>.*?)\"\s+\".*?\"\s+\".*?\"\s+\".*?\"\s+\"(?P<dstip>[\d\.]+)\:(?P<dport>\d+)\"\s+\"\w+\"\s+\"\w+\"\s+\"\S+\"\s+\"\S+\"\s+\"(?P<domain>.*?)\"'
+  event-key-format: ''
+  event-key-mapping:
+    '':
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_ALLOWED
+        Status: PASSED
+      translate:
+        url: URL
+        method: HTTPMethod
+        srcip: SrcIP
+        dstip: DstIP
+        dport: DstPort
+        user: User
+        domain: Domain
+        useragent: UserAgent
+        txlen: TXLen
+        rxlen: RXLen
+        Proto: Proto
+
+  fallback:
+    annotate:
+      EventName: Generic SafeSquid Secure Web Gateway Event
+      Stream: OTHER
+
+  globals:  
+    translate:
+      datetime: SystemTstamp 
+      System: System
+      
+- first-match: '\"\w+\"\s+\"\d+\"\s+\"\d+\"\s+\"\d{2}\/\w{3}\/\d{4}\:\d{2}\:\d{2}\:\d{2}\"\s+\"\d+\"\s+\"3\d{2}\"'
+  decoder: regex
+  decoder-regex: '\"(?P<datetime>\d{2}\/\w{3}\/\d{4}\:\d{2}\:\d{2}\:\d{2})\"\s+\"\d+\"\s+\"\d{3}\"\s+\"\d+\"\s+\"(?P<rxlen>\d+)\"\s+\"(?P<txlen>\d+)\"\s+\"\w+\"\s+\"(?P<srcip>[\d\.]+)\"\s+\"(?P<user>.*?)(?:\@.*?)?\"\s+\"(?P<method>\w+)\"\s+\"(?P<url>.*?)\"\s+\".*?\"\s+\"(?P<useragent>.*?)\"\s+\".*?\"\s+\".*?\"\s+\".*?\"\s+\"(?P<dstip>[\d\.]+)\:(?P<dport>\d+)\"\s+\"\w+\"\s+\"\w+\"\s+\"\S+\"\s+\"\S+\"\s+\"(?P<domain>.*?)\"'
+  event-key-format: ''
+  event-key-mapping:
+    '':
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_REDIRECTED
+        Status: PASSED
+      translate:
+        url: URL
+        method: HTTPMethod
+        srcip: SrcIP
+        dstip: DstIP
+        dport: DstPort
+        user: User
+        domain: Domain
+        useragent: UserAgent
+        txlen: TXLen
+        rxlen: RXLen
+        Proto: Proto
+
+  fallback:
+    annotate:
+      EventName: Generic SafeSquid Secure Web Gateway Event
+      Stream: OTHER
+
+  globals:  
+    translate:
+      datetime: SystemTstamp 
+      System: System
+
+- first-match: '\"\w+\"\s+\"\d+\"\s+\"\d+\"\s+\"\d{2}\/\w{3}\/\d{4}\:\d{2}\:\d{2}\:\d{2}\"\s+\"\d+\"\s+\"(?:4|5)\d{2}\"'
+  decoder: regex
+  decoder-regex: '\"(?P<datetime>\d{2}\/\w{3}\/\d{4}\:\d{2}\:\d{2}\:\d{2})\"\s+\"\d+\"\s+\"\d{3}\"\s+\"\d+\"\s+\"(?P<rxlen>\d+)\"\s+\"(?P<txlen>\d+)\"\s+\"\w+\"\s+\"(?P<srcip>[\d\.]+)\"\s+\"(?P<user>.*?)(?:\@.*?)?\"\s+\"(?P<method>\w+)\"\s+\"(?P<url>.*?)\"\s+\".*?\"\s+\"(?P<useragent>.*?)\"\s+\".*?\"\s+\".*?\"\s+\".*?\"\s+\"(?P<dstip>[\d\.]+)\:(?P<dport>\d+)\"\s+\"\w+\"\s+\"\w+\"\s+\"\S+\"\s+\"\S+\"\s+\"(?P<domain>.*?)\"'
+  event-key-format: ''
+  event-key-mapping:
+    '':
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_BLOCKED
+        Status: PASSED
+      translate:
+        url: URL
+        method: HTTPMethod
+        srcip: SrcIP
+        dstip: DstIP
+        dport: DstPort
+        user: User
+        domain: Domain
+        useragent: UserAgent
+        txlen: TXLen
+        rxlen: RXLen
+        Proto: Proto
+
+  fallback:
+    annotate:
+      EventName: Generic SafeSquid Secure Web Gateway Event
+      Stream: OTHER
+
+  globals:  
+    translate:
+      datetime: SystemTstamp 
+      System: System
+
+- first-match: '\"\d{2}\/\w{3}\/\d{4}\:\d{2}\:\d{2}\:\d{2}\"\s+\"[\d\.\:]+\"\s+\"\w+\@[\d\.]+\"\s+\".*?\"\s+\".*?\"\s+\"(?:edit|add|delete|clone)\"'
+  decoder: regex
+  decoder-regex: '\"(?P<datetime>\d{2}\/\w{3}\/\d{4}\:\d{2}\:\d{2}\:\d{2})\"\s+\"[\d\.\:]+\"\s+\"(?P<user>\w+)\@[\d\.]+\"\s+\".*?\"\s+\"\w+\"\s+\"(?P<action>\w+)'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'clone':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Policy Cloned
+      translate:
+        user: User
+    'add':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Policy Added
+      translate:
+        user: User
+    'edit':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Policy Edited
+      translate:
+        user: User
+    'delete':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Policy Deleted
+      translate:
+        user: User
+
+  fallback:
+    annotate:
+      EventName: Generic SafeSquid Secure Web Gateway Event
+      Stream: OTHER
+
+  globals:  
+    translate:
+      datetime: SystemTstamp 
+      system: System
+
