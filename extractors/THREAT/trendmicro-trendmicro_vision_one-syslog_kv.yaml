@@ -1,10 +1,10 @@
 schema-version: 1.0
 #extractor-version: 1
 extractor-id: 813
-integration: Syslog(KV)
+integration: Trend Micro Audit Logs
 vendor-name: Trend Micro
 product-name: Trend Micro Vision One
-source-name: TREND MICRO VISION ONE AUDIT
+source-name: TREND MICRO VISION ONE
 source-type: THREAT
 source-description: Extractor for Trend Micro Vision One Events
 provides-streams:
@@ -66,7 +66,7 @@ event-details:
     '03-04':
       annotate:
         Stream: IAM
-        Action: USER_DISABLE
+        Action: USER_DISABLED
         Status: PASSED
       translate:
         user: User
@@ -104,17 +104,17 @@ event-details:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
         Status: PASSED
+        Config: Enable Detection Model
       translate:
-        user: User 
-        details[modelName]: Config  
+        user: User  
     '06-02':
       annotate:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
         Status: PASSED
+        Config: Disable Detection Model
       translate:
-        user: User 
-        details[modelName]: Config  
+        user: User   
     '07-01': 
       annotate:
         Stream: CONFIGURATION
