@@ -33,6 +33,7 @@ provides-streams:
 - NTA-SMB
 - NTA-DCE-RPC
 - NTA-DNP3
+- NTA-SMTP
 master-filters:
 - '\{\"nta\_category\"\:\"[^\"]+\"'
 event-details:
@@ -1142,10 +1143,26 @@ event-details:
       ts: SystemTstamp
       System: System
 
-- first-match: '\{\"nta_category\":\"(?:dpd|modbus|ntp|snmp|x509|dnp3|dce\_rpc|smb_mapping|smb_cmd|irc|files)\"\,'
+- first-match: '\{\"nta_category\":\"(?:dpd|modbus|ntp|snmp|x509|dnp3|dce\_rpc|smb_mapping|smb_cmd|irc|files|smtp)\"\,'
   decoder: json
   event-key-format: '{nta_category}'
   event-key-mapping:
+    'smtp':
+      annotate:
+        Stream: NTA-SMTP 
+        Action: EMAIL_TRANSFERRED
+        Status: PASSED
+      translate:
+        id.orig_h: SrcIP
+        id.orig_p: SrcPort
+        id.resp_h: DstIP
+        id.resp_p: DstPort
+        from: Sender
+        to[0]: Recipient
+        user_agent: UserAgent
+        subject: Subject
+        mailfrom: MailFrom
+        rcptto[0]: RcptTo
     'dpd':
       annotate:
         Stream: NTA-DPD

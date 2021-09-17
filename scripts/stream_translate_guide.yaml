@@ -475,7 +475,7 @@ NTA-SNMP:
 - SetRequests
 - DisplayString
 - UpTime
-NTA-EMAIL GATEWAY:
+NTA-SMTP:
 - SrcIP
 - SrcPort
 - DstIP
@@ -483,9 +483,9 @@ NTA-EMAIL GATEWAY:
 - Sender
 - Recipient
 - Subject
-- RemoteIP
-- File
-- Direction
+- UserAgent
+- MailFrom
+- RcptTo
 NTA-SIP:
 - ID
 - SrcIP
