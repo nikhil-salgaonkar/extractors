@@ -4,7 +4,7 @@ extractor-id: 813
 integration: Trend Micro Audit Logs
 vendor-name: Trend Micro
 product-name: Trend Micro Vision One
-source-name: TREND MICRO VISION ONE
+source-name: TREND-MICRO-VISION-ONE
 source-type: THREAT
 source-description: Extractor for Trend Micro Vision One Events
 provides-streams:
