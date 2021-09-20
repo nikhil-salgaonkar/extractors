@@ -78,9 +78,9 @@ event-details:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
         Status: PASSED
-        Config: Product Updated
       translate:
         User: User
+        Header-5: Config
     
   fallback: 
     annotate:
