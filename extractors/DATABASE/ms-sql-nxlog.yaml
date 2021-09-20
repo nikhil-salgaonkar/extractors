@@ -1,0 +1,440 @@
+schema-version: 1.0
+#extractor-version: 1 
+extractor-id: 106
+integration: NXLog
+vendor-name: Microsoft
+product-name: SQL Server
+source-name: MSSQL
+source-type: DATABASE
+source-description: Extractor for Microsoft SQL Server Events
+provides-streams:
+- AUTHENTICATION
+- CONFIGURATION
+master-filters:
+- \"SourceName\"\:\"(?:MSSQL|SQL).*?\"\,
+event-details:  
+- first-match: \"SourceName\"\:\"MSSQL(?:SERVER|\$CITRIX\_METAFRAME|\$COMMVAULT|\$PRD\w+|\$FEEDDBSQL|\$SCCMDB|\$VEEAMSQL\d+|\$MICROSOFT)
+  decoder: json
+  event-key-format: '{EventID}'         
+  event-key-mapping:
+    '17806':    
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+        Reason: SSPI Handshake Failed
+      translate: 
+        AccountName: User
+        ScrIP: SrcIP
+        AuthProto: AuthProto
+    '18452':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+        Reason: Untrusted Domain
+      translate: 
+        AccountName: User
+        ScrIP: SrcIP
+        AuthProto: AuthProto
+    '18453':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate: 
+        AccountName: User
+        ScrIP: SrcIP
+        AuthProto: AuthProto
+    '18454': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate: 
+        AccountName: User
+        ScrIP: SrcIP
+        AuthProto: AuthProto  
+    '18456':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+        Reason: Failed To Open The Explicitly Specified Database
+      translate: 
+        AccountName: User
+        ScrIP: SrcIP
+        AuthProto: AuthProto
+    '18487':  
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+        Reason: INVALID_CREDENTIALS
+      translate: 
+        AccountName: User
+        ScrIP: SrcIP
+        AuthProto: AuthProto  
+    '28047':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+        Reason: Handshake Failed
+      translate: 
+        AccountName: User
+        ScrIP: SrcIP
+        AuthProto: AuthProto    
+    '18268':  
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Log Restored
+      translate: 
+        AccountName: User
+    '17573':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Database Checked
+      translate: 
+        AccountName: User  
+    '17137':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Database Starting
+      translate: 
+        AccountName: User
+    '3421':   
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Database Recoverd
+      translate: 
+        AccountName: User
+    '3402':   
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Database Recoverd
+      translate: 
+        AccountName: User 
+    '18264':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Database Backed Up
+      translate: 
+        AccountName: User
+    '15457':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Server Reconfiguration
+      translate: 
+        AccountName: User
+    '17184':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Log Reinitialized
+      translate: 
+        AccountName: User
+    '8957':  
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Database Checked
+      translate: 
+        AccountName: User 
+    '19031':  
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: SQL Trace Stopped
+      translate: 
+        AccountName: User 
+    '19030':  
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: SQL Trace Started
+      translate: 
+        AccountName: User 
+    '14421':   
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Database Recoverd
+      translate: 
+        AccountName: User  
+    '15281':   
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: SQL Server Blocked
+      translate: 
+        AccountName: User  
+    '17162':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: SQL Server Starting
+      translate: 
+        AccountName: User 
+    '17148':      
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: SQL Server Stopped
+      translate: 
+        AccountName: User   
+    '3014':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Database Backed Up
+      translate: 
+        AccountName: User
+    '6299':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Database Backed Up
+      translate: 
+        AccountName: User  
+    '8623':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Database Backed Up
+      translate: 
+        AccountName: User
+    '3041':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Database Backed Up
+      translate: 
+        AccountName: User
+    '41092':     
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Database Backed Up
+      translate: 
+        AccountName: User 
+    '9689':     
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Database Backed Up
+      translate: 
+        AccountName: User 
+    '6527':     
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Database Backed Up
+      translate: 
+        AccountName: User             
+    '18265': 
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Log Backed Up
+      translate: 
+        AccountName: User
+    '3454': 
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Database Recoverd
+      translate: 
+        AccountName: User  
+    '18270': 
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Database Backed Up
+      translate: 
+        AccountName: User  
+    '18210':       
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: FAILED
+        Config: Database Backed Up
+      translate: 
+        AccountName: User
+    '17134':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: FAILED
+        Config: Database Files Not Configured
+      translate: 
+        AccountName: User
+    '14420':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Database Backed Up
+      translate: 
+        AccountName: User  
+    '3450': 
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Database Recoverd
+      translate: 
+        AccountName: User  
+    '19032': 
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: SQL Trace Stopped
+      translate: 
+        AccountName: User
+    '3198':    
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: I/O Resumed On Database
+      translate: 
+        AccountName: User
+    '3197':   
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: I/O Frozen On Database
+      translate: 
+        AccountName: User
+    '19019':   
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Service Terminated
+      translate: 
+        AccountName: User 
+    '9689': 
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Service Shutdown
+      translate: 
+        AccountName: User         
+
+  fallback:
+    annotate:
+      EventName: Generic Microsoft SQL Server Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      EventTime: SystemTstamp
+      Hostname: System  
+
+- first-match: \"SourceName\"\:\"MSSQLServerOLAPService
+  decoder: json
+  event-key-format: '{EventID}'         
+  event-key-mapping:
+    '5': 
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Flight Recorder Started
+      translate: 
+        AccountName: User
+           
+  fallback:
+    annotate:
+      EventName: Generic Microsoft SQL Server Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      EventTime: SystemTstamp
+      Hostname: System          
+
+- first-match: \"SourceName\"\:\"SQL\w+\"
+  decoder: json
+  event-key-format: '{EventID}'         
+  event-key-mapping:    
+    '12288': 
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Package Backup Started
+      translate: 
+        AccountName: User 
+    '12291':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: FAILED
+        Config: Package Backup Failed
+      translate: 
+        AccountName: User  
+    '101':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Service Started
+      translate: 
+        AccountName: User 
+    '257':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Service Started
+      translate: 
+        AccountName: User    
+                            
+  fallback:
+    annotate:
+      EventName: Generic Microsoft SQL Server Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      EventTime: SystemTstamp
+      Hostname: System        
+      
