@@ -212,54 +212,6 @@ event-details:
         Status: PASSED
         Config: Database Backed Up
       translate: 
-        AccountName: User
-    '6299':
-      annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-        Config: Database Backed Up
-      translate: 
-        AccountName: User  
-    '8623':
-      annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-        Config: Database Backed Up
-      translate: 
-        AccountName: User
-    '3041':
-      annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-        Config: Database Backed Up
-      translate: 
-        AccountName: User
-    '41092':     
-      annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-        Config: Database Backed Up
-      translate: 
-        AccountName: User 
-    '9689':     
-      annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-        Config: Database Backed Up
-      translate: 
-        AccountName: User 
-    '6527':     
-      annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-        Config: Database Backed Up
-      translate: 
         AccountName: User             
     '18265': 
       annotate:
