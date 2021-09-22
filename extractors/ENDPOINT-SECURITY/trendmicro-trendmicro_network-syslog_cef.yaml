@@ -110,7 +110,7 @@ event-details:
       dvchost: System
       rt: SystemTstamp
 
-- first-match: CEF\:\d+\|Trend\s+Micro\|Deep\s+Discovery\s+(?:Inspector|Analyzer)?\|[\d\.]+\|300999\|Log\s+Settings\:\s+Settings\s+modified\s+by\s+\'\S+\'\s+from\s+[\d\.\:]+\|
+- first-match: CEF\:\d+\|Trend\s+Micro\|Deep\s+Discovery\s+(?:Inspector|Analyzer)?\|[\d\.]+\|300999\|Log\s+Settings\:\s+Settings\s+modified\s+by\s+\'\S+\'\s+from\s+[\w\.\:]+\|
   decoder: custom
   decoder-regex: '([^\s\|]+)=([^=]+|)(?=\s+\w+=|$)'
   event-key-format: '{outcome}'
