@@ -10,76 +10,41 @@ source-description: Extractor for Trend-Micro Network Events
 provides-streams:
 - THREAT
 - AUTHENTICATION
+- CONFIGURATION
 master-filters:
-- 'CEF\:0\|Trend\s+Micro\|(?:TippingPoint\s+Threat\s+Protection\s+Analyzer|Deep\s+Discovery\s+Analyzer|Deep\s+Discovery\s+Inspector)'  
+- 'CEF\:\d+\|Trend\s+Micro\|(?:TippingPoint\s+Threat\s+Protection\s+Analyzer|Deep\s+Discovery\s+Analyzer|Deep\s+Discovery\s+Inspector)'  
 event-details:
-- first-match: 'CEF\:0\|Trend\s+Micro\|TippingPoint\s+Threat\s+Protection\s+Analyzer\|[\d\.]+\|\d+\|(?!Deny\s+List\s+updated|DENYLIST\_CHANGE)'
+- first-match: 'CEF\:\d+\|Trend\s+Micro\|(?:TippingPoint\s+Threat\s+Protection\s+Analyzer|Deep\s+Discovery\s+Analyzer|Deep\s+Discovery\s+Inspector)\|[\d\.]+\|(?:200120\|Deny\s+List\s+updated|300102)'
   decoder: custom
   decoder-regex: '([^\s\|]+)=([^=]+|)(?=\s+\w+=|$)'
-  event-key-format: '{Header-5}'
+  event-key-format: '{Header-4}-{outcome}'
   decoder-header: CEF
   event-key-mapping: 
-    'Sample file sandbox analysis is finished':
+    '200120-None':
       annotate: 
-        Stream: THREAT
-        Action: THREAT_DETECTED
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
         Status: PASSED
-        Vector: HOST
       translate:
-        dvc: SrcIP
-        dst: DstIP
-        cs2: Threat
-        fname: File
-        Process: Process
-        request: URL
-        CommandLine: CommandLine
-        User: User
-    'Notable Characteristics of the analyzed sample':
+        User: User 
+        Header-5: Config      
+    '300102-Success':
       annotate: 
-        Stream: THREAT
-        Action: THREAT_DETECTED
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
         Status: PASSED
-        Vector: HOST
       translate:
-        dvc: SrcIP
-        dst: DstIP
-        msg: Threat
-        fname: File
-        Process: Process
-        request: URL
-        CommandLine: CommandLine
-        User: User
-    'FILE_ANALYZED':
+        duser: User  
+        Header-5: Config    
+    '300102-Failure':
       annotate: 
-        Stream: THREAT
-        Action: THREAT_DETECTED
-        Status: PASSED
-        Vector: HOST
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: FAILED
       translate:
-        dvc: SrcIP
-        dst: DstIP
-        malName: Threat
-        fname: File
-        Process: Process
-        request: URL
-        CommandLine: CommandLine
-        User: User
-    'NOTABLE_CHARACTERISTICS':
-      annotate: 
-        Stream: THREAT
-        Action: THREAT_DETECTED
-        Status: PASSED
-        Vector: HOST
-      translate:
-        dvc: SrcIP
-        dst: DstIP
-        msg: Threat
-        fname: File
-        Process: Process
-        request: URL
-        CommandLine: CommandLine
-        User: User                                  
-
+        duser: User  
+        Header-5: Config     
+  
   fallback:
     annotate:
       EventName: Generic Trend-Micro Network Events
@@ -90,54 +55,95 @@ event-details:
       rt: SystemTstamp
       dvchost: System
 
-- first-match: 'CEF\:\d+\|Trend\s+Micro\|(?:TippingPoint\s+Threat\s+Protection\s+Analyzer|Deep\s+Discovery\s+Inspector).*?(?:cs2|deviceExternalRiskType)\=(?:High|Low|Medium|Confirmed\s+malware)'
+- first-match: 'CEF\:\d+\|Trend\s+Micro\|Deep\s+Discovery\s+(?:Inspector|Analyzer)?\|[\d\.]+\|300999\|User\s+logged\s+(?:on|off)\|'
   decoder: custom
   decoder-regex: '([^\s\|]+)=([^=]+|)(?=\s+\w+=|$)'
-  event-key-format: '{Header-5}'
+  event-key-format: '{Header-5}-{outcome}'
   decoder-header: CEF
-  event-key-mapping: 
-    'Deny List updated':
-      annotate: 
-        Stream: THREAT
-        Action: THREAT_DETECTED
+  event-key-mapping:
+    'User logged on-Success': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
         Status: PASSED
-        Vector: HOST
       translate:
-        dvc: SrcIP
-        dst: DstIP
-        cs1: Threat
-        fname: File
-        Process: Process
-        request: URL
-        CommandLine: CommandLine
-        User: User
-    'DENYLIST_CHANGE':
-      annotate: 
-        Stream: THREAT
-        Action: THREAT_DETECTED
+        duser: User
+        src: SrcIP
+        AuthProto: AuthProto
+    'User logged on-Failure': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+        Reason: INVALID_CREDENTIALS
+      translate:
+        duser: User
+        src: SrcIP
+        AuthProto: AuthProto
+    'User logged off-Success': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
         Status: PASSED
-        Vector: HOST
       translate:
-        dvc: SrcIP
-        dst: DstIP
-        cs1: Threat
-        fname: File
-        Process: Process
-        request: URL
-        CommandLine: CommandLine
-        User: User
-        
+        duser: User
+        src: SrcIP
+        AuthProto: AuthProto 
+    'User logged off-Failure': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: FAILED
+        Reason: INVALID_CREDENTIALS
+      translate:
+        duser: User
+        src: SrcIP
+        AuthProto: AuthProto   
+    
   fallback:
     annotate:
-      EventName: Generic Trend-Micro Network Events
+      EventName: Generic Trend-Micro Network Event
       Stream: OTHER
 
   globals:
-    translate:
+    translate: 
+      dvchost: System
       rt: SystemTstamp
-      dvchost: System      
-      
-- first-match: 'CEF\:0\|Trend\s+Micro\|Deep\sDiscovery\sInspector\|.*?cn3Label\=Threat\s+Type'
+
+- first-match: CEF\:\d+\|Trend\s+Micro\|Deep\s+Discovery\s+(?:Inspector|Analyzer)?\|[\d\.]+\|300999\|Log\s+Settings\:\s+Settings\s+modified\s+by\s+\'\S+\'\s+from\s+[\w\.\:]+\|
+  decoder: custom
+  decoder-regex: '([^\s\|]+)=([^=]+|)(?=\s+\w+=|$)'
+  event-key-format: '{outcome}'
+  decoder-header: CEF
+  event-key-mapping:
+    'Success': 
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        duser: User
+        Header-5: Config
+    'Failure': 
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: FAILED
+      translate:
+        duser: User
+        Header-5: Config 
+    
+  fallback:
+    annotate:
+      EventName: Generic Trend-Micro Network Event
+      Stream: OTHER
+
+  globals:
+    translate: 
+      dvchost: System
+      rt: SystemTstamp
+
+- first-match: 'CEF\:\d+\|Trend\s+Micro\|Deep\sDiscovery\sInspector\|.*?cn3Label\=Threat\s+Type'
   decoder: custom
   decoder-regex: '([^\s\|]+)=([^=]+|)(?=\s+\w+=|$)'
   event-key-format: '{cn3}'
@@ -154,7 +160,7 @@ event-details:
         src: SrcIP
         dst: DstIP
         CommandLine: CommandLine
-        duser: User
+        suser: User
         fname: File
         Process: Process
         request: URL
@@ -169,7 +175,7 @@ event-details:
         src: SrcIP
         dst: DstIP
         CommandLine: CommandLine
-        duser: User
+        suser: User
         fname: File
         Process: Process
         request: URL
@@ -184,7 +190,7 @@ event-details:
         src: SrcIP
         dst: DstIP
         CommandLine: CommandLine
-        duser: User
+        suser: User
         fname: File
         Process: Process
         request: URL
@@ -199,7 +205,7 @@ event-details:
         src: SrcIP
         dst: DstIP
         CommandLine: CommandLine
-        duser: User
+        suser: User
         fname: File
         Process: Process
         request: URL
@@ -214,7 +220,7 @@ event-details:
         src: SrcIP
         dst: DstIP
         CommandLine: CommandLine
-        duser: User
+        suser: User
         fname: File
         Process: Process
         request: URL
@@ -229,7 +235,22 @@ event-details:
         src: SrcIP
         dst: DstIP
         CommandLine: CommandLine
-        duser: User
+        suser: User
+        fname: File
+        Process: Process
+        request: URL 
+    '6':  
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        cn3: Threat
+        src: SrcIP
+        dst: DstIP
+        CommandLine: CommandLine
+        suser: User
         fname: File
         Process: Process
         request: URL 
@@ -252,190 +273,4 @@ event-details:
       '3': Exploit
       '4': Grayware
       '5': Suspicious URL
-
-- first-match: 'CEF\:0\|Trend\s+Micro\|Deep\sDiscovery\sInspector\|.*?outcome\=\w+'
-  decoder: custom
-  decoder-regex: '([^\s\|]+)=([^=]+|)(?=\s+\w+=|$)'
-  event-key-format: '{Header-5}-{outcome}'
-  decoder-header: CEF
-  event-key-mapping:
-    'User logged on-Success': 
-      annotate:
-        Stream: AUTHENTICATION
-        Action: LOGIN
-        Status: PASSED
-      translate:
-        duser: User
-        src: SrcIP
-        AuthProto: AuthProto
-    'User logged off-Success': 
-      annotate:
-        Stream: AUTHENTICATION
-        Action: LOGOUT
-        Status: PASSED
-      translate:
-        duser: User
-        src: SrcIP
-        AuthProto: AuthProto
-    'Component: Network Content Inspection Pattern, version: 1.14155.00 on the ActiveUpdate server.-Success': 
-      annotate:
-        Stream: THREAT
-        Action: THREAT_DETECTED
-        Status: PASSED
-        Vector: HOST
-      translate:
-        Header-5: Threat
-        src: SrcIP
-        DstIP: DstIP
-        CommandLine: CommandLine
-        duser: User
-        File: File
-        Process: Process
-        request: URL
-    'Component: Deep Discovery Malware Pattern, version: 15.853.92 on the ActiveUpdate server.-Success': 
-      annotate:
-        Stream: THREAT
-        Action: THREAT_DETECTED
-        Status: PASSED
-        Vector: HOST
-      translate:
-        Header-5: Threat
-        src: SrcIP
-        DstIP: DstIP
-        CommandLine: CommandLine
-        duser: User
-        File: File
-        Process: Process
-        request: URL
-    'Component: C&C Identification Pattern, version: 1.01822.16 on the ActiveUpdate server.-Success': 
-      annotate:
-        Stream: THREAT
-        Action: THREAT_DETECTED
-        Status: PASSED
-        Vector: HOST
-      translate:
-        Header-5: Threat
-        src: SrcIP
-        DstIP: DstIP
-        CommandLine: CommandLine
-        duser: User
-        File: File
-        Process: Process
-        request: URL
-    'Updated component Advanced Persistent Threat Information Pattern-Success': 
-      annotate:
-        Stream: THREAT
-        Action: THREAT_DETECTED
-        Status: PASSED
-        Vector: HOST
-      translate:
-        Header-5: Threat
-        src: SrcIP
-        DstIP: DstIP
-        CommandLine: CommandLine
-        duser: User
-        File: File
-        Process: Process
-        request: URL
-    'Component: Advanced Persistent Threat Information Pattern, version: 1.15879.24 on the ActiveUpdate server.-Success': 
-      annotate:
-        Stream: THREAT
-        Action: THREAT_DETECTED
-        Status: PASSED
-        Vector: HOST
-      translate:
-        Header-5: Threat
-        src: SrcIP
-        DstIP: DstIP
-        CommandLine: CommandLine
-        duser: User
-        File: File
-        Process: Process
-        request: URL
-    
-  fallback:
-    annotate:
-      EventName: Generic Trend-Micro Network Event
-      Stream: OTHER
-
-  globals:
-    translate: 
-      dvchost: System
-      rt: SystemTstamp
-
-- first-match: 'CEF\:0\|Trend\s+Micro\|Deep\sDiscovery\s(?:Analyzer|Inspector)\|.*cs1Label\=(?:SandboxImageType|malName|PolicyCategory|type)'
-  decoder: custom
-  decoder-regex: '([^\s\|]+)=([^=]+|)(?=\s+\w+=|$)'
-  event-key-format: '{cs1Label}'
-  decoder-header: CEF
-  event-key-mapping:
-    'SandboxImageType': 
-      annotate:
-        Stream: THREAT
-        Action: THREAT_DETECTED
-        Status: PASSED
-        Vector: HOST
-      translate:
-        cs2: Threat
-        src: SrcIP
-        Dst: DstIP
-        CommandLine: CommandLine
-        User: User
-        fname: File
-        Process: Process
-        request: URL
-    'malName': 
-      annotate:
-        Stream: THREAT
-        Action: THREAT_DETECTED
-        Status: PASSED
-        Vector: HOST
-      translate:
-        cs1: Threat
-        src: SrcIP
-        dst: DstIP
-        CommandLine: CommandLine
-        duser: User
-        fname: File
-        Process: Process
-        request: URL
-    'PolicyCategory':
-      annotate:
-        Stream: THREAT
-        Action: THREAT_DETECTED
-        Status: PASSED
-        Vector: HOST
-      translate:
-        cs2: Threat
-        src: SrcIP
-        Dst: DstIP
-        CommandLine: CommandLine
-        duser: User
-        fname: File
-        Process: Process
-        request: URL
-    'type':
-      annotate:
-        Stream: THREAT
-        Action: THREAT_DETECTED
-        Status: PASSED
-        Vector: HOST
-      translate:
-        cs1: Threat
-        src: SrcIP
-        dst: DstIP
-        CommandLine: CommandLine
-        duser: User
-        fname: File
-        Process: Process
-        request: URL
-    
-  fallback:
-    annotate:
-      EventName: Generic Trend-Micro Network Event
-      Stream: OTHER
-
-  globals:
-    translate: 
-      dvchost: System
-      rt: SystemTstamp
+      '6': Disruptive Applications
