@@ -14,7 +14,7 @@ provides-streams:
 master-filters:
 - 'CEF\:\d+\|Trend\s+Micro\|(?:TippingPoint\s+Threat\s+Protection\s+Analyzer|Deep\s+Discovery\s+Analyzer|Deep\s+Discovery\s+Inspector)'  
 event-details:
-- first-match: 'CEF\:\d+\|Trend\s+Micro\|[\w\s]+\|[\d\.]+\|(?:200120\|Deny\s+List\s+updated|300102)'
+- first-match: 'CEF\:\d+\|Trend\s+Micro\|(?:TippingPoint\s+Threat\s+Protection\s+Analyzer|Deep\s+Discovery\s+Analyzer|Deep\s+Discovery\s+Inspector)\|[\d\.]+\|(?:200120\|Deny\s+List\s+updated|300102)'
   decoder: custom
   decoder-regex: '([^\s\|]+)=([^=]+|)(?=\s+\w+=|$)'
   event-key-format: '{Header-4}-{outcome}'
@@ -25,9 +25,9 @@ event-details:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
         Status: PASSED
-        Config: Deny List Updated
       translate:
-        User: User      
+        User: User 
+        Header-5: Config      
     '300102-Success':
       annotate: 
         Stream: CONFIGURATION
@@ -35,7 +35,7 @@ event-details:
         Status: PASSED
       translate:
         duser: User  
-        Header-5 : Config    
+        Header-5: Config    
     '300102-Failure':
       annotate: 
         Stream: CONFIGURATION
@@ -43,7 +43,7 @@ event-details:
         Status: FAILED
       translate:
         duser: User  
-        Header-5 : Config     
+        Header-5: Config     
   
   fallback:
     annotate:
@@ -55,7 +55,7 @@ event-details:
       rt: SystemTstamp
       dvchost: System
 
-- first-match: 'CEF\:\d+\|Trend\s+Micro\|Deep\s+Discovery\s+(?:Inspector|Analyzer)?\|[\d\.]+\|300999\|.*?outcome\=\w+'
+- first-match: 'CEF\:\d+\|Trend\s+Micro\|Deep\s+Discovery\s+(?:Inspector|Analyzer)?\|[\d\.]+\|300999\|User\s+logged\s+(?:on|off)\|'
   decoder: custom
   decoder-regex: '([^\s\|]+)=([^=]+|)(?=\s+\w+=|$)'
   event-key-format: '{Header-5}-{outcome}'
@@ -70,6 +70,16 @@ event-details:
         duser: User
         src: SrcIP
         AuthProto: AuthProto
+    'User logged on-Failure': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+        Reason: INVALID_CREDENTIALS
+      translate:
+        duser: User
+        src: SrcIP
+        AuthProto: AuthProto
     'User logged off-Success': 
       annotate:
         Stream: AUTHENTICATION
@@ -78,7 +88,50 @@ event-details:
       translate:
         duser: User
         src: SrcIP
+        AuthProto: AuthProto 
+    'User logged off-Failure': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: FAILED
+        Reason: INVALID_CREDENTIALS
+      translate:
+        duser: User
+        src: SrcIP
         AuthProto: AuthProto   
+    
+  fallback:
+    annotate:
+      EventName: Generic Trend-Micro Network Event
+      Stream: OTHER
+
+  globals:
+    translate: 
+      dvchost: System
+      rt: SystemTstamp
+
+- first-match: CEF\:\d+\|Trend\s+Micro\|Deep\s+Discovery\s+(?:Inspector|Analyzer)?\|[\d\.]+\|300999\|Log\s+Settings\:\s+Settings\s+modified\s+by\s+\'\S+\'\s+from\s+[\d\.\:]+\|
+  decoder: custom
+  decoder-regex: '([^\s\|]+)=([^=]+|)(?=\s+\w+=|$)'
+  event-key-format: '{outcome}'
+  decoder-header: CEF
+  event-key-mapping:
+    'Success': 
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        duser: User
+        Header-5: Config
+    'Failure': 
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: FAILED
+      translate:
+        duser: User
+        Header-5: Config 
     
   fallback:
     annotate:
