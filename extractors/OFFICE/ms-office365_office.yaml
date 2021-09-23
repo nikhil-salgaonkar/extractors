@@ -669,7 +669,6 @@ event-details:
         SharingType: Visibility  
     'DlpRuleMatch-None':
       annotate:
-        annotate:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
         Status: PASSED
@@ -726,7 +725,6 @@ event-details:
         Operation: Config 
     'Set-Mailbox-True':
       annotate:
-        annotate:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
         Status: PASSED
@@ -735,7 +733,6 @@ event-details:
         Operation: Config
     'Remove-Mailbox-True':
       annotate:
-        annotate:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
         Status: PASSED
