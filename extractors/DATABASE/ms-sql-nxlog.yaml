@@ -22,7 +22,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        Reason: SSPI Handshake Failed
+        Reason: SSPI_HANDSHAKE_FAILED
       translate: 
         AccountName: User
         ScrIP: SrcIP
@@ -32,7 +32,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        Reason: Untrusted Domain
+        Reason: UNTRUSTED_DOMAIN
       translate: 
         AccountName: User
         ScrIP: SrcIP
@@ -60,7 +60,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        Reason: Failed To Open The Explicitly Specified Database
+        Reason: FAILED_TO_OPEN_THE_EXPLICITLY_SPECIFIED_DATABASE
       translate: 
         AccountName: User
         ScrIP: SrcIP
@@ -80,7 +80,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        Reason: Handshake Failed
+        Reason: HANDSHAKE_FAILED
       translate: 
         AccountName: User
         ScrIP: SrcIP
@@ -388,5 +388,4 @@ event-details:
   globals:
     translate:
       EventTime: SystemTstamp
-      Hostname: System        
-      
+      Hostname: System     
