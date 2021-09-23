@@ -19,29 +19,7 @@ event-details:
 - first-match: \"UserType\"\:\d+\,
   decoder: json
   event-key-format: '{Operation}-{ResultStatus}'
-  event-key-mapping:
-    'Set-Mailbox-True':
-      annotate:
-        Stream: EMAIL-GATEWAY
-        Action: EMAIL_ACCEPTED
-      translate:
-        MailboxOwnerUPN: Sender
-        To: Recipient
-        Subject: Subject
-        Attachments: File
-        Directionality: Direction
-        ClientIP: RemoteIP
-    'Remove-Mailbox-True':
-      annotate:
-        Stream: EMAIL-GATEWAY
-        Action: EMAIL_ACCEPTED
-      translate:
-        MailboxOwnerUPN: Sender
-        To: Recipient
-        Subject: Subject
-        Attachments: File
-        Directionality: Direction
-        ClientIP: RemoteIP            
+  event-key-mapping:            
     'Create-Succeeded':
       annotate:
         Stream: EMAIL-GATEWAY
@@ -97,17 +75,6 @@ event-details:
         AffectedItems[0][Attachments]: File
         Directionality: Direction
         ClientIP: RemoteIP            
-    'DlpRuleMatch-None':
-      annotate:
-        Stream: EMAIL-GATEWAY
-        Action: EMAIL_ACCEPTED
-      translate:
-        MailboxOwnerUPN: Sender
-        To: Recipient
-        Subject: Subject
-        Attachments: File
-        Directionality: Direction
-        ClientIP: RemoteIP
     'UserLoggedIn-Succeeded':
       annotate:
         Stream: AUTHENTICATION
@@ -699,7 +666,16 @@ event-details:
         UserId: User
         SourceFileName: File
         ClientIP: SrcIP
-        SharingType: Visibility                     
+        SharingType: Visibility  
+    'DlpRuleMatch-None':
+      annotate:
+        annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        UserId: User
+        Operation: Config                       
     'Add policy.-Success':
       annotate:
         Stream: CONFIGURATION
@@ -748,6 +724,24 @@ event-details:
       translate:
         UserId: User
         Operation: Config 
+    'Set-Mailbox-True':
+      annotate:
+        annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        UserId: User
+        Operation: Config
+    'Remove-Mailbox-True':
+      annotate:
+        annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        UserId: User
+        Operation: Config    
     'Remove-InboxRule-True':
       annotate:
         Stream: CONFIGURATION
