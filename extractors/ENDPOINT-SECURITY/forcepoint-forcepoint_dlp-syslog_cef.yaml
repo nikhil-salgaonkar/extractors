@@ -4,7 +4,7 @@ extractor-id: 208
 integration: Syslog(CEF)
 vendor-name: Forcepoint
 product-name: Forcepoint DLP
-source-name: FORCEPOINT
+source-name: FORCEPOINT-DLP
 source-type: ENDPOINT-SECURITY
 source-description: Extractor for Forcepoint DLP Events
 provides-streams:
