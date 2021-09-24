@@ -5,7 +5,7 @@ integration: Azure
 vendor-name: Microsoft Azure
 product-name: Azure 
 source-name:  AZURE 
-source-type: AZURE
+source-type: CLOUD
 source-description: Extractor for Azure Events
 provides-streams:
 - AZURE
