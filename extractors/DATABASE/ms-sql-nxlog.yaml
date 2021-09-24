@@ -11,11 +11,12 @@ provides-streams:
 - AUTHENTICATION
 - CONFIGURATION
 master-filters:
-- \"SourceName\"\:\"(?:MSSQL|SQL).*?\"\,
+- '\"SourceName\"\:\"(?:MSSQL|SQL).*?\"\,'
 event-details:  
-- first-match: \"SourceName\"\:\"MSSQL(?:SERVER|\$CITRIX\_METAFRAME|\$COMMVAULT|\$PRD\w+|\$FEEDDBSQL|\$SCCMDB|\$VEEAMSQL\d+|\$MICROSOFT)
-  decoder: json
-  event-key-format: '{EventID}'         
+- first-match: '\"SourceName\"\:\"MSSQL(?:SERVER|\$COMMVAULT|\$CITRIX_METAFRAME|\$SCCMDB).*?\"Category\":\"Logon\"'
+  decoder: regex
+  decoder-regex: '\"EventTime\"\:\"(?P<EventTime>\d{4}\-\d{1,2}\-\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\"\,\"Hostname\"\:\"(?P<Hostname>.*?)\"\,.*?\"EventID\"\:(?P<EventID>\d+)\,\"SourceName\"\:\"(?P<SourceName>.*?)\"\,.*?\"Message\"\:\"(?:.*?user\s+(?P<User>\S+)\.)?.*?CLIENT\:\s+(?P<SrcIP>.*?)\]?\"'
+  event-key-format: '{EventID}'
   event-key-mapping:
     '17806':    
       annotate:
@@ -24,8 +25,8 @@ event-details:
         Status: FAILED
         Reason: SSPI_HANDSHAKE_FAILED
       translate: 
-        AccountName: User
-        ScrIP: SrcIP
+        User: User
+        SrcIP: SrcIP
         AuthProto: AuthProto
     '18452':
       annotate:
@@ -34,17 +35,17 @@ event-details:
         Status: FAILED
         Reason: UNTRUSTED_DOMAIN
       translate: 
-        AccountName: User
-        ScrIP: SrcIP
-        AuthProto: AuthProto
+        User: User
+        SrcIP: SrcIP
+        AuthProto: AuthProto 
     '18453':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
       translate: 
-        AccountName: User
-        ScrIP: SrcIP
+        User: User
+        SrcIP: SrcIP
         AuthProto: AuthProto
     '18454': 
       annotate:
@@ -52,8 +53,8 @@ event-details:
         Action: LOGIN
         Status: PASSED
       translate: 
-        AccountName: User
-        ScrIP: SrcIP
+        User: User
+        SrcIP: SrcIP
         AuthProto: AuthProto  
     '18456':
       annotate:
@@ -62,8 +63,8 @@ event-details:
         Status: FAILED
         Reason: FAILED_TO_OPEN_THE_EXPLICITLY_SPECIFIED_DATABASE
       translate: 
-        AccountName: User
-        ScrIP: SrcIP
+        User: User
+        SrcIP: SrcIP
         AuthProto: AuthProto
     '18487':  
       annotate:
@@ -72,8 +73,8 @@ event-details:
         Status: FAILED
         Reason: INVALID_CREDENTIALS
       translate: 
-        AccountName: User
-        ScrIP: SrcIP
+        User: User
+        SrcIP: SrcIP
         AuthProto: AuthProto  
     '28047':
       annotate:
@@ -82,9 +83,24 @@ event-details:
         Status: FAILED
         Reason: HANDSHAKE_FAILED
       translate: 
-        AccountName: User
-        ScrIP: SrcIP
-        AuthProto: AuthProto    
+        User: User
+        SrcIP: SrcIP
+        AuthProto: AuthProto
+
+  fallback:
+    annotate:
+      EventName: Generic Microsoft SQL Server Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      EventTime: SystemTstamp
+      Hostname: System      
+
+- first-match: '\"SourceName\"\:\"MSSQL(?:SERVER|\$COMMVAULT|\$PRD\w+|\$FEEDDBSQL|\$SCCMDB|\$VEEAMSQL\d+|\$MICROSOFT).*?Category\":(?!\"Logon\")'
+  decoder: json
+  event-key-format: '{EventID}'         
+  event-key-mapping:    
     '18268':  
       annotate:
         Stream: CONFIGURATION
@@ -114,7 +130,7 @@ event-details:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
         Status: PASSED
-        Config: Database Recoverd
+        Config: Database Recovered
       translate: 
         AccountName: User
     '3402':   
@@ -122,7 +138,7 @@ event-details:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
         Status: PASSED
-        Config: Database Recoverd
+        Config: Database Recovered
       translate: 
         AccountName: User 
     '18264':
@@ -178,7 +194,7 @@ event-details:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
         Status: PASSED
-        Config: Database Recoverd
+        Config: Database Recovered
       translate: 
         AccountName: User  
     '15281':   
@@ -226,7 +242,7 @@ event-details:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
         Status: PASSED
-        Config: Database Recoverd
+        Config: Database Recovered
       translate: 
         AccountName: User  
     '18270': 
@@ -266,7 +282,7 @@ event-details:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
         Status: PASSED
-        Config: Database Recoverd
+        Config: Database Recovered
       translate: 
         AccountName: User  
     '19032': 
@@ -320,7 +336,7 @@ event-details:
       EventTime: SystemTstamp
       Hostname: System  
 
-- first-match: \"SourceName\"\:\"MSSQLServerOLAPService
+- first-match: '\"SourceName\"\:\"MSSQLServerOLAPService'
   decoder: json
   event-key-format: '{EventID}'         
   event-key-mapping:
@@ -343,7 +359,7 @@ event-details:
       EventTime: SystemTstamp
       Hostname: System          
 
-- first-match: \"SourceName\"\:\"SQL\w+\"
+- first-match: '\"SourceName\"\:\"SQL\w+\"'
   decoder: json
   event-key-format: '{EventID}'         
   event-key-mapping:    
