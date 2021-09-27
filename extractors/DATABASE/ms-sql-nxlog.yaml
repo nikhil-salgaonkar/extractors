@@ -226,7 +226,7 @@ event-details:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
         Status: PASSED
-        Config: BACKUP DATABASE successfully
+        Config: BACKUP DATABASE successfully processed
       translate: 
         AccountName: User             
     '18265': 
