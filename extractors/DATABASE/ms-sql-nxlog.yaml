@@ -106,7 +106,7 @@ event-details:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
         Status: PASSED
-        Config: Log Restored
+        Config: Log was restored.
       translate: 
         AccountName: User
     '17573':
@@ -122,7 +122,7 @@ event-details:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
         Status: PASSED
-        Config: Database Starting
+        Config: Starting up database
       translate: 
         AccountName: User
     '3421':   
@@ -130,7 +130,7 @@ event-details:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
         Status: PASSED
-        Config: Database Recovered
+        Config: Recovery completed for database
       translate: 
         AccountName: User
     '3402':   
@@ -138,7 +138,7 @@ event-details:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
         Status: PASSED
-        Config: Database Recovered
+        Config: The restore job is not running.
       translate: 
         AccountName: User 
     '18264':
@@ -146,7 +146,7 @@ event-details:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
         Status: PASSED
-        Config: Database Backed Up
+        Config: Database backed up.
       translate: 
         AccountName: User
     '15457':
@@ -178,7 +178,7 @@ event-details:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
         Status: PASSED
-        Config: SQL Trace Stopped
+        Config: SQL Trace stopped.
       translate: 
         AccountName: User 
     '19030':  
@@ -186,7 +186,7 @@ event-details:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
         Status: PASSED
-        Config: SQL Trace Started
+        Config: SQL Trace started.
       translate: 
         AccountName: User 
     '14421':   
@@ -194,7 +194,7 @@ event-details:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
         Status: PASSED
-        Config: Database Recovered
+        Config: The restore job is failing.
       translate: 
         AccountName: User  
     '15281':   
@@ -210,7 +210,7 @@ event-details:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
         Status: PASSED
-        Config: SQL Server Starting
+        Config: SQL Server is starting at normal priority base.
       translate: 
         AccountName: User 
     '17148':      
@@ -226,7 +226,7 @@ event-details:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
         Status: PASSED
-        Config: Database Backed Up
+        Config: BACKUP DATABASE successfully
       translate: 
         AccountName: User             
     '18265': 
@@ -234,7 +234,7 @@ event-details:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
         Status: PASSED
-        Config: Log Backed Up
+        Config: Log was backed up.
       translate: 
         AccountName: User
     '3454': 
@@ -250,7 +250,7 @@ event-details:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
         Status: PASSED
-        Config: Database Backed Up
+        Config: Database differential changes were backed up.
       translate: 
         AccountName: User  
     '18210':       
@@ -266,7 +266,7 @@ event-details:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
         Status: FAILED
-        Config: Database Files Not Configured
+        Config: Database data files not configured
       translate: 
         AccountName: User
     '14420':
@@ -282,7 +282,7 @@ event-details:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
         Status: PASSED
-        Config: Database Recovered
+        Config: Recovery of database is completed
       translate: 
         AccountName: User  
     '19032': 
@@ -290,7 +290,7 @@ event-details:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
         Status: PASSED
-        Config: SQL Trace Stopped
+        Config: SQL Trace stopped.
       translate: 
         AccountName: User
     '3198':    
@@ -298,7 +298,7 @@ event-details:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
         Status: PASSED
-        Config: I/O Resumed On Database
+        Config: I/O was resumed on database model.
       translate: 
         AccountName: User
     '3197':   
@@ -306,7 +306,7 @@ event-details:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
         Status: PASSED
-        Config: I/O Frozen On Database
+        Config: I/O is frozen on database.
       translate: 
         AccountName: User
     '19019':   
@@ -345,7 +345,7 @@ event-details:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
         Status: PASSED
-        Config: Flight Recorder Started
+        Config: The flight recorder was started.
       translate: 
         AccountName: User
            
