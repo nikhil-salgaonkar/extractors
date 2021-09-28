@@ -68,8 +68,8 @@ event-details:
     'RESUBMITFAIL':
       annotate:
         Stream: EMAIL-GATEWAY
-        Action: EMAIL_RESUBMIT_FAILED
-        Status: PASSED
+        Action: EMAIL_RESUBMITTED
+        Status: FAILED
       translate:
         src: RemoteIP
         file: File
@@ -116,8 +116,8 @@ event-details:
     'SUBMITFAIL':
       annotate:
         Stream: EMAIL-GATEWAY
-        Action: EMAIL_SUBMIT_FAILED
-        Status: PASSED
+        Action: EMAIL_SUBMITTED
+        Status: FAILED
       translate:
         src: RemoteIP
         file: File
@@ -152,8 +152,8 @@ event-details:
     'DELIVERFAIL':
       annotate:
         Stream: EMAIL-GATEWAY
-        Action: EMAIL_DELIVERED_FAILED
-        Status: PASSED
+        Action: EMAIL_DELIVERED
+        Status: FAILED
       translate:
         src: RemoteIP
         file: File
@@ -188,8 +188,8 @@ event-details:
     'FAIL':
       annotate:
         Stream: EMAIL-GATEWAY
-        Action: EMAIL_FAILED
-        Status: PASSED
+        Action: EMAIL_DELIVERED
+        Status: FAILED
       translate:
         src: RemoteIP
         file: File
