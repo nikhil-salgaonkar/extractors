@@ -98,7 +98,7 @@ event-details:
         msg: Subject
         Direction: Direction
         File: File 
-        RemoteIP: RemoteIP
+        src: RemoteIP
     'MESSAGE_TRACKING-Delivered':
       annotate:
         Stream: EMAIL-GATEWAY
@@ -110,7 +110,7 @@ event-details:
         msg: Subject
         Direction: Direction
         File: File 
-        RemoteIP: RemoteIP
+        src: RemoteIP
     'MESSAGE_TRACKING-Delivery unsuccessful':
       annotate:
         Stream: EMAIL-GATEWAY
@@ -122,7 +122,7 @@ event-details:
         msg: Subject
         Direction: Direction
         File: File 
-        RemoteIP: RemoteIP
+        src: RemoteIP
     'MESSAGE_TRACKING-Processing completed':
       annotate:
         Stream: EMAIL-GATEWAY
@@ -134,7 +134,7 @@ event-details:
         msg: Subject
         Direction: Direction
         File: File 
-        RemoteIP: RemoteIP
+        src: RemoteIP
     'MESSAGE_TRACKING-Quarantined':
       annotate:
         Stream: EMAIL-GATEWAY
@@ -146,7 +146,7 @@ event-details:
         msg: Subject
         Direction: Direction
         File: File 
-        RemoteIP: RemoteIP
+        src: RemoteIP
     'MESSAGE_TRACKING-Recipient changed':
       annotate:
         Stream: EMAIL-GATEWAY
@@ -158,7 +158,7 @@ event-details:
         msg: Subject
         Direction: Direction
         File: File 
-        RemoteIP: RemoteIP
+        src: RemoteIP
 
   fallback: 
     annotate:
@@ -170,10 +170,9 @@ event-details:
       rt: SystemTstamp
       dvchost: System
 
-
 - first-match: 'CEF\:\d+\|Trend\s+Micro\|Deep\s+Discovery\s+Email\s+Inspector\|[\d\.]+\|\d+\|SYSTEM\_EVENT\|.*?msg\=.*?logged\s+on'
   decoder: regex
-  decoder-regex: CEF\:\d+\|[\w\s]+\|[\w\s]+\|[\d\.]+\|\d+\|(?P<action>[\w\-]+)\|\d+\|rt\=(?P<datetime>\w{3}\s+\d{2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2}).*?msg\=.*?\'?(?P<user>\w+)\'?\s+logged\s+on.*?from\s+(?P<src>[\d\.]+).*?dvchost\=(?P<system>\S+)
+  decoder-regex: CEF\:\d+\|[\w\s]+\|[\w\s]+\|[\d\.]+\|\d+\|(?P<action>[\w\-]+)\|\d+\|rt\=(?P<datetime>\w{3}\s+\d{2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2}).*?msg\=.*?\'?(?P<user>[\w\-\_]+)\'?\s+logged\s+on.*?from\s+(?P<src>[\w\:\.]+).*?dvchost\=(?P<system>\S+)
   event-key-format: '{action}'
   event-key-mapping:
     'SYSTEM_EVENT':
@@ -194,5 +193,4 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
-      system: System
-           
+      system: System 
