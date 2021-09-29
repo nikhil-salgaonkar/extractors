@@ -11,11 +11,10 @@ provides-streams:
 - AZURE
 - FIREWALL
 master-filters:
-- '\"resourceId\"\:.*?\"operationName\"\:.*?\"\,\"category\"\:\"\w+\"'
+- '\"resourceId\"\:.*?\"operationName\"\:.*?\"(?:recommendationCategory|category)\"\:'
 - '\"(?:TaskName|EventName)\"\:.*?resourceId\"\:.*?\"category\"\:\"\w+\"'
 - '\"resourceId\".*?\"metricName\"\:\"\w+\"\,\"timeGrain\"\:'
 - '\"operationName\":\"NetworkSecurityGroupFlowEvents\"'
-- '\"resourceId\"\:.*?\"operationName\"\:.*?\".*?recommendationCategory\"\:'
 event-details:
 - first-match: '\"category\"\:\"\w+\"\,\"resultType\"\:\"\w+\"'
   decoder: json
