@@ -3,7 +3,7 @@ schema-version: 1.0
 extractor-id: 710
 integration: Winlogbeat
 vendor-name: Microsoft
-product-name: Windows
+product-name: Windows (OS, AD and Sysmon)
 source-name: WINDOWS
 source-type: OS
 source-description: Extractor for Windows Winlogbeat Events
