@@ -1,7 +1,7 @@
 schema-version: 1.0
 #extractor-version: 1
 extractor-id: 145
-integration: Syslog
+integration: Syslog(KV)
 vendor-name: Cisco
 product-name: Cisco FirePOWER
 source-name: CISCO-FIREPOWER
