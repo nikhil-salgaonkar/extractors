@@ -97,7 +97,7 @@ event-details:
       EventTime: SystemTstamp
       Hostname: System      
 
-- first-match: '\"SourceName\"\:\"MSSQL(?:SERVER|\$COMMVAULT|\$PRD\w+|\$FEEDDBSQL|\$SCCMDB|\$VEEAMSQL\d+|\$MICROSOFT).*?Category\":(?!\"Logon\")'
+- first-match: '\"SourceName\"\:\"MSSQL(?:SERVER|\$COMMVAULT|\$PRD\w+|\$FEEDDBSQL|\$SCCMDB|\$VEEAMSQL\d+|\$MICROSOFT).*?Category\":\"(?:Backup|Server)'
   decoder: json
   event-key-format: '{EventID}'         
   event-key-mapping:    
