@@ -3,16 +3,16 @@ schema-version: 1.0
 extractor-id: 723
 integration: AWS S3
 vendor-name: Amazon
-product-name: AWS VPC 
-source-name: AWS 
+product-name: Amazon VPC 
+source-name: AMAZON-VPC 
 source-type: FIREWALL
-source-description: Extractor for AWS VPC Events
+source-description: Extractor for Amazon VPC Events
 provides-streams:
 - FIREWALL
 master-filters:
-- '(?:1|2|3|4|5).*?eni-\w+.*?(?:ACCEPT|REJECT|\-).*?(?:OK|NODATA|SKIPDATA)'
+- '(?:1|2|3|4|5).*?eni-\w+.*(?:ACCEPT|REJECT|\-).*?(?:OK|NODATA|SKIPDATA)'
 event-details:
-- first-match: '2\s+\w+\s+eni\-\w+.*?(?:ACCEPT|REJECT)\s+OK'
+- first-match: '2\s+\w+\s+eni\-\w+.*(?:ACCEPT|REJECT)\s+OK'
   decoder: regex
   decoder-regex: '(?P<version>\d+)\s+\w+\s+eni\-\w+\s+(?P<src>[\w\:\.]+)\s+(?P<dst>[\w\:\.]+)\s+(?P<sport>\d+)\s+(?P<dport>\d+)\s+(?P<proto>\d+)\s+\d+\s+(?P<txlen>\d+)\s+(?P<datetime>\d+)\s+\d+\s+(?P<action>(?:ACCEPT|REJECT))\s+OK'
   event-key-format: '{action}'
@@ -34,8 +34,8 @@ event-details:
     'REJECT': 
       annotate:
         Stream: FIREWALL
-        Action: PACKET_BLOCKED
-        Status: PASSED
+        Action: PACKET_ALLOWED
+        Status: FAILED
       translate: 
         src: SrcIP
         dst: DstIP
@@ -48,7 +48,7 @@ event-details:
         
   fallback:
     annotate:
-      EventName: Generic AWS VPC Event
+      EventName: Generic Amazon VPC Event
       Stream: OTHER
 
   globals:
@@ -198,7 +198,7 @@ event-details:
       '142': ROHC
       '255': RESERVED
 
-- first-match: '3\s+vpc\-\w+.*?(?:IPv4|IPv6|EFA).*?(?:ACCEPT|REJECT)\s(?:1|2|3|4|18|19)\s+OK'
+- first-match: '3\s+vpc\-\w+\s+subnet\-\w+\s+i\-\w+\s+eni\-\w+\s+\d+\s+(?:IPv4|IPv6|EFA).*?(?:ACCEPT|REJECT)\s(?:1|2|3|4|18|19)\s+OK'
   decoder: regex
   decoder-regex: '(?P<version>\d+).*?(?:IPv4|IPv6|EFA)\s+(?P<src>[\w\:\.]+)\s+(?P<dst>[\w\:\.]+)\s+(?P<sport>\d+)\s+(?P<dport>\d+)\s+[\w\:\.]+\s+[\w\:\.]+\s+(?P<proto>\d+)\s+(?P<txlen>\d+)\s+\d+\s+(?P<datetime>\d+)\s+\d+\s+(?P<action>(?:ACCEPT|REJECT))\s+(?:1|2|3|4|18|19)\s+OK'
   event-key-format: '{action}'
@@ -220,8 +220,8 @@ event-details:
     'REJECT': 
       annotate:
         Stream: FIREWALL
-        Action: PACKET_BLOCKED
-        Status: PASSED
+        Action: PACKET_ALLOWED
+        Status: FAILED
       translate: 
         src: SrcIP
         dst: DstIP
@@ -234,7 +234,7 @@ event-details:
         
   fallback:
     annotate:
-      EventName: Generic AWS VPC Event
+      EventName: Generic Amazon VPC Event
       Stream: OTHER
 
   globals:
@@ -244,7 +244,7 @@ event-details:
 
   subs: *id001
 
-- first-match: '3\s+eni\-\w+.*?(?:1|2|3|4|18|19)\s+(?:IPv4|IPv6|EFA).*?(?:ACCEPT|REJECT)\s+OK'
+- first-match: '3\s+eni\-\w+.*(?:1|2|3|4|18|19)\s+(?:IPv4|IPv6|EFA)\s+[\w\:\.]+\s+[\w\.\:]+\s+(?:ACCEPT|REJECT)\s+OK'
   decoder: regex
   decoder-regex: '(?P<version>\d+).*?(?P<src>[\w\:\.]+)\s+(?P<dst>[\w\:\.]+)\s+(?P<sport>\d+)\s+(?P<dport>\d+)\s+(?P<proto>\d+)\s+(?:1|2|3|4|18|19)\s+(?:IPv4|IPv6|EFA)\s+[\w\:\.]+\s+[\w\:\.]+\s+(?P<action>(?:ACCEPT|REJECT))\s+OK'
   event-key-format: '{action}'
@@ -290,7 +290,7 @@ event-details:
 
   subs: *id001
 
-- first-match: '5.*?(?:ACCEPT|REJECT).*?(?:ingress|egress)\s+OK'
+- first-match: '5.*(?:ACCEPT|REJECT).*?(?:ingress|egress)\s+OK'
   decoder: regex
   decoder-regex: '(?P<version>\d+)\s+(?P<src>[\w\:\.]+)\s+(?P<dst>[\w\:\.]+)\s+(?P<sport>\d+)\s+(?P<dport>\d+)\s+(?P<proto>\d+)\s+(?P<datetime>\d+)\s+\d+\s+(?:IPv4|IPv6|EFA)\s+\d+\s+(?P<txlen>\d+).*?(?P<action>(?:ACCEPT|REJECT))\s+(?:1|2|3|4|18|19)\s+[\w\:\.]+\s+[\w\:\.]+\s+(?P<app>[\w\-\_]+)\s+(?P<app1>[\w\-\_]+)\s+(?:1|2|3|4|5|6|7|8|-)\s+(?P<flow>(?:ingress|egress))\s+OK'
   event-key-format: '{action}-{flow}'
@@ -326,8 +326,8 @@ event-details:
     'REJECT-ingress': 
       annotate:
         Stream: FIREWALL
-        Action: PACKET_BLOCKED
-        Status: PASSED
+        Action: PACKET_ALLOWED
+        Status: FAILED
       translate: 
         src: SrcIP
         dst: DstIP
@@ -340,8 +340,8 @@ event-details:
     'REJECT-egress': 
       annotate:
         Stream: FIREWALL
-        Action: PACKET_BLOCKED
-        Status: PASSED
+        Action: PACKET_ALLOWED
+        Status: FAILED
       translate: 
         src: SrcIP
         dst: DstIP
@@ -354,7 +354,7 @@ event-details:
         
   fallback:
     annotate:
-      EventName: Generic AWS VPC Event
+      EventName: Generic Amazon VPC Event
       Stream: OTHER
 
   globals:
