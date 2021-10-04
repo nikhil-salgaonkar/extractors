@@ -5,7 +5,7 @@ integration: AWS S3
 vendor-name: Amazon
 product-name: Amazon VPC 
 source-name: AMAZON-VPC 
-source-type: FIREWALL
+source-type: CLOUD
 source-description: Extractor for Amazon VPC Events
 provides-streams:
 - FIREWALL
@@ -280,7 +280,7 @@ event-details:
         
   fallback:
     annotate:
-      EventName: Generic AWS VPC Event
+      EventName: Generic Amazon VPC Event
       Stream: OTHER
 
   globals:
