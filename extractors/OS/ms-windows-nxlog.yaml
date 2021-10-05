@@ -25,9 +25,9 @@ provides-streams:
 - SYSMON-PIPE
 - SYSMON-CONFIG
 master-filters:
-- \"SourceName\"\:\"(?:Microsoft\-Windows|Security|Service\s+Control\s+Manager)
+- \"SourceName\"\:\"(?:Microsoft\-Windows|Security|Service\s+Control\s+Manager|User32)
 event-details:  
-- first-match: \"SourceName\"\:\s*\"Microsoft-Windows-Security-Auditing\"
+- first-match: \"SourceName\"\:\s*\"(?:Microsoft\-Windows\-Security\-Auditing|User32)\"
   decoder: json
   event-key-format: '{EventID}'         
   event-key-mapping:
@@ -998,7 +998,18 @@ event-details:
       translate: 
         SubjectUserName: User 
         ObjectName: Object
-        IpAddress: SrcIP                        
+        IpAddress: SrcIP 
+    '1074':
+      annotate:
+        Stream: WIN-AUDIT
+        Action: DIRECTORY_SERVICE_ACCESSED
+        Status: PASSED  
+        Event: The process has initiated the restart of computer.
+        Category: DIRECTORY   
+      translate: 
+        param7: User 
+        param1: Object
+        IpAddress: SrcIP                       
     '5136':
       annotate:
         Stream: WIN-AUDIT
