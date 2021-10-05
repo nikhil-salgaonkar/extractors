@@ -1,0 +1,49 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 724
+integration: AWS S3
+vendor-name: Amazon
+product-name: AWS Security Hub
+source-name: AWS-SECURITY-HUB
+source-type: CLOUD
+source-description: Extractor for AWS Security Hub Events
+provides-streams:
+- COMPLIANCE
+master-filters:
+- '\"(?:aws/securityhub/ProductName|ProductName)\":\s*\"Security\s+Hub\"'
+event-details:  
+- first-match: '\"Compliance\"\:'
+  decoder: json
+  event-key-format: '{detail[findings][0][Compliance][Status]}'         
+  event-key-mapping:
+    'PASSED':  
+      annotate: 
+        Stream: COMPLIANCE
+        Action: COMPLIANCE_CHECK
+        Status: PASSED
+        Event: Host is compliant.
+      translate:
+        account: Account  
+        detail[findings][0][AwsAccountId]: AccountID
+        detail[findings][0][Title]: Policy
+    'FAILED':  
+      annotate: 
+        Stream: COMPLIANCE
+        Action: COMPLIANCE_CHECK
+        Status: PASSED
+        Event: Host is not compliant.
+      translate:
+        detail[findings][0][Compliance][StatusReasons][0][ReasonCode]: Reason
+        account: Account  
+        detail[findings][0][AwsAccountId]: AccountID
+        detail[findings][0][Title]: Policy                                                                                         
+
+  fallback:
+    annotate:
+      EventName: Generic AWS Security Hub Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      detail[findings][0][CreatedAt]: SystemTstamp
+      System: System
