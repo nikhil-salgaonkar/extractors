@@ -10,7 +10,7 @@ source-description: Extractor for AWS Security Hub Events
 provides-streams:
 - COMPLIANCE
 master-filters:
-- '\"(?:aws/securityhub/ProductName|ProductName)\":\s*\"Security\s+Hub\"'
+- '\"aws/securityhub/ProductName\"\:'
 event-details:  
 - first-match: '\"Compliance\"\:'
   decoder: json
