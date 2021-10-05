@@ -4,7 +4,7 @@ extractor-id: 700
 integration: AWS S3
 vendor-name: Amazon
 product-name: AWS CloudTrail
-source-name: AWS
+source-name: AWS-CLOUDTRAIL
 source-type: CLOUD
 source-description: Extractor for AWS CloudTrail Events
 provides-streams:
@@ -13,47 +13,41 @@ provides-streams:
 - CLOUDTRAIL
 - IAM
 master-filters:
-- '\"awsRegion\"'
+- '\"eventVersion\"\:.*?\"awsRegion\"\:\s*\".*?\"\,'
 event-details:
-- first-match: '\"eventSource\":\s*\"signin\.amazonaws\.com\"'
+- first-match: '\"eventSource\"\:\s*\"[\w\.]+\"\,'
   decoder: json
-  event-key-format: '{eventName}-{responseElements[ConsoleLogin]}'
+  event-key-format: '{eventName}-{eventSource}'
   event-key-mapping:
-    'ConsoleLogin-Failure':
+    'ConsoleLogin-signin.amazonaws.com':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
-        Status: FAILED
-        Reason: INVALID_CREDENTIALS
       translate:
         userIdentity[userName]: User
         sourceIPAddress: SrcIP
         AuthProto: AuthProto
-    'ConsoleLogin-Success':
+        errorMessage: Reason
+        responseElements[ConsoleLogin]: Status
+    'UserAuthentication-signin.amazonaws.com':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
-        Status: PASSED
       translate:
         userIdentity[userName]: User
         sourceIPAddress: SrcIP
         AuthProto: AuthProto
-
-  fallback:
-    annotate:
-      EventName: Generic AWS CloudTrail Events
-      Stream: OTHER
-
-  globals:
-    translate:
-      eventTime: SystemTstamp
-      System: System
-
-- first-match: '\"eventSource\":\s*\"iam\.amazonaws\.com\"'
-  decoder: json
-  event-key-format: '{eventName}'
-  event-key-mapping:
-    'CreatePolicyVersion':
+        errorMessage: Reason
+        serviceEventDetails[UserAuthentication]: Status
+    'CreatePolicyVersion-iam.amazonaws.com':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        userIdentity[userName]: User
+        eventName: Config
+    'DeletePolicyVersion-iam.amazonaws.com':
       annotate:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
@@ -61,7 +55,7 @@ event-details:
       translate:
         userIdentity[userName]: User
         eventName: Config 
-    'DeletePolicyVersion':
+    'AttachGroupPolicy-iam.amazonaws.com':
       annotate:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
@@ -69,7 +63,7 @@ event-details:
       translate:
         userIdentity[userName]: User
         eventName: Config 
-    'AttachGroupPolicy':
+    'DetachGroupPolicy-iam.amazonaws.com':
       annotate:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
@@ -77,7 +71,7 @@ event-details:
       translate:
         userIdentity[userName]: User
         eventName: Config 
-    'DetachGroupPolicy':
+    'AttachRolePolicy-iam.amazonaws.com':
       annotate:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
@@ -85,7 +79,7 @@ event-details:
       translate:
         userIdentity[userName]: User
         eventName: Config 
-    'AttachRolePolicy':
+    'DetachRolePolicy-iam.amazonaws.com':
       annotate:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
@@ -93,7 +87,7 @@ event-details:
       translate:
         userIdentity[userName]: User
         eventName: Config 
-    'DetachRolePolicy':
+    'PutRolePolicy-iam.amazonaws.com':
       annotate:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
@@ -101,7 +95,7 @@ event-details:
       translate:
         userIdentity[userName]: User
         eventName: Config 
-    'PutRolePolicy':
+    'PutUserPolicy-iam.amazonaws.com':
       annotate:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
@@ -109,7 +103,7 @@ event-details:
       translate:
         userIdentity[userName]: User
         eventName: Config 
-    'GetRolePolicy':
+    'PutGroupPolicy-iam.amazonaws.com':
       annotate:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
@@ -117,39 +111,7 @@ event-details:
       translate:
         userIdentity[userName]: User
         eventName: Config 
-    'PutUserPolicy':
-      annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-      translate:
-        userIdentity[userName]: User
-        eventName: Config 
-    'PutGroupPolicy':
-      annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-      translate:
-        userIdentity[userName]: User
-        eventName: Config 
-    'GetUserPolicy':
-      annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-      translate:
-        userIdentity[userName]: User
-        eventName: Config 
-    'GetGroupPolicy':
-      annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-      translate:
-        userIdentity[userName]: User
-        eventName: Config 
-    'DetachUserPolicy':
+    'DetachUserPolicy-iam.amazonaws.com':
       annotate:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
@@ -157,7 +119,7 @@ event-details:
       translate:
         userIdentity[userName]: User
         eventName: Config     
-    'AttachUserPolicy':
+    'AttachUserPolicy-iam.amazonaws.com':
       annotate:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
@@ -165,7 +127,7 @@ event-details:
       translate:
         userIdentity[userName]: User
         eventName: Config           
-    'CreatePolicy':
+    'CreatePolicy-iam.amazonaws.com':
       annotate:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
@@ -173,7 +135,7 @@ event-details:
       translate:
         userIdentity[userName]: User
         eventName: Config
-    'DeletePolicy':
+    'DeletePolicy-iam.amazonaws.com':
       annotate:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
@@ -181,7 +143,7 @@ event-details:
       translate:
         userIdentity[userName]: User
         eventName: Config
-    'DeleteRolePolicy':
+    'DeleteRolePolicy-iam.amazonaws.com':
       annotate:
         Stream: IAM
         Action: POLICY_ROLE_DELETED
@@ -190,7 +152,7 @@ event-details:
         userIdentity[userName]: User
         requestParameters[userName]: TargetUser
         userIdentity[type]: Role
-    'DeleteUserPolicy':
+    'DeleteUserPolicy-iam.amazonaws.com':
       annotate:
         Stream: IAM
         Action: USER_POLICY_DELETED
@@ -199,7 +161,7 @@ event-details:
         userIdentity[userName]: User
         requestParameters[userName]: TargetUser
         userIdentity[type]: Role
-    'DeleteGroupPolicy':
+    'DeleteGroupPolicy-iam.amazonaws.com':
       annotate:
         Stream: IAM
         Action: GROUP_POLICY_DELETED
@@ -208,7 +170,7 @@ event-details:
         userIdentity[userName]: User
         requestParameters[userName]: TargetUser
         userIdentity[type]: Role
-    'CreateUser':
+    'CreateUser-iam.amazonaws.com':
       annotate:
         Stream: IAM
         Action: USER_CREATED
@@ -217,7 +179,7 @@ event-details:
         userIdentity[userName]: User
         requestParameters[userName]: TargetUser
         userIdentity[type]: Role
-    'DeleteUser':
+    'DeleteUser-iam.amazonaws.com':
       annotate:
         Stream: IAM
         Action: USER_DELETED
@@ -226,7 +188,7 @@ event-details:
         userIdentity[userName]: User
         requestParameters[userName]: TargetUser
         userIdentity[type]: Role
-    'UpdateUser':
+    'UpdateUser-iam.amazonaws.com':
       annotate:
         Stream: IAM
         Action: USER_UPDATED
@@ -235,7 +197,7 @@ event-details:
         userIdentity[userName]: User
         requestParameters[userName]: TargetUser
         userIdentity[type]: Role
-    'AddUserToGroup':
+    'AddUserToGroup-iam.amazonaws.com':
       annotate:
         Stream: IAM
         Action: USER_ADDED
@@ -244,7 +206,7 @@ event-details:
         userIdentity[userName]: User
         requestParameters[userName]: TargetUser
         userIdentity[type]: Role
-    'AddUsersToGroup':
+    'AddUsersToGroup-iam.amazonaws.com':
       annotate:
         Stream: IAM
         Action: USER_ADDED
@@ -253,7 +215,7 @@ event-details:
         userIdentity[userName]: User
         requestParameters[userName]: TargetUser
         userIdentity[type]: Role
-    'DeleteUserToGroup':
+    'DeleteUserToGroup-iam.amazonaws.com':
       annotate:
         Stream: IAM
         Action: USER_DELETED
@@ -262,7 +224,7 @@ event-details:
         userIdentity[userName]: User
         requestParameters[userName]: TargetUser
         userIdentity[type]: Role
-    'CreateRole':
+    'CreateRole-iam.amazonaws.com':
       annotate:
         Stream: IAM
         Action: USER_ADDED
@@ -271,7 +233,7 @@ event-details:
         userIdentity[userName]: User
         requestParameters[userName]: TargetUser
         userIdentity[type]: Role
-    'DeleteRole':
+    'DeleteRole-iam.amazonaws.com':
       annotate:
         Stream: IAM
         Action: USER_REMOVED
@@ -280,7 +242,7 @@ event-details:
         userIdentity[userName]: User
         requestParameters[userName]: TargetUser
         userIdentity[type]: Role   
-    'UpdateRole':
+    'UpdateRole-iam.amazonaws.com':
       annotate:
         Stream: IAM
         Action: USER_ADDED
@@ -289,7 +251,7 @@ event-details:
         userIdentity[userName]: User
         requestParameters[userName]: TargetUser
         userIdentity[type]: Role     
-    'ExitRole':
+    'ExitRole-iam.amazonaws.com':
       annotate:
         Stream: IAM
         Action: USER_REMOVED
@@ -298,7 +260,7 @@ event-details:
         userIdentity[userName]: User
         requestParameters[userName]: TargetUser
         userIdentity[type]: Role     
-    'CreateGroup':
+    'CreateGroup-iam.amazonaws.com':
       annotate:
         Stream: IAM
         Action: GROUP_CREATED
@@ -307,7 +269,7 @@ event-details:
         userIdentity[userName]: User
         requestParameters[userName]: TargetUser
         userIdentity[type]: Role     
-    'DeleteGroup':
+    'DeleteGroup-iam.amazonaws.com':
       annotate:
         Stream: IAM
         Action: GROUP_DELETED
@@ -316,7 +278,7 @@ event-details:
         userIdentity[userName]: User
         requestParameters[userName]: TargetUser
         userIdentity[type]: Role 
-    'UpdateGroup':
+    'UpdateGroup-iam.amazonaws.com':
       annotate:
         Stream: IAM
         Action: GROUP_UPDATED
@@ -325,16 +287,16 @@ event-details:
         userIdentity[userName]: User
         requestParameters[userName]: TargetUser
         userIdentity[type]: Role    
-    'CreateLoginProfile':
+    'CreateLoginProfile-iam.amazonaws.com':
       annotate:
         Stream: IAM
-        Action: PASSOWRD_CREATED
+        Action: PASSWORD_CREATED
         Status: PASSED
       translate:
         userIdentity[userName]: User
         requestParameters[userName]: TargetUser
         userIdentity[type]: Role    
-    'UpdateLoginProfile':
+    'UpdateLoginProfile-iam.amazonaws.com':
       annotate:
         Stream: IAM
         Action: PASSWORD_CHANGED
@@ -343,7 +305,7 @@ event-details:
         userIdentity[userName]: User
         requestParameters[userName]: TargetUser
         userIdentity[type]: Role    
-    'DeleteLoginProfile':
+    'DeleteLoginProfile-iam.amazonaws.com':
       annotate:
         Stream: IAM
         Action: PASSWORD_DELETED
@@ -351,69 +313,82 @@ event-details:
       translate:
         userIdentity[userName]: User
         requestParameters[userName]: TargetUser
-        userIdentity[type]: Role     
-
-  fallback:
-    annotate:
-      EventName: Generic AWS CloudTrail Events
-      Stream: OTHER
-
-  globals:
-    translate:
-      eventTime: SystemTstamp
-      System: System
-
-- first-match: '\"eventSource\":\s*\"config\.amazonaws\.com\"'
-  decoder: json
-  event-key-format: ''
-  event-key-mapping:
-    '':
+        userIdentity[type]: Role 
+    'PutConfigurationRecorder-config.amazonaws.com':
       annotate:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
         Status: PASSED
       translate:
         userIdentity[userName]: User
-        eventName: Config 
-    
-  fallback:
-    annotate:
-      EventName: Generic AWS CloudTrail Events
-      Stream: OTHER
-
-  globals:
-    translate:
-      eventTime: SystemTstamp
-      System: System
-
-- first-match: '\"eventSource\":(?:\s+)?\"(?!signin\.amazonaws\.com|iam\.amazonaws\.com|config\.amazonaws\.com).*?\"\,'
-  decoder: json
-  event-key-format: ''
-  event-key-mapping:
-    '':
+        eventName: Config
+    'StopConfigurationRecorder-config.amazonaws.com':
       annotate:
-        Stream: CLOUDTRAIL
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
       translate:
-        eventType: EventType
-        eventSource: EventSource
-        eventName: EventName
-        awsRegion: AwsRegion
-        userIdentity[accessKeyId]: AccessKey
-        userIdentity[type]: UserGroup
-        sourceIPAddress: SrcIP
-        userAgent: UserAgent
-        requestParameters: RequestParameters
-        responseElements: ResponseElements
-        errorCode: ErrorCode
-        userIdentity[arn]: UserArn
         userIdentity[userName]: User
-    
+        eventName: Config
+    'DeleteDeliveryChannel-config.amazonaws.com':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        userIdentity[userName]: User
+        eventName: Config
+    'PutDeliveryChannel-config.amazonaws.com':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        userIdentity[userName]: User
+        eventName: Config
+    'DeleteConfigRule-config.amazonaws.com':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        userIdentity[userName]: User
+        eventName: Config  
+    'DeleteEvaluationResults-config.amazonaws.com':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        userIdentity[userName]: User
+        eventName: Config                                
+
   fallback:
     annotate:
-      EventName: Generic AWS CloudTrail Events
-      Stream: OTHER
+      Stream: CLOUDTRAIL
+    translate:
+      eventType: EventType
+      eventSource: EventSource
+      eventName: EventName
+      awsRegion: AwsRegion
+      userIdentity[accessKeyId]: AccessKey
+      userIdentity[type]: UserGroup
+      sourceIPAddress: SrcIP
+      userAgent: UserAgent
+      requestParameters: RequestParameters
+      responseElements: ResponseElements
+      errorCode: ErrorCode
+      userIdentity[arn]: UserArn
+      userIdentity[userName]: User  
 
   globals:
     translate:
       eventTime: SystemTstamp
       System: System
+
+  subs: 
+    Status:
+      'FAILED': 'Failure'
+      'PASSED': 'Success'
+      'FAILED': 'FAILED'
+      'PASSED': 'PASSED'
