@@ -1,0 +1,179 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 286
+integration: Syslog(CEF)
+vendor-name: CrowdStrike
+product-name: FALCON
+source-name: CROWDSTRIKE-FALCON
+source-type: EDR
+source-description: Extractor for Crowdstrike Falcon Events
+provides-streams:
+- THREAT
+- AUTHENTICATION
+- CONFIGURATION
+- IAM
+master-filters:
+- 'CEF\:\d+\|CrowdStrike\|FalconHost\|'
+event-details:
+- first-match: 'CEF\:\d+\|CrowdStrike\|FalconHost\|[\d\.]+\|[\w\s]+\|[\w\s]+\|\d+\|'
+  decoder: custom
+  decoder-regex: '([^\s\|\=]+)\=(?:([^=]+|)(?=\s+\w+|$)|([\w\:\/\.\-\?\\\=]+|$))'
+  event-key-format: '{Header-5}'
+  decoder-header: CEF
+  event-key-mapping:
+    'DetectionSummaryEvent':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        src: SrcIP
+        DstIP: DstIP
+        technique: Threat
+        fname: File
+        objective: Process
+        cs6: URL
+        cs5: CommandLine
+        duser: User
+    'Network Access In A Detection Summary Event':    
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        src: SrcIP
+        DstIP: DstIP
+        technique: Threat
+        fname: File
+        objective: Process
+        cs6: URL
+        cs5: CommandLine
+        duser: User    
+    'Document Access In A Detection Summary Event':    
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        src: SrcIP
+        DstIP: DstIP
+        technique: Threat
+        fname: File
+        objective: Process
+        cs6: URL
+        cs5: CommandLine
+        duser: User
+    'DNS Request In A Detection Summary Event':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        src: SrcIP
+        DstIP: DstIP
+        technique: Threat
+        fname: File
+        objective: Process
+        cs6: URL
+        cs5: CommandLine
+        duser: User
+    'Executable Written In A Detection Summary Event':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        src: SrcIP
+        DstIP: DstIP
+        technique: Threat
+        fname: File
+        objective: Process
+        cs6: URL
+        cs5: CommandLine
+        duser: User   
+    'quarantined_file_update':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        duser: User
+        deviceProcessName: Config
+    'twoFactorAuthenticate':  
+      annotate:
+        Stream: AUTHENTICATION
+        Action: 2FA_TOKEN_SENT
+        Status: PASSED
+      translate:
+        duser: User
+        destinationTranslatedAddress: SrcIP
+        AuthProto: AuthProto 
+    'userAuthenticate':     
+      annotate:
+        Stream: AUTHENTICATION
+        Action: 2FA_TOKEN_SENT
+        Status: PASSED
+      translate:
+        duser: User
+        destinationTranslatedAddress: SrcIP
+        AuthProto: AuthProto 
+    'updateUser':
+      annotate:
+        Stream: IAM
+        Action: USER_UPDATED
+        Status: PASSED
+      translate:
+        duser: User
+        Role: Role
+        TargetUser: TargetUser
+    'streamStarted':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        duser: User
+        deviceProcessName: Config
+    'streamStopped':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        duser: User
+        deviceProcessName: Config   
+    'validateEntitlementsHmac':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        duser: User
+        destinationTranslatedAddress: SrcIP
+        AuthProto: AuthProto               
+    'Auth Activity Audit Event':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        suser: User
+        sourceTranslatedAddress: SrcIP
+        AuthProto: AuthProto
+
+  fallback:
+    annotate:
+      EventName: Generic Crowdstrike Falcon Event
+      Stream: OTHER  
+
+  globals:
+     translate:
+       deviceCustomDate1: SystemTstamp
+       System: System      
+
+    
