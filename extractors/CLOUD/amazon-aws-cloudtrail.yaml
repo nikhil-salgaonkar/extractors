@@ -388,5 +388,7 @@ event-details:
 
   subs: 
     Status:
-      'Failure': 'FAILED'
-      'Success': 'PASSED'
+      'FAILED': 'Failure'
+      'PASSED': 'Success'
+      'FAILED': 'FAILED'
+      'PASSED': 'PASSED'
