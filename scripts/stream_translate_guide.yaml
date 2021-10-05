@@ -13,6 +13,7 @@ AUTHENTICATION:
 - System
 - User
 - SrcIP
+- Status
 - Reason
 - AuthProto
 IAM:
