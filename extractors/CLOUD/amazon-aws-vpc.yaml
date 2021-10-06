@@ -34,8 +34,8 @@ event-details:
     'REJECT': 
       annotate:
         Stream: FIREWALL
-        Action: PACKET_ALLOWED
-        Status: FAILED
+        Action: PACKET_BLOCKED
+        Status: PASSED
       translate: 
         src: SrcIP
         dst: DstIP
@@ -220,8 +220,8 @@ event-details:
     'REJECT': 
       annotate:
         Stream: FIREWALL
-        Action: PACKET_ALLOWED
-        Status: FAILED
+        Action: PACKET_BLOCKED
+        Status: PASSED
       translate: 
         src: SrcIP
         dst: DstIP
@@ -326,8 +326,8 @@ event-details:
     'REJECT-ingress': 
       annotate:
         Stream: FIREWALL
-        Action: PACKET_ALLOWED
-        Status: FAILED
+        Action: PACKET_BLOCKED
+        Status: PASSED
       translate: 
         src: SrcIP
         dst: DstIP
@@ -340,8 +340,8 @@ event-details:
     'REJECT-egress': 
       annotate:
         Stream: FIREWALL
-        Action: PACKET_ALLOWED
-        Status: FAILED
+        Action: PACKET_BLOCKED
+        Status: PASSED
       translate: 
         src: SrcIP
         dst: DstIP
