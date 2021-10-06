@@ -3,7 +3,7 @@ schema-version: 1.0
 extractor-id: 286
 integration: Syslog(CEF)
 vendor-name: CrowdStrike
-product-name:  CrowdStrike Falcon
+product-name: CrowdStrike Falcon
 source-name: CROWDSTRIKE-FALCON
 source-type: ENDPOINT-SECURITY
 source-description: Extractor for CrowdStrike Falcon Events
