@@ -3,10 +3,10 @@ schema-version: 1.0
 extractor-id: 286
 integration: Syslog(CEF)
 vendor-name: CrowdStrike
-product-name: FALCON
+product-name:  CrowdStrike Falcon
 source-name: CROWDSTRIKE-FALCON
-source-type: EDR
-source-description: Extractor for Crowdstrike Falcon Events
+source-type: ENDPOINT-SECURITY
+source-description: Extractor for CrowdStrike Falcon Events
 provides-streams:
 - THREAT
 - AUTHENTICATION
@@ -98,7 +98,7 @@ event-details:
 
   fallback:
     annotate:
-      EventName: Generic Crowdstrike Falcon Event
+      EventName: Generic CrowdStrike Falcon Event
       Stream: OTHER  
 
   globals:
@@ -133,7 +133,7 @@ event-details:
 
   fallback:
     annotate:
-      EventName: Generic Crowdstrike Falcon Event
+      EventName: Generic CrowdStrike Falcon Event
       Stream: OTHER  
 
   globals:
