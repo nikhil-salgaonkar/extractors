@@ -10,7 +10,7 @@ source-description: Extractor for Orca Threat Events
 provides-streams:
 - THREAT
 master-filters:
-- '\{\"type\"\:\"\w+\".*?\"type\_string\"\:.*?\"category\"\:'
+- '\{\"log\_source\"\:\"\w+\"\,\"type\"\:\"\w+\".*?\"type\_string\"\:.*?\"category\"\:'
 event-details:
 - first-match: '\"category\"\:\"[\w\s]+\"'
   decoder: json
@@ -198,6 +198,54 @@ event-details:
       translate:
         description: Threat
         model[data][User][Name]: User 
+
+    'Data at risk-VM':  
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST  
+      translate:
+        description: Threat
+        asset_first_private_ips[0]: SrcIP
+        DstIP: DstIP
+        CommandLine: CommandLine
+        User: User
+        File: File
+        Process: Process 
+        URL: URL  
+
+    'Data at risk-Container':  
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST  
+      translate:
+        description: Threat
+        asset_first_private_ips[0]: SrcIP
+        DstIP: DstIP
+        CommandLine: CommandLine
+        User: User
+        File: File
+        Process: Process 
+        URL: URL    
+
+    'Neglected assets-Container':  
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST  
+      translate:
+        description: Threat
+        asset_first_private_ips[0]: SrcIP
+        DstIP: DstIP
+        CommandLine: CommandLine
+        User: User
+        File: File
+        Process: Process 
+        URL: URL      
 
   fallback:
     annotate:
