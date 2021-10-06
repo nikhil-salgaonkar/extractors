@@ -11,7 +11,7 @@ provides-streams:
 - AZURE
 - FIREWALL
 master-filters:
-- '\"resourceId\"\:.*?\"operationName\"\:\S+\"\,\"category\"\:\"\w+\"'
+- '\"resourceId\"\:.*?\"operationName\"\:.*?\"(?:recommendationCategory|category)\"\:'
 - '\"(?:TaskName|EventName)\"\:.*?resourceId\"\:.*?\"category\"\:\"\w+\"'
 - '\"resourceId\".*?\"metricName\"\:\"\w+\"\,\"timeGrain\"\:'
 - '\"operationName\":\"NetworkSecurityGroupFlowEvents\"'
@@ -207,6 +207,72 @@ event-details:
         identity[claims][name]: User
         operationName: OperationName  
 
+    'Administrative-Start-Administrative':
+      annotate:
+        Stream: AZURE
+        Action: AZURE_ADMINISTRATIVE
+        Status: PASSED
+        EventName: ADMINISTRATIVE
+      translate:  
+        properties[eventCategory]: Category
+        identity[claims][name]: User
+        operationName: OperationName 
+
+    'Administrative-Success-Administrative':
+      annotate:
+        Stream: AZURE
+        Action: AZURE_ADMINISTRATIVE
+        Status: PASSED
+        EventName: ADMINISTRATIVE
+      translate:  
+        properties[eventCategory]: Category
+        identity[claims][name]: User
+        operationName: OperationName 
+
+    'Administrative-Accept-Administrative':
+      annotate:
+        Stream: AZURE
+        Action: AZURE_ADMINISTRATIVE
+        Status: PASSED
+        EventName: ADMINISTRATIVE
+      translate:  
+        properties[eventCategory]: Category
+        identity[claims][name]: User
+        operationName: OperationName 
+
+    'Administrative-Failure-Administrative':
+      annotate:
+        Stream: AZURE
+        Action: AZURE_ADMINISTRATIVE
+        Status: FAILED
+        EventName: ADMINISTRATIVE
+      translate:  
+        properties[eventCategory]: Category
+        identity[claims][name]: User
+        operationName: OperationName 
+
+    'Policy-Start-Policy':
+      annotate:
+        Stream: AZURE
+        Action: AZURE_POLICY
+        Status: PASSED
+        EventName: POLICY
+      translate:  
+        properties[eventCategory]: Category
+        User: User
+        operationName: OperationName   
+
+    'Policy-Success-Policy':
+      annotate:
+        Stream: AZURE
+        Action: AZURE_POLICY
+        Status: PASSED
+        EventName: POLICY
+      translate:  
+        properties[eventCategory]: Category
+        User: User
+        operationName: OperationName                          
+
   fallback:
     annotate:
       EventName: Generic Azure Event 
@@ -215,7 +281,159 @@ event-details:
   globals:
     translate:
       System: System
-      time: SystemTstamp        
+      time: SystemTstamp  
+
+- first-match: '\"resultType\"\:\"\w+\"\,.*?\"category\"\:\"\w+\"\,.*?\"eventCategory\"'
+  decoder: json
+  event-key-format: '{resultType}-{category}-{properties[eventCategory]}'
+  event-key-mapping: 
+    'Started-Administrative-Administrative':
+      annotate:
+        Stream: AZURE
+        Action: AZURE_ADMINISTRATIVE
+        Status: PASSED
+        EventName: ADMINISTRATIVE
+      translate:  
+        category: Category
+        User: User
+        operationName: OperationName      
+
+    'Succeeded-Administrative-Administrative':
+      annotate:
+        Stream: AZURE
+        Action: AZURE_ADMINISTRATIVE
+        Status: PASSED
+        EventName: ADMINISTRATIVE
+      translate:  
+        category: Category
+        User: User
+        operationName: OperationName   
+
+    'Failed-Administrative-Administrative':
+      annotate:
+        Stream: AZURE
+        Action: AZURE_ADMINISTRATIVE
+        Status: FAILED
+        EventName: ADMINISTRATIVE
+      translate:  
+        category: Category
+        User: User
+        operationName: OperationName   
+
+  fallback:
+    annotate:
+      EventName: Generic Azure Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      System: System
+      time: SystemTstamp       
+
+- first-match: '\"EventName\":\"AzureBackupActivityLog\"\,'
+  decoder: json
+  event-key-format: '{category}-{resultType}'
+  event-key-mapping: 
+    'Administrative-Succeeded':
+      annotate:
+        Stream: AZURE
+        Action: AZURE_ADMINISTRATIVE
+        Status: PASSED
+      translate:  
+        category: Category
+        User: User
+        operationName: OperationName
+        EventName: EventName
+
+    'Administrative-Failed':
+      annotate:
+        Stream: AZURE
+        Action: AZURE_ADMINISTRATIVE
+        Status: FAILED
+      translate:  
+        category: Category
+        User: User
+        operationName: OperationName
+        EventName: EventName   
+
+    'Administrative-Started':
+      annotate:
+        Stream: AZURE
+        Action: AZURE_ADMINISTRATIVE
+        Status: PASSED
+      translate:  
+        category: Category
+        User: User
+        operationName: OperationName  
+        EventName: EventName   
+
+  fallback:
+    annotate:
+      EventName: Generic Azure Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      System: System
+      time: SystemTstamp 
+
+- first-match: '\"recommendationCategory\"\:\"\w+\"\,'
+  decoder: json
+  event-key-format: '{resultType}-{properties[recommendationCategory]}'
+  event-key-mapping: 
+    'Active-HighAvailability':
+      annotate:
+        Stream: AZURE
+        Action: AZURE_RECOMMENDATION
+        Status: PASSED
+        EventName: RECOMMENDATION
+      translate:  
+        category: Category
+        User: User
+        operationName: OperationName      
+
+    'Active-Performance':
+      annotate:
+        Stream: AZURE
+        Action: AZURE_RECOMMENDATION
+        Status: PASSED
+        EventName: RECOMMENDATION
+      translate:  
+        category: Category
+        User: User
+        operationName: OperationName   
+
+    'Active-Security':
+      annotate:
+        Stream: AZURE
+        Action: AZURE_RECOMMENDATION
+        Status: PASSED
+        EventName: RECOMMENDATION
+      translate:  
+        category: Category
+        User: User
+        operationName: OperationName  
+
+    'Active-Cost':
+      annotate:
+        Stream: AZURE
+        Action: AZURE_RECOMMENDATION
+        Status: PASSED
+        EventName: RECOMMENDATION
+      translate:  
+        category: Category
+        User: User
+        operationName: OperationName     
+
+  fallback:
+    annotate:
+      EventName: Generic Azure Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      System: System
+      time: SystemTstamp                
 
 - first-match: 'Status\"\:\"\w+\".*?\"category\"\:\"OperationalLogs\"'
   decoder: json
