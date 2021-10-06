@@ -1,0 +1,196 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 265
+integration: Syslog(CEF)
+vendor-name: Trend Micro
+product-name: Deep Discovery Email Inspector
+source-name: TREND-MICRO-DDEI
+source-type: EMAIL-GATEWAY
+source-description: Extractor for Trend-Micro DDEI Events
+provides-streams:
+- EMAIL-GATEWAY
+- CONFIGURATION
+- AUTHENTICATION
+- THREAT
+master-filters:
+- 'CEF\:\d+\|Trend\s+Micro\|Deep\s+Discovery\s+Email\s+Inspector\|'
+event-details:
+- first-match: 'CEF\:\d+\|Trend\s+Micro\|Deep\s+Discovery\s+Email\s+Inspector\|[\d\.]+\|\d+\|(?:EMAIL\_DETECTION|ATTACHMENT\_DETECTION|URL\_DETECTION|Deny\s+List\s+updated|PRODUCT\_UPDATE)\|'
+  decoder: custom
+  decoder-regex: '([^\s\|]+)=([^=]+)(?=\s+\w+=|$)'
+  event-key-format: '{Header-5}'
+  decoder-header: CEF
+  event-key-mapping:
+    'EMAIL_DETECTION':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: EMAIL
+      translate:
+        src: SrcIP
+        cs1: Threat
+        suser: Sender 
+        duser: Recipient  
+    'ATTACHMENT_DETECTION':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: EMAIL
+      translate:
+        src: SrcIP
+        cs1: Threat
+        suser: Sender 
+        duser: Recipient
+    'URL_DETECTION':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: EMAIL
+      translate:
+        src: SrcIP
+        cs1: Threat
+        suser: Sender 
+        duser: Recipient  
+    'Deny List updated':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Deny List Updated
+      translate:
+        User: User
+    'PRODUCT_UPDATE':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        User: User
+        Header-5: Config
+    
+  fallback: 
+    annotate:
+      EventName: Generic Trend-Micro DDEI Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      rt: SystemTstamp
+      dvchost: System
+
+- first-match: 'CEF\:\d+\|Trend\s+Micro\|Deep\s+Discovery\s+Email\s+Inspector\|[\d\.]+\|\d+\|MESSAGE\_TRACKING\|'
+  decoder: custom
+  decoder-regex: '([^\s\|]+)=([^=]+)(?=\s+\w+=|$)'
+  event-key-format: '{Header-5}-{cs3}'
+  decoder-header: CEF
+  event-key-mapping:
+    'MESSAGE_TRACKING-Deleted':
+      annotate:
+        Stream: EMAIL-GATEWAY
+        Action: EMAIL_DELETED
+        Status: PASSED
+      translate:
+        suser: Sender 
+        duser: Recipient 
+        msg: Subject
+        Direction: Direction
+        File: File 
+        src: RemoteIP
+    'MESSAGE_TRACKING-Delivered':
+      annotate:
+        Stream: EMAIL-GATEWAY
+        Action: EMAIL_DELIVERED
+        Status: PASSED
+      translate:
+        suser: Sender 
+        duser: Recipient 
+        msg: Subject
+        Direction: Direction
+        File: File 
+        src: RemoteIP
+    'MESSAGE_TRACKING-Delivery unsuccessful':
+      annotate:
+        Stream: EMAIL-GATEWAY
+        Action: EMAIL_DELIVERED
+        Status: FAILED
+      translate:
+        suser: Sender 
+        duser: Recipient 
+        msg: Subject
+        Direction: Direction
+        File: File 
+        src: RemoteIP
+    'MESSAGE_TRACKING-Processing completed':
+      annotate:
+        Stream: EMAIL-GATEWAY
+        Action: EMAIL_PROCESSING_COMPLETED
+        Status: PASSED
+      translate:
+        suser: Sender 
+        duser: Recipient 
+        msg: Subject
+        Direction: Direction
+        File: File 
+        src: RemoteIP
+    'MESSAGE_TRACKING-Quarantined':
+      annotate:
+        Stream: EMAIL-GATEWAY
+        Action: EMAIL_QUARANTINED
+        Status: PASSED
+      translate:
+        suser: Sender 
+        duser: Recipient 
+        msg: Subject
+        Direction: Direction
+        File: File 
+        src: RemoteIP
+    'MESSAGE_TRACKING-Recipient changed':
+      annotate:
+        Stream: EMAIL-GATEWAY
+        Action: EMAIL_RECIPIENT_CHANGED
+        Status: PASSED
+      translate:
+        suser: Sender 
+        duser: Recipient 
+        msg: Subject
+        Direction: Direction
+        File: File 
+        src: RemoteIP
+
+  fallback: 
+    annotate:
+      EventName: Generic Trend-Micro DDEI Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      rt: SystemTstamp
+      dvchost: System
+
+- first-match: 'CEF\:\d+\|Trend\s+Micro\|Deep\s+Discovery\s+Email\s+Inspector\|[\d\.]+\|\d+\|SYSTEM\_EVENT\|.*?msg\=.*?logged\s+on'
+  decoder: regex
+  decoder-regex: CEF\:\d+\|[\w\s]+\|[\w\s]+\|[\d\.]+\|\d+\|(?P<action>[\w\-]+)\|\d+\|rt\=(?P<datetime>\w{3}\s+\d{2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2}).*?msg\=.*?\'?(?P<user>[\w\-\_]+)\'?\s+logged\s+on.*?from\s+(?P<src>[\w\:\.]+).*?dvchost\=(?P<system>\S+)
+  event-key-format: '{action}'
+  event-key-mapping:
+    'SYSTEM_EVENT':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        user: User
+        src: SrcIP
+        AuthProto: AuthProto        
+    
+  fallback: 
+    annotate:
+      EventName: Generic Trend-Micro DDEI Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      system: System 
