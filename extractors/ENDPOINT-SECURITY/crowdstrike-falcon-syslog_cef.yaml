@@ -16,8 +16,8 @@ master-filters:
 event-details:
 - first-match: 'CEF\:\d+\|CrowdStrike\|FalconHost\|[\d\.]+\|[\w\s]+\|[\w\s]+\|.*?outcome\=\d+'
   decoder: custom
-  decoder-regex: '([^\s\|\=]+)\=(?:([^=]+|)(?=\s+\w+|$)|([\w\:\/\.\-\?\\\=]+|$))'
-  event-key-format: '{Header-5}'
+  decoder-regex: '([^\s\|\=]+)\=(?:([^=]+|)(?=\s+\w+|$)|(\S+))'
+  event-key-format: '{Header-4}'
   decoder-header: CEF
   event-key-mapping:
     'DetectionSummaryEvent':
@@ -94,7 +94,22 @@ event-details:
         Process: Process
         cs6: URL
         cs5: CommandLine
-        duser: User     
+        duser: User  
+    'Quarantined Files In A Detection Summary Event':  
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        src: SrcIP
+        DstIP: DstIP
+        technique: Threat
+        fname: File
+        Process: Process
+        cs6: URL
+        cs5: CommandLine
+        duser: User         
 
   fallback:
     annotate:
@@ -102,9 +117,9 @@ event-details:
       Stream: OTHER  
 
   globals:
-     translate:
-       deviceCustomDate1: SystemTstamp
-       System: System
+    translate:
+      deviceCustomDate1: SystemTstamp
+      dhost: System     
 
 - first-match: 'CEF\:\d+\|CrowdStrike\|FalconHost\|[\d\.]+\|[\w\s]+\|[\w\s]+\|.*?outcome\=(?:true|false)'
   decoder: custom
@@ -137,6 +152,6 @@ event-details:
       Stream: OTHER  
 
   globals:
-     translate:
-       deviceCustomDate1: SystemTstamp
-       System: System      
+    translate:
+      deviceCustomDate1: SystemTstamp
+      dhost: System      
