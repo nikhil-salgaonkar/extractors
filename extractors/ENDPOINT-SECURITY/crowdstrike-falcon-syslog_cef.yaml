@@ -1,0 +1,142 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 286
+integration: Syslog(CEF)
+vendor-name: CrowdStrike
+product-name: CrowdStrike Falcon
+source-name: CROWDSTRIKE-FALCON
+source-type: ENDPOINT-SECURITY
+source-description: Extractor for CrowdStrike Falcon Events
+provides-streams:
+- THREAT
+- AUTHENTICATION
+- IAM
+master-filters:
+- 'CEF\:\d+\|CrowdStrike\|FalconHost\|'
+event-details:
+- first-match: 'CEF\:\d+\|CrowdStrike\|FalconHost\|[\d\.]+\|[\w\s]+\|[\w\s]+\|.*?outcome\=\d+'
+  decoder: custom
+  decoder-regex: '([^\s\|\=]+)\=(?:([^=]+|)(?=\s+\w+|$)|([\w\:\/\.\-\?\\\=]+|$))'
+  event-key-format: '{Header-5}'
+  decoder-header: CEF
+  event-key-mapping:
+    'DetectionSummaryEvent':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        src: SrcIP
+        DstIP: DstIP
+        technique: Threat
+        fname: File
+        Process: Process
+        cs6: URL
+        cs5: CommandLine
+        duser: User
+    'Network Access In A Detection Summary Event':    
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        src: SrcIP
+        DstIP: DstIP
+        technique: Threat
+        fname: File
+        Process: Process
+        cs6: URL
+        cs5: CommandLine
+        duser: User    
+    'Document Access In A Detection Summary Event':    
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        src: SrcIP
+        DstIP: DstIP
+        technique: Threat
+        fname: File
+        Process: Process
+        cs6: URL
+        cs5: CommandLine
+        duser: User
+    'DNS Request In A Detection Summary Event':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        src: SrcIP
+        DstIP: DstIP
+        technique: Threat
+        fname: File
+        Process: Process
+        cs6: URL
+        cs5: CommandLine
+        duser: User
+    'Executable Written In A Detection Summary Event':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        src: SrcIP
+        DstIP: DstIP
+        technique: Threat
+        fname: File
+        Process: Process
+        cs6: URL
+        cs5: CommandLine
+        duser: User     
+
+  fallback:
+    annotate:
+      EventName: Generic CrowdStrike Falcon Event
+      Stream: OTHER  
+
+  globals:
+     translate:
+       deviceCustomDate1: SystemTstamp
+       System: System
+
+- first-match: 'CEF\:\d+\|CrowdStrike\|FalconHost\|[\d\.]+\|[\w\s]+\|[\w\s]+\|.*?outcome\=(?:true|false)'
+  decoder: custom
+  decoder-regex: '([^\s\|\=]+)\=([^=]+|)(?=\s+\w+|$)'
+  event-key-format: '{Header-5}-{outcome}'
+  decoder-header: CEF
+  event-key-mapping:  
+    'twoFactorAuthenticate-true':  
+      annotate:
+        Stream: AUTHENTICATION
+        Action: 2FA_TOKEN_SENT
+        Status: PASSED
+      translate:
+        duser: User
+        destinationTranslatedAddress: SrcIP
+        AuthProto: AuthProto  
+    'updateUser-true':
+      annotate:
+        Stream: IAM
+        Action: USER_UPDATED
+        Status: PASSED
+      translate:
+        duser: User
+        Role: Role
+        TargetUser: TargetUser       
+
+  fallback:
+    annotate:
+      EventName: Generic CrowdStrike Falcon Event
+      Stream: OTHER  
+
+  globals:
+     translate:
+       deviceCustomDate1: SystemTstamp
+       System: System      
