@@ -10,12 +10,11 @@ source-description: Extractor for Crowdstrike Falcon Events
 provides-streams:
 - THREAT
 - AUTHENTICATION
-- CONFIGURATION
 - IAM
 master-filters:
 - 'CEF\:\d+\|CrowdStrike\|FalconHost\|'
 event-details:
-- first-match: 'CEF\:\d+\|CrowdStrike\|FalconHost\|[\d\.]+\|[\w\s]+\|[\w\s]+\|\d+\|'
+- first-match: 'CEF\:\d+\|CrowdStrike\|FalconHost\|[\d\.]+\|[\w\s]+\|[\w\s]+\|.*?outcome\=\d+'
   decoder: custom
   decoder-regex: '([^\s\|\=]+)\=(?:([^=]+|)(?=\s+\w+|$)|([\w\:\/\.\-\?\\\=]+|$))'
   event-key-format: '{Header-5}'
@@ -32,7 +31,7 @@ event-details:
         DstIP: DstIP
         technique: Threat
         fname: File
-        objective: Process
+        Process: Process
         cs6: URL
         cs5: CommandLine
         duser: User
@@ -47,7 +46,7 @@ event-details:
         DstIP: DstIP
         technique: Threat
         fname: File
-        objective: Process
+        Process: Process
         cs6: URL
         cs5: CommandLine
         duser: User    
@@ -62,7 +61,7 @@ event-details:
         DstIP: DstIP
         technique: Threat
         fname: File
-        objective: Process
+        Process: Process
         cs6: URL
         cs5: CommandLine
         duser: User
@@ -77,7 +76,7 @@ event-details:
         DstIP: DstIP
         technique: Threat
         fname: File
-        objective: Process
+        Process: Process
         cs6: URL
         cs5: CommandLine
         duser: User
@@ -92,79 +91,10 @@ event-details:
         DstIP: DstIP
         technique: Threat
         fname: File
-        objective: Process
+        Process: Process
         cs6: URL
         cs5: CommandLine
-        duser: User   
-    'quarantined_file_update':
-      annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-      translate:
-        duser: User
-        deviceProcessName: Config
-    'twoFactorAuthenticate':  
-      annotate:
-        Stream: AUTHENTICATION
-        Action: 2FA_TOKEN_SENT
-        Status: PASSED
-      translate:
-        duser: User
-        destinationTranslatedAddress: SrcIP
-        AuthProto: AuthProto 
-    'userAuthenticate':     
-      annotate:
-        Stream: AUTHENTICATION
-        Action: 2FA_TOKEN_SENT
-        Status: PASSED
-      translate:
-        duser: User
-        destinationTranslatedAddress: SrcIP
-        AuthProto: AuthProto 
-    'updateUser':
-      annotate:
-        Stream: IAM
-        Action: USER_UPDATED
-        Status: PASSED
-      translate:
-        duser: User
-        Role: Role
-        TargetUser: TargetUser
-    'streamStarted':
-      annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-      translate:
-        duser: User
-        deviceProcessName: Config
-    'streamStopped':
-      annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-      translate:
-        duser: User
-        deviceProcessName: Config   
-    'validateEntitlementsHmac':
-      annotate:
-        Stream: AUTHENTICATION
-        Action: LOGIN
-        Status: PASSED
-      translate:
-        duser: User
-        destinationTranslatedAddress: SrcIP
-        AuthProto: AuthProto               
-    'Auth Activity Audit Event':
-      annotate:
-        Stream: AUTHENTICATION
-        Action: LOGIN
-        Status: PASSED
-      translate:
-        suser: User
-        sourceTranslatedAddress: SrcIP
-        AuthProto: AuthProto
+        duser: User     
 
   fallback:
     annotate:
@@ -175,3 +105,38 @@ event-details:
      translate:
        deviceCustomDate1: SystemTstamp
        System: System
+
+- first-match: 'CEF\:\d+\|CrowdStrike\|FalconHost\|[\d\.]+\|[\w\s]+\|[\w\s]+\|.*?outcome\=(?:true|false)'
+  decoder: custom
+  decoder-regex: '([^\s\|\=]+)\=([^=]+|)(?=\s+\w+|$)'
+  event-key-format: '{Header-5}-{outcome}'
+  decoder-header: CEF
+  event-key-mapping:  
+    'twoFactorAuthenticate-true':  
+      annotate:
+        Stream: AUTHENTICATION
+        Action: 2FA_TOKEN_SENT
+        Status: PASSED
+      translate:
+        duser: User
+        destinationTranslatedAddress: SrcIP
+        AuthProto: AuthProto  
+    'updateUser-true':
+      annotate:
+        Stream: IAM
+        Action: USER_UPDATED
+        Status: PASSED
+      translate:
+        duser: User
+        Role: Role
+        TargetUser: TargetUser       
+
+  fallback:
+    annotate:
+      EventName: Generic Crowdstrike Falcon Event
+      Stream: OTHER  
+
+  globals:
+     translate:
+       deviceCustomDate1: SystemTstamp
+       System: System      
