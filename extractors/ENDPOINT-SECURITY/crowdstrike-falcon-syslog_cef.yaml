@@ -117,9 +117,9 @@ event-details:
       Stream: OTHER  
 
   globals:
-     translate:
-       deviceCustomDate1: SystemTstamp
-       dhost: System     
+    translate:
+      deviceCustomDate1: SystemTstamp
+      dhost: System     
 
 - first-match: 'CEF\:\d+\|CrowdStrike\|FalconHost\|[\d\.]+\|[\w\s]+\|[\w\s]+\|.*?outcome\=(?:true|false)'
   decoder: custom
@@ -152,6 +152,6 @@ event-details:
       Stream: OTHER  
 
   globals:
-     translate:
-       deviceCustomDate1: SystemTstamp
-       dhost: System      
+    translate:
+      deviceCustomDate1: SystemTstamp
+      dhost: System      
