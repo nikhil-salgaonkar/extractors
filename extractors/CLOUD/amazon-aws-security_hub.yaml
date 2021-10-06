@@ -9,10 +9,12 @@ source-type: CLOUD
 source-description: Extractor for AWS Security Hub Events
 provides-streams:
 - COMPLIANCE
+- CONFIGURATION
+- THREAT
 master-filters:
 - '\"aws/securityhub/ProductName\"\:'
 event-details:  
-- first-match: '\"Compliance\"\:'
+- first-match: '\"Compliance\"\:.*?\"aws/securityhub/ProductName\"\:\s*\"Security\s+Hub\"'
   decoder: json
   event-key-format: '{detail[findings][0][Compliance][Status]}'         
   event-key-mapping:
@@ -46,4 +48,52 @@ event-details:
   globals:
     translate:
       detail[findings][0][CreatedAt]: SystemTstamp
+      System: System
+
+- first-match: '\"Types\"\:\[\".*?UnauthorizedAccess\:(?:S3|EC2|IAMUser)\-.*?\"\].*\"aws/securityhub/ProductName\"\:\s*\"GuardDuty\"'
+  decoder: json
+  event-key-format: ''         
+  event-key-mapping:
+    '':  
+      annotate: 
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: AUTHENTICATION
+      translate:
+        Title: Threat
+        AwsAccountId: User
+        ProductFields[aws/guardduty/service/action/networkConnectionAction/remoteIpDetails/ipAddressV4]: SrcIP
+    
+  fallback:
+    annotate:
+      EventName: Generic AWS Security Hub Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      CreatedAt: SystemTstamp
+      System: System
+
+- first-match: '\"Types\"\:\[\".*?Policy\:S3\-.*?\"\].*\"aws/securityhub/ProductName\"\:\s*\"GuardDuty\"'
+  decoder: json
+  event-key-format: ''         
+  event-key-mapping:
+    '':  
+      annotate: 
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        Title: Config
+        AwsAccountId: User
+    
+  fallback:
+    annotate:
+      EventName: Generic AWS Security Hub Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      CreatedAt: SystemTstamp
       System: System
