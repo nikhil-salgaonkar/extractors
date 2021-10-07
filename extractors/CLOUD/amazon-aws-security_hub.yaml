@@ -33,7 +33,7 @@ event-details:
       annotate: 
         Stream: COMPLIANCE
         Action: COMPLIANCE_CHECK
-        Status: PASSED
+        Status: FAILED
         Event: Host is not compliant.
       translate:
         detail[findings][0][Compliance][StatusReasons][0][ReasonCode]: Reason
@@ -99,7 +99,7 @@ event-details:
       CreatedAt: SystemTstamp
       System: System
 
-- first-match: '\"ProductArn\"\:\s*\"arn\:aws\:securityhub\:[\w\-\:\/]+\/access\-analyzer\"'
+- first-match: '\"ProductArn\"\:\s*\"arn\:aws\:securityhub\:[\w\-\:\/]+\/(?:macie|inspector|ssm\-patch\-manager|access\-analyzer)\"'
   decoder: json
   event-key-format: ''         
   event-key-mapping:
@@ -120,65 +120,3 @@ event-details:
       CreatedAt: SystemTstamp
       System: System
 
-- first-match: '\"ProductArn\"\:\s*\"arn\:aws\:securityhub\:[\w\-\:\/]+\/ssm-patch-manager\"'
-  decoder: json
-  event-key-format: ''         
-  event-key-mapping:
-    '':  
-      annotate: 
-        Stream: SECURITY-HUB
-      translate:
-        Title: EventName
-        ProductArn: ProductArn
-    
-  fallback:
-    annotate:
-      EventName: Generic AWS Security Hub Event
-      Stream: OTHER
-
-  globals:
-    translate:
-      CreatedAt: SystemTstamp
-      System: System
-
-- first-match: '\"ProductArn\"\:\s*\"arn\:aws\:securityhub\:[\w\-\:\/]+\/inspector\"'
-  decoder: json
-  event-key-format: ''         
-  event-key-mapping:
-    '':  
-      annotate: 
-        Stream: SECURITY-HUB
-      translate:
-        Title: EventName
-        ProductArn: ProductArn
-    
-  fallback:
-    annotate:
-      EventName: Generic AWS Security Hub Event
-      Stream: OTHER
-
-  globals:
-    translate:
-      CreatedAt: SystemTstamp
-      System: System
-
-- first-match: '\"ProductArn\"\:\s*\"arn\:aws\:securityhub\:[\w\-\:\/]+\/macie\"'
-  decoder: json
-  event-key-format: ''         
-  event-key-mapping:
-    '':  
-      annotate: 
-        Stream: SECURITY-HUB
-      translate:
-        Title: EventName
-        ProductArn: ProductArn
-    
-  fallback:
-    annotate:
-      EventName: Generic AWS Security Hub Event
-      Stream: OTHER
-
-  globals:
-    translate:
-      CreatedAt: SystemTstamp
-      System: System
