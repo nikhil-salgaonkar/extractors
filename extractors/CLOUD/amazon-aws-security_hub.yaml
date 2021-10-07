@@ -9,12 +9,13 @@ source-type: CLOUD
 source-description: Extractor for AWS Security Hub Events
 provides-streams:
 - COMPLIANCE
+- SECURITY-HUB
 - CONFIGURATION
 - THREAT
 master-filters:
-- '\"aws/securityhub/ProductName\"\:'
+- '\"ProductArn\"\:\s*\"arn\:aws\:\:?securityhub\:[\w\:\-\/]+\"'
 event-details:  
-- first-match: '\"Compliance\"\:.*?\"aws/securityhub/ProductName\"\:\s*\"Security\s+Hub\"'
+- first-match: '\"ProductArn\"\:\s*\"arn\:aws\:securityhub\:[\w\-\:\/]+\/securityhub\".*?\"Compliance\"\:'
   decoder: json
   event-key-format: '{detail[findings][0][Compliance][Status]}'         
   event-key-mapping:
@@ -50,7 +51,7 @@ event-details:
       detail[findings][0][CreatedAt]: SystemTstamp
       System: System
 
-- first-match: '\"Types\"\:\[\".*?UnauthorizedAccess\:(?:S3|EC2|IAMUser)\-.*?\"\].*\"aws/securityhub/ProductName\"\:\s*\"GuardDuty\"'
+- first-match: '\"ProductArn\"\:\s*\"arn\:aws\:\:securityhub\:[\w\-\:\/]+\/guardduty\".*?\"Types\"\:\[\".*?UnauthorizedAccess\:(?:S3|EC2|IAMUser)\-.*?\"\]'
   decoder: json
   event-key-format: ''         
   event-key-mapping:
@@ -75,7 +76,7 @@ event-details:
       CreatedAt: SystemTstamp
       System: System
 
-- first-match: '\"Types\"\:\[\".*?Policy\:S3\-.*?\"\].*\"aws/securityhub/ProductName\"\:\s*\"GuardDuty\"'
+- first-match: '\"ProductArn\"\:\s*\"arn\:aws\:\:securityhub\:[\w\-\:\/]+\/guardduty\".*?\"Types\"\:\[\".*?Policy\:S3\-.*?\"\]'
   decoder: json
   event-key-format: ''         
   event-key-mapping:
@@ -87,6 +88,90 @@ event-details:
       translate:
         Title: Config
         AwsAccountId: User
+    
+  fallback:
+    annotate:
+      EventName: Generic AWS Security Hub Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      CreatedAt: SystemTstamp
+      System: System
+
+- first-match: '\"ProductArn\"\:\s*\"arn\:aws\:securityhub\:[\w\-\:\/]+\/access\-analyzer\"'
+  decoder: json
+  event-key-format: ''         
+  event-key-mapping:
+    '':  
+      annotate: 
+        Stream: SECURITY-HUB
+      translate:
+        Title: EventName
+        ProductArn: ProductArn
+    
+  fallback:
+    annotate:
+      EventName: Generic AWS Security Hub Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      CreatedAt: SystemTstamp
+      System: System
+
+- first-match: '\"ProductArn\"\:\s*\"arn\:aws\:securityhub\:[\w\-\:\/]+\/ssm-patch-manager\"'
+  decoder: json
+  event-key-format: ''         
+  event-key-mapping:
+    '':  
+      annotate: 
+        Stream: SECURITY-HUB
+      translate:
+        Title: EventName
+        ProductArn: ProductArn
+    
+  fallback:
+    annotate:
+      EventName: Generic AWS Security Hub Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      CreatedAt: SystemTstamp
+      System: System
+
+- first-match: '\"ProductArn\"\:\s*\"arn\:aws\:securityhub\:[\w\-\:\/]+\/inspector\"'
+  decoder: json
+  event-key-format: ''         
+  event-key-mapping:
+    '':  
+      annotate: 
+        Stream: SECURITY-HUB
+      translate:
+        Title: EventName
+        ProductArn: ProductArn
+    
+  fallback:
+    annotate:
+      EventName: Generic AWS Security Hub Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      CreatedAt: SystemTstamp
+      System: System
+
+- first-match: '\"ProductArn\"\:\s*\"arn\:aws\:securityhub\:[\w\-\:\/]+\/macie\"'
+  decoder: json
+  event-key-format: ''         
+  event-key-mapping:
+    '':  
+      annotate: 
+        Stream: SECURITY-HUB
+      translate:
+        Title: EventName
+        ProductArn: ProductArn
     
   fallback:
     annotate:
