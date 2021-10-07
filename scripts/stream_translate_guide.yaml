@@ -541,3 +541,13 @@ NTA-DNP3:
 SECURITY-HUB:
 - EventName
 - ProductArn
+S3-ACCESS:
+- AccessPointARN
+- Bucket
+- SrcIP
+- Requester
+- Operation
+- RequestURI
+- Status
+- TXLen
+- UserAgent
