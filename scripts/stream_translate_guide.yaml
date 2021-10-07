@@ -203,6 +203,8 @@ COMPLIANCE:
 - Policy
 - Reason
 - User 
+- Account
+- AccountID
 CALENDAR:
 - CalenderID
 - Event
@@ -536,3 +538,6 @@ NTA-DNP3:
 - DstPort
 - FunctionRequest
 - FunctionReply
+SECURITY-HUB:
+- EventName
+- ProductArn
