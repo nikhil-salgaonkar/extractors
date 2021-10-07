@@ -108,7 +108,9 @@ event-details:
         Stream: SECURITY-HUB
       translate:
         Title: EventName
+        detail[findings][0][Title]: EventName
         ProductArn: ProductArn
+        detail[findings][0][ProductArn]: ProductArn
     
   fallback:
     annotate:
