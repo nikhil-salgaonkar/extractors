@@ -537,3 +537,6 @@ NTA-DNP3:
 - DstPort
 - FunctionRequest
 - FunctionReply
+SECURITY-HUB:
+- EventName
+- ProductArn
