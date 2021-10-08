@@ -1,0 +1,67 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 725
+integration: AWS S3
+vendor-name: Amazon
+product-name: Route 53
+source-name: AMAZON-ROUTE-53
+source-type: CLOUD
+source-description: Extractor for Amazon Route 53 Events
+provides-streams:
+- DNS
+master-filters:
+- '^(?:\<\d+\>)?(?:1|2|3|4|5).*?[\w\.]+\s+(?:A|AAAA|ANY|TXT|CAA|CNAME|DS|MX|NAPTR|NS|PTR|SOA|SPF|SRV)\s'
+- '\"rcode\"\:\"\w+\"\,\"query_type\"\:\"(?:A|AAAA|ANY|TXT|CAA|CNAME|DS|MX|NAPTR|NS|PTR|SOA|SPF|SRV)\"\,\"transport\"'
+event-details:  
+- first-match: '\"firewall_rule_action\"\:\"'
+  decoder: json
+  event-key-format: '{firewall_rule_action}'         
+  event-key-mapping:
+    'BLOCK':  
+      annotate: 
+        Stream: DNS
+        Action: REQUEST_BLOCKED
+        Status: PASSED
+      translate:
+        srcaddr: SrcIP  
+        query_name: Query
+        rcode: ResponseCode
+        QueryType: QueryType
+        answers[Type]: RecordType                                                                            
+
+  fallback:
+    annotate:
+      EventName: Generic Amazon Route 53 Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      query_timestamp: SystemTstamp
+      System: System
+
+- first-match: '\d+\.\d+\s\d{4}\-\d{2}\-\d{2}T\d{2}\:\d{2}\:\d{2}\.\w+\s+\w+\s+'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\d{4}\-\d{2}\-\d{2}T\d{2}\:\d{2}\:\d{2})\.\w+\s+\w+\s+(?P<query>\S+)\s+(?P<query_type>\w+)\s+(?P<response_code>\w+)\s+(?P<proto>\w+)\s+\S+\s+(?P<resolver_ip>[\w\.\:]+)\s+'
+  event-key-format: ''         
+  event-key-mapping:
+    '':  
+      annotate: 
+        Stream: DNS
+        Action: DNS_QUERIED
+        Status: PASSED
+      translate:
+        resolver_ip: SrcIP  
+        query: Query
+        response_code: ResponseCode
+        QueryType: QueryType
+        query_type: RecordType                                                                         
+
+  fallback:
+    annotate:
+      EventName: Generic Amazon Route 53 Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      System: System
