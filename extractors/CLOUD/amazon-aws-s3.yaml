@@ -1,0 +1,42 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 726
+integration: AWS S3
+vendor-name: Amazon
+product-name: Amazon Simple Storage Service
+source-name: AMAZON-S3
+source-type: CLOUD
+source-description: Extractor for Amazon S3 Events
+provides-streams:
+- S3-ACCESS
+master-filters:
+- 'arn\:aws\:s3\:[\w\-\:]+accesspoint\/'
+event-details:  
+- first-match: 'arn\:aws\:s3\:[\w\-\:]+accesspoint\/'
+  decoder: regex
+  decoder-regex: '^(?:\<\d\>)?(?P<access_point>\S+)\s+\S+\s(?P<bucket_name>\S+)\s+\[(?P<datetime>\d{2}\/\w+\/\d{4}\:\d{2}\:\d{2}\:\d{2})\s+\+\w+\]\s+(?P<remote_ip>[\w\.\:]+)\s+(?P<requester>\S+)\s+\S+\s+(?P<operation>\S+)\s+\S+\s+\"(?P<uri>.*?)\"\s+(?P<http_status>\d+)\s+\S+\s+(?P<bytes_sent>\S+)\s+.*?\"\S+\"\s+\"(?P<user_agent>\S+)\"'
+  event-key-format: ''         
+  event-key-mapping:
+    '':  
+      annotate: 
+        Stream: S3-ACCESS
+      translate:
+        access_point: AccessPointARN  
+        bucket_name: Bucket
+        remote_ip: SrcIP
+        requester: Requester
+        operation: Operation
+        uri: RequestURI
+        http_status: Status 
+        bytes_sent: TXLen
+        user_agent: UserAgent
+
+  fallback:
+    annotate:
+      EventName: Generic Amazon S3 Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      System: System
