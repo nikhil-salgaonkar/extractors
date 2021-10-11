@@ -278,7 +278,7 @@ event-details:
     'reject':
       annotate:
         Stream: EMAIL-GATEWAY
-        Action: EMAIL_SERVICE_UNAVAIABLE
+        Action: EMAIL_SERVICE_UNAVAILABLE
         Status: PASSED
       translate:
         sender: Sender
