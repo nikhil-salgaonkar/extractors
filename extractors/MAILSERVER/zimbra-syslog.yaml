@@ -168,7 +168,7 @@ event-details:
 
 - first-match: '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{1,2}\:\d{1,2}\:\d{1,2}\s+\S+\s+mailboxd\:'
   decoder: regex
-  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>\w+)\:\s+.*?\[name\=(?P<user>\S+)\;(?:oip|ip)\=(?P<src>[\d\.]+).*?\;\]\s+(?P<msg>.*?(?P<action>authentication\s+failed|SMIME feature not enabled).*)'
+  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>\w+)\:\s+.*?\[name\=(?P<user>\S+)\;.*?(?:oip|ip)\=(?P<src>[\d\.]+).*?\;\]\s+(?P<msg>.*?(?P<action>authentication\s+failed|SMIME feature not enabled).*)'
   event-key-format: '{action}'
   event-key-mapping:
     'authentication failed':
