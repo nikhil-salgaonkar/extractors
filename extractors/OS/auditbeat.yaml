@@ -2,7 +2,7 @@ schema-version: 1.0
 #extractor-version: 1
 extractor-id: 715
 integration: Auditbeat
-vendor-name: ALL
+vendor-name: Linux
 product-name: ALL
 source-name: AUDITBEAT
 source-type: OS
