@@ -1,0 +1,50 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 727
+integration: AWS S3
+vendor-name: Amazon
+product-name: AWS WAF
+source-name: AWS-WAF
+source-type: CLOUD
+source-description: Extractor for AWS WAF Events
+provides-streams:
+- THREAT
+master-filters:
+- '\"webaclId\"\:\"arn\:aws\:wafv2\:[\w\-\_\:\/]+\"'
+event-details:  
+- first-match: '\"conditionType\"\:\"(?:SQL\_INJECTION|XSS)\"'
+  decoder: json
+  event-key-format: '{action}'         
+  event-key-mapping:
+    'ALLOW':  
+      annotate: 
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        terminatingRuleMatchDetails[0][conditionType]: Threat
+        httpRequest[clientIp]: SrcIP
+        DstIP: DstIP
+        User: User
+    'BLOCK':  
+      annotate: 
+        Stream: THREAT
+        Action: THREAT_BLOCKED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        terminatingRuleMatchDetails[0][conditionType]: Threat
+        httpRequest[clientIp]: SrcIP
+        DstIP: DstIP
+        User: User                                                                                    
+
+  fallback:
+    annotate:
+      EventName: Generic AWS WAF Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      timestamp: SystemTstamp
+      httpRequest[headers][0][value]: System
