@@ -14,7 +14,7 @@ provides-streams:
 master-filters:
 - 'CEF\:\d+\|CrowdStrike\|FalconHost\|'
 event-details:
-- first-match: 'CEF\:\d+\|CrowdStrike\|FalconHost\|[\d\.]+\|[\w\s]+\|[\w\s]+\|.*?outcome\=\d+'
+- first-match: 'CEF\:\d+\|CrowdStrike\|FalconHost\|[\d\.]+\|(?:DetectionSummaryEvent|Incidents|(?:Network\s+Access|Document\s+Access|DNS\s+Request|Executable\s+Written|Quarantined Files)\s+In\s+A\s+Detection\s+Summary\s+Event)\|'
   decoder: custom
   decoder-regex: '([^\s\|\=]+)\=(?:([^=]+|)(?=\s+\w+|$)|(\S+))'
   event-key-format: '{Header-4}'
@@ -30,6 +30,7 @@ event-details:
         src: SrcIP
         DstIP: DstIP
         technique: Threat
+        act: Threat
         fname: File
         Process: Process
         cs6: URL
@@ -45,6 +46,7 @@ event-details:
         src: SrcIP
         DstIP: DstIP
         technique: Threat
+        act: Threat
         fname: File
         Process: Process
         cs6: URL
@@ -60,6 +62,7 @@ event-details:
         src: SrcIP
         DstIP: DstIP
         technique: Threat
+        act: Threat
         fname: File
         Process: Process
         cs6: URL
@@ -75,6 +78,7 @@ event-details:
         src: SrcIP
         DstIP: DstIP
         technique: Threat
+        act: Threat
         fname: File
         Process: Process
         cs6: URL
@@ -90,6 +94,7 @@ event-details:
         src: SrcIP
         DstIP: DstIP
         technique: Threat
+        act: Threat
         fname: File
         Process: Process
         cs6: URL
@@ -105,11 +110,27 @@ event-details:
         src: SrcIP
         DstIP: DstIP
         technique: Threat
+        act: Threat
         fname: File
         Process: Process
         cs6: URL
         cs5: CommandLine
-        duser: User         
+        duser: User 
+    'Incidents':  
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        SrcIP: SrcIP
+        DstIP: DstIP
+        cs1: Threat
+        File: File
+        Process: Process
+        cs4: URL
+        CommandLine: CommandLine
+        duser: User            
 
   fallback:
     annotate:
@@ -121,10 +142,10 @@ event-details:
       deviceCustomDate1: SystemTstamp
       dhost: System     
 
-- first-match: 'CEF\:\d+\|CrowdStrike\|FalconHost\|[\d\.]+\|[\w\s]+\|[\w\s]+\|.*?outcome\=(?:true|false)'
+- first-match: 'CEF\:\d+\|CrowdStrike\|FalconHost\|[\d\.]+\|(?:twoFactorAuthenticate|updateUser)\|'
   decoder: custom
   decoder-regex: '([^\s\|\=]+)\=([^=]+|)(?=\s+\w+|$)'
-  event-key-format: '{Header-5}-{outcome}'
+  event-key-format: '{Header-4}-{outcome}'
   decoder-header: CEF
   event-key-mapping:  
     'twoFactorAuthenticate-true':  
