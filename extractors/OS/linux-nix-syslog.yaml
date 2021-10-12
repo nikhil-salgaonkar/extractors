@@ -585,7 +585,7 @@ event-details:
       annotate:
         Stream: IAM
         Action: CREDENTIAL_ACQUIRED
-        Status: PASSEDAUDITD
+        Status: PASSED
       translate:
         user: User
         TargetUser: TargetUser
