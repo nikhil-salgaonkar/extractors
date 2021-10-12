@@ -10,9 +10,9 @@ source-description: Extractor for IIS Webserver Events
 provides-streams:
 - WEBSERVER
 master-filters:
-- '\{\"EventReceivedTime\"\:\"\d{4}\-\d{1,2}\-\d{2}\s+\d{2}\:\d{2}\:\d{2}\"\,\"SourceModuleName\"\:\"IISin\d?\"\,'
+- '\{\"EventReceivedTime\"\:\"\d{4}\-\d{1,2}\-\d{2}\s+\d{2}\:\d{2}\:\d{2}\"\,\"SourceModuleName\"\:\"IISin\d*\"\,'
 event-details:  
-- first-match: '\{\"EventReceivedTime\"\:\"\d{4}\-\d{1,2}\-\d{2}\s+\d{2}\:\d{2}\:\d{2}\"\,\"SourceModuleName\"\:\"(?:IISin|IISin\d+)\"'
+- first-match: '\{\"EventReceivedTime\"\:\"\d{4}\-\d{1,2}\-\d{2}\s+\d{2}\:\d{2}\:\d{2}\"\,\"SourceModuleName\"\:\"IISin\d*\"\,'
   decoder: json
   event-key-format: '{HTTPRetCode}'
   event-key-mapping:
