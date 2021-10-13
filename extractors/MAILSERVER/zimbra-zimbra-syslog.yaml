@@ -1,0 +1,398 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 123
+integration: Syslog
+vendor-name: Zimbra
+product-name: Zimbra Collaboration
+source-name: ZIMBRA
+source-type: MAILSERVER
+source-description: Extractor for Zimbra Mail Server Events
+provides-streams:
+- AUTHENTICATION
+- EMAIL-GATEWAY
+- THREAT
+- CONFIGURATION
+master-filters:
+- '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{1,2}\:\d{1,2}\:\d{1,2}\s+\S+\s+(?:systemd|filebeat|postfix\/\w+|saslauthd|mailboxd|amavis)(?:\:|\[\d+\]\:)'
+- '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{1,2}\:\d{1,2}\:\d{1,2}\s+\S+\s+com\.zimbra\.[\w\.]+'
+event-details:
+- first-match: '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{1,2}\:\d{1,2}\:\d{1,2}\s+\S+\s+\S+\[\d+\]\:\s+do\_auth\s+\:\s+auth\s+failure\:'
+  decoder: regex
+  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>\w+)\[(?P<pid>\d+)\]\:\s+\S+\s+\:\s+(?P<msg>(?P<action>[\s\w]+)\:.*?user\=(?P<user>\S+)\]\s+\[service\=(?P<authproto>\S+)\].*?\[reason\=(?P<reason>.*?)\])'
+  event-key-format: ''
+  event-key-mapping:
+    '':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate:
+        user: User
+        SrcIP: SrcIP
+        authproto: AuthProto
+        reason: Reason
+
+  fallback:
+    annotate:
+      EventName: Generic Zimbra Mail Server Events
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System
+
+- first-match: '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{1,2}\:\d{1,2}\:\d{1,2}\s+\S+\s+\S+\[\d+\]\:\s+(?:auth\_zimbra|warning)\:.*?(?:auth|authentication)\s+failed\:'
+  decoder: regex
+  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>\S+)\[(?P<pid>\d+)\]\:\s+(?:auth\_zimbra|warning)\:\s+(?:(?P<user>[^\]\[\s]+))?(?:\[(?P<src>[\w\.\:]+)\]\:)?.*?\s+(?P<msg>.*?(?P<action>(?:auth|authentication)\s+failed)\:(?:.*?Received\s+(?P<authproto>\w+)\s+code\s+)?.*)'
+  event-key-format: ''
+  event-key-mapping:
+    '': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+        Reason: INVALID_CREDENTIALS 
+      translate:
+        user: User
+        src: SrcIP
+        authproto: AuthProto   
+
+  fallback:
+    annotate:
+      EventName: Generic Zimbra Mail Server Events
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System
+
+- first-match: '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{1,2}\:\d{1,2}\:\d{1,2}\s+\S+\s+postfix\/\w+\[\d+\]\:.*?(?:lost\s+connection|timeout)\s+after\s+(?:DATA|AUTH|MAIL|RCPT)\s+'
+  decoder: regex
+  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>\S+)\[(?P<pid>\d+)\]\:\s+(?P<msg>.*?(?P<action>(?:lost\s+connection|timeout))\s+.*?from\s+(?P<user>\S+)\[(?P<src>[\w\.\:]+)\])'
+  event-key-format: '{action}'
+  event-key-mapping: 
+    'lost connection': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+        Reason: INVALID_CREDENTIALS 
+      translate:
+        user: User
+        src: SrcIP
+        AuthProto: AuthProto           
+
+    'timeout':  
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+      translate:
+        user: User
+        src: SrcIP
+        AuthProto: AuthProto        
+
+  fallback:
+    annotate:
+      EventName: Generic Zimbra Mail Server Events
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System
+
+- first-match: '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{1,2}\:\d{1,2}\:\d{1,2}\s+\S+\s+postfix\/\w+\[\d+\]\:\s+(?:connect|disconnect|setting\s+up\s+TLS\s+connection|Anonymous\s+TLS\s+connection\s+established)\s+from\s+\S+'
+  decoder: regex
+  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>\S+)\[(?P<pid>\d+)\]\:\s+(?P<msg>.*?(?P<action>connect|disconnect|setting\s+up\s+TLS\s+connection|Anonymous\s+TLS\s+connection\s+established)\s+from\s+(?P<user>\S+)\[(?P<src>[\w\.\:]+)\].*)'
+  event-key-format: '{action}'
+  event-key-mapping: 
+    'connect': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        user: User
+        src: SrcIP
+        AuthProto: AuthProto
+
+    'disconnect': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED 
+      translate:
+        user: User
+        src: SrcIP
+        AuthProto: AuthProto 
+
+    'setting up TLS connection':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED 
+      translate:
+        user: User
+        action: Config
+
+    'Anonymous TLS connection established':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED 
+        Vector: NETWORK
+      translate:
+        src: SrcIP
+        DstIP: DstIP
+        action: Threat
+
+  fallback:
+    annotate:
+      EventName: Generic Zimbra Mail Server Events
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System
+
+- first-match: '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{1,2}\:\d{1,2}\:\d{1,2}\s+\S+\s+mailboxd\:.*?\:\s+authentication\s+failed\s+'
+  decoder: regex
+  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>\w+)\:\s+.*?\[name\=(?P<user>\S+)\;oip\=(?P<src>[\w\.\:]+)\;.*?(?P<msg>(?P<action>authentication\s+failed)\s+for\s+\[\w+\]\,\s+(?P<reason>.*))'
+  event-key-format: ''
+  event-key-mapping:
+    '':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate:
+        user: User
+        src: SrcIP
+        AuthProto: AuthProto
+        reason: Reason
+
+  fallback:
+    annotate:
+      EventName: Generic Zimbra Mail Server Events
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System
+
+- first-match: '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{1,2}\:\d{1,2}\:\d{1,2}\s+\S+\s+postfix\/\w+\[\d+\]\:.*?\s+(?:proxy\-reject\:|NOQUEUE\:\s+(?:reject|redirect)\:)\s+'
+  decoder: regex
+  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>\S+)\[(?P<pid>\d+)\]\:.*?(?P<msg>(?P<action>(?:proxy-reject|reject|redirect))\:(?:.*?(?:client\s+\[|from\s+\S+\[)(?P<remoteip>[\w\.\:]+)\])?.*?from\=\<(?P<sender>\S+)\>.*?to\=\<(?P<recipient>\S+)\>.*)'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'proxy-reject':
+      annotate:
+        Stream: EMAIL-GATEWAY
+        Action: EMAIL_DELIVERED
+        Status: FAILED
+      translate:
+        sender: Sender
+        recipient: Recipient
+        Subject: Subject
+        RemoteIP: RemoteIP
+        File: File
+        Direction: Direction
+
+    'reject':
+      annotate:
+        Stream: EMAIL-GATEWAY
+        Action: EMAIL_DELIVERED
+        Status: FAILED
+      translate:
+        sender: Sender
+        recipient: Recipient
+        Subject: Subject
+        remoteip: RemoteIP
+        File: File
+        Direction: Direction  
+
+    'redirect': 
+      annotate:
+        Stream: EMAIL-GATEWAY
+        Action: EMAIL_REDIRECTED
+        Status: PASSED
+      translate:
+        sender: Sender
+        recipient: Recipient
+        Subject: Subject
+        remoteip: RemoteIP
+        File: File
+        Direction: Direction              
+
+  fallback:
+    annotate:
+      EventName: Generic Zimbra Mail Server Events
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System
+
+- first-match: '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{1,2}\:\d{1,2}\:\d{1,2}\s+\S+\s+amavis\[\d+\]\:\s+\([\d\-]+\)\s+(?:\S+\s+)?(?:FWD|Passed\s+CLEAN|Checking\:|ESMTP)'
+  decoder: regex
+  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>\S+)\[(?P<pid>\d+)\]\:.*?(?P<msg>(?P<action>FWD|Passed\s+CLEAN|Checking|ESMTP).*?(?:.*?\[(?P<remoteip>[\d\.]+)\]\s+)?.*?\<(?P<sender>\S+)\>\s+\-\>\s+\<(?P<recipient>\S+)\>.*)'
+  event-key-format: ''
+  event-key-mapping:
+    '':
+      annotate:
+        Stream: EMAIL-GATEWAY
+        Action: EMAIL_DELIVERED 
+        Status: PASSED
+      translate:
+        sender: Sender
+        recipient: Recipient
+        Subject: Subject
+        RemoteIP: RemoteIP
+        File: File
+        Direction: Direction            
+
+  fallback:
+    annotate:
+      EventName: Generic Zimbra Mail Server Events
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System
+
+- first-match: '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{1,2}\:\d{1,2}\:\d{1,2}\s+\S+\s+amavis\[\d+\]\:\s+\([\d\-]+\)\s+Blocked\s+SPAM\s+'
+  decoder: regex
+  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>\S+)\[(?P<pid>\d+)\]\:.*?(?P<msg>(?P<action>Blocked\s+SPAM).*?\[(?P<src>[\w\:\.]+)\]\s+.*?\<(?P<sender>\S+)\>\s+\-\>\s+\<(?P<recipient>\S+)\>.*)'
+  event-key-format: ''
+  event-key-mapping:
+    '':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED 
+        Status: PASSED
+        Vector: EMAIL
+      translate:
+        src: SrcIP
+        sender: Sender 
+        recipient: Recipient
+        action: Threat             
+
+  fallback:
+    annotate:
+      EventName: Generic Zimbra Mail Server Events
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System
+
+- first-match: '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{1,2}\:\d{1,2}\:\d{1,2}\s+\S+\s+postfix\/\w+\[\d+\]\:.*?(?:TLS\:\s+handshake\s+failure|Connection\s+timed\s+out)'
+  decoder: regex
+  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>\S+)\[(?P<pid>\d+)\]\:.*?(?:relay\=|connect\s+to\s+)(?P<user>[^\=\s]+)\[(?P<src>[\w\:\.]+)\].*?(?P<msg>(?P<action>handshake\s+failure|Connection\s+timed\s+out).*)'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'handshake failure':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate:
+        user: User
+        src: SrcIP
+        AuthProto: AuthProto
+        action: Reason  
+
+    'Connection timed out':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+      translate:
+        user: User
+        src: SrcIP
+        AuthProto: AuthProto           
+
+  fallback:
+    annotate:
+      EventName: Generic Zimbra Mail Server Events
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System          
+
+- first-match: '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{1,2}\:\d{1,2}\:\d{1,2}\s+\S+\s+postfix\/\w+\[\d+\]\:\s+\S+\:\s+to\=.*?(?:Delivery\s+OK|Message\s+source\s+blocked\s+permanently)'
+  decoder: regex
+  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>\S+)\[(?P<pid>\d+)\]\:\s+(?P<msg>.*?to\=\<(?P<recipient>\S+)\>\,.*?\[(?P<remoteip>[\w\.\:]+)\].*?(?P<action>Delivery\s+OK|Message\s+source\s+blocked\s+permanently).*)'
+  event-key-format: '{action}'
+  event-key-mapping:  
+    'Delivery OK':  
+      annotate:
+        Stream: EMAIL-GATEWAY
+        Action: EMAIL_DELIVERED
+        Status: PASSED
+      translate:
+        Sender: Sender
+        recipient: Recipient
+        Subject: Subject
+        remoteip: RemoteIP
+        File: File
+        Direction: Direction 
+
+    'blocked': 
+      annotate:
+        Stream: EMAIL-GATEWAY
+        Action: EMAIL_DELIVERED
+        Status: FAILED
+      translate:
+        Sender: Sender
+        recipient: Recipient
+        Subject: Subject
+        remoteip: RemoteIP
+        File: File
+        Direction: Direction           
+
+  fallback:
+    annotate:
+      EventName: Generic Zimbra Mail Server Events
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System
+
+- first-match: '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{1,2}\:\d{1,2}\:\d{1,2}\s+\S+\s+com.zimbra\.[\w\.]+\s+authentication\s+failed'
+  decoder: regex
+  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+\S+\s+(?P<msg>(?P<action>authentication\s+failed)\s+for\s+\[(?P<user>\S+)\s+\((?P<reason>.*?)\))\]'
+  event-key-format: ''
+  event-key-mapping:
+    '':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate:
+        user: User
+        SrcIP: SrcIP
+        AuthProto: AuthProto
+        reason: Reason
+
+  fallback:
+    annotate:
+      EventName: Generic Zimbra Mail Server Events
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System
