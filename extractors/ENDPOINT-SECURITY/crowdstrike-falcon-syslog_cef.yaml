@@ -174,7 +174,16 @@ event-details:
       translate:
         duser: User
         Role: Role
-        TargetUser: TargetUser       
+        TargetUser: TargetUser  
+    'updateUser-false':
+      annotate:
+        Stream: IAM
+        Action: USER_UPDATED
+        Status: FAILED
+      translate:
+        duser: User
+        Role: Role
+        TargetUser: TargetUser         
 
   fallback:
     annotate:
