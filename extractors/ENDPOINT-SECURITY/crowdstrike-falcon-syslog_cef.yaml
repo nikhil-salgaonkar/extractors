@@ -157,6 +157,15 @@ event-details:
         duser: User
         destinationTranslatedAddress: SrcIP
         AuthProto: AuthProto  
+    'twoFactorAuthenticate-false':  
+      annotate:
+        Stream: AUTHENTICATION
+        Action: 2FA_TOKEN_SENT
+        Status: FAILED
+      translate:
+        duser: User
+        destinationTranslatedAddress: SrcIP
+        AuthProto: AuthProto    
     'updateUser-true':
       annotate:
         Stream: IAM
