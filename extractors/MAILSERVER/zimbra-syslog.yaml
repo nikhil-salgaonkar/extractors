@@ -3,7 +3,7 @@ schema-version: 1.0
 extractor-id: 123
 integration: Syslog
 vendor-name: Zimbra
-product-name: Zimbra
+product-name: Zimbra Collaboration
 source-name: ZIMBRA
 source-type: MAILSERVER
 source-description: Extractor for Zimbra Mail Server Events
@@ -13,14 +13,14 @@ provides-streams:
 - THREAT
 - CONFIGURATION
 master-filters:
-- '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{1,2}\:\d{1,2}\:\d{1,2}\s+\S+\s+(?:systemd|filebeat|postfix\/\w+|saslauthd|mailboxd|amavis)'
+- '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{1,2}\:\d{1,2}\:\d{1,2}\s+\S+\s+(?:systemd|filebeat|postfix\/\w+|saslauthd|mailboxd|amavis)(?:\:|\[\d+\]\:)'
 event-details:
 - first-match: '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{1,2}\:\d{1,2}\:\d{1,2}\s+\S+\s+\S+\[\d+\]\:\s+do\_auth\s+\:\s+auth\s+failure\:'
   decoder: regex
-  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>\w+)\[(?P<pid>\d+)\]\:\s+\S+\s+\:\s+(?P<msg>(?P<action>[\s\w]+)\:.*?user\=(?P<user>\S+)\]\s+\[service\=(?P<authproto>\S+)\].*?\[reason\=(?P<reason>\S+)\])'
-  event-key-format: '{action}'
+  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>\w+)\[(?P<pid>\d+)\]\:\s+\S+\s+\:\s+(?P<msg>(?P<action>[\s\w]+)\:.*?user\=(?P<user>\S+)\]\s+\[service\=(?P<authproto>\S+)\].*?\[reason\=(?P<reason>.*?)\])'
+  event-key-format: ''
   event-key-mapping:
-    'auth failure':
+    '':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
@@ -39,25 +39,14 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
-      hostname: System       
+      hostname: System
 
 - first-match: '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{1,2}\:\d{1,2}\:\d{1,2}\s+\S+\s+\S+\[\d+\]\:\s+(?:auth\_zimbra|warning)\:.*?(?:auth|authentication)\s+failed\:'
   decoder: regex
-  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>\S+)\[(?P<pid>\d+)\]\:\s+(?:auth\_zimbra|warning)\:\s+(?:(?P<user>[^\]\[\s]+))?(?:\[(?P<src>[\d\.]+)\]\:)?.*?\s+(?P<msg>.*?(?P<action>(?:auth|authentication)\s+failed)\:.*)'
-  event-key-format: '{action}'
+  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>\S+)\[(?P<pid>\d+)\]\:\s+(?:auth\_zimbra|warning)\:\s+(?:(?P<user>[^\]\[\s]+))?(?:\[(?P<src>[\w\.\:]+)\]\:)?.*?\s+(?P<msg>.*?(?P<action>(?:auth|authentication)\s+failed)\:(?:.*?Received\s+(?P<authproto>\w+)\s+code\s+)?.*)'
+  event-key-format: ''
   event-key-mapping:
-    'auth failed':
-      annotate:
-        Stream: AUTHENTICATION
-        Action: LOGIN
-        Status: FAILED
-        Reason: INVALID_CREDENTIALS 
-      translate:
-        user: User
-        SrcIP: SrcIP
-        AuthProto: AuthProto
-    
-    'authentication failed': 
+    '': 
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
@@ -66,7 +55,7 @@ event-details:
       translate:
         user: User
         src: SrcIP
-        AuthProto: AuthProto   
+        authproto: AuthProto   
 
   fallback:
     annotate:
@@ -76,11 +65,11 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
-      hostname: System 
+      hostname: System
 
-- first-match: '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{1,2}\:\d{1,2}\:\d{1,2}\s+\S+\s+postfix\/\w+\[\d+\]\:.*?(?:lost\s+connection|timeout)\s+after\s+(?:DATA|AUTH|MAIL|RCPT)\s+'  
+- first-match: '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{1,2}\:\d{1,2}\:\d{1,2}\s+\S+\s+postfix\/\w+\[\d+\]\:.*?(?:lost\s+connection|timeout)\s+after\s+(?:DATA|AUTH|MAIL|RCPT)\s+'
   decoder: regex
-  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>\S+)\[(?P<pid>\d+)\]\:\s+(?P<msg>.*?(?P<action>(?:lost\s+connection|timeout))\s+.*?from\s+(?P<user>\S+)\[(?P<src>[\d\.]+)\])'
+  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>\S+)\[(?P<pid>\d+)\]\:\s+(?P<msg>.*?(?P<action>(?:lost\s+connection|timeout))\s+.*?from\s+(?P<user>\S+)\[(?P<src>[\w\.\:]+)\])'
   event-key-format: '{action}'
   event-key-mapping: 
     'lost connection': 
@@ -112,11 +101,11 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
-      hostname: System   
+      hostname: System
 
-- first-match: '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{1,2}\:\d{1,2}\:\d{1,2}\s+\S+\s+postfix\/\w+\[\d+\]\:\s+(?:connect|disconnect|setting\s+up\s+TLS\s+connection|Anonymous\s+TLS\s+connection\s+established)\s+from\s+\S+'  
+- first-match: '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{1,2}\:\d{1,2}\:\d{1,2}\s+\S+\s+postfix\/\w+\[\d+\]\:\s+(?:connect|disconnect|setting\s+up\s+TLS\s+connection|Anonymous\s+TLS\s+connection\s+established)\s+from\s+\S+'
   decoder: regex
-  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>\S+)\[(?P<pid>\d+)\]\:\s+(?P<msg>.*?(?P<action>connect|disconnect|setting\s+up\s+TLS\s+connection|Anonymous\s+TLS\s+connection\s+established)\s+from\s+(?P<user>\S+)\[(?P<src>[\d\.]+)\].*)'
+  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>\S+)\[(?P<pid>\d+)\]\:\s+(?P<msg>.*?(?P<action>connect|disconnect|setting\s+up\s+TLS\s+connection|Anonymous\s+TLS\s+connection\s+established)\s+from\s+(?P<user>\S+)\[(?P<src>[\w\.\:]+)\].*)'
   event-key-format: '{action}'
   event-key-mapping: 
     'connect': 
@@ -167,14 +156,14 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
-      hostname: System         
+      hostname: System
 
 - first-match: '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{1,2}\:\d{1,2}\:\d{1,2}\s+\S+\s+mailboxd\:.*?\:\s+authentication\s+failed\s+'
   decoder: regex
-  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>\w+)\:\s+.*?\[name\=(?P<user>\S+)\;oip\=(?P<src>[\d\.]+)\;.*?(?P<msg>(?P<action>authentication\s+failed)\s+for\s+\[\w+\]\,\s+(?P<reason>[\w\s]+))'
-  event-key-format: '{action}'
+  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>\w+)\:\s+.*?\[name\=(?P<user>\S+)\;oip\=(?P<src>[\w\.\:]+)\;.*?(?P<msg>(?P<action>authentication\s+failed)\s+for\s+\[\w+\]\,\s+(?P<reason>.*))'
+  event-key-format: ''
   event-key-mapping:
-    'authentication failed':
+    '':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
@@ -193,11 +182,11 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
-      hostname: System        
+      hostname: System
 
 - first-match: '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{1,2}\:\d{1,2}\:\d{1,2}\s+\S+\s+postfix\/\w+\[\d+\]\:.*?\s+(?:proxy\-reject\:|NOQUEUE\:\s+(?:reject|redirect)\:)\s+'
   decoder: regex
-  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>\S+)\[(?P<pid>\d+)\]\:.*?(?P<msg>(?P<action>(?:proxy-reject|reject|redirect))\:(?:.*?(?:client\s+\[|from\s+\S+\[)(?P<remoteip>[\w\.]+)\])?.*?from\=\<(?P<sender>\S+)\>.*?to\=\<(?P<recipient>\S+)\>.*)'
+  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>\S+)\[(?P<pid>\d+)\]\:.*?(?P<msg>(?P<action>(?:proxy-reject|reject|redirect))\:(?:.*?(?:client\s+\[|from\s+\S+\[)(?P<remoteip>[\w\.\:]+)\])?.*?from\=\<(?P<sender>\S+)\>.*?to\=\<(?P<recipient>\S+)\>.*)'
   event-key-format: '{action}'
   event-key-mapping:
     'proxy-reject':
@@ -247,7 +236,7 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
-      hostname: System     
+      hostname: System
 
 - first-match: '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{1,2}\:\d{1,2}\:\d{1,2}\s+\S+\s+amavis\[\d+\]\:\s+\([\d\-]+\)\s+(?:\S+\s+)?(?:FWD|Passed\s+CLEAN|Checking\:|ESMTP)'
   decoder: regex
@@ -275,14 +264,14 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
-      hostname: System 
+      hostname: System
 
 - first-match: '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{1,2}\:\d{1,2}\:\d{1,2}\s+\S+\s+amavis\[\d+\]\:\s+\([\d\-]+\)\s+Blocked\s+SPAM\s+'
   decoder: regex
-  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>\S+)\[(?P<pid>\d+)\]\:.*?(?P<msg>(?P<action>Blocked\s+SPAM).*?\[(?P<src>[\d\.]+)\]\s+.*?\<(?P<sender>\S+)\>\s+\-\>\s+\<(?P<recipient>\S+)\>.*)'
-  event-key-format: '{action}'
+  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>\S+)\[(?P<pid>\d+)\]\:.*?(?P<msg>(?P<action>Blocked\s+SPAM).*?\[(?P<src>[\w\:\.]+)\]\s+.*?\<(?P<sender>\S+)\>\s+\-\>\s+\<(?P<recipient>\S+)\>.*)'
+  event-key-format: ''
   event-key-mapping:
-    'Blocked SPAM':
+    '':
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED 
@@ -302,11 +291,11 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
-      hostname: System  
+      hostname: System
 
 - first-match: '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{1,2}\:\d{1,2}\:\d{1,2}\s+\S+\s+postfix\/\w+\[\d+\]\:.*?(?:TLS\:\s+handshake\s+failure|Connection\s+timed\s+out)'
   decoder: regex
-  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>\S+)\[(?P<pid>\d+)\]\:.*?(?:relay\=|connect\s+to\s+)(?P<user>[^\=\s]+)\[(?P<src>[\d\.]+)\].*?(?P<msg>(?P<action>handshake\s+failure|Connection\s+timed\s+out).*)'
+  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>\S+)\[(?P<pid>\d+)\]\:.*?(?:relay\=|connect\s+to\s+)(?P<user>[^\=\s]+)\[(?P<src>[\w\:\.]+)\].*?(?P<msg>(?P<action>handshake\s+failure|Connection\s+timed\s+out).*)'
   event-key-format: '{action}'
   event-key-mapping:
     'handshake failure':
@@ -317,7 +306,7 @@ event-details:
       translate:
         user: User
         src: SrcIP
-        authproto: AuthProto
+        AuthProto: AuthProto
         action: Reason  
 
     'Connection timed out':
@@ -328,7 +317,7 @@ event-details:
       translate:
         user: User
         src: SrcIP
-        authproto: AuthProto           
+        AuthProto: AuthProto           
 
   fallback:
     annotate:
@@ -342,7 +331,7 @@ event-details:
 
 - first-match: '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{1,2}\:\d{1,2}\:\d{1,2}\s+\S+\s+postfix\/\w+\[\d+\]\:\s+\S+\:\s+to\=.*?(?:Delivery\s+OK|Message\s+source\s+blocked\s+permanently)'
   decoder: regex
-  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>\S+)\[(?P<pid>\d+)\]\:\s+(?P<msg>.*?to\=\<(?P<recipient>\S+)\>\,.*?\[(?P<remoteip>[\d\.]+)\].*?(?P<action>Delivery\s+OK|Message\s+source\s+blocked\s+permanently).*)'
+  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>\S+)\[(?P<pid>\d+)\]\:\s+(?P<msg>.*?to\=\<(?P<recipient>\S+)\>\,.*?\[(?P<remoteip>[\w\.\:]+)\].*?(?P<action>Delivery\s+OK|Message\s+source\s+blocked\s+permanently).*)'
   event-key-format: '{action}'
   event-key-mapping:  
     'Delivery OK':  
@@ -358,11 +347,11 @@ event-details:
         File: File
         Direction: Direction 
 
-    'Message source blocked permanently': 
+    'blocked': 
       annotate:
         Stream: EMAIL-GATEWAY
-        Action: EMAIL_BLOCKED
-        Status: PASSED
+        Action: EMAIL_DELIVERED
+        Status: FAILED
       translate:
         Sender: Sender
         recipient: Recipient
@@ -379,4 +368,4 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
-      hostname: System                 
+      hostname: System
