@@ -6,15 +6,15 @@ vendor-name: Symantec
 product-name: Blue Coat ProxySG
 source-name: BLUECOAT
 source-type: WEBFILTER
-source-description: extractor for Blue Coat ProxySG Events
+source-description: Extractor for Blue Coat ProxySG Events
 provides-streams:
 - WEBFILTER
 master-filters:
-- 's\-action\=(?:ACCELERATED|TCP_ACCELERATED|ALLOWED|DENIED|FAILED|LICENSE_EXPIRED|TUNNELED|TCP_|TCP_AUTH_HIT|TCP_AUTH_MISS|TCP_AUTH_REDIRECT|TCP_CLIENT_REFRESH|TCP_DENIED|TCP_ERR_MISS|TCP_HIT|TCP_LOOP|TCP_MEM_HIT|TCP_MISS|TCP_NC_MISS|TCP_PARTIAL_MISS|TCP_POLICY_REDIRECT|TCP_REFRESH_HIT|TCP_REFRESH_MISS|TCP_RESCAN_HIT|TCP_SPLASHED|TCP_SWAPFAIL|TCP_TUNNELED|UDP_|UDP_DENIED|UDP_HIT|UDP_INVALID|UDP_MISS|UDP_MISS_NOFETCH|UDP_OBJ|-)'
+- '^(?:\<\d+\>)?\d+\s+\d{4}\-\d{1,2}\-\d{2}T\d{2}\:\d{2}\:\d{2}\.\d+z\s+\S+\s+bluecoat.*?s-action\=[\w\_\-]+'
 event-details:
 - first-match: 's\-action\=[\w\_\-]+.*?sc-status\=\d{1,3}\s+'
   decoder: custom
-  decoder-regex: '([^\s\|\=]+)\=(?:([^=]+|)(?=\s+\w+|$)|(\S+))'
+  decoder-regex: '([\w\-\.]+)\=(?:\"([^\"]+|)|([^\s]+|))'
   event-key-format: '{s-action}'
   event-key-mapping:
     'TCP_ACCELERATED':
