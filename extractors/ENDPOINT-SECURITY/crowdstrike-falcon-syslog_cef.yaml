@@ -142,7 +142,7 @@ event-details:
       deviceCustomDate1: SystemTstamp
       dhost: System     
 
-- first-match: 'CEF\:\d+\|CrowdStrike\|FalconHost\|[\d\.]+\|(?:twoFactorAuthenticate|updateUser)\|'
+- first-match: 'CEF\:\d+\|CrowdStrike\|FalconHost\|[\d\.]+\|(?:twoFactorAuthenticate|updateUser|userAuthenticate)\|'
   decoder: custom
   decoder-regex: '([^\s\|\=]+)\=([^=]+|)(?=\s+\w+|$)'
   event-key-format: '{Header-4}-{outcome}'
@@ -183,7 +183,25 @@ event-details:
       translate:
         duser: User
         Role: Role
-        TargetUser: TargetUser         
+        TargetUser: TargetUser 
+    'userAuthenticate-true':  
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        duser: User
+        destinationTranslatedAddress: SrcIP
+        AuthProto: AuthProto
+    'userAuthenticate-false':  
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate:
+        duser: User
+        destinationTranslatedAddress: SrcIP
+        AuthProto: AuthProto                
 
   fallback:
     annotate:
