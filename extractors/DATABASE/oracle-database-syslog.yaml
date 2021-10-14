@@ -1,0 +1,113 @@
+schema-version: 1.0
+#extractor-version: 1 
+extractor-id: 86
+integration: Syslog
+vendor-name: Oracle
+product-name: Oracle
+source-name: ORACLE
+source-type: DATABASE
+source-description: Extractor for Oracle Database Events
+provides-streams:
+- AUTHENTICATION
+- IAM
+master-filters:
+- '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{1,2}\:\d{1,2}\:\d{1,2}.*?Oracle\s+Audit\[\d+\]\:'
+- '^(?:\<\d+\>)?\w{3}\s+\w{3}\s+\d{1,2}\s+\d{1,2}\:\d{1,2}\:\d{1,2}\s+\d{4}\s+\+\d{1,2}\:\d{1,2}.*?ACTION\:\[\d+\]\s+\"'
+event-details:
+- first-match: 'Oracle\s+Audit\[\d+\]\:.*?ACTION\:\[\d+\]\s+\"\d+\"\s+RETURNCODE\:\[\d+\]\s+\"\d+\"'
+  decoder: regex
+  decoder-regex: '^(?:\<\d+\>)(?P<datetime>\w{3}\s+\d{1,2}\s+\d{1,2}\:\d{1,2}\:\d{1,2}).*?Oracle\s+Audit\[\d+\]\:.*?USERID\:\[\d+\]\s+\"(?P<user>\S+)\"(?:.*?USERHOST\:\[\d+\]\s+\"(?P<hostname>\S+)\")?.*?ACTION\:\[\d+\]\s+\"(?P<ACTION>\d+)\"\s+RETURNCODE\:\[\d+\]\s+\"(?P<RETURNCODE>\d+)\"(?:.*?PROTOCOL\=(?P<authproto>\w+)\).*?HOST\=(?P<src>[\d\.]+)\))?'
+  event-key-format: '{ACTION}-{RETURNCODE}'
+  event-key-mapping:  
+    '100-0': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate: 
+        authproto: AuthProto
+        src: SrcIP
+        user: User
+    '100-1017': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+        Reason: INVALID_CREDENTIALS
+      translate: 
+        authproto: AuthProto
+        src: SrcIP
+        user: User 
+    '100-28000': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+        Reason: ACCOUNT_LOCKED
+      translate: 
+        authproto: AuthProto
+        src: SrcIP
+        user: User
+    '100-2391': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+        Reason: LOGIN_LIMIT_EXCEEDED
+      translate: 
+        authproto: AuthProto
+        src: SrcIP
+        user: User
+    '101-0': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+      translate: 
+        authproto: AuthProto
+        src: SrcIP
+        user: User  
+    '102-0': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+      translate: 
+        authproto: AuthProto
+        src: SrcIP
+        user: User
+
+  fallback:
+    annotate:
+      EventName: Generic Oracle Database Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System
+
+- first-match: '^(?:\<\d+\>)?\w{3}\s+\w{3}\s+\d{1,2}\s+\d{1,2}\:\d{1,2}\:\d{1,2}\s+\d{4}\s+\+\d{1,2}\:\d{1,2}.*?ACTION\:\[\d+\]\s+\"\d+\"\s+RETURNCODE\:\[\d+\]\s+\"\d+\"'
+  decoder: regex
+  decoder-regex: '^(?:\<\d+\>)?\d?\s?(?P<datetime>\w{3}\s+\w{3}\s+\d{1,2}\s+\d{1,2}\:\d{2}\:\d{1,2}\s+\d{4}\s+\+\d{2}\:\d{2}).*?USERID\:\[\d+\]\s+\"(?P<user>\S+)\"\s+ACTION\:\[\d+\]\s+\"(?P<ACTION>\d+)\"\s+RETURNCODE\:\[\d+\]\s+\"(?P<RETURNCODE>\d+)\"'
+  event-key-format: '{ACTION}-{RETURNCODE}'
+  event-key-mapping: 
+    '115-0':
+      annotate:
+        Stream: IAM
+        Action: PRIVILEGE_CHANGED
+        Status: PASSED
+      translate:
+        user: User
+        Role: Role
+        TargetUser: TargetUser   
+
+  fallback:
+    annotate:
+      EventName: Generic Oracle Database Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      System: System
