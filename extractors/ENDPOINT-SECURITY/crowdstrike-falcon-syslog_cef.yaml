@@ -198,6 +198,7 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
+        Reason: INVALID_CREDENTIALS
       translate:
         duser: User
         destinationTranslatedAddress: SrcIP
