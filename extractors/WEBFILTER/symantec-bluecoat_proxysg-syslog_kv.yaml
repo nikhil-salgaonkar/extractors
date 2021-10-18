@@ -1,0 +1,590 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 99
+integration: Syslog(KV)
+vendor-name: Symantec
+product-name: Blue Coat ProxySG
+source-name: BLUECOAT
+source-type: WEBFILTER
+source-description: Extractor for Blue Coat ProxySG Events
+provides-streams:
+- WEBFILTER
+master-filters:
+- '^(?:\<\d+\>)?\d+\s+\d{4}\-\d{1,2}\-\d{2}T\d{2}\:\d{2}\:\d{2}\.\d+z\s+\S+\s+bluecoat.*?s-action\=[\w\_\-]+'
+event-details:
+- first-match: 's\-action\=[\w\_\-]+.*?sc-status\=\d{1,3}\s+'
+  decoder: custom
+  decoder-regex: '([\w\-\.]+)\=(?:\"([^\"]+|)|([^\s]+|))'
+  event-key-format: '{s-action}'
+  event-key-mapping:
+    'TCP_ACCELERATED':
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_ALLOWED
+        Status: PASSED
+      translate:
+        cs-username: User
+        c-ip: SrcIP
+        s-ip: DstIP
+        s-port: DstPort
+        service.name: Proto
+        c-url: URL
+        cs-method: HTTPMethod 
+        cs-host: Domain
+        cs-User-Agent: UserAgent
+        cs-bytes: TXLen
+        sc-bytes: RXLen
+    'ACCELERATED':
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_ALLOWED
+        Status: PASSED
+      translate:
+        cs-username: User
+        c-ip: SrcIP
+        s-ip: DstIP
+        s-port: DstPort
+        service.name: Proto
+        c-url: URL
+        cs-method: HTTPMethod 
+        cs-host: Domain
+        cs-User-Agent: UserAgent
+        cs-bytes: TXLen
+        sc-bytes: RXLen
+    'ALLOWED':
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_ALLOWED
+        Status: PASSED
+      translate:
+        cs-username: User
+        c-ip: SrcIP
+        s-ip: DstIP
+        s-port: DstPort
+        service.name: Proto
+        c-url: URL
+        cs-method: HTTPMethod 
+        cs-host: Domain
+        cs-User-Agent: UserAgent
+        cs-bytes: TXLen
+        sc-bytes: RXLen
+    'TUNNELED':
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_ALLOWED
+        Status: PASSED
+      translate:
+        cs-username: User
+        c-ip: SrcIP
+        s-ip: DstIP
+        s-port: DstPort
+        service.name: Proto
+        c-url: URL
+        cs-method: HTTPMethod 
+        cs-host: Domain
+        cs-User-Agent: UserAgent
+        cs-bytes: TXLen
+        sc-bytes: RXLen
+    'TCP_TUNNELED':
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_ALLOWED
+        Status: PASSED
+      translate:
+        cs-username: User
+        c-ip: SrcIP
+        s-ip: DstIP
+        s-port: DstPort
+        service.name: Proto
+        c-url: URL
+        cs-method: HTTPMethod 
+        cs-host: Domain
+        cs-User-Agent: UserAgent
+        cs-bytes: TXLen
+        sc-bytes: RXLen
+    'DENIED':
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_BLOCKED
+        Status: PASSED
+      translate:
+        cs-username: User
+        c-ip: SrcIP
+        s-ip: DstIP
+        s-port: DstPort
+        service.name: Proto
+        c-url: URL
+        cs-method: HTTPMethod 
+        cs-host: Domain
+        cs-User-Agent: UserAgent
+        cs-bytes: TXLen
+        sc-bytes: RXLen
+    'FAILED':
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_BLOCKED
+        Status: PASSED
+      translate:
+        cs-username: User
+        c-ip: SrcIP
+        s-ip: DstIP
+        s-port: DstPort
+        service.name: Proto
+        c-url: URL
+        cs-method: HTTPMethod 
+        cs-host: Domain
+        cs-User-Agent: UserAgent
+        cs-bytes: TXLen
+        sc-bytes: RXLen
+    'LICENSE_EXPIRED':
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_BLOCKED
+        Status: PASSED
+      translate:
+        cs-username: User
+        c-ip: SrcIP
+        s-ip: DstIP
+        s-port: DstPort
+        service.name: Proto
+        c-url: URL
+        cs-method: HTTPMethod 
+        cs-host: Domain
+        cs-User-Agent: UserAgent
+        cs-bytes: TXLen
+        sc-bytes: RXLen
+    'TCP_AUTH_MISS':
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_BLOCKED
+        Status: PASSED
+      translate:
+        cs-username: User
+        c-ip: SrcIP
+        s-ip: DstIP
+        s-port: DstPort
+        service.name: Proto
+        c-url: URL
+        cs-method: HTTPMethod 
+        cs-host: Domain
+        cs-User-Agent: UserAgent
+        cs-bytes: TXLen
+        sc-bytes: RXLen
+    'TCP_DENIED':
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_BLOCKED
+        Status: PASSED
+      translate:
+        cs-username: User
+        c-ip: SrcIP
+        s-ip: DstIP
+        s-port: DstPort
+        service.name: Proto
+        c-url: URL
+        cs-method: HTTPMethod 
+        cs-host: Domain
+        cs-User-Agent: UserAgent
+        cs-bytes: TXLen
+        sc-bytes: RXLen
+    'TCP_ERR_MISS':
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_BLOCKED
+        Status: PASSED
+      translate:
+        cs-username: User
+        c-ip: SrcIP
+        s-ip: DstIP
+        s-port: DstPort
+        service.name: Proto
+        c-url: URL
+        cs-method: HTTPMethod 
+        cs-host: Domain
+        cs-User-Agent: UserAgent
+        cs-bytes: TXLen
+        sc-bytes: RXLen
+    'TCP_LOOP':
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_BLOCKED
+        Status: PASSED
+      translate:
+        cs-username: User
+        c-ip: SrcIP
+        s-ip: DstIP
+        s-port: DstPort
+        service.name: Proto
+        c-url: URL
+        cs-method: HTTPMethod 
+        cs-host: Domain
+        cs-User-Agent: UserAgent
+        cs-bytes: TXLen
+        sc-bytes: RXLen
+    'TCP_MISS':
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_BLOCKED
+        Status: PASSED
+      translate:
+        cs-username: User
+        c-ip: SrcIP
+        s-ip: DstIP
+        s-port: DstPort
+        service.name: Proto
+        c-url: URL
+        cs-method: HTTPMethod 
+        cs-host: Domain
+        cs-User-Agent: UserAgent
+        cs-bytes: TXLen
+        sc-bytes: RXLen
+    'TCP_NC_MISS':
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_BLOCKED
+        Status: PASSED
+      translate:
+        cs-username: User
+        c-ip: SrcIP
+        s-ip: DstIP
+        s-port: DstPort
+        service.name: Proto
+        c-url: URL
+        cs-method: HTTPMethod 
+        cs-host: Domain
+        cs-User-Agent: UserAgent
+        cs-bytes: TXLen
+        sc-bytes: RXLen
+    'TCP_SWAPFAIL':
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_BLOCKED
+        Status: PASSED
+      translate:
+        cs-username: User
+        c-ip: SrcIP
+        s-ip: DstIP
+        s-port: DstPort
+        service.name: Proto
+        c-url: URL
+        cs-method: HTTPMethod 
+        cs-host: Domain
+        cs-User-Agent: UserAgent
+        cs-bytes: TXLen
+        sc-bytes: RXLen
+    'UDP_DENIED':
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_BLOCKED
+        Status: PASSED
+      translate:
+        cs-username: User
+        c-ip: SrcIP
+        s-ip: DstIP
+        s-port: DstPort
+        service.name: Proto
+        c-url: URL
+        cs-method: HTTPMethod 
+        cs-host: Domain
+        cs-User-Agent: UserAgent
+        cs-bytes: TXLen
+        sc-bytes: RXLen
+    'UDP_INVALID':
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_BLOCKED
+        Status: PASSED
+      translate:
+        cs-username: User
+        c-ip: SrcIP
+        s-ip: DstIP
+        s-port: DstPort
+        service.name: Proto
+        c-url: URL
+        cs-method: HTTPMethod 
+        cs-host: Domain
+        cs-User-Agent: UserAgent
+        cs-bytes: TXLen
+        sc-bytes: RXLen
+    'UDP_MISS':
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_BLOCKED
+        Status: PASSED
+      translate:
+        cs-username: User
+        c-ip: SrcIP
+        s-ip: DstIP
+        s-port: DstPort
+        service.name: Proto
+        c-url: URL
+        cs-method: HTTPMethod 
+        cs-host: Domain
+        cs-User-Agent: UserAgent
+        cs-bytes: TXLen
+        sc-bytes: RXLen
+    'UDP_MISS_NOFETCH':
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_BLOCKED
+        Status: PASSED
+      translate:
+        cs-username: User
+        c-ip: SrcIP
+        s-ip: DstIP
+        s-port: DstPort
+        service.name: Proto
+        c-url: URL
+        cs-method: HTTPMethod 
+        cs-host: Domain
+        cs-User-Agent: UserAgent
+        cs-bytes: TXLen
+        sc-bytes: RXLen
+    'TCP_AUTH_REDIRECT':
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_REDIRECT
+        Status: PASSED
+      translate:
+        cs-username: User
+        c-ip: SrcIP
+        s-ip: DstIP
+        s-port: DstPort
+        service.name: Proto
+        c-url: URL
+        cs-method: HTTPMethod 
+        cs-host: Domain
+        cs-User-Agent: UserAgent
+        cs-bytes: TXLen
+        sc-bytes: RXLen
+    'TCP_CLIENT_REFRESH':
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_REDIRECT
+        Status: PASSED
+      translate:
+        cs-username: User
+        c-ip: SrcIP
+        s-ip: DstIP
+        s-port: DstPort
+        service.name: Proto
+        c-url: URL
+        cs-method: HTTPMethod 
+        cs-host: Domain
+        cs-User-Agent: UserAgent
+        cs-bytes: TXLen
+        sc-bytes: RXLen
+    'TCP_PARTIAL_MISS':
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_REDIRECT
+        Status: PASSED
+      translate:
+        cs-username: User
+        c-ip: SrcIP
+        s-ip: DstIP
+        s-port: DstPort
+        service.name: Proto
+        c-url: URL
+        cs-method: HTTPMethod 
+        cs-host: Domain
+        cs-User-Agent: UserAgent
+        cs-bytes: TXLen
+        sc-bytes: RXLen
+    'TCP_POLICY_REDIRECT':
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_REDIRECT
+        Status: PASSED
+      translate:
+        cs-username: User
+        c-ip: SrcIP
+        s-ip: DstIP
+        s-port: DstPort
+        service.name: Proto
+        c-url: URL
+        cs-method: HTTPMethod 
+        cs-host: Domain
+        cs-User-Agent: UserAgent
+        cs-bytes: TXLen
+        sc-bytes: RXLen
+    'TCP_REFRESH_HIT':
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_REDIRECT
+        Status: PASSED
+      translate:
+        cs-username: User
+        c-ip: SrcIP
+        s-ip: DstIP
+        s-port: DstPort
+        service.name: Proto
+        c-url: URL
+        cs-method: HTTPMethod 
+        cs-host: Domain
+        cs-User-Agent: UserAgent
+        cs-bytes: TXLen
+        sc-bytes: RXLen
+    'TCP_REFRESH_MISS':
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_REDIRECT
+        Status: PASSED
+      translate:
+        cs-username: User
+        c-ip: SrcIP
+        s-ip: DstIP
+        s-port: DstPort
+        service.name: Proto
+        c-url: URL
+        cs-method: HTTPMethod 
+        cs-host: Domain
+        cs-User-Agent: UserAgent
+        cs-bytes: TXLen
+        sc-bytes: RXLen
+    'TCP_SPLASHED':
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_REDIRECT
+        Status: PASSED
+      translate:
+        cs-username: User
+        c-ip: SrcIP
+        s-ip: DstIP
+        s-port: DstPort
+        service.name: Proto
+        c-url: URL
+        cs-method: HTTPMethod 
+        cs-host: Domain
+        cs-User-Agent: UserAgent
+        cs-bytes: TXLen
+        sc-bytes: RXLen
+    'TCP_':
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_ACCESSED
+        Status: PASSED
+      translate:
+        cs-username: User
+        c-ip: SrcIP
+        s-ip: DstIP
+        s-port: DstPort
+        service.name: Proto
+        c-url: URL
+        cs-method: HTTPMethod 
+        cs-host: Domain
+        cs-User-Agent: UserAgent
+        cs-bytes: TXLen
+        sc-bytes: RXLen
+    'TCP_AUTH_HIT':
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_ACCESSED
+        Status: PASSED
+      translate:
+        cs-username: User
+        c-ip: SrcIP
+        s-ip: DstIP
+        s-port: DstPort
+        service.name: Proto
+        c-url: URL
+        cs-method: HTTPMethod 
+        cs-host: Domain
+        cs-User-Agent: UserAgent
+        cs-bytes: TXLen
+        sc-bytes: RXLen
+    'TCP_HIT':
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_ACCESSED
+        Status: PASSED
+      translate:
+        cs-username: User
+        c-ip: SrcIP
+        s-ip: DstIP
+        s-port: DstPort
+        service.name: Proto
+        c-url: URL
+        cs-method: HTTPMethod 
+        cs-host: Domain
+        cs-User-Agent: UserAgent
+        cs-bytes: TXLen
+        sc-bytes: RXLen
+    'TCP_MEM_HIT':
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_ACCESSED
+        Status: PASSED
+      translate:
+        cs-username: User
+        c-ip: SrcIP
+        s-ip: DstIP
+        s-port: DstPort
+        service.name: Proto
+        c-url: URL
+        cs-method: HTTPMethod 
+        cs-host: Domain
+        cs-User-Agent: UserAgent
+        cs-bytes: TXLen
+        sc-bytes: RXLen
+    'TCP_RESCAN_HIT':
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_ACCESSED
+        Status: PASSED
+      translate:
+        cs-username: User
+        c-ip: SrcIP
+        s-ip: DstIP
+        s-port: DstPort
+        service.name: Proto
+        c-url: URL
+        cs-method: HTTPMethod 
+        cs-host: Domain
+        cs-User-Agent: UserAgent
+        cs-bytes: TXLen
+        sc-bytes: RXLen
+    'UDP_':
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_ACCESSED
+        Status: PASSED
+      translate:
+        cs-username: User
+        c-ip: SrcIP
+        s-ip: DstIP
+        s-port: DstPort
+        service.name: Proto
+        c-url: URL
+        cs-method: HTTPMethod 
+        cs-host: Domain
+        cs-User-Agent: UserAgent
+        cs-bytes: TXLen
+        sc-bytes: RXLen
+    'UDP_HIT':
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_ACCESSED
+        Status: PASSED
+      translate:
+        cs-username: User
+        c-ip: SrcIP
+        s-ip: DstIP
+        s-port: DstPort
+        service.name: Proto
+        c-url: URL
+        cs-method: HTTPMethod 
+        cs-host: Domain
+        cs-User-Agent: UserAgent
+        cs-bytes: TXLen
+        sc-bytes: RXLen
+
+  fallback:
+    annotate:
+      EventName: Generic Blue Coat ProxySG Event
+      Stream: OTHER
+          
+  globals:
+    translate:
+      date: SystemTstamp
+      System: System
