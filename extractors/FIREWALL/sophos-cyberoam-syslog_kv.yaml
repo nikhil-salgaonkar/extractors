@@ -17,7 +17,7 @@ master-filters:
 event-details: 
 - first-match: 'log\_id\=062009617507.*?logged\s+in'
   decoder: regex
-  decoder-regex: 'date\=(?P<date>[\d\-]+).*?device\_name\=\"(?P<device_name>\S+)\".*?user\_name\="(?P<user>\S+)\"\s+src\_ip\=(?P<src>[\w\:\.]+)'
+  decoder-regex: 'date\=(?P<date>[\d\-]+).*?device\_name\=\"(?P<device_name>\S+)\".*?user\_name\=\"(?P<user>\S+)\"\s+src\_ip\=(?P<src>[\w\:\.]+)'
   event-key-format: ''
   event-key-mapping:  
     '': 
@@ -42,7 +42,7 @@ event-details:
 
 - first-match: 'log\_id\=062009617507.*?logged\s+out'
   decoder: regex
-  decoder-regex: 'date\=(?P<date>[\d\-]+).*?device\_name\=\"(?P<device_name>\S+)\".*?user\_name\="(?P<user>\S+)\"\s+src\_ip\=(?P<src>[\w\:\.]+)'
+  decoder-regex: 'date\=(?P<date>[\d\-]+).*?device\_name\=\"(?P<device_name>\S+)\".*?user\_name\=\"(?P<user>\S+)\"\s+src\_ip\=(?P<src>[\w\:\.]+)'
   event-key-format: ''
   event-key-mapping:  
     '': 
@@ -65,7 +65,7 @@ event-details:
       date: SystemTstamp
       device_name: System
 
-- first-match: 'log\_type\=\"(?:IDP|Anti\-Virus|Anti\-Spam|ATP)\"'
+- first-match: 'log\_type\=\"(?:IDP|Anti\-Virus|ATP)\"'
   decoder: custom
   decoder-regex: '([\w]+)=(\"[^\"]*\"|[^\s]*)'
   event-key-format: ''
@@ -82,7 +82,6 @@ event-details:
         classification: Threat
         threatname: Threat
         virus: Threat
-        reason: Threat
         src_ip: SrcIP
         sourceip: SrcIP
         dst_ip: DstIP 
@@ -101,9 +100,9 @@ event-details:
 - first-match: 'log\_type\=\"(?:Content\s+Filtering|Firewall)\"'
   decoder: custom
   decoder-regex: '([\w]+)=(\"[^\"]*\"|[^\s]*)'
-  event-key-format: '{status}'
+  event-key-format: '{log_subtype}'
   event-key-mapping:  
-    'Allow':
+    'Allowed':
       annotate:
         Stream: FIREWALL
         Action: PACKET_ALLOWED
@@ -117,7 +116,7 @@ event-details:
         sent_bytes: TXLen
         recv_bytes: RXLen 
         application: App  
-    'Deny':
+    'Denied':
       annotate:
         Stream: FIREWALL
         Action: PACKET_BLOCKED
@@ -226,7 +225,7 @@ event-details:
         Status: PASSED
         Config: Add Operation
       translate:
-        User: User
+        user_name: User
     '062009617502-Successful':
       annotate:
         Stream: CONFIGURATION
@@ -234,7 +233,7 @@ event-details:
         Status: PASSED
         Config: Update Operation
       translate:
-        User: User
+        user_name: User
     '062009517503-Successful':
       annotate:
         Stream: CONFIGURATION
@@ -242,7 +241,7 @@ event-details:
         Status: PASSED
         Config: Delete Operation
       translate:
-        User: User    
+        user_name: User    
     '062009517504-Successful':
       annotate:
         Stream: CONFIGURATION
@@ -250,7 +249,7 @@ event-details:
         Status: PASSED
         Config: Management Operation
       translate:
-        User: User      
+        user_name: User      
     '062910617701-Successful':
       annotate:
         Stream: AUTHENTICATION
@@ -284,11 +283,11 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        Reason: LOGIN_LIMIT_EXCEEDED
       translate:
         auth_mechanism: AuthProto
         user_name: User
         src_ip: SrcIP
+        reason: Reason
     '063210617706-Successful':
       annotate:
         Stream: AUTHENTICATION
