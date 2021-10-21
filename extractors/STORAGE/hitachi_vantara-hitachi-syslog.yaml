@@ -1,0 +1,268 @@
+schema-version: 1.0
+#extractor-version: 1 
+extractor-id: 302
+integration: Syslog
+vendor-name: Hitachi Vantara
+product-name: Hitachi
+source-name: HITACHI
+source-type: STORAGE
+source-description: Extractor for Hitachi Storage Events
+provides-streams:
+- AUTHENTICATION
+- CONFIGURATION
+- IAM
+master-filters:
+- '^(?:\<\d+\>)?.*?\s+\w{3}\s+\d{1,2}\s+\d{1,2}\:\d{1,2}\:\d{1,2}\s+(?:GUM|SVP|[\d\.]+)\s+Storage\:\s+'
+- '\w+\,\w{4}\/\w{1,2}\/\w{1,2}\,\w{1,2}\:\w{1,2}\:\w{1,2}\.\w+\,.*?\[(?:AuditLog|ACM|BASE|User\s+Auth|Install)]\,'
+event-details:
+- first-match: '^(?:\<\d+\>)?.*?\s+\w{3}\s+\d{1,2}\s+\d{1,2}\:\d{1,2}\:\d{1,2}\s+(?:GUM|SVP|[\d\.]+)\s+Storage\:\s+.*?Authentication'
+  decoder: regex
+  decoder-regex: '^(?:\<\d+\>)?.*?\s+(?P<datetime>\w{3}\s+\d{1,2}\s+\d{1,2}\:\d{1,2}\:\d{1,2})\s+(?:GUM|SVP|[\d\.]+)\s+Storage\:\s+\w+\,.*?uid\=(?P<user>.*?)\,.*?from\=(?P<src>[\d\.]+)\,.*?(?P<action>(?:Login|Logout))'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'Login':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate: 
+        AuthProto: AuthProto
+        src: SrcIP
+        user: User
+
+    'Logout': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+      translate: 
+        AuthProto: AuthProto
+        src: SrcIP
+        user: User   
+
+  fallback:
+    annotate:
+      EventName: Generic Hitachi Storage Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      System: System
+
+- first-match: '\w+\,\w{4}\/\w{1,2}\/\w{1,2}\,\w{1,2}\:\w{1,2}\:\w{1,2}\.\w+\,.*?\[(?:AuditLog|ACM|BASE|User\s+Auth|Install)]\,[\w\s]+\,'
+  decoder: regex
+  decoder-regex: '\w+\,(?P<datetime>\w{4}\/\w{1,2}\/\w{1,2}\,\w{1,2}\:\w{1,2}\:\w{1,2})\.\w+\,.*?uid\=(?P<user>.*?)\,.*?(?P<msg>\[[\w\s]+\]\,(?P<action>.*?)\,\,(?P<result>.*?)\,.*?from\=(?P<src>[\w\.\:]+)\,.*)'
+  event-key-format: '{action}-{result}'
+  event-key-mapping:
+    'Set FTP Server-Normal end':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Changing Edit Audit Log Settings Window
+      translate: 
+        user: User
+
+    'Set Syslog Server-Normal end':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Changing Edit Audit Log Settings Window
+      translate: 
+        user: User
+
+    'Add Users-Normal end': 
+      annotate:
+        Stream: IAM
+        Action: USER_ADDED
+        Status: PASSED
+      translate: 
+        user: User 
+        Role: Role
+        TargetUser: TargetUser
+
+    'Assign Resource Grps-Normal end': 
+      annotate:
+        Stream: IAM
+        Action: PRIVILEGE_CHANGED
+        Status: PASSED
+      translate: 
+        user: User 
+        Role: Role
+        TargetUser: TargetUser 
+
+    'Assign Roles-Normal end': 
+      annotate:
+        Stream: IAM
+        Action: PRIVILEGE_CHANGED
+        Status: PASSED
+      translate: 
+        user: User 
+        Role: Role
+        TargetUser: TargetUser 
+
+    'Change Password-Normal end':
+      annotate:
+        Stream: IAM
+        Action: PASSWORD_CHANGED
+        Status: PASSED
+      translate: 
+        user: User 
+        Role: Role
+        TargetUser: TargetUser
+
+    'Create User-Normal end': 
+      annotate:
+        Stream: IAM
+        Action: USER_CREATED
+        Status: PASSED
+      translate: 
+        user: User 
+        Role: Role
+        TargetUser: TargetUser 
+
+    'Create User Grp-Normal end':
+      annotate:
+        Stream: IAM
+        Action: GROUP_CREATED
+        Status: PASSED
+      translate: 
+        user: User 
+        Role: Role
+        TargetUser: TargetUser 
+
+    'Delete User Grps-Normal end':
+      annotate:
+        Stream: IAM
+        Action: GROUP_DELETED
+        Status: PASSED
+      translate: 
+        user: User 
+        Role: Role
+        TargetUser: TargetUser
+
+    'Delete Users-Normal end':
+      annotate:
+        Stream: IAM
+        Action: USER_DELETED
+        Status: PASSED
+      translate: 
+        user: User 
+        Role: Role
+        TargetUser: TargetUser
+
+    'Edit User-Normal end':
+      annotate:
+        Stream: IAM
+        Action: USER_UPDATED
+        Status: PASSED
+      translate: 
+        user: User 
+        Role: Role
+        TargetUser: TargetUser
+    
+    'Edit User Grp-Normal end':
+      annotate:
+        Stream: IAM
+        Action: GROUP_UPDATED
+        Status: PASSED
+      translate: 
+        user: User 
+        Role: Role
+        TargetUser: TargetUser
+
+    'Remove Users-Normal end':
+      annotate:
+        Stream: IAM
+        Action: USER_REMOVED
+        Status: PASSED
+      translate: 
+        user: User 
+        Role: Role
+        TargetUser: TargetUser 
+
+    'ControlPanel Backup-Normal end':   
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Backing Up Configuration Files Using Control Panel
+      translate: 
+        user: User    
+
+    'ControlPanel Restore-Normal end':   
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Restoring Configuration Files Using Control Panel
+      translate: 
+        user: User 
+
+    'Release HTTP Block-Normal end': 
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Changing Settings On Release HTTP Blocking Window
+      translate: 
+        user: User  
+
+    'Set Up HTTP Block-Normal end':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Changing Settings On Set Up HTTP Blocking Window
+      translate: 
+        user: User
+
+    'Login-Normal end':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate: 
+        AuthProto: AuthProto
+        src: SrcIP
+        user: User
+
+    'Logout-Normal end': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+      translate: 
+        AuthProto: AuthProto
+        src: SrcIP
+        user: User 
+
+    'Restore Config-Normal end':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Restore Configuration
+      translate: 
+        user: User
+
+    'Update Config-Normal end': 
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Update Configuration
+      translate: 
+        user: User      
+
+  fallback:
+    annotate:
+      EventName: Generic Hitachi Storage Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      System: System
