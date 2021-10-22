@@ -435,9 +435,9 @@ event-details:
         Action: LOGOUT
         Status: PASSED
       translate:
-        User: User
-        user: TargetUser
-        Role: Role
+        srcip: SrcIP
+        user: User
+        authproto: AuthProto
     '0102043014':
       annotate:
         Stream: AUTHENTICATION
