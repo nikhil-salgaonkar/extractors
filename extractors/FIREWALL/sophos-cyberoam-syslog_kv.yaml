@@ -16,8 +16,8 @@ master-filters:
 - '^(?:\<\d+\>)?(?:device\=\"\w+\"\s+)?date\=\d+\-\d+\-\d+\s+time\=\d+\:\d+\:\d+\s+timezone\=\"\S+\"\s+device_name\=\"\S+\"\sdevice_id\=\s?\w+\-?\w+\s+log_id\=\d+\s+'
 event-details: 
 - first-match: 'log\_id\=062009617507.*?logged\s+in'
-  decoder: regex
-  decoder-regex: 'date\=(?P<date>[\d\-]+).*?device\_name\=\"(?P<device_name>\S+)\".*?user\_name\=\"(?P<user>\S+)\"\s+src\_ip\=(?P<src>[\w\:\.]+)'
+  decoder: custom
+  decoder-regex: '([\w\-\.]+)\=(?:\"([^\"]+|)|([^\s]+|))'
   event-key-format: ''
   event-key-mapping:  
     '': 
@@ -27,8 +27,8 @@ event-details:
         Status: PASSED
       translate:
         AuthProto: AuthProto
-        user: User
-        src: SrcIP
+        user_name: User
+        src_ip: SrcIP
         
   fallback:
     annotate:
@@ -41,8 +41,8 @@ event-details:
       device_name: System
 
 - first-match: 'log\_id\=062009617507.*?logged\s+out'
-  decoder: regex
-  decoder-regex: 'date\=(?P<date>[\d\-]+).*?device\_name\=\"(?P<device_name>\S+)\".*?user\_name\=\"(?P<user>\S+)\"\s+src\_ip\=(?P<src>[\w\:\.]+)'
+  decoder: custom
+  decoder-regex: '([\w\-\.]+)\=(?:\"([^\"]+|)|([^\s]+|))'
   event-key-format: ''
   event-key-mapping:  
     '': 
@@ -52,8 +52,8 @@ event-details:
         Status: PASSED
       translate:
         AuthProto: AuthProto
-        user: User
-        src: SrcIP
+        user_name: User
+        src_ip: SrcIP
         
   fallback:
     annotate:
@@ -67,7 +67,7 @@ event-details:
 
 - first-match: 'log\_type\=\"(?:IDP|Anti\-Virus|ATP)\"'
   decoder: custom
-  decoder-regex: '([\w]+)=(\"[^\"]*\"|[^\s]*)'
+  decoder-regex: '([\w\-\.]+)\=(?:\"([^\"]+|)|([^\s]+|))'
   event-key-format: ''
   event-key-mapping:  
     '':
@@ -99,7 +99,7 @@ event-details:
 
 - first-match: 'log\_type\=\"(?:Content\s+Filtering|Firewall)\"'
   decoder: custom
-  decoder-regex: '([\w]+)=(\"[^\"]*\"|[^\s]*)'
+  decoder-regex: '([\w\-\.]+)\=(?:\"([^\"]+|)|([^\s]+|))'
   event-key-format: '{log_subtype}'
   event-key-mapping:  
     'Allowed':
@@ -143,7 +143,7 @@ event-details:
 
 - first-match: 'log\_type\=\"Event\".*?connectiontype\='
   decoder: custom
-  decoder-regex: '([\w]+)=(\"[^\"]*\"|[^\s]*)'
+  decoder-regex: '([\w\-\.]+)\=(?:\"([^\"]+|)|([^\s]+|))'
   event-key-format: '{status}'
   event-key-mapping:  
     'Successful':
@@ -213,9 +213,9 @@ event-details:
       date: SystemTstamp
       device_name: System  
 
-- first-match: 'log\_id=(?:062009617501|062009617502|062009517503|062009517504|062109517507|062910617701|062910517702|062910617703|063210617704|063210617706)\s+log_type\=\"Event\"'
+- first-match: 'log\_id=(?:062009617501|062009617502|062009517503|062109517507|062910617701|062910517702|062910617703|063210617704|063210617706)\s+log_type\=\"Event\"'
   decoder: custom
-  decoder-regex: '([\w]+)=(\"[^\"]*\"|[^\s]*)'
+  decoder-regex: '([\w\-\.]+)\=(?:\"([^\"]+|)|([^\s]+|))'
   event-key-format: '{log_id}-{status}'
   event-key-mapping:  
     '062009617501-Successful':
@@ -242,14 +242,6 @@ event-details:
         Config: Delete Operation
       translate:
         user_name: User    
-    '062009517504-Successful':
-      annotate:
-        Stream: CONFIGURATION
-        Action: CONFIGURATION_CHANGED
-        Status: PASSED
-        Config: Management Operation
-      translate:
-        user_name: User      
     '062910617701-Successful':
       annotate:
         Stream: AUTHENTICATION
@@ -316,3 +308,53 @@ event-details:
     translate:
       date: SystemTstamp
       device_name: System  
+
+- first-match: log_id\=062009517504.*?message\=\".*?(?:accepted|changed)\s+by\s+\S+\s+from\s+[\w\:\.\']+\s+using\s+\'GUI\'\"
+  decoder: custom
+  decoder-regex: '([\w\-\.]+)\=(?:\"([^\"]+|)|([^\s]+|))'
+  event-key-format: ''
+  event-key-mapping:  
+    '':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Management Operation
+      translate:
+        user_name: User      
+    
+  fallback:
+    annotate:
+      EventName: Generic Cyberoam Firewall Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      date: SystemTstamp
+      device_name: System  
+
+- first-match: 'log_id\=062009517504.*?message\=\"User\s+\S+\s+was\s+disconnected\s+by\s+\S+\s+from\s+[\w\:\.]+\s+using\s+GUI\"'
+  decoder: custom
+  decoder-regex: '([\w\-\.]+)\=(?:\"([^\"]+|)|([^\s]+|))'
+  event-key-format: ''
+  event-key-mapping:  
+    '':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+        Reason: User Disconnected from PPPOE Interface
+      translate:
+        USER: User   
+        src_ip: SrcIP
+        AuthProto: AuthProto   
+    
+  fallback:
+    annotate:
+      EventName: Generic Cyberoam Firewall Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      date: SystemTstamp
+      device_name: System
