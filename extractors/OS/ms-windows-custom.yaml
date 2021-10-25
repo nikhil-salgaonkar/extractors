@@ -79,6 +79,16 @@ event-details:
         IpAddress: SrcIP
         AuthenticationPackageName: AuthProto   
         SubStatus: Reason 
+    '4771': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate: 
+        TargetUserName: User
+        IpAddress: SrcIP
+        AuthenticationPackageName: AuthProto   
+        Status: Reason     
     '4770': 
       annotate:
         Stream: AUTHENTICATION
@@ -1384,6 +1394,7 @@ event-details:
   subs:
     Reason: 
       '0x0': 'SUCCESS'
+      '0x18': 'KDC_ERR_PREAUTH_FAILED'
       '0xc000005e': 'SERVICE_UNAVAILABLE'
       '0xc000005E': 'SERVICE_UNAVAILABLE'
       '0xc000006d': 'BAD_USER_PASSWORD'
