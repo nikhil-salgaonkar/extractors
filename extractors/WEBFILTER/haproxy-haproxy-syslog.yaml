@@ -1,0 +1,298 @@
+schema-version: 1.0
+#extractor-version: 1 
+extractor-id: 235
+integration: Syslog
+vendor-name: HAProxy
+product-name: HAProxy
+source-name: HAPROXY
+source-type: WEBFILTER
+source-description: Extractor for HAProxy Events
+provides-streams:
+- WEBFILTER
+master-filters:
+- '^(\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{1,2}\:\d{1,2}\:\d{1,2}\s+\S+\s+haproxy\[\d+\]\:'
+event-details:
+- first-match: '^(\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{1,2}\:\d{1,2}\:\d{1,2}\s+\S+\s+haproxy\[\d+\]\:.*?\"\w+\s+'
+  decoder: regex
+  decoder-regex: '^(\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{1,2}\:\d{1,2}\:\d{1,2})\s+(?P<hostname>\S+)\s+haproxy\[\d+\]\:.*?(?P<src>[\d\.]+)\:\d+\s+\[[\w\/\:\.]+\]\s+.*?[\d\/]+\s+(?P<statuscode>\d+)\s+(?P<txlen>\d+).*?\"(?P<url>(?P<httpmethod>\w+).*?)\"'
+  event-key-format: '{statuscode}'
+  event-key-mapping:
+    '200': 
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_ALLOWED
+        Status: PASSED
+      translate: 
+        url: URL
+        httpmethod: HTTPMethod
+        src: ScrIP
+        DstIP: DstIP
+        UserAgent: UserAgent
+        DstPort: DstPort
+        txlen: TXLen
+        RXLen: RXLen
+        User: User
+        Proto: Proto
+        Domain: Domain
+
+    '301': 
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_ALLOWED
+        Status: PASSED
+      translate: 
+        url: URL
+        httpmethod: HTTPMethod
+        src: ScrIP
+        DstIP: DstIP
+        UserAgent: UserAgent
+        DstPort: DstPort
+        txlen: TXLen
+        RXLen: RXLen
+        User: User
+        Proto: Proto
+        Domain: Domain    
+
+    '302': 
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_ALLOWED
+        Status: PASSED
+      translate: 
+        url: URL
+        httpmethod: HTTPMethod
+        src: ScrIP
+        DstIP: DstIP
+        UserAgent: UserAgent
+        DstPort: DstPort
+        txlen: TXLen
+        RXLen: RXLen
+        User: User
+        Proto: Proto
+        Domain: Domain 
+
+    '303': 
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_ALLOWED
+        Status: PASSED
+      translate: 
+        url: URL
+        httpmethod: HTTPMethod
+        src: ScrIP
+        DstIP: DstIP
+        UserAgent: UserAgent
+        DstPort: DstPort
+        txlen: TXLen
+        RXLen: RXLen
+        User: User
+        Proto: Proto
+        Domain: Domain     
+
+    '304': 
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_ALLOWED
+        Status: PASSED
+      translate: 
+        url: URL
+        httpmethod: HTTPMethod
+        src: ScrIP
+        DstIP: DstIP
+        UserAgent: UserAgent
+        DstPort: DstPort
+        txlen: TXLen
+        RXLen: RXLen
+        User: User
+        Proto: Proto
+        Domain: Domain 
+
+    '307': 
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_ALLOWED
+        Status: PASSED
+      translate: 
+        url: URL
+        httpmethod: HTTPMethod
+        src: ScrIP
+        DstIP: DstIP
+        UserAgent: UserAgent
+        DstPort: DstPort
+        txlen: TXLen
+        RXLen: RXLen
+        User: User
+        Proto: Proto
+        Domain: Domain 
+
+    '308': 
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_ALLOWED
+        Status: PASSED
+      translate: 
+        url: URL
+        httpmethod: HTTPMethod
+        src: ScrIP
+        DstIP: DstIP
+        UserAgent: UserAgent
+        DstPort: DstPort
+        txlen: TXLen
+        RXLen: RXLen
+        User: User
+        Proto: Proto
+        Domain: Domain 
+
+    '400': 
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_BLOCKED
+        Status: PASSED
+      translate: 
+        url: URL
+        httpmethod: HTTPMethod
+        src: ScrIP
+        DstIP: DstIP
+        UserAgent: UserAgent
+        DstPort: DstPort
+        txlen: TXLen
+        RXLen: RXLen
+        User: User
+        Proto: Proto
+        Domain: Domain
+
+    '401': 
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_BLOCKED
+        Status: PASSED
+      translate: 
+        url: URL
+        httpmethod: HTTPMethod
+        src: ScrIP
+        DstIP: DstIP
+        UserAgent: UserAgent
+        DstPort: DstPort
+        txlen: TXLen
+        RXLen: RXLen
+        User: User
+        Proto: Proto
+        Domain: Domain
+
+    '403': 
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_BLOCKED
+        Status: PASSED
+      translate: 
+        url: URL
+        httpmethod: HTTPMethod
+        src: ScrIP
+        DstIP: DstIP
+        UserAgent: UserAgent
+        DstPort: DstPort
+        txlen: TXLen
+        RXLen: RXLen
+        User: User
+        Proto: Proto
+        Domain: Domain
+
+    '408': 
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_BLOCKED
+        Status: PASSED
+      translate: 
+        url: URL
+        httpmethod: HTTPMethod
+        src: ScrIP
+        DstIP: DstIP
+        UserAgent: UserAgent
+        DstPort: DstPort
+        txlen: TXLen
+        RXLen: RXLen
+        User: User
+        Proto: Proto
+        Domain: Domain 
+
+    '500': 
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_BLOCKED
+        Status: PASSED
+      translate: 
+        url: URL
+        httpmethod: HTTPMethod
+        src: ScrIP
+        DstIP: DstIP
+        UserAgent: UserAgent
+        DstPort: DstPort
+        txlen: TXLen
+        RXLen: RXLen
+        User: User
+        Proto: Proto
+        Domain: Domain 
+
+    '502': 
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_BLOCKED
+        Status: PASSED
+      translate: 
+        url: URL
+        httpmethod: HTTPMethod
+        src: ScrIP
+        DstIP: DstIP
+        UserAgent: UserAgent
+        DstPort: DstPort
+        txlen: TXLen
+        RXLen: RXLen
+        User: User
+        Proto: Proto
+        Domain: Domain                              
+
+    '503': 
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_BLOCKED
+        Status: PASSED
+      translate: 
+        url: URL
+        httpmethod: HTTPMethod
+        src: ScrIP
+        DstIP: DstIP
+        UserAgent: UserAgent
+        DstPort: DstPort
+        txlen: TXLen
+        RXLen: RXLen
+        User: User
+        Proto: Proto
+        Domain: Domain 
+
+    '504': 
+      annotate:
+        Stream: WEBFILTER
+        Action: URL_BLOCKED
+        Status: PASSED
+      translate: 
+        url: URL
+        httpmethod: HTTPMethod
+        src: ScrIP
+        DstIP: DstIP
+        UserAgent: UserAgent
+        DstPort: DstPort
+        txlen: TXLen
+        RXLen: RXLen
+        User: User
+        Proto: Proto
+        Domain: Domain          
+
+  fallback:
+    annotate:
+      EventName: Generic HAProxy Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System
