@@ -6,7 +6,7 @@ vendor-name: Fortinet
 product-name: FortiGate
 source-name: FORTIGATE
 source-type: FIREWALL
-source-description: Extractor for Fortigate Firewall Events
+source-description: Extractor for FortiGate Firewall Events
 provides-streams:
 - FIREWALL
 - THREAT
@@ -150,7 +150,7 @@ event-details:
 
   fallback:
     annotate:
-      EventName: Generic Fortigate Firewall Event
+      EventName: Generic FortiGate Firewall Event
       Stream: OTHER
 
   globals:
@@ -352,7 +352,7 @@ event-details:
 
   fallback:
     annotate:
-      EventName: Generic Fortigate Firewall Event
+      EventName: Generic FortiGate Firewall Event
       Stream: OTHER
 
   globals:
@@ -564,7 +564,7 @@ event-details:
 
   fallback:
     annotate:
-      EventName: Generic Fortigate Firewall Event
+      EventName: Generic FortiGate Firewall Event
       Stream: OTHER
 
   globals:
@@ -609,7 +609,7 @@ event-details:
 
   fallback:
     annotate:
-      EventName: Generic Fortigate Firewall Event
+      EventName: Generic FortiGate Firewall Event
       Stream: OTHER
 
   globals:
@@ -828,7 +828,7 @@ event-details:
     
   fallback:
     annotate:
-      EventName: Generic Fortigate Firewall Event
+      EventName: Generic FortiGate Firewall Event
       Stream: OTHER
 
   globals:
