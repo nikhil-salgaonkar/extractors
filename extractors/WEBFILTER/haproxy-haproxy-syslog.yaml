@@ -6,7 +6,7 @@ vendor-name: HAProxy
 product-name: HAProxy
 source-name: HAPROXY
 source-type: WEBFILTER
-source-description: Extractor for HAProxy Events
+source-deSrcIPtion: Extractor for HAProxy Events
 provides-streams:
 - WEBFILTER
 master-filters:
@@ -25,7 +25,7 @@ event-details:
       translate: 
         url: URL
         httpmethod: HTTPMethod
-        src: ScrIP
+        src: SrcIP
         DstIP: DstIP
         UserAgent: UserAgent
         DstPort: DstPort
@@ -43,7 +43,7 @@ event-details:
       translate: 
         url: URL
         httpmethod: HTTPMethod
-        src: ScrIP
+        src: SrcIP
         DstIP: DstIP
         UserAgent: UserAgent
         DstPort: DstPort
@@ -61,7 +61,7 @@ event-details:
       translate: 
         url: URL
         httpmethod: HTTPMethod
-        src: ScrIP
+        src: SrcIP
         DstIP: DstIP
         UserAgent: UserAgent
         DstPort: DstPort
@@ -79,7 +79,7 @@ event-details:
       translate: 
         url: URL
         httpmethod: HTTPMethod
-        src: ScrIP
+        src: SrcIP
         DstIP: DstIP
         UserAgent: UserAgent
         DstPort: DstPort
@@ -97,7 +97,7 @@ event-details:
       translate: 
         url: URL
         httpmethod: HTTPMethod
-        src: ScrIP
+        src: SrcIP
         DstIP: DstIP
         UserAgent: UserAgent
         DstPort: DstPort
@@ -115,7 +115,7 @@ event-details:
       translate: 
         url: URL
         httpmethod: HTTPMethod
-        src: ScrIP
+        src: SrcIP
         DstIP: DstIP
         UserAgent: UserAgent
         DstPort: DstPort
@@ -133,7 +133,7 @@ event-details:
       translate: 
         url: URL
         httpmethod: HTTPMethod
-        src: ScrIP
+        src: SrcIP
         DstIP: DstIP
         UserAgent: UserAgent
         DstPort: DstPort
@@ -151,7 +151,7 @@ event-details:
       translate: 
         url: URL
         httpmethod: HTTPMethod
-        src: ScrIP
+        src: SrcIP
         DstIP: DstIP
         UserAgent: UserAgent
         DstPort: DstPort
@@ -169,7 +169,7 @@ event-details:
       translate: 
         url: URL
         httpmethod: HTTPMethod
-        src: ScrIP
+        src: SrcIP
         DstIP: DstIP
         UserAgent: UserAgent
         DstPort: DstPort
@@ -187,7 +187,7 @@ event-details:
       translate: 
         url: URL
         httpmethod: HTTPMethod
-        src: ScrIP
+        src: SrcIP
         DstIP: DstIP
         UserAgent: UserAgent
         DstPort: DstPort
@@ -205,7 +205,7 @@ event-details:
       translate: 
         url: URL
         httpmethod: HTTPMethod
-        src: ScrIP
+        src: SrcIP
         DstIP: DstIP
         UserAgent: UserAgent
         DstPort: DstPort
@@ -223,7 +223,7 @@ event-details:
       translate: 
         url: URL
         httpmethod: HTTPMethod
-        src: ScrIP
+        src: SrcIP
         DstIP: DstIP
         UserAgent: UserAgent
         DstPort: DstPort
@@ -241,7 +241,7 @@ event-details:
       translate: 
         url: URL
         httpmethod: HTTPMethod
-        src: ScrIP
+        src: SrcIP
         DstIP: DstIP
         UserAgent: UserAgent
         DstPort: DstPort
@@ -259,7 +259,7 @@ event-details:
       translate: 
         url: URL
         httpmethod: HTTPMethod
-        src: ScrIP
+        src: SrcIP
         DstIP: DstIP
         UserAgent: UserAgent
         DstPort: DstPort
@@ -277,7 +277,7 @@ event-details:
       translate: 
         url: URL
         httpmethod: HTTPMethod
-        src: ScrIP
+        src: SrcIP
         DstIP: DstIP
         UserAgent: UserAgent
         DstPort: DstPort
