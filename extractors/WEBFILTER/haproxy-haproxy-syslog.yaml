@@ -6,7 +6,7 @@ vendor-name: HAProxy
 product-name: HAProxy
 source-name: HAPROXY
 source-type: WEBFILTER
-source-deSrcIPtion: Extractor for HAProxy Events
+source-description: Extractor for HAProxy Events
 provides-streams:
 - WEBFILTER
 master-filters:
