@@ -2012,4 +2012,4 @@ event-details:
   globals:
     translate:
       EventTime: SystemTstamp
-      Hostname: System      
+      Hostname: System
