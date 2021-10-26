@@ -573,9 +573,9 @@ event-details:
         s_port: SrcPort
         service: DstPort
         proto: Proto
-        App: App  
-        RXLen: RXLen
-        TXLen: TXLen       
+        protocol: App  
+        client_inbound_bytes: RXLen
+        client_outbound_bytes: TXLen      
     
   fallback:
     annotate:
