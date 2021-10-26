@@ -561,7 +561,21 @@ event-details:
         proto: Proto
         protocol: App  
         client_inbound_bytes: RXLen
-        client_outbound_bytes: TXLen   
+        client_outbound_bytes: TXLen
+    'Allow':
+      annotate:
+        Stream: FIREWALL
+        Action: PACKET_ALLOWED
+        Status: PASSED
+      translate:
+        src: SrcIP  
+        dst: DstIP
+        s_port: SrcPort
+        service: DstPort
+        proto: Proto
+        protocol: App  
+        client_inbound_bytes: RXLen
+        client_outbound_bytes: TXLen      
     
   fallback:
     annotate:
