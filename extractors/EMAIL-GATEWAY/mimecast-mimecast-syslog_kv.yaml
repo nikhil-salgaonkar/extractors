@@ -1,0 +1,331 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 161
+source-name: MIMECAST
+source-type: EMAIL-GATEWAY
+source-description: Extractor for Mimecast Events
+provides-streams:
+- EMAIL-GATEWAY
+- THREAT
+- AUTHENTICATION
+master-filters:
+- '^(?:\<\d+\>)?.*?(?:datetime|date)\=\d{4}\-\d{2}\-\d{2}T[\d\:\+]+\|(?:mcType|aCode|acc)\=\w+'
+event-details:
+- first-match: '(?:Dir\=(?:Inbound|Outbound|Internal|External).*?Act\=\w+|Act\=\w+.*?Dir\=(?:Inbound|Outbound|Internal|External))'
+  decoder: custom
+  decoder-regex: '(\w+)\=([^|]+)'
+  event-key-format: '{Act}-{RejType}'
+  event-key-mapping:
+    'Acc-None':
+      annotate:
+        Stream: EMAIL-GATEWAY
+        Action: EMAIL_ACCEPTED
+        Status: PASSED
+      translate:
+        Sender: Sender
+        Rcpt: Recipient
+        Subject: Subject
+        Dir: Direction
+        IP: RemoteIP
+        File: File    
+    'Rej-None':
+      annotate:
+        Stream: EMAIL-GATEWAY
+        Action: EMAIL_REJECTED
+        Status: PASSED
+      translate:
+        Sender: Sender
+        Rcpt: Recipient
+        Subject: Subject
+        Dir: Direction
+        IP: RemoteIP
+        File: File   
+    'Rej-Connection Attempt':
+      annotate:
+        Stream: EMAIL-GATEWAY
+        Action: EMAIL_REJECTED
+        Status: PASSED
+      translate:
+        Sender: Sender
+        Rcpt: Recipient
+        Subject: Subject
+        Dir: Direction
+        IP: RemoteIP
+        File: File  
+    'Rej-IP Found in RBL':
+      annotate:
+        Stream: EMAIL-GATEWAY
+        Action: EMAIL_REJECTED
+        Status: PASSED
+      translate:
+        Sender: Sender
+        Rcpt: Recipient
+        Subject: Subject
+        Dir: Direction
+        IP: RemoteIP
+        File: File 
+    'Rej-Virus Signature Detection':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: EMAIL
+      translate:
+        IP: SrcIP
+        Sender: Sender
+        Rcpt: Recipient
+        Virus: Threat        
+    'Bnc-None':
+      annotate:
+        Stream: EMAIL-GATEWAY
+        Action: EMAIL_BOUNCED
+        Status: PASSED
+      translate:
+        Sender: Sender
+        Rcpt: Recipient
+        Subject: Subject
+        Dir: Direction
+        IP: RemoteIP
+        File: File                                 
+
+  fallback:
+    annotate:
+      EventName: Generic Mimecast Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      System: System
+
+- first-match: '(?:Act\=\w+.*?AttNames\=|AttNames\=.*?Act\=\w+)'
+  decoder: custom
+  decoder-regex: '(\w+)\=([^|]+)'
+  event-key-format: '{Act}'
+  event-key-mapping:
+    'Acc':
+      annotate:
+        Stream: EMAIL-GATEWAY
+        Action: EMAIL_PROCESSING_COMPLETED
+        Status: PASSED
+      translate:
+        Sender: Sender
+        Recipient: Recipient
+        Subject: Subject
+        Direction: Direction
+        RemoteIP: RemoteIP
+        AttNames: File     
+    'Sdbx':
+      annotate:
+        Stream: EMAIL-GATEWAY
+        Action: EMAIL_PROCESSING_COMPLETED
+        Status: PASSED
+      translate:
+        Sender: Sender
+        Recipient: Recipient
+        Subject: Subject
+        Direction: Direction
+        RemoteIP: RemoteIP
+        AttNames: File   
+    'Rej':
+      annotate:
+        Stream: EMAIL-GATEWAY
+        Action: EMAIL_REJECTED
+        Status: PASSED
+      translate:
+        Sender: Sender
+        Recipient: Recipient
+        Subject: Subject
+        Direction: Direction
+        RemoteIP: RemoteIP
+        AttNames: File     
+    'Hld':
+      annotate:
+        Stream: EMAIL-GATEWAY
+        Action: EMAIL_QUARANTINED
+        Status: PASSED
+      translate:
+        Sender: Sender
+        Recipient: Recipient
+        Subject: Subject
+        Direction: Direction
+        RemoteIP: RemoteIP
+        AttNames: File                                          
+
+  fallback:
+    annotate:
+      EventName: Generic Mimecast Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      System: System
+
+- first-match: 'Delivered\=(?:false|true).*?Dir\=(?:Inbound|Outbound|External|Internal)'
+  decoder: custom
+  decoder-regex: '(\w+)\=([^|]+)'
+  event-key-format: '{Delivered}'
+  event-key-mapping:
+    'true':
+      annotate:
+        Stream: EMAIL-GATEWAY
+        Action: EMAIL_DELIVERED
+        Status: PASSED
+      translate:
+        Sender: Sender
+        Rcpt: Recipient
+        Subject: Subject
+        Dir: Direction
+        IP: RemoteIP
+        File: File       
+    'false':
+      annotate:
+        Stream: EMAIL-GATEWAY
+        Action: EMAIL_DELIVERED
+        Status: FAILED
+      translate:
+        Sender: Sender
+        Rcpt: Recipient
+        Subject: Subject
+        Dir: Direction
+        IP: RemoteIP
+        File: File                                       
+
+  fallback:
+    annotate:
+      EventName: Generic Mimecast Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      System: System
+
+- first-match: 'mcType\=auditLog'
+  decoder: custom
+  decoder-regex: '\s?([\w]+)(?:\:\s|\=)(?:([^])|([^\,]+)\,?)'
+  event-key-format: '{auditType}'
+  event-key-mapping:
+    'Logon Authentication Failed':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate:
+        src: SrcIP
+        user: User
+        Reason: Reason
+        AuthProto: AuthProto
+    'User Logged On':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        src: SrcIP
+        user: User
+        AuthProto: AuthProto
+
+  fallback:
+    annotate:
+      EventName: Generic Mimecast Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      System: System
+
+- first-match: 'MimecastIP\=(?:true|false).*?CustomerIP\=(?:true|false)'
+  decoder: custom
+  decoder-regex: '(\w+)\=([^|]+)'
+  event-key-format: ''
+  event-key-mapping:
+    '':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: EMAIL
+      translate:
+        IP: SrcIP
+        Sender: Sender
+        Recipient: Recipient
+        Virus: Threat    
+    
+  fallback:
+    annotate:
+      EventName: Generic Mimecast Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      System: System
+
+- first-match: '\|(?:UrlCategory|urlCategory)\='
+  decoder: custom
+  decoder-regex: '(\w+)\=([^|]+)'
+  event-key-format: '{UrlCategory}-{urlCategory}-{reason}'
+  event-key-mapping:
+    'Phishing & Fraud-None-None':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: EMAIL
+      translate:
+        SrcIP: SrcIP
+        Sender: Sender
+        Recipient: Recipient
+        UrlCategory: Threat    
+    'None-Blocked-malicious':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_BLOCKED
+        Status: PASSED
+        Vector: EMAIL
+        Threat: Malicious URL
+      translate:
+        sourceIp: SrcIP
+        sender: Sender
+        recipient: Recipient   
+    
+  fallback:
+    annotate:
+      EventName: Generic Mimecast Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      System: System
+
+- first-match: 'CustomThreatDictionary\='
+  decoder: custom
+  decoder-regex: '(\w+)\=([^|]+)'
+  event-key-format: '{TaggedMalicious}'
+  event-key-mapping:
+    'true':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: EMAIL
+      translate:
+        IP: SrcIP
+        Sender: Sender
+        Recipient: Recipient
+        Receipient: Recipient
+        Definition: Threat    
+    
+  fallback:
+    annotate:
+      EventName: Generic Mimecast Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      System: System
