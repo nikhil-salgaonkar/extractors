@@ -147,6 +147,20 @@ event-details:
         rcvdbyte: RXLen
         proto: Proto
         app: App
+    'dns':
+      annotate:
+        Stream: FIREWALL
+        Action: PACKET_ALLOWED
+        Status: PASSED
+      translate:
+        srcip: SrcIP
+        srcport: SrcPort
+        dstip: DstIP
+        dstport: DstPort
+        sentbyte: TXLen
+        rcvdbyte: RXLen
+        proto: Proto
+        app: App
 
   fallback:
     annotate:
