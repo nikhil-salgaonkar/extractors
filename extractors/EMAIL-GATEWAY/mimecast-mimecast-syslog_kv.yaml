@@ -1,6 +1,9 @@
 schema-version: 1.0
 #extractor-version: 1
 extractor-id: 161
+integration: Syslog(KV)
+vendor-name: Mimecast
+product-name: Mimecast Secure Email Gateway
 source-name: MIMECAST
 source-type: EMAIL-GATEWAY
 source-description: Extractor for Mimecast Events
