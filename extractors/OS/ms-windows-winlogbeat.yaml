@@ -475,6 +475,17 @@ event-details:
         winlog[event_data][SubjectUserName]: User 
         winlog[event_data][ObjectName]: Object
         winlog[event_data][IpAddress]: SrcIP 
+    '1104':
+      annotate:
+        Stream: WIN-AUDIT
+        Action: SECURITY_LOG_FULL
+        Status: PASSED  
+        Event: The security Log is now full.
+        Category: POLICY  
+      translate: 
+        winlog[event_data][SubjectUserName]: User 
+        winlog[event_data][ObjectName]: Object
+        winlog[event_data][IpAddress]: SrcIP    
 
   fallback:
     annotate:
@@ -486,7 +497,7 @@ event-details:
       winlog[computer_name]: System
       '@timestamp': SystemTstamp
 
-- first-match: \"Microsoft\-Windows\-Security\-Auditing\"
+- first-match: \"(?:Microsoft\-Windows\-Security\-Auditing|User32)\"
   decoder: json
   event-key-format: '{winlog[event_id]}'
   event-key-mapping:
@@ -527,6 +538,25 @@ event-details:
         winlog[event_data][IpAddress]: SrcIP
         AuthProto: AuthProto   
         Reason: Reason 
+    '4771': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate: 
+        winlog[event_data][TargetUserName]: User
+        winlog[event_data][IpAddress]: SrcIP
+        AuthProto: AuthProto   
+        Reason: Reason  
+    '4770': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: KERBEROS_SERVICE_TICKET_RENEWED
+        Status: PASSED
+      translate:   
+        winlog[event_data][TargetUserName]: User
+        winlog[event_data][IpAddress]: SrcIP
+        AuthProto: AuthProto    
     '4611':
       annotate:
         Stream: AUTHENTICATION
@@ -1457,7 +1487,18 @@ event-details:
       translate: 
         winlog[event_data][SubjectUserName]: User 
         winlog[event_data][ObjectName]: Object
-        winlog[event_data][IpAddress]: SrcIP                        
+        winlog[event_data][IpAddress]: SrcIP 
+    '1074':
+      annotate:
+        Stream: WIN-AUDIT
+        Action: DIRECTORY_SERVICE_ACCESSED
+        Status: PASSED  
+        Event: The process has initiated the restart of computer.
+        Category: DIRECTORY 
+      translate: 
+        winlog[event_data][SubjectUserName]: User 
+        winlog[event_data][ObjectName]: Object
+        winlog[event_data][IpAddress]: SrcIP                             
     '5136':
       annotate:
         Stream: WIN-AUDIT
