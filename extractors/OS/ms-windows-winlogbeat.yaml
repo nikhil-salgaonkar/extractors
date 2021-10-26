@@ -497,7 +497,7 @@ event-details:
       winlog[computer_name]: System
       '@timestamp': SystemTstamp
 
-- first-match: \"Microsoft\-Windows\-Security\-Auditing\"
+- first-match: \"(?:Microsoft\-Windows\-Security\-Auditing|User32)\"
   decoder: json
   event-key-format: '{winlog[event_id]}'
   event-key-mapping:
