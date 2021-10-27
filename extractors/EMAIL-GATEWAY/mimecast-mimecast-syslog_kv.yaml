@@ -18,7 +18,7 @@ master-filters:
 event-details:
 - first-match: '(?:Dir\=(?:Inbound|Outbound|Internal|External).*?Act\=\w+|Act\=\w+.*?Dir\=(?:Inbound|Outbound|Internal|External))'
   decoder: custom
-  decoder-regex: '(\w+)\=([^|]+)'
+  decoder-regex: '(\w+)\=([^|]+|)'
   event-key-format: '{Act}-{RejType}'
   event-key-mapping:
     'Acc-None':
@@ -105,7 +105,7 @@ event-details:
 
 - first-match: '(?:Act\=\w+.*?AttNames\=|AttNames\=.*?Act\=\w+)'
   decoder: custom
-  decoder-regex: '(\w+)\=([^|]+)'
+  decoder-regex: '(\w+)\=([^|]+|)'
   event-key-format: '{Act}'
   event-key-mapping:
     'Acc':
@@ -169,7 +169,7 @@ event-details:
 
 - first-match: 'Delivered\=(?:false|true).*?Dir\=(?:Inbound|Outbound|External|Internal)'
   decoder: custom
-  decoder-regex: '(\w+)\=([^|]+)'
+  decoder-regex: '(\w+)\=([^|]+|)'
   event-key-format: '{Delivered}'
   event-key-mapping:
     'true':
@@ -305,7 +305,7 @@ event-details:
 
 - first-match: 'MimecastIP\=(?:true|false).*?CustomerIP\=(?:true|false)'
   decoder: custom
-  decoder-regex: '(\w+)\=([^|]+)'
+  decoder-regex: '(\w+)\=([^|]+|)'
   event-key-format: ''
   event-key-mapping:
     '':
@@ -332,7 +332,7 @@ event-details:
 
 - first-match: 'acc\=\w+\|.*?\|(?:UrlCategory|urlCategory)\='
   decoder: custom
-  decoder-regex: '(\w+)\=([^|]+)'
+  decoder-regex: '(\w+)\=([^|]+|)'
   event-key-format: '{UrlCategory}-{urlCategory}-{reason}'
   event-key-mapping:
     'Phishing & Fraud-None-None':
@@ -370,7 +370,7 @@ event-details:
 
 - first-match: 'CustomThreatDictionary\='
   decoder: custom
-  decoder-regex: '(\w+)\=([^|]+)'
+  decoder-regex: '(\w+)\=([^|]+|)'
   event-key-format: '{TaggedMalicious}'
   event-key-mapping:
     'true':
