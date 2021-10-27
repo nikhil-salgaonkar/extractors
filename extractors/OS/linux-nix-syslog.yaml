@@ -714,9 +714,9 @@ event-details:
       hostname: System
       datetime: SystemTstamp  
 
-- first-match: 'sshd\[\d+\]\:\s+Disconnected\s+from\s+[\w\:\.]+\s+port\s+\d+'
+- first-match: 'sshd\[\d+\]\:\s+(?:Connection\s+closed|Disconnected)\s+(?:by|from)\s+[\w\:\.]+\s+port\s+\d+'
   decoder: regex
-  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>\w+)\[(?P<PID>\d+)\]\:\s+(?P<action>\w+)\s+from\s+(?P<src>[\w\:\.]+)'
+  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>\w+)\[(?P<PID>\d+)\]\:\s+(?P<action>.*?)\s+(?:by|from)\s+(?P<src>[\w\:\.]+)'
   event-key-format: '{action}'
   event-key-mapping:
     'Disconnected': 
@@ -726,6 +726,15 @@ event-details:
         Status: FAILED
         AuthProto: SSH
         Reason: INVALID_CREDENTIALS
+      translate:
+        User: User
+        src: SrcIP 
+    'Connection closed': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+        AuthProto: SSH
       translate:
         User: User
         src: SrcIP 
