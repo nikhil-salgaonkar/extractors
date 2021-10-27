@@ -270,7 +270,7 @@ event-details:
     'User Password Changed':
       annotate:
         Stream: IAM
-        Action: USER_PASSWORD_CHANGED
+        Action: PASSWORD_CHANGED
         Status: PASSED
       translate:
         Rolename: Role
