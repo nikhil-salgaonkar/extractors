@@ -531,9 +531,9 @@ event-details:
       datetime: SystemTstamp
       hostname: System
 
-- first-match: '\%FTD\-\d+\-\d+\:\s+(?:Built|Teardown)\s+(?:dynamic|static)\s+(?:TCP|UDP|ICMP)\s+translation'
+- first-match: '\%FTD\-\d+\-\d+\:\s+(?:Built|Teardown)\s+(?:dynamic|static)\s+\w+\s+translation'
   decoder: regex
-  decoder-regex: '(?P<datetime>(?:\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}|\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2})).*?(?P<hostname>[\w\-\.]+)\s+\:\s+\%FTD\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+(?P<action>\w+).*?(?P<proto>(?:TCP|UDP|ICMP))\s+translation\s+from.*?\:(?P<src>[\d\.]+)\/(?P<sport>\d+)\s+to.*?\:(?P<dst>[\d\.]+)\/(?P<dport>\d+)'
+  decoder-regex: '(?P<datetime>(?:\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}|\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2})).*?(?P<hostname>[\w\-\.]+)\s+\:\s+\%FTD\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+(?P<action>\w+).*?(?P<proto>\w+)\s+translation\s+from.*?\:(?P<src>[\w\:\.]+)\/(?P<sport>\d+)\s+to.*?\:(?P<dst>[\d\.]+)\/(?P<dport>\d+)'
   event-key-format: '{action}'
   event-key-mapping:  
     'Teardown': 
