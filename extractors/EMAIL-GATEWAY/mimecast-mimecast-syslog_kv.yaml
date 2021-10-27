@@ -11,6 +11,8 @@ provides-streams:
 - EMAIL-GATEWAY
 - THREAT
 - AUTHENTICATION
+- IAM
+- CONFIGURATION
 master-filters:
 - '^(?:\<\d+\>)?.*?(?:datetime|date)\=\d{4}\-\d{2}\-\d{2}T[\d\:\+]+\|(?:mcType|aCode|acc)\=\w+'
 event-details:
@@ -109,7 +111,7 @@ event-details:
     'Acc':
       annotate:
         Stream: EMAIL-GATEWAY
-        Action: EMAIL_PROCESSING_COMPLETED
+        Action: EMAIL_PROCESSED
         Status: PASSED
       translate:
         Sender: Sender
@@ -121,7 +123,7 @@ event-details:
     'Sdbx':
       annotate:
         Stream: EMAIL-GATEWAY
-        Action: EMAIL_PROCESSING_COMPLETED
+        Action: EMAIL_PROCESSED
         Status: PASSED
       translate:
         Sender: Sender
@@ -229,6 +231,67 @@ event-details:
         src: SrcIP
         user: User
         AuthProto: AuthProto
+    'Account Updated':
+      annotate:
+        Stream: IAM
+        Action: USER_UPDATED
+        Status: PASSED
+      translate:
+        Rolename: Role
+        TargetUser: TargetUser
+        user: User
+    'Existing User Role Updated':
+      annotate:
+        Stream: IAM
+        Action: ROLE_UPDATED
+        Status: PASSED
+      translate:
+        Rolename: Role
+        TargetUser: TargetUser
+        user: User
+    'User removed from role':
+      annotate:
+        Stream: IAM
+        Action: USER_REMOVED
+        Status: PASSED
+      translate:
+        Rolename: Role
+        TargetUser: TargetUser
+        user: User
+    'User added from role':
+      annotate:
+        Stream: IAM
+        Action: USER_ADDED
+        Status: PASSED
+      translate:
+        Rolename: Role
+        TargetUser: TargetUser
+        user: User
+    'User Password Changed':
+      annotate:
+        Stream: IAM
+        Action: USER_PASSWORD_CHANGED
+        Status: PASSED
+      translate:
+        Rolename: Role
+        TargetUser: TargetUser
+        user: User
+    'New Policy':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Policy Created
+      translate:
+        user: User
+    'Policy Deleted':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Policy Deleted
+      translate:
+        user: User 
 
   fallback:
     annotate:
@@ -267,7 +330,7 @@ event-details:
       datetime: SystemTstamp
       System: System
 
-- first-match: '\|(?:UrlCategory|urlCategory)\='
+- first-match: 'acc\=\w+\|.*?\|(?:UrlCategory|urlCategory)\='
   decoder: custom
   decoder-regex: '(\w+)\=([^|]+)'
   event-key-format: '{UrlCategory}-{urlCategory}-{reason}'
