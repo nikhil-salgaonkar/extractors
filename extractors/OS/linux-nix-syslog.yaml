@@ -12,7 +12,7 @@ provides-streams:
 - AUDITD
 - IAM
 master-filters:
-- '^(?:\<\d+\>)?[\w\-\:\s\+\.\d]+(?:systemd-logind|sshd|cron|internal-sftp|sftpd|syslog|sudo|tsm|su|login|saphostexec|sftp-server|sapdbctrl|pkexec|polkit-agent-helper-\d+|CRON|LNXADM\w+)(?:\s?\[\d+\]\:|\:)'
+- '^(?:\<\d+\>)?[\w\-\:\s\+\.\d]+(?:systemd-logind|sshd|cron|internal-sftp|sftpd|syslog|sudo|systemd|tsm|su|login|saphostexec|sftp-server|sapdbctrl|pkexec|polkit-agent-helper-\d+|CRON|LNXADM\w+)(?:\s?\[\d+\]\:|\:)'
 - '^(?:\<\d+\>(?:\d+\s+)?)?(?:\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}|\d{4}\-\d{1,2}\-\d{2}T\d{2}\:\d{2}\:\d+[\.\w\+\:]+)\s+\S+\s+(?:CRON|audispd|sudo)\:?\s+?(?:[\d\s\-]+)?'
 event-details:
 - first-match: '\[\d+\]\:\s+Accepted\s+password\s+for\s+'
@@ -688,3 +688,63 @@ event-details:
     translate:
       hostname: System
       datetime: SystemTstamp
+
+- first-match: 'systemd\:\s+Started\s+Session\s+\d+\s+of\s+user\s+\S+'
+  decoder: regex
+  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>\w+)\:\s+(?P<action>.*?)\s+\d+\s+of\s+user\s+(?P<user>\S+)'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'Started Session': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        user: User
+        SrcIP: SrcIP 
+        AuthProto: AuthProto
+
+  fallback:
+    annotate:
+      EventName: Generic NIX Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      hostname: System
+      datetime: SystemTstamp  
+
+- first-match: 'sshd\[\d+\]\:\s+(?:Connection\s+closed|Disconnected)\s+(?:by|from)\s+[\w\:\.]+\s+port\s+\d+'
+  decoder: regex
+  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>\w+)\[(?P<PID>\d+)\]\:\s+(?P<action>.*?)\s+(?:by|from)\s+(?P<src>[\w\:\.]+)'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'Disconnected': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+        AuthProto: SSH
+        Reason: INVALID_CREDENTIALS
+      translate:
+        User: User
+        src: SrcIP 
+    'Connection closed': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+        AuthProto: SSH
+      translate:
+        User: User
+        src: SrcIP 
+
+  fallback:
+    annotate:
+      EventName: Generic NIX Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      hostname: System
+      datetime: SystemTstamp   
