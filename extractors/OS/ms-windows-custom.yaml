@@ -169,16 +169,6 @@ event-details:
       translate:
         ClientAddress: SrcIP
         UserName: User
-        AuthenticationPackageName: AuthProto  
-    '8002':
-      annotate:
-        Stream: AUTHENTICATION
-        Action: LOGIN
-        Status: FAILED
-        Reason: Audit Incoming NTLM Traffic that would be blocked.
-      translate:
-        ClientAddress: SrcIP
-        ClientUserName: User
         AuthenticationPackageName: AuthProto           
     '4741':         
       annotate:
@@ -2116,3 +2106,29 @@ event-details:
     translate:
       EventTime: SystemTstamp
       Hostname: System
+
+- first-match: \"Microsoft\-Windows\-NTLM\"
+  decoder: custom
+  decoder-regex: '\"([^\"]+)\"\:(?:\"([^\"]+)\"|([^\,]+))'
+  event-key-format: '{EventID}'
+  event-key-mapping:
+    '8002':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+        Reason: Audit Incoming NTLM Traffic that would be blocked.
+      translate:
+        ClientAddress: SrcIP
+        ClientUserName: User
+        AuthenticationPackageName: AuthProto
+
+  fallback:
+    annotate:
+      EventName: Generic Windows Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      EventTime: SystemTstamp
+      Hostname: System      
