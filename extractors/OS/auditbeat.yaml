@@ -26,7 +26,6 @@ event-details:
       translate:
         user[name]: User
         source[ip]: SrcIP
-
     'logged-in-failure':
       annotate:
         Stream: AUTHENTICATION
@@ -37,7 +36,53 @@ event-details:
       translate:
         user[name]: User
         source[ip]: SrcIP
-
+    'was-authorized-success':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+        AuthProto: '-'
+      translate:
+        related[user][0]: User
+        host[ip][0]: SrcIP
+    'was-authorized-failure':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+        AuthProto: '-'
+        Reason: INVALID_CREDENTIALS
+      translate:
+        related[user][0]: User
+        host[ip][0]: SrcIP
+    'changed-login-id-to-success':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+        AuthProto: '-'
+      translate:
+        related[user][0]: User
+        host[ip][0]: SrcIP
+    'changed-login-id-to-failure':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+        AuthProto: '-'
+        Reason: INVALID_CREDENTIALS
+      translate:
+        related[user][0]: User
+        host[ip][0]: SrcIP
+    'authenticated-success':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+        AuthProto: '-'
+      translate:
+        user[name]: User
+        source[ip]: SrcIP
     'authenticated-failure':
       annotate:
         Stream: AUTHENTICATION
@@ -48,7 +93,6 @@ event-details:
       translate:
         user[name]: User
         source[ip]: SrcIP 
-
     'acquired-credentials-success':
       annotate:
         Stream: AUDITD
@@ -58,7 +102,7 @@ event-details:
         user[name]: User
         process[executable]: Process
         process[args]: ProcessArgs
-
+        auditd[data][cmd]: CommandLine 
     'disposed-credentials-success':
       annotate:
         Stream: AUDITD
@@ -68,7 +112,7 @@ event-details:
         user[name]: User
         process[executable]: Process
         process[args]: ProcessArgs 
-
+        auditd[data][cmd]: CommandLine 
     'refreshed-credentials-success':
       annotate:
         Stream: AUDITD
@@ -78,7 +122,7 @@ event-details:
         user[name]: User
         process[executable]: Process
         process[args]: ProcessArgs  
-
+        auditd[data][cmd]: CommandLine 
     'started-session-success':
       annotate:
         Stream: AUDITD
@@ -88,7 +132,7 @@ event-details:
         user[name]: User
         process[executable]: Process
         process[args]: ProcessArgs   
-
+        auditd[data][cmd]: CommandLine 
     'ended-session-success':
       annotate:
         Stream: AUDITD
@@ -97,7 +141,8 @@ event-details:
       translate:
         user[name]: User
         process[executable]: Process
-        process[args]: ProcessArgs       
+        process[args]: ProcessArgs   
+        auditd[data][cmd]: CommandLine  
 
   fallback:
     annotate:
@@ -122,7 +167,7 @@ event-details:
         user[name]: User
         process[executable]: Process
         process[args]: ProcessArgs
-
+        auditd[data][cmd]: CommandLine
     'deletion':
       annotate:
         Stream: AUDITD
@@ -132,7 +177,7 @@ event-details:
         user[name]: User
         process[executable]: Process
         process[args]: ProcessArgs
-
+        auditd[data][cmd]: CommandLine
     'change':
       annotate:
         Stream: AUDITD
@@ -142,7 +187,7 @@ event-details:
         user[name]: User
         process[executable]: Process
         process[args]: ProcessArgs
-
+        auditd[data][cmd]: CommandLine
     'info':
       annotate:
         Stream: AUDITD
@@ -152,6 +197,7 @@ event-details:
         user[name]: User
         process[executable]: Process
         process[args]: ProcessArgs
+        auditd[data][cmd]: CommandLine
 
   fallback:
     annotate:
@@ -176,7 +222,7 @@ event-details:
         user[name]: User
         process[executable]: Process
         auditd[data][unit]: ProcessArgs
-
+        auditd[data][cmd]: CommandLine
     'stopped-service-success':
       annotate:
         Stream: AUDITD
@@ -186,7 +232,7 @@ event-details:
         user[name]: User
         process[executable]: Process
         auditd[data][unit]: ProcessArgs
-
+        auditd[data][cmd]: CommandLine
     'executed-failure':
       annotate:
         Stream: AUDITD
@@ -196,7 +242,7 @@ event-details:
         user[name]: User
         process[working_directory]: Process
         process[args]: ProcessArgs
-
+        auditd[data][cmd]: CommandLine
     'executed-success':
       annotate:
         Stream: AUDITD
@@ -205,8 +251,8 @@ event-details:
       translate:
         user[name]: User
         process[working_directory]: Process
-        process[args]: ProcessArgs    
-
+        process[args]: ProcessArgs 
+        auditd[data][cmd]: CommandLine 
     'ran-command-success':
       annotate:
         Stream: AUDITD
@@ -215,8 +261,179 @@ event-details:
       translate:
         user[name]: User
         process[working_directory]: Process
-        process[args]: ProcessArgs    
+        process[args]: ProcessArgs  
+        auditd[data][cmd]: CommandLine
+    'process_started-None':
+      annotate:
+        Stream: AUDITD
+        Action: PROCESS_STARTED
+        Status: PASSED
+      translate:
+        user[name]: User
+        process[executable]: Process
+        process[args]: ProcessArgs
+        auditd[data][cmd]: CommandLine
+    'process_stopped-None':
+      annotate:
+        Stream: AUDITD
+        Action: PROCESS_STOPPED
+        Status: PASSED
+      translate:
+        user[name]: User
+        process[executable]: Process
+        process[args]: ProcessArgs
+        auditd[data][cmd]: CommandLine
+    'process_error-None':
+      annotate:
+        Stream: AUDITD
+        Action: PROCESS_ERRORED
+        Status: PASSED
+      translate:
+        user[name]: User
+        process[executable]: Process
+        process[args]: ProcessArgs
+        auditd[data][cmd]: CommandLine
+    'existing_process-None':
+      annotate:
+        Stream: AUDITD
+        Action: PROCESS_ADDED
+        Status: PASSED
+      translate:
+        user[name]: User
+        process[executable]: Process
+        process[args]: ProcessArgs
+        auditd[data][cmd]: CommandLine
+    
+  fallback:
+    annotate:
+      EventName: Generic Auditbeat Event
+      Stream: OTHER
 
+  globals:
+    translate:
+      host[hostname]: System
+      '@timestamp': SystemTstamp
+
+- first-match: '\"category\":\[\"network\"'
+  decoder: json
+  event-key-format: '{event[action]}-{event[outcome]}'
+  event-key-mapping:
+    'connected-to-success':
+      annotate:
+        Stream: AUDITD
+        Action: CONNECTED_TO
+        Status: PASSED
+      translate:
+        user[name]: User
+        process[executable]: Process
+        process[args]: ProcessArgs
+        auditd[data][cmd]: CommandLine
+    'connected-to-failure':
+      annotate:
+        Stream: AUDITD
+        Action: CONNECTED_TO
+        Status: FAILED
+      translate:
+        user[name]: User
+        process[executable]: Process
+        process[args]: ProcessArgs
+        auditd[data][cmd]: CommandLine
+    'accepted-connection-from-success':
+      annotate:
+        Stream: AUDITD
+        Action: CONNECTION_ACCEPTED
+        Status: PASSED
+      translate:
+        user[name]: User
+        process[executable]: Process
+        process[args]: ProcessArgs
+        auditd[data][cmd]: CommandLine
+    'accepted-connection-from-failure':
+      annotate:
+        Stream: AUDITD
+        Action: CONNECTION_ACCEPTED
+        Status: FAILED
+      translate:
+        user[name]: User
+        process[executable]: Process
+        process[args]: ProcessArgs
+        auditd[data][cmd]: CommandLine
+    'bound-socket-success':
+      annotate:
+        Stream: AUDITD
+        Action: BOUND_SOCKET
+        Status: PASSED
+      translate:
+        user[name]: User
+        process[executable]: Process
+        process[args]: ProcessArgs
+        auditd[data][cmd]: CommandLine
+    'bound-socket-failure':
+      annotate:
+        Stream: AUDITD
+        Action: BOUND_SOCKET
+        Status: FAILED
+      translate:
+        user[name]: User
+        process[executable]: Process
+        process[args]: ProcessArgs
+        auditd[data][cmd]: CommandLine
+    
+  fallback:
+    annotate:
+      EventName: Generic Auditbeat Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      host[hostname]: System
+      '@timestamp': SystemTstamp
+
+- first-match: '\"category\":\[\"session\"'
+  decoder: json
+  event-key-format: '{event[action]}-{event[outcome]}'
+  event-key-mapping:
+    'ended-session-success':
+      annotate:
+        Stream: AUDITD
+        Action: SESSION_ENDED
+        Status: PASSED
+      translate:
+        related[user][0]: User
+        process[executable]: Process
+        process[args]: ProcessArgs
+        auditd[data][cmd]: CommandLine
+    'ended-session-failure':
+      annotate:
+        Stream: AUDITD
+        Action: SESSION_ENDED
+        Status: FAILED
+      translate:
+        related[user][0]: User
+        process[executable]: Process
+        process[args]: ProcessArgs
+        auditd[data][cmd]: CommandLine
+    'started-session-success':
+      annotate:
+        Stream: AUDITD
+        Action: SESSION_STARTED
+        Status: PASSED
+      translate:
+        related[user][0]: User
+        process[executable]: Process
+        process[args]: ProcessArgs
+        auditd[data][cmd]: CommandLine
+    'started-session-failure':
+      annotate:
+        Stream: AUDITD
+        Action: SESSION_STARTED
+        Status: FAILED
+      translate:
+        related[user][0]: User
+        process[executable]: Process
+        process[args]: ProcessArgs
+        auditd[data][cmd]: CommandLine
+    
   fallback:
     annotate:
       EventName: Generic Auditbeat Event
