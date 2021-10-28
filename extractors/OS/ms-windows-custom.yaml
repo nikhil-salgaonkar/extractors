@@ -871,7 +871,18 @@ event-details:
       translate: 
         TargetUserName: User 
         ObjectName: Object
-        IpAddress: SrcIP    
+        IpAddress: SrcIP
+    '4801':
+      annotate:
+        Stream: WIN-AUDIT
+        Action: POLICY_CHANGED
+        Status: PASSED  
+        Event: The workstation was Unlocked.
+        Category: POLICY   
+      translate: 
+        TargetUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP        
     '4865':
       annotate:
         Stream: WIN-AUDIT
