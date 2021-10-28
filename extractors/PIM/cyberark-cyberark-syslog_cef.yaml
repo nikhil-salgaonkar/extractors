@@ -80,7 +80,7 @@ event-details:
     'CPM Change Password':
       annotate: 
         Stream: IAM
-        Action: USER_PASSWORD_CHANGED
+        Action: PASSWORD_CHANGED
         Status: PASSED
       translate:
         suser: User
