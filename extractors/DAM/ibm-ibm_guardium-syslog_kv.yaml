@@ -25,7 +25,7 @@ event-details:
         Reason: INVALID_CREDENTIALS
       translate: 
         DBUser: User
-        Client IP: ScrIP
+        Client IP: SrcIP
         Net Protocol: AuthProto
 
   fallback:
@@ -36,4 +36,4 @@ event-details:
   globals:
     translate:
       SystemTstamp: SystemTstamp
-      System: System     
+      System: System
