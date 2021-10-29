@@ -14,7 +14,7 @@ master-filters:
 event-details:
 - first-match: 'Storage\,(?:GUM|SVP|[\d\.]+)\,Authentication\,'
   decoder: regex
-  decoder-regex: '^(?:\<\d+\>)?.*?\s+(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?:GUM|SVP|[\d\.]+)\s+Storage\:\s+\w+\,.*?Authentication\,(?P<status>\w+)\,uid\=(?P<user>.*?)\,.*?from\=(?P<src>[\w\.\:]+)\,.*?(?P<action>(?:Login|Logout))'
+  decoder-regex: '^(?:\<\d+\>)?.*?\s+(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+Storage\:\s+\w+\,.*?Authentication\,(?P<status>\w+)\,uid\=(?P<user>.*?)\,.*?from\=(?P<src>[\w\.\:]+)\,.*?(?P<action>(?:Login|Logout))'
   event-key-format: '{action}-{status}'
   event-key-mapping:
     'Login-Success':
@@ -45,4 +45,4 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
-      System: System
+      hostname: System
