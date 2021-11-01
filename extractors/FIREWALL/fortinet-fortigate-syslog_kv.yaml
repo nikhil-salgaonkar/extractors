@@ -363,6 +363,7 @@ event-details:
         srcip: SrcIP
         dstip: DstIP
         reason: Threat  
+        eventsubtype: Threat
 
   fallback:
     annotate:
