@@ -16,7 +16,7 @@ master-filters:
 event-details:  
 - first-match: '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+\w+\s+[\d\.\s]+\w+\s+(?:Login|logout_requested)' 
   decoder: regex
-  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+).*?(?P<user>\w+)\s+(?P<src>[\d\.]+)\s+\d+\s+\d+\s+\w+\s+(?P<action>(?:Login|logout_requested))'
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+).*?(?P<user>\w+)\s+(?P<src>[\w\.\:]+)\s+\d+\s+\d+\s+\w+\s+(?P<action>(?:Login|logout_requested))'
   event-key-format: '{action}'
   event-key-mapping:
     'Login':           
@@ -48,9 +48,9 @@ event-details:
       datetime: SystemTstamp
       hostname: System
 
-- first-match: '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+\d+\s+\d+\s+[\w\-]+\s+[\d\-]+\s+\d+\:\s+(?:CLDAP|UDP|TCP|HTTP|IP|DNS|HTTPS|SIP)\:'
+- first-match: '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+\d+\s+\d+\s+[\w\-]+\s+[\d\-]+\s+\d+\:\s+\w+\:'
   decoder: regex
-  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+).*?\d+\:\s+(?P<threat>.*?)\s+\d+\s+\w+\s+(?P<src>[\d\.]+)\s+\d+\s+(?P<dst>[\d\.]+)'
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+).*?\d+\:\s+(?P<threat>.*?)\s+\d+\s+\w+\s+(?P<src>[\w\.\:]+)\s+\d+\s+(?P<dst>[\w\.\:]+)'
   event-key-format: ''
   event-key-mapping:
     '':           
@@ -76,7 +76,7 @@ event-details:
 
 - first-match: '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+\d+\s+\d+\s+[\w\-]+\s+[\d\-]+\s+SOS\_china\_Block\s+\d+'
   decoder: regex
-  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+\d+\s+\d+\s+[\w\-]+\s+[\d\-]+\s+(?P<threat>\S+)\s+\d+\s+\w+\s+(?P<src>[\d\.]+)\s+\d+\s+(?P<dst>[\d\.]+)'
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+\d+\s+\d+\s+[\w\-]+\s+[\d\-]+\s+(?P<threat>\S+)\s+\d+\s+\w+\s+(?P<src>[\w\.\:]+)\s+\d+\s+(?P<dst>[\w\.\:]+)'
   event-key-format: ''
   event-key-mapping:
     '':           
