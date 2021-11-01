@@ -11,12 +11,12 @@ provides-streams:
 - AUTHENTICATION
 - THREAT
 master-filters:
-- '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+\d+\s+\d+\s+[\w\-]+\s+[\d\-]+\s+\d+\:'
+- '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+\d+\s+\d+\s+[\w\-]+\s+[\d\-]+\s+(?:\d+\:|\w+\s+\d+)'
 - '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+\w+\s+[\d\.\s]+\w+\s+(?:Login|logout_requested)'
 event-details:  
 - first-match: '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+\w+\s+[\d\.\s]+\w+\s+(?:Login|logout_requested)' 
   decoder: regex
-  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+).*?(?P<user>\w+)\s+(?P<src>[\d\.]+)\s+\d+\s+\d+\s+\w+\s+(?P<action>(?:Login|logout_requested))'
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+).*?(?P<user>\w+)\s+(?P<src>[\w\.\:]+)\s+\d+\s+\d+\s+\w+\s+(?P<action>(?:Login|logout_requested))'
   event-key-format: '{action}'
   event-key-mapping:
     'Login':           
@@ -48,9 +48,9 @@ event-details:
       datetime: SystemTstamp
       hostname: System
 
-- first-match: '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+\d+\s+\d+\s+[\w\-]+\s+[\d\-]+\s+\d+\:\s+(?:CLDAP|UDP)'
+- first-match: '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+\d+\s+\d+\s+[\w\-]+\s+[\d\-]+\s+\d+\:.*?\:'
   decoder: regex
-  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+).*?\d+\:\s+(?P<threat>[\w\s\/\:]+)\s+\d+\s+\w+\s+(?P<src>[\d\.]+)\s+\d+\s+(?P<dst>[\d\.]+)'
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+).*?\d+\:\s+(?P<threat>.*?)\s+\d+\s+\w+\s+(?P<src>[\w\.\:]+)\s+\d+\s+(?P<dst>[\w\.\:]+)'
   event-key-format: ''
   event-key-mapping:
     '':           
@@ -72,4 +72,30 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
-      hostname: System      
+      hostname: System
+
+- first-match: '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+\d+\s+\d+\s+[\w\-]+\s+[\d\-]+\s+SOS\_china\_Block\s+\d+'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+\d+\s+\d+\s+[\w\-]+\s+[\d\-]+\s+(?P<threat>\S+)\s+\d+\s+\w+\s+(?P<src>[\w\.\:]+)\s+\d+\s+(?P<dst>[\w\.\:]+)'
+  event-key-format: ''
+  event-key-mapping:
+    '':           
+      annotate:
+        Stream: THREAT
+        Action: THREAT_BLOCKED
+        Status: PASSED
+        Vector: NETWORK
+      translate: 
+        src: SrcIP 
+        dst: DstIP
+        threat: Threat 
+    
+  fallback:
+    annotate:
+      EventName: Generic TippingPoint IPS Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System
