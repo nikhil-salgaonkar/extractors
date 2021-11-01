@@ -487,7 +487,7 @@ event-details:
       '142': ROHC
       '255': RESERVED
 
-- first-match: 'CheckPoint\s+\d+\s+\-\s+\[action\:\"[\w\s]+\"\;(?!\s+conn\_direction\:).*product\:\"(?:Log\s+Update|VPN\-\d+\s+\&\s+FireWall\-\d+)\"\;'
+- first-match: 'CheckPoint\s+\d+\s+\-\s+\[action\:\"[\w\s]+\"\;(?!\s+conn\_direction\:).*product\:\"(?:Log\s+Update|VPN\-\d+\s+\&\s+FireWall\-\d+|VPN\-\d+)\"\;'
   decoder: custom
   decoder-regex: '\[?([^\s]+)\:\"([^\"]*)\"'
   event-key-format: '{action}'
@@ -575,7 +575,60 @@ event-details:
         proto: Proto
         protocol: App  
         client_inbound_bytes: RXLen
-        client_outbound_bytes: TXLen      
+        client_outbound_bytes: TXLen
+    'Encrypt':
+      annotate:
+        Stream: FIREWALL
+        Action: CONNECTION_ESTABLISHED
+        Status: PASSED
+      translate:
+        src: SrcIP  
+        dst: DstIP
+        s_port: SrcPort
+        service: DstPort
+        proto: Proto
+        protocol: App  
+        client_inbound_bytes: RXLen
+        client_outbound_bytes: TXLen
+    'Decrypt':
+      annotate:
+        Stream: FIREWALL
+        Action: CONNECTION_ESTABLISHED
+        Status: PASSED
+      translate:
+        src: SrcIP  
+        dst: DstIP
+        s_port: SrcPort
+        service: DstPort
+        proto: Proto
+        protocol: App  
+        client_inbound_bytes: RXLen
+        client_outbound_bytes: TXLen
+    'Key Install':
+      annotate:
+        Stream: FIREWALL
+        Action: CONNECTION_ESTABLISHED
+        Status: PASSED
+      translate:
+        src: SrcIP  
+        dst: DstIP
+        s_port: SrcPort
+        service: DstPort
+        proto: Proto
+        protocol: App  
+        client_inbound_bytes: RXLen
+        client_outbound_bytes: TXLen    
+    'Detect': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        src: SrcIP  
+        dst: DstIP
+        User: User
+        message_info: Threat              
     
   fallback:
     annotate:
