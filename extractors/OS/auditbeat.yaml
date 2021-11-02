@@ -22,77 +22,77 @@ event-details:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
-        AuthProto: '-'
       translate:
         user[name]: User
         source[ip]: SrcIP
+        AuthProto: AuthProto
     'logged-in-failure':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        AuthProto: '-'
         Reason: INVALID_CREDENTIALS
       translate:
         user[name]: User
         source[ip]: SrcIP
+        AuthProto: AuthProto
     'was-authorized-success':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
-        AuthProto: '-'
       translate:
         related[user][0]: User
         host[ip][0]: SrcIP
+        AuthProto: AuthProto
     'was-authorized-failure':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        AuthProto: '-'
         Reason: INVALID_CREDENTIALS
       translate:
         related[user][0]: User
         host[ip][0]: SrcIP
+        AuthProto: AuthProto
     'changed-login-id-to-success':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
-        AuthProto: '-'
       translate:
         related[user][0]: User
         host[ip][0]: SrcIP
+        AuthProto: AuthProto
     'changed-login-id-to-failure':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        AuthProto: '-'
         Reason: INVALID_CREDENTIALS
       translate:
         related[user][0]: User
         host[ip][0]: SrcIP
+        AuthProto: AuthProto
     'authenticated-success':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: PASSED
-        AuthProto: '-'
       translate:
         user[name]: User
         source[ip]: SrcIP
+        AuthProto: AuthProto
     'authenticated-failure':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
         Status: FAILED
-        AuthProto: '-'
         Reason: INVALID_CREDENTIALS
       translate:
         user[name]: User
-        source[ip]: SrcIP 
+        source[ip]: SrcIP
+        AuthProto: AuthProto 
     'acquired-credentials-success':
       annotate:
         Stream: AUDITD
@@ -209,7 +209,7 @@ event-details:
       host[hostname]: System
       '@timestamp': SystemTstamp
 
-- first-match: '\"category\":\[\"process\"'
+- first-match: '(?:\"category\":\[\"process\"\].*?\"action\"\:\"(?:started\-service|stopped\-service|ran\-command|executed)|\"action\"\:\"(?:started\-service|stopped\-service|ran\-command|executed).*?\"category\":\[\"process\"\])'
   decoder: json
   event-key-format: '{event[action]}-{event[outcome]}'
   event-key-mapping:
@@ -263,7 +263,22 @@ event-details:
         process[working_directory]: Process
         process[args]: ProcessArgs  
         auditd[data][cmd]: CommandLine
-    'process_started-None':
+
+  fallback:
+    annotate:
+      EventName: Generic Auditbeat Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      host[hostname]: System
+      '@timestamp': SystemTstamp
+
+- first-match: '(?:\"category\":\[\"process\"\].*?\"action\"\:\"(?:existing\_process|process\_error|process\_started|process\_stopped)|\"action\"\:\"(?:existing\_process|process\_error|process\_started|process\_stopped).*?\"category\":\[\"process\"\])'
+  decoder: json
+  event-key-format: '{event[action]}'
+  event-key-mapping:
+    'process_started':
       annotate:
         Stream: AUDITD
         Action: PROCESS_STARTED
@@ -273,7 +288,7 @@ event-details:
         process[executable]: Process
         process[args]: ProcessArgs
         auditd[data][cmd]: CommandLine
-    'process_stopped-None':
+    'process_stopped':
       annotate:
         Stream: AUDITD
         Action: PROCESS_STOPPED
@@ -283,7 +298,7 @@ event-details:
         process[executable]: Process
         process[args]: ProcessArgs
         auditd[data][cmd]: CommandLine
-    'process_error-None':
+    'process_error':
       annotate:
         Stream: AUDITD
         Action: PROCESS_ERRORED
@@ -293,7 +308,7 @@ event-details:
         process[executable]: Process
         process[args]: ProcessArgs
         auditd[data][cmd]: CommandLine
-    'existing_process-None':
+    'existing_process':
       annotate:
         Stream: AUDITD
         Action: PROCESS_ADDED
