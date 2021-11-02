@@ -2061,7 +2061,7 @@ event-details:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
         Status: PASSED    
-        Config: Removal completed successfully
+        Config: Software package removed successfully
       translate: 
         AccountName: User
     '11725':
@@ -2069,7 +2069,7 @@ event-details:
         Stream: CONFIGURATION
         Action: CONFIGURATION_CHANGED
         Status: FAILED    
-        Config: Removal failed
+        Config: Software package removal failed
       translate: 
         AccountName: User
 
