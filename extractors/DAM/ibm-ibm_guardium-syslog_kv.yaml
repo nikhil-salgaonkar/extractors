@@ -9,6 +9,7 @@ source-type: DAM
 source-description: Extractor for IBM Guardium Events
 provides-streams:
 - AUTHENTICATION
+- IAM
 master-filters:
 - '^(\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+[\w\.]+\s+guard\_sender\[\d+\]\:\s+'
 event-details:
@@ -27,6 +28,15 @@ event-details:
         DBUser: User
         Client IP: SrcIP
         Net Protocol: AuthProto
+    'Credential_Activity':
+      annotate:
+        Stream: IAM
+        Action: USER_CREATED
+        Status: PASSED
+      translate:
+        DBUser: User
+        Role: Role
+        Application User Name: TargetUser     
 
   fallback:
     annotate:
