@@ -2056,6 +2056,22 @@ event-details:
         Config: Installation operation completed successfully
       translate: 
         AccountName: User
+    '11724':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED    
+        Config: Removal completed successfully
+      translate: 
+        AccountName: User
+    '11725':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: FAILED    
+        Config: Removal failed
+      translate: 
+        AccountName: User
 
   fallback:
     annotate:
