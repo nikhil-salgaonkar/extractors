@@ -320,7 +320,7 @@ event-details:
         auditd[data][cmd]: CommandLine
     'started-service-failure':
       annotate:
-        Stream: AUDITD****-----------
+        Stream: AUDITD
         Action: SERVICE_STARTED
         Status: FAILED
       translate:
