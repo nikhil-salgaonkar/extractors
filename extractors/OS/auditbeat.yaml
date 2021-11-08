@@ -9,11 +9,13 @@ source-type: OS
 source-description: Extractor for Auditbeat Events
 provides-streams:
 - AUTHENTICATION
+- CONFIGURATION
 - AUDITD
+- IAM
 master-filters:
 - '\"type\"\:\"auditbeat\"'
 event-details:
-- first-match: '\"category\":\[\"authentication\"'
+- first-match: '(?:\"category\":\[\"authentication\"\].*?\"action\":\"(?:logged\-in|was\-authorized|changed\-login\-id\-to|authenticated|user\_login|acquired\-credentials|disposed\-credentials|refreshed\-credentials|started\-session|ended\-session)|\"action\":\"(?:logged\-in|was\-authorized|changed\-login\-id\-to|authenticated|user\_login|acquired\-credentials|disposed\-credentials|refreshed\-credentials|started\-session|ended\-session).*?\"category\":\[\"authentication\"\])'
   decoder: json
   event-key-format: '{event[action]}-{event[outcome]}'
   event-key-mapping:
@@ -93,11 +95,40 @@ event-details:
         user[name]: User
         source[ip]: SrcIP
         AuthProto: AuthProto 
+    'user_login-success':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        user[name]: User
+        source[ip]: SrcIP
+        AuthProto: AuthProto
+    'user_login-failure':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+        Reason: INVALID_CREDENTIALS
+      translate:
+        user[name]: User
+        source[ip]: SrcIP
+        AuthProto: AuthProto 
     'acquired-credentials-success':
       annotate:
         Stream: AUDITD
         Action: CREDENTIALS_ACQUIRED
         Status: PASSED
+      translate:
+        user[name]: User
+        process[executable]: Process
+        process[args]: ProcessArgs
+        auditd[data][cmd]: CommandLine 
+    'acquired-credentials-failure':
+      annotate:
+        Stream: AUDITD
+        Action: CREDENTIALS_ACQUIRED
+        Status: FAILED
       translate:
         user[name]: User
         process[executable]: Process
@@ -113,11 +144,31 @@ event-details:
         process[executable]: Process
         process[args]: ProcessArgs 
         auditd[data][cmd]: CommandLine 
+    'disposed-credentials-failure':
+      annotate:
+        Stream: AUDITD
+        Action: CREDENTIALS_DISPOSED
+        Status: FAILED
+      translate:
+        user[name]: User
+        process[executable]: Process
+        process[args]: ProcessArgs 
+        auditd[data][cmd]: CommandLine 
     'refreshed-credentials-success':
       annotate:
         Stream: AUDITD
         Action: CREDENTIALS_REFRESHED
         Status: PASSED
+      translate:
+        user[name]: User
+        process[executable]: Process
+        process[args]: ProcessArgs  
+        auditd[data][cmd]: CommandLine 
+    'refreshed-credentials-failure':
+      annotate:
+        Stream: AUDITD
+        Action: CREDENTIALS_REFRESHED
+        Status: FAILED
       translate:
         user[name]: User
         process[executable]: Process
@@ -133,6 +184,16 @@ event-details:
         process[executable]: Process
         process[args]: ProcessArgs   
         auditd[data][cmd]: CommandLine 
+    'started-session-failure':
+      annotate:
+        Stream: AUDITD
+        Action: SESSION_STARTED
+        Status: FAILED
+      translate:
+        user[name]: User
+        process[executable]: Process
+        process[args]: ProcessArgs   
+        auditd[data][cmd]: CommandLine 
     'ended-session-success':
       annotate:
         Stream: AUDITD
@@ -143,6 +204,40 @@ event-details:
         process[executable]: Process
         process[args]: ProcessArgs   
         auditd[data][cmd]: CommandLine  
+    'ended-session-failure':
+      annotate:
+        Stream: AUDITD
+        Action: SESSION_ENDED
+        Status: FAILED
+      translate:
+        user[name]: User
+        process[executable]: Process
+        process[args]: ProcessArgs   
+        auditd[data][cmd]: CommandLine  
+
+  fallback:
+    annotate:
+      EventName: Generic Auditbeat Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      host[hostname]: System
+      '@timestamp': SystemTstamp
+
+- first-match: '(?:\"category\":\[\"authentication\"\].*?\"action\"\:\"user\_logout\"|\"action\"\:\"user\_logout\".*?\"category\":\[\"authentication\"\])'
+  decoder: json
+  event-key-format: '{event[action]}'
+  event-key-mapping:
+    'user_logout':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+      translate:
+        user[name]: User
+        source[ip]: SrcIP
+        AuthProto: AuthProto 
 
   fallback:
     annotate:
@@ -221,7 +316,17 @@ event-details:
       translate:
         user[name]: User
         process[executable]: Process
-        auditd[data][unit]: ProcessArgs
+        process[args]: ProcessArgs
+        auditd[data][cmd]: CommandLine
+    'started-service-failure':
+      annotate:
+        Stream: AUDITD
+        Action: SERVICE_STARTED
+        Status: FAILED
+      translate:
+        user[name]: User
+        process[executable]: Process
+        process[args]: ProcessArgs
         auditd[data][cmd]: CommandLine
     'stopped-service-success':
       annotate:
@@ -231,16 +336,16 @@ event-details:
       translate:
         user[name]: User
         process[executable]: Process
-        auditd[data][unit]: ProcessArgs
+        process[args]: ProcessArgs
         auditd[data][cmd]: CommandLine
-    'executed-failure':
+    'stopped-service-failure':
       annotate:
         Stream: AUDITD
-        Action: PROCESS_ADDED
+        Action: SERVICE_STOPPED
         Status: FAILED
       translate:
         user[name]: User
-        process[working_directory]: Process
+        process[executable]: Process
         process[args]: ProcessArgs
         auditd[data][cmd]: CommandLine
     'executed-success':
@@ -253,11 +358,31 @@ event-details:
         process[working_directory]: Process
         process[args]: ProcessArgs 
         auditd[data][cmd]: CommandLine 
+    'executed-failure':
+      annotate:
+        Stream: AUDITD
+        Action: PROCESS_ADDED
+        Status: FAILED
+      translate:
+        user[name]: User
+        process[working_directory]: Process
+        process[args]: ProcessArgs
+        auditd[data][cmd]: CommandLine
     'ran-command-success':
       annotate:
         Stream: AUDITD
         Action: USER_COMMAND_EXECUTED
         Status: PASSED
+      translate:
+        user[name]: User
+        process[working_directory]: Process
+        process[args]: ProcessArgs  
+        auditd[data][cmd]: CommandLine
+    'ran-command-failure':
+      annotate:
+        Stream: AUDITD
+        Action: USER_COMMAND_EXECUTED
+        Status: FAILED
       translate:
         user[name]: User
         process[working_directory]: Process
@@ -329,7 +454,7 @@ event-details:
       host[hostname]: System
       '@timestamp': SystemTstamp
 
-- first-match: '\"category\":\[\"network\"'
+- first-match: '\"category\":\[\"network\"\]'
   decoder: json
   event-key-format: '{event[action]}-{event[outcome]}'
   event-key-mapping:
@@ -393,6 +518,22 @@ event-details:
         process[executable]: Process
         process[args]: ProcessArgs
         auditd[data][cmd]: CommandLine
+    'changed-promiscuous-mode-on-device-success':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Changed Promiscuous Mode On Device
+      translate:
+        user[name]: User
+    'changed-promiscuous-mode-on-device-failure':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: FAILED
+        Config: Changed Promiscuous Mode On Device
+      translate:
+        user[name]: User
     
   fallback:
     annotate:
@@ -404,7 +545,7 @@ event-details:
       host[hostname]: System
       '@timestamp': SystemTstamp
 
-- first-match: '\"category\":\[\"session\"'
+- first-match: '\"category\":\[\"session\"\]'
   decoder: json
   event-key-format: '{event[action]}-{event[outcome]}'
   event-key-mapping:
@@ -449,6 +590,84 @@ event-details:
         process[args]: ProcessArgs
         auditd[data][cmd]: CommandLine
     
+  fallback:
+    annotate:
+      EventName: Generic Auditbeat Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      host[hostname]: System
+      '@timestamp': SystemTstamp
+
+- first-match: '\"category\":\[\"iam\"\]'
+  decoder: json
+  event-key-format: '{event[action]}'
+  event-key-mapping:
+    'existing_user':
+      annotate:
+        Stream: IAM
+        Action: PASSWORD_DISABLED
+        Status: PASSED
+      translate:
+        host[name]: User
+        user[name]: TargetUser
+        Role: Role
+
+  fallback:
+    annotate:
+      EventName: Generic Auditbeat Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      host[hostname]: System
+      '@timestamp': SystemTstamp
+
+- first-match: '\"category\":\[\"host\"\]'
+  decoder: json
+  event-key-format: '{event[action]}'
+  event-key-mapping:
+    'boot':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: System Boot
+      translate:
+        user[name]: User
+
+  fallback:
+    annotate:
+      EventName: Generic Auditbeat Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      host[hostname]: System
+      '@timestamp': SystemTstamp
+
+- first-match: '\"category\":\[\"configuration\"\,\"process\"]'
+  decoder: json
+  event-key-format: '{event[action]}-{event[outcome]}'
+  event-key-mapping:
+    'loaded-firewall-rule-to-success':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Firewall Rule Loaded
+      translate:
+        user[name]: User
+    'loaded-firewall-rule-to-failure':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: FAILED
+        Config: Firewall Rule Loaded
+      translate:
+        user[name]: User
+
   fallback:
     annotate:
       EventName: Generic Auditbeat Event
