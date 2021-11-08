@@ -1,0 +1,49 @@
+schema-version: 1.0
+#extractor-version: 1 
+extractor-id: 263
+integration: Syslog(KV)
+vendor-name: F5
+product-name: BIG-IP Access Policy Manager
+source-name: F5-APM
+source-type: MANAGEMENT-SERVER
+source-description: Extractor for F5 APM Events
+provides-streams:
+- AUTHENTICATION
+- IAM
+master-filters:
+- '^(\<\d+\>)?.*?\d{4}\-\d{2}\-\d{2}T\d{2}\:\d{2}\:\d{2}\.\d+\+\d+\:\d+\s+\S+\s+\S+\s+\d+\s+[\w\:]+\s+\[F5@\d+'
+event-details:
+- first-match: '\[F5\@\d+\s+\S+\=\"\S+\"\s+errdefs\_msgno\=\"[\d\:]+\".*?Action\=\"'
+  decoder: regex
+  decoder-regex: '^(\<\d+\>)?.*?(?P<datetime>\d{4}\-\d{2}\-\d{2}T\d{2}\:\d{2}\:\d{2}\.\d+\+\d+\:\d+).*?\[F5@\d+\s+hostname\=\"(?P<hostname>\S+)\".*?Action\=\"(?P<Action>[\w\s]+)\"(?:.*?principal\s+name\:\s+(?P<user>\S+)\.)?(?:.*?\s+(?P<reason>.*?)\.\")?'
+  event-key-format: '{Action}'
+  event-key-mapping:
+    'authentication with': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate: 
+        user: User
+        SrcIP: SrcIP
+        AuthProto: AuthProto
+        reason: Reason
+    'change password for':
+      annotate:
+        Stream: IAM
+        Action: PASSWORD_CHANGED
+        Status: PASSED
+      translate:
+        user: User
+        Role: Role
+        TargetUser: TargetUser     
+
+  fallback:
+    annotate:
+      EventName: Generic F5 APM Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System
