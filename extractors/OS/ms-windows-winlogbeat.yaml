@@ -497,7 +497,7 @@ event-details:
       winlog[computer_name]: System
       '@timestamp': SystemTstamp
 
-- first-match: \"(?:Microsoft\-Windows\-Security\-Auditing|User32)\"
+- first-match: \"(?:Microsoft\-Windows\-Security\-Auditing|User32|Netlogon)\"
   decoder: json
   event-key-format: '{winlog[event_id]}'
   event-key-mapping:
@@ -639,6 +639,15 @@ event-details:
         winlog[event_data][AccountName]: User 
         winlog[event_data][ClientAddress]: SrcIP 
         AuthProto: AuthProto
+    '8004':  
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        winlog[event_data][AccountName]: User 
+        winlog[event_data][ClientAddress]: SrcIP 
+        AuthProto: AuthProto    
     '4672':          
       annotate:
         Stream: IAM
@@ -926,7 +935,25 @@ event-details:
       translate: 
         winlog[event_data][SubjectUserName]: User
         winlog[event_data][TargetUserName]: TargetUser
-        event[action]: Role     
+        event[action]: Role
+    '4723':
+      annotate:
+        Stream: IAM
+        Action: PASSWORD_CHANGED
+        Status: PASSED 
+      translate: 
+        winlog[event_data][SubjectUserName]: User
+        winlog[event_data][TargetUserName]: TargetUser
+        event[action]: Role
+    '4798':
+      annotate:
+        Stream: IAM
+        Action: GROUP_ENUMERATED
+        Status: PASSED 
+      translate: 
+        winlog[event_data][SubjectUserName]: User
+        winlog[event_data][TargetUserName]: TargetUser
+        event[action]: Role            
     '4739':
       annotate:
         Stream: WIN-AUDIT
@@ -1708,6 +1735,61 @@ event-details:
         winlog[event_data][SubjectUserName]: User 
         winlog[event_data][ObjectName]: Object
         winlog[event_data][IpAddress]: SrcIP
+    '4904':
+      annotate:
+        Stream: WIN-AUDIT
+        Action: POLICY_CHANGED
+        Status: PASSED  
+        Event: Boot Configuration Data loaded.
+        Category: POLICY 
+      translate: 
+        winlog[event_data][SubjectUserName]: User 
+        winlog[event_data][ObjectName]: Object
+        winlog[event_data][IpAddress]: SrcIP
+    '4905':
+      annotate:
+        Stream: WIN-AUDIT
+        Action: POLICY_CHANGED
+        Status: PASSED  
+        Event: An attempt was made to unregister a security event source.
+        Category: POLICY   
+      translate: 
+        winlog[event_data][SubjectUserName]: User 
+        winlog[event_data][ObjectName]: Object
+        winlog[event_data][IpAddress]: SrcIP
+    '4800':
+      annotate:
+        Stream: WIN-AUDIT
+        Action: POLICY_CHANGED
+        Status: PASSED  
+        Event: The workstation was locked.
+        Category: POLICY   
+      translate: 
+        winlog[event_data][SubjectUserName]: User 
+        winlog[event_data][ObjectName]: Object
+        winlog[event_data][IpAddress]: SrcIP
+    '5059':    
+      annotate:
+        Stream: WIN-AUDIT
+        Action: OBJECT_ACCESSED
+        Status: PASSED  
+        Event: Key migration operation.
+        Category: NETWORK   
+      translate: 
+        winlog[event_data][SubjectUserName]: User 
+        winlog[event_data][ObjectName]: Object
+        winlog[event_data][IpAddress]: SrcIP
+    '5061':    
+      annotate:
+        Stream: WIN-AUDIT
+        Action: OBJECT_ACCESSED
+        Status: PASSED  
+        Event: Cryptographic operation.
+        Category: NETWORK   
+      translate: 
+        winlog[event_data][SubjectUserName]: User 
+        winlog[event_data][ObjectName]: Object
+        winlog[event_data][IpAddress]: SrcIP                   
     '4649':
       annotate:
         Stream: THREAT
@@ -1718,7 +1800,18 @@ event-details:
       translate:  
         winlog[event_data][SubjectUserName]: User 
         winlog[event_data][IpAddress]: SrcIP
-        DstIP: DstIP 
+        DstIP: DstIP
+    '4816':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED   
+        Vector: NETWORK
+        Threat: RPC detected an integrity violation while decrypting an incoming message.
+      translate:  
+        winlog[event_data][SubjectUserName]: User 
+        winlog[event_data][IpAddress]: SrcIP
+        DstIP: DstIP    
     '4618':
       annotate:
         Stream: THREAT
@@ -1901,7 +1994,7 @@ event-details:
   globals:
     translate:
       winlog[computer_name]: System
-      '@timestamp': SystemTstamp 
+      '@timestamp': SystemTstamp
 
 - first-match: \"Service\s+Control\s+Manager\"
   decoder: json
@@ -1915,6 +2008,94 @@ event-details:
         Config: Service Changed
       translate: 
         winlog[event_data][SubjectUserName]: User
+    '7045':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED    
+        Config: A service was installed in the system
+      translate: 
+        winlog[event_data][SubjectUserName]: User
+    '7036':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED    
+        Config: Service Stopped
+      translate: 
+        winlog[event_data][SubjectUserName]: User    
+
+  fallback:
+    annotate:
+      EventName: Generic Windows Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      winlog[computer_name]: System
+      '@timestamp': SystemTstamp
+
+- first-match: \"MsiInstaller\"
+  decoder: json
+  event-key-format: '{EventID}'
+  event-key-mapping:
+    '1033':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED    
+        Config: Windows Installer installed the product
+      translate: 
+        winlog[event_data][SubjectUserName]: User
+    '11707':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED    
+        Config: Installation operation completed successfully
+      translate: 
+        winlog[event_data][SubjectUserName]: User
+    '11724':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED    
+        Config: Removal completed successfully
+      translate: 
+        winlog[event_data][SubjectUserName]: User
+    '11725':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: FAILED    
+        Config: Removal failed
+      translate: 
+        winlog[event_data][SubjectUserName]: User
+
+  fallback:
+    annotate:
+      EventName: Generic Windows Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      winlog[computer_name]: System
+      '@timestamp': SystemTstamp
+
+- first-match: \"Microsoft\-Windows\-NTLM\"
+  decoder: json
+  event-key-format: '{EventID}'
+  event-key-mapping:
+    '8002':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+        Reason: Audit Incoming NTLM Traffic that would be blocked.
+      translate:
+        winlog[event_data][TargetUserName]: User
+        winlog[event_data][IpAddress]: SrcIP
+        AuthProto: AuthProto
 
   fallback:
     annotate:
