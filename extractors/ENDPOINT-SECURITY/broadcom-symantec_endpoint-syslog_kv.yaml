@@ -20,7 +20,8 @@ event-details:
   event-key-format: ''
   event-key-mapping:
     '':
-     f THREAT
+      annotate:
+        Stream: THREAT
         Action: THREAT_DETECTED
         Status: PASSED
         Vector: HOST
