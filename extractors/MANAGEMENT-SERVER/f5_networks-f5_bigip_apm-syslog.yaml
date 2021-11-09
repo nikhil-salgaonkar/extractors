@@ -14,7 +14,7 @@ master-filters:
 event-details:
 - first-match: 'errdefs\_msgno\=\"[\d\:]+\".*?Action\=\"'
   decoder: regex
-  decoder-regex: '(?P<datetime>\d{4}\-\d{2}\-\d{2}T\d{2}\:\d{2}\:\d{2}\.\d+\+\d+\:\d+).*?\[F5@\d+\s+hostname\=\"(?P<hostname>\S+)\".*?Action\=\"(?P<Action>[\w\s]+)\"(?:.*?principal\s+name\:\s+(?P<user>\S+)\.)?(?:.*?\s+(?P<reason>.*?)\.\")?'
+  decoder-regex: '(?P<datetime>\d{4}\-\d{2}\-\d{2}T\d{2}\:\d{2}\:\d{2}\.\d+\+\d+\:\d+).*?\[F5@\d+\s+hostname\=\"(?P<hostname>\S+)\".*?Action\=\"(?P<Action>.*?)\"(?:.*?principal\s+name\:\s+(?P<user>\S+)\.)?(?:.*?\s+(?P<reason>.*?)\.\")?'
   event-key-format: '{Action}'
   event-key-mapping:
     'authentication with': 
