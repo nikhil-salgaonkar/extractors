@@ -11,7 +11,7 @@ provides-streams:
 - AUTHENTICATION
 - IAM
 master-filters:
-- '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+[\w\.]+\s+(?:guard\_sender|GuardiumSniffer|snif|init)(?:\[\d+\]\:|\:)\s+'
+- '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+[\w\.]+\s+(?:guard\_sender|GuardiumSniffer|snif|init|auditd)(?:\[\d+\]\:|\:)\s+'
 event-details:
 - first-match: 'guard\_sender\[\d+\]\:\s+Alert\s+based\s+on\s+rule\s+ID\s+\S+\|Category\:\s+'
   decoder: custom
