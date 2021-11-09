@@ -1,0 +1,65 @@
+schema-version: 1.0
+#extractor-version: 1 
+extractor-id: 260
+integration: Syslog
+vendor-name: Vertica
+product-name: Vertica
+source-name: VERTICA
+source-type: DATABASE
+source-description: Extractor for Vertica Database Events
+provides-streams:
+- AUTHENTICATION
+master-filters:
+- '^(\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+vertica\_log\:\s+'
+event-details:
+- first-match: '^(\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+vertica\_log\:[\d\-\:\.\s]+Init.*?\<LOG\>'
+  decoder: regex
+  decoder-regex: '^(\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>vertica\_log)\:\s+[\d\-\:\.\s]+Init\s+(?P<msg>Session\:\S+\s+\<(?:.*?(?P<action>session\s+timeout|Connection\s+authenticated|Authentication|Connection\s+received))?(?:.*?user\=(?P<user>\S+))?(?:.*?host\=(?P<src>[\w\.\:]+))?.*)'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'session timeout': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+      translate: 
+        user: User
+        src: SrcIP
+        AuthProto: AuthProto
+    'Connection authenticated':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        user: User
+        src: SrcIP
+        AuthProto: AuthProto
+    'Authentication':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        user: User
+        src: SrcIP
+        AuthProto: AuthProto
+    'Connection received':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        user: User
+        src: SrcIP
+        AuthProto: AuthProto    
+
+  fallback:
+    annotate:
+      EventName: Generic Vertica Database Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System
