@@ -1,0 +1,2145 @@
+schema-version: 1.0
+#extractor-version: 1 
+extractor-id: 100020
+integration: Windows(Custom)
+vendor-name: Microsoft
+product-name: Windows (OS, AD and Sysmon)
+source-name: WINDOWS
+source-type: OS
+source-description: Extractor for Windows Events
+provides-streams:
+- AUTHENTICATION
+- SYSMON-PROCESS
+- SYSMON-NETWORK
+- SYSMON-FILE
+- SYSMON-DNS
+- SYSMON-REGISTRY
+- SYSMON-IMAGE-LOAD
+- WIN-AUDIT
+- CONFIGURATION
+- THREAT
+- IAM
+- SYSMON-DRIVER-LOAD
+- SYSMON-SERVICE
+- SYSMON-WMI
+- SYSMON-PIPE
+- SYSMON-CONFIG
+master-filters:
+- \"SourceName\"\:\"(?:Microsoft\-Windows|Security|Service\s+Control\s+Manager)
+event-details:  
+- first-match: \"SourceName\"\:\s*\"Microsoft-Windows-Security-(?:Auditing|Netlogon)\"
+  decoder: custom
+  decoder-regex: '\"([^\"]+)\"\:(?:\"([^\"]+)\"|([^\,]+))'
+  event-key-format: '{EventID}'         
+  event-key-mapping:
+    '4625': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate: 
+        TargetUserName: User
+        IpAddress: SrcIP
+        AuthenticationPackageName: AuthProto
+        SubStatus: Reason
+    '4779':          
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+      translate:
+        ClientAddress: SrcIP
+        AccountName: User
+        AuthenticationPackageName: AuthProto    
+    '4769': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: KERBEROS_SERVICE_TICKET_REQUESTED
+        Status: PASSED
+      translate: 
+        TargetUserName: User
+        IpAddress: SrcIP
+        AuthenticationPackageName: AuthProto
+    '4768': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: KERBEROS_AUTHENTICATION_TICKET_REQUESTED
+        Status: PASSED
+      translate: 
+        TargetUserName: User
+        IpAddress: SrcIP
+        AuthenticationPackageName: AuthProto    
+    '4777': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate: 
+        TargetUserName: User
+        IpAddress: SrcIP
+        AuthenticationPackageName: AuthProto   
+        SubStatus: Reason 
+    '4771': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate: 
+        TargetUserName: User
+        IpAddress: SrcIP
+        AuthenticationPackageName: AuthProto   
+        Status: Reason     
+    '4770': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: KERBEROS_SERVICE_TICKET_RENEWED
+        Status: PASSED
+      translate: 
+        TargetUserName: User
+        IpAddress: SrcIP
+        AuthenticationPackageName: AuthProto  
+    '4611':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        SubjectUserName: User
+        IpAddress: SrcIP
+        AuthenticationPackageName: AuthProto    
+    '4624':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate: 
+        TargetUserName: User
+        IpAddress: SrcIP
+        AuthenticationPackageName: AuthProto
+    '4634':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+      translate:
+        TargetUserName: User
+        IpAddress: SrcIP
+        AuthenticationPackageName: AuthProto
+    '4647':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+      translate:
+        TargetUserName: User
+        IpAddress: SrcIP
+        AuthenticationPackageName: AuthProto
+    '4648':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED   
+      translate: 
+        TargetUserName: User
+        IpAddress: SrcIP
+        AuthenticationPackageName: AuthProto
+    '4776':         
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED   
+      translate: 
+        TargetUserName: User
+        IpAddress: SrcIP
+        AuthenticationPackageName: AuthProto
+    '4778':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        ClientAddress: SrcIP
+        AccountName: User
+        AuthenticationPackageName: AuthProto
+    '8004':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        ClientAddress: SrcIP
+        UserName: User
+        AuthenticationPackageName: AuthProto           
+    '4741':         
+      annotate:
+        Stream: IAM
+        Action: COMPUTER_ACCOUNT_CREATED
+        Status: PASSED  
+      translate: 
+        SubjectUserName: User
+        TargetUserName: TargetUser
+        Category: Role
+    '4720':           
+      annotate:
+        Stream: IAM
+        Action: USER_CREATED
+        Status: PASSED  
+      translate: 
+        SubjectUserName: User
+        TargetUserName: TargetUser
+        Category: Role    
+    '4722':          
+      annotate:
+        Stream: IAM
+        Action: USER_ENABLED
+        Status: PASSED  
+      translate: 
+        SubjectUserName: User
+        TargetUserName: TargetUser
+        Category: Role
+    '4723':          
+      annotate:
+        Stream: IAM
+        Action: PASSWORD_CHANGED
+        Status: PASSED  
+      translate: 
+        SubjectUserName: User
+        TargetUserName: TargetUser
+        Category: Role    
+    '4724':         
+      annotate:
+        Stream: IAM
+        Action: PASSWORD_CHANGED
+        Status: PASSED    
+      translate: 
+        SubjectUserName: User
+        TargetUserName: TargetUser
+        Category: Role
+    '4725':         
+      annotate:
+        Stream: IAM
+        Action: USER_DISABLED
+        Status: PASSED  
+      translate:  
+        SubjectUserName: User
+        TargetUserName: TargetUser
+        Category: Role
+    '4726':         
+      annotate:
+        Stream: IAM
+        Action: USER_DELETED
+        Status: PASSED   
+      translate:
+        SubjectUserName: User
+        TargetUserName: TargetUser
+        Category: Role
+    '4738':            
+      annotate:
+        Stream: IAM
+        Action: USER_ACCOUNT_CHANGED
+        Status: PASSED    
+      translate: 
+        SubjectUserName: User
+        TargetUserName: TargetUser
+        Category: Role
+    '4740':           
+      annotate:
+        Stream: IAM
+        Action: USER_LOCKOUT
+        Status: PASSED    
+      translate:  
+        SubjectUserName: User
+        TargetUserName: TargetUser
+        Category: Role
+    '4767':          
+      annotate:
+        Stream: IAM
+        Action: USER_UNLOCKED
+        Status: PASSED  
+      translate:  
+        SubjectUserName: User
+        TargetUserName: TargetUser
+        Category: Role
+    '4742':            
+      annotate:
+        Stream: IAM
+        Action: COMPUTER_ACCOUNT_CHANGED
+        Status: PASSED     
+      translate: 
+        SubjectUserName: User
+        TargetUserName: TargetUser
+        Category: Role
+    '4743':           
+      annotate:
+        Stream: IAM
+        Action: COMPUTER_ACCOUNT_DELETED
+        Status: PASSED   
+      translate:  
+        SubjectUserName: User
+        TargetUserName: TargetUser
+        Category: Role
+    '4731':         
+      annotate:
+        Stream: IAM
+        Action: USER_REMOVED
+        Status: PASSED   
+      translate: 
+        SubjectUserName: User
+        TargetUserName: TargetUser
+        Category: Role
+    '4732':         
+      annotate:
+        Stream: IAM
+        Action: USER_ADDED
+        Status: PASSED  
+      translate: 
+        SubjectUserName: User
+        TargetUserName: TargetUser
+        Category: Role
+    '4733':         
+      annotate:
+        Stream: IAM
+        Action: USER_REMOVED
+        Status: PASSED  
+      translate: 
+        SubjectUserName: User
+        TargetUserName: TargetUser
+        Category: Role
+    '4756':         
+      annotate:
+        Stream: IAM
+        Action: USER_ADDED
+        Status: PASSED   
+      translate:  
+        SubjectUserName: User
+        TargetUserName: TargetUser
+        Category: Role       
+    '4670':          
+      annotate:
+        Stream: IAM
+        Action: PRIVILEGE_CHANGED
+        Status: PASSED  
+      translate:  
+        SubjectUserName: User
+        TargetUserName: TargetUser
+        Category: Role
+    '4674': 
+      annotate:
+        Stream: IAM
+        Action: PRIVILEGE_OBJECT_ACCESSED
+        Status: PASSED  
+      translate:  
+        SubjectUserName: User 
+        TargetUserName: TargetUser  
+        Category: Role                                      
+    '4782':
+      annotate:
+        Stream: IAM
+        Action: ACCOUNT_PASSWORD_HASH_ACCESSED
+        Status: PASSED 
+      translate:  
+        SubjectUserName: User  
+        TargetUserName: TargetUser
+        Category: Role
+    '4727':
+      annotate:
+        Stream: IAM
+        Action: GROUP_CREATED
+        Status: PASSED  
+      translate:  
+        SubjectUserName: User  
+        TargetUserName: TargetUser
+        Category: Role
+    '4728':
+      annotate:
+        Stream: IAM
+        Action: USER_ADDED
+        Status: PASSED 
+      translate:  
+        SubjectUserName: User  
+        TargetUserName: TargetUser
+        Category: Role
+    '4729':
+      annotate:
+        Stream: IAM
+        Action: USER_REMOVED
+        Status: PASSED 
+      translate:  
+        SubjectUserName: User  
+        TargetUserName: TargetUser
+        Category: Role
+    '4730':
+      annotate:
+        Stream: IAM
+        Action: GROUP_DELETED
+        Status: PASSED  
+      translate:  
+        SubjectUserName: User  
+        TargetUserName: TargetUser
+        Category: Role
+    '4734':
+      annotate:
+        Stream: IAM
+        Action: GROUP_DELETED
+        Status: PASSED   
+      translate:  
+        SubjectUserName: User  
+        TargetUserName: TargetUser
+        Category: Role
+    '4735':
+      annotate:
+        Stream: IAM
+        Action: GROUP_CHANGED
+        Status: PASSED  
+      translate:  
+        SubjectUserName: User  
+        TargetUserName: TargetUser 
+        Category: Role    
+    '4737':
+      annotate:
+        Stream: IAM
+        Action: GROUP_CHANGED
+        Status: PASSED    
+      translate:  
+        SubjectUserName: User  
+        TargetUserName: TargetUser
+        Category: Role
+    '4754':
+      annotate:
+        Stream: IAM
+        Action: GROUP_CREATED
+        Status: PASSED    
+      translate:  
+        SubjectUserName: User  
+        TargetUserName: TargetUser  
+        Category: Role
+    '4755':
+      annotate:
+        Stream: IAM
+        Action: GROUP_CHANGED
+        Status: PASSED   
+      translate:  
+        SubjectUserName: User  
+        TargetUserName: TargetUser 
+        Category: Role 
+    '4757':
+      annotate:
+        Stream: IAM
+        Action: USER_REMOVED
+        Status: PASSED    
+      translate:  
+        SubjectUserName: User  
+        TargetUserName: TargetUser
+        Category: Role   
+    '4758':
+      annotate:
+        Stream: IAM
+        Action: GROUP_DELETED
+        Status: PASSED  
+      translate:  
+        SubjectUserName: User  
+        TargetUserName: TargetUser  
+        Category: Role    
+    '4781':
+      annotate:
+        Stream: IAM
+        Action: USER_UPDATED
+        Status: PASSED 
+      translate:  
+        SubjectUserName: User  
+        TargetUserName: TargetUser
+        Category: Role
+    '4672':          
+      annotate:
+        Stream: IAM
+        Action: PRIVILEGE_CHANGED
+        Status: PASSED 
+      translate:  
+        SubjectUserName: User  
+        TargetUserName: TargetUser
+        Category: Role
+    '4799':   
+      annotate:
+        Stream: IAM
+        Action: GROUP_ENUMERATED
+        Status: PASSED 
+      translate: 
+        SubjectUserName: User
+        TargetUserName: TargetUser
+        Category: Role 
+    '4798':   
+      annotate:
+        Stream: IAM
+        Action: GROUP_ENUMERATED
+        Status: PASSED 
+      translate: 
+        SubjectUserName: User
+        TargetUserName: TargetUser
+        Category: Role         
+    '4739':
+      annotate:
+        Stream: WIN-AUDIT
+        Action: POLICY_CHANGED
+        Status: PASSED 
+        Event: Domain Policy was changed.   
+        Category: POLICY
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP
+    '4673':          
+      annotate:
+        Stream: WIN-AUDIT
+        Action: AUDIT_PRIVILEGED
+        Status: PASSED 
+        Event: A privileged service was called.   
+        Category: NETWORK
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP
+    '5142':          
+      annotate:
+        Stream: WIN-AUDIT
+        Action: OBJECT_ACCESSED
+        Status: PASSED  
+        Event: A network share object was added.
+        Category: NETWORK   
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP 
+    '5143':          
+      annotate:
+        Stream: WIN-AUDIT
+        Action: OBJECT_ACCESSED
+        Status: PASSED  
+        Event: A network share object was modified.
+        Category: NETWORK   
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP        
+    '5144':          
+      annotate:
+        Stream: WIN-AUDIT
+        Action: OBJECT_ACCESSED
+        Status: PASSED  
+        Event: A network share object was deleted.
+        Category: NETWORK   
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP
+    '5145':          
+      annotate:
+        Stream: WIN-AUDIT
+        Action: OBJECT_ACCESSED
+        Status: PASSED  
+        Event: A network share object was checked to see whether client can be granted desired access.
+        Category: NETWORK   
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP
+    '4661':          
+      annotate:
+        Stream: WIN-AUDIT
+        Action: OBJECT_ACCESSED
+        Status: PASSED  
+        Event: A handle to an object was requested.
+        Category: NETWORK   
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP
+    '5140':    
+      annotate:
+        Stream: WIN-AUDIT
+        Action: OBJECT_ACCESSED
+        Status: PASSED  
+        Event: A network share object was accessed.
+        Category: NETWORK   
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP
+    '4664':    
+      annotate:
+        Stream: WIN-AUDIT
+        Action: OBJECT_ACCESSED
+        Status: PASSED  
+        Event: An attempt was made to create a hard link.
+        Category: NETWORK   
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP    
+    '4985':    
+      annotate:
+        Stream: WIN-AUDIT
+        Action: OBJECT_ACCESSED
+        Status: PASSED  
+        Event: The state of a transaction has changed.
+        Category: NETWORK   
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP    
+    '5051':    
+      annotate:
+        Stream: WIN-AUDIT
+        Action: OBJECT_ACCESSED
+        Status: PASSED  
+        Event: A file was virtualized.
+        Category: NETWORK   
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP
+    '5031':    
+      annotate:
+        Stream: WIN-AUDIT
+        Action: OBJECT_ACCESSED
+        Status: PASSED  
+        Event: The Windows Firewall Service blocked an application from accepting incoming connections on the network.
+        Category: NETWORK   
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP 
+    '4698':    
+      annotate:
+        Stream: WIN-AUDIT
+        Action: OBJECT_ACCESSED
+        Status: PASSED  
+        Event: A scheduled task was created.
+        Category: NETWORK   
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP
+    '4699':    
+      annotate:
+        Stream: WIN-AUDIT
+        Action: OBJECT_ACCESSED
+        Status: PASSED  
+        Event: A scheduled task was deleted.
+        Category: NETWORK   
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP
+    '4700':    
+      annotate:
+        Stream: WIN-AUDIT
+        Action: OBJECT_ACCESSED
+        Status: PASSED  
+        Event: A scheduled task was enabled.
+        Category: NETWORK   
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP
+    '4701':    
+      annotate:
+        Stream: WIN-AUDIT
+        Action: OBJECT_ACCESSED
+        Status: PASSED  
+        Event: A scheduled task was disabled.
+        Category: NETWORK   
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP
+    '4702':    
+      annotate:
+        Stream: WIN-AUDIT
+        Action: OBJECT_ACCESSED
+        Status: PASSED  
+        Event: A scheduled task was updated.
+        Category: NETWORK   
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP 
+    '4657':    
+      annotate:
+        Stream: WIN-AUDIT
+        Action: OBJECT_ACCESSED
+        Status: PASSED  
+        Event: A registry value was modified.
+        Category: NETWORK   
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP 
+    '4660':    
+      annotate:
+        Stream: WIN-AUDIT
+        Action: OBJECT_ACCESSED
+        Status: PASSED  
+        Event: An object was deleted.
+        Category: NETWORK   
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP 
+    '4663':    
+      annotate:
+        Stream: WIN-AUDIT
+        Action: OBJECT_ACCESSED
+        Status: PASSED  
+        Event: An attempt was made to access an object.
+        Category: NETWORK   
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP         
+    '5039':    
+      annotate:
+        Stream: WIN-AUDIT
+        Action: OBJECT_ACCESSED
+        Status: PASSED  
+        Event: A registry key was virtualized.
+        Category: NETWORK   
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP
+    '4719':
+      annotate:
+        Stream: WIN-AUDIT
+        Action: POLICY_CHANGED
+        Status: PASSED  
+        Event: System audit policy was changed.
+        Category: POLICY   
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP  
+    '4902':
+      annotate:
+        Stream: WIN-AUDIT
+        Action: POLICY_CHANGED
+        Status: PASSED  
+        Event: The Per user audit policy table was created.
+        Category: POLICY   
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP
+    '4904':
+      annotate:
+        Stream: WIN-AUDIT
+        Action: POLICY_CHANGED
+        Status: PASSED  
+        Event: An attempt was made to register a security event source.
+        Category: POLICY   
+      translate: 
+        SubjectUserName: User
+        ProcessName: Object
+        IpAddress: SrcIP    
+    '4905':
+      annotate:
+        Stream: WIN-AUDIT
+        Action: POLICY_CHANGED
+        Status: PASSED  
+        Event: An attempt was made to unregister a security event source.
+        Category: POLICY   
+      translate: 
+        SubjectUserName: User 
+        ProcessName: Object
+        IpAddress: SrcIP        
+    '4715':
+      annotate:
+        Stream: WIN-AUDIT
+        Action: POLICY_CHANGED
+        Status: PASSED  
+        Event: The audit policy (SACL) on an object was changed.
+        Category: POLICY   
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP
+    '4906':
+      annotate:
+        Stream: WIN-AUDIT
+        Action: POLICY_CHANGED
+        Status: PASSED  
+        Event: The CrashOnAuditFail value has changed.
+        Category: POLICY   
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP              
+    '4907':
+      annotate:
+        Stream: WIN-AUDIT
+        Action: POLICY_CHANGED
+        Status: PASSED  
+        Event: Auditing settings on object were changed.
+        Category: POLICY   
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP 
+    '4706':
+      annotate:
+        Stream: WIN-AUDIT
+        Action: POLICY_CHANGED
+        Status: PASSED  
+        Event: A new trust was created to a domain.
+        Category: POLICY   
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP 
+    '4707':
+      annotate:
+        Stream: WIN-AUDIT
+        Action: POLICY_CHANGED
+        Status: PASSED  
+        Event: A trust to a domain was removed.
+        Category: POLICY   
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP          
+    '4713':
+      annotate:
+        Stream: WIN-AUDIT
+        Action: POLICY_CHANGED
+        Status: PASSED  
+        Event: Kerberos policy was changed.
+        Category: POLICY   
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP 
+    '4716':
+      annotate:
+        Stream: WIN-AUDIT
+        Action: POLICY_CHANGED
+        Status: PASSED  
+        Event: Trusted domain information was modified
+        Category: POLICY   
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP              
+    '4717':
+      annotate:
+        Stream: WIN-AUDIT
+        Action: POLICY_CHANGED
+        Status: PASSED  
+        Event: System security access was granted to an account.
+        Category: POLICY   
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP
+    '4718':
+      annotate:
+        Stream: WIN-AUDIT
+        Action: POLICY_CHANGED
+        Status: PASSED  
+        Event: System security access was removed from an account.
+        Category: POLICY   
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP 
+    '4864':
+      annotate:
+        Stream: WIN-AUDIT
+        Action: POLICY_CHANGED
+        Status: PASSED  
+        Event: A namespace collision was detected.
+        Category: POLICY   
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP
+    '4800':
+      annotate:
+        Stream: WIN-AUDIT
+        Action: POLICY_CHANGED
+        Status: PASSED  
+        Event: The workstation was locked.
+        Category: POLICY   
+      translate: 
+        TargetUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP
+    '4801':
+      annotate:
+        Stream: WIN-AUDIT
+        Action: POLICY_CHANGED
+        Status: PASSED  
+        Event: The workstation was Unlocked.
+        Category: POLICY   
+      translate: 
+        TargetUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP        
+    '4865':
+      annotate:
+        Stream: WIN-AUDIT
+        Action: POLICY_CHANGED
+        Status: PASSED  
+        Event: A trusted forest information entry was added.
+        Category: POLICY   
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP
+    '4866':
+      annotate:
+        Stream: WIN-AUDIT
+        Action: POLICY_CHANGED
+        Status: PASSED  
+        Event: A trusted forest information entry was removed.
+        Category: POLICY   
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP 
+    '4867':
+      annotate:
+        Stream: WIN-AUDIT
+        Action: POLICY_CHANGED
+        Status: PASSED  
+        Event: A trusted forest information entry was modified.
+        Category: POLICY   
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP                 
+    '4704':
+      annotate:
+        Stream: WIN-AUDIT
+        Action: POLICY_CHANGED
+        Status: PASSED  
+        Event: A user right was assigned.
+        Category: POLICY   
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP  
+    '4705':
+      annotate:
+        Stream: WIN-AUDIT
+        Action: POLICY_CHANGED
+        Status: PASSED  
+        Event: A user right was removed.
+        Category: POLICY   
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP       
+    '4714':
+      annotate:
+        Stream: WIN-AUDIT
+        Action: POLICY_CHANGED
+        Status: PASSED  
+        Event: Encrypted data recovery policy was changed.
+        Category: POLICY   
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP
+    '4944':
+      annotate:
+        Stream: WIN-AUDIT
+        Action: POLICY_CHANGED
+        Status: PASSED  
+        Event: The following policy was active when the Windows Firewall started.
+        Category: POLICY   
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP 
+    '4945':
+      annotate:
+        Stream: WIN-AUDIT
+        Action: POLICY_CHANGED
+        Status: PASSED  
+        Event: A rule was listed when the Windows Firewall started.
+        Category: POLICY   
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP        
+    '4946':
+      annotate:
+        Stream: WIN-AUDIT
+        Action: POLICY_CHANGED
+        Status: PASSED  
+        Event: A change has been made to Windows Firewall exception list. A rule was added.
+        Category: POLICY   
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP
+    '4949':
+      annotate:
+        Stream: WIN-AUDIT
+        Action: POLICY_CHANGED
+        Status: PASSED  
+        Event: Windows Firewall settings were restored to the default values.
+        Category: POLICY   
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP    
+    '4947':
+      annotate:
+        Stream: WIN-AUDIT
+        Action: POLICY_CHANGED
+        Status: PASSED  
+        Event: A change has been made to Windows Firewall exception list. A rule was modified.
+        Category: POLICY   
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP
+    '4948':
+      annotate:
+        Stream: WIN-AUDIT
+        Action: POLICY_CHANGED
+        Status: PASSED  
+        Event: A change has been made to Windows Firewall exception list. A rule was deleted.
+        Category: POLICY   
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP
+    '4950':
+      annotate:
+        Stream: WIN-AUDIT
+        Action: POLICY_CHANGED
+        Status: PASSED  
+        Event: Windows Firewall settings were restored to the default values.
+        Category: POLICY   
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP
+    '4951':
+      annotate:
+        Stream: WIN-AUDIT
+        Action: POLICY_CHANGED
+        Status: PASSED  
+        Event: A rule has been ignored because its major version number was not recognized by Windows Firewall.
+        Category: POLICY   
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP 
+    '4952':
+      annotate:
+        Stream: WIN-AUDIT
+        Action: POLICY_CHANGED
+        Status: PASSED  
+        Event: Parts of a rule have been ignored because its minor version number was not recognized by Windows Firewall. The other parts of the rule will be enforced.
+        Category: POLICY   
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP
+    '4953':
+      annotate:
+        Stream: WIN-AUDIT
+        Action: POLICY_CHANGED
+        Status: PASSED  
+        Event: A rule has been ignored by Windows Firewall because it could not parse the rule.
+        Category: POLICY   
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP 
+    '4954':
+      annotate:
+        Stream: WIN-AUDIT
+        Action: POLICY_CHANGED
+        Status: PASSED  
+        Event: Windows Firewall Group Policy settings have changed. The new settings have been applied.
+        Category: POLICY   
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP  
+    '4956':
+      annotate:
+        Stream: WIN-AUDIT
+        Action: POLICY_CHANGED
+        Status: PASSED  
+        Event: Windows Firewall has changed the active profile.
+        Category: POLICY   
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP
+    '1074':
+      annotate:
+        Stream: WIN-AUDIT
+        Action: DIRECTORY_SERVICE_ACCESSED
+        Status: PASSED  
+        Event: The process has initiated the restart of computer.
+        Category: DIRECTORY   
+      translate: 
+        param7: User 
+        param1: Object
+        IpAddress: SrcIP                            
+    '5136':
+      annotate:
+        Stream: WIN-AUDIT
+        Action: DIRECTORY_SERVICE_ACCESSED
+        Status: PASSED  
+        Event: A directory service object was modified.
+        Category: DIRECTORY   
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP
+    '5137':
+      annotate:
+        Stream: WIN-AUDIT
+        Action: DIRECTORY_SERVICE_ACCESSED
+        Status: PASSED  
+        Event: A directory service object was created.
+        Category: DIRECTORY   
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP
+    '5138':
+      annotate:
+        Stream: WIN-AUDIT
+        Action: DIRECTORY_SERVICE_ACCESSED
+        Status: PASSED  
+        Event: A directory service object was undeleted.
+        Category: DIRECTORY   
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP
+    '5139':
+      annotate:
+        Stream: WIN-AUDIT
+        Action: DIRECTORY_SERVICE_ACCESSED
+        Status: PASSED  
+        Event: A directory service object was moved.
+        Category: DIRECTORY   
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP
+    '5141':
+      annotate:
+        Stream: WIN-AUDIT
+        Action: DIRECTORY_SERVICE_ACCESSED
+        Status: PASSED  
+        Event: A directory service object was deleted.
+        Category: DIRECTORY   
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP                    
+    '6144':
+      annotate:
+        Stream: WIN-AUDIT
+        Action: POLICY_CHANGED
+        Status: PASSED  
+        Event: Security policy in the group policy objects has been applied successfully.
+        Category: POLICY   
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP
+    '6145':
+      annotate:
+        Stream: WIN-AUDIT
+        Action: POLICY_CHANGED
+        Status: PASSED  
+        Event: One or more errors occurred while processing security policy in the group policy objects.
+        Category: POLICY 
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP 
+    '4627':
+      annotate:
+        Stream: WIN-AUDIT
+        Action: POLICY_CHANGED
+        Status: PASSED  
+        Event: Group membership information.
+        Category: POLICY 
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP  
+    '5156':
+      annotate:
+        Stream: WIN-AUDIT
+        Action: OBJECT_ACCESSED
+        Status: PASSED  
+        Event: The Windows Filtering Platform has permitted a connection
+        Category: NETWORK 
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        SourceAddress: SrcIP  
+    '5158':
+      annotate:
+        Stream: WIN-AUDIT
+        Action: OBJECT_ACCESSED
+        Status: PASSED 
+        Event: The Windows Filtering Platform has permitted a bind to a local port.
+        Category: NETWORK 
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        SourceAddress: SrcIP    
+    '4656':    
+      annotate:
+        Stream: WIN-AUDIT
+        Action: OBJECT_ACCESSED
+        Status: PASSED  
+        Event: A handle to an object was requested.
+        Category: NETWORK   
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP
+    '4658':    
+      annotate:
+        Stream: WIN-AUDIT
+        Action: OBJECT_ACCESSED
+        Status: PASSED  
+        Event: The handle to an object was closed.
+        Category: NETWORK   
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP    
+    '4662':
+      annotate:
+        Stream: WIN-AUDIT
+        Action: DIRECTORY_SERVICE_ACCESSED
+        Status: PASSED  
+        Event: An operation was performed on an object.
+        Category: DIRECTORY   
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP      
+    '4688':
+      annotate:
+        Stream: WIN-AUDIT
+        Action: PROCESS_CREATED
+        Status: PASSED  
+        Event: A new process has been created.
+        Category: POLICY 
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP   
+    '4689':
+      annotate:
+        Stream: WIN-AUDIT
+        Action: PROCESS_TERMINATED
+        Status: PASSED  
+        Event: A process has exited.
+        Category: POLICY 
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP   
+    '4690':
+      annotate:
+        Stream: WIN-AUDIT
+        Action: OBJECT_ACCESSED
+        Status: PASSED  
+        Event: An attempt was made to duplicate a handle to an object.
+        Category: NETWORK
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP     
+    '4703':
+      annotate:
+        Stream: WIN-AUDIT
+        Action: POLICY_CHANGED
+        Status: PASSED  
+        Event: A token right was adjusted.
+        Category: POLICY 
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP   
+    '4826':
+      annotate:
+        Stream: WIN-AUDIT
+        Action: POLICY_CHANGED
+        Status: PASSED  
+        Event: Boot Configuration Data loaded.
+        Category: POLICY 
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP   
+    '5058':    
+      annotate:
+        Stream: WIN-AUDIT
+        Action: OBJECT_ACCESSED
+        Status: PASSED  
+        Event: Key file operation.
+        Category: NETWORK   
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP
+    '5059':    
+      annotate:
+        Stream: WIN-AUDIT
+        Action: OBJECT_ACCESSED
+        Status: PASSED  
+        Event: Key migration operation.
+        Category: NETWORK   
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP     
+    '5061':    
+      annotate:
+        Stream: WIN-AUDIT
+        Action: OBJECT_ACCESSED
+        Status: PASSED  
+        Event: Cryptographic operation.
+        Category: NETWORK   
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP                                                 
+    '4649':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED   
+        Vector: NETWORK
+        Threat: A replay attack was detected. 
+      translate:  
+        SubjectUserName: User  
+        IpAddress: SrcIP
+        DstIP: DstIP 
+    '4816':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED   
+        Vector: NETWORK
+        Threat: RPC detected an integrity violation while decrypting an incoming message.
+      translate:  
+        SubjectUserName: User  
+        PeerName: SrcIP
+        DstIP: DstIP    
+    '4618':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED   
+        Vector: NETWORK
+        Threat: A monitored security event pattern has occurred. 
+      translate:  
+        SubjectUserName: User  
+        IpAddress: SrcIP
+        DstIP: DstIP     
+    '5024':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED    
+        Config: Firewall Service Start
+      translate: 
+        SubjectUserName: User  
+    '5025':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED  
+        Config: Firewall Service Stop  
+      translate: 
+        SubjectUserName: User  
+    '5027':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: FAILED    
+        Config: Firewall Service Unable
+      translate: 
+        SubjectUserName: User   
+    '5028':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: FAILED
+        Config: Firewall Service Unable     
+      translate: 
+        SubjectUserName: User 
+    '5029':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: FAILED 
+        Config: Firewall Service Failed   
+      translate: 
+        SubjectUserName: User    
+    '5030':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: FAILED
+        Config: Firewall Service Start  
+      translate: 
+        SubjectUserName: User
+    '5032':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED    
+        Config: Firewall Service Unable
+      translate: 
+        SubjectUserName: User 
+    '5033':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED    
+        Config: Firewall Driver Start
+      translate: 
+        SubjectUserName: User 
+    '5034':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED    
+        Config: Firewall Driver Stop
+      translate: 
+        SubjectUserName: User    
+    '5035':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: FAILED
+        Config: Firewall Driver Start
+      translate: 
+        SubjectUserName: User   
+    '5037':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED    
+        Config: Firewall Driver Detected Critical Runtime Error
+      translate: 
+        SubjectUserName: User 
+    '4608':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED   
+        Config: System Start
+      translate: 
+        SubjectUserName: User    
+    '4609':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED    
+        Config: System Shut Down
+      translate: 
+        SubjectUserName: User    
+    '4616':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED  
+        Config: System Time Changed  
+      translate: 
+        SubjectUserName: User   
+    '4621':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED 
+        Config: Administrator Recovered    
+      translate: 
+        SubjectUserName: User  
+    '4697':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED 
+        Config: Service Installed    
+      translate: 
+        SubjectUserName: User                                                                                                
+
+  fallback:
+    annotate:
+      EventName: Generic Windows Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      EventTime: SystemTstamp
+      Hostname: System
+
+  subs:
+    Reason: 
+      '0x0': 'SUCCESS'
+      '0x18': 'KDC_ERR_PREAUTH_FAILED'
+      '0xc000005e': 'SERVICE_UNAVAILABLE'
+      '0xc000005E': 'SERVICE_UNAVAILABLE'
+      '0xc000006d': 'BAD_USER_PASSWORD'
+      '0xc000006D': 'BAD_USER_PASSWORD'
+      '0xc0000064': 'BAD_USER_PASSWORD'
+      '0xc000006a': 'BAD_USER_PASSWORD'
+      '0xc000006A': 'BAD_USER_PASSWORD'
+      '0xc000019b': 'DUPLICATE_ENTRY'
+      '0xc0000133': 'TIME_SYNC_ERROR'
+      '0xc000006e': 'BAD_USER_PASSWORD' 
+      '0xc000006E': 'BAD_USER_PASSWORD' 
+      '0xc000006f': 'OUT_OFF_HOURS'
+      '0xc000006F': 'OUT_OFF_HOURS'
+      '0xc0000070': 'WRONG_WORKSTATION'
+      '0xc0000071': 'PASSWORD_EXPIRED'
+      '0xC0000072': 'USER_DISABLED'
+      '0xc00000dc': 'STATUS_INVALID_SERVER_STATE'
+      '0xc00000DC': 'STATUS_INVALID_SERVER_STATE'
+      '0xc000015b': 'INVALID_USER'
+      '0xc000015B': 'INVALID_USER'
+      '0xc000018c': 'DOMAIN_TRUST_FAILED'
+      '0xc000018C': 'DOMAIN_TRUST_FAILED'
+      '0xc0000192': 'SERVICE_UNAVAILABLE'
+      '0xc0000193': 'ACCOUNT_EXPIRED'
+      '0xc0000199': 'WORKSTATION_TRUST_FAILED'
+      '0xc0000224': 'CHANGE_PASSWORD'
+      '0xc0000225': 'ERROR'
+      '0xc0000234': 'USER_LOCKOUT'
+      '0xc00002ee': 'ERROR'
+      '0xc00002EE': 'ERROR'
+      '0xc0000413': 'LOGIN_FAIL_FIREWALL_POLICY'
+
+- first-match: \"SourceName\"\:\s*\"Microsoft\-Windows\-Sysmon\"
+  decoder: custom
+  decoder-regex: '\"([^\"]+)\"\:(?:\"([^\"]+)\"|([^\,]+))'
+  event-key-format: '{EventID}'
+  event-key-mapping:
+    '1': 
+      annotate:
+        Stream: SYSMON-PROCESS 
+        Action: PROCESS_ADDED
+        Status: PASSED
+      translate:
+        User: User
+        ParentCommandLine: ParentCommandLine
+        OriginalFileName: OriginalFileName
+        ParentImage: ParentImage 
+        Image: Image
+        CommandLine: CommandLine
+        Description: Description
+        Company: Company
+        Product: Product
+        ParentUser: ParentUser
+        SrcIP: SrcIP
+        SrcPort: SrcPort
+        SrcHost: SrcHost
+        DstIP: DstIP
+        DstPort: DstPort
+        DstHost: DstHost
+        TargetImage: TargetImage
+        GrantedAccess: GrantedAccess
+        CallTrace: CallTrace
+        Hashes: Hash
+    '2':
+      annotate:
+        Stream: SYSMON-PROCESS
+        Action: PROCESS_FILE_TIME_CHANGED
+        Status: PASSED
+      translate:
+        User: User
+        ParentCommandLine: ParentCommandLine
+        OriginalFileName: OriginalFileName
+        ParentImage: ParentImage 
+        Image: Image
+        CommandLine: CommandLine
+        Description: Description
+        Company: Company
+        Product: Product
+        ParentUser: ParentUser
+        SrcIP: SrcIP
+        SrcPort: SrcPort
+        SrcHost: SrcHost
+        DstIP: DstIP
+        DstPort: DstPort
+        DstHost: DstHost
+        TargetImage: TargetImage
+        GrantedAccess: GrantedAccess
+        CallTrace: CallTrace
+        Hashes: Hash
+    '3': 
+      annotate:
+        Stream: SYSMON-NETWORK 
+        Action: NETWORK_CONNECTION
+        Status: PASSED
+      translate:
+        Image: Image
+        User: User
+        Protocol: Proto
+        SourceIp: SrcIP
+        SourcePort: SrcPort
+        SourceHostname: SrcHost
+        DestinationIp: DstIP
+        DestinationHostname: DstHost
+        DestinationPort: DstPort
+        Description: Description
+    '4': 
+      annotate:
+        Stream: SYSMON-SERVICE
+        Action: STATE_CHANGED
+        Status: PASSED
+      translate:
+        SchemaVersion: SchemaVersion
+        State: State
+        User: User
+    '5': 
+      annotate:
+        Stream: SYSMON-PROCESS 
+        Action: PROCESS_REMOVED
+        Status: PASSED
+      translate:
+        Image: Image
+        AccountName: User
+        Description: Description
+        ParentCommandLine: ParentCommandLine
+        OriginalFileName: OriginalFileName
+        ParentImage: ParentImage 
+        CommandLine: CommandLine
+        Company: Company
+        Product: Product
+        ParentUser: ParentUser
+        SrcIP: SrcIP
+        SrcPort: SrcPort
+        SrcHost: SrcHost
+        DstIP: DstIP
+        DstPort: DstPort
+        DstHost: DstHost
+        TargetImage: TargetImage
+        GrantedAccess: GrantedAccess
+        CallTrace: CallTrace
+    '6':
+      annotate:
+        Stream: SYSMON-DRIVER-LOAD
+        Action: DRIVER_LOADED
+        Status: PASSED
+      translate:
+        ImageLoaded: ImageLoaded
+        SignatureStatus: SignatureStatus
+        Signature: Signature
+        Signed: Signed
+        AccountName: User      
+    '7':
+      annotate:
+        Stream: SYSMON-IMAGE-LOAD 
+        Action: PROCESS_ACCESSED
+        Status: PASSED
+      translate:
+        User: User
+        Description: Description
+        Company: Company
+        Product: Product   
+        Image: Image
+        ImageLoaded: ImageLoaded
+        Hashes: Hash
+        Signed: Signed
+    '8':
+      annotate:
+        Stream: SYSMON-PROCESS
+        Action: CREATE_REMOTE_THREAD
+        Status: PASSED
+      translate:
+        User: User
+        TargetImage: TargetImage
+        Description: Description
+        ParentCommandLine: ParentCommandLine
+        OriginalFileName: OriginalFileName
+        ParentImage: ParentImage 
+        Image: Image
+        CommandLine: CommandLine
+        Company: Company
+        Product: Product
+        ParentUser: ParentUser
+        SrcIP: SrcIP
+        SrcPort: SrcPort
+        SrcHost: SrcHost
+        DstIP: DstIP
+        DstPort: DstPort
+        DstHost: DstHost
+        GrantedAccess: GrantedAccess
+        CallTrace: CallTrace
+        Hashes: Hash
+    '9': 
+      annotate:
+        Stream: SYSMON-PROCESS 
+        Action: PROCESS_ACCESSED
+        Status: PASSED
+      translate:
+        User: User
+        ParentCommandLine: ParentCommandLine
+        OriginalFileName: OriginalFileName
+        ParentImage: ParentImage 
+        Image: Image
+        CommandLine: CommandLine
+        Description: Description
+        Company: Company
+        Product: Product
+        ParentUser: ParentUser
+        SrcIP: SrcIP
+        SrcPort: SrcPort
+        SrcHost: SrcHost
+        DstIP: DstIP
+        DstPort: DstPort
+        DstHost: DstHost
+        TargetImage: TargetImage
+        GrantedAccess: GrantedAccess
+        CallTrace: CallTrace
+        Hashes: Hash
+    '10':
+      annotate:
+        Stream: SYSMON-PROCESS 
+        Action: PROCESS_ACCESSED
+        Status: PASSED
+      translate:
+        User: User
+        TargetImage: TargetImage
+        Description: Description
+        ParentCommandLine: ParentCommandLine
+        OriginalFileName: OriginalFileName
+        ParentImage: ParentImage 
+        Image: Image
+        CommandLine: CommandLine
+        Company: Company
+        Product: Product
+        ParentUser: ParentUser
+        SrcIP: SrcIP
+        SrcPort: SrcPort
+        SrcHost: SrcHost
+        DstIP: DstIP
+        DstPort: DstPort
+        DstHost: DstHost
+        GrantedAccess: GrantedAccess
+        CallTrace: CallTrace
+        Hashes: Hash
+    '11':
+      annotate:
+        Stream: SYSMON-FILE
+        Action: FILE_CREATED
+        Status: PASSED
+      translate:
+        Image: Image
+        AccountName: User
+        TargetFilename: TargetFilename
+        CreationUtcTime: CreationUtcTime
+    '12':
+      annotate:
+        Stream: SYSMON-REGISTRY 
+        Action: OBJECT_MODIFIED
+        Status: PASSED
+      translate:
+        Image: Image
+        AccountName: User
+        TargetObject: TargetObject
+        Description: Description 
+        Details: Details
+    '13':
+      annotate:
+        Stream: SYSMON-REGISTRY 
+        Action: OBJECT_MODIFIED
+        Status: PASSED
+      translate:
+        Image: Image
+        AccountName: User
+        TargetObject: TargetObject
+        Description: Description  
+        Details: Details  
+    '14':
+      annotate:
+        Stream: SYSMON-REGISTRY 
+        Action: OBJECT_MODIFIED
+        Status: PASSED
+      translate:
+        Image: Image
+        AccountName: User
+        TargetObject: TargetObject
+        Description: Description 
+        Details: Details
+    '15':
+      annotate:
+        Stream: SYSMON-FILE
+        Action: FILE_CREATED
+        Status: PASSED
+      translate:
+        Image: Image
+        AccountName: User
+        TargetFilename: TargetFilename
+        CreationUtcTime: CreationUtcTime
+    '16':
+      annotate:
+        Stream: SYSMON-CONFIG
+        Action: STATE_CHANGED
+        Status: PASSED
+      translate:
+        AccountName: User
+        ConfigurationFileHash: ConfigurationFileHash
+        Configuration: Configuration
+    '17':
+      annotate:
+        Stream: SYSMON-PIPE
+        Action: PIPE_CREATED
+        Status: PASSED
+      translate:
+        Image: Image
+        PipeName: PipeName
+        User: User
+    '18':
+      annotate:
+        Stream: SYSMON-PIPE
+        Action: PIPE_CONNECTED
+        Status: PASSED
+      translate:
+        Image: Image
+        PipeName: PipeName
+        User: User
+    '19':
+      annotate:
+        Stream: SYSMON-WMI
+        Action: FILTER_ACTIVITY
+        Status: DETECTED
+      translate:
+        User: User
+        Name: Name
+        Type: Type
+        Destination: Destination
+        Operation: Operation
+        Consumer: Consumer
+        Filter: Filter
+    '20':
+      annotate:
+        Stream: SYSMON-WMI
+        Action: CONSUMER_ACTIVITY
+        Status: DETECTED
+      translate:
+        User: User
+        Name: Name
+        Type: Type
+        Destination: Destination
+        Operation: Operation
+        Consumer: Consumer
+        Filter: Filter
+    '21':
+      annotate:
+        Stream: SYSMON-WMI
+        Action: CONSUMER_TO_FILTER_ACTIVITY
+        Status: DETECTED
+      translate:
+        User: User
+        Name: Name
+        Type: Type
+        Destination: Destination
+        Operation: Operation
+        Consumer: Consumer
+        Filter: Filter
+    '22':
+      annotate:
+        Stream: SYSMON-DNS
+        Action: DNS_QUERY
+        Status: PASSED
+      translate:
+        Image: Image
+        QueryName: QueryName
+        QueryStatus: QueryStatus
+        QueryResults: QueryResults
+        User: User
+    '23':
+      annotate:
+        Stream: SYSMON-FILE
+        Action: FILE_DELETED
+        Status: PASSED
+      translate:
+        Image: Image
+        AccountName: User
+        TargetFilename: TargetFilename
+        CreationUtcTime: CreationUtcTime
+    '24': 
+      annotate:
+        Stream: SYSMON-PROCESS 
+        Action: CLIPBOARD_CHANGED
+        Status: PASSED
+      translate:
+        Image: Image
+        AccountName: User
+        Description: Description
+        ParentCommandLine: ParentCommandLine
+        OriginalFileName: OriginalFileName
+        ParentImage: ParentImage 
+        CommandLine: CommandLine
+        Company: Company
+        Product: Product
+        ParentUser: ParentUser
+        SrcIP: SrcIP
+        SrcPort: SrcPort
+        SrcHost: SrcHost
+        DstIP: DstIP
+        DstPort: DstPort
+        DstHost: DstHost
+        TargetImage: TargetImage
+        GrantedAccess: GrantedAccess
+        CallTrace: CallTrace
+        Hashes: Hash
+    '25':
+      annotate:
+        Stream: SYSMON-IMAGE-LOAD 
+        Action: PROCESS_ACCESSED
+        Status: PASSED
+      translate:
+        User: User
+        Description: Description
+        Company: Company
+        Product: Product   
+        Image: Image
+        ImageLoaded: ImageLoaded
+        Hashes: Hash
+        Signed: Signed
+    '26':
+      annotate:
+        Stream: SYSMON-FILE
+        Action: FILE_DELETED
+        Status: PASSED
+      translate:
+        Image: Image
+        AccountName: User
+        TargetFilename: TargetFilename
+        CreationUtcTime: CreationUtcTime
+             
+  fallback:
+    annotate:
+      EventName: Generic Windows Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      EventTime: SystemTstamp
+      Hostname: System
+
+- first-match: \"SourceName\"\:\"Security\"
+  decoder: custom
+  decoder-regex: '\"([^\"]+)\"\:(?:\"([^\"]+)\"|([^\,]+))'
+  event-key-format: '{EventID}'
+  event-key-mapping:
+    '528': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate: 
+        AccountName: User
+        IpAddress: SrcIP
+        AuthenticationPackageName: AuthProto
+    '552': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate: 
+        AccountName: User
+        IpAddress: SrcIP
+        AuthenticationPackageName: AuthProto
+    '538': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+      translate: 
+        AccountName: User
+        IpAddress: SrcIP
+        AuthenticationPackageName: AuthProto
+    '551': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+      translate: 
+        AccountName: User
+        IpAddress: SrcIP
+        AuthenticationPackageName: AuthProto
+    '540': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate: 
+        AccountName: User
+        IpAddress: SrcIP
+        AuthenticationPackageName: AuthProto
+    '680': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate: 
+        AccountName: User
+        IpAddress: SrcIP
+        AuthenticationPackageName: AuthProto
+    '682': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate: 
+        AccountName: User
+        IpAddress: SrcIP
+        AuthenticationPackageName: AuthProto
+    '683': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate: 
+        AccountName: User
+        IpAddress: SrcIP
+        AuthenticationPackageName: AuthProto
+        SubStatus: Reason             
+    '576': 
+      annotate:
+        Stream: IAM
+        Action: PRIVILEGE_CHANGED
+        Status: PASSED
+      translate: 
+        AccountName: User
+        TargetUser: TargetUser
+        Category: Role
+    '644':           
+      annotate:
+        Stream: IAM
+        Action: USER_LOCKOUT
+        Status: PASSED
+      translate:  
+        AccountName: User
+        TargetUser: TargetUser
+        Category: Role
+    '624':           
+      annotate:
+        Stream: IAM
+        Action: USER_CREATED
+        Status: PASSED  
+      translate:  
+        AccountName: User
+        TargetUser: TargetUser 
+        Category: Role    
+    '646':           
+      annotate:
+        Stream: IAM
+        Action: COMPUTER_ACCOUNT_CHANGED
+        Status: PASSED  
+      translate:  
+        AccountName: User
+        TargetUser: TargetUser
+        Category: Role
+  
+  fallback:
+    annotate:
+      EventName: Generic Windows Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      EventTime: SystemTstamp
+      Hostname: System
+
+- first-match: \"Microsoft\-Windows\-Eventlog\"
+  decoder: custom
+  decoder-regex: '\"([^\"]+)\"\:(?:\"([^\"]+)\"|([^\,]+))'
+  event-key-format: '{EventID}'
+  event-key-mapping:
+    '1102':
+      annotate:
+        Stream: WIN-AUDIT
+        Action: AUDIT_LOG_CLEARED
+        Status: PASSED  
+        Event: The audit log was cleared.
+        Category: POLICY
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP
+
+  fallback:
+    annotate:
+      EventName: Generic Windows Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      EventTime: SystemTstamp
+      Hostname: System
+
+- first-match: \"Service\s+Control\s+Manager\"
+  decoder: custom
+  decoder-regex: '\"([^\"]+)\"\:(?:\"([^\"]+)\"|([^\,]+))'
+  event-key-format: '{EventID}'
+  event-key-mapping:
+    '7040':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED    
+        Config: Service Changed
+      translate: 
+        AccountName: User
+
+  fallback:
+    annotate:
+      EventName: Generic Windows Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      EventTime: SystemTstamp
+      Hostname: System
+
+- first-match: \"Microsoft\-Windows\-NTLM\"
+  decoder: custom
+  decoder-regex: '\"([^\"]+)\"\:(?:\"([^\"]+)\"|([^\,]+))'
+  event-key-format: '{EventID}'
+  event-key-mapping:
+    '8002':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+        Reason: Audit Incoming NTLM Traffic that would be blocked.
+      translate:
+        ClientAddress: SrcIP
+        ClientUserName: User
+        AuthenticationPackageName: AuthProto
+
+  fallback:
+    annotate:
+      EventName: Generic Windows Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      EventTime: SystemTstamp
+      Hostname: System      
