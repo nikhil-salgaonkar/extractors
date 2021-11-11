@@ -10,11 +10,11 @@ source-description: Extractor for Vertica Database Events
 provides-streams:
 - AUTHENTICATION
 master-filters:
-- '^(\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+vertica\_log\:\s+'
+- '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+vertica\_log\:'
 event-details:
-- first-match: '^(\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+vertica\_log\:[\d\-\:\.\s]+Init.*?\<LOG\>'
+- first-match: '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+vertica\_log\:[\d\-\:\.\s]+Init.*?\<LOG\>'
   decoder: regex
-  decoder-regex: '^(\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>vertica\_log)\:\s+[\d\-\:\.\s]+Init\s+(?P<msg>Session\:\S+\s+\<(?:.*?(?P<action>session\s+timeout|Connection\s+authenticated|Authentication|Connection\s+received))?(?:.*?user\=(?P<user>\S+))?(?:.*?host\=(?P<src>[\w\.\:]+))?.*)'
+  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+(?P<daemon>vertica\_log)\:\s+[\d\-\:\.\s]+Init\s+(?P<msg>Session\:\S+\s+\<(?:.*?(?P<action>session\s+timeout|Connection\s+authenticated|Authentication))?(?:.*?user\=(?P<user>\S+))?(?:.*?host\=(?P<src>[\w\.\:]+))?.*)'
   event-key-format: '{action}'
   event-key-mapping:
     'session timeout': 
@@ -36,15 +36,6 @@ event-details:
         src: SrcIP
         AuthProto: AuthProto
     'Authentication':
-      annotate:
-        Stream: AUTHENTICATION
-        Action: LOGIN
-        Status: PASSED
-      translate:
-        user: User
-        src: SrcIP
-        AuthProto: AuthProto
-    'Connection received':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
