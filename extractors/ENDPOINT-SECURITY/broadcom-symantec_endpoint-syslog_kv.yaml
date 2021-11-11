@@ -9,10 +9,12 @@ source-type: ENDPOINT-SECURITY
 source-description: extractor for Symantec Endpoint Events
 provides-streams:
 - THREAT
+- AUTHENTICATION
+- CONFIGURATION
 master-filters:
 - '\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}(?:\s+\S+)?\s+SymantecServer\:\s+'
 event-details:
-- first-match: 'SymantecServer\:.*?CIDS\s+Signature\s+string\:\s+(?:Web\s+Attack|OS\s+Attack|Malicious\s+Site|Fake\s+App\s+Attack|Attack|Malicious\s+Phishing\s+Site|System\s+Infected)\:'
+- first-match: 'SymantecServer\:.*?CIDS\s+Signature\s+string\:'
   decoder: custom
   decoder-regex: '((?!\d+|\s+)[\w\s\-]+)\:\s([^,]*)\,?'
   event-key-format: ''
@@ -32,6 +34,7 @@ event-details:
         User Name: User
         User: User
         CIDS Signature string: Threat
+        Event Description: Threat
         cmdline: CommandLine
         Process: Process
         Intrusion URL: URL    
@@ -64,8 +67,83 @@ event-details:
         IP Address: DstIP
         File path: File
         Application name: Process
+        User: User
         User Name: User
         Risk name: Threat
+        cmdline: CommandLine
+        Intrusion URL: URL
+        
+  fallback:
+    annotate:
+      EventName: Generic Symantec Endpoint Event
+      Stream: OTHER  
+
+  globals:
+    translate:
+      Server Name: System
+      Computer name: System
+      Computer: System
+      End Time: SystemTstamp
+      End: SystemTstamp
+      Event Insert Time: SystemTstamp  
+
+- first-match: 'SymantecServer\:.*?Detection\s+type\:'
+  decoder: custom
+  decoder-regex: '((?!\d+|\s+)[\w\s\-]+)\:\s([^,]*)\,?'
+  event-key-format: ''
+  event-key-mapping:
+    '':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate: 
+        Source Computer IP: SrcIP
+        IP Address: DstIP
+        File path: File
+        Application name: Process
+        User: User
+        Risk name: Threat
+        cmdline: CommandLine
+        Intrusion URL: URL
+        
+  fallback:
+    annotate:
+      EventName: Generic Symantec Endpoint Event
+      Stream: OTHER  
+
+  globals:
+    translate:
+      Server Name: System
+      Computer name: System
+      Computer: System
+      End Time: SystemTstamp
+      End: SystemTstamp
+      Event Insert Time: SystemTstamp           
+
+- first-match: 'SymantecServer\:.*?(?:Blocked\,|Action\:\s+Blocked)'
+  decoder: custom
+  decoder-regex: '((?!\d+|\s+)[\w\s\-]+)\:\s([^,]*)\,?'
+  event-key-format: ''
+  event-key-mapping:
+    '':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_BLOCKED
+        Status: PASSED
+        Vector: HOST
+      translate: 
+        Remote Host IP: SrcIP
+        Remote: SrcIP
+        Local Host IP: DstIP
+        Local: DstIP
+        File path: File
+        Application name: Process
+        Application: Process
+        User: User
+        User Name: User 
+        Rule: Threat
         cmdline: CommandLine
         URL: URL
         
@@ -81,4 +159,93 @@ event-details:
       Computer: System
       End Time: SystemTstamp
       End: SystemTstamp
-      Event Insert Time: SystemTstamp      
+      Event Insert Time: SystemTstamp
+
+- first-match: 'SymantecServer\:.*?(?:Allowed\,|Action\:\s+Allowed)'
+  decoder: custom
+  decoder-regex: '((?!\d+|\s+)[\w\s\-]+)\:\s([^,]*)\,?'
+  event-key-format: ''
+  event-key-mapping:
+    '':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate: 
+        Remote Host IP: SrcIP
+        Remote: SrcIP
+        Local Host IP: DstIP
+        Local: DstIP
+        File path: File
+        Application name: Process
+        Application: Process
+        User: User
+        User Name: User 
+        Event Description: Threat
+        Rule: Threat
+        cmdline: CommandLine
+        URL: URL
+        
+  fallback:
+    annotate:
+      EventName: Generic Symantec Endpoint Event
+      Stream: OTHER  
+
+  globals:
+    translate:
+      Server Name: System
+      Computer name: System
+      Computer: System
+      End Time: SystemTstamp
+      End: SystemTstamp
+      Event Insert Time: SystemTstamp     
+
+- first-match: 'Administrator\s+log\s+on\s+succeeded'
+  decoder: custom
+  decoder-regex: '((?!\d+|\s+)[\w\s\-]+)\:\s([^,]*)\,?'
+  event-key-format: ''
+  event-key-mapping:
+    '':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate: 
+        Admin: User
+        SrcIP: SrcIP
+        AuthProto: AuthProto
+        
+  fallback:
+    annotate:
+      EventName: Generic Symantec Endpoint Event
+      Stream: OTHER  
+
+  globals:
+    translate:
+      Server: System
+      SystemTstamp: SystemTstamp                  
+
+- first-match: '\,Category\:\s+\d+,.*?Configuration\s+failed\s+to\s+install'
+  decoder: custom
+  decoder-regex: '((?!\d+|\s+)[\w\s\-]+)\:\s([^,]*)\,?'
+  event-key-format: ''
+  event-key-mapping:
+    '':
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: FAILED
+        Config: Configuration Installation Failed
+      translate: 
+        User: User
+        
+  fallback:
+    annotate:
+      EventName: Generic Symantec Endpoint Event
+      Stream: OTHER  
+
+  globals:
+    translate:
+      System: System
+      Event time: SystemTstamp      
