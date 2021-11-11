@@ -605,9 +605,9 @@ event-details:
       datetime: SystemTstamp
       hostname: System
 
-- first-match: '\%FTD\-\d+\-\d+\:\s+Deny\s+\w+\s+src\s+\w+\:[\w\:\.]+\/\d+\s+dst\s+\w+\:[\w\:\.]+\/\d+\s+by\s+access\-group'
+- first-match: '\%FTD\-\d+\-\d+\:\s+Deny\s+\w+\s+src\s+\w+\:[\w\:\.]+(?:\/\d+)?\s+dst\s+\w+\:[\w\:\.]+(?:\/\d+)?.*?by\s+access\-group'
   decoder: regex
-  decoder-regex: '(?P<datetime>(?:\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}|\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2})).*?(?P<hostname>\S+)\s+\:\s+\%FTD\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+(?P<action>\w+).*?(?P<proto>\w+).*?src\s+\S+\:(?P<src>[\w\:\.]+)\/(?P<sport>\d+)\s+dst\s+\S+\:(?P<dst>[\w\:\.]+)\/(?P<dport>\d+)'
+  decoder-regex: '(?P<datetime>(?:\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}|\w{3}\s+\d{1,2}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2})).*?(?P<hostname>\S+)\s+\:\s+\%FTD\-(?P<severity>\d+)\-(?P<eventid>\d+)\:\s+(?P<action>\w+).*?(?P<proto>\w+).*?src\s+\S+\:(?P<src>[\w\:\.]+)(?:\/(?P<sport>\d+))?\s+dst\s+\S+\:(?P<dst>[\w\:\.]+)(?:\/(?P<dport>\d+))?'
   event-key-format: '{action}'
   event-key-mapping:  
     'Deny': 
