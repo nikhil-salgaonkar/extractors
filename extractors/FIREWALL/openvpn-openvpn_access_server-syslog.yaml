@@ -12,14 +12,14 @@ provides-streams:
 - FIREWALL
 - IAM
 master-filters:
-- '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+openvpnas\:\s+\[\-\]\s+'
+- '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+openvpnas\:\s+\[\-\]'
 event-details:
 - first-match: 'openvpnas\:\s+\[\-\]\s+LOG\s+ERR\:.*?\"error\"\:'
   decoder: custom
   decoder-regex: '\"([\w\_]+)\"\:\s+\"?([^\"\,]+)'
-  event-key-format: '{error}'
+  event-key-format: ''
   event-key-mapping:
-    'disconnected because user-specific properties prevent concurrent VPN connections by this user': 
+    '': 
       annotate:
         Stream: FIREWALL
         Action: PACKET_BLOCKED
@@ -44,25 +44,80 @@ event-details:
       SystemTstamp: SystemTstamp
       System: System
 
-- first-match: 'openvpnas\:\s+\[\-\]\s+AUTH\s+SUCCESS\s+\{'
-  decoder: regex
-  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+\S+\:.*?(?P<action>session\s+continuation\s+succeeded).*?upvt\_hw\_addr\:\s+(?P<src>[\w\.\:]+)'
-  event-key-format: '{action}'
+- first-match: 'openvpnas\:\s+\[\-\]\s+LOG\s+ERR\:.*?bytes\_total\"\:\s+\d+\,\s+\"node\"\:'
+  decoder: custom
+  decoder-regex: '\"([\w\_]+)\"\:\s+\"?([^\"\,]+)'
+  event-key-format: ''
   event-key-mapping:
-    'session continuation succeeded': 
+    '': 
       annotate:
         Stream: FIREWALL
-        Action: SESSION_ESTABLISHED
+        Action: PACKET_ALLOWED
         Status: PASSED
       translate: 
-        src: SrcIP
+        real_ip: SrcIP
         DstIP: DstIP
-        Proto: Proto
-        SrcPort: SrcPort
+        proto: Proto
+        port: SrcPort
+        DstPort: DstPort
+        App: App
+        bytes_out: TXLen
+        bytes_in: RXLen
+    
+  fallback:
+    annotate:
+      EventName: Generic OpenVPN Access Server Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      SystemTstamp: SystemTstamp
+      System: System
+
+- first-match: 'openvpnas\:\s+\[\-\]\s+LOG\s+ERR\:.*?\{\"username\"\:\s+\"\S+\"\,\s+\"node\"\:'
+  decoder: custom
+  decoder-regex: '\"([\w\_]+)\"\:\s+\"?([^\"\,]+)'
+  event-key-format: ''
+  event-key-mapping:
+    '': 
+      annotate:
+        Stream: FIREWALL
+        Action: CONNECTION_ESTABLISHED
+        Status: PASSED
+      translate: 
+        real_ip: SrcIP
+        DstIP: DstIP
+        proto: Proto
+        port: SrcPort
         DstPort: DstPort
         App: App
         TXLen: TXLen
         RXLen: RXLen
+    
+  fallback:
+    annotate:
+      EventName: Generic OpenVPN Access Server Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      SystemTstamp: SystemTstamp
+      System: System      
+
+- first-match: 'openvpnas\:\s+\[\-\]\s+AUTH\s+SUCCESS\s+\{'
+  decoder: regex
+  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+\S+\:.*?(?P<action>session\s+continuation\s+succeeded).*?user\:\s+(?P<user>\S+)\,.*?upvt\_hw\_addr\:\s+(?P<src>[\w\.\:]+)'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'session continuation succeeded': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate: 
+        user: User
+        src: SrcIP
+        AuthProto: AuthProto
     
   fallback:
     annotate:
@@ -83,11 +138,12 @@ event-details:
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
-        Status: PASSED
+        Status: FAILED
       translate: 
         user: User
         src: SrcIP
         AuthProto: AuthProto
+        action: Reason
 
   fallback:
     annotate:
@@ -113,31 +169,6 @@ event-details:
         user: User
         Role: Role
         TargetUser: TargetUser
-    
-  fallback:
-    annotate:
-      EventName: Generic OpenVPN Access Server Event
-      Stream: OTHER
-
-  globals:
-    translate:
-      datetime: SystemTstamp
-      hostname: System
-
-- first-match: 'openvpnas\:\s+\[\-\]\s+\[OVPN\s+\d+\]\s+OUT\:.*?Inactivity\s+timeout'
-  decoder: regex
-  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+\S+\:\s+\[\-\].*?\[(?P<user>\S+)\s+(?P<msg>(?P<action>Inactivity\s+timeout).*)'
-  event-key-format: ''
-  event-key-mapping:
-    '': 
-      annotate:
-        Stream: AUTHENTICATION
-        Action: LOGOUT
-        Status: PASSED
-      translate: 
-        user: User
-        SrcIP: SrcIP
-        AuthProto: AuthProto
     
   fallback:
     annotate:
