@@ -1,6 +1,6 @@
 schema-version: 1.0
 #extractor-version: 1
-extractor-id: 727
+extractor-id: 728
 integration: AWS S3
 vendor-name: Amazon
 product-name: Redshift
