@@ -179,3 +179,40 @@ event-details:
     translate:
       datetime: SystemTstamp
       hostname: System
+
+- first-match: 'openvpnas\:\s+\[\-\]\s+\[?OVPN\s+\d+\]?.*?SENT\s+CONTROL\s+\[\S+\]\:\s+(?:AUTH\_FAILED|HALT)'
+  decoder: regex
+  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+\S+\:.*?\d{4}\s+(?:(?P<src>[\d\.]+)\:\d+\s+)?SENT\s+CONTROL\s+\[(?P<user>\S+)\].*?(?P<action>(?:AUTH\_FAILED|HALT))\,(?P<reason>[\w\s]+)'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'AUTH_FAILED': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+        Reason: INVALID_CREDENTAILS
+      translate: 
+        user: User
+        src: SrcIP
+        AuthProto: AuthProto
+
+    'HALT':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+      translate: 
+        user: User
+        src: SrcIP
+        AuthProto: AuthProto
+        reason: Reason  
+
+  fallback:
+    annotate:
+      EventName: Generic OpenVPN Access Server Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System
