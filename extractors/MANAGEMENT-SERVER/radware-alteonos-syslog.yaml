@@ -1,0 +1,231 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 181
+integration: Syslog
+vendor-name: Radware
+product-name: AlteonOS
+source-name: ALTEON-OS
+source-type: MANAGEMENT-SERVER
+source-description: Extractor for Alteon-OS Management Server Events
+provides-streams:
+- AUTHENTICATION
+- CONFIGURATION
+master-filters:
+- 'AlteonOS\s+\<\w+\>\:'
+event-details:
+- first-match: 'AlteonOS\s+\<\w+\>\:\s+\S+.*?(?:login|logout|timeout)\s+from\s+(?:(?:\w+\s+)?[\w\:\.]+\s+via\s+)?\S+'
+  decoder: regex
+  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>(?:\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}|\d{4}\-\d{2}\-\d{2}T\d{2}\:\d{2}\:\d{2}[\-\+\d\:]+))\s+(?P<hostname>\S+)\s+(?P<severity>\w+)\s+AlteonOS\s+\<\w+\>\:\s+(?P<user>\S+).*?(?P<action>\w+)\s+from\s+(?:host\s+)?(?:(?P<src>[\w\:\.]+)\s+via\s+)?(?P<threadid>\S+)'
+  event-key-format: '{action}-{threadid}'
+  event-key-mapping:
+    'login-WBM': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        user: User 
+        src: SrcIP
+        AuthProto: AuthProto
+    'login-SSH': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+        AuthProto: SSH
+      translate:
+        user: User 
+        src: SrcIP
+    'login-Telnet/SSH': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+        AuthProto: Telnet/SSH
+      translate:
+        user: User 
+        src: SrcIP
+    'logout-WBM': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+      translate:
+        user: User 
+        src: SrcIP
+        AuthProto: AuthProto
+    'logout-SSH': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+        AuthProto: SSH
+      translate:
+        user: User 
+        src: SrcIP
+    'logout-Telnet/SSH': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+        AuthProto: Telnet/SSH
+      translate:
+        user: User 
+        src: SrcIP
+    'timeout-WBM': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+      translate:
+        user: User 
+        src: SrcIP
+        AuthProto: AuthProto
+    'timeout-SSH': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+        AuthProto: SSH
+      translate:
+        user: User 
+        src: SrcIP
+    'timeout-Telnet/SSH': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+        AuthProto: Telnet/SSH
+      translate:
+        user: User 
+        src: SrcIP
+         
+  fallback:
+    annotate:
+      EventName: Generic Alteon-OS Management Server Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      hostname: System
+      datetime: SystemTstamp
+
+- first-match: 'AlteonOS\s+\<\w+\>\:\s+Failed\s+login\s+attempt\s+via\s+\w+\s+from\s+host\s+[\w\:\.]+'
+  decoder: regex
+  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>(?:\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}|\d{4}\-\d{2}\-\d{2}T\d{2}\:\d{2}\:\d{2}[\-\+\d\:]+))\s+(?P<hostname>\S+)\s+(?P<severity>\w+)\s+AlteonOS\s+\<\w+\>\:\s+(?P<action>.*?)\s+attempt\s+via\s+(?P<threadid>\w+)\s+from\s+host\s+(?P<src>[\w\:\.]+)'
+  event-key-format: '{action}-{threadid}'
+  event-key-mapping:
+    'Failed login-WBM': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+        Reason: INVALID_CREDENTIALS
+      translate:
+        user: User 
+        src: SrcIP
+        AuthProto: AuthProto
+    'Failed login-SSH': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+        AuthProto: SSH
+        Reason: INVALID_CREDENTIALS
+      translate:
+        user: User 
+        src: SrcIP
+    'Failed login-Telnet/SSH': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+        AuthProto: SSH
+        Reason: INVALID_CREDENTIALS
+      translate:
+        user: User 
+        src: SrcIP
+         
+  fallback:
+    annotate:
+      EventName: Generic Alteon-OS Management Server Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      hostname: System
+      datetime: SystemTstamp
+
+- first-match: 'AlteonOS\s+\<\w+\>\:\s+Operational\s+change\s+made\s+by\s+\w+\s+from\s+[\w\:\.]+'
+  decoder: regex
+  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>(?:\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}|\d{4}\-\d{2}\-\d{2}T\d{2}\:\d{2}\:\d{2}[\-\+\d\:]+))\s+(?P<hostname>\S+)\s+(?P<severity>\w+)\s+AlteonOS\s+\<\w+\>\:\s+(?P<config>[\w\s]+)\s+made\s+by\s+(?P<user>\w+)\s+from\s+'
+  event-key-format: ''
+  event-key-mapping:
+    '': 
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+      translate:
+        user: User 
+        config: Config
+
+  fallback:
+    annotate:
+      EventName: Generic Alteon-OS Management Server Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      hostname: System
+      datetime: SystemTstamp
+
+- first-match: 'AlteonOS\s+\<\w+\>\:\s+\w+\s+user\s+\S+\s+applied\s+the\s+configuration'
+  decoder: regex
+  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>(?:\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}|\d{4}\-\d{2}\-\d{2}T\d{2}\:\d{2}\:\d{2}[\-\+\d\:]+))\s+(?P<hostname>\S+)\s+(?P<severity>\w+)\s+AlteonOS\s+\<\w+\>\:\s+\w+\s+user\s+(?P<user>\S+)'
+  event-key-format: ''
+  event-key-mapping:
+    '': 
+      annotate:
+        Stream: CONFIGURATION
+        Action: CONFIGURATION_CHANGED
+        Status: PASSED
+        Config: Configuration Applied
+      translate:
+        user: User 
+
+  fallback:
+    annotate:
+      EventName: Generic Alteon-OS Management Server Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      hostname: System
+      datetime: SystemTstamp
+
+- first-match: 'AlteonOS\s+\<\w+\>\:\s+Access\s+attempted\s+by\s+unauthorized\s+\w+\s+from\s+\S+\s+[\w\:\.]+'
+  decoder: regex
+  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>(?:\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}|\d{4}\-\d{2}\-\d{2}T\d{2}\:\d{2}\:\d{2}[\-\+\d\:]+))\s+(?P<hostname>\S+)\s+(?P<severity>\w+)\s+AlteonOS\s+\<\w+\>\:.*?(?P<action>\w+)\s+\w+\s+from\s+\w+\s+(?P<src>[\w\:\.]+)'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'unauthorized': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+        Reason: INVALID_CREDENTIALS
+      translate:
+        User: User 
+        src: SrcIP
+        AuthProto: AuthProto
+         
+  fallback:
+    annotate:
+      EventName: Generic Alteon-OS Management Server Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      hostname: System
+      datetime: SystemTstamp
