@@ -10,12 +10,12 @@ source-description: Extractor for Amazon Redshift Events
 provides-streams:
 - AUTHENTICATION
 master-filters:
-- 'dir=\"ltr\"\>(?:authenticated|authentication\s+failure)?\s*\|\w{3}\,\s+\d{1,2}\s+\w{3}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2}\:\d+\|[\w\:\.\s]*\|[\d\s]*\|[\d\s]*\|[\w\s]*\|[\w\s]*\|[\w\s]*\|'
+- '(?:authenticated|authentication\s+failure|initiating\s+session|disconnecting\s+session|set application_name)\s*\|\w{3}\,\s+\d{1,2}\s+\w{3}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2}\:\d+\|[\w\:\.\s]*\|[\d\s]*\|[\d\s]*\|[\w\s]*\|.*?\|[\w\s]*\|'
 - '\d{4}\-\d{1,2}\-\d{2}T\d{2}\:\d{2}\:\d{2}Z\s+UTC\s+\[\s*db\=[\w\s]*user=[\w\s]*pid\=[\d\s]*userid\=[\d\s]*xid\=[\d\s]*\].*?LOG\:'
 event-details:
-- first-match: '(?:authenticated|authentication\s+failure)'
+- first-match: '(?:authenticated|authentication\s+failure|initiating\s+session|disconnecting\s+session)'
   decoder: regex
-  decoder-regex: 'dir\=\"\w+\"\>(?P<action>(?:authentication\s+failure|authenticated)?)\s*\|(?P<datetime>\w{3}\,\s+\d{1,2}\s+\w{3}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2})\:\d+\|(?P<src>[\w\:\.]+)\s*\|[\d\s]*\|[\d\s]*\|[\w\s]*\|(?P<user>\w+)\s*\|(?P<authproto>\w+)\s*\|'
+  decoder-regex: '(?P<action>.*?)\s*\|(?P<datetime>\w{3}\,\s+\d{1,2}\s+\w{3}\s+\d{4}\s+\d{2}\:\d{2}\:\d{2})\:\d+\|[\w\:]+\:(?P<src>[\d\.]+)\s*\|[\d\s]*\|[\d\s]*\|[\w\s]*\|(?P<user>.*?)\s*\|(?P<authproto>\w+)\s*\|'
   event-key-format: '{action}'      
   event-key-mapping:
     'authenticated':
@@ -28,6 +28,25 @@ event-details:
         authproto: AuthProto
         src: SrcIP
     'authentication failure':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+        Reason: INVALID_CREDENTIALS
+      translate: 
+        user: User
+        authproto: AuthProto
+        src: SrcIP
+    'initiating session':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate: 
+        user: User
+        authproto: AuthProto
+        src: SrcIP
+    'disconnecting session':
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
