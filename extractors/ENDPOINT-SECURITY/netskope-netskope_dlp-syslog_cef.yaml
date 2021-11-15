@@ -1,0 +1,170 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 814
+integration: Syslog(CEF)
+vendor-name: Netskope
+product-name: Netskope DLP
+source-name: NETSKOPE-DLP
+source-type: ENDPOINT-SECURITY
+source-description: Extractor for Netskope DLP Events
+provides-streams:
+- THREAT
+- AUTHENTICATION
+master-filters:
+- 'CEF\:\s*\d+\|Netskope\|'
+event-details:
+- first-match: 'CEF\:\s*0\|Netskope\|\S+\|\w+\|anomaly\|'
+  decoder: custom
+  decoder-regex: '([^\s\|]+)=([^=]+)(?=\s+\w+=|$)'
+  event-key-format: ''
+  decoder-header: CEF
+  event-key-mapping:
+    '':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_BLOCKED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        src: SrcIP
+        dst: DstIP   
+        anomalyEventType: Threat
+        suser: User
+        url: URL
+        CommandLine: CommandLine
+        File: File
+        Process: Process
+        
+  fallback: 
+    annotate:
+      EventName: Generic Netskope DLP Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      timestamp: SystemTstamp
+      hostname: System 
+
+- first-match: 'CEF\:\s*0\|Netskope\|\S+\|\w+\|policy\|'
+  decoder: custom
+  decoder-regex: '([^\s\|]+)=([^=]+)(?=\s+\w+=|$)'
+  event-key-format: '{action}'
+  decoder-header: CEF
+  event-key-mapping:
+    'block':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_BLOCKED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        src: SrcIP
+        dst: DstIP   
+        policy: Threat
+        suser: User
+        url: URL
+        CommandLine: CommandLine
+        File: File
+        Process: Process
+    'alert':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        src: SrcIP
+        dst: DstIP   
+        policy: Threat
+        suser: User
+        url: URL
+        CommandLine: CommandLine
+        File: File
+        Process: Process
+        
+  fallback: 
+    annotate:
+      EventName: Generic Netskope DLP Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      timestamp: SystemTstamp
+      hostname: System 
+
+- first-match: 'CEF\:\s*0\|Netskope\|\S+\|\w+\|audit\|'
+  decoder: custom
+  decoder-regex: '([^\s\|]+)=([^=]+)(?=\s+\w+=|$)'
+  event-key-format: '{auditLogEvent}-{act}'
+  decoder-header: CEF
+  event-key-mapping:
+    'Logout Successful-None':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+      translate:
+        src: SrcIP
+        suser: User
+        AuthProto: AuthProto
+    'Login Successful-None':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        src: SrcIP
+        suser: User
+        AuthProto: AuthProto
+    'None-Login Successful':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        src: SrcIP
+        suser: User
+        AuthProto: AuthProto
+
+  fallback: 
+    annotate:
+      EventName: Generic Netskope DLP Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      timestamp: SystemTstamp
+      hostname: System 
+
+
+- first-match: 'CEF\:\s*0\|Netskope\|\S+\|\w+\|uba\|'
+  decoder: custom
+  decoder-regex: '([^\s\|]+)=([^=]+)(?=\s+\w+=|$)'
+  event-key-format: '{action}'
+  decoder-header: CEF
+  event-key-mapping:
+    'anomaly_detection':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        src: SrcIP
+        dst: DstIP   
+        action: Threat
+        suser: User
+        url: URL
+        CommandLine: CommandLine
+        File: File
+        Process: Process
+
+  fallback: 
+    annotate:
+      EventName: Generic Netskope DLP Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      timestamp: SystemTstamp
+      hostname: System 
