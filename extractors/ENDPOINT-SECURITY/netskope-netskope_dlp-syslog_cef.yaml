@@ -22,7 +22,7 @@ event-details:
     '':
       annotate:
         Stream: THREAT
-        Action: THREAT_BLOCKED
+        Action: THREAT_DETECTED
         Status: PASSED
         Vector: HOST
       translate:
@@ -136,8 +136,7 @@ event-details:
       timestamp: SystemTstamp
       hostname: System 
 
-
-- first-match: 'CEF\:\s*0\|Netskope\|\S+\|\w+\|uba\|'
+- first-match: 'CEF\:\s*0\|Netskope\|\S+\|\w+\|uba\|.*?action\=anomaly\_detection'
   decoder: custom
   decoder-regex: '([^\s\|]+)=([^=]+)(?=\s+\w+=|$)'
   event-key-format: '{action}'
@@ -167,4 +166,30 @@ event-details:
   globals:
     translate:
       timestamp: SystemTstamp
-      hostname: System 
+      hostname: System
+
+- first-match: 'CEF\:\s*0\|Netskope\|\S+\|\w+\|uba\|.*?act\=Login\s+Successful\s+action\=allow'
+  decoder: custom
+  decoder-regex: '([^\s\|]+)=([^=]+)(?=\s+\w+=|$)'
+  event-key-format: '{act}'
+  decoder-header: CEF
+  event-key-mapping:
+    'Login Successful':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        src: SrcIP
+        suser: User
+        AuthProto: AuthProto
+
+  fallback: 
+    annotate:
+      EventName: Generic Netskope DLP Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      timestamp: SystemTstamp
+      hostname: System
