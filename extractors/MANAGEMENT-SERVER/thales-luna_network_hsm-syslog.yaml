@@ -1,0 +1,113 @@
+schema-version: 1.0
+#extractor-version: 1 
+extractor-id: 305
+integration: Syslog
+vendor-name: Thales
+product-name: Thales Luna Networks HSMs
+source-name: LUNA-NETWORK-HSM
+source-type: NTLS
+source-description: Extractor for Luna HSM Events
+provides-streams:
+- AUTHENTICATION
+master-filters:
+- '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+NTLS\[\d+\]\:'
+event-details:
+- first-match: 'NTLS\s+Client\s+[\w\.\:]+\s+connected\s+and\s+authenticated\s+\:\s+[\w\.\:]+\/\d+\.'
+  decoder: regex
+  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+NTLS\[(?P<pid>\d+)\]\:\s+(?P<severity>\w+)\s+\:\s+\w+\s+\:\s+(?P<message>NTLS\s+Client\s+(?P<src>[\w\.\:]+)\s+connected\s+and\s+authenticated\s+\:\s+[\w\.\:]+\/\d+\.)'
+  event-key-format: ''
+  event-key-mapping:
+    '': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        User: User
+        AuthProto: AuthProto       
+
+  fallback:
+    annotate:
+      EventName: Generic Luna HSM Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System
+
+- first-match: 'Connection\s+accepted\s+from\:\s+[\w\.\:]+\/\d+'
+  decoder: regex
+  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+NTLS\[(?P<pid>\d+)\]\:\s+(?P<severity>\w+)\s+\:\s+\w+\s+\:\s+(?P<message>Connection\s+accepted\s+from\:\s+([\w\.\:]+)\/\d+)'
+  event-key-format: ''
+  event-key-mapping:
+    '': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        User: User
+        AuthProto: AuthProto       
+
+  fallback:
+    annotate:
+      EventName: Generic Luna HSM Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System      
+
+- first-match: 'NTLA\s+Client\s+\"?[\w\.\:]+\"?\s+has\s+disconnected\:\s+[\w\.\:]+\/\d+'
+  decoder: regex
+  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+NTLS\[(?P<pid>\d+)\]\:\s+(?P<severity>\w+)\s+\:\s+\w+\s+\:\s+(?P<message>NTLA\s+Client\s+\"?(?P<src>[\w\.\:]+)\"?\s+has\s+disconnected\:\s+[\w\.\:]+\/\d+)'
+  event-key-format: ''
+  event-key-mapping:
+    '': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        User: User
+        AuthProto: AuthProto       
+
+  fallback:
+    annotate:
+      EventName: Generic Luna HSM Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System 
+
+- first-match: 'Receive\s+timer\s+expired\s+for\s+client\s+\"?[\w\;\.]+\"?\.\s+Terminate\s+client\s+connection\:\s+[\w\.\:]+\/\d+'
+  decoder: regex
+  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?P<hostname>\S+)\s+NTLS\[(?P<pid>\d+)\]\:\s+(?P<severity>\w+)\s+\:\s+\w+\s+\:\s+(?P<message>Receive\s+timer\s+expired\s+for\s+client\s+\"?(?P<src>[\w\:\.]+)\"?\.\s+Terminate\s+client\s+connection\:\s+[\w\.\:]+\/\d+)'
+  event-key-format: ''
+  event-key-mapping:
+    '': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        User: User
+        AuthProto: AuthProto       
+
+  fallback:
+    annotate:
+      EventName: Generic Luna HSM Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System            
