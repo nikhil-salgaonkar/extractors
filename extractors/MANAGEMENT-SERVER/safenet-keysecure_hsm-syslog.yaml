@@ -4,9 +4,9 @@ extractor-id: 304
 integration: Syslog
 vendor-name: SafeNet Inc.
 product-name: SafeNet KeySecure HSM
-source-name: KEY-SECURE
+source-name: KEY-SECURE-HSM
 source-type: MANAGEMENT-SERVER
-source-description: Extractor for KeySecure Events
+source-description: Extractor for KeySecure HSM Events
 provides-streams:
 - AUTHENTICATION
 master-filters:
@@ -30,7 +30,7 @@ event-details:
 
   fallback:
     annotate:
-      EventName: Generic KeySecure Event
+      EventName: Generic KeySecure HSM Event
       Stream: OTHER
 
   globals:
