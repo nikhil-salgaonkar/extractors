@@ -45,17 +45,7 @@ event-details:
       translate: 
         actor[email]: User
         ipAddress: SrcIP
-        AuthProto: AuthProto    
-    'login-login_verification': 
-      annotate:
-        Stream: AUTHENTICATION
-        Action: LOGIN
-        Status: FAILED
-        Reason: INVALID_CREDENTIALS
-      translate: 
-        actor[email]: User
-        ipAddress: SrcIP
-        AuthProto: AuthProto     
+        AuthProto: AuthProto         
     'login-login_failure': 
       annotate:
         Stream: AUTHENTICATION
