@@ -20,6 +20,9 @@ IAM:
 - TargetUser
 - User
 - Role
+- Group
+- Domain
+- TargetDomain
 EMAIL-GATEWAY:
 - Sender
 - Recipient
@@ -198,6 +201,7 @@ WIN-AUDIT:
 - Category
 - SrcIP
 - Object
+- EID
 COMPLIANCE:
 - Event
 - Policy
