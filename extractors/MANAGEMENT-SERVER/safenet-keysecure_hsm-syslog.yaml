@@ -1,0 +1,39 @@
+schema-version: 1.0
+#extractor-version: 1 
+extractor-id: 304
+integration: Syslog
+vendor-name: SafeNet Inc.
+product-name: SafeNet KeySecure HSM
+source-name: KEY-SECURE-HSM
+source-type: MANAGEMENT-SERVER
+source-description: Extractor for KeySecure HSM Events
+provides-streams:
+- AUTHENTICATION
+master-filters:
+- '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\S+\s+Ingrian(?:System|Activity)\:'
+- '\d{4}\-\d{2}\-\d{2}\s+\d{2}\:\d{2}\:\d{2}\s+\[\S+\](?:\s+\[\w+\]\s+\[\w+\])?\:'
+event-details:
+- first-match: '\d{4}\-\d{2}\-\d{2}\s+\d{2}\:\d{2}\:\d{2}\s+\[\S+\](?:\s+\[\w+\]\s+\[\w+\])?\:\s+Logged\s+in\s+from\s+[\w\:\.]+\s+via\s+\w+'
+  decoder: regex
+  decoder-regex: '(?P<datetime>\d{4}\-\d{2}\-\d{2}\s+\d{2}\:\d{2}\:\d{2})\s+\[(?P<user>\S+)\](?:\s+\[\w+\]\s+\[\w+\])?\:\s+(?P<message>Logged\s+in\s+from\s+(?P<src>[\w\:\.]+)\s+via\s+(?P<authproto>\w+))'
+  event-key-format: ''
+  event-key-mapping:
+    '': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate: 
+        src: SrcIP
+        user: User
+        authproto: AuthProto       
+
+  fallback:
+    annotate:
+      EventName: Generic KeySecure HSM Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System

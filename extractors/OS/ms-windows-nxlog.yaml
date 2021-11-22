@@ -27,7 +27,7 @@ provides-streams:
 master-filters:
 - \"SourceName\"\:\"(?:Microsoft\-Windows|Security|Service\s+Control\s+Manager|User32|MsiInstaller)
 event-details:  
-- first-match: \"SourceName\"\:\s*\"(?:Microsoft\-Windows\-Security\-Auditing|User32)\"
+- first-match: \"SourceName\"\:\s*\"(?:Microsoft\-Windows\-Security\-Auditing|User32|Netlogon)\"
   decoder: json
   event-key-format: '{EventID}'         
   event-key-mapping:
@@ -160,51 +160,70 @@ event-details:
         ClientAddress: SrcIP
         AccountName: User
         AuthenticationPackageName: AuthProto
+    '8004':  
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        ClientAddress: SrcIP
+        AccountName: User
+        AuthenticationPackageName: AuthProto    
     '4741':         
       annotate:
         Stream: IAM
         Action: COMPUTER_ACCOUNT_CREATED
         Status: PASSED  
-      translate: 
-        SubjectUserName: User
+      translate:  
+        SubjectUserName: User  
         TargetUserName: TargetUser
         Category: Role
+        SubjectDomainName: Domain
+        TargetDomainName: TargetDomain
     '4720':           
       annotate:
         Stream: IAM
         Action: USER_CREATED
         Status: PASSED  
-      translate: 
-        SubjectUserName: User
+      translate:  
+        SubjectUserName: User  
         TargetUserName: TargetUser
-        Category: Role    
+        Category: Role
+        SubjectDomainName: Domain
+        TargetDomainName: TargetDomain    
     '4722':          
       annotate:
         Stream: IAM
         Action: USER_ENABLED
         Status: PASSED  
-      translate: 
-        SubjectUserName: User
+      translate:  
+        SubjectUserName: User  
         TargetUserName: TargetUser
         Category: Role
+        SubjectDomainName: Domain
+        TargetDomainName: TargetDomain
     '4724':         
       annotate:
         Stream: IAM
         Action: PASSWORD_CHANGED
         Status: PASSED    
-      translate: 
-        SubjectUserName: User
+      translate:  
+        SubjectUserName: User  
         TargetUserName: TargetUser
         Category: Role
+        SubjectDomainName: Domain
+        TargetDomainName: TargetDomain
     '4725':         
       annotate:
         Stream: IAM
         Action: USER_DISABLED
         Status: PASSED  
       translate:  
-        SubjectUserName: User
+        SubjectUserName: User  
         TargetUserName: TargetUser
         Category: Role
+        SubjectDomainName: Domain
+        TargetDomainName: TargetDomain
     '4726':         
       annotate:
         Stream: IAM
@@ -214,96 +233,118 @@ event-details:
         SubjectUserName: User
         TargetUserName: TargetUser
         Category: Role
+        SubjectDomainName: Domain
+        TargetDomainName: TargetDomain
     '4738':            
       annotate:
         Stream: IAM
         Action: USER_ACCOUNT_CHANGED
         Status: PASSED    
-      translate: 
-        SubjectUserName: User
+      translate:  
+        SubjectUserName: User  
         TargetUserName: TargetUser
         Category: Role
+        SubjectDomainName: Domain
+        TargetDomainName: TargetDomain
     '4740':           
       annotate:
         Stream: IAM
         Action: USER_LOCKOUT
         Status: PASSED    
       translate:  
-        SubjectUserName: User
+        SubjectUserName: User  
         TargetUserName: TargetUser
         Category: Role
+        SubjectDomainName: Domain
+        TargetDomainName: TargetDomain
     '4767':          
       annotate:
         Stream: IAM
         Action: USER_UNLOCKED
         Status: PASSED  
       translate:  
-        SubjectUserName: User
+        SubjectUserName: User  
         TargetUserName: TargetUser
         Category: Role
+        SubjectDomainName: Domain
+        TargetDomainName: TargetDomain
     '4742':            
       annotate:
         Stream: IAM
         Action: COMPUTER_ACCOUNT_CHANGED
         Status: PASSED     
-      translate: 
-        SubjectUserName: User
+      translate:  
+        SubjectUserName: User  
         TargetUserName: TargetUser
         Category: Role
+        SubjectDomainName: Domain
+        TargetDomainName: TargetDomain
     '4743':           
       annotate:
         Stream: IAM
         Action: COMPUTER_ACCOUNT_DELETED
         Status: PASSED   
       translate:  
-        SubjectUserName: User
+        SubjectUserName: User  
         TargetUserName: TargetUser
         Category: Role
+        SubjectDomainName: Domain
+        TargetDomainName: TargetDomain
     '4731':         
       annotate:
         Stream: IAM
         Action: USER_REMOVED
         Status: PASSED   
-      translate: 
-        SubjectUserName: User
-        TargetUserName: TargetUser
+      translate:  
+        SubjectUserName: User  
+        TargetUserName: Group
         Category: Role
+        SubjectDomainName: Domain
+        TargetDomainName: TargetDomain
     '4732':         
       annotate:
         Stream: IAM
         Action: USER_ADDED
         Status: PASSED  
-      translate: 
-        SubjectUserName: User
-        TargetUserName: TargetUser
+      translate:  
+        SubjectUserName: User  
+        TargetUserName: Group
         Category: Role
+        SubjectDomainName: Domain
+        TargetDomainName: TargetDomain
     '4733':         
       annotate:
         Stream: IAM
         Action: USER_REMOVED
         Status: PASSED  
-      translate: 
-        SubjectUserName: User
-        TargetUserName: TargetUser
+      translate:  
+        SubjectUserName: User  
+        TargetUserName: Group
         Category: Role
+        SubjectDomainName: Domain
+        TargetDomainName: TargetDomain
     '4756':         
       annotate:
         Stream: IAM
         Action: USER_ADDED
         Status: PASSED   
       translate:  
-        SubjectUserName: User
-        TargetUserName: TargetUser
-        Category: Role       
+        SubjectUserName: User  
+        TargetUserName: Group
+        Category: Role
+        SubjectDomainName: Domain
+        TargetDomainName: TargetDomain       
     '4670':          
       annotate:
         Stream: IAM
         Action: PRIVILEGE_CHANGED
         Status: PASSED  
       translate:  
-        SubjectUserName: User
+        SubjectUserName: User  
         TargetUserName: TargetUser
         Category: Role
+        SubjectDomainName: Domain
+        TargetDomainName: TargetDomain
     '4674': 
       annotate:
         Stream: IAM
@@ -312,7 +353,9 @@ event-details:
       translate:  
         SubjectUserName: User 
         TargetUserName: TargetUser  
-        Category: Role                                      
+        Category: Role  
+        SubjectDomainName: Domain 
+        TargetDomainName: TargetDomain                                   
     '4782':
       annotate:
         Stream: IAM
@@ -322,6 +365,8 @@ event-details:
         SubjectUserName: User  
         TargetUserName: TargetUser
         Category: Role
+        SubjectDomainName: Domain
+        TargetDomainName: TargetDomain
     '4727':
       annotate:
         Stream: IAM
@@ -329,8 +374,10 @@ event-details:
         Status: PASSED  
       translate:  
         SubjectUserName: User  
-        TargetUserName: TargetUser
+        TargetUserName: Group
         Category: Role
+        SubjectDomainName: Domain
+        TargetDomainName: TargetDomain
     '4728':
       annotate:
         Stream: IAM
@@ -338,8 +385,10 @@ event-details:
         Status: PASSED 
       translate:  
         SubjectUserName: User  
-        TargetUserName: TargetUser
+        TargetUserName: Group
         Category: Role
+        SubjectDomainName: Domain
+        TargetDomainName: TargetDomain
     '4729':
       annotate:
         Stream: IAM
@@ -347,8 +396,10 @@ event-details:
         Status: PASSED 
       translate:  
         SubjectUserName: User  
-        TargetUserName: TargetUser
+        TargetUserName: Group
         Category: Role
+        SubjectDomainName: Domain
+        TargetDomainName: TargetDomain
     '4730':
       annotate:
         Stream: IAM
@@ -356,8 +407,10 @@ event-details:
         Status: PASSED  
       translate:  
         SubjectUserName: User  
-        TargetUserName: TargetUser
+        TargetUserName: Group
         Category: Role
+        SubjectDomainName: Domain
+        TargetDomainName: TargetDomain
     '4734':
       annotate:
         Stream: IAM
@@ -365,8 +418,10 @@ event-details:
         Status: PASSED   
       translate:  
         SubjectUserName: User  
-        TargetUserName: TargetUser
+        TargetUserName: Group
         Category: Role
+        SubjectDomainName: Domain
+        TargetDomainName: TargetDomain
     '4735':
       annotate:
         Stream: IAM
@@ -374,8 +429,10 @@ event-details:
         Status: PASSED  
       translate:  
         SubjectUserName: User  
-        TargetUserName: TargetUser 
-        Category: Role    
+        TargetUserName: Group 
+        Category: Role
+        SubjectDomainName: Domain
+        TargetDomainName: TargetDomain  
     '4737':
       annotate:
         Stream: IAM
@@ -383,8 +440,21 @@ event-details:
         Status: PASSED    
       translate:  
         SubjectUserName: User  
-        TargetUserName: TargetUser
+        TargetUserName: Group
         Category: Role
+        SubjectDomainName: Domain
+        TargetDomainName: TargetDomain
+    '4764':
+      annotate:
+        Stream: IAM
+        Action: GROUP_CHANGED
+        Status: PASSED    
+      translate:  
+        SubjectUserName: User  
+        TargetUserName: Group
+        Category: Role
+        SubjectDomainName: Domain
+        TargetDomainName: TargetDomain    
     '4754':
       annotate:
         Stream: IAM
@@ -392,8 +462,10 @@ event-details:
         Status: PASSED    
       translate:  
         SubjectUserName: User  
-        TargetUserName: TargetUser  
+        TargetUserName: Group  
         Category: Role
+        SubjectDomainName: Domain
+        TargetDomainName: TargetDomain
     '4755':
       annotate:
         Stream: IAM
@@ -401,8 +473,10 @@ event-details:
         Status: PASSED   
       translate:  
         SubjectUserName: User  
-        TargetUserName: TargetUser 
+        TargetUserName: Group 
         Category: Role 
+        SubjectDomainName: Domain
+        TargetDomainName: TargetDomain
     '4757':
       annotate:
         Stream: IAM
@@ -410,8 +484,10 @@ event-details:
         Status: PASSED    
       translate:  
         SubjectUserName: User  
-        TargetUserName: TargetUser
-        Category: Role   
+        TargetUserName: Group
+        Category: Role
+        SubjectDomainName: Domain
+        TargetDomainName: TargetDomain   
     '4758':
       annotate:
         Stream: IAM
@@ -419,8 +495,21 @@ event-details:
         Status: PASSED  
       translate:  
         SubjectUserName: User  
-        TargetUserName: TargetUser  
-        Category: Role    
+        TargetUserName: Group  
+        Category: Role
+        SubjectDomainName: Domain
+        TargetDomainName: TargetDomain
+    '4759':
+      annotate:
+        Stream: IAM
+        Action: GROUP_CREATED
+        Status: PASSED  
+      translate:  
+        SubjectUserName: User  
+        TargetUserName: Group  
+        Category: Role
+        SubjectDomainName: Domain
+        TargetDomainName: TargetDomain        
     '4781':
       annotate:
         Stream: IAM
@@ -430,6 +519,8 @@ event-details:
         SubjectUserName: User  
         TargetUserName: TargetUser
         Category: Role
+        SubjectDomainName: Domain
+        TargetDomainName: TargetDomain
     '4672':          
       annotate:
         Stream: IAM
@@ -439,15 +530,41 @@ event-details:
         SubjectUserName: User  
         TargetUserName: TargetUser
         Category: Role
+        SubjectDomainName: Domain
+        TargetDomainName: TargetDomain
     '4799':   
       annotate:
         Stream: IAM
         Action: GROUP_ENUMERATED
         Status: PASSED 
-      translate: 
-        SubjectUserName: User
+      translate:  
+        SubjectUserName: User  
+        TargetUserName: Group
+        Category: Role
+        SubjectDomainName: Domain
+        TargetDomainName: TargetDomain 
+    '4723':
+      annotate:
+        Stream: IAM
+        Action: PASSWORD_CHANGED
+        Status: PASSED 
+      translate:  
+        SubjectUserName: User  
         TargetUserName: TargetUser
-        Category: Role     
+        Category: Role
+        SubjectDomainName: Domain
+        TargetDomainName: TargetDomain 
+    '4798':
+      annotate:
+        Stream: IAM
+        Action: GROUP_ENUMERATED
+        Status: PASSED 
+      translate:  
+        SubjectUserName: User  
+        TargetUserName: Group
+        Category: Role
+        SubjectDomainName: Domain
+        TargetDomainName: TargetDomain        
     '4739':
       annotate:
         Stream: WIN-AUDIT
@@ -459,6 +576,7 @@ event-details:
         SubjectUserName: User 
         ObjectName: Object
         IpAddress: SrcIP
+        EventID: EID
     '4673':          
       annotate:
         Stream: WIN-AUDIT
@@ -470,6 +588,7 @@ event-details:
         SubjectUserName: User 
         ObjectName: Object
         IpAddress: SrcIP
+        EventID: EID
     '5142':          
       annotate:
         Stream: WIN-AUDIT
@@ -480,7 +599,8 @@ event-details:
       translate: 
         SubjectUserName: User 
         ObjectName: Object
-        IpAddress: SrcIP 
+        IpAddress: SrcIP
+        EventID: EID 
     '5143':          
       annotate:
         Stream: WIN-AUDIT
@@ -491,7 +611,8 @@ event-details:
       translate: 
         SubjectUserName: User 
         ObjectName: Object
-        IpAddress: SrcIP        
+        IpAddress: SrcIP
+        EventID: EID       
     '5144':          
       annotate:
         Stream: WIN-AUDIT
@@ -503,6 +624,7 @@ event-details:
         SubjectUserName: User 
         ObjectName: Object
         IpAddress: SrcIP
+        EventID: EID
     '5145':          
       annotate:
         Stream: WIN-AUDIT
@@ -514,6 +636,7 @@ event-details:
         SubjectUserName: User 
         ObjectName: Object
         IpAddress: SrcIP
+        EventID: EID
     '4661':          
       annotate:
         Stream: WIN-AUDIT
@@ -525,6 +648,7 @@ event-details:
         SubjectUserName: User 
         ObjectName: Object
         IpAddress: SrcIP
+        EventID: EID
     '5140':    
       annotate:
         Stream: WIN-AUDIT
@@ -536,6 +660,7 @@ event-details:
         SubjectUserName: User 
         ObjectName: Object
         IpAddress: SrcIP
+        EventID: EID
     '4664':    
       annotate:
         Stream: WIN-AUDIT
@@ -546,7 +671,8 @@ event-details:
       translate: 
         SubjectUserName: User 
         ObjectName: Object
-        IpAddress: SrcIP    
+        IpAddress: SrcIP
+        EventID: EID    
     '4985':    
       annotate:
         Stream: WIN-AUDIT
@@ -557,7 +683,8 @@ event-details:
       translate: 
         SubjectUserName: User 
         ObjectName: Object
-        IpAddress: SrcIP    
+        IpAddress: SrcIP
+        EventID: EID    
     '5051':    
       annotate:
         Stream: WIN-AUDIT
@@ -569,6 +696,7 @@ event-details:
         SubjectUserName: User 
         ObjectName: Object
         IpAddress: SrcIP
+        EventID: EID
     '5031':    
       annotate:
         Stream: WIN-AUDIT
@@ -579,7 +707,8 @@ event-details:
       translate: 
         SubjectUserName: User 
         ObjectName: Object
-        IpAddress: SrcIP 
+        IpAddress: SrcIP
+        EventID: EID
     '4698':    
       annotate:
         Stream: WIN-AUDIT
@@ -591,6 +720,7 @@ event-details:
         SubjectUserName: User 
         ObjectName: Object
         IpAddress: SrcIP
+        EventID: EID
     '4699':    
       annotate:
         Stream: WIN-AUDIT
@@ -602,6 +732,7 @@ event-details:
         SubjectUserName: User 
         ObjectName: Object
         IpAddress: SrcIP
+        EventID: EID
     '4700':    
       annotate:
         Stream: WIN-AUDIT
@@ -613,6 +744,7 @@ event-details:
         SubjectUserName: User 
         ObjectName: Object
         IpAddress: SrcIP
+        EventID: EID
     '4701':    
       annotate:
         Stream: WIN-AUDIT
@@ -624,6 +756,7 @@ event-details:
         SubjectUserName: User 
         ObjectName: Object
         IpAddress: SrcIP
+        EventID: EID
     '4702':    
       annotate:
         Stream: WIN-AUDIT
@@ -634,7 +767,8 @@ event-details:
       translate: 
         SubjectUserName: User 
         ObjectName: Object
-        IpAddress: SrcIP 
+        IpAddress: SrcIP
+        EventID: EID
     '4657':    
       annotate:
         Stream: WIN-AUDIT
@@ -645,7 +779,8 @@ event-details:
       translate: 
         SubjectUserName: User 
         ObjectName: Object
-        IpAddress: SrcIP 
+        IpAddress: SrcIP
+        EventID: EID 
     '4660':    
       annotate:
         Stream: WIN-AUDIT
@@ -656,7 +791,8 @@ event-details:
       translate: 
         SubjectUserName: User 
         ObjectName: Object
-        IpAddress: SrcIP 
+        IpAddress: SrcIP
+        EventID: EID 
     '4663':    
       annotate:
         Stream: WIN-AUDIT
@@ -667,7 +803,8 @@ event-details:
       translate: 
         SubjectUserName: User 
         ObjectName: Object
-        IpAddress: SrcIP         
+        IpAddress: SrcIP
+        EventID: EID         
     '5039':    
       annotate:
         Stream: WIN-AUDIT
@@ -679,6 +816,7 @@ event-details:
         SubjectUserName: User 
         ObjectName: Object
         IpAddress: SrcIP
+        EventID: EID
     '4719':
       annotate:
         Stream: WIN-AUDIT
@@ -689,7 +827,8 @@ event-details:
       translate: 
         SubjectUserName: User 
         ObjectName: Object
-        IpAddress: SrcIP  
+        IpAddress: SrcIP
+        EventID: EID  
     '4902':
       annotate:
         Stream: WIN-AUDIT
@@ -700,7 +839,8 @@ event-details:
       translate: 
         SubjectUserName: User 
         ObjectName: Object
-        IpAddress: SrcIP    
+        IpAddress: SrcIP
+        EventID: EID    
     '4715':
       annotate:
         Stream: WIN-AUDIT
@@ -712,6 +852,7 @@ event-details:
         SubjectUserName: User 
         ObjectName: Object
         IpAddress: SrcIP
+        EventID: EID
     '4906':
       annotate:
         Stream: WIN-AUDIT
@@ -722,7 +863,8 @@ event-details:
       translate: 
         SubjectUserName: User 
         ObjectName: Object
-        IpAddress: SrcIP              
+        IpAddress: SrcIP
+        EventID: EID              
     '4907':
       annotate:
         Stream: WIN-AUDIT
@@ -733,7 +875,8 @@ event-details:
       translate: 
         SubjectUserName: User 
         ObjectName: Object
-        IpAddress: SrcIP 
+        IpAddress: SrcIP
+        EventID: EID 
     '4706':
       annotate:
         Stream: WIN-AUDIT
@@ -744,7 +887,8 @@ event-details:
       translate: 
         SubjectUserName: User 
         ObjectName: Object
-        IpAddress: SrcIP 
+        IpAddress: SrcIP
+        EventID: EID 
     '4707':
       annotate:
         Stream: WIN-AUDIT
@@ -755,7 +899,8 @@ event-details:
       translate: 
         SubjectUserName: User 
         ObjectName: Object
-        IpAddress: SrcIP          
+        IpAddress: SrcIP
+        EventID: EID          
     '4713':
       annotate:
         Stream: WIN-AUDIT
@@ -766,7 +911,8 @@ event-details:
       translate: 
         SubjectUserName: User 
         ObjectName: Object
-        IpAddress: SrcIP 
+        IpAddress: SrcIP
+        EventID: EID 
     '4716':
       annotate:
         Stream: WIN-AUDIT
@@ -777,7 +923,8 @@ event-details:
       translate: 
         SubjectUserName: User 
         ObjectName: Object
-        IpAddress: SrcIP              
+        IpAddress: SrcIP
+        EventID: EID              
     '4717':
       annotate:
         Stream: WIN-AUDIT
@@ -789,6 +936,7 @@ event-details:
         SubjectUserName: User 
         ObjectName: Object
         IpAddress: SrcIP
+        EventID: EID
     '4718':
       annotate:
         Stream: WIN-AUDIT
@@ -799,7 +947,8 @@ event-details:
       translate: 
         SubjectUserName: User 
         ObjectName: Object
-        IpAddress: SrcIP 
+        IpAddress: SrcIP
+        EventID: EID 
     '4864':
       annotate:
         Stream: WIN-AUDIT
@@ -811,6 +960,7 @@ event-details:
         SubjectUserName: User 
         ObjectName: Object
         IpAddress: SrcIP
+        EventID: EID
     '4865':
       annotate:
         Stream: WIN-AUDIT
@@ -822,6 +972,7 @@ event-details:
         SubjectUserName: User 
         ObjectName: Object
         IpAddress: SrcIP
+        EventID: EID
     '4866':
       annotate:
         Stream: WIN-AUDIT
@@ -832,7 +983,8 @@ event-details:
       translate: 
         SubjectUserName: User 
         ObjectName: Object
-        IpAddress: SrcIP 
+        IpAddress: SrcIP
+        EventID: EID 
     '4867':
       annotate:
         Stream: WIN-AUDIT
@@ -843,7 +995,8 @@ event-details:
       translate: 
         SubjectUserName: User 
         ObjectName: Object
-        IpAddress: SrcIP                 
+        IpAddress: SrcIP
+        EventID: EID                 
     '4704':
       annotate:
         Stream: WIN-AUDIT
@@ -854,7 +1007,8 @@ event-details:
       translate: 
         SubjectUserName: User 
         ObjectName: Object
-        IpAddress: SrcIP  
+        IpAddress: SrcIP
+        EventID: EID  
     '4705':
       annotate:
         Stream: WIN-AUDIT
@@ -865,7 +1019,8 @@ event-details:
       translate: 
         SubjectUserName: User 
         ObjectName: Object
-        IpAddress: SrcIP       
+        IpAddress: SrcIP
+        EventID: EID       
     '4714':
       annotate:
         Stream: WIN-AUDIT
@@ -877,6 +1032,7 @@ event-details:
         SubjectUserName: User 
         ObjectName: Object
         IpAddress: SrcIP
+        EventID: EID
     '4944':
       annotate:
         Stream: WIN-AUDIT
@@ -887,7 +1043,8 @@ event-details:
       translate: 
         SubjectUserName: User 
         ObjectName: Object
-        IpAddress: SrcIP 
+        IpAddress: SrcIP
+        EventID: EID 
     '4945':
       annotate:
         Stream: WIN-AUDIT
@@ -898,7 +1055,8 @@ event-details:
       translate: 
         SubjectUserName: User 
         ObjectName: Object
-        IpAddress: SrcIP        
+        IpAddress: SrcIP
+        EventID: EID        
     '4946':
       annotate:
         Stream: WIN-AUDIT
@@ -910,6 +1068,7 @@ event-details:
         SubjectUserName: User 
         ObjectName: Object
         IpAddress: SrcIP
+        EventID: EID
     '4949':
       annotate:
         Stream: WIN-AUDIT
@@ -920,7 +1079,8 @@ event-details:
       translate: 
         SubjectUserName: User 
         ObjectName: Object
-        IpAddress: SrcIP    
+        IpAddress: SrcIP
+        EventID: EID    
     '4947':
       annotate:
         Stream: WIN-AUDIT
@@ -932,6 +1092,7 @@ event-details:
         SubjectUserName: User 
         ObjectName: Object
         IpAddress: SrcIP
+        EventID: EID
     '4948':
       annotate:
         Stream: WIN-AUDIT
@@ -943,6 +1104,7 @@ event-details:
         SubjectUserName: User 
         ObjectName: Object
         IpAddress: SrcIP
+        EventID: EID
     '4950':
       annotate:
         Stream: WIN-AUDIT
@@ -954,6 +1116,7 @@ event-details:
         SubjectUserName: User 
         ObjectName: Object
         IpAddress: SrcIP
+        EventID: EID
     '4951':
       annotate:
         Stream: WIN-AUDIT
@@ -964,7 +1127,8 @@ event-details:
       translate: 
         SubjectUserName: User 
         ObjectName: Object
-        IpAddress: SrcIP 
+        IpAddress: SrcIP
+        EventID: EID 
     '4952':
       annotate:
         Stream: WIN-AUDIT
@@ -976,6 +1140,7 @@ event-details:
         SubjectUserName: User 
         ObjectName: Object
         IpAddress: SrcIP
+        EventID: EID
     '4953':
       annotate:
         Stream: WIN-AUDIT
@@ -986,7 +1151,8 @@ event-details:
       translate: 
         SubjectUserName: User 
         ObjectName: Object
-        IpAddress: SrcIP 
+        IpAddress: SrcIP
+        EventID: EID 
     '4954':
       annotate:
         Stream: WIN-AUDIT
@@ -997,7 +1163,8 @@ event-details:
       translate: 
         SubjectUserName: User 
         ObjectName: Object
-        IpAddress: SrcIP  
+        IpAddress: SrcIP
+        EventID: EID  
     '4956':
       annotate:
         Stream: WIN-AUDIT
@@ -1008,7 +1175,8 @@ event-details:
       translate: 
         SubjectUserName: User 
         ObjectName: Object
-        IpAddress: SrcIP 
+        IpAddress: SrcIP
+        EventID: EID 
     '1074':
       annotate:
         Stream: WIN-AUDIT
@@ -1019,7 +1187,8 @@ event-details:
       translate: 
         param7: User 
         param1: Object
-        IpAddress: SrcIP                       
+        IpAddress: SrcIP 
+        EventID: EID                      
     '5136':
       annotate:
         Stream: WIN-AUDIT
@@ -1031,6 +1200,7 @@ event-details:
         SubjectUserName: User 
         ObjectName: Object
         IpAddress: SrcIP
+        EventID: EID
     '5137':
       annotate:
         Stream: WIN-AUDIT
@@ -1042,6 +1212,7 @@ event-details:
         SubjectUserName: User 
         ObjectName: Object
         IpAddress: SrcIP
+        EventID: EID
     '5138':
       annotate:
         Stream: WIN-AUDIT
@@ -1053,6 +1224,7 @@ event-details:
         SubjectUserName: User 
         ObjectName: Object
         IpAddress: SrcIP
+        EventID: EID
     '5139':
       annotate:
         Stream: WIN-AUDIT
@@ -1064,6 +1236,7 @@ event-details:
         SubjectUserName: User 
         ObjectName: Object
         IpAddress: SrcIP
+        EventID: EID
     '5141':
       annotate:
         Stream: WIN-AUDIT
@@ -1074,7 +1247,8 @@ event-details:
       translate: 
         SubjectUserName: User 
         ObjectName: Object
-        IpAddress: SrcIP                    
+        IpAddress: SrcIP
+        EventID: EID                    
     '6144':
       annotate:
         Stream: WIN-AUDIT
@@ -1086,6 +1260,7 @@ event-details:
         SubjectUserName: User 
         ObjectName: Object
         IpAddress: SrcIP
+        EventID: EID
     '6145':
       annotate:
         Stream: WIN-AUDIT
@@ -1096,7 +1271,8 @@ event-details:
       translate: 
         SubjectUserName: User 
         ObjectName: Object
-        IpAddress: SrcIP 
+        IpAddress: SrcIP
+        EventID: EID 
     '4627':
       annotate:
         Stream: WIN-AUDIT
@@ -1107,7 +1283,8 @@ event-details:
       translate: 
         SubjectUserName: User 
         ObjectName: Object
-        IpAddress: SrcIP  
+        IpAddress: SrcIP
+        EventID: EID  
     '5156':
       annotate:
         Stream: WIN-AUDIT
@@ -1119,6 +1296,7 @@ event-details:
         SubjectUserName: User 
         ObjectName: Object
         SourceAddress: SrcIP  
+        EventID: EID
     '5158':
       annotate:
         Stream: WIN-AUDIT
@@ -1129,7 +1307,8 @@ event-details:
       translate: 
         SubjectUserName: User 
         ObjectName: Object
-        SourceAddress: SrcIP    
+        SourceAddress: SrcIP
+        EventID: EID    
     '4656':    
       annotate:
         Stream: WIN-AUDIT
@@ -1141,6 +1320,7 @@ event-details:
         SubjectUserName: User 
         ObjectName: Object
         IpAddress: SrcIP
+        EventID: EID
     '4658':    
       annotate:
         Stream: WIN-AUDIT
@@ -1151,7 +1331,8 @@ event-details:
       translate: 
         SubjectUserName: User 
         ObjectName: Object
-        IpAddress: SrcIP    
+        IpAddress: SrcIP
+        EventID: EID    
     '4662':
       annotate:
         Stream: WIN-AUDIT
@@ -1162,7 +1343,8 @@ event-details:
       translate: 
         SubjectUserName: User 
         ObjectName: Object
-        IpAddress: SrcIP      
+        IpAddress: SrcIP
+        EventID: EID      
     '4688':
       annotate:
         Stream: WIN-AUDIT
@@ -1173,7 +1355,8 @@ event-details:
       translate: 
         SubjectUserName: User 
         ObjectName: Object
-        IpAddress: SrcIP   
+        IpAddress: SrcIP
+        EventID: EID   
     '4689':
       annotate:
         Stream: WIN-AUDIT
@@ -1184,7 +1367,8 @@ event-details:
       translate: 
         SubjectUserName: User 
         ObjectName: Object
-        IpAddress: SrcIP   
+        IpAddress: SrcIP
+        EventID: EID   
     '4690':
       annotate:
         Stream: WIN-AUDIT
@@ -1195,7 +1379,8 @@ event-details:
       translate: 
         SubjectUserName: User 
         ObjectName: Object
-        IpAddress: SrcIP     
+        IpAddress: SrcIP
+        EventID: EID     
     '4703':
       annotate:
         Stream: WIN-AUDIT
@@ -1206,7 +1391,8 @@ event-details:
       translate: 
         SubjectUserName: User 
         ObjectName: Object
-        IpAddress: SrcIP   
+        IpAddress: SrcIP
+        EventID: EID   
     '4826':
       annotate:
         Stream: WIN-AUDIT
@@ -1217,7 +1403,8 @@ event-details:
       translate: 
         SubjectUserName: User 
         ObjectName: Object
-        IpAddress: SrcIP   
+        IpAddress: SrcIP
+        EventID: EID   
     '5058':    
       annotate:
         Stream: WIN-AUDIT
@@ -1228,7 +1415,68 @@ event-details:
       translate: 
         SubjectUserName: User 
         ObjectName: Object
-        IpAddress: SrcIP                                             
+        IpAddress: SrcIP
+        EventID: EID
+    '4904':
+      annotate:
+        Stream: WIN-AUDIT
+        Action: POLICY_CHANGED
+        Status: PASSED  
+        Event: Boot Configuration Data loaded.
+        Category: POLICY 
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP
+        EventID: EID
+    '4905':
+      annotate:
+        Stream: WIN-AUDIT
+        Action: POLICY_CHANGED
+        Status: PASSED  
+        Event: An attempt was made to unregister a security event source.
+        Category: POLICY   
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP
+        EventID: EID
+    '4800':
+      annotate:
+        Stream: WIN-AUDIT
+        Action: POLICY_CHANGED
+        Status: PASSED  
+        Event: The workstation was locked.
+        Category: POLICY   
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP
+        EventID: EID
+    '5059':    
+      annotate:
+        Stream: WIN-AUDIT
+        Action: OBJECT_ACCESSED
+        Status: PASSED  
+        Event: Key migration operation.
+        Category: NETWORK   
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP
+        EventID: EID     
+    '5061':    
+      annotate:
+        Stream: WIN-AUDIT
+        Action: OBJECT_ACCESSED
+        Status: PASSED  
+        Event: Cryptographic operation.
+        Category: NETWORK   
+      translate: 
+        SubjectUserName: User 
+        ObjectName: Object
+        IpAddress: SrcIP
+        EventID: EID                                                    
     '4649':
       annotate:
         Stream: THREAT
@@ -1250,7 +1498,18 @@ event-details:
       translate:  
         SubjectUserName: User  
         IpAddress: SrcIP
-        DstIP: DstIP     
+        DstIP: DstIP
+    '4816':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED   
+        Vector: NETWORK
+        Threat: RPC detected an integrity violation while decrypting an incoming message.
+      translate:  
+        SubjectUserName: User  
+        IpAddress: SrcIP
+        DstIP: DstIP         
     '5024':
       annotate:
         Stream: CONFIGURATION
@@ -1922,6 +2181,8 @@ event-details:
         AccountName: User
         TargetUser: TargetUser
         Category: Role
+        SubjectDomainName: Domain
+        TargetDomainName: TargetDomain
     '644':           
       annotate:
         Stream: IAM
@@ -1931,6 +2192,8 @@ event-details:
         AccountName: User
         TargetUser: TargetUser
         Category: Role
+        SubjectDomainName: Domain
+        TargetDomainName: TargetDomain
     '624':           
       annotate:
         Stream: IAM
@@ -1939,7 +2202,9 @@ event-details:
       translate:  
         AccountName: User
         TargetUser: TargetUser 
-        Category: Role    
+        Category: Role 
+        SubjectDomainName: Domain 
+        TargetDomainName: TargetDomain  
     '646':           
       annotate:
         Stream: IAM
@@ -1949,6 +2214,8 @@ event-details:
         AccountName: User
         TargetUser: TargetUser
         Category: Role
+        SubjectDomainName: Domain
+        TargetDomainName: TargetDomain
   
   fallback:
     annotate:
@@ -1975,6 +2242,7 @@ event-details:
         SubjectUserName: User 
         ObjectName: Object
         IpAddress: SrcIP
+        EventID: EID
     '1104':
       annotate:
         Stream: WIN-AUDIT
@@ -1985,7 +2253,8 @@ event-details:
       translate: 
         SubjectUserName: User 
         ObjectName: Object
-        IpAddress: SrcIP    
+        IpAddress: SrcIP
+        EventID: EID    
 
   fallback:
     annotate:
@@ -2081,4 +2350,29 @@ event-details:
   globals:
     translate:
       EventTime: SystemTstamp
-      Hostname: System      
+      Hostname: System
+
+- first-match: \"Microsoft\-Windows\-NTLM\"
+  decoder: json
+  event-key-format: '{EventID}'
+  event-key-mapping:
+    '8002':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+        Reason: Audit Incoming NTLM Traffic that would be blocked.
+      translate:
+        ClientAddress: SrcIP
+        AccountName: User
+        AuthenticationPackageName: AuthProto
+
+  fallback:
+    annotate:
+      EventName: Generic Windows Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      EventTime: SystemTstamp
+      Hostname: System
