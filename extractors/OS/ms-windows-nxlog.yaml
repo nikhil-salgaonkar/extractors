@@ -251,7 +251,7 @@ event-details:
         Stream: IAM
         Action: USER_LOCKOUT
         Status: PASSED    
-       translate:  
+      translate:  
         SubjectUserName: User  
         TargetUserName: TargetUser
         Category: Role
@@ -262,7 +262,7 @@ event-details:
         Stream: IAM
         Action: USER_UNLOCKED
         Status: PASSED  
-       translate:  
+      translate:  
         SubjectUserName: User  
         TargetUserName: TargetUser
         Category: Role
@@ -284,7 +284,7 @@ event-details:
         Stream: IAM
         Action: COMPUTER_ACCOUNT_DELETED
         Status: PASSED   
-       translate:  
+      translate:  
         SubjectUserName: User  
         TargetUserName: TargetUser
         Category: Role
@@ -328,7 +328,7 @@ event-details:
         Stream: IAM
         Action: USER_ADDED
         Status: PASSED   
-       translate:  
+      translate:  
         SubjectUserName: User  
         TargetUserName: Group
         Category: Role
@@ -339,7 +339,7 @@ event-details:
         Stream: IAM
         Action: PRIVILEGE_CHANGED
         Status: PASSED  
-       translate:  
+      translate:  
         SubjectUserName: User  
         TargetUserName: TargetUser
         Category: Role
