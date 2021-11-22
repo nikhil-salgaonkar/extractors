@@ -561,7 +561,7 @@ event-details:
         Status: PASSED 
       translate:  
         SubjectUserName: User  
-        TargetUserName: TargetUser
+        TargetUserName: Group
         Category: Role
         SubjectDomainName: Domain
         TargetDomainName: TargetDomain        
