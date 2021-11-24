@@ -10,11 +10,11 @@ source-description: Extractor for HAProxy Events
 provides-streams:
 - WEBFILTER
 master-filters:
-- '^(\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{1,2}\:\d{1,2}\:\d{1,2}\s+\S+\s+haproxy\[\d+\]\:'
+- '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{1,2}\:\d{1,2}\:\d{1,2}\s+\S+\s+haproxy\[\d+\]\:'
 event-details:
-- first-match: '^(\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{1,2}\:\d{1,2}\:\d{1,2}\s+\S+\s+haproxy\[\d+\]\:.*?\"\w+\s+'
+- first-match: '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{1,2}\:\d{1,2}\:\d{1,2}\s+\S+\s+haproxy\[\d+\]\:.*?\"\w+\s+'
   decoder: regex
-  decoder-regex: '^(\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{1,2}\:\d{1,2}\:\d{1,2})\s+(?P<hostname>\S+)\s+haproxy\[\d+\]\:.*?(?P<src>[\d\.]+)\:\d+\s+\[[\w\/\:\.]+\]\s+.*?[\d\/]+\s+(?P<statuscode>\d+)\s+(?P<txlen>\d+).*?\"(?P<url>(?P<httpmethod>\w+).*?)\"'
+  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{1,2}\:\d{1,2}\:\d{1,2})\s+(?P<hostname>\S+)\s+haproxy\[\d+\]\:.*?(?P<src>[\d\.]+)\:\d+\s+\[[\w\/\:\.]+\]\s+.*?[\d\/]+\s+(?P<statuscode>\d+)\s+(?P<txlen>\d+).*?\"(?P<url>(?P<httpmethod>\w+).*?)\"'
   event-key-format: '{statuscode}'
   event-key-mapping:
     '200': 
