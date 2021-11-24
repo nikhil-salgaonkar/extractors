@@ -14,7 +14,7 @@ master-filters:
 event-details:
 - first-match: '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{1,2}\:\d{1,2}\:\d{1,2}\s+\S+\s+haproxy\[\d+\]\:.*?\"\w+\s+'
   decoder: regex
-  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{1,2}\:\d{1,2}\:\d{1,2})\s+(?P<hostname>\S+)\s+haproxy\[\d+\]\:.*?(?P<src>[\d\.]+)\:\d+\s+\[[\w\/\:\.]+\]\s+.*?[\d\/]+\s+(?P<statuscode>\d+)\s+(?P<txlen>\d+).*?\"(?P<url>(?P<httpmethod>\w+).*?)\"'
+  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{1,2}\:\d{1,2}\:\d{1,2})\s+(?P<hostname>\S+)\s+haproxy\[\d+\]\:.*?(?P<src>[\d\.]+)\:\d+\s+\[[\w\/\:\.]+\]\s+.*?[\d\/]+\s+(?P<statuscode>\d+)\s+(?P<txlen>\d+).*?\"(?P<httpmethod>\w+)\s+(?P<url>.*?)\"'
   event-key-format: '{statuscode}'
   event-key-mapping:
     '200': 
