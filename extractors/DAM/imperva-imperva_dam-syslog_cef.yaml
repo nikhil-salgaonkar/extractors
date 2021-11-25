@@ -6,7 +6,7 @@ vendor-name: Imperva
 product-name: Imperva DAM
 source-name: IMPERVA
 source-type: DAM
-source-description: extractor for Imperva DAM Events
+source-description: Extractor for Imperva DAM Events
 provides-streams:
 - AUTHENTICATION
 - THREAT
