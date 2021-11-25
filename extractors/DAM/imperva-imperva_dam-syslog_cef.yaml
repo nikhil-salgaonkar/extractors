@@ -1,0 +1,113 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 223
+integration: Syslog(CEF)
+vendor-name: Imperva
+product-name: Imperva DAM
+source-name: IMPERVA
+source-type: DAM
+source-description: extractor for Imperva DAM Events
+provides-streams:
+- AUTHENTICATION
+- THREAT
+master-filters:
+- 'CEF\:\d+\|Imperva\sInc\.\|SecureSphere\|[\d\.\_]+\|(?:Audit|Custom|Protocol|Correlation)\|'
+event-details:  
+- first-match: '\|Audit\|Audit\.DAM\|.*?cs6\='
+  decoder: custom
+  decoder-regex: '([^\s\|]+)=([^=]+|)(?=\s+\w+=|$)'
+  event-key-format: '{cs6}-{cs8}'
+  decoder-header: CEF
+  event-key-mapping:
+    'Login-True':        
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        duser: User 
+        src: SrcIP
+        proto: AuthProto
+    'Logout-True':        
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+      translate:
+        duser: User 
+        src: SrcIP
+        proto: AuthProto
+        
+  fallback:
+    annotate:
+      EventName: Generic Imperva DAM Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      rt: SystemTstamp
+      cs12: System
+
+- first-match: '\|Imperva\sInc\.\|SecureSphere\|[\d\.\_]+\|Custom\|\s+custom\-policy\-violation\s+\|'
+  decoder: custom
+  decoder-regex: '([^\s\|]+)=([^=]+|)(?=\s+\w+=|$)'
+  event-key-format: ''
+  decoder-header: CEF
+  event-key-mapping:
+    '':        
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Header-6: Threat
+        src: SrcIP
+        dst: DstIP
+        CommandLine: CommandLine
+        duser: User
+        File: File
+        Process: Process
+        request: URL
+        
+  fallback:
+    annotate:
+      EventName: Generic Imperva DAM Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      rt: SystemTstamp
+      cs11: System
+
+- first-match: '\|Imperva\sInc\.\|SecureSphere\|[\d\.\_]+\|(?:Protocol|Correlation)\|'
+  decoder: custom
+  decoder-regex: '([^\s\|]+)=([^=]+|)(?=\s+\w+=|$)'
+  event-key-format: ''
+  decoder-header: CEF
+  event-key-mapping:
+    '':        
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        Header-5: Threat
+        src: SrcIP
+        dst: DstIP
+        CommandLine: CommandLine
+        duser: User
+        File: File
+        Process: Process
+        request: URL
+        
+  fallback:
+    annotate:
+      EventName: Generic Imperva DAM Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      rt: SystemTstamp
+      cs11: System
