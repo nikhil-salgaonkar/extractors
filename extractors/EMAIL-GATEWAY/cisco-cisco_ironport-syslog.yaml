@@ -6,7 +6,7 @@ vendor-name: Cisco
 product-name: Cisco IronPort
 source-name: CISCO-IRONPORT
 source-type: EMAIL-GATEWAY
-source-description: Extractor for Cisco IronPort Events
+source-deSrcIPtion: Extractor for Cisco IronPort Events
 provides-streams:
 - AUTHENTICATION 
 - EMAIL-GATEWAY 
@@ -26,7 +26,7 @@ event-details:
         Status: PASSED
       translate: 
         user: User
-        ScrIP: ScrIP
+        SrcIP: SrcIP
         AuthProto: AuthProto
     'failed authentication': 
       annotate:
@@ -36,7 +36,7 @@ event-details:
         Reason: INVALID_CREDENTIALS
       translate: 
         user: User
-        ScrIP: ScrIP
+        SrcIP: SrcIP
         AuthProto: AuthProto 
     'failed':
       annotate:
@@ -46,7 +46,7 @@ event-details:
         Reason: INVALID_CREDENTIALS
       translate: 
         user: User
-        srcip: ScrIP
+        srcip: SrcIP
         AuthProto: AuthProto 
     'login SUCCESS':
       annotate:
@@ -55,7 +55,7 @@ event-details:
         Status: PASSED
       translate: 
         user: User
-        ScrIP: ScrIP
+        SrcIP: SrcIP
         AuthProto: AuthProto
     'logout': 
       annotate:
@@ -64,7 +64,7 @@ event-details:
         Status: PASSED
       translate: 
         user: User
-        ScrIP: ScrIP
+        SrcIP: SrcIP
         AuthProto: AuthProto                               
 
   fallback:
@@ -89,7 +89,7 @@ event-details:
         Status: PASSED
       translate: 
         user: User
-        ScrIP: ScrIP
+        SrcIP: SrcIP
         AuthProto: AuthProto  
     'login': 
       annotate:
@@ -98,7 +98,7 @@ event-details:
         Status: PASSED
       translate: 
         user: User
-        srcip: ScrIP
+        srcip: SrcIP
         AuthProto: AuthProto                          
 
   fallback:
@@ -123,7 +123,7 @@ event-details:
         Status: PASSED
       translate: 
         user: User
-        srcip: ScrIP
+        srcip: SrcIP
         authproto: AuthProto                       
 
   fallback:
