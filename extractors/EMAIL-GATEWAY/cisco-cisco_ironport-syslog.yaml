@@ -11,12 +11,12 @@ provides-streams:
 - AUTHENTICATION 
 - EMAIL-GATEWAY 
 master-filters:
-- '^(\<\d+\>)?\w{3}(?:\s+\w{3})?\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\w+\:?\s+(?:Warning|Info)\:'
+- '^(?:\<\d+\>)?\w{3}(?:\s+\w{3})?\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\w+\:?\s+(?:Warning|Info)\:'
 - '\<(?:success|bounce)\s+del\_time\='
 event-details:
-- first-match: '^(\<\d+\>)?\w{3}\s+\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\d{4}\s+Info\:.*?(?:User|user).*?(?:authenticated\s+successfully|failed\s+authentication|failed|login\s+SUCCESS|logout)'
+- first-match: '^(?:\<\d+\>)?\w{3}\s+\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\d{4}\s+Info\:.*?(?:User|user).*?(?:authenticated\s+successfully|failed\s+authentication|login\s+SUCCESS|logout)'
   decoder: regex
-  decoder-regex: '^(\<\d+\>)?(?P<datetime>\w{3}\s+\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\d{4})\s+Info\:.*?(?:User|user)\s+(?P<user>\S+)\s+(?:.*?from\s+(?P<srcip>[\w\:\.]+))?.*?(?P<action>(?:authenticated\s+successfully|failed\s+authentication|failed|login\s+SUCCESS|logout))'
+  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\d{4})\s+Info\:.*?(?:User|user)\s+(?P<user>\S+).*?(?P<action>(?:authenticated\s+successfully|failed\s+authentication|login\s+SUCCESS|logout))'
   event-key-format: '{action}'
   event-key-mapping:
     'authenticated successfully': 
@@ -37,16 +37,6 @@ event-details:
       translate: 
         user: User
         SrcIP: SrcIP
-        AuthProto: AuthProto 
-    'failed':
-      annotate:
-        Stream: AUTHENTICATION
-        Action: LOGIN
-        Status: FAILED
-        Reason: INVALID_CREDENTIALS
-      translate: 
-        user: User
-        srcip: SrcIP
         AuthProto: AuthProto 
     'login SUCCESS':
       annotate:
@@ -77,21 +67,12 @@ event-details:
       datetime: SystemTstamp
       System: System 
 
-- first-match: '^(\<\d+\>)?\w{3}\s+\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\d{4}\s+Info\:.*?(?:Authentication\s+OK|login\:)'
+- first-match: '^(?:\<\d+\>)?\w{3}\s+\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\d{4}\s+Info\:.*?(?:Authentication\s+OK|login\:)'
   decoder: regex
-  decoder-regex: '^(\<\d+\>)?(?P<datetime>\w{3}\s+\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\d{4})\s+Info\:\s+(?P<action>(?:Authentication\s+OK|login))\:?.*?user\:?\s?(?P<user>\S+)(?:\s+session\:(?P<srcip>[\w\:\.]+))?'
-  event-key-format: '{action}'
+  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\d{4})\s+Info\:\s+(?P<action>(?:Authentication\s+OK|login))\:?.*?user\:?\s?(?P<user>\S+)(?:\s+session\:(?P<srcip>[\w\:\.]+))?'
+  event-key-format: ''
   event-key-mapping:
-    'Authentication OK': 
-      annotate:
-        Stream: AUTHENTICATION
-        Action: LOGIN
-        Status: PASSED
-      translate: 
-        user: User
-        SrcIP: SrcIP
-        AuthProto: AuthProto  
-    'login': 
+    '': 
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
@@ -99,7 +80,7 @@ event-details:
       translate: 
         user: User
         srcip: SrcIP
-        AuthProto: AuthProto                          
+        AuthProto: AuthProto                      
 
   fallback:
     annotate:
@@ -111,9 +92,35 @@ event-details:
       datetime: SystemTstamp
       System: System 
 
-- first-match: '^(\<\d+\>)?\w{3}\s+\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\d{4}\s+Info\:\s+The\s+user\s+\S+\s+successfully\s+logged\s+on'
+- first-match: '^(?:\<\d+\>)?\w{3}\s+\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\d{4}\s+Info\:\s+An\s+authentication\s+attempt by\s+the\s+user\s+\S+\s+from\s+[\w\:\.]+\s+\w+'
   decoder: regex
-  decoder-regex: '^(\<\d+\>)?(?P<datetime>\w{3}\s+\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\d{4})\s+Info\:.*?user\s+(?P<user>\S+)\s+(?P<action>successfully\s+logged\s+on)\s+from\s+(?P<srcip>[\w\:\.]+)\s+using\s+an\s+(?P<authproto>\w+)'
+  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\d{4})\s+Info\:.*?user\s+(?P<user>\S+)\s+from\s+(?P<srcip>[\w\:\.]+)\s+(?P<action>\w+)'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'failed':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+        Reason: INVALID_CREDENTIALS
+      translate: 
+        user: User
+        srcip: SrcIP
+        AuthProto: AuthProto                     
+
+  fallback:
+    annotate:
+      EventName: Generic Cisco IronPort Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      datetime: SystemTstamp
+      System: System 
+
+- first-match: '^(?:\<\d+\>)?\w{3}\s+\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\d{4}\s+Info\:\s+The\s+user\s+\S+\s+successfully\s+logged\s+on'
+  decoder: regex
+  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+\d{4})\s+Info\:.*?user\s+(?P<user>\S+)\s+(?P<action>successfully\s+logged\s+on)\s+from\s+(?P<srcip>[\w\:\.]+)\s+using\s+an\s+(?P<authproto>\w+)'
   event-key-format: '{action}'
   event-key-mapping:
     'successfully logged on': 
@@ -138,7 +145,7 @@ event-details:
 
 - first-match: '\<success\s+del\_time\=\".*?\"\s+inj\_time\=\".*?\"'
   decoder: custom
-  decoder-regex: '([^\s\|]+)=\"([^=]+)\"(?=\s+\w+=|$)'
+  decoder-regex: '([^\s\|]+)=\"([^=]+)\"'
   event-key-format: ''
   event-key-mapping:
     '':
@@ -166,7 +173,7 @@ event-details:
 
 - first-match: '\<bounce\s+del\_time\=\".*?\"\s+inj\_time\=\".*?\"'
   decoder: custom
-  decoder-regex: '([^\s\|]+)=\"([^=]+)\"(?=\s+\w+=|$)'
+  decoder-regex: '([^\s\|]+)=\"([^=]+)\"'
   event-key-format: ''
   event-key-mapping:
     '':
