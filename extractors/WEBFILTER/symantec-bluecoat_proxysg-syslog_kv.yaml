@@ -12,7 +12,7 @@ provides-streams:
 - AUTHENTICATION
 master-filters:
 - '^(?:\<\d+\>)?\d+\s+\d{4}\-\d{1,2}\-\d{2}T\d{2}\:\d{2}\:\d{2}\.\d+z\s+\S+\s+bluecoat.*?s-action\=[\w\_\-]+'
-- '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+ProxySG\:'
+- '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}.*?ProxySG\:'
 event-details:
 - first-match: 's\-action\=[\w\_\-]+.*?sc-status\=\d{1,3}\s+'
   decoder: custom
@@ -593,7 +593,7 @@ event-details:
 
 - first-match: 'ProxySG\:\s+\d+\s+Authentication\s+failed\s+with'
   decoder: regex
-  decoder-regex: ^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+ProxySG\:\s+\d+\s+(?P<msg>(?P<action>Authentication\s+failed).*?\(symbol\:\s+\'(?P<reason>.*?)\'\)\:\s+user\s+\'(?P<user>\S+)\'.*?\s+\(domain\s+(?P<hostname>\S+)\).*)
+  decoder-regex: ^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}).*?ProxySG\:\s+\d+\s+(?P<msg>(?P<action>Authentication\s+failed).*?\(symbol\:\s+\'?(?P<reason>.*?)\'?\)\:\s+user\s+\'?(?P<user>.*?)\'?\s+\(domain\s+(?P<hostname>\S+)\).*)
   event-key-format: ''
   event-key-mapping:
     '':
@@ -615,11 +615,11 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
-      domain: System
+      hostname: System
 
 - first-match: 'ProxySG\:\s+\d+\s+Authentication\s+failed\s+from'
   decoder: regex
-  decoder-regex: ^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+ProxySG\:\s+\d+\s+(?P<msg>(?P<action>Authentication\s+failed)\s+from\s+(?P<src>[\d\.]+)\:\s+user\s+\'(?P<user>\S+)\'.*)
+  decoder-regex: ^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}).*?ProxySG\:\s+\d+\s+(?P<msg>(?P<action>Authentication\s+failed)\s+from\s+(?P<src>[\d\.]+)\:\s+user\s+\'?(?P<user>.*?)\'?\s+.*)
   event-key-format: ''
   event-key-mapping:
     '':
@@ -641,4 +641,199 @@ event-details:
   globals:
     translate:
       datetime: SystemTstamp
-      domain: System
+      System: System
+
+- first-match: 'ProxySG\:\s+\d+\s+Administrator\s+(?:login|logout)(?:\s+\(|\,)'
+  decoder: regex
+  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}).*?ProxySG\:\s+\d+\s+\w+\s+(?P<action>(?:logout|login)).*?user\s+(?P<user>[^\,\s]+)(?:.*?from\s+(?P<src>[\d\.]+))?'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'login':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        user: User
+        src: SrcIP
+        AuthProto: AuthProto 
+    'logout':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+      translate:
+        user: User
+        src: SrcIP
+        AuthProto: AuthProto       
+
+  fallback:
+    annotate:
+      EventName: Generic Blue Coat ProxySG Event
+      Stream: OTHER
+          
+  globals:
+    translate:
+      datetime: SystemTstamp
+      System: System 
+
+- first-match: 'ProxySG\:\s+\d+\s+Administrator\s+login\s+from.*?denied\:'
+  decoder: regex
+  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}).*?ProxySG\:\s+\d+\s+\w+\s+(?P<action>login)\s+from\s+(?P<src>[\d\.]+)\,\s+user\s+(?P<user>[^\,\s]+)\,.*?(?P<status>failure)\,'
+  event-key-format: '{action}-{status}'
+  event-key-mapping:
+    'login-failure':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+        Reason: INVALID_CREDENTIALS
+      translate:
+        user: User
+        src: SrcIP
+        AuthProto: AuthProto       
+
+  fallback:
+    annotate:
+      EventName: Generic Blue Coat ProxySG Event
+      Stream: OTHER
+          
+  globals:
+    translate:
+      datetime: SystemTstamp
+      System: System
+
+- first-match: 'ProxySG\:\s+\w+\s+SSH\:\s+\w+\,\s+login\-authentication'
+  decoder: regex
+  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}).*?ProxySG\:\s+\w+\s+\w+\:\s+(?P<status>\w+)\,\s+(?P<action>\S+).*?user\s+\"?(?P<user>\S+)\"?\,.*?from\s+(?P<src>[\d\.]+)\,.*?protocol\s+\"?(?P<authproto>\S+)\"?'
+  event-key-format: '{action}-{status}'
+  event-key-mapping:
+    'login-authentication-Failed':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+        Reason: INVALID_CREDENTIALS
+      translate:
+        user: User
+        src: SrcIP
+        authproto: AuthProto  
+    'login-authentication-Accepted':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        user: User
+        src: SrcIP
+        authproto: AuthProto         
+
+  fallback:
+    annotate:
+      EventName: Generic Blue Coat ProxySG Event
+      Stream: OTHER
+          
+  globals:
+    translate:
+      datetime: SystemTstamp
+      System: System
+
+- first-match: 'ProxySG\:\s+\w+\s+SSH\:.*?(?:disconnect|Connection\s+closed|Closing\s+connection|Disconnected|Authenticated)'
+  decoder: regex
+  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}).*?ProxySG\:\s+\w+\s+\w+\:.*?(?P<action>(?:disconnect|Connection\s+closed|Closing\s+connection|Disconnected|Authenticated))\s+(?:from|by|to)\s+(?P<src>[\d\.]+)(?:.*?user\\?\\?\=\"?(?P<user>.*?)\"?\))?'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'disconnect':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+        Reason: INVALID_CREDENTIALS
+      translate:
+        user: User
+        src: SrcIP
+        AuthProto: AuthProto
+    'Connection closed':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+        Reason: INVALID_CREDENTIALS
+      translate:
+        user: User
+        src: SrcIP
+        AuthProto: AuthProto
+    'Closing connection':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+        Reason: INVALID_CREDENTIALS
+      translate:
+        user: User
+        src: SrcIP
+        AuthProto: AuthProto
+    'Disconnected':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+        Reason: INVALID_CREDENTIALS
+      translate:
+        user: User
+        src: SrcIP
+        AuthProto: AuthProto
+    'Authenticated':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        user: User
+        src: SrcIP
+        AuthProto: AuthProto                 
+
+  fallback:
+    annotate:
+      EventName: Generic Blue Coat ProxySG Event
+      Stream: OTHER
+          
+  globals:
+    translate:
+      datetime: SystemTstamp
+      System: System
+
+- first-match: 'ProxySG\:\s+\w+\s+.*?(?:connection\s+not|connection)\s+established\:\s+from'
+  decoder: regex
+  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}).*?ProxySG\:\s+\w+\s+.*?(?P<action>(?:connection\s+not|connection)\s+established)\:\s+from\s+(?P<src>[\d\.]+)'
+  event-key-format: '{action}'
+  event-key-mapping:
+    'connection not established':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+        Reason: INVALID_CREDENTIALS
+      translate:
+        User: User
+        src: SrcIP
+        AuthProto: AuthProto
+    'connection established':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        User: User
+        src: SrcIP
+        AuthProto: AuthProto                 
+
+  fallback:
+    annotate:
+      EventName: Generic Blue Coat ProxySG Event
+      Stream: OTHER
+          
+  globals:
+    translate:
+      datetime: SystemTstamp
+      System: System
