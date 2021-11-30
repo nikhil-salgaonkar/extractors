@@ -6,7 +6,7 @@ vendor-name: Cisco
 product-name: Cisco IronPort
 source-name: CISCO-IRONPORT
 source-type: EMAIL-GATEWAY
-source-deSrcIPtion: Extractor for Cisco IronPort Events
+source-description: Extractor for Cisco IronPort Events
 provides-streams:
 - AUTHENTICATION 
 - EMAIL-GATEWAY 
