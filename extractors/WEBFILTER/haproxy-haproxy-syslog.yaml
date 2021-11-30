@@ -38,7 +38,7 @@ event-details:
     '301': 
       annotate:
         Stream: WEBFILTER
-        Action: URL_ALLOWED
+        Action: URL_REDIRECT
         Status: PASSED
       translate: 
         url: URL
@@ -56,7 +56,7 @@ event-details:
     '302': 
       annotate:
         Stream: WEBFILTER
-        Action: URL_ALLOWED
+        Action: URL_REDIRECT
         Status: PASSED
       translate: 
         url: URL
@@ -74,7 +74,7 @@ event-details:
     '303': 
       annotate:
         Stream: WEBFILTER
-        Action: URL_ALLOWED
+        Action: URL_REDIRECT
         Status: PASSED
       translate: 
         url: URL
@@ -92,7 +92,7 @@ event-details:
     '304': 
       annotate:
         Stream: WEBFILTER
-        Action: URL_ALLOWED
+        Action: URL_REDIRECT
         Status: PASSED
       translate: 
         url: URL
@@ -110,7 +110,7 @@ event-details:
     '307': 
       annotate:
         Stream: WEBFILTER
-        Action: URL_ALLOWED
+        Action: URL_REDIRECT
         Status: PASSED
       translate: 
         url: URL
@@ -128,7 +128,7 @@ event-details:
     '308': 
       annotate:
         Stream: WEBFILTER
-        Action: URL_ALLOWED
+        Action: URL_REDIRECT
         Status: PASSED
       translate: 
         url: URL
