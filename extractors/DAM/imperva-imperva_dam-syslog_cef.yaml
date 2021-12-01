@@ -9,9 +9,8 @@ source-type: DAM
 source-description: Extractor for Imperva DAM Events
 provides-streams:
 - AUTHENTICATION
-- THREAT
 master-filters:
-- 'CEF\:\d+\|Imperva\sInc\.\|SecureSphere\|[\d\.\_]+\|(?:Audit|Custom|Protocol|Correlation)\|'
+- 'CEF\:\d+\|Imperva\sInc\.\|SecureSphere\|[\d\.\_]+\|Audit\|'
 event-details:  
 - first-match: '\|Audit\|Audit\.DAM\|.*?cs6\='
   decoder: custom
@@ -47,67 +46,3 @@ event-details:
     translate:
       rt: SystemTstamp
       cs12: System
-
-- first-match: '\|Imperva\sInc\.\|SecureSphere\|[\d\.\_]+\|Custom\|\s+custom\-policy\-violation\s+\|'
-  decoder: custom
-  decoder-regex: '([^\s\|]+)=([^=]+|)(?=\s+\w+=|$)'
-  event-key-format: ''
-  decoder-header: CEF
-  event-key-mapping:
-    '':        
-      annotate:
-        Stream: THREAT
-        Action: THREAT_DETECTED
-        Status: PASSED
-        Vector: HOST
-      translate:
-        Header-6: Threat
-        src: SrcIP
-        dst: DstIP
-        CommandLine: CommandLine
-        duser: User
-        File: File
-        Process: Process
-        request: URL
-        
-  fallback:
-    annotate:
-      EventName: Generic Imperva DAM Event
-      Stream: OTHER
-
-  globals:
-    translate:
-      rt: SystemTstamp
-      cs11: System
-
-- first-match: '\|Imperva\sInc\.\|SecureSphere\|[\d\.\_]+\|(?:Protocol|Correlation)\|'
-  decoder: custom
-  decoder-regex: '([^\s\|]+)=([^=]+|)(?=\s+\w+=|$)'
-  event-key-format: ''
-  decoder-header: CEF
-  event-key-mapping:
-    '':        
-      annotate:
-        Stream: THREAT
-        Action: THREAT_DETECTED
-        Status: PASSED
-        Vector: HOST
-      translate:
-        Header-5: Threat
-        src: SrcIP
-        dst: DstIP
-        CommandLine: CommandLine
-        duser: User
-        File: File
-        Process: Process
-        request: URL
-        
-  fallback:
-    annotate:
-      EventName: Generic Imperva DAM Event
-      Stream: OTHER
-
-  globals:
-    translate:
-      rt: SystemTstamp
-      cs11: System
