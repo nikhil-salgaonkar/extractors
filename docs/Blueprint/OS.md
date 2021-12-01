@@ -17,6 +17,7 @@ Stream 1 - AUTHENTICATION
 5. Reason - Reason for auth failure actions
 6. Status - Response of the action, passed or failed
 7. System - authenticating server/Host
+8. EID
 
 Stream 2 - IAM
 
@@ -25,6 +26,7 @@ Stream 2 - IAM
 3. Target User- User on whom action is performed
 4. Role - Details regarding role name for role updation or modification events
 5. Status - status of the action taken
+6. EID
 
 Stream 3 - FIREWALL
 
@@ -37,7 +39,7 @@ Stream 3 - FIREWALL
 7. TXLen - Sent bytes
 8. RXLen - Received bytes
 9. App - The network application that was accessed.
-10. EventID
+10. EID
 
 Stream 4 - SYSMON-NETWORK
 
@@ -53,13 +55,13 @@ Stream 4 - SYSMON-NETWORK
 10. User
 11. Image
 12. Description
-13. EventID
+13. EID
 
 Stream 5 - SYSMON-PROCESS
 
 1. SystemTstamp
 2. System
-3. EventID
+3. EID
 4. OriginalFileName
 5. ParentUser
 6. CommandLine
@@ -85,7 +87,7 @@ Stream 6 - SYSMON-IMG-LOAD
 
 1. SystemTStamp
 2. System
-3. EventID
+3. EID
 4. Image
 5. ImageLoaded
 6. User
@@ -99,7 +101,7 @@ Stream 7 - SYSMON-DNS
 
 1. SystemTstamp
 2. System
-3. EventID
+3. EID
 4. Image
 5. QueryName
 6. QueryStatus
@@ -110,7 +112,7 @@ Stream 8 - SYSMON-WMI
 
 1. SystemTstamp
 2. System
-3. EventID
+3. EID
 4. Destination
 5. Type
 6. Consumer
@@ -123,7 +125,7 @@ Stream 9 - SYSMON-FILE
 
 1. SystemTstamp
 2. System
-3. EventID
+3. EID
 4. TargetFile
 5. Image
 6. CreationUTCTime
@@ -133,7 +135,7 @@ Stream 10 - SYSMON-DRIVERLOAD
 
 1. SystemTstamp
 2. System
-3. EventID
+3. EID
 4. ImageLoaded
 5. SignatureStatus
 6. Signature
@@ -144,7 +146,7 @@ Stream 11 - SYSMON-CONFIG
 
 1. SystemTstamp
 2. System
-3. EventID
+3. EID
 4. Configuration
 5. ConfigurationFileHash
 6. User
@@ -153,7 +155,7 @@ Stream 12 - SYSMON-SERVICE
 
 1. SystemTstamp
 2. System
-3. EventID
+3. EID
 4. State
 5. SchemaVersion
 6. User
@@ -162,7 +164,7 @@ Stream 13 - SYSMON-REGISTRY
 
 1. SystemTstamp
 2. System
-3. EventID
+3. EID
 4. Action
 5. Image
 6. TargetObject
@@ -185,7 +187,7 @@ Stream 15 - SYSMON-PIPE
 2. PipeName
 3. Image
 4. System
-5. EventID
+5. EID
 6. User
 
 Stream 16 -CONFIGURATION
@@ -203,7 +205,7 @@ Stream 17 - WIN-AUDIT
 4. Category - Directory/ network/Policy
 5. Status:Status
 6. System:Hostname
-7. EventID
+7. EID
 8. SrcIP: Source Network Address
 9. Object: ShareName/Object Name
 
@@ -215,6 +217,7 @@ Stream 18 - THREAT
 4. SrcIP - The source IP address
 5. DstIP - The destination IP address
 6. User - the name of the user
+7. EID
 
 **Requirement Gathering and Analysis -** 
 
