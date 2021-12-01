@@ -37,6 +37,7 @@ Stream 3 - FIREWALL
 7. TXLen - Sent bytes
 8. RXLen - Received bytes
 9. App - The network application that was accessed.
+10. EventID
 
 Stream 4 - SYSMON-NETWORK
 
@@ -52,112 +53,122 @@ Stream 4 - SYSMON-NETWORK
 10. User
 11. Image
 12. Description
+13. EventID
 
 Stream 5 - SYSMON-PROCESS
 
 1. SystemTstamp
 2. System
-3. OriginalFileName
-4. ParentUser
-5. CommandLine
-6. ParentCommandLine
-7. ParentImage
-8. Image
-9. SrcIP
-10. SrcHost
-11. SrcPort
-12. DstHost
-13. DstIP
-14. DstPort
-15. User
-16. TargetImage
-17. Description
-18. Product
-19. Comapany
-20. GrantedAccess
-21. CallTrace
-22. Hash
+3. EventID
+4. OriginalFileName
+5. ParentUser
+6. CommandLine
+7. ParentCommandLine
+8. ParentImage
+9. Image
+10. SrcIP
+11. SrcHost
+12. SrcPort
+13. DstHost
+14. DstIP
+15. DstPort
+16. User
+17. TargetImage
+18. Description
+19. Product
+20. Comapany
+21. GrantedAccess
+22. CallTrace
+23. Hash
 
 Stream 6 - SYSMON-IMG-LOAD
 
 1. SystemTStamp
 2. System
-3. Image
-4. ImageLoaded
-5. User
-6. Description
-7. Product
-8. Company
-9. Hash
-10. Signed
+3. EventID
+4. Image
+5. ImageLoaded
+6. User
+7. Description
+8. Product
+9. Company
+10. Hash
+11. Signed
 
 Stream 7 - SYSMON-DNS
 
 1. SystemTstamp
 2. System
-3. Image
-4. QueryName
-5. QueryStatus
-6. QueryResults
-7. User
+3. EventID
+4. Image
+5. QueryName
+6. QueryStatus
+7. QueryResults
+8. User
 
 Stream 8 - SYSMON-WMI
 
 1. SystemTstamp
 2. System
-3. Destination
-4. Type
-5. Consumer
-6. Filter
-7. Action: operation
-8. Name
-9. User
+3. EventID
+4. Destination
+5. Type
+6. Consumer
+7. Filter
+8. Action: operation
+9. Name
+10. User
 
 Stream 9 - SYSMON-FILE
 
 1. SystemTstamp
 2. System
-3. TargetFile
-4. Image
-5. CreationUTCTime
-6. User
+3. EventID
+4. TargetFile
+5. Image
+6. CreationUTCTime
+7. User
 
 Stream 10 - SYSMON-DRIVERLOAD
 
 1. SystemTstamp
 2. System
-3. ImageLoaded
-4. SignatureStatus
-5. Signature
-6. Signed
-7. User
+3. EventID
+4. ImageLoaded
+5. SignatureStatus
+6. Signature
+7. Signed
+8. User
 
 Stream 11 - SYSMON-CONFIG
 
 1. SystemTstamp
 2. System
-3. Configuration
-4. ConfigurationFileHash
-5. User
+3. EventID
+4. Configuration
+5. ConfigurationFileHash
+6. User
 
 Stream 12 - SYSMON-SERVICE
 
 1. SystemTstamp
 2. System
-3. State
-4. SchemaVersion
-5. User
+3. EventID
+4. State
+5. SchemaVersion
+6. User
 
 Stream 13 - SYSMON-REGISTRY
 
 1. SystemTstamp
 2. System
-3. Action
-4. Image
-5. TargetObject
-6. Description
-7. Details
-8. User
+3. EventID
+4. Action
+5. Image
+6. TargetObject
+7. Description
+8. Details
+9. User
 
 Stream 14 - AUDITD
 
@@ -174,7 +185,8 @@ Stream 15 - SYSMON-PIPE
 2. PipeName
 3. Image
 4. System
-5. User
+5. EventID
+6. User
 
 Stream 16 -CONFIGURATION
 
@@ -191,8 +203,9 @@ Stream 17 - WIN-AUDIT
 4. Category - Directory/ network/Policy
 5. Status:Status
 6. System:Hostname
-7. SrcIP: Source Network Address
-8. Object: ShareName/Object Name
+7. EventID
+8. SrcIP: Source Network Address
+9. Object: ShareName/Object Name
 
 Stream 18 - THREAT 
 
