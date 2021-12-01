@@ -619,7 +619,7 @@ event-details:
 
 - first-match: 'ProxySG\:\s+\d+\s+Authentication\s+failed\s+from'
   decoder: regex
-  decoder-regex: ^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?:(?P<hostname>\S+)\s+)?ProxySG\:\s+\d+\s+(?P<msg>(?P<action>Authentication\s+failed)\s+from\s+(?P<src>[\d\.]+)\:\s+user\s+\'?(?P<user>.*?)\'?\s+.*)
+  decoder-regex: ^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?:(?P<hostname>[\d\.]+)\s+)?ProxySG\:\s+\d+\s+(?P<msg>(?P<action>Authentication\s+failed)\s+from\s+(?P<src>[\d\.]+)\:\s+user\s+\'?(?P<user>.*?)\'?\s+.*)
   event-key-format: ''
   event-key-mapping:
     '':
@@ -679,7 +679,7 @@ event-details:
 
 - first-match: 'ProxySG\:\s+\d+\s+Administrator\s+login\s+from.*?denied\:'
   decoder: regex
-  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?:(?P<hostname>[\d\.]+)\s+)?.*?ProxySG\:\s+\d+\s+\w+\s+(?P<action>login)\s+from\s+(?P<src>[\d\.]+)\,\s+user\s+(?P<user>[^\,\s\(]+)\,.*?(?P<status>failure)\,'
+  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?:(?P<hostname>[\d\.]+)\s+)?ProxySG\:\s+\d+\s+\w+\s+(?P<action>login)\s+from\s+(?P<src>[\d\.]+)\,\s+user\s+(?P<user>[^\,\s\(]+)\,.*?(?P<status>failure)\,'
   event-key-format: '{action}-{status}'
   event-key-mapping:
     'login-failure':
@@ -705,7 +705,7 @@ event-details:
 
 - first-match: 'ProxySG\:\s+\w+\s+SSH\:\s+\w+\,\s+login\-authentication'
   decoder: regex
-  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?:(?P<hostname>\S+)\s+)?ProxySG\:\s+\w+\s+(?P<authproto>\w+)\:\s+(?P<status>\w+)\,\s+(?P<action>\S+).*?user\s+\"?(?P<user>.*?)\"?\,.*?from\s+(?P<src>[\d\.]+)\,'
+  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?:(?P<hostname>[\d\.]+)\s+)?ProxySG\:\s+\w+\s+(?P<authproto>\w+)\:\s+(?P<status>\w+)\,\s+(?P<action>\S+).*?user\s+\"?(?P<user>.*?)\"?\,.*?from\s+(?P<src>[\d\.]+)\,'
   event-key-format: '{action}-{status}'
   event-key-mapping:
     'login-authentication-Failed':
@@ -740,7 +740,7 @@ event-details:
 
 - first-match: 'ProxySG\:\s+\w+\s+SSH\:.*?(?:disconnect|Connection\s+closed|Closing\s+connection|Disconnected|Authenticated)'
   decoder: regex
-  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?:(?P<hostname>\S+)\s+)?ProxySG\:\s+\w+\s+(?P<authproto>\w+)\:.*?(?P<action>(?:disconnect|Connection\s+closed|Closing\s+connection|Disconnected|Authenticated))\s+(?:from|by|to)\s+(?P<src>[\d\.]+)(?:.*?user\\?\\?\=\"?(?P<user>.*?)\"?\))?'
+  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?:(?P<hostname>[\d\.]+)\s+)?ProxySG\:\s+\w+\s+(?P<authproto>\w+)\:.*?(?P<action>(?:disconnect|Connection\s+closed|Closing\s+connection|Disconnected|Authenticated))\s+(?:from|by|to)\s+(?P<src>[\d\.]+)(?:.*?user\\?\\?\=\"?(?P<user>.*?)\"?\))?'
   event-key-format: '{action}'
   event-key-mapping:
     'disconnect':
@@ -805,7 +805,7 @@ event-details:
 
 - first-match: 'ProxySG\:\s+\w+\s+.*?(?:connection\s+not|connection)\s+established\:\s+from'
   decoder: regex
-  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?:(?P<hostname>\S+)\s+)?ProxySG\:\s+\w+\s+.*?(?P<action>(?:connection\s+not|connection)\s+established)\:\s+from\s+(?P<src>[\d\.]+)'
+  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?:(?P<hostname>[\d\.]+)\s+)?ProxySG\:\s+\w+\s+.*?(?P<action>(?:connection\s+not|connection)\s+established)\:\s+from\s+(?P<src>[\d\.]+)'
   event-key-format: '{action}'
   event-key-mapping:
     'connection not established':
