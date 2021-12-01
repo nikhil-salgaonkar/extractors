@@ -15,7 +15,7 @@ master-filters:
 event-details:
 - first-match: '\<EventID\>\d+\<\/EventID\>'
   decoder: regex
-  decoder-regex: '^(?:\<\d+\>)?\d?\s?(?P<datetime>\d{4}\-\d{1,2}\-\d{2}T\d{2}\:\d{2}\:\d{2})\.\w+\s+(?P<hostname>\S+)\s+EPOEvents\s+\-\s+EventFwd.*?<MachineInfo>(?:<AgentGUID>[^>]+\>)?(?:<MachineName>[^>]+\>)?(?:<RawMACAddress>[^>]+\>)?.*?<IPAddress>(?P<src>\S+)</IPAddress>(?:<AgentVersion>[^>]+\>)?<OSName>[^>]+\>(?:<TimeZoneBias>[^>]+\>)?<UserName>(?P<user>\S+|)</UserName>.*?<EventID>(?P<event_id>\d+)</EventID>(?:.*?<Type>(?P<action>User\s+(?:logon|logoff)?)\:\s+(?P<reason>.*?)</Type>)?(?:.*?<GMTTime>[^>]+\>)?(?:<OPGData>[^>]+\>)?(?:<UserInfo>[^>]+\>)?(?:<ThreatName>(?P<threat>.*?)</ThreatName>)?'
+  decoder-regex: '^(?:\<\d+\>)?\d?\s?(?P<datetime>\d{4}\-\d{1,2}\-\d{2}T\d{2}\:\d{2}\:\d{2})\.\w+\s+(?P<hostname>\S+)\s+EPOEvents\s+\-\s+EventFwd.*?<MachineInfo>(?:<AgentGUID>[^>]+\>)?(?:<MachineName>[^>]+\>)?(?:<RawMACAddress>[^>]+\>)?.*?<IPAddress>(?P<src>\S+)</IPAddress>(?:<AgentVersion>[^>]+\>)?<OSName>[^>]+\>(?:<TimeZoneBias>[^>]+\>)?<UserName>(?P<user>.*?)</UserName>.*?<EventID>(?P<event_id>\d+)</EventID>(?:.*?<Type>(?P<action>User\s+(?:logon|logoff)?)\:\s+(?P<reason>.*?)</Type>)?(?:.*?<GMTTime>[^>]+\>)?(?:.*?<OPGData>[^>]+\>)?(?:.*?<UserInfo>[^>]+\>)?(?:.*?<RuleName>(?P<rule>.*?)</RuleName>)?(?:.*?<ThreatName>(?P<threat>.*?)</ThreatName>)?(?:.*?<(?:SourceProcessName|ProcessName)>(?P<process>.*?)</(?:SourceProcessName|ProcessName)>)?(?:.*?<(?:TargetName|FileName)>(?P<file>.*?)</(?:TargetName|FileName)>)?'
   event-key-format: '{event_id}-{reason}'
   event-key-mapping:  
     '220000-User switch successful': 
@@ -138,8 +138,53 @@ event-details:
       translate:
         AuthProto: AuthProto
         src: SrcIP
-        user: User            
+        user: User   
+    '1092-None': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_BLOCKED
+        Status: PASSED
+        Vector: HOST
+      translate: 
+        src: SrcIP
+        dst: DstIP
+        rule: Threat
+        file: File
+        process: Process
+        CommandLine: CommandLine
+        URL: URL
+        user: User    
+    '1095-None': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate: 
+        src: SrcIP
+        dst: DstIP
+        rule: Threat
+        file: File
+        process: Process
+        CommandLine: CommandLine
+        URL: URL
+        user: User         
     '19114-None': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate: 
+        src: SrcIP
+        dst: DstIP
+        threat: Threat
+        File: File
+        Process: Process
+        CommandLine: CommandLine
+        URL: URL
+        user: User
+    '19115-None': 
       annotate:
         Stream: THREAT
         Action: THREAT_DETECTED
@@ -198,7 +243,37 @@ event-details:
         Process: Process
         CommandLine: CommandLine
         URL: URL
-        user: User                      
+        user: User     
+    '34853-None': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate: 
+        src: SrcIP
+        dst: DstIP
+        threat: Threat
+        File: File
+        Process: Process
+        CommandLine: CommandLine
+        URL: URL
+        user: User
+    '34854-None': 
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate: 
+        src: SrcIP
+        dst: DstIP
+        threat: Threat
+        File: File
+        Process: Process
+        CommandLine: CommandLine
+        URL: URL
+        user: User                 
         
   fallback:
     annotate:
