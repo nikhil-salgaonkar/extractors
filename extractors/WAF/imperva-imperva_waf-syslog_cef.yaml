@@ -1,0 +1,82 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 70
+integration: Syslog(CEF)
+vendor-name: Imperva
+product-name: Imperva WAF
+source-name: IMPERVA
+source-type: WAF
+source-description: extractor for Imperva WAF Events
+provides-streams:
+- THREAT
+master-filters:
+- 'CEF\:\s?\d+\|Imperva\sInc\.\|SecureSphere\|[\d\.\_]+\|(?:Protocol|Firewall|Custom|Correlation)\|'
+event-details:  
+- first-match: '\|Imperva\s+Inc\.\|SecureSphere\|[\d\.\_]+\|\w+\|(?:Unknown\s+HTTP\s+Request\s+Method|Double\s+URL\s+Encoding|Too\s+Many\s+Headers\s+per\s+Response|SSL\s+Untraceable\s+Connection|Custom\s+Violation|Malformed\s+JSON\s+Message|http\-illegal\-http\-version|DML\s+Operations|ABFSSL\s+\-\s+SQL\s+(?:Protocol|Correlation)\s+Policy)'
+  decoder: custom
+  decoder-regex: '([^\s\|]+)=([^=]+|)(?=\s+\w+=|$)'
+  event-key-format: '{cat}'
+  decoder-header: CEF
+  event-key-mapping:
+    'Alert':        
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        Header-5: Threat 
+        src: SrcIP
+        dst: DstIP
+        duser: User
+    'SecurityEvent':        
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        Header-5: Threat 
+        src: SrcIP
+        dst: DstIP
+        duser: User
+        
+  fallback:
+    annotate:
+      EventName: Generic Imperva WAF Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      rt: SystemTstamp
+      event_date: SystemTstamp
+      dhost: System
+      cs11: System
+
+- first-match: '\|Imperva\sInc\.\|SecureSphere\|[\d\.\_]+\|Custom\|\s+custom\-policy\-violation\s+\|'
+  decoder: custom
+  decoder-regex: '([^\s\|]+)=([^=]+|)(?=\s+\w+=|$)'
+  event-key-format: ''
+  decoder-header: CEF
+  event-key-mapping:
+    '':        
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        Header-6: Threat
+        src: SrcIP
+        dst: DstIP
+        duser: User
+        
+  fallback:
+    annotate:
+      EventName: Generic Imperva WAF Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      rt: SystemTstamp
+      cs11: System
