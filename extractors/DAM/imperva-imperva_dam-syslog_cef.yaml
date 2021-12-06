@@ -1,0 +1,48 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 223
+integration: Syslog(CEF)
+vendor-name: Imperva
+product-name: Imperva DAM
+source-name: IMPERVA
+source-type: DAM
+source-description: Extractor for Imperva DAM Events
+provides-streams:
+- AUTHENTICATION
+master-filters:
+- 'CEF\:\d+\|Imperva\sInc\.\|SecureSphere\|[\d\.\_]+\|Audit\|'
+event-details:  
+- first-match: '\|Audit\|Audit\.DAM\|.*?cs6\='
+  decoder: custom
+  decoder-regex: '([^\s\|]+)=([^=]+|)(?=\s+\w+=|$)'
+  event-key-format: '{cs6}-{cs8}'
+  decoder-header: CEF
+  event-key-mapping:
+    'Login-True':        
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED
+      translate:
+        duser: User 
+        src: SrcIP
+        proto: AuthProto
+    'Logout-True':        
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED
+      translate:
+        duser: User 
+        src: SrcIP
+        proto: AuthProto
+        
+  fallback:
+    annotate:
+      EventName: Generic Imperva DAM Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      rt: SystemTstamp
+      cs12: System
