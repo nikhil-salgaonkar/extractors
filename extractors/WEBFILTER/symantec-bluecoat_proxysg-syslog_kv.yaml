@@ -36,6 +36,7 @@ event-details:
         cs-User-Agent: UserAgent
         cs-bytes: TXLen
         sc-bytes: RXLen
+        cs-categories: Category
     'ACCELERATED':
       annotate:
         Stream: WEBFILTER
@@ -53,6 +54,7 @@ event-details:
         cs-User-Agent: UserAgent
         cs-bytes: TXLen
         sc-bytes: RXLen
+        cs-categories: Category
     'ALLOWED':
       annotate:
         Stream: WEBFILTER
@@ -70,6 +72,7 @@ event-details:
         cs-User-Agent: UserAgent
         cs-bytes: TXLen
         sc-bytes: RXLen
+        cs-categories: Category
     'TUNNELED':
       annotate:
         Stream: WEBFILTER
@@ -87,6 +90,7 @@ event-details:
         cs-User-Agent: UserAgent
         cs-bytes: TXLen
         sc-bytes: RXLen
+        cs-categories: Category
     'TCP_TUNNELED':
       annotate:
         Stream: WEBFILTER
@@ -104,6 +108,7 @@ event-details:
         cs-User-Agent: UserAgent
         cs-bytes: TXLen
         sc-bytes: RXLen
+        cs-categories: Category
     'DENIED':
       annotate:
         Stream: WEBFILTER
@@ -121,6 +126,7 @@ event-details:
         cs-User-Agent: UserAgent
         cs-bytes: TXLen
         sc-bytes: RXLen
+        cs-categories: Category
     'FAILED':
       annotate:
         Stream: WEBFILTER
@@ -138,6 +144,7 @@ event-details:
         cs-User-Agent: UserAgent
         cs-bytes: TXLen
         sc-bytes: RXLen
+        cs-categories: Category
     'LICENSE_EXPIRED':
       annotate:
         Stream: WEBFILTER
@@ -155,6 +162,7 @@ event-details:
         cs-User-Agent: UserAgent
         cs-bytes: TXLen
         sc-bytes: RXLen
+        cs-categories: Category
     'TCP_AUTH_MISS':
       annotate:
         Stream: WEBFILTER
@@ -172,6 +180,7 @@ event-details:
         cs-User-Agent: UserAgent
         cs-bytes: TXLen
         sc-bytes: RXLen
+        cs-categories: Category
     'TCP_DENIED':
       annotate:
         Stream: WEBFILTER
@@ -189,6 +198,7 @@ event-details:
         cs-User-Agent: UserAgent
         cs-bytes: TXLen
         sc-bytes: RXLen
+        cs-categories: Category
     'TCP_ERR_MISS':
       annotate:
         Stream: WEBFILTER
@@ -206,6 +216,7 @@ event-details:
         cs-User-Agent: UserAgent
         cs-bytes: TXLen
         sc-bytes: RXLen
+        cs-categories: Category
     'TCP_LOOP':
       annotate:
         Stream: WEBFILTER
@@ -223,6 +234,7 @@ event-details:
         cs-User-Agent: UserAgent
         cs-bytes: TXLen
         sc-bytes: RXLen
+        cs-categories: Category
     'TCP_MISS':
       annotate:
         Stream: WEBFILTER
@@ -240,6 +252,7 @@ event-details:
         cs-User-Agent: UserAgent
         cs-bytes: TXLen
         sc-bytes: RXLen
+        cs-categories: Category
     'TCP_NC_MISS':
       annotate:
         Stream: WEBFILTER
@@ -257,6 +270,7 @@ event-details:
         cs-User-Agent: UserAgent
         cs-bytes: TXLen
         sc-bytes: RXLen
+        cs-categories: Category
     'TCP_SWAPFAIL':
       annotate:
         Stream: WEBFILTER
@@ -274,6 +288,7 @@ event-details:
         cs-User-Agent: UserAgent
         cs-bytes: TXLen
         sc-bytes: RXLen
+        cs-categories: Category
     'UDP_DENIED':
       annotate:
         Stream: WEBFILTER
@@ -291,6 +306,7 @@ event-details:
         cs-User-Agent: UserAgent
         cs-bytes: TXLen
         sc-bytes: RXLen
+        cs-categories: Category
     'UDP_INVALID':
       annotate:
         Stream: WEBFILTER
@@ -308,6 +324,7 @@ event-details:
         cs-User-Agent: UserAgent
         cs-bytes: TXLen
         sc-bytes: RXLen
+        cs-categories: Category
     'UDP_MISS':
       annotate:
         Stream: WEBFILTER
@@ -325,6 +342,7 @@ event-details:
         cs-User-Agent: UserAgent
         cs-bytes: TXLen
         sc-bytes: RXLen
+        cs-categories: Category
     'UDP_MISS_NOFETCH':
       annotate:
         Stream: WEBFILTER
@@ -342,6 +360,7 @@ event-details:
         cs-User-Agent: UserAgent
         cs-bytes: TXLen
         sc-bytes: RXLen
+        cs-categories: Category
     'TCP_AUTH_REDIRECT':
       annotate:
         Stream: WEBFILTER
@@ -359,6 +378,7 @@ event-details:
         cs-User-Agent: UserAgent
         cs-bytes: TXLen
         sc-bytes: RXLen
+        cs-categories: Category
     'TCP_CLIENT_REFRESH':
       annotate:
         Stream: WEBFILTER
@@ -376,6 +396,7 @@ event-details:
         cs-User-Agent: UserAgent
         cs-bytes: TXLen
         sc-bytes: RXLen
+        cs-categories: Category
     'TCP_PARTIAL_MISS':
       annotate:
         Stream: WEBFILTER
@@ -393,6 +414,7 @@ event-details:
         cs-User-Agent: UserAgent
         cs-bytes: TXLen
         sc-bytes: RXLen
+        cs-categories: Category
     'TCP_POLICY_REDIRECT':
       annotate:
         Stream: WEBFILTER
@@ -410,6 +432,7 @@ event-details:
         cs-User-Agent: UserAgent
         cs-bytes: TXLen
         sc-bytes: RXLen
+        cs-categories: Category
     'TCP_REFRESH_HIT':
       annotate:
         Stream: WEBFILTER
@@ -427,6 +450,7 @@ event-details:
         cs-User-Agent: UserAgent
         cs-bytes: TXLen
         sc-bytes: RXLen
+        cs-categories: Category
     'TCP_REFRESH_MISS':
       annotate:
         Stream: WEBFILTER
@@ -444,6 +468,7 @@ event-details:
         cs-User-Agent: UserAgent
         cs-bytes: TXLen
         sc-bytes: RXLen
+        cs-categories: Category
     'TCP_SPLASHED':
       annotate:
         Stream: WEBFILTER
@@ -461,6 +486,7 @@ event-details:
         cs-User-Agent: UserAgent
         cs-bytes: TXLen
         sc-bytes: RXLen
+        cs-categories: Category
     'TCP_':
       annotate:
         Stream: WEBFILTER
@@ -478,6 +504,7 @@ event-details:
         cs-User-Agent: UserAgent
         cs-bytes: TXLen
         sc-bytes: RXLen
+        cs-categories: Category
     'TCP_AUTH_HIT':
       annotate:
         Stream: WEBFILTER
@@ -495,6 +522,7 @@ event-details:
         cs-User-Agent: UserAgent
         cs-bytes: TXLen
         sc-bytes: RXLen
+        cs-categories: Category
     'TCP_HIT':
       annotate:
         Stream: WEBFILTER
@@ -512,6 +540,7 @@ event-details:
         cs-User-Agent: UserAgent
         cs-bytes: TXLen
         sc-bytes: RXLen
+        cs-categories: Category
     'TCP_MEM_HIT':
       annotate:
         Stream: WEBFILTER
@@ -529,6 +558,7 @@ event-details:
         cs-User-Agent: UserAgent
         cs-bytes: TXLen
         sc-bytes: RXLen
+        cs-categories: Category
     'TCP_RESCAN_HIT':
       annotate:
         Stream: WEBFILTER
@@ -546,6 +576,7 @@ event-details:
         cs-User-Agent: UserAgent
         cs-bytes: TXLen
         sc-bytes: RXLen
+        cs-categories: Category
     'UDP_':
       annotate:
         Stream: WEBFILTER
@@ -563,6 +594,7 @@ event-details:
         cs-User-Agent: UserAgent
         cs-bytes: TXLen
         sc-bytes: RXLen
+        cs-categories: Category
     'UDP_HIT':
       annotate:
         Stream: WEBFILTER
@@ -580,6 +612,7 @@ event-details:
         cs-User-Agent: UserAgent
         cs-bytes: TXLen
         sc-bytes: RXLen
+        cs-categories: Category
 
   fallback:
     annotate:
