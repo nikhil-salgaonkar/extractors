@@ -52,31 +52,3 @@ event-details:
       event_date: SystemTstamp
       dhost: System
       cs11: System
-
-- first-match: '\|Imperva\sInc\.\|SecureSphere\|[\d\.\_]+\|Custom\|\s+custom\-policy\-violation\s+\|'
-  decoder: custom
-  decoder-regex: '([^\s\|]+)=([^=]+|)(?=\s+\w+=|$)'
-  event-key-format: ''
-  decoder-header: CEF
-  event-key-mapping:
-    '':        
-      annotate:
-        Stream: THREAT
-        Action: THREAT_DETECTED
-        Status: PASSED
-        Vector: WEB
-      translate:
-        Header-6: Threat
-        src: SrcIP
-        dst: DstIP
-        duser: User
-        
-  fallback:
-    annotate:
-      EventName: Generic Imperva WAF Event
-      Stream: OTHER
-
-  globals:
-    translate:
-      rt: SystemTstamp
-      cs11: System
