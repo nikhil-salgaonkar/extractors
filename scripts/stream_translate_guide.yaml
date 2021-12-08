@@ -42,6 +42,7 @@ WEBFILTER:
 - HTTPMethod
 - DstPort
 - Domain
+- Category
 DNS:
 - Query
 - ResponseCode
