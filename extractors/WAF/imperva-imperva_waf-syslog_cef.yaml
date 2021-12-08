@@ -12,7 +12,7 @@ provides-streams:
 master-filters:
 - 'CEF\:\s?\d+\|Imperva\sInc\.\|SecureSphere\|[\d\.\_]+\|(?:Protocol|Firewall|Custom|Correlation)\|'
 event-details:  
-- first-match: '\|Imperva\s+Inc\.\|SecureSphere\|[\d\.\_]+\|\w+\|(?:Unknown\s+HTTP\s+Request\s+Method|Double\s+URL\s+Encoding|Too\s+Many\s+Headers\s+per\s+Response|SSL\s+Untraceable\s+Connection|Custom\s+Violation|Malformed\s+JSON\s+Message|http\-illegal\-http\-version|DML\s+Operations|ABFSSL\s+\-\s+SQL\s+(?:Protocol|Correlation)\s+Policy)'
+- first-match: '\|Imperva\s+Inc\.\|SecureSphere\|[\d\.\_]+\|'
   decoder: custom
   decoder-regex: '([^\s\|]+)=([^=]+|)(?=\s+\w+=|$)'
   event-key-format: '{cat}'
