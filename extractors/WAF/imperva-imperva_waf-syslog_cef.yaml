@@ -10,9 +10,9 @@ source-description: extractor for Imperva WAF Events
 provides-streams:
 - THREAT
 master-filters:
-- 'CEF\:\s?\d+\|Imperva\sInc\.\|SecureSphere\|'
+- 'CEF\:\s?\d+\|Imperva\sInc\.\|SecureSphere\|[\d\.\_]+\|(?:Protocol|Firewall|Custom|Correlation)\|'
 event-details:  
-- first-match: 'CEF\:\s?\d+\|Imperva\s+Inc\.\|SecureSphere\|[\d\.\_]+\|'
+- first-match: '\|Imperva\s+Inc\.\|SecureSphere\|[\d\.\_]+\|'
   decoder: custom
   decoder-regex: '([^\s\|]+)=([^=]+|)(?=\s+\w+=|$)'
   event-key-format: '{cat}'
@@ -43,7 +43,7 @@ event-details:
         
   fallback:
     annotate:
-      EventName: Generic Imperva Event
+      EventName: Generic Imperva WAF Event
       Stream: OTHER
 
   globals:
@@ -51,3 +51,4 @@ event-details:
       rt: SystemTstamp
       event_date: SystemTstamp
       dhost: System
+      cs11: System
