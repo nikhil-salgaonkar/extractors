@@ -10,6 +10,7 @@ source-description: Extractor for Blue Coat ProxySG Events
 provides-streams:
 - WEBFILTER
 - AUTHENTICATION
+- THREAT
 master-filters:
 - '^(?:\<\d+\>)?\d+\s+\d{4}\-\d{1,2}\-\d{2}T\d{2}\:\d{2}\:\d{2}\.\d+z\s+\S+\s+bluecoat.*?s-action\=[\w\_\-]+'
 - '^(?:\<\d+\>)?\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2}\s+(?:\S+\s+)?ProxySG\:'
@@ -860,6 +861,33 @@ event-details:
         User: User
         src: SrcIP
         AuthProto: AuthProto                 
+
+  fallback:
+    annotate:
+      EventName: Generic Blue Coat ProxySG Event
+      Stream: OTHER
+          
+  globals:
+    translate:
+      datetime: SystemTstamp
+      hostname: System
+
+- first-match: 'ProxySG\:\s+\w+\s+Virus\s+warning'
+  decoder: regex
+  decoder-regex: '^(?:\<\d+\>)?(?P<datetime>\w{3}\s+\d{1,2}\s+\d{2}\:\d{2}\:\d{2})\s+(?:(?P<hostname>\S+)\s+)?ProxySG\:\s+\w+\s+Virus\s+warning\!\s+(?P<msg>.*?detected\s+(?P<threat>\S+).*)'
+  event-key-format: ''
+  event-key-mapping:
+    '':
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: WEB
+      translate:
+        threat: Threat
+        SrcIP: SrcIP 
+        DstIP: DstIP
+        User: User                
 
   fallback:
     annotate:
