@@ -778,7 +778,22 @@ event-details:
         Status: PASSED
       translate:
         UserId: User
-        Operation: Config                                                                                
+        Operation: Config 
+    'FileMalwareDetected-None':    
+      annotate:
+        Stream: THREAT
+        Action: THREAT_DETECTED
+        Status: PASSED
+        Vector: HOST
+      translate:
+        UserId: User
+        SiteUrl: URL
+        SourceFileName: File
+        DstIP: DstIP
+        CommandLine: CommandLine
+        Process: Process
+        ClientIP: SrcIP
+        VirusInfo: Threat                                                                                
     
   fallback:
     annotate:
