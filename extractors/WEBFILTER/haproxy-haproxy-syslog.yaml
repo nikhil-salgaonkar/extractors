@@ -34,6 +34,7 @@ event-details:
         User: User
         Proto: Proto
         Domain: Domain
+        Category: Category
 
     '301': 
       annotate:
@@ -52,6 +53,7 @@ event-details:
         User: User
         Proto: Proto
         Domain: Domain    
+        Category: Category
 
     '302': 
       annotate:
@@ -70,6 +72,7 @@ event-details:
         User: User
         Proto: Proto
         Domain: Domain 
+        Category: Category
 
     '303': 
       annotate:
@@ -87,7 +90,8 @@ event-details:
         RXLen: RXLen
         User: User
         Proto: Proto
-        Domain: Domain     
+        Domain: Domain    
+        Category: Category 
 
     '304': 
       annotate:
@@ -106,6 +110,7 @@ event-details:
         User: User
         Proto: Proto
         Domain: Domain 
+        Category: Category
 
     '307': 
       annotate:
@@ -124,6 +129,7 @@ event-details:
         User: User
         Proto: Proto
         Domain: Domain 
+        Category: Category
 
     '308': 
       annotate:
@@ -142,6 +148,7 @@ event-details:
         User: User
         Proto: Proto
         Domain: Domain 
+        Category: Category
 
     '400': 
       annotate:
@@ -160,6 +167,7 @@ event-details:
         User: User
         Proto: Proto
         Domain: Domain
+        Category: Category
 
     '401': 
       annotate:
@@ -178,6 +186,7 @@ event-details:
         User: User
         Proto: Proto
         Domain: Domain
+        Category: Category
 
     '403': 
       annotate:
@@ -196,6 +205,7 @@ event-details:
         User: User
         Proto: Proto
         Domain: Domain
+        Category: Category
 
     '408': 
       annotate:
@@ -214,6 +224,7 @@ event-details:
         User: User
         Proto: Proto
         Domain: Domain 
+        Category: Category
 
     '500': 
       annotate:
@@ -232,6 +243,7 @@ event-details:
         User: User
         Proto: Proto
         Domain: Domain 
+        Category: Category
 
     '502': 
       annotate:
@@ -249,7 +261,8 @@ event-details:
         RXLen: RXLen
         User: User
         Proto: Proto
-        Domain: Domain                              
+        Domain: Domain 
+        Category: Category                             
 
     '503': 
       annotate:
@@ -268,6 +281,7 @@ event-details:
         User: User
         Proto: Proto
         Domain: Domain 
+        Category: Category
 
     '504': 
       annotate:
@@ -285,7 +299,8 @@ event-details:
         RXLen: RXLen
         User: User
         Proto: Proto
-        Domain: Domain          
+        Domain: Domain 
+        Category: Category         
 
   fallback:
     annotate:
