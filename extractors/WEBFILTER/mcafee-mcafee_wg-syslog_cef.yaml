@@ -109,6 +109,7 @@ event-details:
         suser: User
         app: Proto
         dhost: Domain
+        cs4: Category
     '10':
       annotate:
         Stream: WEBFILTER
@@ -126,6 +127,7 @@ event-details:
         suser: User
         app: Proto
         dhost: Domain
+        cs4: Category
     '14':
       annotate:
         Stream: WEBFILTER
@@ -143,6 +145,7 @@ event-details:
         suser: User
         app: Proto
         dhost: Domain
+        cs4: Category
     '15':
       annotate:
         Stream: WEBFILTER
@@ -160,6 +163,7 @@ event-details:
         suser: User
         app: Proto
         dhost: Domain
+        cs4: Category
     '20':
       annotate:
         Stream: WEBFILTER
@@ -177,6 +181,7 @@ event-details:
         suser: User
         app: Proto
         dhost: Domain
+        cs4: Category
     '22':
       annotate:
         Stream: WEBFILTER
@@ -194,6 +199,7 @@ event-details:
         suser: User
         app: Proto
         dhost: Domain
+        cs4: Category
     '30':
       annotate:
         Stream: WEBFILTER
@@ -211,6 +217,7 @@ event-details:
         suser: User
         app: Proto
         dhost: Domain
+        cs4: Category
     '35':
       annotate:
         Stream: WEBFILTER
@@ -228,6 +235,7 @@ event-details:
         suser: User
         app: Proto
         dhost: Domain
+        cs4: Category
     '80':
       annotate:
         Stream: WEBFILTER
@@ -245,6 +253,7 @@ event-details:
         suser: User
         app: Proto
         dhost: Domain
+        cs4: Category
     '81':
       annotate:
         Stream: WEBFILTER
@@ -262,6 +271,7 @@ event-details:
         suser: User
         app: Proto
         dhost: Domain
+        cs4: Category
     '82':
       annotate:
         Stream: WEBFILTER
@@ -279,6 +289,7 @@ event-details:
         suser: User
         app: Proto
         dhost: Domain
+        cs4: Category
     '85':
       annotate:
         Stream: WEBFILTER
@@ -296,6 +307,7 @@ event-details:
         suser: User
         app: Proto
         dhost: Domain
+        cs4: Category
     '92':
       annotate:
         Stream: WEBFILTER
@@ -313,6 +325,7 @@ event-details:
         suser: User
         app: Proto
         dhost: Domain
+        cs4: Category
     '93':
       annotate:
         Stream: WEBFILTER
@@ -330,6 +343,7 @@ event-details:
         suser: User
         app: Proto
         dhost: Domain
+        cs4: Category
     '94':
       annotate:
         Stream: WEBFILTER
@@ -347,6 +361,7 @@ event-details:
         suser: User
         app: Proto
         dhost: Domain
+        cs4: Category
     '95':
       annotate:
         Stream: WEBFILTER
@@ -364,6 +379,7 @@ event-details:
         suser: User
         app: Proto
         dhost: Domain
+        cs4: Category
     '97':
       annotate:
         Stream: WEBFILTER
@@ -381,6 +397,7 @@ event-details:
         suser: User
         app: Proto
         dhost: Domain
+        cs4: Category
     '98':
       annotate:
         Stream: WEBFILTER
@@ -398,6 +415,7 @@ event-details:
         suser: User
         app: Proto
         dhost: Domain
+        cs4: Category
     '102':
       annotate:
         Stream: WEBFILTER
@@ -415,6 +433,7 @@ event-details:
         suser: User
         app: Proto
         dhost: Domain
+        cs4: Category
     '103':
       annotate:
         Stream: WEBFILTER
@@ -432,6 +451,7 @@ event-details:
         suser: User
         app: Proto
         dhost: Domain
+        cs4: Category
     '104':
       annotate:
         Stream: WEBFILTER
@@ -449,6 +469,7 @@ event-details:
         suser: User
         app: Proto
         dhost: Domain
+        cs4: Category
     '140':
       annotate:
         Stream: WEBFILTER
@@ -466,6 +487,7 @@ event-details:
         suser: User
         app: Proto
         dhost: Domain
+        cs4: Category
     '150':
       annotate:
         Stream: WEBFILTER
@@ -483,6 +505,7 @@ event-details:
         suser: User
         app: Proto
         dhost: Domain
+        cs4: Category
     '151':
       annotate:
         Stream: WEBFILTER
@@ -500,6 +523,7 @@ event-details:
         suser: User
         app: Proto
         dhost: Domain
+        cs4: Category
     '160':
       annotate:
         Stream: WEBFILTER
@@ -517,6 +541,7 @@ event-details:
         suser: User
         app: Proto
         dhost: Domain
+        cs4: Category
     '161':
       annotate:
         Stream: WEBFILTER
@@ -534,6 +559,7 @@ event-details:
         suser: User
         app: Proto
         dhost: Domain
+        cs4: Category
     '162':
       annotate:
         Stream: WEBFILTER
@@ -551,6 +577,7 @@ event-details:
         suser: User
         app: Proto
         dhost: Domain
+        cs4: Category
     '200':
       annotate:
         Stream: WEBFILTER
@@ -568,6 +595,7 @@ event-details:
         suser: User
         app: Proto
         dhost: Domain
+        cs4: Category
     '201':
       annotate:
         Stream: WEBFILTER
@@ -585,6 +613,7 @@ event-details:
         suser: User
         app: Proto
         dhost: Domain
+        cs4: Category
     '202':
       annotate:
         Stream: WEBFILTER
@@ -602,6 +631,7 @@ event-details:
         suser: User
         app: Proto
         dhost: Domain
+        cs4: Category
     '203':
       annotate:
         Stream: WEBFILTER
@@ -619,6 +649,7 @@ event-details:
         suser: User
         app: Proto
         dhost: Domain
+        cs4: Category
     '204':
       annotate:
         Stream: WEBFILTER
@@ -636,6 +667,7 @@ event-details:
         suser: User
         app: Proto
         dhost: Domain
+        cs4: Category
     '205':
       annotate:
         Stream: WEBFILTER
@@ -653,6 +685,7 @@ event-details:
         suser: User
         app: Proto
         dhost: Domain
+        cs4: Category
     '206':
       annotate:
         Stream: WEBFILTER
@@ -670,6 +703,7 @@ event-details:
         suser: User
         app: Proto
         dhost: Domain
+        cs4: Category
     '300':
       annotate:
         Stream: WEBFILTER
@@ -687,6 +721,7 @@ event-details:
         suser: User
         app: Proto
         dhost: Domain
+        cs4: Category
     '301':
       annotate:
         Stream: WEBFILTER
@@ -704,6 +739,7 @@ event-details:
         suser: User
         app: Proto
         dhost: Domain
+        cs4: Category
     '400':
       annotate:
         Stream: WEBFILTER
@@ -721,6 +757,7 @@ event-details:
         suser: User
         app: Proto
         dhost: Domain
+        cs4: Category
 
   fallback:
     annotate:
