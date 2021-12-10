@@ -1,0 +1,49 @@
+schema-version: 1.0
+#extractor-version: 1
+extractor-id: 225
+integration: Syslog(KV)
+vendor-name: Arcon
+product-name: Arcos
+source-name: ARCOS
+source-type: PIM
+source-description: Extractor for Arcos PIM Events
+provides-streams:
+- AUTHENTICATION
+master-filters:
+- '^(?:\<\d+\>)?\{UserName\:\s+\S+\,.*?Status\:'  
+- \{\'ID\'\:\s+\d+\,\s+\'EventID\'\:\s+\d+\,.*?\'Status\'
+event-details:  
+- first-match: \s+\'?Status\'?\:\s+\'?[\w\s]+\'?\,
+  decoder: custom
+  decoder-regex: \'?(\w+)\'?\:\s+\'?([^\'\,\}]+)\'?
+  event-key-format: '{Status}'
+  event-key-mapping:
+    'Authentication Failed': 
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: FAILED
+        Reason: INVALID_CREDENTAILS
+      translate: 
+        UserName: User
+        SrcIP: SrcIP
+        AuthProto: AuthProto
+    'Success':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGIN
+        Status: PASSED        
+      translate: 
+        UserName: User
+        SrcIP: SrcIP
+        AuthProto: AuthProto    
+    
+  fallback:
+    annotate:
+      EventName: Generic Arcos PIM Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      EventTimeStamp: SystemTstamp
+      System: System
