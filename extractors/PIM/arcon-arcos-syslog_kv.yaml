@@ -13,12 +13,12 @@ master-filters:
 - '^(?:\<\d+\>)?\{UserName\:\s+\S+\,.*?Status\:'  
 - \{\'ID\'\:\s+\d+\,\s+\'EventID\'\:\s+\d+\,.*?\'Status\'
 event-details:  
-- first-match: \s+\'?Status\'?\:\s+\'?[\w\s]+\'?\,
+- first-match: \s+\'?Status\'?\:\s+\'?Authentication\s+Failed\'?\,
   decoder: custom
   decoder-regex: \'?(\w+)\'?\:\s+\'?([^\'\,\}]+)\'?
-  event-key-format: '{Status}'
+  event-key-format: ''
   event-key-mapping:
-    'Authentication Failed': 
+    '': 
       annotate:
         Stream: AUTHENTICATION
         Action: LOGIN
@@ -28,10 +28,51 @@ event-details:
         UserName: User
         SrcIP: SrcIP
         AuthProto: AuthProto
+
+  fallback:
+    annotate:
+      EventName: Generic Arcos PIM Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      EventTimeStamp: SystemTstamp
+      System: System      
+
+- first-match: \'?UserSessionLoginTimeStamp\'?\:\s+[\'\w\/\s\:]+\,\s+\'?UserSessionLogoutTimeStamp\'?\:\s+[\'\w\/\s\:]+\,\s+\'?Status\'?\:\s\'?Success\'\,
+  decoder: custom
+  decoder-regex: \'?(\w+)\'?\:\s+\'?([^\'\,\}]+)\'?
+  event-key-format: ''
+  event-key-mapping:        
+    '':
+      annotate:
+        Stream: AUTHENTICATION
+        Action: LOGOUT
+        Status: PASSED        
+      translate: 
+        UserName: User
+        SrcIP: SrcIP
+        AuthProto: AuthProto    
+    
+  fallback:
+    annotate:
+      EventName: Generic Arcos PIM Event
+      Stream: OTHER
+
+  globals:
+    translate:
+      EventTimeStamp: SystemTstamp
+      System: System
+
+- first-match: \'?UserSessionLogoutTimeStamp\'?\:.*?\'?Status\'?\:\s+\w+\,.*?\'?UserSessionLoginTimeStamp\'?
+  decoder: custom
+  decoder-regex: \'?(\w+)\'?\:\s+\'?([^\'\,\}]+)\'?
+  event-key-format: '{Status}'
+  event-key-mapping:        
     'Success':
       annotate:
         Stream: AUTHENTICATION
-        Action: LOGIN
+        Action: LOGOUT
         Status: PASSED        
       translate: 
         UserName: User
