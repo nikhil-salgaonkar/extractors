@@ -18,7 +18,7 @@ master-filters:
 event-details:
 - first-match: '\"\d{4}\.\d{2}\.\d{2}\:\d{2}\:\d{2}\:\d{2}\"\s+\"(?:NOT\s+BYPASSED|BYPASSED|HOST\s+ADDED)\"'
   decoder: regex
-  decoder-regex: '\"(?P<datetime>\d{4}\.\d{2}\.\d{2}\:\d{2}\:\d{2}\:\d{2})\"\s+\"(?P<action>[\w\s]+)\"\s+\"(?P<user>\w+)\@(?P<srcip>[\d\.]+)\"\s+\".*?\"\s+\"(?P<domain>.*?)\"\s+\".*?\"\s+\"(?P<method>\w+)\"\s+\"(?P<url>.*?)\"'
+  decoder-regex: '\"(?P<datetime>\d{4}\.\d{2}\.\d{2}\:\d{2}\:\d{2}\:\d{2})\"\s+\"(?P<action>[\w\s]+)\"\s+\"(?P<user>\w+)\@(?P<srcip>[\d\.]+)\"\s+\".*?\"\s+\"(?P<domain>.*?)\"\s+\".*?\"\s+\"(?P<method>\w+)\"\s+\"(?P<url>.*?)\"\s+\"(?P<category>.*?)\"'
   event-key-format: '{action}'
   event-key-mapping:
     'BYPASSED':
@@ -38,6 +38,7 @@ event-details:
         TXLen: TXLen
         RXLen: RXLen
         Proto: Proto
+        category: Category
     'NOT BYPASSED':
       annotate:
         Stream: WEBFILTER
@@ -55,6 +56,7 @@ event-details:
         TXLen: TXLen
         RXLen: RXLen
         Proto: Proto
+        category: Category
 
   fallback:
     annotate:
@@ -68,7 +70,7 @@ event-details:
 
 - first-match: '\"\w+\"\s+\"\d+\"\s+\"\d+\"\s+\"\d{2}\/\w{3}\/\d{4}\:\d{2}\:\d{2}\:\d{2}\"\s+\"\d+\"\s+\"(?:1|2)\d{2}\"'
   decoder: regex
-  decoder-regex: '\"(?P<datetime>\d{2}\/\w{3}\/\d{4}\:\d{2}\:\d{2}\:\d{2})\"\s+\"\d+\"\s+\"\d{3}\"\s+\"\d+\"\s+\"(?P<rxlen>\d+)\"\s+\"(?P<txlen>\d+)\"\s+\"\w+\"\s+\"(?P<srcip>[\d\.]+)\"\s+\"(?P<user>.*?)(?:\@.*?)?\"\s+\"(?P<method>\w+)\"\s+\"(?P<url>.*?)\"\s+\".*?\"\s+\"(?P<useragent>.*?)\"\s+\".*?\"\s+\".*?\"\s+\".*?\"\s+\"(?P<dstip>[\d\.]+)\:(?P<dport>\d+)\"\s+\"\w+\"\s+\"\w+\"\s+\"\S+\"\s+\"\S+\"\s+\"(?P<domain>.*?)\"'
+  decoder-regex: '\"(?P<datetime>\d{2}\/\w{3}\/\d{4}\:\d{2}\:\d{2}\:\d{2})\"\s+\"\d+\"\s+\"\d{3}\"\s+\"\d+\"\s+\"(?P<rxlen>\d+)\"\s+\"(?P<txlen>\d+)\"\s+\"\w+\"\s+\"(?P<srcip>[\d\.]+)\"\s+\"(?P<user>.*?)(?:\@.*?)?\"\s+\"(?P<method>\w+)\"\s+\"(?P<url>.*?)\"\s+\".*?\"\s+\"(?P<useragent>.*?)\"\s+\".*?\"\s+\".*?\"\s+\".*?\"\s+\"(?P<dstip>[\d\.]+)\:(?P<dport>\d+)\"\s+\"\w+\"\s+\"\w+\"\s+\"\S+\"\s+\"\S+\"\s+\"(?P<domain>.*?)\"\s+\".*?\"\s+\".*?\"\s+\".*?\"\s+\".*?\"\s+\".*?\"\s+\".*?\"\s+\".*?\"\s+\"(?P<category>.*?)\"'
   event-key-format: ''
   event-key-mapping:
     '':
@@ -88,6 +90,7 @@ event-details:
         txlen: TXLen
         rxlen: RXLen
         Proto: Proto
+        category: Category
 
   fallback:
     annotate:
@@ -101,7 +104,7 @@ event-details:
       
 - first-match: '\"\w+\"\s+\"\d+\"\s+\"\d+\"\s+\"\d{2}\/\w{3}\/\d{4}\:\d{2}\:\d{2}\:\d{2}\"\s+\"\d+\"\s+\"3\d{2}\"'
   decoder: regex
-  decoder-regex: '\"(?P<datetime>\d{2}\/\w{3}\/\d{4}\:\d{2}\:\d{2}\:\d{2})\"\s+\"\d+\"\s+\"\d{3}\"\s+\"\d+\"\s+\"(?P<rxlen>\d+)\"\s+\"(?P<txlen>\d+)\"\s+\"\w+\"\s+\"(?P<srcip>[\d\.]+)\"\s+\"(?P<user>.*?)(?:\@.*?)?\"\s+\"(?P<method>\w+)\"\s+\"(?P<url>.*?)\"\s+\".*?\"\s+\"(?P<useragent>.*?)\"\s+\".*?\"\s+\".*?\"\s+\".*?\"\s+\"(?P<dstip>[\d\.]+)\:(?P<dport>\d+)\"\s+\"\w+\"\s+\"\w+\"\s+\"\S+\"\s+\"\S+\"\s+\"(?P<domain>.*?)\"'
+  decoder-regex: '\"(?P<datetime>\d{2}\/\w{3}\/\d{4}\:\d{2}\:\d{2}\:\d{2})\"\s+\"\d+\"\s+\"\d{3}\"\s+\"\d+\"\s+\"(?P<rxlen>\d+)\"\s+\"(?P<txlen>\d+)\"\s+\"\w+\"\s+\"(?P<srcip>[\d\.]+)\"\s+\"(?P<user>.*?)(?:\@.*?)?\"\s+\"(?P<method>\w+)\"\s+\"(?P<url>.*?)\"\s+\".*?\"\s+\"(?P<useragent>.*?)\"\s+\".*?\"\s+\".*?\"\s+\".*?\"\s+\"(?P<dstip>[\d\.]+)\:(?P<dport>\d+)\"\s+\"\w+\"\s+\"\w+\"\s+\"\S+\"\s+\"\S+\"\s+\"(?P<domain>.*?)\"\s+\".*?\"\s+\".*?\"\s+\".*?\"\s+\".*?\"\s+\".*?\"\s+\".*?\"\s+\".*?\"\s+\"(?P<category>.*?)\"'
   event-key-format: ''
   event-key-mapping:
     '':
@@ -121,6 +124,7 @@ event-details:
         txlen: TXLen
         rxlen: RXLen
         Proto: Proto
+        category: Category
 
   fallback:
     annotate:
@@ -134,7 +138,7 @@ event-details:
 
 - first-match: '\"\w+\"\s+\"\d+\"\s+\"\d+\"\s+\"\d{2}\/\w{3}\/\d{4}\:\d{2}\:\d{2}\:\d{2}\"\s+\"\d+\"\s+\"(?:4|5)\d{2}\"'
   decoder: regex
-  decoder-regex: '\"(?P<datetime>\d{2}\/\w{3}\/\d{4}\:\d{2}\:\d{2}\:\d{2})\"\s+\"\d+\"\s+\"\d{3}\"\s+\"\d+\"\s+\"(?P<rxlen>\d+)\"\s+\"(?P<txlen>\d+)\"\s+\"\w+\"\s+\"(?P<srcip>[\d\.]+)\"\s+\"(?P<user>.*?)(?:\@.*?)?\"\s+\"(?P<method>\w+)\"\s+\"(?P<url>.*?)\"\s+\".*?\"\s+\"(?P<useragent>.*?)\"\s+\".*?\"\s+\".*?\"\s+\".*?\"\s+\"(?P<dstip>[\d\.]+)\:(?P<dport>\d+)\"\s+\"\w+\"\s+\"\w+\"\s+\"\S+\"\s+\"\S+\"\s+\"(?P<domain>.*?)\"'
+  decoder-regex: '\"(?P<datetime>\d{2}\/\w{3}\/\d{4}\:\d{2}\:\d{2}\:\d{2})\"\s+\"\d+\"\s+\"\d{3}\"\s+\"\d+\"\s+\"(?P<rxlen>\d+)\"\s+\"(?P<txlen>\d+)\"\s+\"\w+\"\s+\"(?P<srcip>[\d\.]+)\"\s+\"(?P<user>.*?)(?:\@.*?)?\"\s+\"(?P<method>\w+)\"\s+\"(?P<url>.*?)\"\s+\".*?\"\s+\"(?P<useragent>.*?)\"\s+\".*?\"\s+\".*?\"\s+\".*?\"\s+\"(?P<dstip>[\d\.]+)\:(?P<dport>\d+)\"\s+\"\w+\"\s+\"\w+\"\s+\"\S+\"\s+\"\S+\"\s+\"(?P<domain>.*?)\"\s+\".*?\"\s+\".*?\"\s+\".*?\"\s+\".*?\"\s+\".*?\"\s+\".*?\"\s+\".*?\"\s+\"(?P<category>.*?)\"'
   event-key-format: ''
   event-key-mapping:
     '':
@@ -154,6 +158,7 @@ event-details:
         txlen: TXLen
         rxlen: RXLen
         Proto: Proto
+        category: Category
 
   fallback:
     annotate:
