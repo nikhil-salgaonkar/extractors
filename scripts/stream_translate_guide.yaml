@@ -9,6 +9,7 @@ THREAT:
 - URL
 - User
 - CommandLine
+- Hash
 AUTHENTICATION:
 - System
 - User
