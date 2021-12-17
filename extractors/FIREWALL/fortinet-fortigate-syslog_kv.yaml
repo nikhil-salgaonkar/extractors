@@ -7,6 +7,7 @@ product-name: FortiGate
 source-name: FORTIGATE
 source-type: FIREWALL
 source-description: Extractor for FortiGate Firewall Events
+kv-regex: '%KEY%=(\"[^\"]*\"|[^\s]*)'
 provides-streams:
 - FIREWALL
 - THREAT

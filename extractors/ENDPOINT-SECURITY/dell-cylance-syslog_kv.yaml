@@ -7,6 +7,7 @@ product-name: Dell Cylance
 source-name: DELL-CYLANCE
 source-type: ENDPOINT-SECURITY
 source-description: extractor for Dell-Cylance Endpoint Events
+kv-regex: '\s+%KEY%\:\s+(?:(?=\()\(([^\)]+)\)\,?|([^\,]+)\,?)'
 provides-streams:
 - THREAT
 - IAM

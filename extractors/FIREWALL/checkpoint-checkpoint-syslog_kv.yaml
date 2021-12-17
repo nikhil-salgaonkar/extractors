@@ -7,6 +7,7 @@ product-name: CheckPoint Firewall
 source-name: CHECKPOINT
 source-type: FIREWALL
 source-description: Extractor for CheckPoint Firewall Events
+kv-regex: '\[?%KEY%\:\"([^\"]*)\"'
 provides-streams:
 - THREAT
 - FIREWALL
